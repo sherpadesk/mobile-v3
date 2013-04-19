@@ -380,7 +380,7 @@ var SherpaDesk = {
 			);
 		},
 	postTicketDetailTransfer: function(configPass, key, techs, details){
-		$('div.ticket_detail_main').hide().addClass('spinner');
+		$('div.ticket_detail_main').empty().addClass('spinner');
 		var data = {
 			    "note_text": details,
 			    "keep_attached": false
@@ -395,15 +395,34 @@ var SherpaDesk = {
 					},
 				//error
 				function(){
-					$('div.ticket_detail_main').show().removeClass('spinner');
+					$('div.ticket_detail_main').removeClass('spinner');
+					SherpaDesk.getTicketDetailTransfer(configPass, key);
 					addAlert("error", "Well this went badly.  Try again.");
 					}
 			);
 		},
 		
 	postTicketDetailPickup: function(configPass, key){
-			var tech = localStorage.sd_currentUser_id;			
-			SherpaDesk.postTicketDetailTransfer(configPass, key, tech);
+			var tech = localStorage.sd_currentUser_id;
+			var data = {
+			    "action" : "pickup"
+			},
+			method = 'tickets/' + key,
+			pickupTicket = SherpaDesk.getSherpaDesk(configPass, method, "put", data);
+			
+			pickupTicket.then(
+			//Success
+			  function(results){				  
+				  SherpaDesk.getTicketDetail(configPass, key);
+				  addAlert("success", "I'm sure you'll be great at this!");
+				  },
+			//Fail fail fail	   
+			  function(results){
+				  SherpaDesk.getTicketDetail(configPass, key);
+				  addAlert("error", "It's not you, something went wrong.");
+				  }
+			 );
+			
 		},	
 		
 	//Close Ticket	
@@ -1077,8 +1096,10 @@ function addAlert(type, message) {
 		"message_type" : type,
 		"message" : message
 		};
-	var template = Handlebars.templates['alert']; 							
+	var template = Handlebars.templates['alert']; 
+	window.setTimeout(function(){							
 	$('div.showalert').empty().append( template(alertmessage) ).fadeIn();
+	},800);
 	};
 
 // Logout
