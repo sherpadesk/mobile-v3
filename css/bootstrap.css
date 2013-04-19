@@ -771,7 +771,8 @@ input[type="color"],
   height: 20px;
   padding: 4px 6px;
   margin-bottom: 10px;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
   line-height: 20px;
   color: #555555;
   -webkit-border-radius: 0;
