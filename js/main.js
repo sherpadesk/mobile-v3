@@ -299,7 +299,7 @@ var SherpaDesk = {
 	getTicketDetail: function(configPass, ticketKey){
 		$('body').empty().addClass('spinner');
 		//get ticket
-		window.setTimeout(function(){
+		
 			var getTicket = SherpaDesk.getSherpaDesk(configPass, 'tickets/' + ticketKey);
 			getTicket.then(
 				function(results){
@@ -337,7 +337,6 @@ var SherpaDesk = {
 							};									
 					}
 				);
-			},500);
 		},
 	
 	getTicketDetailTransfer: function(configPass, key){			
