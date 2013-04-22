@@ -412,12 +412,14 @@ var SherpaDesk = {
 			
 			pickupTicket.then(
 			//Success
-			  function(results){				  
+			  function(results){
+				  $('body').empty();				  
 				  SherpaDesk.getTicketDetail(configPass, key);
 				  addAlert("success", "I'm sure you'll be great at this!");
 				  },
 			//Fail fail fail	   
 			  function(results){
+				  $('body').empty();
 				  SherpaDesk.getTicketDetail(configPass, key);
 				  addAlert("error", "It's not you, something went wrong.");
 				  }
