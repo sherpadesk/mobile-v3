@@ -303,9 +303,7 @@ var SherpaDesk = {
 			var getTicket = SherpaDesk.getSherpaDesk(configPass, 'tickets/' + ticketKey);
 			getTicket.then(
 				function(results){
-					SherpaDesk.showTicketDetHeader(results);
-					SherpaDesk.showTicketDetContent(results);
-					SherpaDesk.showResponses(results, results.key);				
+									
 				},
 				//failed
 				function(results){					
@@ -316,6 +314,9 @@ var SherpaDesk = {
 				
 			getTicket.done (
 					function(results){
+						SherpaDesk.showTicketDetHeader(results);
+						SherpaDesk.showTicketDetContent(results);
+						SherpaDesk.showResponses(results, results.key);
 						SherpaDesk.showTicketInfo(results);
 						fromDate("div.tkt_det_head_date");
 						ticketDetMenuActions();
