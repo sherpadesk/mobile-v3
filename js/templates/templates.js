@@ -432,17 +432,6 @@ function program1(depth0,data) {
 function program3(depth0,data) {
   
   var buffer = "", stack1;
-  buffer += "\r\n<li>\r\n    <p>Remaining: <strong>";
-  if (stack1 = helpers.remaining_hours) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.remaining_hours; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + " hr</strong></p>    \r\n</li>\r\n";
-  return buffer;
-  }
-
-function program5(depth0,data) {
-  
-  var buffer = "", stack1;
   buffer += "\r\n<li>\r\n    <p>Estimated: <strong>";
   if (stack1 = helpers.estimated_time) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.estimated_time; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -451,7 +440,7 @@ function program5(depth0,data) {
   return buffer;
   }
 
-function program7(depth0,data) {
+function program5(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\r\n<li>\r\n    <p>Location: <strong>";
@@ -462,7 +451,7 @@ function program7(depth0,data) {
   return buffer;
   }
 
-function program9(depth0,data) {
+function program7(depth0,data) {
   
   var buffer = "", stack1;
   buffer += " - ";
@@ -472,7 +461,7 @@ function program9(depth0,data) {
   return buffer;
   }
 
-function program11(depth0,data) {
+function program9(depth0,data) {
   
   var buffer = "", stack1;
   buffer += " - ";
@@ -482,7 +471,7 @@ function program11(depth0,data) {
   return buffer;
   }
 
-function program13(depth0,data) {
+function program11(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\r\n<li>\r\n    <p>Request Completion Date: <strong><span class=\"time\">";
@@ -493,7 +482,7 @@ function program13(depth0,data) {
   return buffer;
   }
 
-function program15(depth0,data) {
+function program13(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\r\n<li>\r\n    <p>Follow Up: <strong><span class=\"time\">";
@@ -504,7 +493,7 @@ function program15(depth0,data) {
   return buffer;
   }
 
-function program17(depth0,data) {
+function program15(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\r\n<li>\r\n    <p>SLA Complete Date: <strong><span class=\"time\">";
@@ -515,16 +504,16 @@ function program17(depth0,data) {
   return buffer;
   }
 
-function program19(depth0,data) {
+function program17(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\r\n  ";
-  stack1 = helpers['if'].call(depth0, depth0.sla_response_date, {hash:{},inverse:self.noop,fn:self.program(20, program20, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.sla_response_date, {hash:{},inverse:self.noop,fn:self.program(18, program18, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
   return buffer;
   }
-function program20(depth0,data) {
+function program18(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\r\n    <li>\r\n    	<p>SLA Response Date: <strong><span class=\"time\">";
@@ -535,7 +524,7 @@ function program20(depth0,data) {
   return buffer;
   }
 
-function program22(depth0,data) {
+function program20(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\r\n<li>\r\n    <p>Confirmed: <strong><span class=\"time\">";
@@ -546,7 +535,7 @@ function program22(depth0,data) {
   return buffer;
   }
 
-function program24(depth0,data) {
+function program22(depth0,data) {
   
   var buffer = "", stack1;
   buffer += "\r\n<li>\r\n    <p>Next Step Date: <strong><span class=\"time\">";
@@ -560,44 +549,41 @@ function program24(depth0,data) {
   stack1 = helpers['if'].call(depth0, depth0.total_hours, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
-  stack1 = helpers['if'].call(depth0, depth0.remaining_hours, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n";
-  stack1 = helpers['if'].call(depth0, depth0.estimated_time, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.estimated_time, {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n<li>\r\n    <p>Last Updated: <strong><span class=\"time\">";
   if (stack1 = helpers.updated_time) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.updated_time; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "</span></strong></p>    \r\n</li>\r\n";
-  stack1 = helpers['if'].call(depth0, depth0.location_name, {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.location_name, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n\r\n<li>\r\n    <p>Level: <strong>";
   if (stack1 = helpers.level) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.level; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1);
-  stack1 = helpers['if'].call(depth0, depth0.level_name, {hash:{},inverse:self.noop,fn:self.program(9, program9, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.level_name, {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</strong></p>    \r\n</li>\r\n\r\n<li>\r\n    <p>Priority: <strong>";
   if (stack1 = helpers.priority) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.priority; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1);
-  stack1 = helpers['if'].call(depth0, depth0.priority_name, {hash:{},inverse:self.noop,fn:self.program(11, program11, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.priority_name, {hash:{},inverse:self.noop,fn:self.program(9, program9, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</strong></p>    \r\n</li>\r\n";
-  stack1 = helpers['if'].call(depth0, depth0.request_completion_date, {hash:{},inverse:self.noop,fn:self.program(13, program13, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.request_completion_date, {hash:{},inverse:self.noop,fn:self.program(11, program11, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
-  stack1 = helpers['if'].call(depth0, depth0.followup_date, {hash:{},inverse:self.noop,fn:self.program(15, program15, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.followup_date, {hash:{},inverse:self.noop,fn:self.program(13, program13, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
-  stack1 = helpers['if'].call(depth0, depth0.sla_complete_date, {hash:{},inverse:self.program(19, program19, data),fn:self.program(17, program17, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.sla_complete_date, {hash:{},inverse:self.program(17, program17, data),fn:self.program(15, program15, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n\r\n";
-  stack1 = helpers['if'].call(depth0, depth0.confirmed_date, {hash:{},inverse:self.noop,fn:self.program(22, program22, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.confirmed_date, {hash:{},inverse:self.noop,fn:self.program(20, program20, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n";
-  stack1 = helpers['if'].call(depth0, depth0.next_step_date, {hash:{},inverse:self.noop,fn:self.program(24, program24, data),data:data});
+  stack1 = helpers['if'].call(depth0, depth0.next_step_date, {hash:{},inverse:self.noop,fn:self.program(22, program22, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n\r\n";
   return buffer;
