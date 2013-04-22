@@ -303,7 +303,9 @@ var SherpaDesk = {
 			var getTicket = SherpaDesk.getSherpaDesk(configPass, 'tickets/' + ticketKey);
 			getTicket.then(
 				function(results){
-									
+					SherpaDesk.showTicketDetHeader(results);
+					SherpaDesk.showTicketDetContent(results);
+					SherpaDesk.showResponses(results, results.key);				
 				},
 				//failed
 				function(results){					
@@ -314,9 +316,6 @@ var SherpaDesk = {
 				
 			getTicket.done (
 					function(results){
-						SherpaDesk.showTicketDetHeader(results);
-						SherpaDesk.showTicketDetContent(results);
-						SherpaDesk.showResponses(results, results.key);
 						SherpaDesk.showTicketInfo(results);
 						fromDate("div.tkt_det_head_date");
 						ticketDetMenuActions();
@@ -403,6 +402,7 @@ var SherpaDesk = {
 		},
 		
 	postTicketDetailPickup: function(configPass, key){
+			$('body').empty().addClass('spinner');
 			var tech = localStorage.sd_currentUser_id;
 			var data = {
 			    "action" : "pickup"
@@ -412,8 +412,7 @@ var SherpaDesk = {
 			
 			pickupTicket.then(
 			//Success
-			  function(results){
-				  $('body').empty();				  
+			  function(results){				  				  
 				  SherpaDesk.getTicketDetail(configPass, key);
 				  addAlert("success", "I'm sure you'll be great at this!");
 				  },
