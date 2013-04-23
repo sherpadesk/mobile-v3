@@ -965,7 +965,7 @@ function addTime(configPass){
 						.css("background-color", "#f2dede");
 				return;
 			} else {
-				$('input.add_time').css("background-color", "#ffffff");
+				$('input.add_time').css("background-color", "#ffffff").val(0);
 				var ticket_key = $(this).data('reskey'),
 				    hours = htmlEscape( hours ),
 					that = $(this);
