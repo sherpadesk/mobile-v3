@@ -197,7 +197,7 @@ var SherpaDesk = {
 				$('.tkt_actions .tkt_add_response input#response').val('');
 				$('.tkt_actions .tkt_add_response button.add_response').text('Add').removeClass('buttonSpinner');
 				SherpaDesk.getComments(config, key);
-				addAlert("success", "Roger that. Message recieved.");				
+				addAlert("success", "Roger that. Message received.");				
 			},
 			//failed
 			function(results){
@@ -515,7 +515,7 @@ var SherpaDesk = {
 			//success
 			function(results){
 				SherpaDesk.getTicketDetail(configPass, key);
-				addAlert("success", "See, now you're communicating. Great!");
+				addAlert("success", "See, now we're communicating.");
 			},
 			//failed
 			function(results){
@@ -904,12 +904,12 @@ function ticketActions(configPass){
 				};		
 			});
 		
-		$(".plus_time").on('touchend click', function(e){	
+		$(".plus_time").on('touchstart click', function(e){	
 			e.preventDefault();
 			var add_time = $(this).parent().find('p input.add_time').val();	
 			$(this).parent().find('p input.add_time').val(  Number(add_time) + .25)	
 		});
-		$(".minus_time").on('touchend click', function(e){
+		$(".minus_time").on('touchstart click', function(e){
 			e.preventDefault();
 			if ($(this).parent().find('p input.add_time').val() >= .25){
 				var sub_time = $(this).parent().find('p input.add_time').val();
@@ -925,11 +925,11 @@ function addResponse(configPass){
 		e.preventDefault();
 		var response = htmlEscape( $(this).next().children('input#response').val().trim() );
 		if(response === ''){
-				addAlert("error", "It's like nothing is there... hmmmm");
+				addAlert("error", "Nothing is there... hmmmm");
 				return false;
 			} 
 			else if (response.length > 5000){
-				addAlert("error", "Way too much going on there. < 5000 chrs pls :)");
+				addAlert("error", "That's way too much. < 5000 chrs pls :)");
 				return false;
 			}			
 			else {
@@ -984,7 +984,7 @@ function addTime(configPass){
 						SherpaDesk.getComments(configPass, ticket_key);
 						var alertmessage = {
 							"message_type" : "success",
-							"message" : "Good job! Your time has been received."
+							"message" : "Good job! Your time is logged."
 							};
 						var template = Handlebars.templates['alert']; 
 						$(that).parent().prepend( template(alertmessage) ).fadeIn();
