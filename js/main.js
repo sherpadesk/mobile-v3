@@ -288,6 +288,7 @@ var SherpaDesk = {
 				ticketActions(configPass);
 				get_single_ticket(configPass);
 				addResponse(configPass);
+				addTime(configPass);
 				getGravatar("p.cir_gravatar", 40);
 				if ( ($("ul.tickets li.ticket").size()) > 0){
 						filterList();
@@ -326,6 +327,7 @@ var SherpaDesk = {
 						fromDate("p.note_time");
 						ticketActions(configPass);
 						addResponse(configPass);
+						addTime(configPass);
 						ticket_list_menu(".right-menu","right");
 						ticketListMenuActions(configPass, results.key);
 						ticketJump(configPass);
@@ -941,26 +943,60 @@ function addTime(configPass){
 	$('button.add_tkt_time').on('click', function(e){
 		e.preventDefault();
 		
-		var response = $(this).siblings('div.tkt_add_time_input').children().next('p').children('input.add_time').val().trim();
+		var hours = $(this).siblings('div.tkt_add_time_input').children().next('p').children('input.add_time').val().trim();
 		var taskType = $(this).siblings('div.tkt_add_time_input')
 						.children().eq(3).children('div.selector')
 						.children('select#task_type')
 						.children('option:selected').val();
 			
-		if(response == '' || response == 0 ){
-				console.log('Value is empty');
+		if(hours == '' || hours == 0 ){
+				$(this).siblings('div.tkt_add_time_input')
+					   .children().next('p')
+					   .children('input.add_time')
+					   .css("background-color", "#f2dede");
 				return;
 			} else 
 		if (taskType == '' || taskType == 0){
-				console.log('No Task Type');
+				$(this).siblings('div.tkt_add_time_input')
+						.children().eq(3).children('div.selector')
+						.children('option:selected')
+						.css("background-color", "#f2dede");
 				return;
 			} else {
-				var ticket_key = $(this).data('reskey');
-				var hours = htmlEscape( response );
-				console.log(ticket_key);
-				console.log(hours);
-								
-				//SherpaDesk.postTicketTime(configPass, ticket_key, hours);
+				$('input.add_time').css("background-color", "#ffffff");
+				var ticket_key = $(this).data('reskey'),
+				    hours = htmlEscape( hours ),
+					that = $(this);
+				
+				var method = 'time',
+				data = {
+							"ticket_key": ticket_key,
+							"note_text": "Time entered via mobile app",
+							"task_type_id": taskType,
+							"hours": hours
+						},
+				sendTime = SherpaDesk.getSherpaDesk(configPass, method, 'post', data);		
+				sendTime.then(
+					//success
+					function(results){
+						SherpaDesk.getComments(configPass, ticket_key);
+						var alertmessage = {
+							"message_type" : "success",
+							"message" : "Good job! Your time has been received."
+							};
+						var template = Handlebars.templates['alert']; 
+						$(that).parent().prepend( template(alertmessage) ).fadeIn();
+					},
+					//failed
+					function(results){
+						var alertmessage = {
+							"message_type" : "error",
+							"message" : "Sorry that did not post."
+							};
+						var template = Handlebars.templates['alert']; 
+						$(that).parent().prepend( template(alertmessage) ).fadeIn();							
+					}
+				);
 			};			
 		});	
 	};
