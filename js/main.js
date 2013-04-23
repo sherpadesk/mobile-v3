@@ -925,14 +925,27 @@ function addResponse(configPass){
 		e.preventDefault();
 		var response = htmlEscape( $(this).next().children('input#response').val().trim() );
 		if(response === ''){
-				addAlert("error", "Nothing is there... hmmmm");
+				$('div.alert.alert-error').remove();
+				var alertmessage = {
+							"message_type" : "error",
+							"message" : "Nothing is there... hmmmm"
+							};
+						var template = Handlebars.templates['alert']; 
+						$(this).parent().prepend( template(alertmessage) ).fadeIn();				
 				return false;
 			} 
 			else if (response.length > 5000){
-				addAlert("error", "That's way too much. < 5000 chrs pls :)");
+				$('div.alert.alert-error').remove();
+				var alertmessage = {
+							"message_type" : "error",
+							"message" : "That's way too much. < 5000 chrs pls :)"
+							};
+						var template = Handlebars.templates['alert']; 
+						$(this).parent().prepend( template(alertmessage) ).fadeIn();				
 				return false;
 			}			
 			else {
+				$('div.alert.alert-error').remove();
 				var ticket_key = $(this).data('reskey');
 				SherpaDesk.postComments(configPass, ticket_key, response.toString());
 			};			
