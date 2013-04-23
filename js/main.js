@@ -904,11 +904,13 @@ function ticketActions(configPass){
 				};		
 			});
 		
-		$(".plus_time").on('touchend click', function(){	
+		$(".plus_time").on('touchend click', function(e){	
+			e.preventDefault();
 			var add_time = $(this).parent().find('p input.add_time').val();	
 			$(this).parent().find('p input.add_time').val(  Number(add_time) + .25)	
 		});
-		$(".minus_time").on('touchend click', function(){
+		$(".minus_time").on('touchend click', function(e){
+			e.preventDefault();
 			if ($(this).parent().find('p input.add_time').val() >= .25){
 				var sub_time = $(this).parent().find('p input.add_time').val();
 				$(this).parent().find('p input.add_time').val( Number(sub_time) - .25 );
