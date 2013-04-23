@@ -233,6 +233,7 @@ var SherpaDesk = {
 				add_ticket_button(configPass);
 				get_single_ticket(configPass);
 				addResponse(configPass);
+				addTime(configPass);
 				getGravatar("p.cir_gravatar", 40);
 				ticketJump(configPass);
 				if ( ($("ul.tickets li.ticket").size()) > 0){
@@ -940,13 +941,26 @@ function addTime(configPass){
 	$('button.add_tkt_time').on('click', function(e){
 		e.preventDefault();
 		
-		var response = $(this).next().children('input#response').val().trim();
-		if(response === ''){
+		var response = $(this).siblings('div.tkt_add_time_input').children().next('p').children('input.add_time').val().trim();
+		var taskType = $(this).siblings('div.tkt_add_time_input')
+						.children().eq(3).children('div.selector')
+						.children('select#task_type')
+						.children('option:selected').val();
+			
+		if(response == '' || response == 0 ){
 				console.log('Value is empty');
+				return;
+			} else 
+		if (taskType == '' || taskType == 0){
+				console.log('No Task Type');
+				return;
 			} else {
 				var ticket_key = $(this).data('reskey');
-				var hours = htmlEscape( response );				
-				SherpaDesk.postTicketTime(configPass, ticket_key, hours);
+				var hours = htmlEscape( response );
+				console.log(ticket_key);
+				console.log(hours);
+								
+				//SherpaDesk.postTicketTime(configPass, ticket_key, hours);
 			};			
 		});	
 	};
