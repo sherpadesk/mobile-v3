@@ -325,15 +325,15 @@ var SherpaDesk = {
 						getGravatar("p.res_gravatar", 30);//responses gravatar
 						fromDate("div.tkt_ini_res_date");								
 						fromDate("p.note_time");
-						ticketActions(configPass);
-						addResponse(configPass);
-						addTime(configPass);
-						ticket_list_menu(".right-menu","right");
-						ticketListMenuActions(configPass, results.key);
-						ticketJump(configPass);
-						showTicketInfoPanel();
+						ticketActions(configPass); //activate ticket action menu
+						addResponse(configPass); // activate inline response listener
+						addTime(configPass); // activate inline time listener
+						ticket_list_menu(".right-menu","right"); //slide menu right side
+						ticketListMenuActions(configPass, results.key); //add click listners for menu
+						ticketJump(configPass);// add listener for ticket jump
+						showTicketInfoPanel(); //show | hide info panel
 						fixedDate("span.time");	
-						ticket_menu_rev(results);
+						ticket_menu_rev(results); // Show hide menu items based on ticket | user type
 						
 						if (results.attachments !== null && results.attachments.length > 0 ){
 							getCommentImages(results.attachments);
@@ -904,11 +904,11 @@ function ticketActions(configPass){
 				};		
 			});
 		
-		$(".plus_time").on('touchstart click', function(){	
+		$(".plus_time").on('touchend click', function(){	
 			var add_time = $(this).parent().find('p input.add_time').val();	
 			$(this).parent().find('p input.add_time').val(  Number(add_time) + .25)	
 		});
-		$(".minus_time").on('touchstart click', function(){
+		$(".minus_time").on('touchend click', function(){
 			if ($(this).parent().find('p input.add_time').val() >= .25){
 				var sub_time = $(this).parent().find('p input.add_time').val();
 				$(this).parent().find('p input.add_time').val( Number(sub_time) - .25 );
