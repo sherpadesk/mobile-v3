@@ -239,7 +239,9 @@ var SherpaDesk = {
 				if ( ($("ul.tickets li.ticket").size()) > 0){
 						filterList();
 					};
-								
+				if(configPass.role == "user"){
+					$('li.time').hide();
+					};				
 				}
 			);	
 		},
@@ -292,8 +294,10 @@ var SherpaDesk = {
 				getGravatar("p.cir_gravatar", 40);
 				if ( ($("ul.tickets li.ticket").size()) > 0){
 						filterList();
-					};				
+					};
+				$('li.time').hide();				
 				}
+				
 			);
 		
 		},
@@ -337,7 +341,7 @@ var SherpaDesk = {
 						
 						if (results.attachments !== null && results.attachments.length > 0 ){
 							getCommentImages(results.attachments);
-							};									
+							};															
 					}
 				);
 		},
@@ -1125,7 +1129,10 @@ function ticket_menu_rev(results){
 		var tech = $.grep(results.technicians, function(a){ return a.user_id == tech_id; });
 		if(tech.length > 0){$('li p#pickup').parent().hide()};
 		
-		if(tech.length == 0){$('li p#close, li p#transfer, li p#time').parent().hide()};
+		if(tech.length == 0){
+			$('li p#close, li p#transfer, li p#time').parent().hide();
+			$('li.time').hide();			
+			};
 		
 	};	
 
