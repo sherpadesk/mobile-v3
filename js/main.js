@@ -1010,6 +1010,7 @@ function ticket_list_menu(selector, direction){
 		    trigger: '.ticket_list_menu',
 			duration: 100,
 			openPosition: "225px",
+			animated: false,
 			direction: direction			
 		});
 		sideMenu.off();
