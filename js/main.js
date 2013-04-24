@@ -77,7 +77,6 @@ var SherpaDesk = {
 			SherpaDesk.getOrgInst(config);
 			},
 			function(results){
-				SherpaDesk.showLogin();
 				addAlert("error", "There was a problem with your login.  Please try again.");
 			}
 			);
