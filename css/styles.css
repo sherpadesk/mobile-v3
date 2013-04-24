@@ -305,6 +305,15 @@ p.header_label {
 	.header_ticket_detail .tkt_det_head_date {
 		font-weight: bold;
 		}
+	.header_ticket_detail .tkt_det_head_user,
+	.header_ticket_detail .tkt_det_head_account {
+	  	white-space: nowrap;
+	  	overflow: hidden;
+	  	text-overflow: ellipsis;
+	  	box-sizing: border-box;
+	      -moz-box-sizing: border-box;
+	      -webkit-box-sizing: border-box;
+		}
 
 /* User type selection */
 .header_user_type {
