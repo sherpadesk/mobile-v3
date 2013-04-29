@@ -45,6 +45,12 @@ ul, li {
 .buttonSpinner {
 	background: url(../img/loader-button.gif) center center no-repeat;
 	}
+div.loadingtickets{
+	display: none;
+	background: #eeeeee url(../img/loader.gif) center center no-repeat;
+	height: 80px;
+	}
+
 
 /*-- Set form width for Uniform js --*/
 form {
@@ -440,6 +446,14 @@ p.header_label {
 		padding: 0;
 		line-height: 1em;
 		}
+	.noTickets.listend {
+		background-color: rgb(226, 226, 226);
+		color: #666666;
+		text-shadow: -1px 1px 0px #ffffff;
+        filter: dropshadow(color=#ffffff, offx=-1, offy=1);
+		}
+
+
 		
 /*------------ Queue List ---------------*/
 .queues_list{padding: 0 10px;}
