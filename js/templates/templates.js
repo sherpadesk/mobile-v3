@@ -427,11 +427,7 @@ helpers = helpers || Handlebars.helpers; data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div class=\"content ticket_detail\"> \r\n		<div class=\"ticket_info\" style=\"display: none;\">\r\n        	<ul>\r\n				\r\n			</ul>\r\n        </div> \r\n		<div class=\"ticket_detail_main\"> \r\n			<div class=\"showalert\"></div>	      \r\n	        <div class=\"tkt_subject\">\r\n	        	";
-  if (stack1 = helpers.subject) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.subject; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "\r\n	        </div>\r\n	        <div class=\"tkt_initial_post\">\r\n	        	<div class=\"tkt_ini_gravatar\">\r\n	            	<p class=\"cir_gravatar\" data-email=\"";
+  buffer += "<div class=\"content ticket_detail\"> \r\n		<div class=\"ticket_info\" style=\"display: none;\">\r\n        	<ul>\r\n				\r\n			</ul>\r\n        </div> \r\n		<div class=\"ticket_detail_main\"> \r\n			<div class=\"showalert\"></div>	     \r\n	        \r\n	        <div class=\"tkt_initial_post\">\r\n	        	<div class=\"tkt_ini_gravatar\">\r\n	            	<p class=\"cir_gravatar\" data-email=\"";
   if (stack1 = helpers.user_email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.user_email; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
@@ -443,15 +439,19 @@ helpers = helpers || Handlebars.helpers; data = data || {};
   if (stack1 = helpers.user_lastname) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.user_lastname; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</p>\r\n	                <p class=\"pill large\">Initial Post</p>\r\n	            </div>\r\n	            <div class=\"tkt_ini_response\">\r\n	            	";
+    + "</p>\r\n					<p class=\"tkt_user_account\">";
+  if (stack1 = helpers.account_name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.account_name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\r\n	            </div>\r\n				<div class=\"tkt_subject\">\r\n		        	";
+  if (stack1 = helpers.subject) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.subject; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\r\n		        </div>\r\n	            <div class=\"tkt_ini_response\">\r\n	            	";
   if (stack1 = helpers.initial_post) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.initial_post; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n	                <div class=\"tkt_ini_res_date\">";
-  if (stack1 = helpers.created_time) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.created_time; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + "</div>\r\n	            </div>\r\n	        </div>\r\n	        \r\n	        <div class=\"tkt_actions\" data-reskey=\"";
+  buffer += "\r\n	            </div>\r\n	        </div>\r\n	        \r\n	        <div class=\"tkt_actions\" data-reskey=\"";
   if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)

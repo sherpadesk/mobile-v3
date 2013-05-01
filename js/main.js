@@ -209,8 +209,7 @@ var SherpaDesk = {
 		);					
 	},
 	
-	getTickets: function(configPass){
-		$(window).unbind();	
+	getTickets: function(configPass){	
 		// Get Tickets
 		var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?status=open&limit=500&role=' + localStorage.sd_user_role);
 		//sucess
@@ -252,7 +251,6 @@ var SherpaDesk = {
 		},
 	
 	getTicketsQueues: function(configPass){
-			$(window).unbind();	
 			$('.content').empty().addClass('spinner').trigger('click');
 			$("ul.filter li").removeClass("active");			
 			
@@ -276,7 +274,6 @@ var SherpaDesk = {
 		},
 	
 	getQueueList: function(configPass, id){
-		$(window).unbind();	
 		// Get Tickets
 		var getQueueList = SherpaDesk.getSherpaDesk(configPass, 'queues/' + id);
 		//sucess
@@ -309,7 +306,6 @@ var SherpaDesk = {
 		},
 			
 	getTicketDetail: function(configPass, ticketKey){
-		$(window).unbind();
 		$('body').empty().addClass('spinner');
 		//get ticket
 		
@@ -836,12 +832,12 @@ function setCurrentRole(){
 	};
 // On Click - Change Roles
 function changeRoles(){
-	$("ul.filter li").on('touchend click', function(){
-		$('div.content').empty().addClass('spinner');
+	$("ul.filter li").on('touchend click', function(){		
 		$("ul.filter li").removeClass("active");
 		$(this).addClass("active");
+		$('div.content').empty().addClass('spinner');	
 		var asRole = $(this).data('asrole');
-		localStorage.setItem('sd_user_role', asRole);		
+		localStorage.setItem('sd_user_role', asRole);			
 		SherpaDesk.init();
 		});
 	};
@@ -1070,7 +1066,7 @@ function getCommentImages(attachments){
 			imageInsert = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" + url + "\"><img class=\"comment_image\" src=\"" + url + "\" alt=\"" + file + "\"></a>",
 			ext = file.substr( (file.lastIndexOf('.') +1) );
 		if(ext === "jpg" || ext === "png" || ext === "gif"){
-			$('div.comment_main:contains(' + file + ')').append(imageInsert);
+			$('div.tkt_ini_response:contains(' + file + '), div.comment_main:contains(' + file + ')').append(imageInsert);
 			};		 
 		});		
 	};
@@ -1098,8 +1094,7 @@ function getQueueLists(configPass){
 
 function ticketDetMenuActions(){
 	$('a#ticketList').on('click', function(e){
-		e.preventDefault();
-		$('body').empty().addClass('spinner'); 
+		e.preventDefault(); 
 		location.reload(true);
 		});
 	};

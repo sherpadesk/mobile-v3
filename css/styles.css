@@ -340,9 +340,11 @@ p.header_label {
 		.header_user_type li.open_tickets {
 			float: right;
 			}
-		.header_user_type ul li.active,
-		.header_user_type ul li:hover {
+		.header_user_type ul li.active {
 			background-color: #40b3df;			
+			cursor: pointer;
+			}
+		.header_user_type ul li:hover {			
 			cursor: pointer;
 			}
 		.header_user_type ul li.active:before {
@@ -776,6 +778,9 @@ p.header_label {
 			border-bottom: none;
 			margin: 0;
 			}
+		div.ticket_detail_main .tkt_actions ul.responses li.response:last-child {
+			display: none;
+			}
 	.tkt_actions ul.responses li.response .res_user {
 		float: left;
 		width: 50px;
@@ -818,6 +823,7 @@ p.header_label {
 		line-height: 16px;
 		position: relative;
 		}
+		div.tkt_ini_response img.comment_image,
 		.tkt_actions ul.responses li.response .comment_main img.comment_image {
 			margin-bottom: 25px;
 			padding: 5px;
@@ -856,13 +862,11 @@ p.header_label {
 	}
 .ticket_detail .tkt_subject {
 	padding: 10px;
-	margin-top: -10px;
 	box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
 	color: #3b3b3d;
-	background-color: #ffffff;
-	font-size: 18px;
+	font-size: 22px;
 	}
 .ticket_detail .tkt_initial_post {
 	overflow: hidden;
@@ -870,32 +874,28 @@ p.header_label {
 	margin-bottom: 10px;
 	}
 .ticket_detail .tkt_initial_post .tkt_ini_gravatar{
-	float: left;
-	text-align: center;
-	width: 80px;
-	padding: 5px;
+	overflow: hidden;
 	}
+	.ticket_detail .tkt_initial_post .tkt_ini_gravatar p.cir_gravatar {
+		float: left;
+		margin-right: 20px;
+		}
 	.ticket_detail .tkt_initial_post .tkt_ini_gravatar img{
-		border-radius: 40px;
-		margin-bottom: 5px;
+		border-radius: 42px;
+		-webkit-box-shadow: 0px 0px 0px 4px rgba(255, 255, 255, 1);
+		box-shadow: 0px 0px 0px 4px rgba(255, 255, 255, 1);
 		}
 	.ticket_detail .tkt_initial_post .tkt_ini_gravatar p.tkt_user {
 		font-weight: bold;
-		font-size: 12px;
+		font-size: 18px;
 		line-height: 14px;
-		margin:0 0 5px 0;
+		margin: 22px 0 3px;
 		}
-	.ticket_detail .tkt_initial_post .tkt_ini_gravatar p.pill.large{
-		background-color: #d4d4d4;
-		border-radius: 4px;
-		padding: 6px 6px;
-		font-size: 9px;
-		line-height: 9px;
-		margin: 0;
+	.ticket_detail .tkt_initial_post .tkt_ini_gravatar p.tkt_user_account {
+		line-height: 14px;
 		}
 .ticket_detail .tkt_initial_post .tkt_ini_response {
 	position: relative;
-	margin-left: 100px;
 	padding: 8px 8px 25px;
 	box-sizing: border-box;
     -moz-box-sizing: border-box;
