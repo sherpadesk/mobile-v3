@@ -832,7 +832,7 @@ function setCurrentRole(){
 	};
 // On Click - Change Roles
 function changeRoles(){
-	$("ul.filter li").on('touchend click', function(){		
+	$("ul.filter li").on('touchstart click', function(){		
 		$("ul.filter li").removeClass("active");
 		$(this).addClass("active");
 		$('div.content').empty().addClass('spinner');	
