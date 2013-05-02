@@ -19,7 +19,7 @@ var SherpaDesk = {
 		if (configPass.org == '' || configPass.inst == '' || configPass.org == null || configPass.inst == null){				
 				SherpaDesk.getOrgInst(configPass);				
 			} else {
-				$("body").removeClass("login").addClass('spinner');
+				$("body").empty().removeClass("login").addClass('spinner');
 				SherpaDesk.getConfig(configPass);
 				SherpaDesk.getTickets(configPass);
 			};			
@@ -1080,7 +1080,7 @@ function getQueueLists(configPass){
 function ticketDetMenuActions(){
 	$('a#ticketList').on('click', function(e){
 		e.preventDefault(); 
-		location.reload(true);
+		SherpaDesk.init();
 		});
 	};
 
