@@ -868,13 +868,9 @@ function add_ticket_button(configPass){
 		
 	};
 //Loads when showing a ticket list
-function ticketActions(configPass, page){
-		if(page > 0 || page != null ){
-				var pageClass = "li.ticket.page" + page + " ";
-			} else {
-				var pageClass = "";
-			};
-		$(pageClass + "div.see_more").on('click',function(){
+function ticketActions(configPass){
+		
+		$("div.see_more").on('click',function(){
 			$(".tkt_actions").slideUp("slow"); // Hide other Comments  			
 			if ($(this).next(".tkt_actions").is(":hidden")){
 					var ticketKey = $(this).data('key');										
@@ -883,7 +879,7 @@ function ticketActions(configPass, page){
 				};			
 			});
 		
-		$(pageClass + "div.tkt_actions_menu ul li").on('click',function(){
+		$("div.tkt_actions_menu ul li").on('click',function(){
 			var ticketId = $(this).data('respkey');
 			
 			$(this).siblings().removeClass("active"); // Hide other Comments      	
@@ -1058,8 +1054,8 @@ function getCommentImages(attachments){
 		var file = value.name,
 			url = value.url,
 			imageInsert = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" + url + "\"><img class=\"comment_image\" src=\"" + url + "\" alt=\"" + file + "\"></a>",
-			ext = file.substr( (file.lastIndexOf('.') +1) );
-		if(ext === "jpg" || ext === "png" || ext === "gif"){
+			ext = file.substr( (file.lastIndexOf('.') +1) ).toLowerCase();
+		if(ext === "jpg" || ext === "png" || ext === "gif" ){
 			$('div.tkt_ini_response:contains(' + file + '), div.comment_main:contains(' + file + ')').append(imageInsert);
 			};		 
 		});		
