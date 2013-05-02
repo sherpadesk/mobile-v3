@@ -882,6 +882,7 @@ p.header_label {
 		}
 	.ticket_detail .tkt_initial_post .tkt_ini_gravatar img{
 		border-radius: 42px;
+		margin: 4px 0 0 4px;
 		-webkit-box-shadow: 0px 0px 0px 4px rgba(255, 255, 255, 1);
 		box-shadow: 0px 0px 0px 4px rgba(255, 255, 255, 1);
 		}
@@ -889,7 +890,7 @@ p.header_label {
 		font-weight: bold;
 		font-size: 18px;
 		line-height: 14px;
-		margin: 22px 0 3px;
+		margin: 26px 0 3px;
 		}
 	.ticket_detail .tkt_initial_post .tkt_ini_gravatar p.tkt_user_account {
 		line-height: 14px;
