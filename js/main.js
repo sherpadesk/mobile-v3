@@ -9,11 +9,7 @@ var SherpaDesk = {
 			url: 'http://api.sherpadesk.com/'
 			}; 
 		
-		$(document).ajaxStart(function() {
-		   $( "body" ).addClass('spinner');
-		 }).ajaxComplete(function() {
-		  $( "body" ).removeClass('spinner');
-		 });
+		//$(document).ajaxStart(function() { $( "body" ).addClass('spinner');	 }).ajaxComplete(function() { $( "body" ).removeClass('spinner'); });
 			
 		//If !api_key then show login 
 		if (configPass.apiKey == '' || configPass.apiKey == null){
