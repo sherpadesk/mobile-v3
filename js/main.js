@@ -830,7 +830,6 @@ function setCurrentRole(){
 function changeRoles(){
 	$("ul.filter li").on('touchstart click', function(){		
 		$("ul.filter li").removeClass("active");
-		$(this).addClass("active");
 		$('div.content').empty().addClass('spinner');	
 		var asRole = $(this).data('asrole');
 		localStorage.setItem('sd_user_role', asRole);			
@@ -1067,14 +1066,10 @@ function getCommentImages(attachments){
 		});		
 	};
 
-function get_single_ticket(configPass, page){
-	if(page > 0 || page != null ){
-				var pageClass = "li.ticket.page" + page + " ";
-			} else {
-				var pageClass = "";
-			};
-	$(pageClass + "a.get_single").on('click', function(){
-		$('body').empty().addClass('spinner'); 
+function get_single_ticket(configPass){
+	
+	$("a.get_single").on('click', function(){
+		//$('body').empty().addClass('spinner'); 
 		var key = $(this).data("reskey");
 		SherpaDesk.getTicketDetail(configPass, key);
 		});
