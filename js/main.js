@@ -213,7 +213,6 @@ var SherpaDesk = {
 			function(results){
 				SherpaDesk.showTicketHeader();
 				SherpaDesk.showTicketList(results);
-				localStorage.setItem('sd_ticketlist_page', 0);
 			},
 			//failed
 			function(results){
@@ -225,7 +224,7 @@ var SherpaDesk = {
 			function(){
 				setCurrentRole();
 				fromDate(".fromDate");
-				changeRoles();				
+				changeRoles(configPass);				
 				ticketActions(configPass);
 				ticket_list_menu(".side-menu", "left");
 				ticketListMenuActions(configPass);
@@ -827,13 +826,13 @@ function setCurrentRole(){
 		});
 	};
 // On Click - Change Roles
-function changeRoles(){
-	$("ul.filter li").on('touchstart click', function(){		
+function changeRoles(configPass){
+	$("ul.filter li").on('click', function(){		
 		$("ul.filter li").removeClass("active");
 		$('div.content').empty().addClass('spinner');	
 		var asRole = $(this).data('asrole');
 		localStorage.setItem('sd_user_role', asRole);			
-		SherpaDesk.init();
+		SherpaDesk.getTickets(configPass);
 		});
 	};
 	
