@@ -336,6 +336,15 @@ var SherpaDesk = {
 						fixedDate("span.time");	
 						ticket_menu_rev(results); // Show hide menu items based on ticket | user type
 						
+						// Hide Account if user type = user and account = sherpadesk
+						var userType = SherpaDesk.getSherpaDesk(configPass, 'users?id=' + results.user_id),
+							accountID = results.account_id;
+						userType.done(function(user){
+								if (user.type == "user" && accountID < 0){
+										$('p.tkt_user_account').hide();
+									};
+							});
+						
 						if (results.attachments !== null && results.attachments.length > 0 ){
 							getCommentImages(results.attachments);
 							};															
@@ -1130,11 +1139,9 @@ function ticket_menu_rev(results){
 		if(tech.length == 0){
 			$('li p#close, li p#transfer, li p#time').parent().hide();
 			$('li.time').hide();			
-			};
-		
+			};		
 	};	
 
-	
 /*
  * Helpers
  */

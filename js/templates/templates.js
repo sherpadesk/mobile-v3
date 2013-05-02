@@ -656,7 +656,11 @@ function program22(depth0,data) {
     + "</span></strong></p>    \r\n</li>\r\n";
   stack1 = helpers['if'].call(depth0, depth0.location_name, {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n\r\n<li>\r\n    <p>Level: <strong>";
+  buffer += "\r\n<li>\r\n    <p>Class: <strong>";
+  if (stack1 = helpers.class_name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.class_name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</strong></p>    \r\n</li>\r\n<li>\r\n    <p>Level: <strong>";
   if (stack1 = helpers.level) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.level; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1);
