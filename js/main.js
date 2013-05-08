@@ -19,7 +19,8 @@ var SherpaDesk = {
 		if (configPass.org == '' || configPass.inst == '' || configPass.org == null || configPass.inst == null){				
 				SherpaDesk.getOrgInst(configPass);				
 			} else {
-				$("body").empty().removeClass("login").addClass('spinner');
+				//$("body").empty().removeClass("login").addClass('spinner');
+				$("body").removeClass("login");
 				SherpaDesk.getConfig(configPass);
 				SherpaDesk.getTickets(configPass);
 			};			
@@ -122,7 +123,9 @@ var SherpaDesk = {
 							if (instances.length == 1){
 									instkey = instances[0].key;
 									localStorage.setItem('sd_inst_key', instkey);
-									location.reload(true);
+									$("body").empty().addClass('spinner');
+									SherpaDesk.init();
+									//location.reload(true);
 								} 
 							else {
 							// If there is MORE than one instance on the selected org
@@ -134,7 +137,9 @@ var SherpaDesk = {
 					$('select#inst').change(function(){
 						var index_number = this.value;
 						localStorage.setItem('sd_inst_key', index_number);
-						location.reload(true);
+						$("body").empty().addClass('spinner');
+						SherpaDesk.init();
+						//location.reload(true);
 						});
 					};// End > 1 
 					
@@ -144,7 +149,9 @@ var SherpaDesk = {
 					var myinst = results[0].instances[0].key;
 					localStorage.setItem('sd_org_key', myorg);
 					localStorage.setItem('sd_inst_key', myinst);
-					location.reload(true);					
+					$("body").empty().addClass('spinner');
+					SherpaDesk.init();
+					//location.reload(true);					
 				};	
 						
 			
@@ -236,7 +243,8 @@ var SherpaDesk = {
 				if ( ($("ul.tickets li.ticket").size()) > 0){
 						filterList();
 					};
-				if(configPass.role == "user"){
+					  
+				if(configPass.role == "user" || configPass.role == "all"){
 					$('li.time').hide();
 					};
 						
@@ -840,7 +848,8 @@ function changeRoles(configPass){
 		$('div.content').empty().addClass('spinner');	
 		var asRole = $(this).data('asrole');
 		localStorage.setItem('sd_user_role', asRole);			
-		SherpaDesk.getTickets(configPass);
+		SherpaDesk.init();
+		//SherpaDesk.getTickets(configPass);
 		});
 	};
 	
