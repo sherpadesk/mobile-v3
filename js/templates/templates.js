@@ -384,11 +384,11 @@ function program4(depth0,data) {
 templates['ticket_response'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [2,'>= 1.0.0-rc.3'];
 helpers = helpers || Handlebars.helpers; data = data || {};
-  var stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+  var stack1, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing, self=this;
 
 function program1(depth0,data) {
   
-  var buffer = "", stack1;
+  var buffer = "", stack1, stack2, options;
   buffer += "\r\n<!-- Single Response START -->  \r\n<li class=\"response\">\r\n	<div class=\"res_user\">\r\n		<p class=\"res_gravatar\" data-email=\"";
   if (stack1 = helpers.user_email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.user_email; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
@@ -410,9 +410,9 @@ function program1(depth0,data) {
   else { stack1 = depth0.record_date; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "</p>\r\n		<p>";
-  if (stack1 = helpers.note) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.note; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
+  options = {hash:{},data:data};
+  stack2 = ((stack1 = helpers.linebreaks),stack1 ? stack1.call(depth0, depth0.note, options) : helperMissing.call(depth0, "linebreaks", depth0.note, options));
+  if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "</p>			\r\n	</div>\r\n</li>\r\n<!-- Single Response END -->\r\n";
   return buffer;
   }
@@ -424,7 +424,7 @@ function program1(depth0,data) {
 templates['ticketDetail_content'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [2,'>= 1.0.0-rc.3'];
 helpers = helpers || Handlebars.helpers; data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, stack2, options, functionType="function", escapeExpression=this.escapeExpression, helperMissing=helpers.helperMissing;
 
 
   buffer += "<div class=\"content ticket_detail\"> \r\n		<div class=\"ticket_info\" style=\"display: none;\">\r\n        	<ul>\r\n				\r\n			</ul>\r\n        </div> \r\n		<div class=\"ticket_detail_main\"> \r\n			<div class=\"showalert\"></div>	     \r\n	        \r\n	        <div class=\"tkt_initial_post\">\r\n	        	<div class=\"tkt_ini_gravatar\">\r\n	            	<p class=\"cir_gravatar\" data-email=\"";
@@ -448,29 +448,29 @@ helpers = helpers || Handlebars.helpers; data = data || {};
   else { stack1 = depth0.subject; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "\r\n		        </div>\r\n	            <div class=\"tkt_ini_response\">\r\n	            	";
-  if (stack1 = helpers.initial_post) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.initial_post; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
+  options = {hash:{},data:data};
+  stack2 = ((stack1 = helpers.linebreaks),stack1 ? stack1.call(depth0, depth0.initial_post, options) : helperMissing.call(depth0, "linebreaks", depth0.initial_post, options));
+  if(stack2 || stack2 === 0) { buffer += stack2; }
   buffer += "\r\n	            </div>\r\n	        </div>\r\n	        \r\n	        <div class=\"tkt_actions\" data-reskey=\"";
-  if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
+  if (stack2 = helpers.key) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = depth0.key; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
+  buffer += escapeExpression(stack2)
     + "\">\r\n				<div class=\"tkt_actions_menu\">\r\n						<div class=\"tkt_actions_menu_type\">Responses</div>\r\n						<ul>\r\n							<li data-respkey=\"";
-  if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
+  if (stack2 = helpers.key) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = depth0.key; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
+  buffer += escapeExpression(stack2)
     + "\" class=\"responses active\"></li>\r\n							<li data-respkey=\"";
-  if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
+  if (stack2 = helpers.key) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = depth0.key; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
+  buffer += escapeExpression(stack2)
     + "\" class=\"time\"></li>                                	\r\n						</ul>                            \r\n					</div>\r\n					<div class=\"tkt_add_response\">\r\n						<button class=\"add_response\" data-reskey=\"";
-  if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
+  if (stack2 = helpers.key) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = depth0.key; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
+  buffer += escapeExpression(stack2)
     + "\">Add</button>\r\n						<div class=\"tkt_add_response_input\">\r\n							<input type=\"text\" id=\"response\" name=\"response\" placeholder=\"Add Response\" />\r\n						</div>								\r\n					</div>\r\n					<div class=\"tkt_add_time\">\r\n						<button class=\"add_tkt_time\" data-reskey=\"";
-  if (stack1 = helpers.key) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.key; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
+  if (stack2 = helpers.key) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = depth0.key; stack2 = typeof stack2 === functionType ? stack2.apply(depth0) : stack2; }
+  buffer += escapeExpression(stack2)
     + "\">Add<br/>Time</button>\r\n						<div class=\"tkt_add_time_input\">\r\n							<button class=\"minus_time\">-</button>\r\n							<button class=\"plus_time\">+</button>\r\n							<p>\r\n								<input type=\"number\" class=\"add_time\" name=\"add_time\" value=\"0\" step=\".25\" />\r\n							</p>\r\n							<p>\r\n								<select name=\"task_type\" id=\"task_type\">\r\n						  			<option value=\"\">Task Type</option>\r\n						  		</select>\r\n							</p>                                   \r\n						</div>								\r\n					</div>\r\n				\r\n				<ul class=\"responses\">                         	\r\n						\r\n				</ul>\r\n			</div>\r\n		</div>        \r\n    </div>";
   return buffer;
   });
