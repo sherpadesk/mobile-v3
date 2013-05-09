@@ -1101,6 +1101,7 @@ function getQueueLists(configPass){
 function ticketDetMenuActions(){
 	$('a#ticketList').on('touchstart click', function(e){
 		e.preventDefault(); 
+		$('body').empty();
 		SherpaDesk.init();
 		});
 	};
