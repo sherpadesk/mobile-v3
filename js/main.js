@@ -9,7 +9,7 @@ var SherpaDesk = {
 			url: 'http://api.sherpadesk.com/'
 			}; 
 		
-		//$(document).ajaxStart(function() { $( "body" ).addClass('spinner');	 }).ajaxComplete(function() { $( "body" ).removeClass('spinner'); });
+		$(document).ajaxStart(function() { $( "body" ).addClass('spinner');	 }).ajaxComplete(function() { $( "body" ).removeClass('spinner'); });
 			
 		//If !api_key then show login 
 		if (configPass.apiKey == '' || configPass.apiKey == null){
@@ -843,8 +843,10 @@ function setCurrentRole(){
 	};
 // On Click - Change Roles
 function changeRoles(configPass){
-	$("ul.filter li").on('click', function(){		
+	$("ul.filter li").on('touchstart click', function(e){	
+		e.preventDefault();	
 		$("ul.filter li").removeClass("active");
+		$(this).addClass("active");
 		$('div.content').empty().addClass('spinner');	
 		var asRole = $(this).data('asrole');
 		localStorage.setItem('sd_user_role', asRole);			
@@ -1096,7 +1098,7 @@ function getQueueLists(configPass){
 	};
 
 function ticketDetMenuActions(){
-	$('a#ticketList').on('click', function(e){
+	$('a#ticketList').on('touchstart click', function(e){
 		e.preventDefault(); 
 		SherpaDesk.init();
 		});
