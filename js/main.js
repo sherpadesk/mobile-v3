@@ -222,7 +222,8 @@ var SherpaDesk = {
 			},
 			//failed
 			function(results){
-				$('div.content').prepend('<div class=showalert></div>');				
+				$('div.content').prepend('<div class=showalert></div>');
+				$('div.showalert').empty();				
 				addAlert("error", "Bummer... There was a problem fetching your tickets.");
 				}
 			);
@@ -241,7 +242,7 @@ var SherpaDesk = {
 				getGravatar("p.cir_gravatar", 40);
 				ticketJump(configPass);
 				if ( ($("ul.tickets li.ticket").size()) > 0){
-						filterList();
+						filterList(); // if more than 0 tickets, enable filter
 					};
 					  
 				if(configPass.role == "user" || configPass.role == "all"){
