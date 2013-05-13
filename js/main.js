@@ -21,8 +21,7 @@ var SherpaDesk = {
 			} else {
 				//$("body").empty().removeClass("login").addClass('spinner');
 				$("body").removeClass("login");
-				SherpaDesk.getConfig(configPass);
-				SherpaDesk.getTickets(configPass);
+				SherpaDesk.getConfig(configPass);				
 			};			
 		}, //End init
 		
@@ -53,7 +52,9 @@ var SherpaDesk = {
 			SherpaDesk.getSherpaDesk(configPass, 'config')
 				.then(
 					function(results){
-						localStorage.setItem('sd_currentUser_id', results.user.user_id);					
+						localStorage.setItem('sd_currentUser_id', results.user.user_id);
+						localStorage.setItem('sd_tech_admin', results.user.is_techoradmin);	
+						SherpaDesk.getTickets(configPass);				
 					}
 				);
 			},
@@ -247,6 +248,9 @@ var SherpaDesk = {
 					  
 				if(configPass.role == "user" || configPass.role == "all"){
 					$('li.time').hide();
+					};
+				if( localStorage.sd_tech_admin === "false" ){
+					$('li.open_tickets, li[data-asrole="tech"], li[data-asrole="alt_tech"]').hide();
 					};
 						
 				}
