@@ -53,7 +53,13 @@ var SherpaDesk = {
 				.then(
 					function(results){
 						localStorage.setItem('sd_currentUser_id', results.user.user_id);
-						localStorage.setItem('sd_tech_admin', results.user.is_techoradmin);	
+						localStorage.setItem('sd_tech_admin', results.user.is_techoradmin);				
+					},
+					function(results){
+		  				addAlert("error", "There was a problem retrieving config options.");
+		  			}
+				).done(
+					function(results){
 						SherpaDesk.getTickets(configPass);				
 					}
 				);
@@ -1149,14 +1155,19 @@ function ticket_menu_rev(results){
 	  	if (results.status === "Closed"){$('li p#close, li p#time, li p#transfer').parent().hide();}
 		
 		//check to pickup
+		var tech_type = localStorage.sd_tech_admin;	
 		var tech_id = localStorage.sd_currentUser_id;		
 		var tech = $.grep(results.technicians, function(a){ return a.user_id == tech_id; });
-		if(tech.length > 0){$('li p#pickup').parent().hide()};
+		if(tech.length > 0 || tech_type == "false"){$('li p#pickup').parent().hide()};
 		
+		//check tech on ticket
 		if(tech.length == 0){
 			$('li p#close, li p#transfer, li p#time').parent().hide();
 			$('li.time').hide();			
-			};		
+			};
+				
+		
+		
 	};	
 
 /*
