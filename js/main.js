@@ -115,7 +115,7 @@ var SherpaDesk = {
 								
 				// If there are more than one org
 				if (results.length > 1) {
-					
+					localStorage.setItem('sd_is_MultipleOrgInst', 'true');
 					var orglistitem = results;
 					SherpaDesk.showOrg(orglistitem);							
 					$('select#orgs')					
@@ -144,6 +144,7 @@ var SherpaDesk = {
 					$('select#inst').change(function(){
 						var index_number = this.value;
 						localStorage.setItem('sd_inst_key', index_number);
+						localStorage.setItem('sd_is_MultipleOrgInst', 'true');
 						$("body").empty().addClass('spinner');
 						SherpaDesk.init();
 						//location.reload(true);
@@ -156,6 +157,7 @@ var SherpaDesk = {
 					var myinst = results[0].instances[0].key;
 					localStorage.setItem('sd_org_key', myorg);
 					localStorage.setItem('sd_inst_key', myinst);
+					localStorage.setItem('sd_is_MultipleOrgInst', 'false');
 					$("body").empty().addClass('spinner');
 					SherpaDesk.init();
 					//location.reload(true);					
@@ -250,15 +252,16 @@ var SherpaDesk = {
 				ticketJump(configPass);
 				if ( ($("ul.tickets li.ticket").size()) > 0){
 						filterList(); // if more than 0 tickets, enable filter
-					};
-					  
+					};					  
 				if(configPass.role == "user" || configPass.role == "all"){
 					$('li.time').hide();
 					};
 				if( localStorage.sd_tech_admin === "false" ){
 					$('li.open_tickets, li[data-asrole="tech"], li[data-asrole="alt_tech"]').hide();
 					};
-						
+				if( localStorage.sd_is_MultipleOrgInst === "false" ){
+					$('li p#orgInst').parent().hide();
+					};						
 				}
 			);	
 		},
@@ -1069,6 +1072,7 @@ function ticket_list_menu(selector, direction){
 //initialize the sidebar menu items	
 function ticketListMenuActions(configPass, key){
 	$('#jPanelMenu-menu li p#logout').on('touchend click', function(){ logOut(); });
+	$('#jPanelMenu-menu li p#orgInst').on('touchend click', function(){ changeOrgs(); });
 	$('#jPanelMenu-menu li p#queues').on('click', function(){ SherpaDesk.getTicketsQueues(configPass) });
 	//Ticket Detail view
 	$('#jPanelMenu-menu li p#transfer').on('touchend click', function(){ SherpaDesk.getTicketDetailTransfer(configPass, key) });
@@ -1213,6 +1217,14 @@ function addAlert(type, message) {
 function logOut(){
 	$('body').empty().addClass('login');
 	localStorage.removeItem('sd_api_key');
+	localStorage.removeItem('sd_inst_key');
+	localStorage.removeItem('sd_org_key');
+	location.reload(true);
+	};
+
+// Change Orgs / Inst
+function changeOrgs(){
+	$('body').empty().addClass('login');
 	localStorage.removeItem('sd_inst_key');
 	localStorage.removeItem('sd_org_key');
 	location.reload(true);
