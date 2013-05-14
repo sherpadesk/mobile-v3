@@ -903,7 +903,8 @@ function add_ticket_button(configPass){
 //Loads when showing a ticket list
 function ticketActions(configPass){
 		
-		$("div.see_more").on('click',function(){
+		$("div.see_more").on('click',function(e){
+			e.preventDefault();
 			$(".tkt_actions").slideUp("slow"); // Hide other Comments  			
 			if ($(this).next(".tkt_actions").is(":hidden")){
 					var ticketKey = $(this).data('key');										
@@ -912,9 +913,9 @@ function ticketActions(configPass){
 				};			
 			});
 		
-		$("div.tkt_actions_menu ul li").on('click',function(){
-			var ticketId = $(this).data('respkey');
-			
+		$("div.tkt_actions_menu ul li").on('click',function(e){
+			e.preventDefault();
+			var ticketId = $(this).data('respkey');			
 			$(this).siblings().removeClass("active"); // Hide other Comments      	
 			$(this).addClass('active');	
 				if ($(this).hasClass("responses")){
