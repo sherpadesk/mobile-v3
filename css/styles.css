@@ -2,6 +2,9 @@
 * {
 	-webkit-appearance: none;
 	}
+html {
+	background-color: #eeeeee !important;
+	}
 body {
 	box-sizing: border-box;
 	  -moz-box-sizing: border-box;
@@ -366,7 +369,7 @@ p.header_label {
 /*------------ Slide/Side Menus ---------------*/
 
 .jPanelMenu-panel {
-	background-color: #eeeeee!important;
+	background-color: #eeeeee !important;
 	}
 #jPanelMenu-menu {
 	background-color: #3b3b3d !important;
