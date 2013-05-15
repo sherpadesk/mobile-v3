@@ -2,9 +2,6 @@
 * {
 	-webkit-appearance: none;
 	}
-html {
-	background-color: #eeeeee !important;
-	}
 body {
 	box-sizing: border-box;
 	  -moz-box-sizing: border-box;
@@ -176,7 +173,8 @@ zoom: 1;
 
 
 /*------------ login --------------------*/
-.login {
+body.login,
+body.login div.content {
 	background-color: #004174;
 	color: #ffffff;
 	padding: 0;

@@ -1255,7 +1255,7 @@ function changeOrgs(){
 	localStorage.removeItem('sd_inst_key');
 	localStorage.removeItem('sd_org_key');
 	localStorage.removeItem('sd_from_queueid');	
-	location.reload(true);
+	SherpaDesk.init();
 	};
 	
 // handlebars helpers
