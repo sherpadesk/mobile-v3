@@ -590,8 +590,7 @@ p.header_label {
 			top: 0;
 			right: 0;
 			-webkit-tap-highlight-color: rgba(64, 179, 223, 0.2);
-			}
-			
+			}			
 			.ticket .see_more:active {
 				background-color: #40b3df;
 				}

@@ -60,7 +60,18 @@ var SherpaDesk = {
 		  			}
 				).done(
 					function(results){
-						SherpaDesk.getTickets(configPass);				
+						
+						if (localStorage.sd_from_queueid > 0 ){							
+							  	console.log(localStorage.sd_from_queueid);
+								SherpaDesk.showTicketHeader();
+								changeRoles(configPass);	
+								ticket_list_menu(".side-menu", "left");
+								add_ticket_button(configPass);
+								ticketListMenuActions(configPass);
+							  	SherpaDesk.getQueueList(configPass, localStorage.sd_from_queueid); 
+							} else {
+								SherpaDesk.getTickets(configPass);	
+							}	
 					}
 				);
 			},
@@ -267,7 +278,8 @@ var SherpaDesk = {
 		},
 	
 	getTicketsQueues: function(configPass){
-			$('.content').empty().addClass('spinner').trigger('click');
+			$('.content').empty().addClass('spinner');
+			$('p.header_label').trigger('click');
 			$("ul.filter li").removeClass("active");			
 			
 			var getQueues = SherpaDesk.getSherpaDesk(configPass, 'queues');
@@ -290,6 +302,15 @@ var SherpaDesk = {
 		},
 	
 	getQueueList: function(configPass, id){
+		
+		if($('div.content').length){
+				$('.content').empty().addClass('spinner').trigger('click');
+			} else {
+				$('div.jPanelMenu-panel').append('<div class="content spinner"></div>');
+				$('p.header_label').trigger('click');
+			}
+		
+		
 		// Get Tickets
 		var getQueueList = SherpaDesk.getSherpaDesk(configPass, 'queues/' + id);
 		//sucess
@@ -311,6 +332,9 @@ var SherpaDesk = {
 				addResponse(configPass);
 				addTime(configPass);
 				getGravatar("p.cir_gravatar", 40);
+				
+				localStorage.setItem('sd_from_queueid', id);	
+				
 				if ( ($("ul.tickets li.ticket").size()) > 0){
 						filterList();
 					};
@@ -772,7 +796,7 @@ var SherpaDesk = {
 		$('body').prepend( template() );		
 		},
 	showTicketList: function(list){
-		var template = Handlebars.templates['ticket_list']; 							
+		var template = Handlebars.templates['ticket_list'];									
 		$('body').append( template(list) ).slideDown().removeClass('spinner');
 		},
 	showTicketListAppend: function(list){
@@ -784,8 +808,8 @@ var SherpaDesk = {
 		$('.content').append( template(que) ).slideDown().removeClass('spinner');
 		},
 	showQueueTicketList: function(queues){
-		var template = Handlebars.templates['ticket_list']; 							
-		$('.content').append( template(queues) ).slideDown().removeClass('spinner');
+		var template = Handlebars.templates['ticket_list']; 										
+		$('.content').empty().append( template(queues) ).slideDown().removeClass('spinner');		
 		},
 	showResponses: function(results, key) {
 		var responses = results.ticketlogs,
@@ -863,7 +887,8 @@ function changeRoles(configPass){
 		$(this).addClass("active");
 		$('div.content').empty().addClass('spinner');	
 		var asRole = $(this).data('asrole');
-		localStorage.setItem('sd_user_role', asRole);			
+		localStorage.setItem('sd_user_role', asRole);
+		localStorage.removeItem('sd_from_queueid');			
 		SherpaDesk.init();
 		//SherpaDesk.getTickets(configPass);
 		});
@@ -1074,7 +1099,7 @@ function ticket_list_menu(selector, direction){
 function ticketListMenuActions(configPass, key){
 	$('#jPanelMenu-menu li p#logout').on('touchend click', function(){ logOut(); });
 	$('#jPanelMenu-menu li p#orgInst').on('touchend click', function(){ changeOrgs(); });
-	$('#jPanelMenu-menu li p#queues').on('click', function(){ SherpaDesk.getTicketsQueues(configPass) });
+	$('#jPanelMenu-menu li p#queues').on('touchstart click', function(){ SherpaDesk.getTicketsQueues(configPass) });
 	//Ticket Detail view
 	$('#jPanelMenu-menu li p#transfer').on('touchend click', function(){ SherpaDesk.getTicketDetailTransfer(configPass, key) });
 	$('#jPanelMenu-menu li p#pickup').on('touchend click', function(){ SherpaDesk.postTicketDetailPickup(configPass, key) });	
@@ -1220,6 +1245,7 @@ function logOut(){
 	localStorage.removeItem('sd_api_key');
 	localStorage.removeItem('sd_inst_key');
 	localStorage.removeItem('sd_org_key');
+	localStorage.removeItem('sd_from_queueid');	
 	location.reload(true);
 	};
 
@@ -1228,6 +1254,7 @@ function changeOrgs(){
 	$('body').empty().addClass('login');
 	localStorage.removeItem('sd_inst_key');
 	localStorage.removeItem('sd_org_key');
+	localStorage.removeItem('sd_from_queueid');	
 	location.reload(true);
 	};
 	
