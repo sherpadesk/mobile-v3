@@ -1097,15 +1097,15 @@ function ticket_list_menu(selector, direction){
 	};
 //initialize the sidebar menu items	
 function ticketListMenuActions(configPass, key){
-	$('#jPanelMenu-menu li p#logout').on('touchend click', function(){ logOut(); });
-	$('#jPanelMenu-menu li p#orgInst').on('touchend click', function(){ changeOrgs(); });
-	$('#jPanelMenu-menu li p#queues').on('touchstart click', function(){ SherpaDesk.getTicketsQueues(configPass) });
+	$('#jPanelMenu-menu li p#logout').on('click', function(){ logOut(); });
+	$('#jPanelMenu-menu li p#orgInst').on('click', function(){ changeOrgs(); });
+	$('#jPanelMenu-menu li p#queues').on('click', function(){ SherpaDesk.getTicketsQueues(configPass) });
 	//Ticket Detail view
-	$('#jPanelMenu-menu li p#transfer').on('touchend click', function(){ SherpaDesk.getTicketDetailTransfer(configPass, key) });
-	$('#jPanelMenu-menu li p#pickup').on('touchend click', function(){ SherpaDesk.postTicketDetailPickup(configPass, key) });	
-	$('#jPanelMenu-menu li p#close').on('touchend click', function(){ SherpaDesk.getTicketDetailClose(configPass, key) });
-	$('#jPanelMenu-menu li p#response').on('touchend click', function(){ SherpaDesk.getTicketDetailResponse(configPass, key) });	
-	$('#jPanelMenu-menu li p#time').on('touchend click', function(){ SherpaDesk.getTicketDetailAddTime(configPass, key) });		
+	$('#jPanelMenu-menu li p#transfer').on('click', function(){ SherpaDesk.getTicketDetailTransfer(configPass, key) });
+	$('#jPanelMenu-menu li p#pickup').on('click', function(){ SherpaDesk.postTicketDetailPickup(configPass, key) });	
+	$('#jPanelMenu-menu li p#close').on('click', function(){ SherpaDesk.getTicketDetailClose(configPass, key) });
+	$('#jPanelMenu-menu li p#response').on('click', function(){ SherpaDesk.getTicketDetailResponse(configPass, key) });	
+	$('#jPanelMenu-menu li p#time').on('click', function(){ SherpaDesk.getTicketDetailAddTime(configPass, key) });		
 	};
 	
 //insert images in comments
