@@ -253,7 +253,8 @@ body.login div.content {
 	background-size: 50px 50px;
 	}
 .add_icon {
-	background:#145989 url(../img/head-plus.png) center center no-repeat;
+	background:#145989 url(../img/head-plus2x.png) center center no-repeat;
+	background-size: 50px 50px;
 	}
 .back_icon {
 	background:#145989 url(../img/head-back2x.png) center center no-repeat;
