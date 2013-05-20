@@ -249,13 +249,15 @@ body.login div.content {
 		cursor: pointer;
 		}
 .menu_icon {
-	background:#145989 url(../img/head-menu.png) center center no-repeat;
+	background:#145989 url(../img/head-menu2x.png) center center no-repeat;
+	background-size: 50px 50px;
 	}
 .add_icon {
 	background:#145989 url(../img/head-plus.png) center center no-repeat;
 	}
 .back_icon {
-	background:#145989 url(../img/head-back.png) center center no-repeat;
+	background:#145989 url(../img/head-back2x.png) center center no-repeat;
+	background-size: 50px 50px;
 	}
 .info_icon {
 	background:#2a2a2b url(../img/head-info.png) center center no-repeat;
