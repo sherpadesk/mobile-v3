@@ -660,7 +660,8 @@ p.header_label {
 				background-color: #40b3df;
 				}			
 			.tkt_actions .tkt_actions_menu ul li.responses {
-				background-image:url(../img/response-icon.png);				
+				background-image:url(../img/response-icon2x.png);
+				background-size: 55px 40px;				
 				}
 			.tkt_actions .tkt_actions_menu ul li.time {
 				background-image:url(../img/time-icon.png);				
