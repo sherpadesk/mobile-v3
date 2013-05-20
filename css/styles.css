@@ -664,7 +664,8 @@ p.header_label {
 				background-size: 55px 40px;				
 				}
 			.tkt_actions .tkt_actions_menu ul li.time {
-				background-image:url(../img/time-icon.png);				
+				background-image:url(../img/time-icon2x.png);
+				background-size: 55px 40px;					
 				}				
 	.tkt_actions .tkt_add_response,
 	.tkt_actions .tkt_add_time{
