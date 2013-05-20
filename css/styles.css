@@ -592,7 +592,8 @@ p.header_label {
 			width: 35px;
 			height: 85px;
 			text-align: center;
-			background: url(../img/tkt-action-open.png) 0 0 no-repeat #17649a;
+			background: url(../img/tkt-action-open2x.png) 0 0 no-repeat #17649a;
+			background-size: 35px 85px;
 			margin: 0;
 			position: absolute;
 			top: 0;
