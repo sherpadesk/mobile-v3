@@ -661,7 +661,7 @@ var SherpaDesk = {
 				//failed
 				function(results){
 					SherpaDesk.getTicketDetailAddTime(configPass, key);
-					addAlert("error", "Time won't give me time. Sorry that did not post.");	
+					addAlert("error", "Sorry, there was a problem posting your time.");	
 				}
 			);
 		},
