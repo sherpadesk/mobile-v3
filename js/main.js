@@ -244,7 +244,7 @@ var SherpaDesk = {
 			function(results){
 				$('div.content').prepend('<div class=showalert></div>');
 				$('div.showalert').empty();				
-				addAlert("error", "Bummer... There was a problem fetching your tickets.");
+				addAlert("error", "There was a problem fetching your tickets.");
 				}
 			);
 		getTicketList.done (
@@ -291,7 +291,7 @@ var SherpaDesk = {
 			//failed
 			function(results){
 				$('div.content').prepend('<div class=showalert></div>').removeClass('spinner');				
-				addAlert("error", "Uh... I think you're missing a Q.  I couldn't get to them. My Bad.");
+				addAlert("error", "There was a problem fetching your Queues.");
 				}
 			);
 			
@@ -321,7 +321,7 @@ var SherpaDesk = {
 			//failed
 			function(results){
 				$('div.content').prepend('<div class=showalert></div>').removeClass('spinner');				
-				addAlert("error", "Bummer... There was a problem fetching yo' tickets.");
+				addAlert("error", "There was a problem fetching your tickets.");
 				}
 			);
 		getQueueList.done (
@@ -455,7 +455,7 @@ var SherpaDesk = {
 				function(){
 					$('div.ticket_detail_main').removeClass('spinner');
 					SherpaDesk.getTicketDetailTransfer(configPass, key);
-					addAlert("error", "Well this went badly.  Try again.");
+					addAlert("error", "There was a problem transfering this ticket.");
 					}
 			);
 		},
@@ -479,7 +479,7 @@ var SherpaDesk = {
 			  function(results){
 				  $('body').empty();
 				  SherpaDesk.getTicketDetail(configPass, key);
-				  addAlert("error", "It's not you, something went wrong.");
+				  addAlert("error", "There was a problem picking up this ticket.");
 				  }
 			 );
 			
@@ -534,7 +534,7 @@ var SherpaDesk = {
 				//error
 				function(){
 					$('div.ticket_detail_main').show().removeClass('spinner');
-					addAlert("error", "This is just embarrassing. Try pressing the button over and over. That may help.");					
+					addAlert("error", "There was a problem closing this ticket.");					
 					}
 			);
 			
@@ -553,7 +553,7 @@ var SherpaDesk = {
 			var response = htmlEscape($('textarea#details').val().trim());
 			
 			if(response == "" || response == null){
-					addAlert("error", "Dude! Ain't nothin there. C'mon");
+					addAlert("error", "Please add a response.");
 				} else {
 					SherpaDesk.postTicketDetailResponse(configPass, key, response);		
 				};					
@@ -576,7 +576,7 @@ var SherpaDesk = {
 			//failed
 			function(results){
 				SherpaDesk.getTicketDetailResponse(configPass, key);
-				addAlert("error", "Sorry about that. I'm sure it's me and not you.");	
+				addAlert("error", "There was an problem posting your response.");	
 			}
 		);
 		
@@ -621,8 +621,8 @@ var SherpaDesk = {
 						tasktype = $('form select#task_type option:selected').val(),
 						details = htmlEscape($('textarea#details').val().trim());
 					
-					if (time == 0 || time == null){addAlert("error", "Zero is my Hero too, but you can't record it."); return false;}
-					if (tasktype == 0 || tasktype == null){addAlert("error", "I gotsa know whatcha doin'. Please enter a task type."); return false;}
+					if (time == 0 || time == null){addAlert("error", "Your time needs to be greater than 0."); return false;}
+					if (tasktype == 0 || tasktype == null){addAlert("error", "Please enter a task type."); return false;}
 					if (details == "" || details == null){addAlert("error", "Please enter a description in the note field."); return false;}
 					
 					$('div.ticket_detail_main').empty().addClass('spinner');
@@ -656,7 +656,7 @@ var SherpaDesk = {
 				//success
 				function(results){
 					SherpaDesk.getTicketDetail(configPass, key);
-					addAlert("success", "Time flies like an arrow; fruit flies like a banana.");
+					addAlert("success", "Your time has been record.");
 				},
 				//failed
 				function(results){
