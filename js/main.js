@@ -148,17 +148,17 @@ var SherpaDesk = {
 							else {
 							// If there is MORE than one instance on the selected org
 									SherpaDesk.showInst(instances);
+									
+									// listen for Instance selection	
+									$('select#inst').change(function(){
+										var instkey = instances[this.value].key;
+				  						localStorage.setItem('sd_inst_key', instkey);
+				  						localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+				  						$("body").empty().addClass('spinner');
+				  						SherpaDesk.init();
+				  						//location.reload(true);
+				  						});
 								};
-						});
-								
-					// listen for Instance selection	
-					$('select#inst').change(function(){
-						var index_number = this.value;
-						localStorage.setItem('sd_inst_key', index_number);
-						localStorage.setItem('sd_is_MultipleOrgInst', 'true');
-						$("body").empty().addClass('spinner');
-						SherpaDesk.init();
-						//location.reload(true);
 						});
 					};// End > 1 
 					
