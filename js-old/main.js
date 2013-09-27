@@ -148,8 +148,9 @@ var SherpaDesk = {
 							else {
 							// If there is MORE than one instance on the selected org
 									SherpaDesk.showInst(instances);
+									
 									// listen for Instance selection	
-				  					$('select#inst').change(function(){
+									$('select#inst').change(function(){
 										var instkey = instances[this.value].key;
 				  						localStorage.setItem('sd_inst_key', instkey);
 				  						localStorage.setItem('sd_is_MultipleOrgInst', 'true');
@@ -159,38 +160,18 @@ var SherpaDesk = {
 				  						});
 								};
 						});
-								
-					
 					};// End > 1 
 					
 				// If there is ONLY ONE org and instance
 				if (results.length == 1){
 					var myorg = results[0].key;
+					var myinst = results[0].instances[0].key;
 					localStorage.setItem('sd_org_key', myorg);
+					localStorage.setItem('sd_inst_key', myinst);
 					localStorage.setItem('sd_is_MultipleOrgInst', 'false');
-					//location.reload(true);
-					var myinst = results[0].instances;
-					// If there is only one instance on the selected org								
-							if (myinst.length == 1){
-									instkey = myinst[0].key;
-									localStorage.setItem('sd_inst_key', instkey);
-									$("body").empty().addClass('spinner');
-									SherpaDesk.init();
-									//location.reload(true);
-								} 
-							else {
-							// If there is MORE than one instance on the selected org
-									SherpaDesk.showInst(myinst);
-									// listen for Instance selection	
-				  					$('select#inst').change(function(){
-										var instkey = myinst[this.value].key;
-				  						localStorage.setItem('sd_inst_key', instkey);
-				  						localStorage.setItem('sd_is_MultipleOrgInst', 'true');
-				  						$("body").empty().addClass('spinner');
-				  						SherpaDesk.init();
-				  						//location.reload(true);
-				  						});
-								};					
+					$("body").empty().addClass('spinner');
+					SherpaDesk.init();
+					//location.reload(true);					
 				};	
 						
 			
@@ -548,7 +529,7 @@ var SherpaDesk = {
 				//success
 				function(){
 					SherpaDesk.getTicketDetail(configPass, key);
-					addAlert("success", "Awesome! This ticket is now closed.");
+					addAlert("success", "Whew! That monkey is off your back!");
 					},
 				//error
 				function(){
@@ -590,7 +571,7 @@ var SherpaDesk = {
 			//success
 			function(results){
 				SherpaDesk.getTicketDetail(configPass, key);
-				addAlert("success", "Success! Your response has been logged.");
+				addAlert("success", "See, now we're communicating.");
 			},
 			//failed
 			function(results){
@@ -692,9 +673,6 @@ var SherpaDesk = {
 		var techs = SherpaDesk.getSherpaDesk(configPass, 'technicians');
 		var user = SherpaDesk.getSherpaDesk(configPass, 'users?email=' + localStorage.sd_user_email);
 		
-		//init class to null
-		var selectedClass = '';
-		
 		SherpaDesk.showAddTicket();		
 		
 		accounts.then(
@@ -706,45 +684,7 @@ var SherpaDesk = {
 			function(results){addAlert("error", "Could Not Retrieve Technicians");}	
 			);
 		classes.then(
-			//Class success
-			function(results){
-				SherpaDesk.showClasses(results);
-				//Listen for class and detect sub-classes
-				$('form select#class').on('change', function(){
-					if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').remove();};
-					var classSelected0 = $('form select#class option:selected').val();					
-					var classSub = $.grep(results, function(a){ return a.id == classSelected0; });
-					
-					//set class
-					selectedClass = classSelected0;
-					
-					//If sub-class exist
-					if(classSub[0].sub > 0 || classSub[0].sub!== null){
-							//Show sub-class select
-							SherpaDesk.showSubClass1(classSub[0].sub);
-							$("select#sub_class1").uniform().on('change', function(){
-									if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
-									var classSelected1 = $('form select#sub_class1 option:selected').val();					
-									var classSub1 = $.grep(classSub[0].sub, function(a){ return a.id == classSelected1; });
-									
-									//reset class
-									selectedClass = classSelected1;
-									//If sub-sub-class exist
-									if(classSub1[0].sub > 0 || classSub1[0].sub!== null){
-											//Show sub-class select
-											SherpaDesk.showSubClass2(classSub1[0].sub);
-											$("select#sub_class2").uniform().on('change', function(){
-												var classSelected2 = $('form select#sub_class2 option:selected').val();
-												//reset class
-												selectedClass = classSelected2;
-											});
-										}
-								});
-						}
-							
-					});
-				},
-			//Class failed
+			function(results){SherpaDesk.showClasses(results);},
 			function(results){addAlert("error", "Could Not Retieve Classes");}	
 			);
 		
@@ -752,12 +692,11 @@ var SherpaDesk = {
 		
 		$('div.content.ticket_add').show();
 		$('body').removeClass('spinner');
-		ticketDetMenuActions();	
-		
+		ticketDetMenuActions();
 		user.done(function(results){ 
 			$('form.create_ticket button[type=submit]').on('click', function(e){
-					e.preventDefault();			
-					var classSelected = selectedClass, //$('form select#class option:selected').val(),
+					e.preventDefault();					
+					var classSelected = $('form select#class option:selected').val(),
 					    techs = $('form select#tech option:selected').val(),
 						accounts = $('form select#account option:selected').val(),
 						subject = htmlEscape($('input[type=text]#subject').val().trim()),
@@ -846,14 +785,6 @@ var SherpaDesk = {
 	showClasses: function(classes){
 		var template = Handlebars.templates['classes']; 							
 		$('form select#class').append( template(classes) );
-		},
-	showSubClass1: function(subclass1){
-		var template = Handlebars.templates['addTicket_subClass1']; 							
-		$('.add_class').append( template(subclass1) );
-		},
-	showSubClass2: function(subclass2){
-		var template = Handlebars.templates['addTicket_subClass2']; 							
-		$('.add_class').append( template(subclass2) );
 		},
 	showTaskTypes: function(tasktypes){
 		var template = Handlebars.templates['taskTypes']; 							
@@ -1331,4 +1262,15 @@ function changeOrgs(){
 
 Handlebars.registerHelper('linebreaks', function(context) {
     return context.replace(/\n/g, "<br />");
-});	
+});
+
+// Analytics
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','http://www.google-analytics.com/analytics.js','ga');
+	  
+	    ga('create', 'UA-998328-15', 'sherpadesk.com');
+	    ga('send', 'pageview');
+
+	

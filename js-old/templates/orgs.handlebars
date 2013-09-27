@@ -3,9 +3,9 @@
 		<form class="form-signin">
 			<div class="logo"><img src="img/Sherpa_Desk-logo.png"></div>
 			<div class="showalert"></div>
-			<h2>Select Your Instance</h2>			
-			<select name="inst" id="inst">
-				<option value="" selected="selected">Choose an Instance</option>
+			<h2>Select Your Organization</h2>			
+			<select name="orgs" id="orgs">
+			  	<option value="" selected="selected">Choose an Org</option>
 			{{#each this}}
 				<option data-orgkey="{{key}}" value="{{@index}}">{{name}}</option>
 			{{/each}}
