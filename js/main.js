@@ -1276,7 +1276,7 @@ function htmlEscape(str) {
     return String(str)
         .replace(/&/g, '&amp;')
         .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;')
+        .replace(/'/g, '&apos;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
         //.replace(/\n/g, "<br />")
