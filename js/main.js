@@ -412,6 +412,10 @@ var SherpaDesk = {
 						
 						if (results.attachments !== null && results.attachments.length > 0 ){
 							getCommentImages(results.attachments);
+							};
+						//Add custom fields to info area
+						if (results.customfields_xml !== null && results.customfields_xml.length > 0 ){
+							getCustomFields(results.customfields_xml);
 							};															
 					}
 				);
@@ -1188,6 +1192,18 @@ function getCommentImages(attachments){
 			$('div.tkt_ini_response:contains(' + file + '), div.comment_main:contains(' + file + ')').append(imageInsert);
 			};		 
 		});		
+	};
+
+function getCustomFields(fieldsXml){
+		var xmlDoc = $.parseXML(fieldsXml),
+			$xml = $( xmlDoc ),
+			$field = $xml.find( "field" ),
+			infoFields = $('div.ticket_info ul');
+			$.each($field, function(i,item) {
+				var caption = $(this).find('caption'),
+					value = $(this).find('value');				
+				infoFields.append("<li><p>" + caption[0].textContent +": <strong>" + value[0].textContent + "</strong></p></li>");
+			});
 	};
 
 function get_single_ticket(configPass){
