@@ -1276,12 +1276,13 @@ function ticket_menu_rev(results){
 		if(tech.length > 0 || tech_type == "false"){$('li p#pickup').parent().hide()};
 		
 		//check tech on ticket
+		if(tech_type == "false"){
+			$('li p#transfer').parent().hide();
+			};		
 		if(tech.length == 0){
-			$('li p#close, li p#transfer, li p#time').parent().hide();
+			$('li p#close, li p#time').parent().hide();
 			$('li.time').hide();			
 			};
-				
-		
 		
 	};	
 
