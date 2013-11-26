@@ -1,49 +1,3 @@
-//var iPad = /iPad/i.test(navigator.userAgent);
-//var android = /android/i.test(navigator.userAgent);
-
-//Disable all animation on iPhone less iPhone5
-$.fx.off = /iPhone/i.test(navigator.userAgent) && !(window.screen.height == (1136 / 2));
-
-//Root Names
-var Site = 'sherpadesk.com/';
-var MobileSite = 'http://m.'+Site;
-var AppSite = 'http://app.'+Site;
-var ApiSite = 'http://api.'+Site;
-
-
-//Phonegap specific
-var isPhonegap = false;
-var isOnline = true;
-
-document.addEventListener("deviceready", onDeviceReady, false);
-
-    function onDeviceReady() {
-       isPhonegap = true;
-       //If User is Offline....................................
-       document.addEventListener("offline",function(){ if (!$("#offline").length) $('body').prepend('<div id=offline>offline</div><div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
-         $("#offline").show();
-         isOnline = false;
-         //window.open("error.html", "_self"); 
-         },false);
-       document.addEventListener("online",function(){ $("#offline").hide(); isOnline = true; window.open(MobileSite + "index.html", "_self"); },false);
-       //document.addEventListener("offline", onOffline, false);
-       //document.addEventListener("online", onOnline, false); 
-       //alert(navigator.onLine ? 'online' : 'offline');
-    };
-   
-//function onOnline() {               
-//            alert("Internet connected")
-//}
-
-function onOffline() {
- if (isPhonegap) 
-    window.open("error.html", "_self"); 
- else
-    document.location.href= 'error.html'; 
-}
-    
-//End Phonegap specific
-
 var SherpaDesk = {
 	init: function(){
 		//cache config	
@@ -52,7 +6,7 @@ var SherpaDesk = {
 			org: localStorage.sd_org_key,
 			inst: localStorage.sd_inst_key,
 			role: localStorage.sd_user_role,
-			url: ApiSite
+			url: 'http://api.sherpadesk.com/'
 			}; 
 		
 		$(document).ajaxStart(function() { $( "body" ).addClass('spinner');	 }).ajaxComplete(function() { $( "body" ).removeClass('spinner'); });
@@ -68,18 +22,16 @@ var SherpaDesk = {
 				//$("body").empty().removeClass("login").addClass('spinner');
 				$("body").removeClass("login");
 				SherpaDesk.getConfig(configPass);				
-			};       			
+			};			
 		}, //End init
 		
 	//Global AJAX request
-	getSherpaDesk: function(config, method, apimethod, data){	
-    if (!isOnline)	{if (!$("#offline").length) $('body').prepend('<div id=offline>offline</div><div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
-         $("#offline").show();}
+	getSherpaDesk: function(config, method, apimethod, data){		
 		if(config.user && config.pass)	{var header = config.user + ':' + config.pass;} 
 										else 
 										{var header = config.org + '-' + config.inst + ':' + config.apiKey;};		
 		var url = config.url;
-		var limit = ""; 
+    var limit = "";  
 		if( apimethod ){var methodType = apimethod;} 
     else {var methodType = 'GET'; 
           if (method.indexOf("limit") < 0) 
@@ -87,7 +39,7 @@ var SherpaDesk = {
            if (method.indexOf("?") != -1) limit = "&"; else limit = "?"; 
            limit += "limit=200";
           }
-        };  
+        };
         return $.ajax({
             type: methodType,
             beforeSend: function (xhr) {
@@ -96,7 +48,6 @@ var SherpaDesk = {
                 },
             url: url + method + limit,
             cache: false,
-            error: function(){onOffline();},
             data: data, 
             dataType: 'json'   
 		}).promise();
@@ -115,7 +66,8 @@ var SherpaDesk = {
 		  				addAlert("error", "There was a problem retrieving config options.");
 		  			}
 				).done(
-					function(results){				
+					function(results){
+						
 						if (localStorage.sd_from_queueid > 0 ){							
 							  	console.log(localStorage.sd_from_queueid);
 								SherpaDesk.showTicketHeader();
@@ -311,10 +263,6 @@ var SherpaDesk = {
 		//sucess
 		getTicketList.then(
 			function(results){
-      	var organization = {
-			    "organization" : localStorage.sd_org_key,
-			    "instance" : localStorage.sd_inst_key
-			  };
 				SherpaDesk.showTicketHeader();
 				SherpaDesk.showTicketList(results);
 			},
@@ -472,7 +420,6 @@ var SherpaDesk = {
 						if (results.attachments !== null && results.attachments.length > 0 ){
 							getCommentImages(results.attachments);
 							};
-							
 						//Add custom fields to info area
 						if (results.customfields_xml !== null && results.customfields_xml.length > 0 ){
 							getCustomFields(results.customfields_xml);
@@ -925,15 +872,8 @@ var SherpaDesk = {
 		},
 	showTicketHeader: function(){
 		$('body').empty();
-    var full_app_link = "",
-        urlString = AppSite + "?dept=" + localStorage.sd_inst_key + "&org=" + localStorage.sd_org_key;
-    if (isPhonegap)
-       full_app_link = "href=#  onclick=openURLsystem('" + urlString + "')";
-    else
-      full_app_link = "href=" + urlString + " target=_system";
-    var organization = {"full_app_link" : full_app_link};
 		var template = Handlebars.templates['ticket_header']; 							
-		$('body').prepend( template(organization) );		
+		$('body').prepend( template() );		
 		},
 	showTicketList: function(list){
 		var template = Handlebars.templates['ticket_list'];									
@@ -1070,18 +1010,12 @@ function ticketActions(configPass){
 		
 		$("div.see_more").on('click',function(e){
 			e.preventDefault();
-			var isHidden = $(this).next(".tkt_actions").is(":hidden");//cache div state
-			$(".tkt_actions").slideUp("slow"); // Hide other Comments 			
-			if (isHidden){
-					//if hidden the show	
+			$(".tkt_actions").slideUp("slow"); // Hide other Comments  			
+			if ($(this).next(".tkt_actions").is(":hidden")){
 					var ticketKey = $(this).data('key');										
-					$(this).next(".tkt_actions").slideDown("slow");					
-					SherpaDesk.getComments(configPass, ticketKey);						
-				} else {
-					//if showing then hide
-					$(this).next(".tkt_actions").slideUp("slow");	
-				};
-			  			
+					$(this).next(".tkt_actions").slideToggle("slow");	
+					SherpaDesk.getComments(configPass, ticketKey);	
+				};			
 			});
 		
 		$("div.tkt_actions_menu ul li").on('click',function(e){
@@ -1253,30 +1187,14 @@ function ticketListMenuActions(configPass, key){
 	$('#jPanelMenu-menu li p#response').on('click', function(){ SherpaDesk.getTicketDetailResponse(configPass, key) });	
 	$('#jPanelMenu-menu li p#time').on('click', function(){ SherpaDesk.getTicketDetailAddTime(configPass, key) });		
 	};
-
-//open link	in blank
-function openURL(urlString){
-    window.open(urlString, '_blank', 'location=no');
-}
-
-//open link	in system
-function openURLsystem(urlString){
-    window.open(urlString, '_system');
-}
- 
+	
 //insert images in comments
 function getCommentImages(attachments){	
 	$.each(attachments, function(key, value){
-    var file = value.name,
+		var file = value.name,
 			url = value.url,
+			imageInsert = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" + url + "\"><img class=\"comment_image\" src=\"" + url + "\" alt=\"" + file + "\"></a>",
 			ext = file.substr( (file.lastIndexOf('.') +1) ).toLowerCase();
-      
-    var imageInsert = "";
-    if (isPhonegap)
-       imageInsert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" + url + "\")'><img class=\"comment_image\" src=\"" + url + "&Width=" + ($(".tkt_top").width()+10) + "\" alt=\"" + file + "\"></a>";
-    else
-       imageInsert = "<a class=\"comment_image_link\" target=\"_system\" href=\"" + url + "\"><img class=\"comment_image\" src=\"" + url + "&Width=" + ($(".tkt_top").width()+10) + "\" alt=\"" + file + "\"></a>";
-          
 		if(ext === "jpg" || ext === "png" || ext === "gif" ){
 			$('div.tkt_ini_response:contains(' + file + '), div.comment_main:contains(' + file + ')').append(imageInsert);
 			};		 
@@ -1364,14 +1282,14 @@ function ticket_menu_rev(results){
 		var tech = $.grep(results.technicians, function(a){ return a.user_id == tech_id; });
 		if(tech.length > 0 || tech_type == "false"){$('li p#pickup').parent().hide()};
 		
-		//check tech on ticket		
+		//check tech on ticket
 		if(tech_type == "false"){
 			$('li p#transfer').parent().hide();
 			};		
 		if(tech.length == 0){
 			$('li p#close, li p#time').parent().hide();
 			$('li.time').hide();			
-			};	
+			};
 		
 	};	
 

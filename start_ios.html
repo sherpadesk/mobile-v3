@@ -1,0 +1,74 @@
+<html>
+<script src="js/phonegap.js"></script>
+<script type="text/javascript">
+
+    var Site = 'sherpadesk.com/';
+    var MobileSite = 'http://m.'+Site;
+    var isPhonegap = false;
+    var interval;
+    document.addEventListener("deviceready", onDeviceReady, false);
+    
+    function onDeviceReady() {
+        clearTimeout(interval);
+        isPhonegap = true;
+        redirectToPage();
+    };
+    
+    document.addEventListener("offline",function(){ window.open("error.html", "_self"); },false);
+    document.addEventListener("online",function(){ window.open(MobileSite + "index.html", "_self");  },false);
+   
+
+    window.onload = onPageReady;
+    function onPageReady(page) {
+        interval = setTimeout(onPageReady1, 3000)
+    }
+    function openMobileSite(page) {
+        inAppBrowserRef =  window.open(page, "_blank", 'location=no,toolbar=no');
+inAppBrowserRef.addEventListener('loadstop', function (event)
+{
+var loc = event.url;
+    console.log("location = " + loc);
+    if (loc != page) {
+        inAppBrowserRef.close();
+    }
+});
+    }
+    
+            function openUrl(url) {
+            if (isPhonegap)
+                window.open(MobileSite + "index.html", "_self");
+                //openMobileSite(MobileSite + "index.html");
+            else
+                document.location.href = MobileSite + "index.html";
+        };
+           
+    function redirectToPage() {
+        if (navigator.onLine)
+            {  if (isPhonegap) openMobileSite(MobileSite + "index.html"); 
+               else {
+               var img = document.body.appendChild(document.createElement("img"));
+                img.style.display = 'none';
+                img.onload = function () {
+                    document.location.href = MobileSite + "index.html";
+                };
+                img.onerror = function () {
+                    document.location = "error.html";
+                };
+                img.src = MobileSite + "img/head-menu2x.png?rand=" + Math.random();
+                }       
+            }             
+        else
+            { if (isPhonegap)  window.open("error.html", "_self"); 
+               else document.location = "error.html";
+            }
+    };
+
+    function onPageReady1() {
+        if (!isPhonegap) {
+            redirectToPage();
+        }
+        else
+            onDeviceReady();
+    };
+</script>
+</html>

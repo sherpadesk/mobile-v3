@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "com.sherpadesk.m"
+        version   = "1.0.0">
+
+	    <access origin="*" />
+	
+     <gap:platform name="ios"/>
+     <gap:platform name="android" />
+	
+	    <name>Sherpadesk</name>
+	
+	    <description>
+	        SherpaDesk mobile version.  Receive, route, respond and report client support requests with our complete ticket management system by SherpaDesk account.  http://m.sherpadesk.com 
+	    </description>
+	
+	    <author href="http://m.sherpadesk.com" email="support@sherpadesk.com">
+	        bigWebApps
+	    </author>
+      
+      <content src="start_ios.html" />
+		
+		<preference name="phonegap-version" value="2.9.0" />
+		<preference name="orientation" value="portrait" />
+		<preference name="target-device" value="handset" />
+		<preference name="prerendered-icon" value="true" />
+		<preference name="webviewbounce" value="false" />	
+    
+    <plugin name="InAppBrowser" value="org.apache.cordova.InAppBrowser" />
+    <plugin name="InAppBrowser" value="CDVInAppBrowser" />
+		
+		<!-- IOS only icons -->
+		<icon src="img/icons/ios/icon.png" gap:platform="ios" width="57" height="57" />
+		<icon src="img/icons/ios/icon-72.png" gap:platform="ios" width="72" height="72" />
+		<icon src="img/icons/ios/icon_at_2x.png" gap:platform="ios" width="114" height="114" />
+		
+		<!-- IOS only splash screens -->
+		<gap:splash src="img/splash/ios/Default.png" gap:platform="ios" width="320" height="480" />
+		<gap:splash src="img/splash/ios/Default_at_2x.png" gap:platform="ios" width="640" height="960" />
+                <gap:splash src="img/splash/ios/Default_iphone5.png" gap:platform="ios" width="640" height="1136" />
+		
+		
+		<!-- Enable phonegap features -->
+		<feature name="http://api.phonegap.com/1.0/file"/>
+		<feature name="http://api.phonegap.com/1.0/network"/>
+		<feature name="http://api.phonegap.com/1.0/notification"/>	
+    
+    <feature name="App">
+      <param name="android-package" value="org.apache.cordova.App"/>
+    </feature>
+    <feature name="Device">
+      <param name="android-package" value="org.apache.cordova.Device"/>
+    </feature>
+    <feature name="File">
+      <param name="android-package" value="org.apache.cordova.FileUtils"/>
+    </feature>
+    <feature name="NetworkStatus">
+      <param name="android-package" value="org.apache.cordova.NetworkManager"/>
+    </feature>
+    <feature name="Notification">
+      <param name="android-package" value="org.apache.cordova.Notification"/>
+    </feature>
+    <feature name="Storage">
+      <param name="android-package" value="org.apache.cordova.Storage"/>
+    </feature>
+    <feature name="FileTransfer">
+      <param name="android-package" value="org.apache.cordova.FileTransfer"/>
+    </feature>
+    <feature name="SplashScreen">
+      <param name="android-package" value="org.apache.cordova.SplashScreen"/>
+    </feature>
+    <feature name="Echo">
+      <param name="android-package" value="org.apache.cordova.Echo"/>
+    </feature>
+    <feature name="Globalization">
+      <param name="android-package" value="org.apache.cordova.Globalization"/>
+    </feature>
+    <feature name="InAppBrowser">
+      <param name="android-package" value="org.apache.cordova.InAppBrowser"/>
+    </feature>
+    <feature name="Device">
+      <param name="ios-package" value="CDVDevice"/>
+    </feature>
+    <feature name="Accelerometer">
+      <param name="ios-package" value="CDVAccelerometer"/>
+    </feature>
+    <feature name="Media">
+      <param name="ios-package" value="CDVSound"/>
+    </feature>
+    <feature name="File">
+      <param name="ios-package"  value="CDVFile"/>
+    </feature>
+    <feature name="NetworkStatus">
+      <param name="ios-package" value="CDVConnection"/>
+    </feature>
+    <feature name="Notification">
+      <param name="ios-package" value="CDVNotification"/>
+    </feature>
+    <feature name="SplashScreen">
+      <param name="ios-package" value="CDVSplashScreen"/>
+    </feature>
+    <feature name="Echo">
+      <param name="ios-package" value="CDVEcho"/>
+    </feature>
+    <feature name="Globalization">
+      <param name="ios-package" value="CDVGlobalization"/>
+    </feature>
+    <feature name="InAppBrowser">
+      <param name="ios-package" value="CDVInAppBrowser"/>
+    </feature>
+    <feature name="Logger">
+      <param name="ios-package" value="CDVLogger"/>
+    </feature>
+    <feature name="LocalStorage">
+        <param name="ios-package" value="CDVLocalStorage"/>
+    </feature>
+	</widget>
