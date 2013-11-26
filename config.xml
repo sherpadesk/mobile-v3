@@ -9,14 +9,14 @@
      <gap:platform name="ios"/>
      <gap:platform name="android" />
 	
-	    <name>Sherpadesk</name>
+	    <name>Sherpadesk Tote</name>
 	
 	    <description>
-	        SherpaDesk mobile version.  Receive, route, respond and report client support requests with our complete ticket management system by SherpaDesk account.  http://m.sherpadesk.com 
+	        SherpaDesk Tote for iPhone allows you to provide awesome customer support away from your desk while you are in the field. The mobile application is an extension of the online version allowing you flexibility to create new tickets, assign time, and close out tickets all in real time. It’s a little bit of support love in your pocket. More on http://m.sherpadesk.com 
 	    </description>
 	
 	    <author href="http://m.sherpadesk.com" email="support@sherpadesk.com">
-	        bigWebApps
+	        SherpaDesk
 	    </author>
       
       <content src="start_ios.html" />
