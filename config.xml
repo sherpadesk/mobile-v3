@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.sherpadesk.m"
+        id        = "com.sherpadesk.mobile"
         version   = "1.0.0">
 
 	    <access origin="*" />
@@ -22,8 +22,6 @@
       <content src="start_ios.html" />
 		
 		<preference name="phonegap-version" value="2.9.0" />
-		<preference name="orientation" value="portrait" />
-		<preference name="target-device" value="handset" />
 		<preference name="prerendered-icon" value="true" />
 		<preference name="webviewbounce" value="false" />	
     
@@ -34,12 +32,14 @@
 		<icon src="img/icons/ios/icon.png" gap:platform="ios" width="57" height="57" />
 		<icon src="img/icons/ios/icon-72.png" gap:platform="ios" width="72" height="72" />
 		<icon src="img/icons/ios/icon_at_2x.png" gap:platform="ios" width="114" height="114" />
+                <icon src="img/icons/ios/icon-72_at_2x.png" gap:platform="ios" width="144" height="144" />
 		
 		<!-- IOS only splash screens -->
 		<gap:splash src="img/splash/ios/Default.png" gap:platform="ios" width="320" height="480" />
 		<gap:splash src="img/splash/ios/Default_at_2x.png" gap:platform="ios" width="640" height="960" />
                 <gap:splash src="img/splash/ios/Default_iphone5.png" gap:platform="ios" width="640" height="1136" />
-		
+		<gap:splash gap:platform="ios" height="1024" src="img/splash/ios/Default_Portrait.png" width="768" />
+
 		
 		<!-- Enable phonegap features -->
 		<feature name="http://api.phonegap.com/1.0/file"/>
