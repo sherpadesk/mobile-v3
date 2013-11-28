@@ -73,7 +73,7 @@ var SherpaDesk = {
 		
 	//Global AJAX request
 	getSherpaDesk: function(config, method, apimethod, data){	
-    if (!isOnline)	{if (!$("#offline").length) $('body').prepend('<div id=offline>offline</div><div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
+    if (!isOnline)	{if (!$("#offline").length) $('body').prepend('<div id=offline>offline</div><div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
          $("#offline").show();}
 		if(config.user && config.pass)	{var header = config.user + ':' + config.pass;} 
 										else 
@@ -96,7 +96,6 @@ var SherpaDesk = {
                 },
             url: url + method + limit,
             cache: false,
-            error: function(){onOffline();},
             data: data, 
             dataType: 'json'   
 		}).promise();
