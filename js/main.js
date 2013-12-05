@@ -44,6 +44,11 @@ function onOffline() {
     
 //End Phonegap specific
 
+function cleanQuerystring() {
+var clean_uri = location.protocol + "//" + location.host + location.pathname;
+window.history.replaceState({}, document.title, clean_uri);
+}
+
 var SherpaDesk = {
 	init: function(){
 		//cache config	
@@ -114,8 +119,17 @@ var SherpaDesk = {
 		  				addAlert("error", "There was a problem retrieving config options.");
 		  			}
 				).done(
-					function(results){				
-						if (localStorage.sd_from_queueid > 0 ){							
+					function(results){
+            var query = window.location.search.slice(1);
+            if(/ticket=/i.test(query) ) {
+               var key = query.replace('ticket=', '');
+               if (key)
+               { 
+                   cleanQuerystring();
+                   SherpaDesk.getTicketDetail(configPass, key);
+               }
+            }			
+						else if (localStorage.sd_from_queueid > 0 ){							
 							  	console.log(localStorage.sd_from_queueid);
 								SherpaDesk.showTicketHeader();
 								changeRoles(configPass);	
