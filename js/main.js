@@ -305,7 +305,7 @@ var SherpaDesk = {
 		sendResponse.then(
 			//success
 			function(results){
-				$('.tkt_actions .tkt_add_response input#response').val('');
+				$('.tkt_actions .tkt_add_response textarea#response').val('');
 				$('.tkt_actions .tkt_add_response button.add_response').text('Add').removeClass('buttonSpinner');
 				SherpaDesk.getComments(config, key);
 				addAlert("success", "Roger that. Message received.");				
@@ -1143,7 +1143,7 @@ function addResponse(configPass){
 	//On Click - Submit Response
 	$('button.add_response').unbind('click').on('click', function(e){
 		e.preventDefault();
-		var response = htmlEscape( $(this).next().children('input#response').val().trim() );
+		var response = htmlEscape( $(this).next().children('textarea#response').val().trim() );
 		if(response === ''){
 				$('div.alert.alert-error').remove();
 				var alertmessage = {

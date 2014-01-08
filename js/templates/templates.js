@@ -36,6 +36,66 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
   return "<a name=\"top\"/>\r\n<div class=\"navbar navbar-static-top\">\r\n	<div class=\"navbar-inner\">\r\n		<a class=\"menu_button header_left back_icon\" id=\"ticketList\"></a>\r\n		<p class=\"header_label\">Create New Ticket</p>\r\n	</div>  \r\n</div>\r\n\r\n<div class=\"content ticket_add\" style=\"display:none;\"> \r\n	<form class=\"create_ticket\">\r\n		<div class=\"showalert\"></div>	\r\n			\r\n		<label>Account</label>\r\n		<select name=\"account\" id=\"account\">\r\n			<option value=\"\">---</option>\r\n		</select>\r\n		<label>Technician</label>\r\n		<select name=\"tech\" id=\"tech\">\r\n			<option value=\"\">---</option>\r\n		</select>\r\n		<div class=\"add_class\">\r\n			<div class=\"main_class\">\r\n				<label>Class</label>\r\n				<select name=\"class\" id=\"class\">\r\n					<option value=\"\">---</option>			\r\n				</select>\r\n			</div>\r\n		</div>\r\n		\r\n		<label>Subject</label>\r\n		<input name=\"subject\" id=\"subject\" type=\"text\">\r\n		\r\n		<label>Details</label>\r\n		<textarea name=\"details\" id=\"details\" wrap=\"soft\" cols=\"50\" rows=\"10\" ></textarea>\r\n		\r\n		<button class=\"btn btn-large btn-block btn-success\" type=\"submit\">Create Ticket</button>\r\n	  \r\n	</form>  \r\n</div>";
   });
+templates['addTicket_subClass1'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\r\n			<option data-classId=\"";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" value=\"";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</option>\r\n		";
+  return buffer;
+  }
+
+  buffer += "\r\n<div class=\"sub_class1\">\r\n	<label>>> Sub Class</label>\r\n	<select name=\"sub_class1\" id=\"sub_class1\">\r\n		<option value=\"\">---</option>\r\n		";
+  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "			\r\n	</select>\r\n</div>";
+  return buffer;
+  });
+templates['addTicket_subClass2'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\r\n			<option data-classId=\"";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" value=\"";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</option>\r\n		";
+  return buffer;
+  }
+
+  buffer += "\r\n<div class=\"sub_class2\">\r\n	<label>>> >> Sub Sub Class</label>\r\n	<select name=\"sub_class2\" id=\"sub_class2\">\r\n		<option value=\"\">---</option>\r\n		";
+  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "			\r\n	</select>\r\n</div>";
+  return buffer;
+  });
 templates['alert'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -152,6 +212,77 @@ function program1(depth0,data) {
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n			</select>\r\n		</form>		\r\n	</div>\r\n</div>";
   return buffer;
+  });
+templates['queue_list'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\r\n	<div class=\"showalert\"></div>\r\n	<div class=\"queues_list\" id=\"filter_list\">\r\n		<ul class=\"queues\">\r\n			";
+  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\r\n		</ul>\r\n	</div>\r\n";
+  return buffer;
+  }
+function program2(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\r\n			<li class=\"queue\">				\r\n				<a class=\"get_queue_list\" data-queid=\"";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">\r\n					<div class=\"que_main\">						\r\n						<p class=\"que_title\">";
+  if (helper = helpers.fullname) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.fullname); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</p>												\r\n						<p class=\"que_tkt_cnt\">";
+  if (helper = helpers.tickets_count) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.tickets_count); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</p>                                     \r\n					</div>\r\n				</a>				\r\n			</li>\r\n			";
+  return buffer;
+  }
+
+function program4(depth0,data) {
+  
+  
+  return "\r\n	<div class=\"noTickets\">\r\n		<h2>We Don't Need No Stinkin' Queues</h2>\r\n		<p>But maybe you should try them out.</p>\r\n	</div>\r\n";
+  }
+
+  stack1 = helpers['if'].call(depth0, depth0, {hash:{},inverse:self.program(4, program4, data),fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { return stack1; }
+  else { return ''; }
+  });
+templates['taskTypes'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\r\n	<option data-taskId=\"";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" value=\"";
+  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</option>\r\n";
+  return buffer;
+  }
+
+  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { return stack1; }
+  else { return ''; }
   });
 templates['techs'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
@@ -270,7 +401,7 @@ function program2(depth0,data) {
   if (helper = helpers.key) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.key); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "\">Add</button>\r\n						<div class=\"tkt_add_response_input\">\r\n							<input type=\"text\" id=\"response\" name=\"response\" placeholder=\"Add Response\" />\r\n						</div>								\r\n					</div>\r\n					<div class=\"tkt_add_time\">\r\n						<button class=\"add_tkt_time\" data-reskey=\"";
+    + "\">Add</button>\r\n						<div class=\"tkt_add_response_input\">\r\n							<textarea id=\"response\" name=\"response\" placeholder=\"Add Response\"></textarea>\r\n						</div>								\r\n					</div>\r\n					<div class=\"tkt_add_time\">\r\n						<button class=\"add_tkt_time\" data-reskey=\"";
   if (helper = helpers.key) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.key); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -327,6 +458,30 @@ function program1(depth0,data) {
   if(stack1 || stack1 === 0) { return stack1; }
   else { return ''; }
   });
+templates['ticketDet_AddTime'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<a name=\"top\"/>\r\n<div class=\"content time_add\"> \r\n	<form class=\"add_time\">\r\n		<div class=\"showalert\"></div>\r\n		\r\n		<div class=\"tkt_add_time\">\r\n			<div class=\"tkt_add_time_input\">\r\n				<button class=\"minus_time\">-</button>\r\n				<button class=\"plus_time\">+</button>\r\n				<p>\r\n					<input type=\"number\" class=\"add_time\" name=\"add_time\" value=\"0\" step=\".25\" />\r\n				</p>                                    \r\n			</div>								\r\n		</div>		\r\n		\r\n		<label>Select Task Type</label>\r\n		<select name=\"task_type\" id=\"task_type\">\r\n			<option value=\"\">---</option>\r\n		</select>		\r\n		\r\n		<label>Notes</label>\r\n		<textarea name=\"details\" id=\"details\" wrap=\"soft\" cols=\"50\" rows=\"10\" ></textarea>\r\n		\r\n		<button class=\"btn btn-large btn-block btn-success\" type=\"submit\">Add Time</button>\r\n	  \r\n	</form>  \r\n</div>";
+  });
+templates['ticketDet_Edit'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<a name=\"top\"/>\r\n<div class=\"transfer\"> \r\n	<form class=\"update_ticket\" action=\"#\">\r\n		<div class=\"showalert\"></div>	\r\n		\r\n		<label>Class</label>\r\n		<select name=\"class\" id=\"class\">\r\n			<option value=\"\">---</option>			\r\n		</select>	\r\n		\r\n		<label>Level</label>\r\n		<select name=\"level\" id=\"level\">\r\n			<option value=\"\">---</option>			\r\n		</select>	\r\n		\r\n		<label>Priority</label>\r\n		<select name=\"priority\" id=\"priority\">\r\n			<option value=\"\">---</option>		\r\n		</select>	\r\n		\r\n		<button class=\"btn btn-large btn-block btn-success\" type=\"submit\">Update Ticket</button>\r\n	  \r\n	</form>  \r\n</div>";
+  });
+templates['ticketDet_response'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<a name=\"top\"/>\r\n<div class=\"content response_add\"> \r\n	<form class=\"create_response\">\r\n		<div class=\"showalert\"></div>	\r\n		\r\n		<textarea name=\"details\" id=\"details\" wrap=\"soft\" cols=\"50\" rows=\"10\" ></textarea>\r\n		\r\n		<button class=\"btn btn-large btn-block btn-success\" type=\"submit\">Add Response</button>\r\n	  \r\n	</form>  \r\n</div>";
+  });
 templates['ticketDetail_content'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
@@ -372,7 +527,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (helper = helpers.key) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.key); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "\">Add</button>\r\n						<div class=\"tkt_add_response_input\">\r\n							<input type=\"text\" id=\"response\" name=\"response\" placeholder=\"Add Response\" />\r\n						</div>								\r\n					</div>\r\n					<div class=\"tkt_add_time\">\r\n						<button class=\"add_tkt_time\" data-reskey=\"";
+    + "\">Add</button>\r\n						<div class=\"tkt_add_response_input\">\r\n							<textarea id=\"response\" name=\"response\" placeholder=\"Add Response\"></textarea>\r\n						</div>								\r\n					</div>\r\n					<div class=\"tkt_add_time\">\r\n						<button class=\"add_tkt_time\" data-reskey=\"";
   if (helper = helpers.key) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.key); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -602,92 +757,5 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 
   return "<a name=\"top\"/>\r\n<div class=\"transfer\"> \r\n	<form class=\"transfer_ticket\" action=\"#\">\r\n		<div class=\"showalert\"></div>	\r\n		\r\n		<label>Technician</label>\r\n		<select name=\"tech\" id=\"tech\">\r\n			<option value=\"\">---</option>			\r\n		</select>		\r\n		\r\n		<label>Add Note</label>\r\n		<textarea name=\"details\" id=\"details\" wrap=\"soft\" cols=\"50\" rows=\"10\" ></textarea>\r\n		\r\n		<button class=\"btn btn-large btn-block btn-success\" type=\"submit\">Transfer Ticket</button>\r\n	  \r\n	</form>  \r\n</div>";
-  });
-templates['queue_list'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1;
-  buffer += "\r\n	<div class=\"showalert\"></div>\r\n	<div class=\"queues_list\" id=\"filter_list\">\r\n		<ul class=\"queues\">\r\n			";
-  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "\r\n		</ul>\r\n	</div>\r\n";
-  return buffer;
-  }
-function program2(depth0,data) {
-  
-  var buffer = "", stack1, helper;
-  buffer += "\r\n			<li class=\"queue\">				\r\n				<a class=\"get_queue_list\" data-queid=\"";
-  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "\">\r\n					<div class=\"que_main\">						\r\n						<p class=\"que_title\">";
-  if (helper = helpers.fullname) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.fullname); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "</p>												\r\n						<p class=\"que_tkt_cnt\">";
-  if (helper = helpers.tickets_count) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.tickets_count); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "</p>                                     \r\n					</div>\r\n				</a>				\r\n			</li>\r\n			";
-  return buffer;
-  }
-
-function program4(depth0,data) {
-  
-  
-  return "\r\n	<div class=\"noTickets\">\r\n		<h2>We Don't Need No Stinkin' Queues</h2>\r\n		<p>But maybe you should try them out.</p>\r\n	</div>\r\n";
-  }
-
-  stack1 = helpers['if'].call(depth0, depth0, {hash:{},inverse:self.program(4, program4, data),fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { return stack1; }
-  else { return ''; }
-  });
-templates['ticketDet_response'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
-
-
-  return "<a name=\"top\"/>\r\n<div class=\"content response_add\"> \r\n	<form class=\"create_response\">\r\n		<div class=\"showalert\"></div>	\r\n		\r\n		<textarea name=\"details\" id=\"details\" wrap=\"soft\" cols=\"50\" rows=\"10\" ></textarea>\r\n		\r\n		<button class=\"btn btn-large btn-block btn-success\" type=\"submit\">Add Response</button>\r\n	  \r\n	</form>  \r\n</div>";
-  });
-templates['ticketDet_AddTime'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
-
-
-  return "<a name=\"top\"/>\r\n<div class=\"content time_add\"> \r\n	<form class=\"add_time\">\r\n		<div class=\"showalert\"></div>\r\n		\r\n		<div class=\"tkt_add_time\">\r\n			<div class=\"tkt_add_time_input\">\r\n				<button class=\"minus_time\">-</button>\r\n				<button class=\"plus_time\">+</button>\r\n				<p>\r\n					<input type=\"number\" class=\"add_time\" name=\"add_time\" value=\"0\" step=\".25\" />\r\n				</p>                                    \r\n			</div>								\r\n		</div>		\r\n		\r\n		<label>Select Task Type</label>\r\n		<select name=\"task_type\" id=\"task_type\">\r\n			<option value=\"\">---</option>\r\n		</select>		\r\n		\r\n		<label>Notes</label>\r\n		<textarea name=\"details\" id=\"details\" wrap=\"soft\" cols=\"50\" rows=\"10\" ></textarea>\r\n		\r\n		<button class=\"btn btn-large btn-block btn-success\" type=\"submit\">Add Time</button>\r\n	  \r\n	</form>  \r\n</div>";
-  });
-templates['taskTypes'] = template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var stack1, functionType="function", escapeExpression=this.escapeExpression, self=this;
-
-function program1(depth0,data) {
-  
-  var buffer = "", stack1, helper;
-  buffer += "\r\n	<option data-taskId=\"";
-  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "\" value=\"";
-  if (helper = helpers.id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "\">";
-  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "</option>\r\n";
-  return buffer;
-  }
-
-  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
-  if(stack1 || stack1 === 0) { return stack1; }
-  else { return ''; }
   });
 })();

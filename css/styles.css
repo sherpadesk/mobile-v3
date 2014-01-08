@@ -515,7 +515,7 @@ p.header_label {
 
 /*------------ Ticket List ---------------*/
 .tickets_list {
-	margin: 0 10px 20px;
+	margin: 0 0 20px;
 	padding: 0;	
 	}
 	.tickets_list a:hover {text-decoration: none;}
@@ -676,7 +676,7 @@ p.header_label {
 		.tkt_actions .tkt_add_time {display: none;}
 		.tkt_actions .tkt_add_response .tkt_add_response_input {
 			overflow: hidden; 
-			padding-right: 30px;
+			padding-right: 10px;
 			position: relative;
 			}
 		.tkt_actions .tkt_add_time .tkt_add_time_input {
@@ -684,12 +684,21 @@ p.header_label {
 			padding-right: 10px;
 			position: relative;
 			}
-		.tkt_actions .tkt_add_response input[type=text]{
+		/* .tkt_actions .tkt_add_response input[type=text]{
 			padding: 7px 10px;
 			width: 100%;
 			margin: 0;
 			font-size: 12px;
-			border: none;			}
+			border: none;
+			} */
+			.tkt_actions .tkt_add_response textarea {
+			padding: 7px 10px;
+			width: 100%;
+			height: 60px;
+			margin: 0;
+			font-size: 12px;
+			border: none;
+			}	
 			
 		.tkt_actions .tkt_add_time input[type=number] {
 			padding: 7px 10px;
@@ -710,7 +719,6 @@ p.header_label {
 		.tkt_actions .tkt_add_time button.add_tkt_time {
 			border: 1px solid #52a552;		
 			color: #ffffff;
-			font-weight: bold;
 			background: #60c060; /* Old browsers */
 			background: -moz-linear-gradient(top,  #60c060 0%, #51a451 100%); /* FF3.6+ */
 			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#60c060), color-stop(100%,#51a451)); /* Chrome,Safari4+ */
@@ -721,12 +729,11 @@ p.header_label {
 			-webkit-box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 0.3);        
        		box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 0.3);			
 			padding: 7px 0;
-			font-size: 14px;
+			font-size: 18px;
 			margin: 0;
 			border-radius: 0;
-			font-weight: bold;
 			width: 100px;
-			height: 34px; 
+			height: 61px; 
 			float: right;
 			}
 			.tkt_actions .tkt_add_time button.add_tkt_time {height: 90px;}
