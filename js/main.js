@@ -1286,9 +1286,9 @@ function getCommentImages(attachments){
       
     var imageInsert = "";
     if (isPhonegap)
-       imageInsert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" + url + "\")'><img class=\"comment_image\" src=\"" + url + "&Width=" + ($(".tkt_top").width()+10) + "\" alt=\"" + file + "\"></a>";
+       imageInsert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" + url + "\")'><img class=\"comment_image\" src=\"" + url + "&Width=" + (window.innerWidth-100) + "\" alt=\"" + file + "\"></a>";
     else
-       imageInsert = "<a class=\"comment_image_link\" target=\"_system\" href=\"" + url + "\"><img class=\"comment_image\" src=\"" + url + "&Width=" + ($(".tkt_top").width()+10) + "\" alt=\"" + file + "\"></a>";
+       imageInsert = "<a class=\"comment_image_link\" target=\"_system\" href=\"" + url + "\"><img class=\"comment_image\" src=\"" + url + "&Width=" + (window.innerWidth-100) + "\" alt=\"" + file + "\"></a>";
           
 		if(ext === "jpg" || ext === "png" || ext === "gif" ){
 			$('div.tkt_ini_response:contains(' + file + '), div.comment_main:contains(' + file + ')').append(imageInsert);
