@@ -8,7 +8,7 @@ $.fx.off = /iPhone/i.test(navigator.userAgent) && !(window.screen.height == (113
 var Site = 'sherpadesk.com/';
 var MobileSite = 'http://m.'+Site;
 var AppSite = 'http://app.'+Site;
-var ApiSite = 'http://api.beta.'+Site; // http://api.
+var ApiSite = 'http://api.'+Site; // http://api.
 
 
 //Phonegap specific
