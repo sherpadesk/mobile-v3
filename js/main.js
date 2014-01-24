@@ -1486,7 +1486,7 @@ function ticket_menu_rev(results){
 			$('li p#transfer').parent().hide();
 			};		
 		if(tech.length == 0){
-			$('li p#close, li p#time').parent().hide();
+			$('li p#close, li p#time, li p#edit').parent().hide();
 			$('li.time').hide();			
 			};	
 		
