@@ -1,6 +1,7 @@
 /* CSS Document */
 * {
 	-webkit-appearance: none;
+	box-sizing: border-box;
 	}
 
 body {
@@ -39,7 +40,7 @@ ul, li {
 	list-style: none;
 	}
 
-.showalert {margin: 10px;}
+.showalert {margin: 10px 0;}
 
 .spinner,
 .content.spinner {
@@ -434,6 +435,101 @@ p.header_label {
 		}
 		#jPanelMenu-menu li input.ticket-jump-menu:-ms-input-placeholder { /* Internet Explorer 10+ */
 		    color:    #999;
+		}
+
+/*---------------- Dashboard -----------------*/
+
+.blue-fade {
+	/* background-color: #17649a; */
+	background: #276da3;
+	background: -moz-linear-gradient(top, #276da3 0%, #004174 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#276da3), color-stop(100%,#004174));
+	background: -webkit-linear-gradient(top, #276da3 0%,#004174 100%);
+	background: -o-linear-gradient(top, #276da3 0%,#004174 100%);
+	background: -ms-linear-gradient(top, #276da3 0%,#004174 100%);
+	background: linear-gradient(top, #276da3 0%,#004174 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#276da3', endColorstr='#004174',GradientType=0 );
+	color: #ffffff;
+	}	
+	.blue {
+		background: #276da3;
+		color: #ffffff;
+		}
+	.green {
+		background: #51a351;
+		color: #ffffff;
+		}
+	.left-num {
+		float: left;
+		padding: 5px;
+		text-align: center;
+		font-size: 50px;
+		line-height: 50px;
+		width: 50%;
+		}
+		
+.dashboard {max-width: 600px; margin: 0 auto;}
+
+.dashboard a:hover {text-decoration: none;}
+
+.dashboard .dash-tkts {margin-bottom: 10px; overflow: hidden;}	
+.dashboard .dash-tkts .dash-astech {
+	padding: 10px;
+	text-align:center;
+	width: 55%;
+	height: 200px;
+	float: left;
+	}
+	.dashboard p {
+		margin: 0;
+		}
+	.dashboard .dash-tkts .dash-astech p.dash-desc-large {
+		font-size: 22px;
+		line-height: 22px;		
+		color: rgba(255, 255, 255, 0.5);
+		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
+		}
+	.dashboard .dash-tkts .dash-astech p.dash-number-large {
+		font-size: 125px;
+		line-height: 125px;
+		margin-top: 10px;
+		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
+		}
+	.dashboard .dash-tkts .tkt-right {
+		float: left;
+		width: 45%;
+		margin-right: -10px;
+		margin-left: 10px;
+		margin-bottom: 10px;
+		}
+		.dashboard .dash-tkts .tkt-right.last {
+			margin-bottom: 0;
+			}
+	.dashboard .dash-tkts p.dash-number-sm {
+		text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.4);
+		}
+		.dashboard .dash-tkts p.dash-number-sm.over99 {
+			font-size: 38px;
+			}
+	.dashboard .dash-tkts p.dash-desc {
+		text-align: center;
+		font-size: 18px;
+		line-height: 1em;
+		margin-top: 12px;
+		color: rgba(255, 255, 255, 0.6);
+		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
+		}
+	.dashboard .dash-options .option-single {
+		margin-bottom: 10px;
+		}
+	.dashboard .dash-options p.dash-icon {
+		float: left;
+		}
+	.dashboard .dash-options p.dash-desc-md {
+		line-height: 65px;
+		text-align: center;
+		font-size: 28px;
+		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
 		}
 	
 /*------------ Not Tickets Found -------------*/
