@@ -8,8 +8,8 @@ $.fx.off = /iPhone/i.test(navigator.userAgent) && !(window.screen.height == (113
 var Site = 'sherpadesk.com/';
 var MobileSite = 'http://m.'+Site;
 var AppSite = 'http://app.'+Site;
-var ApiSite = 'http://api.'+Site; // http://api.
 
+var ApiSite = 'http://api.'+Site; // http://api.
 
 //Phonegap specific
 var isPhonegap = false;
@@ -114,7 +114,10 @@ var SherpaDesk = {
 					localStorage.setItem('sd_tech_admin', results.user.is_techoradmin);				
 				},
 				function(results){
-					addAlert("error", "There was a problem retrieving config options.");
+					console.log("There was a problem retrieving config options.");
+					localStorage.clear();
+					console.log("We have cleared the local storage and re-initialized the app.");
+					SherpaDesk.init();
 				}
 			).done(
 				function(results){
@@ -680,16 +683,20 @@ var SherpaDesk = {
 		$('div.ticket_detail_main').empty().addClass('spinner').trigger('click');
 		$('a#ticketList').unbind('click').on('click', function(e){e.preventDefault(); SherpaDesk.getTicketDetail(configPass, key);});	
 		
-		SherpaDesk.showTicketDetEdit();
+		
 		
 		var getTicket = SherpaDesk.getSherpaDesk(configPass, 'tickets/' + key);
 		var classes = SherpaDesk.getSherpaDesk(configPass, 'classes');
 		var levels = SherpaDesk.getSherpaDesk(configPass, 'levels');
 		var priorities = SherpaDesk.getSherpaDesk(configPass, 'priorities');
 		var accounts = SherpaDesk.getSherpaDesk(configPass, 'accounts');
+		var selectedEditClass;
 		
 		getTicket.done(
 			function(results){
+								
+				//place Edit Page
+				SherpaDesk.showTicketDetEdit(results);
 				
 				var ticketAccount = results.account_id,
 					ticketClass = results.class_id,
@@ -700,23 +707,83 @@ var SherpaDesk = {
 				accounts.done(
 					function(accountResults){
 							SherpaDesk.showAccounts(accountResults);
-							$("#account").val(ticketAccount).uniform();					
+							$("form.update_ticket select#account").val(ticketAccount).uniform();					
 						}
 				);	
 				
 				//get Classes
 				classes.done(
 					function(classResults){
+													
 							SherpaDesk.showClasses(classResults);
-							$("#class").val(ticketClass).uniform();					
-						}
-				);
+							$("#class").uniform();	
+							
+							//Init ticket class if not changed
+							selectedEditClass = ticketClass;
+							
+							//Listen for class and detect sub-classes
+							$('form.update_ticket select#class').on('change', function(){
+								
+								if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').remove();};
+								var classSelected0 = $('form.update_ticket select#class option:selected').val();					
+								var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
+								
+								
+								//set class
+								selectedEditClass = classSelected0;
+								
+								//If sub-class exist
+								if(classSub[0].sub > 0 || classSub[0].sub !== null){										
+										//Show sub-class select
+										SherpaDesk.showSubClass1(classSub[0].sub);
+										$("form.update_ticket select#sub_class1").uniform().on('change', function(){
+												if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
+												var classSelected1 = $('form.update_ticket select#sub_class1 option:selected').val();					
+												var classSub1 = $.grep(classSub[0].sub, function(a){ return a.id == classSelected1; });
+												
+												//reset class
+												selectedEditClass = classSelected1;
+												//If sub-sub-class exist
+												if(classSub1[0].sub > 0 || classSub1[0].sub!== null){
+														//Show sub-class select
+														SherpaDesk.showSubClass2(classSub1[0].sub);
+														$("form.update_ticket select#sub_class2").uniform().on('change', function(){
+															var classSelected2 = $('form.update_ticket select#sub_class2 option:selected').val();
+															//reset class
+															selectedEditClass = classSelected2;
+														});
+													}
+											});
+									}
+										
+								}); //end Sub-Class listener
+								
+								$('form.update_ticket button[type=submit]').on('click', function(e){
+									e.preventDefault();		
+									
+									var ticketAccount = $('form.update_ticket select#account').val(),
+										ticketClass = selectedEditClass,
+										ticketLevel = $('form.update_ticket select#level').val(),
+										ticketPriority = $('form.update_ticket select#priority').val();
+									
+									var response = {
+											"account_id" : ticketAccount,
+											"class_id" : ticketClass,
+											"level_id" : ticketLevel,
+											"priority_id" : ticketPriority
+										}
+									SherpaDesk.updateTicketDetailEdit(configPass, key, response);	
+														
+									});
+												
+						}//End done function
+				); // End classes.done
 				
 				//get Levels
 				levels.done(
 					function(levelResults){
 							SherpaDesk.showLevels(levelResults);
-							$("#level").val(ticketLevel).uniform();					
+							$("form.update_ticket select#level").val(ticketLevel).uniform();					
 						}
 				);
 				
@@ -724,49 +791,29 @@ var SherpaDesk = {
 				priorities.done(
 					function(priorityResults){
 							SherpaDesk.showPriorities(priorityResults);
-							$("#priority").val(ticketPriority).uniform();						
+							$("form.update_ticket select#priority").val(ticketPriority).uniform();						
 						}
 				);
-				$(".update").show(); // Show update view							
+				$(".update").show(); // Show Ticket Edit view							
 			}
 		);
 		
-		$('form.update_ticket button[type=submit]').on('click', function(e){
-			e.preventDefault();			
-			
-			var ticketAccount = $('select#account').val(),
-				ticketClass = $('select#class').val(),
-				ticketLevel = $('select#level').val(),
-				ticketPriority = $('select#priority').val();
-			
-			var response = {
-					"account_id" : ticketAccount,
-					"class_id" : ticketClass,
-					"level_id" : ticketLevel,
-					"priority_id" : ticketPriority
-				}
-			SherpaDesk.updateTicketDetailEdit(configPass, key, response);	
-								
-			});
+		
 		},
 	
 	//Post or update Edit from Ticket Detail	
 	updateTicketDetailEdit: function(configPass, key, response){		
-		method = 'tickets/' + key;
+		method = 'tickets/' + key;	
 		
-		console.log('Update Ticket Details');
-		console.log(method);
-		console.log(response);
-		
-		
-		
-		updateTicket = SherpaDesk.getSherpaDesk(configPass, method, 'put', response);		
-			updateTicket.then(function(results){
-				  			  			
-				  SherpaDesk.getTicketDetailEdit(configPass, key);
-				  addAlert("success", "Ticket has been Updated" + results);
-				  
-				}); 
+		updateEditTicket = SherpaDesk.getSherpaDesk(configPass, method, 'PUT', response);
+				
+		updateEditTicket.then(function(results){
+			
+			console.log('Then Complete');		
+			 	SherpaDesk.getTicketDetail(configPass, key);
+			 	addAlert("success", "Ticket has been Updated");
+			  
+			}); 
 		},
 		
 	//Add Time in Ticket Detail		
@@ -1093,9 +1140,9 @@ var SherpaDesk = {
 		var template = Handlebars.templates['ticketDet_AddTime']; 							
 		$('div.ticket_detail_main').append( template() ).removeClass('spinner');
 		},
-	showTicketDetEdit: function(){
+	showTicketDetEdit: function(editDetail){
 		var template = Handlebars.templates['ticketDet_Edit']; 							
-		$('div.ticket_detail_main').append( template() ).removeClass('spinner');
+		$('div.ticket_detail_main').append( template(editDetail) ).removeClass('spinner');
 		},
 	showTransfer: function(techs){			
 		var template = Handlebars.templates['transfer']; 							

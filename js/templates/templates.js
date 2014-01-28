@@ -469,10 +469,23 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 templates['ticketDet_Edit'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  return "<a name=\"top\"/>\r\n<div class=\"update\" style=\"display: none;\"> \r\n	<form class=\"update_ticket\" action=\"#\">\r\n		<div class=\"showalert\"></div>	\r\n		\r\n		<label>Account</label>\r\n		<select name=\"account\" id=\"account\">\r\n			<option value=\"\"></option>\r\n		</select>\r\n		\r\n		<label>Class</label>\r\n		<select name=\"class\" id=\"class\">\r\n			<option value=\"\"></option>			\r\n		</select>	\r\n		\r\n		<label>Level</label>\r\n		<select name=\"level\" id=\"level\">\r\n			<option value=\"\"></option>			\r\n		</select>	\r\n		\r\n		<label>Priority</label>\r\n		<select name=\"priority\" id=\"priority\">\r\n			<option value=\"\"></option>		\r\n		</select>	\r\n		<br/>\r\n		<br/>\r\n		<button class=\"btn btn-large btn-block btn-success\" type=\"submit\">Update Ticket</button>\r\n	  \r\n	</form>  \r\n</div>";
+  buffer += "<a name=\"top\"/>\r\n<div class=\"update\" style=\"display: none;\"> \r\n	<form class=\"update_ticket\" action=\"#\">\r\n		<div class=\"showalert\"></div>	\r\n		\r\n		<label>Account</label>\r\n		<select name=\"account\" id=\"account\">\r\n			<option value=\"\"></option>\r\n		</select>\r\n		\r\n		<div class=\"add_class\">\r\n				<label>Class</label>\r\n				<select name=\"class\" id=\"class\">\r\n					<option data-classId=\"";
+  if (helper = helpers.class_id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.class_id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" value=\"";
+  if (helper = helpers.class_id) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.class_id); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">";
+  if (helper = helpers.class_name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.class_name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</option>			\r\n				</select>\r\n		</div>	\r\n		\r\n		<label>Level</label>\r\n		<select name=\"level\" id=\"level\">\r\n			<option value=\"\"></option>			\r\n		</select>	\r\n		\r\n		<label>Priority</label>\r\n		<select name=\"priority\" id=\"priority\">\r\n			<option value=\"\"></option>		\r\n		</select>	\r\n		<br/>\r\n		<br/>\r\n		<button class=\"btn btn-large btn-block btn-success ticket-update\" type=\"submit\">Update Ticket</button>\r\n	  \r\n	</form>  \r\n</div>";
+  return buffer;
   });
 templates['ticketDet_response'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
