@@ -463,8 +463,8 @@ p.header_label {
 		float: left;
 		padding: 5px;
 		text-align: center;
-		font-size: 50px;
-		line-height: 50px;
+		font-size: 40px;
+		line-height: 40px;
 		width: 50%;
 		}
 		
@@ -477,7 +477,7 @@ p.header_label {
 	padding: 10px;
 	text-align:center;
 	width: 55%;
-	height: 200px;
+	height: 170px;
 	float: left;
 	}
 	.dashboard p {
@@ -490,8 +490,8 @@ p.header_label {
 		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
 		}
 	.dashboard .dash-tkts .dash-astech p.dash-number-large {
-		font-size: 125px;
-		line-height: 125px;
+		font-size: 100px;
+		line-height: 100px;
 		margin-top: 10px;
 		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
 		}
@@ -513,11 +513,22 @@ p.header_label {
 			}
 	.dashboard .dash-tkts p.dash-desc {
 		text-align: center;
-		font-size: 18px;
+		font-size: 16px;
 		line-height: 1em;
-		margin-top: 12px;
+		margin-top: 8px;
 		color: rgba(255, 255, 255, 0.6);
 		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
+		}
+	.dashboard .dash-options .option-left,
+	.dashboard .dash-options .option-right {
+		width: 50%;
+		float: left;
+		}
+	.dashboard .dash-options .option-left {
+		padding: 0 5px 0 0;
+		}
+	.dashboard .dash-options .option-right {
+		padding: 0 0 0 5px;
 		}
 	.dashboard .dash-options .option-single {
 		margin-bottom: 10px;
@@ -526,9 +537,9 @@ p.header_label {
 		float: left;
 		}
 	.dashboard .dash-options p.dash-desc-md {
-		line-height: 65px;
+		line-height: 55px;
 		text-align: center;
-		font-size: 28px;
+		font-size: 22px;
 		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
 		}
 	

@@ -1028,6 +1028,17 @@ var SherpaDesk = {
 					}
 			);
 		},
+	
+	//--------------------------- Dashboard ------------------------------
+	
+	getDashboard: function(configPass){
+		var ticketCounts = SherpaDesk.getSherpaDesk(configPass, "tickets/counts");
+		
+		ticketCounts.done(function(results){
+			SherpaDesk.showDashboard(results);
+			});
+		
+		},	
 		
 	//------------------------- Show  Methods ----------------------------	
 	showLogin: function(){
@@ -1084,15 +1095,15 @@ var SherpaDesk = {
 		},
 	showTicketHeader: function(){
 		$('body').empty();
-    var full_app_link = "",
-        urlString = AppSite + "?dept=" + localStorage.sd_inst_key + "&org=" + localStorage.sd_org_key;
-    if (isPhonegap)
-       full_app_link = "href=#  onclick=openURLsystem('" + urlString + "')";
-    else
-      full_app_link = "href=" + urlString + " target=_system";
-    var organization = {"full_app_link" : full_app_link};
-		var template = Handlebars.templates['ticket_header']; 							
-		$('body').prepend( template(organization) );		
+	      var full_app_link = "",
+	          urlString = AppSite + "?dept=" + localStorage.sd_inst_key + "&org=" + localStorage.sd_org_key;
+	      if (isPhonegap)
+	         full_app_link = "href=#  onclick=openURLsystem('" + urlString + "')";
+	      else
+	        full_app_link = "href=" + urlString + " target=_system";
+	      var organization = {"full_app_link" : full_app_link};
+	  		var template = Handlebars.templates['ticket_header']; 							
+	  		$('body').prepend( template(organization) );		
 		},
 	showTicketList: function(list){
 		var template = Handlebars.templates['ticket_list'];									
