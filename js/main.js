@@ -9,7 +9,7 @@ var Site = 'sherpadesk.com/';
 var MobileSite = 'http://m.'+Site;
 var AppSite = 'http://app.'+Site;
 
-var ApiSite = 'http://api.'+Site; // http://api.
+var ApiSite = 'http://api.'+Site;
 
 //Phonegap specific
 var isPhonegap = false;
@@ -21,7 +21,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
        isPhonegap = true;
        //If User is Offline....................................
-       document.addEventListener("offline",function(){ 
+     /*  document.addEventListener("offline",function(){ 
 	   if (!$("#offline").length) {
 				 $('body').prepend('<div id=offline>offline</div><div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
 				 $("#offline").show();
@@ -29,15 +29,17 @@ document.addEventListener("deviceready", onDeviceReady, false);
 			 } 
          },false);
        document.addEventListener("online",function(){ $("#offline").hide(); isOnline = true; window.open(MobileSite + "index.html", "_self"); },false);
-    };
+    */
+		};
    
 
 
 	function onOffline() {
-		 if (isPhonegap) 
+		 /*if (isPhonegap) 
 			window.open("error.html", "_self"); 
 		 else
 			document.location.href= 'error.html'; 
+			*/
 		}
     
 //End Phonegap specific
@@ -76,8 +78,9 @@ var SherpaDesk = {
 		
 	//Global AJAX request
 	getSherpaDesk: function(config, method, apimethod, data){	
-    if (!isOnline)	{if (!$("#offline").length) $('body').prepend('<div id=offline>offline</div><div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
+    /*if (!isOnline)	{if (!$("#offline").length) $('body').prepend('<div id=offline>offline</div><div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
          $("#offline").show();}
+         */
 		if(config.user && config.pass)	{var header = config.user + ':' + config.pass;} 
 										else 
 										{var header = config.org + '-' + config.inst + ':' + config.apiKey;};		
@@ -1448,9 +1451,9 @@ function getCommentImages(attachments){
       
     var imageInsert = "";
     if (isPhonegap)
-       imageInsert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" + url + "\")'><img class=\"comment_image\" src=\"" + url + "&Width=" + (window.innerWidth-100) + "\" alt=\"" + file + "\"></a>";
+       imageInsert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" + url + "\")'><img class=\"comment_image\" src=\"" + url + "\" alt=\"" + file + "\"></a>";
     else
-       imageInsert = "<a class=\"comment_image_link\" target=\"_system\" href=\"" + url + "\"><img class=\"comment_image\" src=\"" + url + "&Width=" + (window.innerWidth-100) + "\" alt=\"" + file + "\"></a>";
+       imageInsert = "<a class=\"comment_image_link\" target=\"_system\" href=\"" + url + "\"><img class=\"comment_image\" src=\"" + url + "\" alt=\"" + file + "\"></a>";
           
 		if(ext === "jpg" || ext === "png" || ext === "gif" ){
 			$('div.tkt_ini_response:contains(' + file + '), div.comment_main:contains(' + file + ')').append(imageInsert);
