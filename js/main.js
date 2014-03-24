@@ -9,7 +9,7 @@ var Site = 'sherpadesk.com/';
 var MobileSite = 'http://m.'+Site;
 var AppSite = 'http://app.'+Site;
 
-var ApiSite = 'http://api.'+Site;
+var ApiSite = 'http://api.'+Site; // http://api.beta.
 
 //Phonegap specific
 var isPhonegap = false;
@@ -21,7 +21,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
        isPhonegap = true;
        //If User is Offline....................................
-     /*  document.addEventListener("offline",function(){ 
+      /* document.addEventListener("offline",function(){ 
 	   if (!$("#offline").length) {
 				 $('body').prepend('<div id=offline>offline</div><div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
 				 $("#offline").show();
@@ -29,18 +29,16 @@ document.addEventListener("deviceready", onDeviceReady, false);
 			 } 
          },false);
        document.addEventListener("online",function(){ $("#offline").hide(); isOnline = true; window.open(MobileSite + "index.html", "_self"); },false);
-    */
-		};
+    */};
    
 
 
 	function onOffline() {
-		 /*if (isPhonegap) 
+/*		 if (isPhonegap) 
 			window.open("error.html", "_self"); 
 		 else
 			document.location.href= 'error.html'; 
-			*/
-		}
+	*/	}
     
 //End Phonegap specific
 
@@ -48,6 +46,75 @@ function cleanQuerystring() {
 var clean_uri = location.protocol + "//" + location.host + location.pathname;
 window.history.replaceState({}, document.title, clean_uri);
 }
+
+
+
+// ---- SHERPADESK OBJECT LEGEND -----
+// 01 - init - Initialization
+// 02 - getSherpaDesk - Global ajax request
+// 03 - getConfig - Global config options / Set init landing page
+// 04 - getLogin
+// 05 - getOrgs - Retrieves orgs and instances
+// 06 - getOrgInst - Parses org inst selection
+// 07 - getComments - Get comments for a single ticket
+// 08 - postComments - Post a comment
+// 09 - getTickets - Get list of tickets
+// 10 - getTicketQueues - Get ticket ques and counts
+// 11 - getAccounts - Get a list of accounts
+// 12 - getTicketDetail - Get ticket Detail
+// 13 - getTicketDetailTransfer - Transfer ticket inside of ticket detail
+// 14 - postTicketDetailTransfer - Post transfer
+// 15 - postTicketDetailPickup - Post pickup ticket
+// 16 - getTicketDetailClose - Get close ticket in ticket detail
+// 17 - postTicketDetailClose - Post ticket close
+// 18 - getTicketDetailResponse - Get ticket detail response
+// 19 - postTicketDetailResponse - Post ticket detial response
+// 20 - getTicketDetailEdit - Get ticket detail edit - account/class/level/priority
+// 21 - updateTicketDetailEdit - update Edit from Ticket Detail
+// 22 - getTicketDetailAddTime - Add time in ticket deail- not in responses
+// 23 - postTicketDetailAddTime - Post ticket detail time - not in responses
+// 24 - getTimeRollRecent - Time Roll
+// 25 - getTimeRollAddTime - Get add time from time roll
+// 26 - postTimeRollAddTime - Post time from time roll
+// 27 - addTicket - Add ticket from dash/ticket list
+// 28 - postNewTicket - Post new ticket
+// 29 - getDashboard - Get the dashboard
+////////////////////////////////////////////////////////////////////////////
+// Show Medthods -- handlebars maps ---- note need to consolidate some
+////////////////////////////////////////////////////////////////////////////
+// 30 - showLogin
+// 31 - showOrg
+// 32 - showInst
+// 33 - showDashboard
+// 34 - showAccounts
+// 35 - showProjects
+// 36 - showTechs
+// 37 - showLevels
+// 38 - showPriorities
+// 39 - showClasses
+// 40 - showSubClass1
+// 41 - showSubClass2
+// 42 - showTaskTypes
+// 43 - showTicketHeader
+// 44 - showTicketList
+// 45 - showTicketListAppend
+// 46 - showQueueList
+// 47 - showQueueTicketList
+// 48 - showResponses
+// 49 - showTicketDetHeader
+// 50 - showTicketDetContent
+// 51 - showTicketInfo
+// 52 - showTimeLogs
+// 53 - showAddTicket
+// 54 - showTicketDetResponse
+// 55 - showTicketDetAddTime
+// 56 - showTimeRollAddTime
+// 57 - showTicketDetEdit
+// 58 - showTransfer
+// 59 - showTicketClose
+// 60 - showAccountsList
+// --------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
 
 var SherpaDesk = {
 	init: function(){
@@ -59,9 +126,7 @@ var SherpaDesk = {
 			role: localStorage.sd_user_role,
 			url: ApiSite
 			}; 
-		
-		$(document).ajaxStart(function() { $( "body" ).addClass('spinner');	 }).ajaxComplete(function() { $( "body" ).removeClass('spinner'); });
-			
+	
 		//If !api_key then show login 
 		if (configPass.apiKey == '' || configPass.apiKey == null){
 				SherpaDesk.showLogin();
@@ -79,19 +144,18 @@ var SherpaDesk = {
 	//Global AJAX request
 	getSherpaDesk: function(config, method, apimethod, data){	
     /*if (!isOnline)	{if (!$("#offline").length) $('body').prepend('<div id=offline>offline</div><div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
-         $("#offline").show();}
-         */
+         $("#offline").show();}*/
 		if(config.user && config.pass)	{var header = config.user + ':' + config.pass;} 
 										else 
 										{var header = config.org + '-' + config.inst + ':' + config.apiKey;};		
 		var url = config.url;
 		var limit = ""; 
 		if( apimethod ){var methodType = apimethod;} 
-    else {var methodType = 'GET'; 
+    	else {var methodType = 'GET'; 
           if (method.indexOf("limit") < 0) 
           {
-           if (method.indexOf("?") != -1) limit = "&"; else limit = "?"; 
-           limit += "limit=200";
+           	if (method.indexOf("?") != -1) limit = "&"; else limit = "?"; 
+           	limit += "limit=200";
           }
         };  
         return $.ajax({
@@ -114,7 +178,10 @@ var SherpaDesk = {
 			.then(
 				function(results){
 					localStorage.setItem('sd_currentUser_id', results.user.user_id);
-					localStorage.setItem('sd_tech_admin', results.user.is_techoradmin);				
+					localStorage.setItem('sd_tech_admin', results.user.is_techoradmin);
+					localStorage.setItem('sd_is_project_tracking', results.is_project_tracking);
+					localStorage.setItem('sd_is_time_tracking', results.is_time_tracking);
+					localStorage.setItem('sd_is_freshbooks', results.is_freshbooks);				
 				},
 				function(results){
 					console.log("There was a problem retrieving config options.");
@@ -133,15 +200,13 @@ var SherpaDesk = {
 						   SherpaDesk.getTicketDetail(configPass, key);
 					   }
 					}			
-					else if (localStorage.sd_from_queueid > 0 ){		
-						SherpaDesk.showTicketHeader();
-						changeRoles(configPass);	
-						ticket_list_menu(".side-menu", "left");
-						add_ticket_button(configPass);
-						ticketListMenuActions(configPass);
-						SherpaDesk.getQueueList(configPass, localStorage.sd_from_queueid); 
-					} else {
-						SherpaDesk.getTickets(configPass);	
+					 else {
+						//SherpaDesk.getTickets(configPass);
+						
+						// -------------------------------------------------------
+						// ----------  Set initial landing page	------------------
+						// -------------------------------------------------------					
+						SherpaDesk.getDashboard(configPass);	
 					}	
 				}
 			);
@@ -230,8 +295,6 @@ var SherpaDesk = {
 				  						});
 								};
 						});
-								
-					
 					};// End > 1 
 					
 				// If there is ONLY ONE org and instance
@@ -263,8 +326,6 @@ var SherpaDesk = {
 				  						});
 								};					
 				};	
-						
-			
 			},//End orgSetup Success
 			function(){
 				addAlert("error", "Great Merciful Crap!!  Something has gone horribly wrong.");
@@ -295,9 +356,6 @@ var SherpaDesk = {
 											
 			});
 		},
-	
-	
-	
 	postComments: function(config, key, response){	
 		$('.tkt_actions .tkt_add_response button.add_response').text('').addClass('buttonSpinner');
 		var method = 'tickets/' + key + '/posts',
@@ -316,129 +374,118 @@ var SherpaDesk = {
 			//failed
 			function(results){
 				$('.tkt_actions .tkt_add_response button.add_response').text('Add').removeClass('buttonSpinner');
-				$('.ticket .tkt_actions .tkt_add_response').append('<p class=\"resultsError\"><strong>Whoops!<strong> The server no likey something in your response.</p>');
+				addAlert("error", "Whoops! There was a problem posting your response.</p>");
 			}
 		);					
 	},
-	
-	getTickets: function(configPass){	
+	getTickets: function(configPass,tktType){	
 		// Get Tickets
-		var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?status=open&limit=500&role=' + localStorage.sd_user_role);
-		//sucess
+		if(!tktType){var tktType={};}
+		tktType.type = localStorage.getItem('sd_is_from');
+		tktType.Id = localStorage.getItem('sd_is_from_id');
+		
+		if(tktType && tktType.type=="accounts"){
+				var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?account=' + tktType.Id + '&status=open&limit=500');
+			} else if (tktType && tktType.type=="queues") {
+				var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'queues/' + tktType.Id);
+			} else {
+				var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?status=open&limit=500&role=' + localStorage.sd_user_role);
+			}			
+		
 		getTicketList.then(
-			function(results){
-      	var organization = {
-			    "organization" : localStorage.sd_org_key,
-			    "instance" : localStorage.sd_inst_key
-			  };
+			//sucess
+			function(results){     	
 				SherpaDesk.showTicketHeader();
 				SherpaDesk.showTicketList(results);
 			},
 			//failed
-			function(results){
-				$('div.content').prepend('<div class=showalert></div>');
-				$('div.showalert').empty();				
+			function(results){			
 				addAlert("error", "There was a problem fetching your tickets.");
 				}
 			);
 		getTicketList.done (
 			function(){
-				setCurrentRole();
-				fromDate(".fromDate");
-				changeRoles(configPass);				
-				ticketActions(configPass);
-				ticket_list_menu(".side-menu", "left");
-				ticketListMenuActions(configPass);
-				add_ticket_button(configPass);
-				get_single_ticket(configPass);
-				addResponse(configPass);
-				addTime(configPass);
-				getGravatar("p.cir_gravatar", 40);
-				ticketJump(configPass);
-				if ( ($("ul.tickets li.ticket").size()) > 0){
-						filterList(); // if more than 0 tickets, enable filter
-					};					  
-				if(configPass.role == "user" || configPass.role == "all"){
-					$('li.time').hide();
-					};
-				if( localStorage.sd_tech_admin === "false" ){
-					$('li.open_tickets, li[data-asrole="tech"], li[data-asrole="alt_tech"]').hide();
-					};
-				if( localStorage.sd_is_MultipleOrgInst === "false" ){
-					$('li p#orgInst').parent().hide();
-					};						
+					queuesAndTicketHeader(configPass, tktType);														
 				}
 			);	
 		},
-	
 	getTicketsQueues: function(configPass){
-			$('.content').empty().addClass('spinner');
-			$('p.header_label').trigger('click');
-			$("ul.filter li").removeClass("active");			
+			$('.body').empty(); 			
 			
 			var getQueues = SherpaDesk.getSherpaDesk(configPass, 'queues');
 			
 			getQueues.then(
+				function(results){
+					SherpaDesk.showTicketHeader();
+					SherpaDesk.showQueueList(results);
+				},
+				//failed
+				function(results){				
+					addAlert("error", "There was a problem fetching your Queues.");
+				}
+			);			
+			getQueues.done(function(){
+				//localStorage.removeItem('sd_user_role');
+				queuesAndTicketHeader(configPass);
+				$('ul.filter li').removeClass('active');
+				$('a.get_queue_list').on('click',function(e){
+					e.preventDefault();
+					$('body').empty().addClass('spinner'); 			
+					var queueinfo = {
+								"type" : "queues",
+								"Id" : $(this).data("queid")
+							};
+					localStorage.setItem('sd_is_from', queueinfo.type);
+					localStorage.setItem('sd_is_from_id', queueinfo.Id);
+					SherpaDesk.getTickets(configPass, queueinfo);
+				});
+			});
+		},
+		
+	getAccounts: function(configPass){
+			$('.body').empty();						
+			
+			var accounts = SherpaDesk.getSherpaDesk(configPass, 'accounts');
+			
+			accounts.then(
 			function(results){
-				SherpaDesk.showQueueList(results);
+				SherpaDesk.showAccountsList(results);
 			},
 			//failed
-			function(results){
-				$('div.content').prepend('<div class=showalert></div>').removeClass('spinner');				
-				addAlert("error", "There was a problem fetching your Queues.");
+			function(results){			
+				addAlert("error", "There was a problem finding your accounts.");
 				}
 			);
 			
-			getQueues.done(function(){
-				//Add queue click listener
-				getQueueLists(configPass);
+			accounts.done(function(){
+				//Set the home button
+				$('a.home_button').off().on('click', function(e){
+					e.preventDefault();
+					$('body').empty().addClass('spinner');	
+					SherpaDesk.init();			
+					});
+				
+				$('a.get_account_list').off().on('click', function(e){
+					  	e.preventDefault();
+						e.stopPropagation();
+						console.log('test')
+						$('body').empty().addClass('spinner'); 	
+						var accountinfo = {
+								"type" : "accounts",
+								"Id" : $(this).data('accountid'),
+								"accountname": $(this).data('name'),
+								"tktcnt" : $(this).data('open')
+							}
+						
+						localStorage.setItem('sd_is_from', accountinfo.type);
+						localStorage.setItem('sd_is_from_id', accountinfo.Id);						
+						SherpaDesk.getTickets(configPass, accountinfo);
+					});
+				
+				
 				});
 		},
-	
-	getQueueList: function(configPass, id){
-		
-		if($('div.content').length){
-				$('.content').empty().addClass('spinner').trigger('click');
-			} else {
-				$('div.jPanelMenu-panel').append('<div class="content spinner"></div>');
-				$('p.header_label').trigger('click');
-			}
-		
-		
-		// Get Tickets
-		var getQueueList = SherpaDesk.getSherpaDesk(configPass, 'queues/' + id);
-		//sucess
-		getQueueList.then(
-			function(results){
-				SherpaDesk.showQueueTicketList(results);
-			},
-			//failed
-			function(results){
-				$('div.content').prepend('<div class=showalert></div>').removeClass('spinner');				
-				addAlert("error", "There was a problem fetching your tickets.");
-				}
-			);
-		getQueueList.done (
-			function(){
-				fromDate(".fromDate");				
-				ticketActions(configPass);
-				get_single_ticket(configPass);
-				addResponse(configPass);
-				addTime(configPass);
-				getGravatar("p.cir_gravatar", 40);
 				
-				localStorage.setItem('sd_from_queueid', id);	
-				
-				if ( ($("ul.tickets li.ticket").size()) > 0){
-						filterList();
-					};
-				$('li.time').hide();				
-				}
-				
-			);
-		
-		},
-			
 	getTicketDetail: function(configPass, ticketKey){
 		$('body').empty().addClass('spinner');
 		//get ticket
@@ -461,11 +508,11 @@ var SherpaDesk = {
 					function(results){
 						SherpaDesk.showTicketInfo(results);
 						fromDate("div.tkt_det_head_date");
-						ticketDetMenuActions();
+						ticketDetMenuActions(configPass);
 						getGravatar("p.cir_gravatar", 80);//main gravatar					
 						getGravatar("p.res_gravatar", 30);//responses gravatar
-						fromDate("div.tkt_ini_res_date");								
-						fromDate("p.note_time");
+						fromDate("div.tkt_ini_res_date"); //note: put this in a helper function								
+						fromDate("p.note_time"); //note: put this in a helper function	
 						ticketActions(configPass); //activate ticket action menu
 						addResponse(configPass); // activate inline response listener
 						addTime(configPass); // activate inline time listener
@@ -473,7 +520,7 @@ var SherpaDesk = {
 						ticketListMenuActions(configPass, results.key); //add click listners for menu
 						ticketJump(configPass);// add listener for ticket jump
 						showTicketInfoPanel(); //show | hide info panel
-						fixedDate("span.time");	
+						fixedDate("span.time");	//note: put this in a helper function	
 						ticket_menu_rev(results); // Show hide menu items based on ticket | user type
 						
 						// Hide Account if user type = user and account = sherpadesk
@@ -502,16 +549,16 @@ var SherpaDesk = {
 		$('div.ticket_detail_main').empty().addClass('spinner').trigger('click');
 		$('a#ticketList').unbind('click').on('click', function(e){e.preventDefault(); SherpaDesk.getTicketDetail(configPass, key);});		
 		
-		SherpaDesk.showTransfer();
-		
+				
 		var method = "technicians";
 		var getTechs = SherpaDesk.getSherpaDesk(configPass, method);
 	
 		getTechs.then(
 			//success
 			function(results){
-				$('div.ticket_detail_main').removeClass('spinner');
-				SherpaDesk.showTechs(results);								
+				SherpaDesk.showTransfer();
+				SherpaDesk.showTechs(results);
+				$('div.ticket_detail_main').removeClass('spinner');												
 				},
 			//failed
 			function(results){
@@ -851,7 +898,7 @@ var SherpaDesk = {
 					}		  
 				});
 				
-				$('form.add_time button[type=submit]').on('click', function(e){
+				$('form.add_time button[type=submit]').off().on('click', function(e){
 					e.preventDefault();					
 					
 					var time = $('input.add_time').val().trim(),
@@ -879,7 +926,7 @@ var SherpaDesk = {
 					}									
 			);
 		},
-	
+		
 	postTicketDetailAddTime: function(configPass, key, time, tasktype, details){
 			var method = 'time',
 			data = {
@@ -893,7 +940,7 @@ var SherpaDesk = {
 				//success
 				function(results){
 					SherpaDesk.getTicketDetail(configPass, key);
-					addAlert("success", "Your time has been record.");
+					addAlert("success", "Your time has been recorded.");
 				},
 				//failed
 				function(results){
@@ -902,6 +949,157 @@ var SherpaDesk = {
 				}
 			);
 		},
+		
+	getTimeRollRecent: function(configPass){
+		$('body').empty().addClass('spinner');
+
+		var timeEntries = SherpaDesk.getSherpaDesk(configPass, 'time?type=recent');
+		timeEntries.done(function(results){			
+			SherpaDesk.showTimeLogs(results);
+			
+			//Set the home button
+			$('a.home_button').on('click', function(e){
+				e.preventDefault();
+				$('body').empty().addClass('spinner');	
+				SherpaDesk.init();			
+				});
+			
+			$('a.add_time_button').on('click', function(e){
+				e.preventDefault();
+				$('body').empty().addClass('spinner');		
+				SherpaDesk.getTimeRollAddTime(configPass);	
+				});
+				
+			});// End timeEntries.done
+		},
+
+	//Add Time from Time Roll		
+	getTimeRollAddTime: function(configPass){
+		$('body').empty().addClass('spinner');					
+		
+		var tasktypes = SherpaDesk.getSherpaDesk(configPass, 'task_types'),
+			accounts = SherpaDesk.getSherpaDesk(configPass, 'accounts');
+			
+		SherpaDesk.showTimeRollAddTime();
+		$("select, :checkbox").uniform();
+		
+		
+		// If we are tracking projects, then add them in.
+		if (localStorage.sd_is_project_tracking == 'true' ){
+			$('div.projects').show();
+			var projects = SherpaDesk.getSherpaDesk(configPass, 'projects');
+				projects.then(
+					function(results){SherpaDesk.showProjects(results);},
+					function(results){addAlert("error", "Could Not Retrieve Projects");}
+				);			
+			}
+		
+		accounts.then(
+			function(accounts){SherpaDesk.showAccounts(accounts);},
+			function(results){addAlert("error", "Could Not Retrieve Accounts");}
+			);		
+		
+		tasktypes.then(
+			//success
+			function(results){
+				SherpaDesk.showTaskTypes(results);	
+				
+					
+			},
+			//failed
+			function(results){
+				addAlert("error", "Could Not Retrieve Task Types");
+				}				
+			);
+			
+			tasktypes.done( 
+				function(){					
+					//$.uniform.update("select#task_type");
+					}									
+			);
+			
+			$(document).ajaxStop(function() {
+			  // place code to be executed on completion of last outstanding ajax call here
+			  $('a#timeroll').unbind('click').on('click', function(e){e.preventDefault(); SherpaDesk.getTimeRollRecent(configPass);});
+			  
+			  //Setup the plus and minus buttons
+				$(".plus_time").on('touchstart click', function(e){
+					e.preventDefault();	
+					var add_time = $(this).parent().find('p input.add_time').val();	
+					$(this).parent().find('p input.add_time').val(  Number(add_time) + .25)	
+				});
+				$(".minus_time").on('touchstart click', function(e){
+					e.preventDefault();
+					if ($(this).parent().find('p input.add_time').val() >= .25){
+						var sub_time = $(this).parent().find('p input.add_time').val();
+						$(this).parent().find('p input.add_time').val( Number(sub_time) - .25 );
+					}		  
+				});
+				
+				if( localStorage.sd_is_time_tracking == "true" ){$('.billable').show();}
+				
+				$('form.roll_time button[type=submit]').off().on('click', function(e){
+					e.preventDefault();	
+									
+					//Empty existing alerts
+					$('div.showalert').empty();
+					
+					var time = $('input.add_time').val().trim(),
+						account = $('form select#account option:selected').val(),
+						project = $('form select#project option:selected').val(),
+						tasktype = $('form select#task_type option:selected').val(),
+						details = htmlEscape($('textarea#details').val().trim()),
+						isBillable;
+												
+		  			
+					
+					if ($('#isBillable').is(":checked")){
+		  					isBillable = true;
+		  				} else {
+		  					isBillable = false;
+		  					};
+					
+					if (time == 0 || time == null){addAlert("error", "Your time needs to be greater than 0."); return false;}
+					if (tasktype == 0 || tasktype == null){addAlert("error", "Please enter a task type."); return false;}
+					if (details == "" || details == null){addAlert("error", "Please enter a description in the note field."); return false;}					
+								
+					var data = {
+						"hours" : time,
+						"account_id" : account,
+						"project_id" : project,
+						"task_type_id" : tasktype,
+						"note_text" : details,
+						"is_billable" : isBillable
+						};
+										
+					SherpaDesk.postTimeRollAddTime(configPass, data);					
+					}); //End form capture
+					
+					//UniformJS fix for checkbox listner
+					$("#isBillable").on("click", function() {
+						  $.uniform.update(this);
+					  });
+				});
+			
+		},
+		
+	postTimeRollAddTime: function(configPass, data){
+			var method = 'time',
+			
+			sendTime = SherpaDesk.getSherpaDesk(configPass, method, 'post', data);		
+			sendTime.then(
+				//success
+				function(results){
+					SherpaDesk.getTimeRollRecent(configPass);
+					addAlert("success", "Your time has been recorded.");
+				},
+				//failed
+				function(results){
+					addAlert("error", "Sorry, there was a problem posting your time.");	
+					return false;
+				}
+			);
+		},	
 	
 	//Add New Ticket
 	addTicket: function(configPass){		
@@ -967,10 +1165,10 @@ var SherpaDesk = {
 			);
 		
 		$("select").uniform();
-		
-		$('div.content.ticket_add').show();
 		$('body').removeClass('spinner');
-		ticketDetMenuActions();	
+		$('div.content.ticket_add').show();
+		
+		ticketDetMenuActions(configPass);	
 		
 		user.done(function(results){ 
 			$('form.create_ticket button[type=submit]').on('click', function(e){
@@ -1022,7 +1220,7 @@ var SherpaDesk = {
 				//success
 				function(results){
 					$('body').empty().addClass('spinner');
-					SherpaDesk.init();
+					SherpaDesk.getTickets(configPass);
 					addAlert("success", "Awesome Job! Your ticket was created.");
 					},
 				//failed
@@ -1035,12 +1233,58 @@ var SherpaDesk = {
 	//--------------------------- Dashboard ------------------------------
 	
 	getDashboard: function(configPass){
+		$('body').addClass('spinner');
 		var ticketCounts = SherpaDesk.getSherpaDesk(configPass, "tickets/counts");
 		
 		ticketCounts.done(function(results){
 			SherpaDesk.showDashboard(results);
-			});
-		
+			$('body').removeClass('spinner');			
+			//Set ticket clicks
+			$(".dash-tkts .get-tickets").on('click', function(e){	
+				e.preventDefault();	
+				$('body').empty().addClass('spinner');	
+				var asRole = $(this).data('asrole');
+				localStorage.setItem('sd_user_role', asRole);
+				localStorage.setItem('sd_is_from', 'tickets');
+				localStorage.setItem('sd_is_from_id', '');
+				SherpaDesk.getTickets(configPass);
+				});
+			//Set Time Clicks
+			$("#option_time").on('click', function(e){
+				e.preventDefault();	
+				$('body').empty().addClass('spinner');	
+				SherpaDesk.getTimeRollRecent(configPass);
+				});
+			//Set Account Click
+			$("#option_accounts").on('click', function(e){
+				e.preventDefault();	
+				$('body').empty().addClass('spinner');	
+				SherpaDesk.getAccounts(configPass);
+				});
+			//Set Add Ticket Click 
+			$('#option_add_ticket, a.add_ticket_button').off().on('click', function(e){
+				e.preventDefault();
+				$('body').empty().addClass('spinner');
+					localStorage.setItem('sd_is_from', 'dash');
+					localStorage.setItem('sd_is_from_id', '');		
+					SherpaDesk.addTicket(configPass);	
+				});		
+					
+			//Sidebar Setup
+			ticket_list_menu(".side-menu", "left");
+			ticketListMenuActions(configPass);
+			ticketJump(configPass);
+			
+			// Hide change org select
+			if( localStorage.sd_is_MultipleOrgInst === "false" ){
+				$('li p#orgInst').parent().hide();
+				};
+											
+			//Limit all open to 999
+			if(results.open_all > 999) {
+					$('div[data-asrole=all] p.dash-number-sm').text("999+").addClass('over99');
+				};				
+			});	//End ticketCounts.done
 		},	
 		
 	//------------------------- Show  Methods ----------------------------	
@@ -1064,9 +1308,30 @@ var SherpaDesk = {
 		$('body').append( template(inst) );
 		$("select").uniform();
 		},
+	showDashboard: function(numbers){
+		$('body').empty();
+		
+		// Create link to specific org | instance
+		var full_app_link = "",
+		    urlString = AppSite + "?dept=" + localStorage.sd_inst_key + "&org=" + localStorage.sd_org_key;
+	  	if (isPhonegap)
+		 	full_app_link = "href=#  onclick=openURLsystem('" + urlString + "')";
+	  	else
+			full_app_link = "href=" + urlString + " target=_system";
+	  	//var organization = {"full_app_link" : full_app_link};
+		
+		numbers["full_app_link"] = full_app_link; //Add link to object
+		
+		var template = Handlebars.templates['dashboard']; 							
+		$('body').append( template(numbers) );
+		},
 	showAccounts: function(accounts){
 		var template = Handlebars.templates['accounts']; 							
 		$('form select#account').append( template(accounts) );
+		},
+	showProjects: function(projects){
+		var template = Handlebars.templates['projects']; 							
+		$('form select#project').append( template(projects) );
 		},
 	showTechs: function(techs){
 		var template = Handlebars.templates['techs']; 							
@@ -1097,16 +1362,9 @@ var SherpaDesk = {
 		$('form select#task_type').append( template(tasktypes) );
 		},
 	showTicketHeader: function(){
-		$('body').empty();
-	      var full_app_link = "",
-	          urlString = AppSite + "?dept=" + localStorage.sd_inst_key + "&org=" + localStorage.sd_org_key;
-	      if (isPhonegap)
-	         full_app_link = "href=#  onclick=openURLsystem('" + urlString + "')";
-	      else
-	        full_app_link = "href=" + urlString + " target=_system";
-	      var organization = {"full_app_link" : full_app_link};
-	  		var template = Handlebars.templates['ticket_header']; 							
-	  		$('body').prepend( template(organization) );		
+		$('body').empty();	      
+		var template = Handlebars.templates['ticket_header']; 							
+		$('body').prepend( template() );		
 		},
 	showTicketList: function(list){
 		var template = Handlebars.templates['ticket_list'];									
@@ -1118,7 +1376,7 @@ var SherpaDesk = {
 		},
 	showQueueList: function(que){
 		var template = Handlebars.templates['queue_list']; 							
-		$('.content').append( template(que) ).slideDown().removeClass('spinner');
+		$('body').append( template(que) ).slideDown().removeClass('spinner');
 		},
 	showQueueTicketList: function(queues){
 		var template = Handlebars.templates['ticket_list']; 										
@@ -1141,6 +1399,10 @@ var SherpaDesk = {
 		var template = Handlebars.templates['ticketDetail_info']; 							
 		$('div.ticket_info ul').empty().append( template(info) );
 		},
+	showTimeLogs: function(time){			
+		var template = Handlebars.templates['time_list']; 							
+		$('body').empty().append( template(time) ).removeClass('spinner');
+		},	
 	showAddTicket: function(){
 		$('body').empty();			
 		var template = Handlebars.templates['addTicket']; 							
@@ -1153,6 +1415,10 @@ var SherpaDesk = {
 	showTicketDetAddTime: function(){
 		var template = Handlebars.templates['ticketDet_AddTime']; 							
 		$('div.ticket_detail_main').append( template() ).removeClass('spinner');
+		},
+	showTimeRollAddTime: function(){
+		var template = Handlebars.templates['time_AddTime']; 							
+		$('body').append( template() ).removeClass('spinner');
 		},
 	showTicketDetEdit: function(editDetail){
 		var template = Handlebars.templates['ticketDet_Edit']; 							
@@ -1167,12 +1433,17 @@ var SherpaDesk = {
 		var template = Handlebars.templates['closeTicket']; 							
 		$('div.ticket_detail_main').append( template() ).removeClass('spinner');
 		$("input[type=checkbox]").uniform();
+		},
+	showAccountsList: function(accountlist){
+		var template = Handlebars.templates['account_list']; 							
+		$('body').append( template(accountlist) ).removeClass('spinner');
 		}
 };
 
-SherpaDesk.init();
+SherpaDesk.init(); // Initialize the entire app here <- kinda important
+
 	
-// add listeners --------------------------------------------
+// add listeners and global helper functions --------------------------------------------
 
 // Login
 function checkLogin(configPass){	
@@ -1205,9 +1476,11 @@ function changeRoles(configPass){
 		$('div.content').empty().addClass('spinner');	
 		var asRole = $(this).data('asrole');
 		localStorage.setItem('sd_user_role', asRole);
-		localStorage.removeItem('sd_from_queueid');			
-		SherpaDesk.init();
-		//SherpaDesk.getTickets(configPass);
+		//localStorage.removeItem('sd_from_queueid');			
+		//SherpaDesk.init();
+		localStorage.setItem('sd_is_from', 'tickets');
+		localStorage.setItem('sd_is_from_id', '');
+		SherpaDesk.getTickets(configPass);
 		});
 	};
 	
@@ -1447,13 +1720,13 @@ function getCommentImages(attachments){
 	$.each(attachments, function(key, value){
     var file = value.name,
 			url = value.url,
-			ext = file.substr( (file.lastIndexOf('.') +1) ).toLowerCase();
+			ext = file.substr( (file.lastIndexOf('.') +1) ).toLowerCase(); // lowercase the extension
       
     var imageInsert = "";
     if (isPhonegap)
-       imageInsert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" + url + "\")'><img class=\"comment_image\" src=\"" + url + "\" alt=\"" + file + "\"></a>";
+       imageInsert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" + url + "\")'><img class=\"comment_image\" src=\"" + url + "&Width=" + (window.innerWidth-100) + "\" alt=\"" + file + "\"></a>";
     else
-       imageInsert = "<a class=\"comment_image_link\" target=\"_system\" href=\"" + url + "\"><img class=\"comment_image\" src=\"" + url + "\" alt=\"" + file + "\"></a>";
+       imageInsert = "<a class=\"comment_image_link\" target=\"_system\" href=\"" + url + "\"><img class=\"comment_image\" src=\"" + url + "&Width=" + (window.innerWidth-100) + "\" alt=\"" + file + "\"></a>";
           
 		if(ext === "jpg" || ext === "png" || ext === "gif" ){
 			$('div.tkt_ini_response:contains(' + file + '), div.comment_main:contains(' + file + ')').append(imageInsert);
@@ -1473,28 +1746,23 @@ function getCustomFields(fieldsXml){
 			});
 	};
 
-function get_single_ticket(configPass){
-	
+function get_single_ticket(configPass){	
 	$("a.get_single").on('click', function(){
-		//$('body').empty().addClass('spinner'); 
 		var key = $(this).data("reskey");
 		SherpaDesk.getTicketDetail(configPass, key);
 		});
 	};
 
-function getQueueLists(configPass){
-	$('a.get_queue_list').on('click',function(){
-		$('.content').empty().addClass('spinner'); 
-		var id = $(this).data("queid");
-		SherpaDesk.getQueueList(configPass, id)
-		});
-	};
-
-function ticketDetMenuActions(){
+function ticketDetMenuActions(configPass){
+	var last = localStorage.getItem('sd_is_from');
 	$('a#ticketList').on('click', function(e){
 		e.preventDefault(); 
 		$('body').empty();
-		SherpaDesk.init();
+		if (last == "dash"){
+				SherpaDesk.init();
+			} else {
+				SherpaDesk.getTickets(configPass);
+			}		
 		});
 	};
 
@@ -1513,13 +1781,26 @@ function showTicketInfoPanel(){
 	};
 
 function filterList(){
-	$('div.jPanelMenu-panel').attr('id', 'search_wrap');
+	$('body').attr('id', 'search_wrap');
 	window.setTimeout(function(){
 		var options = {
 			listClass: 'tickets',
 		    valueNames: [ 'tkt_number', 'tkt_subject', 'tkt_account', 'user_name' ]			
 	    };
 	    var featureList = new List('search_wrap', options);
+
+	    featureList.on('updated',function(){
+	    	if (featureList.matchingItems.length > 1) 
+	    	{
+		    	var itemMessage = 'There are ' + featureList.matchingItems.length + ' matching tickets.';
+		    	addAlert('success', itemMessage);
+	    	} else if (featureList.matchingItems.length == 1) {
+	    		$('.showalert').empty();
+	    	} else if (featureList.matchingItems.length == 0) {
+	    		addAlert('info', 'Bummer...  0 items found');
+	    	}
+	    });
+
 		},500);
 	};
 
@@ -1552,6 +1833,66 @@ function ticket_menu_rev(results){
 			};	
 		
 	};	
+
+//Bind header actions for queues and tickets
+function queuesAndTicketHeader(configPass, tktType) {
+	setCurrentRole();
+	fromDate(".fromDate");
+	changeRoles(configPass);				
+	ticketActions(configPass);
+	add_ticket_button(configPass);
+	get_single_ticket(configPass);
+	addResponse(configPass);
+	addTime(configPass);
+	getGravatar("p.cir_gravatar", 40); // This should be in a helper
+	
+	if(tktType && tktType.type=="accounts"){
+		$('ul.filter li').removeClass('active');
+		$('li.time').hide();
+		//Set the home button
+		$('a.home_button').off()
+			.removeClass('home_icon').addClass('back_icon')
+			.on('click', function(e){
+				e.preventDefault();
+				$('body').empty().addClass('spinner');	
+				SherpaDesk.getAccounts(configPass);
+			});
+	} else if (tktType && tktType.type=="queues") {
+		$('ul.filter li').removeClass('active');
+		$('li.time').hide();
+		//Set the home button
+		$('a.home_button').off()
+			.removeClass('home_icon').addClass('back_icon')
+			.on('click', function(e){
+				e.preventDefault();
+				$('body').empty().addClass('spinner');	
+				SherpaDesk.getTicketsQueues(configPass);
+			});
+	} else {
+		//Set the home button
+		$('a.home_button').off().on('click', function(e){
+			e.preventDefault();
+			$('body').empty().addClass('spinner');	
+			SherpaDesk.init();
+		});
+	};
+	
+	//Init list.js only if more than 0
+	if ( ($("ul.tickets li.ticket").size()) > 0){
+			filterList(); // if more than 0 tickets, enable filter
+		};		
+	
+	// Hide time if ticket as_user			  
+	if(localStorage.sd_user_role == "user" || localStorage.sd_user_role == "all"){
+		$('li.time').hide();
+		};
+	
+	// Hide if just a user and not tech
+	if( localStorage.sd_tech_admin === "false" ){
+		$('li.open_tickets, li[data-asrole="tech"], li[data-asrole="alt_tech"]').hide();
+		};
+	};
+
 
 /*
  * Helpers
@@ -1589,7 +1930,7 @@ function addAlert(type, message) {
 	var template = Handlebars.templates['alert']; 
 	window.setTimeout(function(){							
 	$('div.showalert').empty().append( template(alertmessage) ).fadeIn();
-	},800);
+	},500);
 	};
 
 // Logout
@@ -1616,3 +1957,13 @@ function changeOrgs(){
 Handlebars.registerHelper('linebreaks', function(context) {
     return context.replace(/\n/g, "<br />");
 });	
+
+Handlebars.registerHelper('htmlEscape', function(context) {
+    return context
+        .replace(/&amp;/g, "&" )
+        .replace(/&quot;/, '/"')
+        .replace(/&apos;/g, "'" )
+        .replace(/&lt;/g, "<" )
+        .replace(/&gt;/g, ">");
+});	
+

@@ -1,7 +1,6 @@
 /* CSS Document */
 * {
-	-webkit-appearance: none;
-	box-sizing: border-box;
+	-webkit-appearance: none;	
 	}
 
 body {
@@ -20,14 +19,16 @@ body {
 
 .content {
 	width: 100%; 
+	max-width: 960px;
   	min-width: 250px; 
-  	margin: 0; 
+  	margin: 0 auto; 
  	padding: 0 0 50px; 
   	box-sizing: border-box;
   	-moz-box-sizing: border-box;
   	-webkit-box-sizing: border-box; overflow: hidden;
 	background-color: #eeeeee;
 	}
+	
 
 .navbar{position: relative; margin-bottom: 20px;}
 
@@ -40,7 +41,8 @@ ul, li {
 	list-style: none;
 	}
 
-.showalert {margin: 10px 0;}
+.showalert {margin: 0 5px 10px;}
+.content.ticket_detail .showalert {margin: 10px 5px;}
 
 .spinner,
 .content.spinner {
@@ -180,7 +182,6 @@ body.login div.content {
 	background-color: #004174;
 	color: #ffffff;
 	padding: 0;
-	margin: 0;
 	}
 .login h2 {
 	font-size: 16px;
@@ -259,6 +260,10 @@ body.login div.content {
 	}
 .back_icon {
 	background:#145989 url(../img/head-back2x.png) center center no-repeat;
+	background-size: 50px 50px;
+	}
+.home_icon {
+	background:#145989 url(../img/head-home2x.png) center center no-repeat;
 	background-size: 50px 50px;
 	}
 .info_icon {
@@ -440,24 +445,33 @@ p.header_label {
 /*---------------- Dashboard -----------------*/
 
 .blue-fade {
-	/* background-color: #17649a; */
-	background: #276da3;
-	background: -moz-linear-gradient(top, #276da3 0%, #004174 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#276da3), color-stop(100%,#004174));
-	background: -webkit-linear-gradient(top, #276da3 0%,#004174 100%);
-	background: -o-linear-gradient(top, #276da3 0%,#004174 100%);
-	background: -ms-linear-gradient(top, #276da3 0%,#004174 100%);
-	background: linear-gradient(top, #276da3 0%,#004174 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#276da3', endColorstr='#004174',GradientType=0 );
+	background: #17649a;
 	color: #ffffff;
-	}	
+	box-sizing: border-box;
+	}
+	
+	.blue-fade:hover,
+	.blue-fade:active {
+		background: #276da3;
+	  	background: -moz-linear-gradient(top, #004174 0%, #276da3 100%);
+	  	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#004174), color-stop(100%,#276da3));
+	  	background: -webkit-linear-gradient(top, #004174 0%,#276da3 100%);
+	  	background: -o-linear-gradient(top, #004174 0%,#276da3 100%);
+	  	background: -ms-linear-gradient(top, #004174 0%,#276da3 100%);
+	  	background: linear-gradient(top, #004174 0%,#276da3 100%);
+	  	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#004174', endColorstr='#276da3',GradientType=0 );
+		cursor: pointer;
+		}
+		
 	.blue {
 		background: #276da3;
 		color: #ffffff;
+		box-sizing: border-box;
 		}
 	.green {
 		background: #51a351;
 		color: #ffffff;
+		box-sizing: border-box;
 		}
 	.left-num {
 		float: left;
@@ -466,13 +480,14 @@ p.header_label {
 		font-size: 40px;
 		line-height: 40px;
 		width: 50%;
+		box-sizing: border-box;
 		}
 		
-.dashboard {max-width: 600px; margin: 0 auto;}
+.dashboard {max-width: 600px; margin: 0 auto; box-sizing: border-box;}
 
 .dashboard a:hover {text-decoration: none;}
 
-.dashboard .dash-tkts {margin-bottom: 10px; overflow: hidden;}	
+.dashboard .dash-tkts {margin-bottom: 10px; overflow: hidden; box-sizing: border-box;}	
 .dashboard .dash-tkts .dash-astech {
 	padding: 10px;
 	text-align:center;
@@ -486,14 +501,12 @@ p.header_label {
 	.dashboard .dash-tkts .dash-astech p.dash-desc-large {
 		font-size: 22px;
 		line-height: 22px;		
-		color: rgba(255, 255, 255, 0.5);
-		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
+		color: #ffffff;
 		}
 	.dashboard .dash-tkts .dash-astech p.dash-number-large {
 		font-size: 100px;
 		line-height: 100px;
 		margin-top: 10px;
-		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
 		}
 	.dashboard .dash-tkts .tkt-right {
 		float: left;
@@ -501,28 +514,33 @@ p.header_label {
 		margin-right: -10px;
 		margin-left: 10px;
 		margin-bottom: 10px;
+		box-sizing: border-box;
 		}
 		.dashboard .dash-tkts .tkt-right.last {
 			margin-bottom: 0;
+			box-sizing: border-box;
 			}
+		.dashboard .dash-tkts .get-tickets.tkt-right:hover,
+		.dashboard .option-single:hover {
+			cursor: pointer;
+			} 
 	.dashboard .dash-tkts p.dash-number-sm {
-		text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.4);
 		}
 		.dashboard .dash-tkts p.dash-number-sm.over99 {
-			font-size: 38px;
+			font-size: 26px;
 			}
 	.dashboard .dash-tkts p.dash-desc {
 		text-align: center;
 		font-size: 16px;
 		line-height: 1em;
 		margin-top: 8px;
-		color: rgba(255, 255, 255, 0.6);
-		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
+		color: #ffffff;
 		}
 	.dashboard .dash-options .option-left,
 	.dashboard .dash-options .option-right {
 		width: 50%;
 		float: left;
+		box-sizing: border-box;
 		}
 	.dashboard .dash-options .option-left {
 		padding: 0 5px 0 0;
@@ -540,7 +558,6 @@ p.header_label {
 		line-height: 55px;
 		text-align: center;
 		font-size: 22px;
-		text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.5);
 		}
 	
 /*------------ Not Tickets Found -------------*/
@@ -572,22 +589,23 @@ p.header_label {
 
 
 		
-/*------------ Queue List ---------------*/
-.queues_list{padding: 0 10px;}
+/*------------ Queue/Account List ---------------*/
+.queues_list,
+.accounts_list{padding: 0 10px;}
 
 .queues_list ul.queues {}
-.queues_list ul.queues li.queue {
+.queues_list ul.queues li.queue,
+.accounts_list ul.accounts li.account{
 	background-color: #ffffff;
 	padding: 0;
 	margin: 0 0 20px 0;
 	overflow: hidden;
 	}
-.queues_list ul.queues li.queue a,
-.queues_list ul.queues li.queue a:hover {
-	
-	}
-.queues_list ul.queues li.queue div.que_main {position: relative;}
-.queues_list ul.queues li.queue div.que_main p.que_title {
+
+.queues_list ul.queues li.queue div.que_main,
+.accounts_list ul.accounts li.account div.account_main {position: relative;}
+.queues_list ul.queues li.queue div.que_main p.que_title,
+.accounts_list ul.accounts li.account div.account_main p.account_title {
 	font-size: 18px;
 	line-height: 32px;
 	color: #3b3b3d;
@@ -602,7 +620,8 @@ p.header_label {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
 	}
-.queues_list ul.queues li.queue div.que_main p.que_tkt_cnt {
+.queues_list ul.queues li.queue div.que_main p.que_tkt_cnt,
+.accounts_list ul.accounts li.account div.account_main p.account_tkt_cnt {
 	position: absolute;
 	right: 0;
 	top: 0;
@@ -631,7 +650,6 @@ p.header_label {
 	margin: 0 auto;
 	padding: 0;
 	list-style: none;
-	max-width: 900px;
 	}
 .tickets_list li.ticket {
 	background-color: #ffffff;
@@ -639,7 +657,7 @@ p.header_label {
 	overflow: hidden;
 	position: relative !important;
 	}
-.ticket .gravatar{
+.gravatar{
 	margin: 0 10px 0 0;
 	padding: 5px;
 	float: left;
@@ -649,14 +667,14 @@ p.header_label {
 	background-color: #17649a;
 	overflow: hidden;
 	}
-	.ticket .gravatar img {
+	.gravatar img {
 		border-radius: 20px;
 		margin: 4px;
 		-webkit-box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 1);
 		box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 1);
 		}
-	.ticket p.cir_gravatar{ margin:0;}
-	.ticket .gravatar p.user_name {
+	p.cir_gravatar{ margin:0;}
+	.gravatar p.user_name {
 		margin: 0;
 		text-align: center;
 		font-size: 10px;
@@ -1039,11 +1057,21 @@ p.header_label {
 		font-size: 10px;
 		}
 
-/*------------- Add Time - Ticket Detail ------------*/
+/*------------- Add Time - Ticket Detail & Time roll add ------------*/
 
-
+		
 		.content.time_add .tkt_add_time{
 			margin: 20px 0;
+			}
+		.content.time_add.timeroll_add {
+			padding: 0 10px 50px;
+			}
+			.content .timelog	 {
+				max-width: 960px;
+				margin: 0 auto;
+				}		
+		.content.timeroll_add form{
+			margin: 0 auto;
 			}
 		.content.time_add .tkt_add_time .tkt_add_time_input {
 			overflow: hidden; 
@@ -1106,10 +1134,108 @@ p.header_label {
 		    margin: 0;
 		}
 
+
+/*------------ Time Roll / Logs ------------------*/
+
+ul.timelogs {width: 100%;}
+ul.timelogs p {
+	padding:0; 
+	margin:0;
+	}
+ul.timelogs li.log_entry {
+	width: 100%; 
+	overflow:hidden;
+	margin-bottom: 10px;
+	background-color: #ffffff;
+	}
+
+ul.timelogs li.log_entry .log_time_amount {
+	float: right;
+	position: relative;
+	min-width: 70px;
+	margin-top: 6px;
+	margin-left: 10px;
+	}
+ul.timelogs li.log_entry .log_time_amount p{	
+	font-size: 28px;
+	line-height: 28px;
+	font-weight: bold;
+	text-align: right;
+	color: #0061A2;	
+	}
+	ul.timelogs li.log_entry .log_time_amount p span{
+		font-weight: normal;
+		font-size: 18px;
+		line-height: 18px;
+		}
+	ul.timelogs li.log_entry .log_time_amount p.date {
+		font-size: 12px;
+		line-height: 14px;
+		font-weight: normal;
+		margin: 0;
+		color: #666;		
+		text-align: right;
+		}
+
+ul.timelogs li.log_entry .log_data .log_data_top{
+	overflow: hidden;
+	box-sizing: border-box;
+	padding: 5px 10px;
+	border-top: 1px solid #CFCFCF;
+	}
+	
+ul.timelogs li.log_entry .log_data p.log_type{
+	line-height: 20px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 300px;
+	color: #0061A2;
+	}
+	ul.timelogs li.log_entry .log_data p.log_type.smaller {
+		font-size: 12px;
+		line-height: 18px;
+		color: #666;
+		}
+		ul.timelogs li.log_entry .log_data p.log_type.smaller strong {
+			color: #0061A2;
+			}
+	
+/* 
+ul.timelogs li.log_entry .log_data .log_data_top p.log_linked.linked{
+	float: right;
+	margin: -3px 0 -5px;
+	width: 25px;
+	height: 25px;
+	background: url(../imgs/fb-icon.png) no-repeat 0 0;
+	}
+	
+ul.timelogs li.log_entry .log_data .log_data_top p.log_linked.not_linked{
+	float: right;
+	margin: -3px 0 -5px;
+	width: 25px;
+	height: 25px;
+	background: url(../imgs/fb-icon-grey.png) no-repeat 0 0;
+	} 	
+*/
+	
+ul.timelogs li.log_entry .log_data .log_data_bottom{
+	overflow: hidden;
+	padding: 5px 10px;
+	box-sizing: border-box;
+	border-bottom: 1px solid #DBDBDB;
+	}
+	
+ul.timelogs li.log_entry .log_data .log_data_bottom p.log_note{
+	font-size: 14px;
+	line-height: 16px;
+	font-weight: normal;
+	}
+
+
 /*------------ Add Ticket View -------------------*/
 
 .content.ticket_add {
-	margin: 0;
 	padding: 0 20px 50px;
 	min-height: 100px;
 	}
