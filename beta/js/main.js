@@ -157,6 +157,28 @@ var googleapi = {
             if (code) {
                 //Exchange the authorization code for an access token
                 //jQuery.support.cors = true;
+                $.ajax({
+                    dataType: "json",
+                    url: searchurl,
+                    data: {
+                        code: code[1],
+                        client_id: options.client_id,
+                        client_secret: options.client_secret,
+                        redirect_uri: options.redirect_uri,
+                        grant_type: 'authorization_code'
+                    },
+                    type: "POST",
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    crossDomain: true,
+                    cache: false,
+                    success: function (data) {
+                        alert(JSON.stringify(data));
+                    },
+                    error: function (jqXHR, exception, errorstr) {
+                        console.log(jqXHR);
+                        alert(errorstr);
+                    }
+                });
                 $.post('https://accounts.google.com/o/oauth2/token', {
                     code: code[1],
                     client_id: options.client_id,
