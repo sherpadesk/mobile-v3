@@ -159,7 +159,7 @@ var googleapi = {
                 //jQuery.support.cors = true;
                 $.ajax({
                     dataType: "json",
-                    url: searchurl,
+                    url: 'https://accounts.google.com/o/oauth2/token',
                     data: {
                         code: code[1],
                         client_id: options.client_id,
