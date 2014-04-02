@@ -283,7 +283,7 @@ var SherpaDesk = {
 
     client_id: '155575437725.apps.googleusercontent.com',
     client_secret: '3Bbr2F35U969PxMxrBNlWGtF',
-    redirect_uri: 'http://m.bigwebapps.com/sd/index.html',//'http://localhost:7702/sd/index.html',//'http://localhost',
+    redirect_uri: 'http://m.sherpadesk.com/beta/index.html',//'http://localhost:7702/sd/index.html',//'http://localhost',
     scope: 'email',
     
 	init: function(){
