@@ -17,11 +17,6 @@ body {
 :-ms-input-placeholder {color:#d4d4d4; /* Internet Explorer 10+ */}
 
 
-.google {
- font-family: serif;
- font-size: 21px;
-}
-
 .content {
 	width: 100%; 
 	max-width: 960px;
