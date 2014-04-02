@@ -1,0 +1,27 @@
+<header>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a href="#" id="left-button" class="menu_button header_left home_icon home_button"></a>
+			<p class="header_label">Accounts</p>                
+		</div> 		        
+	</div>
+</header>
+<div class="content">
+{{#if this}}
+	<div class="showalert"></div>
+	<div class="accounts_list">
+		<ul class="accounts">
+			{{#each this}}
+			<li class="account">			
+				<a class="get_account_list" data-accountid="{{id}}" data-open="{{ticket_counts.open}}" data-name="{{name}}">
+					<div class="account_main">						
+						<p class="account_title">{{name}}</p>												
+						<p class="account_tkt_cnt">{{ticket_counts.open}}</p>                                     
+					</div>
+				</a>				
+			</li>
+			{{/each}}
+		</ul>
+	</div>
+{{/if}}
+</div>

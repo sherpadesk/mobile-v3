@@ -1,0 +1,61 @@
+{{#if total_hours}}
+<li>
+    <p>Hours: <strong>{{total_hours}} hr</strong></p>    
+</li>
+{{/if}}
+{{#if estimated_time}}
+<li>
+    <p>Estimated: <strong>{{estimated_time}} hr</strong></p>    
+</li>
+{{/if}}
+<li>
+    <p>Last Updated: <strong><span class="time">{{updated_time}}</span></strong></p>    
+</li>
+{{#if location_name}}
+<li>
+    <p>Location: <strong>{{location_name}} hr</strong></p>    
+</li>
+{{/if}}
+<li>
+    <p>Class: <strong>{{class_name}}</strong></p>    
+</li>
+<li>
+    <p>Level: <strong>{{level}}{{#if level_name}} - {{level_name}}{{/if}}</strong></p>    
+</li>
+
+<li>
+    <p>Priority: <strong>{{priority}}{{#if priority_name}} - {{priority_name}}{{/if}}</strong></p>    
+</li>
+{{#if request_completion_date}}
+<li>
+    <p>Request Completion Date: <strong><span class="time">{{request_completion_date}}</span></strong></p>    
+</li>
+{{/if}}
+{{#if followup_date}}
+<li>
+    <p>Follow Up: <strong><span class="time">{{followup_date}}</span></strong></p>    
+</li>
+{{/if}}
+{{#if sla_complete_date}}
+<li>
+    <p>SLA Complete Date: <strong><span class="time">{{sla_complete_date}}</span></strong></p>    
+</li>
+{{else}}
+  {{#if sla_response_date}}
+    <li>
+    	<p>SLA Response Date: <strong><span class="time">{{sla_response_date}}</span></strong></p>    
+    </li>
+  {{/if}}
+{{/if}}
+
+{{#if confirmed_date}}
+<li>
+    <p>Confirmed: <strong><span class="time">{{confirmed_date}}</span></strong></p>    
+</li>
+{{/if}}
+{{#if next_step_date}}
+<li>
+    <p>Next Step Date: <strong><span class="time">{{next_step_date}}</span></strong></p>    
+</li>
+{{/if}}
+

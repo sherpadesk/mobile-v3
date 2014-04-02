@@ -1,0 +1,31 @@
+<header>
+	<div class="right-menu" style="display:none;">
+		<ul>
+			<li class="searchform">
+				<input type="text" placeholder="Jump to Ticket #" class="ticket-jump-menu">
+			</li>
+			<li><p id="transfer"><i class="icon-retweet icon-white"></i> Transfer</p></li>
+			<li><p id="pickup"><i class="icon-hand-up icon-white"></i> Pick Up Ticket</p></li>
+			<li><p id="edit"><i class="icon-edit icon-white"></i> Edit</p></li>
+			<li><p id="close"><i class="icon-remove icon-white"></i> Close</p></li>
+			<li><p id="response"><i class="icon-comment icon-white"></i> Response</p></li>
+			<li><p id="time"><i class="icon-time icon-white"></i> Time</p></li>
+		</ul>    
+	</div>
+	
+	<div class="navbar navbar-static-top">
+		<div class="navbar-inner">
+			<a class="menu_button header_left back_icon" id="ticketList"></a>
+			<a href="#" class="menu_button header_right menu_icon ticket_list_menu"></a>
+			<p class="header_label">{{status}} | {{number}}</p>		
+		</div>
+		<div class="header_ticket_detail">
+			<div class="menu_button header_right info_icon"></div>
+			<div class="tkt_head_info">
+				<div class="tkt_det_head_date">{{created_time}}</div>
+				<div class="tkt_det_head_account">{{account_name}}</div>				
+				<div class="tkt_det_head_user">{{#each this.technicians}}{{user_fullname }}&nbsp;&nbsp;{{/each}}</div>
+			</div>            
+		</div>  
+	</div>
+</header>

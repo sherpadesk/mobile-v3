@@ -1,0 +1,78 @@
+    #offline {
+  background-color: #b00;
+  color: #fff;
+  display: none;
+  font-size: 10px;
+  padding: 1px;
+  left: 0;
+  text-align: center;
+  text-transform: uppercase;
+  top: 0;
+  width: 100%;
+  z-index: 3;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.75);
+  box-sizing: border-box;
+  font-weight: bold;
+  border-bottom: 1px solid #000; }    
+
+    .catch-error {
+        min-height: 430px;
+        margin: 0 auto;
+        background: url('../img/error-background.png') no-repeat 0 250px;
+    }
+
+    .catch-error-send-message {
+        width: 225px;
+        margin: 375px 0 0 35px;
+    }
+
+    .catch-error-description {
+        margin: 0 auto;
+        padding: 0;
+        min-height: 300px;
+    }
+
+        .catch-error-description .return-button {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+    .catch-error #ErrorStackTrace {
+        text-align: left;
+        padding-top: 70px;
+    }
+
+    .catch-error h1 {
+        font-size: 36px;
+        text-align: center;
+    }
+
+    .catch-error-description h2 {
+        color: #951f2b;
+        text-align: center;
+    }
+
+    .catch-generic-error {
+        width: 80%;
+        text-align: center;
+        margin: 100px auto 0;
+    }
+
+    .catch-error-form {
+        padding-top: 50px;
+        width: 98%;
+    }
+
+        .catch-error-form h3 {
+            margin-bottom: 0;
+        }
+
+        .catch-error-form p {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .catch-error-form textarea {
+            width: 95%;
+            margin-bottom: 20px;
+        }

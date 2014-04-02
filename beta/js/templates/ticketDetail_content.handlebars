@@ -1,0 +1,59 @@
+<div class="content ticket_detail"> 
+		<div class="ticket_info" style="display: none;">
+        	<ul>
+				
+			</ul>
+        </div> 
+		<div class="ticket_detail_main"> 
+			<div class="showalert"></div>	     
+	        
+	        <div class="tkt_initial_post">
+	        	<div class="tkt_ini_gravatar">
+	            	<p class="cir_gravatar" data-email="{{user_email}}"></p>
+	                <p class="tkt_user">{{user_firstname}} {{user_lastname}}</p>
+					<p class="tkt_user_account">{{account_name}}</p>
+	            </div>
+				<div class="tkt_subject">
+		        	{{subject}}
+		        </div>
+	            <div class="tkt_ini_response">
+	            	{{{linebreaks initial_post}}}
+	            </div>
+	        </div>
+	        
+	        <div class="tkt_actions" data-reskey="{{key}}">
+				<div class="tkt_actions_menu">
+						<div class="tkt_actions_menu_type">Responses</div>
+						<ul>
+							<li data-respkey="{{key}}" class="responses active"></li>
+							<li data-respkey="{{key}}" class="time"></li>                                	
+						</ul>                            
+					</div>
+					<div class="tkt_add_response">
+						<button class="add_response" data-reskey="{{key}}">Add</button>
+						<div class="tkt_add_response_input">
+							<textarea id="response" name="response" placeholder="Add Response"></textarea>
+						</div>								
+					</div>
+					<div class="tkt_add_time">
+						<button class="add_tkt_time" data-reskey="{{key}}">Add<br/>Time</button>
+						<div class="tkt_add_time_input">
+							<button class="minus_time">-</button>
+							<button class="plus_time">+</button>
+							<p>
+								<input type="number" class="add_time" name="add_time" value="0" step=".25" />
+							</p>
+							<p>
+								<select name="task_type" id="task_type">
+						  			<option value="">Task Type</option>
+						  		</select>
+							</p>                                   
+						</div>								
+					</div>
+				
+				<ul class="responses">                         	
+						
+				</ul>
+			</div>
+		</div>        
+    </div>

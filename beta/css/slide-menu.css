@@ -1,0 +1,24 @@
+/* CSS Document */
+html, body {
+	margin: 0;
+	padding: 0;
+	}
+ul, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	}
+
+#menu {
+	background-color: #3b3b3d;
+	}
+#menu, #menu a {
+	color: #ffffff;
+	font-family: Arial, sans-serif;
+	}
+#menu li {
+	font-size 16px;
+	line-height: 50px;
+	border-bottom: 1px solid #646466;
+	}
+

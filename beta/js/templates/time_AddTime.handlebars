@@ -1,0 +1,52 @@
+<header>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a class="menu_button header_left back_icon" id="timeroll"></a>
+			<p class="header_label">Add Time</p>                
+		</div> 		        
+	</div>
+</header>
+<a name="top"/>
+<div class="content time_add timeroll_add"> 
+	<form class="add_time roll_time">
+		<div class="showalert"></div>
+		
+		<div class="tkt_add_time">
+			<div class="tkt_add_time_input">
+				<button class="minus_time">-</button>
+				<button class="plus_time">+</button>
+				<p>
+					<input type="number" class="add_time" name="add_time" value="0" step=".25" />
+				</p>                                    
+			</div>								
+		</div>		
+		
+		<label>Select Account</label>
+		<select name="account" id="account">
+			<option value="">---</option>
+		</select>
+		
+		<div class="projects" style="display: none;">
+	  		<label>Select Project</label>
+	  		<select name="project" id="project">
+	  			<option value="">---</option>
+	  		</select>
+  		</div>
+		
+		<label>Select Task Type<span class="required">*</span></label>
+		<select name="task_type" id="task_type">
+			<option value="">---</option>
+		</select>	
+		
+		<div class="billable" style="display:none;">
+	  		<label>
+	  	      <input type="checkbox" id="isBillable" name="isBillable"> Is time billable?
+	  	    </label>
+		</div>	
+		
+		<label>Notes<span class="required">*</span></label>
+		<textarea name="details" id="details" wrap="soft" cols="50" rows="10" ></textarea>		
+		<button class="btn btn-large btn-block btn-success" type="submit">Add Time</button>
+	  
+	</form>  
+</div>

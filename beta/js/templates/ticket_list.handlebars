@@ -1,0 +1,75 @@
+{{#if this}}
+<div class="content">
+	<div class="showalert"></div>
+	<div class="tickets_list" id="filter_list">
+		<ul class="tickets">
+			{{#each this}}
+			<li class="ticket">
+				<div class="gravatar">	
+					<p class="cir_gravatar" data-email="{{user_email}}"></p>	
+					<p class="user_name">{{user_firstname}} {{user_lastname}}</p>
+				</div>
+				<a class="get_single" data-reskey="{{key}}">
+				<div class="tkt_main">                        	
+					<!-- Ticket Number --> <!-- Ticket date -->
+					<div class="tkt_top">
+						<p class="tkt_number">{{prefix}}{{number}}</p>
+						<p class="tkt_date fromDate">{{created_time}}</p>
+					</div>
+					<!-- Ticket subject -->
+					<!-- Ticket account info -->  
+					<div class="tkt_bottom">
+						<p class="tkt_subject">{{subject}}</p>
+						<p class="tkt_account">{{account_name}}</p>
+					</div>                                     
+				</div>
+				</a>
+				<div class="see_more" data-key="{{key}}"></div>
+				<div class="tkt_actions" data-reskey="{{key}}">
+					<div class="tkt_actions_menu">
+						<div class="tkt_actions_menu_type">Responses</div>
+						<ul>
+							<li data-respkey="{{key}}" class="responses active"></li>
+							<li data-respkey="{{key}}" class="time"></li>                                	
+						</ul>                            
+					</div>
+					<div class="tkt_add_response">
+						<button class="add_response" data-reskey="{{key}}">Add</button>
+						<div class="tkt_add_response_input">
+							<textarea id="response" name="response" placeholder="Add Response"></textarea>
+						</div>								
+					</div>
+					<div class="tkt_add_time">
+						<button class="add_tkt_time" data-reskey="{{key}}">Add<br/>Time</button>
+						<div class="tkt_add_time_input">
+							<button class="minus_time">-</button>
+							<button class="plus_time">+</button>
+							<p>
+								<input type="number" class="add_time" name="add_time" value="0" step=".25" />
+							</p>
+							<p>
+								<select name="task_type" id="task_type">
+						  			<option value="">Task Type</option>
+						  		</select>
+							</p>                                   
+						</div>								
+					</div>
+					
+					<ul class="responses">                         	
+							
+					</ul>
+				</div>	
+			</li>
+			{{/each}}
+		</ul>
+		<div class="loadingtickets"></div>
+	</div>
+</div>
+{{else}}
+<div class="content">
+	<div class="noTickets">
+		<h2>No Tickets Here Mate</h2>
+		<p>Perhaps this is a good time to celebrate!</p>
+	</div>
+</div>
+{{/if}}

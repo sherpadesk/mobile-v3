@@ -1,0 +1,54 @@
+<header>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a href="#" id="left-button" class="menu_button header_left home_icon home_button"></a>
+            <a href="#" id="right-button" class="menu_button header_right add_icon add_time_button"></a>
+			<p class="header_label">Time Logs</p>                
+		</div> 		        
+	</div>
+</header>
+{{#if this}}
+<div class="content">	
+	<div class="showalert"></div>
+	<div class="timelog"> 
+		<ul class="timelogs">
+			{{#each this}}	        
+	        <li class="log_entry">	        	
+	            <div class="log_data">
+	            	<div class="log_data_top">
+                    	<div class="log_time_amount">
+	                    	<p>{{hours}} <span>hrs</span></p>
+	                        <p class="date">{{date}}</p>
+	                    </div>
+	                    <p class="log_type"><strong>{{account_name}}</strong></p>
+						{{#if task_type}}
+                        <p class="log_type smaller"><strong>{{task_type}}</strong></p>
+						{{/if}}
+						{{#if project_name}}
+	                    <p class="log_type smaller">Project <strong>{{project_name}}</strong></p>
+						{{/if}}
+						{{#if ticket_number}}
+	                    <p class="log_type smaller">Ticket <strong>{{ticket_number}}</strong></p>
+						{{/if}}                          	                    
+	                </div>
+                    <div class="log_data_bottom">
+						{{#if note}}	                	
+	                    <p class="log_note">{{htmlEscape note}}</p>  
+						{{/if}}                  
+	                </div>	                
+	            </div>
+	        </li>
+			{{/each}}
+	    </ul>     	
+        	
+    </div><!-- End Time Log -->
+    
+</div>
+
+{{else}}
+<div class="content">
+	<div class="noTickets">
+		<h2>No Time Logs Here Mate.</h2>
+	</div>
+</div>
+{{/if}}

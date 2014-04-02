@@ -1,0 +1,24 @@
+<div class="content">
+{{#if this}}
+	<div class="showalert"></div>
+	<div class="queues_list" id="filter_list">
+		<ul class="queues">
+			{{#each this}}
+			<li class="queue">				
+				<a class="get_queue_list" data-queid="{{id}}">
+					<div class="que_main">						
+						<p class="que_title">{{fullname}}</p>												
+						<p class="que_tkt_cnt">{{tickets_count}}</p>                                     
+					</div>
+				</a>				
+			</li>
+			{{/each}}
+		</ul>
+	</div>
+{{else}}
+	<div class="noTickets">
+		<h2>We Don't Need No Stinkin' Queues</h2>
+		<p>But maybe you should try them out.</p>
+	</div>
+{{/if}}
+</div>
