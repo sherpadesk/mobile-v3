@@ -155,30 +155,16 @@ var googleapi = {
             }
 
             if (code) {
+                corsPost('https://accounts.google.com/o/oauth2/token', {
+                    code: code[1],
+                    client_id: options.client_id,
+                    client_secret: options.client_secret,
+                    redirect_uri: options.redirect_uri,
+                    grant_type: 'authorization_code'
+                }, function (data) {
+                    alert(JSON.stringify(data));
+                }, 'json');
                 //Exchange the authorization code for an access token
-                //jQuery.support.cors = true;
-                $.ajax({
-                    dataType: "json",
-                    url: 'https://accounts.google.com/o/oauth2/token',
-                    data: {
-                        code: code[1],
-                        client_id: options.client_id,
-                        client_secret: options.client_secret,
-                        redirect_uri: options.redirect_uri,
-                        grant_type: 'authorization_code'
-                    },
-                    type: "POST",
-                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                    crossDomain: true,
-                    cache: false,
-                    success: function (data) {
-                        alert(JSON.stringify(data));
-                    },
-                    error: function (jqXHR, exception, errorstr) {
-                        console.log(jqXHR);
-                        alert(errorstr);
-                    }
-                });
                 $.post('https://accounts.google.com/o/oauth2/token', {
                     code: code[1],
                     client_id: options.client_id,
@@ -233,6 +219,21 @@ var googleapi = {
     }
 };
 
+function corsPost(url, data, callback, returnType) {
+    var jqxhr = $.post(url, data, callback, returnType)
+    .error(function (jqXhHR, status, errorThrown) {
+        if ($.browser.msie && window.XDomainRequest) {
+            var xdr = new XDomainRequest();
+            xdr.open("post", url);
+            xdr.onload = function () {
+                callback(JSON.parse(this.responseText), 'success');
+            };
+            xdr.send(data);
+        } else {
+            alert("CORS is not supported in this browser or from this origin.");
+        }
+    });
+}
 
 // ---- SHERPADESK OBJECT LEGEND -----
 // 01 - init - Initialization
