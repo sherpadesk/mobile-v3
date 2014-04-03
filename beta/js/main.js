@@ -156,32 +156,6 @@ var googleapi = {
 
             if (code) {
                 //Exchange the authorization code for an access token
-                $.ajax({
-                    dataType: "json",
-                    url: 'https://accounts.google.com/o/oauth2/token',
-                    data: {
-                        code: code[1],
-                        client_id: options.client_id,
-                        client_secret: options.client_secret,
-                        redirect_uri: options.redirect_uri,
-                        grant_type: 'authorization_code'
-                    },
-                    type: "POST",
-                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                    crossDomain: true,
-                    beforeSend: function (request)
-                    {
-                        request.setRequestHeader("X-Requested-With", "");
-                    },
-                    cache: false,
-                    success: function (data) {
-                        alert(JSON.stringify(data));
-                    },
-                    error: function (jqXHR, exception, errorstr) {
-                        console.log(jqXHR);
-                        alert(errorstr);
-                    }
-                });
                 $.post('https://accounts.google.com/o/oauth2/token', {
                     code: code[1],
                     client_id: options.client_id,
