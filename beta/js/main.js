@@ -154,15 +154,10 @@ var googleapi = {
                 cleanQuerystring();
             }
 
-            gapi.client.load('oauth2', 'v2', function () {
-                gapi.client.oauth2.userinfo.get()
-                  .execute(function (resp) {
-                      // Shows user email
-                      console.log(resp.email);
-                  });
-            });
-
             if (code) {
+                gapi.client.getToken(code[1], function (err, tokens) {
+                    console.log(tokens);
+                });
                 //Exchange the authorization code for an access token
                 $.post('https://accounts.google.com/o/oauth2/token', {
                     code: code[1],
