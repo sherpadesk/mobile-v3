@@ -210,22 +210,6 @@ var googleapi = {
     }
 };
 
-function corsPost(url, data, callback, returnType) {
-    var jqxhr = $.post(url, data, callback, returnType)
-    .error(function (jqXhHR, status, errorThrown) {
-        if ($.browser.msie && window.XDomainRequest) {
-            var xdr = new XDomainRequest();
-            xdr.open("post", url);
-            xdr.onload = function () {
-                callback(JSON.parse(this.responseText), 'success');
-            };
-            xdr.send(data);
-        } else {
-            alert("CORS is not supported in this browser or from this origin.");
-        }
-    });
-}
-
 // ---- SHERPADESK OBJECT LEGEND -----
 // 01 - init - Initialization
 // 02 - getSherpaDesk - Global ajax request
