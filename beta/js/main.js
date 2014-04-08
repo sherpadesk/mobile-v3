@@ -6,7 +6,7 @@ $.fx.off = /iPhone/i.test(navigator.userAgent) && !(window.screen.height == (113
 
 //Root Names
 var Site = 'beta.sherpadesk.com/';
-var MobileSite = 'http://m.sherpadesk.com/sd/beta/';//'http://localhost:7702;//
+var MobileSite = 'http://m.sherpadesk.com/beta/';//'http://localhost:7702;//
 var AppSite = 'http://app.'+Site;
 
 var ApiSite = 'http://api.'+Site;//'http://localhost:81'; // http://api.beta.'+Site;
