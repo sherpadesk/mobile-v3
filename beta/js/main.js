@@ -6,10 +6,10 @@ $.fx.off = /iPhone/i.test(navigator.userAgent) && !(window.screen.height == (113
 
 //Root Names
 var Site = 'beta.sherpadesk.com/';
-var MobileSite = 'http://m.'+Site;
+var MobileSite = 'http://m.sherpadesk.com/sd/beta/';//'http://localhost:7702;//
 var AppSite = 'http://app.'+Site;
 
-var ApiSite = 'http://api.'+Site; // http://api.beta.
+var ApiSite = 'http://api.'+Site;//'http://localhost:81'; // http://api.beta.'+Site;
 
 //Phonegap specific
 var isPhonegap = false;
@@ -155,9 +155,6 @@ var googleapi = {
             }
 
             if (code) {
-                gapi.client.getToken(code[1], function (err, tokens) {
-                    console.log(tokens);
-                });
                 //Exchange the authorization code for an access token
                 $.post('https://accounts.google.com/o/oauth2/token', {
                     code: code[1],
@@ -300,24 +297,32 @@ var SherpaDesk = {
 		//If !api_key then show login 
 		if (configPass.apiKey == '' || configPass.apiKey == null) {
 
-     		    SherpaDesk.showLogin();
-     		    checkLogin(configPass);
-     		    loginWithGoogle(configPass);
-
-		    //Check if we have a valid token
-		    //cached or if we can get a new
-		    //one using a refresh token.
-     		    googleapi.authorizeSite({
-     		        client_id: this.client_id,
-     		        client_secret: this.client_secret,
-     		        redirect_uri: this.redirect_uri
-     		    }).done(function () {
-     		        //Show the greet view if we get a valid token
-     		        SherpaDesk.getGoogleUserInfo(configPass);
-     		    }).fail(function (data) {
-     		        if (data)
-     		            addAlert(data.error);
-     		    });
+		        var query = window.location.search.slice(1);
+		        if(/t=/i.test(query) ) {
+		            var key = query.replace('t=', '');
+		            if (key)
+		            { 
+		                cleanQuerystring();
+		                localStorage.setItem('is_google', true);
+		                localStorage.setItem('sd_api_key', key);
+		                localStorage.setItem('sd_user_email', configPass.user);
+		                configPass.pass = '';
+		                configPass.apiKey = key;
+		                SherpaDesk.getOrgInst(configPass);
+		            }
+		        }
+		        else
+		        {
+		            SherpaDesk.showLogin();
+		            checkLogin(configPass);
+		            if (/f=/i.test(query)) {
+		                var error = query.replace('f=', '');
+		                if (error) {
+		                    cleanQuerystring();
+		                    addAlert("danger", error.replace(/%20/g, ' '));
+		                }
+		            }
+		        }
 			} else
 		if (configPass.org == '' || configPass.inst == '' || configPass.org == null || configPass.inst == null){				
 				SherpaDesk.getOrgInst(configPass);				
@@ -1688,7 +1693,8 @@ function checkLogin(configPass){
 			} else {						
 				SherpaDesk.getLogin(configPass, email, pass);				
 			};
-		});	
+	});
+	$('form.google_openid').get(0).setAttribute('action', ApiSite + 'api/auth/googleopenid');
 	};	
 			
 // Set the current Role in header filter
@@ -2167,7 +2173,7 @@ function addAlert(type, message) {
 
 // Logout
 function logOut(){
-	$('body').empty().addClass('login');
+    $('body').empty().addClass('login');
 	localStorage.removeItem('sd_api_key');
 	localStorage.removeItem('sd_inst_key');
 	localStorage.removeItem('sd_org_key');
@@ -2175,8 +2181,17 @@ function logOut(){
 	localStorage.removeItem('access_token');
 	localStorage.removeItem('refresh_token');
 	localStorage.removeItem('expires_at');
-	location.reload(true);
-	};
+	if (localStorage.is_google) {
+	    localStorage.removeItem('is_google');
+	    GooglelogOut();
+	}
+	else
+	    location.reload(true);
+};
+
+var GooglelogOut = function () {
+    document.location.href = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
+}
 
 // Change Orgs / Inst
 function changeOrgs(){
