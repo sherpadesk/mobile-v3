@@ -305,7 +305,7 @@ var SherpaDesk = {
 		                cleanQuerystring();
 		                localStorage.setItem('is_google', true);
 		                localStorage.setItem('sd_api_key', key);
-		                localStorage.setItem('sd_user_email', configPass.user);
+		                //localStorage.setItem('sd_user_email', configPass.user);
 		                configPass.pass = '';
 		                configPass.apiKey = key;
 		                SherpaDesk.getOrgInst(configPass);
