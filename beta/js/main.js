@@ -2000,7 +2000,7 @@ var GooglelogOut = function () {
     if (window.self === window.top) {
         document.location.href = logoutUrl;
     } else {
-        window.open(logoutUrl, "windowname1", 'width=300, height=600');
+        top.location.href = logoutUrl;
     }
 }
 
