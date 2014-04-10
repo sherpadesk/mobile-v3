@@ -1978,7 +1978,7 @@ function logOut(){
 	localStorage.removeItem('refresh_token');
 	localStorage.removeItem('expires_at');
 	if (localStorage.is_google) {
-	    localStorage.removeItem('is_google');
+	    localStorage.removeItem('sd_user_email');
 	    GooglelogOut();
 	}
 	else
@@ -1986,12 +1986,17 @@ function logOut(){
 };
 
 var GooglelogOut = function () {
-    var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-    if (window.self === window.top) {
-        document.location.href = logoutUrl;
-    } else {
-        location.reload(true);
+    if (confirm("Do you want to logout from Google account also?")) {
+        localStorage.removeItem('is_google');
+        var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
+        if (window.self === window.top) {
+            document.location.href = logoutUrl;
+        } else {
+            location.reload(true);
+        }
     }
+    else
+        location.reload(true);
 }
 
 // Change Orgs / Inst
