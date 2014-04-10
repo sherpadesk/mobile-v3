@@ -115,11 +115,6 @@ window.history.replaceState({}, document.title, clean_uri);
 // --------------------------------------------------------------------------------
 
 var SherpaDesk = {
-
-    client_id: '155575437725.apps.googleusercontent.com',
-    client_secret: '3Bbr2F35U969PxMxrBNlWGtF',
-    redirect_uri: 'http://m.sherpadesk.com/beta/index.html',//'http://localhost:7702/sd/index.html',//'http://localhost',
-    scope: 'email',
     
 	init: function(){
 		//cache config	
@@ -133,31 +128,24 @@ var SherpaDesk = {
 
 		//If !api_key then show login 
 		if (configPass.apiKey == '' || configPass.apiKey == null) {
-
-		        var query = window.location.search.slice(1);
-		        if(/t=/i.test(query) ) {
-		            var key = query.replace('t=', '');
-		            if (key)
-		            { 
-		                cleanQuerystring();
-		                localStorage.setItem('is_google', true);
-		                localStorage.setItem('sd_api_key', key);
-		                //localStorage.setItem('sd_user_email', configPass.user);
-		                configPass.pass = '';
-		                configPass.apiKey = key;
-		                SherpaDesk.getOrgInst(configPass);
-		            }
+		    var key = getParameterByName('t');
+		    var email = getParameterByName('e');
+		        if (key) {
+		            cleanQuerystring();
+		            localStorage.setItem('is_google', true);
+		            localStorage.setItem('sd_api_key', key);
+		            localStorage.setItem('sd_user_email', email);
+		            configPass.pass = '';
+		            configPass.apiKey = key;
+		            SherpaDesk.getOrgInst(configPass);
 		        }
-		        else
-		        {
+		        else {
 		            SherpaDesk.showLogin();
 		            checkLogin(configPass);
-		            if (/f=/i.test(query)) {
-		                var error = query.replace('f=', '');
-		                if (error) {
-		                    cleanQuerystring();
-		                    addAlert("danger", error.replace(/%20/g, ' '));
-		                }
+		            var error = getParameterByName('f');
+		            if (error) {
+		                cleanQuerystring();
+		                addAlert("danger", error);
 		            }
 		        }
 			} else
@@ -219,24 +207,21 @@ var SherpaDesk = {
 					SherpaDesk.init();
 				}
 			).done(
-				function(results){
-				var query = window.location.search.slice(1);
-				if(/ticket=/i.test(query) ) {
-				   var key = query.replace('ticket=', '');
-				   if (key)
-					   { 
-						   cleanQuerystring();
-						   SherpaDesk.getTicketDetail(configPass, key);
-					   }
-					}			
-					 else {
-						//SherpaDesk.getTickets(configPass);
-						
-						// -------------------------------------------------------
-						// ----------  Set initial landing page	------------------
-						// -------------------------------------------------------					
-						SherpaDesk.getDashboard(configPass);	
-					}	
+				function (results) {
+				    var key = getParameterByName('ticket');
+				    if (key) {
+				        cleanQuerystring();
+				        SherpaDesk.getTicketDetail(configPass, key);
+				    }
+
+				    else {
+				        //SherpaDesk.getTickets(configPass);
+
+				        // -------------------------------------------------------
+				        // ----------  Set initial landing page	------------------
+				        // -------------------------------------------------------					
+				        SherpaDesk.getDashboard(configPass);
+				    }
 				}
 			);
 		},
@@ -1481,6 +1466,11 @@ $('form.form-signin #login a').on('click', function() {
         });
 };
 
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
 // Login
 function checkLogin(configPass){	
 	$('form.form-signin button[type=submit]').on('click', function(e){
@@ -2000,7 +1990,7 @@ var GooglelogOut = function () {
     if (window.self === window.top) {
         document.location.href = logoutUrl;
     } else {
-        top.location.href = logoutUrl;
+        location.reload(true);
     }
 }
 
