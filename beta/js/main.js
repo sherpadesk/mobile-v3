@@ -243,8 +243,12 @@ var SherpaDesk = {
 				SherpaDesk.getOrgInst(config);
 			},
 			//failed	
-			function(results){
-				addAlert("error", "There was a problem with your login.  Please try again.");
+			function (results) {
+			    console.log(user);
+			    if (user && user.indexOf("@gmail.com") != -1)
+			        addAlert("error", "If you are attempting to login with a google account, please do not type your google password, click the 'Login as Google' button, it is more secure.");
+			    else
+			        addAlert("error", "There was a problem with your login.  Please try again.");
 			}
 			);
 		},
@@ -341,8 +345,12 @@ var SherpaDesk = {
 								};					
 				};	
 			},//End orgSetup Success
-			function(){
-				addAlert("error", "Great Merciful Crap!!  Something has gone horribly wrong.");
+			function () {
+			    console.log("There was a problem retrieving organizations.");
+			    localStorage.clear();
+			    console.log("We have cleared the local storage and re-initialized the app.");
+			    SherpaDesk.init();
+				//addAlert("error", "Great Merciful Crap!!  Something has gone horribly wrong.");
 			}//End orgSetup Error
 			);//End orgSetup	
 		},	
@@ -1979,24 +1987,17 @@ function logOut(){
 	localStorage.removeItem('expires_at');
 	if (localStorage.is_google) {
 	    localStorage.removeItem('sd_user_email');
+	    localStorage.removeItem('is_google');
 	    GooglelogOut();
 	}
-	else
-	    location.reload(true);
+    location.reload(true);
 };
 
 var GooglelogOut = function () {
-    if (confirm("Do you want to logout from Google account also?")) {
-        localStorage.removeItem('is_google');
+    if (window.self === window.top && confirm("Do you want to logout from Google account also?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-        if (window.self === window.top) {
-            document.location.href = logoutUrl;
-        } else {
-            location.reload(true);
-        }
+        document.location.href = logoutUrl;
     }
-    else
-        location.reload(true);
 }
 
 // Change Orgs / Inst
