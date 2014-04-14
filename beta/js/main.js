@@ -1990,7 +1990,8 @@ function logOut(){
 	    localStorage.removeItem('is_google');
 	    GooglelogOut();
 	}
-    location.reload(true);
+	else
+	    location.reload(true);
 };
 
 var GooglelogOut = function () {
@@ -1998,6 +1999,8 @@ var GooglelogOut = function () {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
         document.location.href = logoutUrl;
     }
+    else
+        location.reload(true);
 }
 
 // Change Orgs / Inst
