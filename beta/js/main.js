@@ -1996,7 +1996,7 @@ function logOut(){
 };
 
 var GooglelogOut = function () {
-    if (window.self === window.top && confirm("Do you want to logout from Google account also?")) {
+    if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
         document.location.href = logoutUrl;
     }
