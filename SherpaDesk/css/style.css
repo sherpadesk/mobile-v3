@@ -1,0 +1,287 @@
+html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, menu, nav, section, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+*{
+  color: #888;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
+  -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important; 
+  outline: none !important;
+}
+
+a {
+  text-decoration: none;
+  color:inherit;
+}
+
+body, html {	
+	/*background: #E8E8E8;*/
+	background: url("../img/bg.png");
+	background-size: cover;
+	height: 100%;
+	width: 100%;
+	position: relative;
+	padding-top: 30px;
+	overflow: hidden;
+}
+
+.clearfix {
+	clear: both;
+}
+
+/* Header
+   ========================================================================== */
+
+.bottomHeader {
+	background: #489CD6;
+	height: 35px;
+	list-style-type: none;
+	width: 100%;
+}
+
+.bottomHeader li {
+	color: #ffffff;
+	float: left;
+	font-size: 14px;
+	width: 33.33%;
+	text-align: center;
+	line-height: 35px;
+	vertical-align: middle;
+}
+
+header {
+	background: #25B0E6;
+	height: 50px;
+}
+
+.topHeader {
+	list-style-type: none;
+	width: 100%;
+}
+
+.topHeader li {
+	float: left;
+	height: 50px;
+	width: 33.33%;
+}
+
+.SherpaDesk {
+	color: #ffffff;
+	font-size: 18px;
+	font-weight: 600;
+	line-height: 50px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+/* Dashboard
+   ========================================================================== */
+
+.dashboard {
+	background: rgba(0,0,0, .4);
+	height: 200px;
+	position: relative;
+	width: 100%;
+}
+
+.dashboardContainer {
+	height: 150px;
+	margin: 0 auto;
+	padding-top: 15px;
+	width: 100%;
+}
+
+.dashboardLeft, .dashboardRight {
+	float: left;
+	height: 100%;
+	margin-bottom: 10px;
+	width: 50%;
+}
+
+.dashboardLeft {
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	border-right: 1px solid rgba(255, 255, 3255, .4);
+}
+
+.mainStat {
+	color: #ffffff;
+	font-size: 84px;
+	font-weight: 400;
+	text-align: center;
+}
+
+.mainStatTitle {
+	color: #ffffff;
+	font-size: 18px;
+	text-align: center;
+}
+
+.navCircle {
+	border: 1px solid #ffffff;
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	float: left;
+	height: 10px;
+	margin: 0 5px;
+	width: 10px;
+}
+
+#navCircleFilled {
+	background: #ffffff;
+}
+
+.navCircleContainer {
+	height: 30px;
+	margin: 0 auto;
+	width: 40px;
+}
+
+.sideStats {
+	list-style-type: none;
+	height: 100%;
+}
+
+.sideStats li {
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	height: 33.33%;
+	padding: 0 20px;
+}
+
+.sideStatsLeft, .sideStatsRight {
+	color: #ffffff;
+	font-size: 16px;
+	line-height: 50px;
+	vertical-align: middle;
+}
+
+.sideStatsLeft {
+	float: left;
+}
+
+.sideStatsRight {
+	float: right;
+	font-weight: 600;
+}
+
+/* Feed
+   ========================================================================== */
+
+.feed {
+	height: 210px;
+	overflow: scroll;
+	width: 100%;
+}
+
+.feedClock {
+	height: 12px;
+	display: inline;
+	margin-right: 7px;
+}
+
+.feedContainer {
+	margin: 15px auto 0 auto;
+	width: 90%;
+}   
+
+.feedName {
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.feedProfile {
+	height: 50px;
+}
+
+.feedSingle {
+	list-style-type: none;
+}
+
+.feedSingle > li {
+	float: left;
+	width: 60%;
+}
+
+.feedSingle > li:first-child {
+	width: 22%;
+}
+
+.feedSingle > li:last-child {
+	margin-top: 12px;
+	width: 18%;
+}
+
+.feedTime {
+	color: #ffffff;
+	display: inline;
+	font-size: 12px;
+}
+
+.feedTime span {
+	color: #ffffff;
+	font-size: 16px;
+}
+
+.feeds {
+	list-style-type: none;
+}
+
+.feeds > li {
+	height: 45px;
+	margin-bottom: 25px;
+	width: 100%;
+	float: left;
+}
+
+.taskDescription {
+	color: #ffffff;
+	font-size: 12px;
+}
+
+/* Footer
+   ========================================================================== */
+
+footer {
+	background: rgba(0, 0, 0, .4);
+	bottom: 0; left: 0; right: 0;
+	height: 50px;
+	position: absolute;
+	width: 100%;
+}
+
+.footerContainer {
+	margin: 7px auto 0 auto;
+	width: 90%;	
+}
+
+.navIcon {
+	height: 25px;
+}
+
+.navIcons {
+	list-style-type: none;
+}
+
+.navIcons li {
+	float: left;
+	width: 20%;
+	text-align: center;
+}
+
+.navTitle {
+	color: #ffffff;
+	font-size: 9px;
+	margin-top: -3px;
+}
+
+
+
