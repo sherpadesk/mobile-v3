@@ -246,6 +246,100 @@ header {
 	color: #ffffff;
 	font-size: 12px;
 }
+/* account
+   ========================================================================== */
+
+.accountWrapper {
+	margin: 0px auto;
+	max-width: 80%;
+	padding: 0 5%;
+}
+
+.headline {
+	color: #ffffff;
+	text-align: center;
+	font-size: 18px;
+	margin-top: 2.5%;
+}
+
+.elementTitle {
+	color: #ffffff;
+	margin-left: 8%;
+	margin-top: 10%;
+	font-size: .75em;
+}
+.buttonList {
+	margin-left: 2%;
+	padding: 0;
+	list-style: none;
+}
+
+.buttonList li {
+float: left;
+width: 30%;
+margin: 0%;
+}
+
+.button {
+	background-color: #25B0E6;
+	color: #ffffff;
+	font-size: 30px;
+	width: 85%;
+	text-align: center;
+	vertical-align: middle;
+	height: 30px;
+	padding-bottom: 10%;
+	margin: 20%;
+
+}
+
+.ticker {
+	background-color: #000000;
+	opacity: 0.5;
+	color: #ffffff;
+	font-size: 30px;
+	width: 100%;
+	text-align: center;
+	vertical-align: middle;
+	height: 30px;
+	padding-bottom: 10%;
+	margin: 20%;
+	margin-left: 12%;
+
+}
+
+.styled-select select {
+   background: #25B0E6;
+   width: 105%;
+   padding: 5px;
+   font-size: 16px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 40px;
+   -webkit-appearance: none;
+   color: #ffffff;
+
+   }
+
+   .styled-select {
+   width: 83.5%;
+   height: 40px;
+   overflow: hidden;
+   margin-left: 8%;
+   }
+
+   .textArea {
+   	margin-left: 8%;
+   	width: 83.5%;
+   	height: 120px;
+   	background: #000000;
+   	opacity: 0.5;
+   	resize: none;
+   	border: none;
+   }
+
+  
 
 /* Footer
    ========================================================================== */
