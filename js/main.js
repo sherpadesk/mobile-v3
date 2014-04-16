@@ -47,8 +47,6 @@ var clean_uri = location.protocol + "//" + location.host + location.pathname;
 window.history.replaceState({}, document.title, clean_uri);
 }
 
-
-
 // ---- SHERPADESK OBJECT LEGEND -----
 // 01 - init - Initialization
 // 02 - getSherpaDesk - Global ajax request
@@ -117,6 +115,7 @@ window.history.replaceState({}, document.title, clean_uri);
 // --------------------------------------------------------------------------------
 
 var SherpaDesk = {
+    
 	init: function(){
 		//cache config	
 		var configPass = {			
@@ -126,11 +125,29 @@ var SherpaDesk = {
 			role: localStorage.sd_user_role,
 			url: ApiSite
 			}; 
-	
+
 		//If !api_key then show login 
-		if (configPass.apiKey == '' || configPass.apiKey == null){
-				SherpaDesk.showLogin();
-				checkLogin(configPass);
+		if (configPass.apiKey == '' || configPass.apiKey == null) {
+		    var key = getParameterByName('t');
+		    var email = getParameterByName('e');
+		        if (key) {
+		            cleanQuerystring();
+		            localStorage.setItem('is_google', true);
+		            localStorage.setItem('sd_api_key', key);
+		            localStorage.setItem('sd_user_email', email);
+		            configPass.pass = '';
+		            configPass.apiKey = key;
+		            SherpaDesk.getOrgInst(configPass);
+		        }
+		        else {
+		            SherpaDesk.showLogin();
+		            checkLogin(configPass);
+		            var error = getParameterByName('f');
+		            if (error) {
+		                cleanQuerystring();
+		                addAlert("danger", error);
+		            }
+		        }
 			} else
 		if (configPass.org == '' || configPass.inst == '' || configPass.org == null || configPass.inst == null){				
 				SherpaDesk.getOrgInst(configPass);				
@@ -171,7 +188,7 @@ var SherpaDesk = {
 		}).promise();
 		
 		},
-	
+		
 	//Set Config Options
 	getConfig: function(configPass){
 		SherpaDesk.getSherpaDesk(configPass, 'config')
@@ -190,24 +207,21 @@ var SherpaDesk = {
 					SherpaDesk.init();
 				}
 			).done(
-				function(results){
-				var query = window.location.search.slice(1);
-				if(/ticket=/i.test(query) ) {
-				   var key = query.replace('ticket=', '');
-				   if (key)
-					   { 
-						   cleanQuerystring();
-						   SherpaDesk.getTicketDetail(configPass, key);
-					   }
-					}			
-					 else {
-						//SherpaDesk.getTickets(configPass);
-						
-						// -------------------------------------------------------
-						// ----------  Set initial landing page	------------------
-						// -------------------------------------------------------					
-						SherpaDesk.getDashboard(configPass);	
-					}	
+				function (results) {
+				    var key = getParameterByName('ticket');
+				    if (key) {
+				        cleanQuerystring();
+				        SherpaDesk.getTicketDetail(configPass, key);
+				    }
+
+				    else {
+				        //SherpaDesk.getTickets(configPass);
+
+				        // -------------------------------------------------------
+				        // ----------  Set initial landing page	------------------
+				        // -------------------------------------------------------					
+				        SherpaDesk.getDashboard(configPass);
+				    }
 				}
 			);
 		},
@@ -229,8 +243,12 @@ var SherpaDesk = {
 				SherpaDesk.getOrgInst(config);
 			},
 			//failed	
-			function(results){
-				addAlert("error", "There was a problem with your login.  Please try again.");
+			function (results) {
+			    console.log(user);
+			    if (user && user.indexOf("@gmail.com") != -1)
+			        addAlert("error", "If you are attempting to login with a google account, please do not type your google password, click the 'Login as Google' button, it is more secure.");
+			    else
+			        addAlert("error", "There was a problem with your login.  Please try again.");
 			}
 			);
 		},
@@ -327,8 +345,12 @@ var SherpaDesk = {
 								};					
 				};	
 			},//End orgSetup Success
-			function(){
-				addAlert("error", "Great Merciful Crap!!  Something has gone horribly wrong.");
+			function () {
+			    console.log("There was a problem retrieving organizations.");
+			    localStorage.clear();
+			    console.log("We have cleared the local storage and re-initialized the app.");
+			    SherpaDesk.init();
+				//addAlert("error", "Great Merciful Crap!!  Something has gone horribly wrong.");
 			}//End orgSetup Error
 			);//End orgSetup	
 		},	
@@ -1445,6 +1467,11 @@ SherpaDesk.init(); // Initialize the entire app here <- kinda important
 	
 // add listeners and global helper functions --------------------------------------------
 
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
 // Login
 function checkLogin(configPass){	
 	$('form.form-signin button[type=submit]').on('click', function(e){
@@ -1456,7 +1483,16 @@ function checkLogin(configPass){
 			} else {						
 				SherpaDesk.getLogin(configPass, email, pass);				
 			};
-		});	
+	});
+	$('form.google_openid').get(0).setAttribute('action', ApiSite + 'api/auth/googleopenid');
+    $('a.sign-in-with-google').on('click', function(e){
+        e.preventDefault();
+        if (window.self !== window.top) {
+            alert('Please go Google login in new window and reopen Sherpadesk extension again.');
+            $('form.google_openid').get(0).setAttribute('target', '_blank'); 
+        }
+        $('form.google_openid').get(0).submit();
+    });
 	};	
 			
 // Set the current Role in header filter
@@ -1935,13 +1971,31 @@ function addAlert(type, message) {
 
 // Logout
 function logOut(){
-	$('body').empty().addClass('login');
+    $('body').empty().addClass('login');
 	localStorage.removeItem('sd_api_key');
 	localStorage.removeItem('sd_inst_key');
 	localStorage.removeItem('sd_org_key');
-	localStorage.removeItem('sd_from_queueid');	
-	location.reload(true);
-	};
+	localStorage.removeItem('sd_from_queueid');
+	localStorage.removeItem('access_token');
+	localStorage.removeItem('refresh_token');
+	localStorage.removeItem('expires_at');
+	if (localStorage.is_google) {
+	    localStorage.removeItem('sd_user_email');
+	    localStorage.removeItem('is_google');
+	    GooglelogOut();
+	}
+	else
+	    location.reload(true);
+};
+
+var GooglelogOut = function () {
+    if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
+        var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
+        document.location.href = logoutUrl;
+    }
+    else
+        location.reload(true);
+}
 
 // Change Orgs / Inst
 function changeOrgs(){
