@@ -1,0 +1,216 @@
+@font-face {
+  font-family: ProximaNova;
+  font-weight: 400;
+  src: url("fonts/ProximaNovaSemibold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: ProximaNova;
+  font-weight: 300;
+  src: url("fonts/ProximaNova.otf") format("opentype");
+}
+
+html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, menu, nav, section, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+*{
+  color: #888;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
+  -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important; 
+  outline: none !important;
+}
+
+a {
+  text-decoration: none;
+  color:inherit;
+}
+
+body, html {	
+	/*background: #E8E8E8;*/
+	background: url("/img/bg.png");
+	background-size: cover;
+	height: 100%;
+	width: 100%;
+	position: relative;
+	z-index: -2;
+}
+
+.clearfix {
+	clear: both;
+}
+
+/* Headers
+   ========================================================================== */
+
+/* Header
+   ========================================================================== */
+
+.bottomHeader {
+	background: #489CD6;
+	height: 47%;
+	list-style-type: none;
+	width: 100%;
+}
+
+.bottomHeader li {
+	color: #ffffff;
+	float: left;
+	font-size: 14px;
+	width: 33.33%;
+	text-align: center;
+	margin-top: 2%;
+}
+
+header {
+	background: #25B0E6;
+	height: 15%;
+}
+
+.topHeader {
+	list-style-type: none;
+	height: 61%;
+	width: 100%;
+	position: relative;
+}
+
+.topHeader li {
+	float: left;
+	height: 60%;
+	width: 33.33%;
+}
+
+.SherpaDesk {
+	color: #ffffff;
+	font-size: 18px;
+	font-weight: 600;
+	text-align: center;
+	margin-top: 10%;
+}
+
+/* Dashboard
+   ========================================================================== */
+
+.dashboard {
+	background: rgba(0,0,0, .4);
+	height: 60%;
+	position: relative;
+	width: 100%;
+	z-index: -1;
+}
+
+.dashboardContainer {
+	height: 150px;
+	margin: auto;
+	position: absolute;
+	top: 0; right: 0; bottom: 0; left: 0;
+	width: 100%;
+}
+
+.dashboardLeft, .dashboardRight {
+	float: left;
+	height: 100%;
+	margin-bottom: 10px;
+	width: 50%;
+}
+
+.dashboardLeft {
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	border-right: 1px solid rgba(255, 255, 3255, .4);
+}
+
+.mainStat {
+	color: #ffffff;
+	font-size: 84px;
+	font-weight: 400;
+	text-align: center;
+}
+
+.mainStatTitle {
+	color: #ffffff;
+	font-size: 18px;
+	text-align: center;
+}
+
+.navCircle {
+	border: 1px solid #ffffff;
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	border-radius: 50%;
+	float: left;
+	height: 10px;
+	margin: 0 5px;
+	width: 10px;
+}
+
+#navCircleFilled {
+	background: #ffffff;
+}
+
+.navCircleContainer {
+	height: 30px;
+	margin: 0 auto;
+	width: 40px;
+}
+
+.sideStats {
+	list-style-type: none;
+	height: 100%;
+}
+
+.sideStats li {
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	height: 33.33%;
+	padding: 0 20px;
+}
+
+.sideStatsLeft, .sideStatsRight {
+	color: #ffffff;
+	font-size: 16px;
+	line-height: 50px;
+	vertical-align: middle;
+}
+
+.sideStatsLeft {
+	float: left;
+}
+
+.sideStatsRight {
+	float: right;
+	font-weight: 600;
+}
+
+/* Feed
+   ========================================================================== */
+
+.feed {
+	background: red;
+	height: 180px;
+	width: 100%;
+}
+
+.feedContainer {
+	margin: auto;
+	position: absolute;
+	top: 0; right: 0; bottom: 0; left: 0;
+	width: 100%;
+}   
+
+/* Footer
+   ========================================================================== */
+
+footer {
+	background: blue;
+	bottom: 0; left: 0; right: 0;
+	height: 60px;
+	position: absolute;
+	width: 100%;
+}
+
+
