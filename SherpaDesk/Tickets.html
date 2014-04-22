@@ -3,11 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SherpaDesk | +Tickets</title>
+    <title>SherpaDesk</title>
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css" />
-    <!-- responsive stylesheet -->
-    <link rel="stylesheet" href="css/responsive.css" />
     <!-- Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
@@ -18,64 +16,47 @@
   <header>
     <h1 class="SherpaDesk">+Tickets</h1>
   </header>
-  <body>
+  <body class="dark">
     <div class="CreateInvoiceWrapper">
-    <h3 class="elementTitleTicket clearfix">Account</h3>
-      <div class="styled-selectTicket">
-         <select>
-            <option>ACME,INC.</option>
-            <option>Oracle</option>
-         </select>
-      </div>
+    <h3 class="addTimeTitle clearfix">Account</h3>
+      <select class="selectOptions">
+        <option>Repair</option>
+      </select>
+    <h3 class="addTimeTitle clearfix">Technician</h3>
+      <select class="selectOptions">
+        <option>Repair</option>
+      </select>
 
-    <h3 class="elementTitleTicket clearfix">Technician</h3>
-      <div class="styled-selectTicket">
-         <select>
-            <option>Jessica</option>
-            <option>Sarah</option>
-         </select>
-      </div>
+          <h3 class="addTimeTitle clearfix">Class</h3>
+      <select class="selectOptions">
+        <option>Repair</option>
+      </select>
 
-          <h3 class="elementTitleTicket clearfix">Class</h3>
-      <div class="styled-selectTicket">
-         <select>
-            <option>Support</option>
-            <option>Repair</option>
-         </select>
-      </div>
+          <h3 class="addTimeTitle clearfix">Subject</h3>
+      <select class="selectOptions">
+        <option>Repair</option>
+      </select>
 
-          <h3 class="elementTitleTicket clearfix">Subject</h3>
-      <div class="styled-selectTicket">
-         <select>
-            <option>Routing</option>
-            <option>Support</option>
-         </select>
-      </div>
-
-          <h3 class="elementTitleTicket clearfix">Priority</h3>
-      <div class="styled-selectTicket">
-         <select>
-            <option>Normal</option>
-            <option>Urgent</option>
-         </select>
-      </div>
-
-    <h3 class="elementTitleTicketTextArea clearfix">Details</h3>
-    <textarea onclick="this.innerHTML=''"class="textAreaTicket">
-    Include if nessesary...
+          <h3 class="addTimeTitle clearfix">Priority</h3>
+      <select class="selectOptions">
+        <option>Repair</option>
+      </select>
+    <h3 class="addTimeTitle clearfix">Details</h3>
+    <textarea class="textInput" type="text" placeholder="I completed...">
     </textarea>
     <div id="button" class="buttonTicket">Create Ticket</div>
     </div>
+  </body>
   </body>
     <footer>
     <div class="footerContainer">
       <nav>
         <ul class="navIcons">
-          <li><img class="navIcon" src="img/placeholder.png"><p class="navTitle">Projects</p></li>
-          <li><img class="navIcon" src="img/placeholder.png"><p class="navTitle">Projects</p></li>
-          <li><img class="navIcon" src="img/placeholder.png"><p class="navTitle">Projects</p></li>
-          <li><img class="navIcon" src="img/placeholder.png"><p class="navTitle">Projects</p></li>
-          <li><img class="navIcon" src="img/placeholder.png"><p class="navTitle">Projects</p></li>
+          <li><img class="navIcon" src="img/projects_icon.png"><p class="navTitle">Projects</p></li>
+          <li><img class="navIcon" src="img/time_icon.png"><p class="navTitle">Timelogs</p></li>
+          <li><img class="navIcon" src="img/account_icon.png"><p class="navTitle">Accounts</p></li>
+          <li><img class="navIcon" src="img/expenses_icon.png"><p class="navTitle">Expenses</p></li>
+          <li><img class="navIcon" src="img/queue_icon.png"><p class="navTitle">Queue</p></li>
         </ul>
       </nav>
     </div>
