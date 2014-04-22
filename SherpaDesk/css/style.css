@@ -94,6 +94,29 @@ body, html {
 	padding: 0 20px;
 }
 
+<<<<<<< HEAD
+.reply {
+	color: #ffffff;
+	font-size: 14px;
+	text-align: center;
+}
+
+.replyIcon {
+	height: 20px;
+}
+
+=======
+.textInput {
+  background: rgba(0, 0, 0, .4);
+  box-sizing:border-box;
+    -moz-box-sizing:border-box;
+  border: none;
+  color: #ffffff;
+  height: 140px;
+  padding: 10px;
+  width: 100%;
+}
+>>>>>>> FETCH_HEAD
 /* Header
    ========================================================================== */
 
@@ -691,10 +714,75 @@ footer {
 	margin-top: -3px;
 }
 
+/* Tickets
+   ========================================================================== */
+
+.ticketsContainer {
+	overflow: scroll;
+	margin: 0 auto;
+	height: 448px;
+	width: 90%;
+}
+
+.ticketsDesc {
+	color: #ffffff;
+	font-size: 12px;
+}
+
+.ticketsList {
+	list-style-type: none;
+	margin-top: 35px;
+}
+
+.ticketsList > li {
+	background: rgba(0, 0, 0, .4);
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+  	overflow: auto;
+	padding: 10px;
+	width: 100%;
+}
+
+.ticketsProfile {
+	height: 50px;
+}
+
+.ticketsTitle {
+	color: #ffffff;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.ticketsList ul {
+	list-style-type: none;
+}
+
+.ticketsList ul li {
+	float: left;
+	margin-top: 10px;
+	width: 63%;
+}
+
+.ticketsList ul li:first-child {
+	margin-top: 5px;
+	width: 22%;
+}
+
+.ticketsList ul li:last-child {
+	margin-top: 7px;
+	width: 15%;
+}
+
 /* New */
 
 /* +tickets
    ========================================================================== */
+.CreateInvoiceWrapper {
+  width: 90%;
+  margin: 0 auto;
+  overflow: scroll;
+  height: 515px;
+}
 .styled-selectTicket select {
    background: #25B0E6;
    width: 100%;
@@ -738,8 +826,8 @@ footer {
   color: #ffffff;
   text-align: center;
   padding: 2%;
-  border-radius: 20px;
   display: block;
+  margin-top: 5%;
   margin-left: auto;
   margin-right: auto;
 
@@ -762,32 +850,28 @@ footer {
 /* Select Payment 
    ========================================================================== */
 .selectPaymentButton {
- 	background: #25B0E6;
-  width: 70%;
-  max-width: 500px;
-  height: 35px;
-  max-height: 20px;
-  margin-top: .75em;
+  background: #489CD6;
+  border: 0;
+  margin: 2px 0 15px 0;
   color: #ffffff;
+  height: 45px;
+  width: 100%;
+  font-size: 16px;
   text-align: center;
-  padding: 2%;
-}
+  line-height: 45px;
+  }
 
 
 .buttonNextPayment {
-  background-color: #57DE57;
-  width: 60%;
-  max-width: 500px;
-  height: 35px;
-  max-height: 20px;
+  background: #57DE57;
+  border: 0;
+  margin: 2px 0 15px 0;
   color: #ffffff;
+  height: 45px;
+  width: 100%;
+  font-size: 16px;
   text-align: center;
-  padding: 2%;
-  border-radius: 20px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 40px;
+  line-height: 45px;
 }
 .spacer {
 	margin: 20%;
