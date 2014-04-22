@@ -411,7 +411,12 @@ var SherpaDesk = {
 			} else if (tktType && tktType.type=="queues") {
 				var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'queues/' + tktType.Id);
 			} else {
-				var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?status=open&limit=500&role=' + localStorage.sd_user_role);
+			    var status = "open";
+			    if (localStorage.sd_user_role == "all")
+			        status = 'allopen';
+			    if (localStorage.sd_user_role == "user")
+			        status = 'open,onhold';
+			    var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?status=' + status + '&limit=500&query=' + localStorage.sd_user_role);
 			}			
 		
 		getTicketList.then(
