@@ -5,7 +5,6 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
 }
 
 *{
-  color: #888;
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
@@ -19,18 +18,80 @@ a {
 }
 
 body, html {	
-	/*background: #E8E8E8;*/
 	background: url("../img/bg.png");
 	background-size: cover;
 	height: 100%;
 	width: 100%;
 	position: relative;
-	padding-top: 30px;
+/*	padding-top: 30px;*/
 	overflow: hidden;
+}
+
+.container {
+	margin: 0 auto;
+	width: 90%;
 }
 
 .clearfix {
 	clear: both;
+}
+
+.dark {
+	background: url("../img/bg_dark.png");
+	background-size: cover;	
+}
+
+.send {
+	background: #4bb24d;
+	border: none;
+	color: #ffffff;
+	font-size: 14px;
+	height: 45px;
+	margin-top: 15px;
+	width: 100%;
+}
+
+.feedProfile {
+	height: 50px;
+}
+
+.feedClock {
+	height: 12px;
+	display: inline;
+	margin-right: 7px;
+}
+
+.feedName {
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.feedTime {
+	color: #ffffff;
+	display: inline;
+	font-size: 12px;
+}
+
+.plusIconHeader {
+	height: 30px;
+	margin-top: 10px;
+	float: right;
+}
+
+.selectOptions {
+	background: #489CD6;
+	border: 0;
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	border-radius: 0;
+	margin: 2px 0 15px 0;
+	color: #ffffff;
+	height: 45px;
+	width: 100%;
+	-webkit-appearance: none;
+	font-size: 16px;
+	padding: 0 20px;
 }
 
 /* Header
@@ -38,9 +99,10 @@ body, html {
 
 .bottomHeader {
 	background: #489CD6;
-	height: 35px;
+	height: 40px;
 	list-style-type: none;
 	width: 100%;
+	z-index: 3;
 }
 
 .bottomHeader li {
@@ -55,7 +117,8 @@ body, html {
 
 header {
 	background: #25B0E6;
-	height: 50px;
+	overflow: auto;
+	height: auto;
 }
 
 .topHeader {
@@ -65,8 +128,16 @@ header {
 
 .topHeader li {
 	float: left;
-	height: 50px;
-	width: 33.33%;
+	height: 45px;
+	width: 60%;
+}
+
+.topHeader li:first-child {
+	width: 20%;
+}
+
+.topHeader li:last-child {
+	width: 20%;
 }
 
 .SherpaDesk {
@@ -181,26 +252,10 @@ header {
 	width: 100%;
 }
 
-.feedClock {
-	height: 12px;
-	display: inline;
-	margin-right: 7px;
-}
-
 .feedContainer {
 	margin: 15px auto 0 auto;
 	width: 90%;
 }   
-
-.feedName {
-	color: #ffffff;
-	font-size: 14px;
-	font-weight: 600;
-}
-
-.feedProfile {
-	height: 50px;
-}
 
 .feedSingle {
 	list-style-type: none;
@@ -218,12 +273,6 @@ header {
 .feedSingle > li:last-child {
 	margin-top: 12px;
 	width: 18%;
-}
-
-.feedTime {
-	color: #ffffff;
-	display: inline;
-	font-size: 12px;
 }
 
 .feedTime span {
@@ -341,6 +390,271 @@ margin: 0%;
 
   
 
+/* Invoice
+   ========================================================================== */
+
+.detail1 {
+	color: #ffffff;
+	font-size: 18px;
+	font-weight: 600;
+	text-align: left !important;
+	width: 40%;
+}
+
+.detail2 {
+	font-size: 16px;
+	width: 20%;
+}
+
+.detail3 {
+	font-size: 16px;
+	width: 25%;
+}
+
+.detail3Small {
+	font-size: 10px;
+	margin-left: 2px;
+	vertical-align: top;
+}
+
+.detail4 {
+	font-size: 16px;
+	text-align: right;
+	width: 15%;
+}
+
+.detail1Short {
+	color: #ffffff;
+	font-size: 18px;
+	font-weight: 600;
+	text-align: left !important;
+	width: 60%;
+}
+
+.detail2Short {
+	font-size: 16px;
+	width: 25%;
+}
+
+.detail3Short {
+	font-size: 16px;
+	width: 15%;
+}
+
+.plusIcon {
+	height: 25px;
+}
+
+.invoiceAccount {
+	border-bottom: 1px solid #ffffff;
+	color: #ffffff;
+	list-style-type: none;
+	margin-top: 35px;
+	overflow: auto;
+}
+
+.invoiceAccount li:first-child {
+	float: left;
+	font-size: 18px;
+}
+
+.invoiceAccount li:last-child {
+	float: right;
+	font-size: 14px;
+	margin-top: 4px;
+}
+
+.invoiceContainer {
+	overflow: scroll;
+	margin: 0 auto;
+	height: 448px;
+	width: 90%;
+}
+
+.invoiceDetail {
+	list-style-type: none;
+}
+
+.invoiceDetail li {
+	color: #ffffff;
+	float: left;
+	text-align: right;
+}
+
+.invoiceInfo {
+	list-style-type: none;
+	margin-top: 15px;
+}
+
+.invoiceInfo li {
+	overflow: auto;
+	margin-bottom: 2px;
+}
+
+.invoiceTotal {
+	color: #ffffff;
+	font-size: 18px;
+	text-align: right;
+	width: 85%;
+}
+
+.invoiceTotalHr {
+	margin-top: -5px;
+	float: right;
+	width: 30%;
+}
+
+.recipient {
+	background: rgba(0, 0, 0, .4);
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	height: 40px;
+	padding: 0 20px;
+	width: 100%;
+}
+
+.recipient p {
+	float: left;
+	color: #ffffff;
+	font-size: 12px;
+	line-height: 40px;
+	overflow: hidden;
+	vertical-align: middle;
+	width: 80%;
+}
+
+.recipient img {
+	height: 25px;
+	margin-top: 6px;
+	margin-left: 5px;
+	float: right;
+}
+
+.recipientDetail {
+	list-style-type: none;
+}
+
+.recipientDetail li {
+	float: left;
+}
+
+.recipientDetail li:first-child {
+	width: 15%;
+}
+
+.recipientDetail li:last-child {
+	width: 85%;
+}
+
+.recipientDetail > li > img {
+	height: 40px;
+}
+
+/* Timelog 
+   ========================================================================== */
+
+.timelogContainer {
+	height: 200px;
+	margin: 0 auto;
+	width: 90%;
+}
+
+.timelogs {
+	margin-top: 35px;
+	list-style-type: none;
+}
+ 
+.timelogs > li {
+	border-left: 2px solid #ffffff;
+	margin-bottom: 15px;
+	float: left;
+	height: 50px;
+	width: 100%;
+}
+
+.timelog {
+	list-style-type: none;
+}
+
+.timelog li {
+	float: left;
+	width: 55%;
+}
+
+.timelog > li:first-child {
+	width: 27%;
+}
+
+.timelog > li:last-child {
+	margin-top: 12px;
+	width: 18%;
+}
+
+.timelogProfile {
+	display: block;
+	height: 50px;
+	margin: 0 auto;
+}
+
+/* account
+   ========================================================================== */
+
+.accountContainer {
+	height: 440px;
+	margin: 0 auto;
+	overflow: scroll;
+	width: 90%;
+}
+
+.buttonList {
+	list-style-type: none;
+	margin-top: 35px;
+	width: 100%;
+}
+
+.buttonList li {
+	background: rgba(0, 0, 0, .4);
+	color: #ffffff;
+	float: left;
+	width: 35%;
+	margin: 0 2.5% 15px 2.5%;
+	height: 35px;
+	text-align: center;
+}
+
+.buttonList li:first-child, .buttonList li:last-child{
+	background-color: #489CD6;
+	margin: 0;
+	width: 30%;
+}
+
+.buttonList span {
+	line-height: 35px;
+	vertical-align: middle;
+}
+
+.addTimeTitle {
+	color: #ffffff;
+	font-size: 16px;
+}
+
+.addTimeInput {
+	background: rgba(0, 0, 0, .4);
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	border: none;
+	color: #ffffff;
+	height: 140px;
+	padding: 10px;
+	width: 100%;
+}
+
+
+
+
 /* Footer
    ========================================================================== */
 
@@ -375,6 +689,108 @@ footer {
 	color: #ffffff;
 	font-size: 9px;
 	margin-top: -3px;
+}
+
+/* New */
+
+/* +tickets
+   ========================================================================== */
+.styled-selectTicket select {
+   background: #25B0E6;
+   width: 100%;
+   padding-bottom: 10px;
+   padding-left: 5px;
+   font-size: 16px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 40px;
+   -webkit-appearance: none;
+   color: #ffffff;
+
+   }
+
+   .styled-selectTicket {
+   width: 100%;
+   max-width: 500px;
+   height: 30px;
+   overflow: hidden;
+   font-size: 70%; 
+   }
+
+.textAreaTicket {
+  width: 83.5%;
+  width: 100%;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.5);;
+  resize: none;
+  border: none;
+  color: #ffffff;
+  margin-bottom: 25px;
+   }
+
+ .buttonTicket {
+  background-color: #57DE57;
+  width: 60%;
+  max-width: 500px;
+  height: 35px;
+  max-height: 20px;
+  color: #ffffff;
+  text-align: center;
+  padding: 2%;
+  border-radius: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.elementTitleTicket {
+  color: #ffffff;
+  margin-top: 4%;
+  margin-bottom: 2%;
+  font-size: .75em;
+}
+
+.elementTitleTicketTextArea {
+  color: #ffffff;
+  margin-top: 4%;
+  margin-bottom: 2%;
+  font-size: .75em;
+}
+
+/* Select Payment 
+   ========================================================================== */
+.selectPaymentButton {
+ 	background: #25B0E6;
+  width: 70%;
+  max-width: 500px;
+  height: 35px;
+  max-height: 20px;
+  margin-top: .75em;
+  color: #ffffff;
+  text-align: center;
+  padding: 2%;
+}
+
+
+.buttonNextPayment {
+  background-color: #57DE57;
+  width: 60%;
+  max-width: 500px;
+  height: 35px;
+  max-height: 20px;
+  color: #ffffff;
+  text-align: center;
+  padding: 2%;
+  border-radius: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+}
+.spacer {
+	margin: 20%;
 }
 
 
