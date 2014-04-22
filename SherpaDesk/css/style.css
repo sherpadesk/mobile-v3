@@ -95,6 +95,7 @@ body, html {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 .reply {
 	color: #ffffff;
 	font-size: 14px;
@@ -106,6 +107,8 @@ body, html {
 }
 
 =======
+=======
+>>>>>>> FETCH_HEAD
 .textInput {
   background: rgba(0, 0, 0, .4);
   box-sizing:border-box;
@@ -116,6 +119,9 @@ body, html {
   padding: 10px;
   width: 100%;
 }
+<<<<<<< HEAD
+>>>>>>> FETCH_HEAD
+=======
 >>>>>>> FETCH_HEAD
 /* Header
    ========================================================================== */
