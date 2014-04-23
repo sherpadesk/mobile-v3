@@ -121,6 +121,17 @@ body, html {
   width: 100%;
 }
 
+.ticketsView {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.ticketsDesc {
+  color: #ffffff;
+  font-size: 12px;
+}
+
 /* Header
    ========================================================================== */
 
@@ -757,11 +768,6 @@ footer {
 	height: 50px;
 }
 
-.ticketsTitle {
-	color: #ffffff;
-	font-size: 16px;
-	font-weight: 600;
-}
 
 .ticketsList ul {
 	list-style-type: none;
@@ -906,10 +912,22 @@ footer {
 
 .TITlistRow > li:first-child {
   float: left;
+  width: 100px;
+}
+
+.TITlistRow li {
+  float: left;
+  width: 100px;
 }
 
 .TITlistRow > li:last-child {
   
+}
+
+.TITBlock {
+  background-color: #0099CC;
+  height: 35px;
+  width: 160px;
 }
 
 
