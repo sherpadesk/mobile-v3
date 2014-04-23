@@ -26,6 +26,13 @@ body, html {
 	overflow: hidden;
 }
 
+.backIcon {
+	top: 0; right: 0; bottom: 0; left: 0;
+	height: 25px;
+	margin: auto 0;
+	position: absolute;
+}
+
 .container {
 	margin: 0 auto;
 	width: 90%;
@@ -141,6 +148,11 @@ header {
 	height: auto;
 }
 
+.headerContainer {
+	margin: 0 auto;
+	width: 90%;
+}
+
 .topHeader {
 	list-style-type: none;
 	width: 100%;
@@ -150,6 +162,7 @@ header {
 	float: left;
 	height: 45px;
 	width: 60%;
+	position: relative;
 }
 
 .topHeader li:first-child {
