@@ -778,6 +778,7 @@ footer {
   width: 90%;
   margin: 0 auto;
   overflow: scroll;
+  padding-top: 80px;
   height: 515px;
 }
 .styled-selectTicket select {
@@ -849,20 +850,8 @@ footer {
 .selectPaymentButton {
   background: #489CD6;
   border: 0;
-  margin: 2px 0 15px 0;
-  color: #ffffff;
-  height: 45px;
-  width: 100%;
-  font-size: 16px;
-  text-align: center;
-  line-height: 45px;
-  }
-
-
-.buttonNextPayment {
-  background: #57DE57;
-  border: 0;
-  margin: 2px 0 15px 0;
+  display: block;
+  margin: 0 auto 15px auto;
   color: #ffffff;
   height: 45px;
   width: 100%;
@@ -870,8 +859,18 @@ footer {
   text-align: center;
   line-height: 45px;
 }
-.spacer {
-	margin: 20%;
+
+.buttonNextPayment {
+  background: #57DE57;
+  border: 0;
+  display: block;
+  margin-top: 30px;
+  color: #ffffff;
+  height: 45px;
+  width: 100%;
+  font-size: 16px;
+  text-align: center;
+  line-height: 45px;
 }
 
 /* Account_details
