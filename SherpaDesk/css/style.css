@@ -909,25 +909,37 @@ footer {
   margin-top: 35px;
   list-style-type: none;
 }
-
-.TITlistRow > li:first-child {
-  float: left;
-  width: 100px;
-}
-
 .TITlistRow li {
   float: left;
-  width: 100px;
+}
+
+.TITlistRow > li:first-child {
+  width: 25%;
+}
+.eyeIcon {
+  height: 30px;
+  display: block;
+  margin: 0 auto;
+}
+.eyeIconSpan {
+color: #ffffff;
+display: table;
+margin: 0 auto;
+font-size: 10px;
+}
+
+.titleBlockTitle {
+  color: #ffffff;
 }
 
 .TITlistRow > li:last-child {
-  
+  width: 75%;
 }
 
 .TITBlock {
   background-color: #0099CC;
   height: 35px;
-  width: 160px;
+  pad
 }
 
 
