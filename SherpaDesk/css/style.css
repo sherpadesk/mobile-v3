@@ -118,7 +118,7 @@ body, html {
    ========================================================================== */
 
 .bottomHeader {
-	background: #489CD6;
+	background: #0099CC;
 	height: 40px;
 	list-style-type: none;
 	width: 100%;
@@ -873,6 +873,39 @@ footer {
 .spacer {
 	margin: 20%;
 }
+
+/* Account_details
+   ========================================================================== */
+.accountDetailsContainer {
+  width: 90%;
+  margin: 0 auto;
+  overflow: scroll;
+  height: 515px;
+}
+
+.TITlist {
+  list-style-type: none;
+}
+
+.TITlistRow {
+  margin-top: 35px;
+  list-style-type: none;
+}
+
+.TITlistRow > li:first-child {
+  float: left;
+}
+
+.TITlistRow > li:last-child {
+  
+}
+
+
+
+
+
+
+
 
 
 
