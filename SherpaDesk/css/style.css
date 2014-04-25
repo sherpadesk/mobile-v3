@@ -899,48 +899,90 @@ footer {
   margin: 0 auto;
   overflow: scroll;
   height: 515px;
+  padding-top: 20px;
 }
 
-.TITlist {
+.OptionsList {
   list-style-type: none;
+  margin-top: 20px;
 }
 
-.TITlistRow {
-  margin-top: 35px;
-  list-style-type: none;
+
+
+.OptionTitle {
+  color: #ffffff;
+  float: left;
+  line-height: 45px;
+  text-align: center;
+  padding-left: 10px; 
 }
-.TITlistRow li {
+
+.OptionsList > li{
+ margin:0 0 10px 0;
+ height: 45px;
+}
+
+.OptionWrapper {
+  width: 85%;
+  background-color: #0099CC;
+  height: 100%;
   float: left;
 }
 
-.TITlistRow > li:first-child {
-  width: 25%;
-}
-.eyeIcon {
-  height: 30px;
-  display: block;
-  margin: 0 auto;
-}
-.eyeIconSpan {
-color: #ffffff;
-display: table;
-margin: 0 auto;
-font-size: 10px;
-}
-
-.titleBlockTitle {
+.NoticationWrapper {
+  width: 15%;
+  background-color: #006699;
+  height: 100%;
+  float: left;
   color: #ffffff;
+  line-height: 45px;
+  text-align: center;
 }
 
-.TITlistRow > li:last-child {
-  width: 75%;
+.openTicketTitle {
+  text-align: center;
+  color: #ffffff;
+  margin-top: 35px;
 }
 
-.TITBlock {
-  background-color: #0099CC;
-  height: 35px;
-  pad
+.openTicketWrapper {
+  overflow: scroll;
+  height: 225px;
 }
+
+.TicketWrapper {
+  background: rgba(0, 0, 0, 0.5);
+  height: 75px;
+  width: 100%;
+}
+
+.Ticketface {
+  background:url(profile_3.png) no-repeat center center;
+  height: 100%;
+  width: 25%;
+  float: left;
+}
+
+.TicketInfo {
+  color: #ffffff; 
+  height: 100%;
+  width: 50%;
+  float: left;
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  padding-left: 10px;
+  line-height: 85px;
+}
+
+.TicketNumber {
+  background-color: white;
+  height: 100%;
+  width: 25%;
+  float: left;
+}
+
+
+
 
 
 
