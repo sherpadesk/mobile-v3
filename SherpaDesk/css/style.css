@@ -800,8 +800,8 @@ footer {
   width: 90%;
   margin: 0 auto;
   overflow: scroll;
-  padding-top: 80px;
-  height: 515px;
+  padding-top: 30px;
+  height: 482px;
 }
 .styled-selectTicket select {
    background: #25B0E6;
