@@ -898,7 +898,7 @@ footer {
   width: 90%;
   margin: 0 auto;
   overflow: scroll;
-  height: 515px;
+  height: 485px;
   padding-top: 20px;
 }
 
@@ -941,6 +941,7 @@ footer {
 
 .openTicketTitle {
   text-align: center;
+  font-size: 14px;
   color: #ffffff;
   margin-top: 35px;
 }
@@ -966,7 +967,7 @@ footer {
 .TicketInfo {
   color: #ffffff; 
   height: 100%;
-  width: 50%;
+  width: 60%;
   float: left;
   box-sizing:border-box;
   -moz-box-sizing:border-box;
@@ -975,13 +976,39 @@ footer {
 }
 
 .TicketNumber {
-  background-color: white;
   height: 100%;
-  width: 25%;
+  width: 12%;
   float: left;
+  color: #ffffff;
+  line-height: 15px;
+    box-sizing:border-box;
+  -moz-box-sizing:border-box;
 }
 
+.TicketNumberWrapper {
+  list-style-type: none;
+  font-size: 12px;
+  margin-top: 24px;
+}
 
+.TicketInfoWrapper {
+  margin-top: 20px;
+  list-style-type: none;
+  font-size: 15px;
+  line-height: 20px;
+}
+.subTicketInfoList {
+  list-style-type: none;
+  font-weight: lighter;
+  font-size: 10px;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.subTicketInfoList li {
+  display: inline-block;
+  overflow: hidden;
+}
 
 
 
