@@ -25,6 +25,9 @@ body, html {
 	position: relative;
 	overflow: hidden;
 }
+strong {
+  font-size: 18px;
+}
 
 .backIcon {
 	top: 0; right: 0; bottom: 0; left: 0;
@@ -924,14 +927,14 @@ footer {
 
 .OptionWrapper {
   width: 85%;
-  background-color: #0099CC;
+  background-color: #25B0E6;
   height: 100%;
   float: left;
 }
 
 .NoticationWrapper {
   width: 15%;
-  background-color: #006699;
+  background-color: #0099CC;
   height: 100%;
   float: left;
   color: #ffffff;
@@ -1011,10 +1014,52 @@ footer {
 }
 
 
+/* Account_details
+   ========================================================================== */
+.accountListContainer {
+  width: 90%;
+  margin: 0 auto;
+  overflow: scroll;
+  height: 530px;
+  padding-top: 10px;
+}
 
+.accountGroupTitle {
+  text-align: center;
+  font-size: 14px;
+  color: #ffffff;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+.spacerBar {
+  text-align: center;
+  font-size: 14px;
+  color: #ffffff;
+  margin-top: 10px;
+  margin-bottom: 18px;
+}
 
+.AccountWrapper {
+  width: 100%;
+  overflow: scroll;
+  height: 210px;
+}
 
+.AccountTicketNumber {
+  height: 100%;
+  width: 12%;
+  float: left;
+  color: #ffffff;
+  line-height: 20px;
+    box-sizing:border-box;
+  -moz-box-sizing:border-box;
+}
 
+.accountTicketNumberWrapper {
+  list-style-type: none;
+  font-size: 12px;
+  margin-top: 15px;
+}
 
 
 
