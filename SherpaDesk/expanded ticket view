@@ -1,0 +1,38 @@
+expanded ticket view 
+{
+  subject
+  post (logs)
+  files
+  Last Updated Date
+  Location
+  Account
+  Class
+  Level
+  Priority
+  the tech 
+  the user 
+
+
+  functions (close ticket, transfer ticket, respond, add time, edit(edit, subject, account,level,class,priority))
+
+  add post 
+  add time log
+
+
+page a ( ticket number, subject, responses, add response)
+page b (ALL OTHER DATA )
+
+}
+
+
+Travel form 
+
+Expenses form 
+
+adjustments form 
+
+(adjust total amount, send invoice, adjust padding, resize title)
+
+(closed tickets button to blue)
+
+(remove reply to view)

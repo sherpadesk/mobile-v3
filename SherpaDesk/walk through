@@ -1,0 +1,24 @@
+account List      +
+account Detials   +
+account Tickets   +
+add Time          +
+Index (dashboard) +
+Invoice           +
+Select Payments   +
+Tickets List      +
+Time logs         +
++++++++++++++++++++
+
++Tickets > Add Tickets > (create Ticket?)           
+(BackButton) > Tickets > index(dashboard)
+
++Invoices > Invoices 
+(backButton) > index(dashboard)
+
++Time > time log > +(button) > Add Time 
+(backButton) > time log
+
+
+
+
+

@@ -514,7 +514,7 @@ margin: 0%;
 .invoiceContainer {
 	overflow: scroll;
 	margin: 0 auto;
-	height: 448px;
+	height: 545px;
 	width: 90%;
 }
 
@@ -801,7 +801,7 @@ footer {
   margin: 0 auto;
   overflow: scroll;
   padding-top: 30px;
-  height: 482px;
+  height: 475px;
 }
 .styled-selectTicket select {
    background: #25B0E6;
@@ -1020,7 +1020,7 @@ footer {
   width: 90%;
   margin: 0 auto;
   overflow: scroll;
-  height: 530px;
+  height: 500px;
   padding-top: 10px;
 }
 

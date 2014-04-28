@@ -14,7 +14,18 @@
     <script src="js/main.js"></script>
   </head>
   <header>
-    <h1 class="SherpaDesk">Account List</h1>
+    <div class="headerContainer">
+      <ul class="topHeader">
+        <li><a href="ticket_list.html"><img class="backIcon" src="img/back_icon.png"></a></li>
+        <li><h1 class="SherpaDesk">Account List</h1></li>
+        <li></li>
+      </ul>
+    </div>
+    <ul class="bottomHeader clearfix">
+      <li><a href="add_tickets.html">+ Tickets</a></li>
+      <li><a href = "invoice.html">+ Invoice</a></li>
+      <li><a href = "timelog.html">+ Time</a></li>
+    </ul>
   </header>
   <body class='dark'>
     <div class="accountListContainer">
@@ -27,6 +38,7 @@
               <div class="TicketInfo">
                 <ul class="TicketInfoWrapper">
                   <li>Blondie Smith</li>
+                  <a href="acount_details.html">
                   <li>
                     <ul class="subTicketInfoList">
                       <li>I was doing work earlier</li>
@@ -41,6 +53,7 @@
                 </ul>
               </div>
             </div>
+          </a>
           </li>
           <li>
             <div class="TicketWrapper">
@@ -161,9 +174,9 @@
     <div class="footerContainer">
       <nav>
         <ul class="navIcons">
-          <li><img class="navIcon" src="img/projects_icon.png"><p class="navTitle">Projects</p></li>
-          <li><img class="navIcon" src="img/time_icon.png"><p class="navTitle">Timelogs</p></li>
-          <li><img class="navIcon" src="img/account_icon.png"><p class="navTitle">Accounts</p></li>
+          <li><a href="index.html"><img class="navIcon" src="img/projects_icon.png"></a><p class="navTitle">Projects</p></li>
+          <li><a href="timelog.html"><img class="navIcon" src="img/time_icon.png"></a><p class="navTitle">Timelogs</p></li>
+          <li><a href="Account_List.html"><img class="navIcon" src="img/account_icon.png"></a><p class="navTitle">Accounts</p></li>
           <li><img class="navIcon" src="img/expenses_icon.png"><p class="navTitle">Expenses</p></li>
           <li><img class="navIcon" src="img/queue_icon.png"><p class="navTitle">Queue</p></li>
         </ul>
