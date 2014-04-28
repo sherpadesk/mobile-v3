@@ -406,13 +406,18 @@ var SherpaDesk = {
 		tktType.type = localStorage.getItem('sd_is_from');
 		tktType.Id = localStorage.getItem('sd_is_from_id');
 		
-		if(tktType && tktType.type=="accounts"){
-				var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?account=' + tktType.Id + '&status=open&limit=500');
-			} else if (tktType && tktType.type=="queues") {
-				var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'queues/' + tktType.Id);
-			} else {
-				var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?status=open&limit=500&role=' + localStorage.sd_user_role);
-			}			
+		if (tktType && tktType.type == "accounts") {
+		    var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?account=' + tktType.Id + '&status=open&limit=500');
+		} else if (tktType && tktType.type == "queues") {
+		    var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'queues/' + tktType.Id);
+		} else {
+		    var status = "open";
+		    if (localStorage.sd_user_role == "all")
+		        status = 'allopen';
+		    if (localStorage.sd_user_role == "user")
+		        status = 'open,onhold';
+		    var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?status=' + status + '&limit=500&query=' + localStorage.sd_user_role);
+		}
 		
 		getTicketList.then(
 			//sucess
@@ -975,7 +980,7 @@ var SherpaDesk = {
 	getTimeRollRecent: function(configPass){
 		$('body').empty().addClass('spinner');
 
-		var timeEntries = SherpaDesk.getSherpaDesk(configPass, 'time?type=recent');
+		var timeEntries = SherpaDesk.getSherpaDesk(configPass, 'time');
 		timeEntries.done(function(results){			
 			SherpaDesk.showTimeLogs(results);
 			
@@ -1467,13 +1472,6 @@ SherpaDesk.init(); // Initialize the entire app here <- kinda important
 	
 // add listeners and global helper functions --------------------------------------------
 
-// Login with Google
-function loginWithGoogle(configPass) {
-$('form.form-signin #login a').on('click', function() {
-    SherpaDesk.onLoginButtonClick(configPass);
-        });
-};
-
 function getParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
@@ -1499,6 +1497,22 @@ function checkLogin(configPass){
             $('form.google_openid').get(0).setAttribute('target', '_blank'); 
         }
         $('form.google_openid').get(0).submit();
+    });
+    $('a.login_signup').on('click', function (e) {
+        e.preventDefault();
+        var url = AppSite + 'mc/signuporg.aspx';
+        if (window.self !== window.top) {
+            $('form.login_signup').get(0).setAttribute('action', url);
+            alert('Please register in new window and reopen Sherpadesk extension again.');
+            $('form.login_signup').get(0).setAttribute('target', '_blank');
+            $('form.login_signup').get(0).submit();
+        }
+        else {
+            if (isPhonegap)
+                openURL(url);
+            else
+                document.location.href = url;
+        }
     });
 	};	
 			
