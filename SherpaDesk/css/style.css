@@ -452,8 +452,13 @@ header {
 }
 
 .tabs {
-  height: 30px;
+  height: 35px;
   margin-bottom: 4px;
+  margin: 0 auto;
+  margin-top: -5px;
+  width: 100%;
+  background-color: #0099CC;
+  padding-left: 15%;
 }
 
 .tabs ul {
@@ -462,19 +467,22 @@ header {
 }
 
 .tabs > ul > li {
-  margin: 0 2px 0 0;
-  padding: 7px 10px;
+  width: 20%;
+  text-align: center;
+  line-height: 35px;
+  height: 35px;
   display: block;
   float: left;
   color: #ffffff;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none; 
-  background: #25B0E6; /* old browsers */
+  background: #0099CC; /* old browsers */
 }
 
 .tabs > ul > li.tabActiveHeader {
-  background: transparent;
+  border-bottom: 2px solid #ffffff;
+  height: 33px;
   cursor:pointer;
   color: #ffffff;
 }
@@ -559,6 +567,8 @@ header {
 }
 .TicketfeedContainer {
   width: 90%;
+  max-width: 430px;
+  margin: 0 auto;
 }  
 
 .searchBar {
@@ -677,9 +687,9 @@ header {
 }
 
 .buttonList li {
-float: left;
-width: 30%;
-margin: 0%;
+  float: left;
+  width: 30%;
+  margin: 0%;
 }
 
 .button {
@@ -987,6 +997,12 @@ margin: 0%;
 .buttonList span {
 	line-height: 35px;
 	vertical-align: middle;
+
+}
+
+.buttonListSymbols {
+  font-weight: 700;
+  font-size: 30px;
 }
 
 .addTimeInput {
