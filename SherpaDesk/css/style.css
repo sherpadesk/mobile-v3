@@ -203,13 +203,13 @@ header {
 
 .dashboard {
 	background: rgba(0,0,0, .4);
-	height: 200px;
+	height: 150px;
 	position: relative;
 	width: 100%;
 }
 
 .dashboardContainer {
-	height: 150px;
+	height: 120px;
 	margin: 0 auto;
 	padding-top: 15px;
 	width: 100%;
@@ -220,6 +220,28 @@ header {
 	height: 100%;
 	margin-bottom: 10px;
 	width: 50%;
+}
+
+.subTicketsTicker {
+  width: 70%;
+  height: 50px;
+  background-color: #25B0E6;
+  float: left;
+  margin-bottom: 13px;
+}
+
+.subTicketsTickerHalf {
+  width: 30%;
+  height: 50px;
+  background-color: #0099CC;
+  float: left;
+  margin-bottom: 13px;
+}
+
+.SubTicketsTitle {
+  color: #ffffff;
+  text-align: center;
+  line-height: 50px;
 }
 
 .dashboardLeft {
@@ -233,6 +255,7 @@ header {
 	font-size: 84px;
 	font-weight: 400;
 	text-align: center;
+  line-height: 90px;
 }
 
 .mainStatTitle {
@@ -521,6 +544,20 @@ header {
 
 .searchIcon {
   height: 20px;
+}
+
+.ticketsContainer {
+  overflow: scroll;
+  margin: 0 auto;
+  height: 448px;
+  width: 90%;
+}
+
+.AccountDetailsTicketsContainer {
+  overflow: scroll;
+  margin: 0 auto;
+  height: 217px;
+  width: 90%;
 }
 /* Feed
    ========================================================================== */
@@ -1188,16 +1225,18 @@ footer {
 }
 
 .TicketWrapper {
-  background: rgba(0, 0, 0, 0.5);
+  background: transparent;
   height: 65px;
   width: 100%;
+  border-top: 2px solid white;
+  color: white;
 }
 
 .TicketWrapperList {
   color: #ffffff;
   list-style-type: none;
   text-align: center;
-  line-height: 60px;
+  line-height: 66px;
 }
 
 .TicketWrapperList li {
@@ -1290,6 +1329,68 @@ footer {
 .accountList li{
   margin-bottom: 15px;
 }
+
+
+/* Dashboard Redesign
+   ========================================================================== */
+.chartContainer {
+  width: 100%;
+  height: 210px;
+  margin-top: -15px;
+}
+
+.queuesHeader {
+  color: #ffffff;
+  text-align: center;
+  margin-top:20px;
+  margin-bottom: -30px;
+}
+
+.ActiveAccountsContainer {
+  width: 90%;
+  height: 175px;
+  margin-left: 20px;
+  overflow: scroll;
+}
+
+.ActiveAccountsList {
+  list-style: none;
+}
+
+.accountNameBlock {
+  width: 60%;
+  height: 40px;
+  background-color: transparent;
+  border-top: 1px solid white;
+  float: left;
+}
+
+.accountActivityBlock {
+  width: 40%;
+  height: 40px;
+  background-color: transparent;
+  border-top: 1px solid white;
+  float: left;
+}
+
+.activeAccountTitle {
+  color: white;
+  line-height: 40px;
+  vertical-align: center;
+  margin-left: 10px;
+}
+
+.activeAccountActivity {
+  color: white;
+  line-height: 40px;
+  vertical-align: center;
+  text-align: right;
+  margin-right: 10px;
+}
+
+
+
+
 
 
 
