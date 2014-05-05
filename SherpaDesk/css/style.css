@@ -237,13 +237,13 @@ header {
 
 .dashboard {
 	background: rgba(0,0,0, .4);
-	height: 150px;
+	height: 200px;
 	position: relative;
 	width: 100%;
 }
 
 .dashboardContainer {
-	height: 120px;
+	height: 150px;
 	margin: 0 auto;
 	padding-top: 15px;
 	width: 100%;
@@ -289,7 +289,6 @@ header {
 	font-size: 84px;
 	font-weight: 400;
 	text-align: center;
-  line-height: 90px;
 }
 
 .mainStatTitle {
