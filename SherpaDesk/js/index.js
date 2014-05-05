@@ -26,8 +26,25 @@ $(document).ready(function() {
 		}
 	};
 
+	var sideBar = {
+		init: function() {
+			this.slideOut();
+		}, 
+
+		slideOut: function() {
+			$(".SherpaDesk").click(function() {
+				$(".bodyContent").addClass("bodyContentOut");
+				$(".sideNav").addClass("sideNavOut");
+				// $(".sideNav").show("slide", { direction : "left"}, 200);
+				// $(".bodyContent").hide("slide", {direction : "right"}, 300);
+				// $(".bodyContent, header").animate({'left': '40%'}, 200);
+			});
+		}
+	};
+
 	(function() {
 		homePage.init();
+		sideBar.init();
 	}()); 
 
 }); 

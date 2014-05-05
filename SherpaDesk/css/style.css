@@ -18,7 +18,6 @@ a {
 }
 
 body, html {
-	padding-top: 40px;	
 	background: url("../img/bg.png");
 	background-size: cover;
 	height: 100%;
@@ -171,6 +170,50 @@ strong {
    background-position: top 18px right 18px;
 }
 
+/* SideNav
+   ========================================================================== */
+
+.bodyContent {
+	left: 0;
+	position: relative;
+}
+
+.bodyContentOut {
+	transform:translateX(10px);
+	-webkit-transform: translateX(300px);
+	-webkit-transition: -webkit-transform .5s ease-in; /* Changed here */ 
+	   -moz-transition: -moz-transform .5s ease-in;
+	     -o-transition: -o-transform .5s ease-in;
+	        transition: transform .5s ease-in;
+}
+
+.sideNav {
+	background-color: #1A1D25;
+	height: 100%;
+	position: absolute;
+	top: 0; left: 0;
+	width: 60%;
+	z-index: 2;
+	transform:translateX(-300px);
+	-webkit-transform: translateX(-300px);
+	-webkit-transform: translateX(-300px);
+	-webkit-transition: -webkit-transform 3s ease-in; /* Changed here */ 
+	   -moz-transition: -moz-transform 3s ease-in;
+	     -o-transition: -o-transform 3s ease-in;
+	        transition: transform 3s ease-in;
+}
+
+.sideNavOut {
+	display: block;
+	transform:translateX(10px);
+	-webkit-transform: translateX(10px);
+	-webkit-transform: translateX(10px);
+	-webkit-transition: -webkit-transform .5s ease-in; /* Changed here */ 
+	   -moz-transition: -moz-transform .5s ease-in;
+	     -o-transition: -o-transform .5s ease-in;
+	        transition: transform .5s ease-in;
+}
+
 /* Header
    ========================================================================== */
 
@@ -196,6 +239,8 @@ header {
 	background: #25B0E6;
 	overflow: auto;
 	height: auto;
+	left: 0;
+	position: relative;
 }
 
 .headerContainer {
@@ -609,7 +654,7 @@ header {
    ========================================================================== */
 
 .feed {
-	height: 210px;
+	height: 260px;
 	overflow: scroll;
 	width: 100%;
 }
