@@ -1,8 +1,3 @@
-@font-face {
-	font-family: Helvetica Neue;
-	src: url("fonts/Helvetica/HelveticaNeue.otf");
-}
-
 html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, menu, nav, section, time, mark, audio, video {
     margin: 0;
     padding: 0;
@@ -10,8 +5,13 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
 }
 
 *{
+<<<<<<< HEAD
   font-weight: 300;
   font-family: 'Helvetica Neue', sans-serif;
+=======
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+>>>>>>> FETCH_HEAD
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
   -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important; 
   outline: none !important;
@@ -664,6 +664,10 @@ header {
   background: #0099CC; /* old browsers */
 }
 
+.tabs li:last-child {
+  height: 20px;
+}
+
 .tabs > ul > li.tabActiveHeader {
   border-bottom: 2px solid #ffffff;
   height: 33px;
@@ -774,6 +778,11 @@ header {
 
 .searchIcon {
   height: 20px;
+  margin-top:5px;
+  }
+
+.SearchButton {
+  height: 18px;
 }
 
 .ticketsContainer {
@@ -1789,38 +1798,10 @@ footer {
 
 }
 
-.tabs {
-  height: 35px;
-  margin-bottom: 4px;
+.TDSinfoContainer {
+  width: 90%;
+  height: 400px;
+  overflow: scroll;
   margin: 0 auto;
-  margin-top: -5px;
-  width: 100%;
-  background-color: #0099CC;
-  padding-left: 15%;
-}
-
-.tabs ul {
-  font-size: 15px;
-  list-style: none;
-}
-
-.tabs > ul > li {
-  width: 20%;
-  text-align: center;
-  line-height: 35px;
-  height: 35px;
-  display: block;
-  float: left;
-  color: #ffffff;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none; 
-  background: #0099CC; /* old browsers */
-}
-
-.tabs > ul > li.tabActiveHeader {
-  border-bottom: 2px solid #ffffff;
-  height: 33px;
-  cursor:pointer;
-  color: #ffffff;
+  background-color: blue;
 }
