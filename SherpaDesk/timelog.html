@@ -10,105 +10,177 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Jquery UI -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <!-- Main.js -->
-    <script src="js/main.js"></script>
+    <script src="js/index.js"></script>
   </head>
   <header>
     <ul class="topHeader">
-      <div class="container">
-        <li></li>
-        <li><h1 class="SherpaDesk">Timelog</h1></li>
-        <li><a href="add_time.html"><img class="plusIconHeader" src="img/plus_icon.png"></a></li>
-      </div>
+      <li><img class="headerNavIcon " src="img/navicon.png"></li>
+      <li><h1 class="SherpaDesk">Timelog</h1></li>
+      <li><a href="add_time.html"><img class="plusIconHeader" src="img/plus_icon.png"></a></li>
     </ul>
   </header>
-  <body class="dark">
-    <div class="timelogContainer">
-      <ul class="timelogs">
-        <li>
-          <ul class="timelog"> 
-            <li>
-              <img class="timelogProfile" src="img/profile_1.png">
-            </li>
-            <li>
-              <h2 class="feedName">Vika Levina</h2>
-              <p class="taskDescription">Updated mockups and designed...</p>
-            </li>
-            <li>
-              <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <ul class="timelog"> 
-            <li>
-              <img class="timelogProfile" src="img/profile_2.png">
-            </li>
-            <li>
-              <h2 class="feedName">Vika Levina</h2>
-              <p class="taskDescription">Updated mockups and designed...</p>
-            </li>
-            <li>
-              <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <ul class="timelog"> 
-            <li>
-              <img class="timelogProfile" src="img/profile_3.png">
-            </li>
-            <li>
-              <h2 class="feedName">Vika Levina</h2>
-              <p class="taskDescription">Updated mockups and designed...</p>
-            </li>
-            <li>
-              <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <ul class="timelog"> 
-            <li>
-              <img class="timelogProfile" src="img/profile_1.png">
-            </li>
-            <li>
-              <h2 class="feedName">Vika Levina</h2>
-              <p class="taskDescription">Updated mockups and designed...</p>
-            </li>
-            <li>
-              <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <ul class="timelog"> 
-            <li>
-              <img class="timelogProfile" src="img/profile_2.png">
-            </li>
-            <li>
-              <h2 class="feedName">Vika Levina</h2>
-              <p class="taskDescription">Updated mockups and designed...</p>
-            </li>
-            <li>
-              <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
-            </li>
-          </ul>
-        </li>
+  <body>
+    <nav class="sideNav">
+      <img class="navProfile" src="img/profile_3.png">
+      <h2 class="navName">Nora Marrow</h2>
+      <ul class="sideNavLinks">
+        <a href="index.html"><li><div class="sideNavCircle"></div><span>Home</span></li></a>
+        <a href="timelog.html"><li><div class="sideNavCircle"></div><span>Timelogs</span></li></a>
+        <li><div class="sideNavCircle"></div><span>Accounts</span></li>
+        <li><div class="sideNavCircle"></div><span>Expenses</span></li>
+        <li><div class="sideNavCircle"></div><span>Queue</span></li>
+        <li><div class="sideNavCircle"></div><span>Projects</span></li>
       </ul>
-    </div>
-  </body>
-  <footer>
-    <div class="footerContainer">
-      <nav>
-        <ul class="navIcons">
-          <li><a href="index.html"><img class="navIcon" src="img/projects_icon.png"></a><p class="navTitle">Projects</p></li>
-          <li><a href="timelog.html"><img class="navIcon" src="img/time_icon.png"></a><p class="navTitle">Timelogs</p></li>
-          <li><a href="Account_List.html"><img class="navIcon" src="img/account_icon.png"></a><p class="navTitle">Accounts</p></li>
-          <li><img class="navIcon" src="img/expenses_icon.png"><p class="navTitle">Expenses</p></li>
-          <li><img class="navIcon" src="img/queue_icon.png"><p class="navTitle">Queue</p></li>
+    </nav>
+    <section class="bodyContent bodyContentDark">
+      <div class="timelogContainer">
+        <ul class="timelogs">
+          <li>
+            <ul class="timelog"> 
+              <li>
+                <img class="timelogProfile" src="img/profile_1.png">
+              </li>
+              <li>
+                <h2 class="feedName">Vika Levina</h2>
+                <p class="taskDescription">Updated mockups and designed...</p>
+              </li>
+              <li>
+                <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="timelog"> 
+              <li>
+                <img class="timelogProfile" src="img/profile_2.png">
+              </li>
+              <li>
+                <h2 class="feedName">Vika Levina</h2>
+                <p class="taskDescription">Updated mockups and designed...</p>
+              </li>
+              <li>
+                <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="timelog"> 
+              <li>
+                <img class="timelogProfile" src="img/profile_3.png">
+              </li>
+              <li>
+                <h2 class="feedName">Vika Levina</h2>
+                <p class="taskDescription">Updated mockups and designed...</p>
+              </li>
+              <li>
+                <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="timelog"> 
+              <li>
+                <img class="timelogProfile" src="img/profile_1.png">
+              </li>
+              <li>
+                <h2 class="feedName">Vika Levina</h2>
+                <p class="taskDescription">Updated mockups and designed...</p>
+              </li>
+              <li>
+                <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="timelog"> 
+              <li>
+                <img class="timelogProfile" src="img/profile_2.png">
+              </li>
+              <li>
+                <h2 class="feedName">Vika Levina</h2>
+                <p class="taskDescription">Updated mockups and designed...</p>
+              </li>
+              <li>
+                <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="timelog"> 
+              <li>
+                <img class="timelogProfile" src="img/profile_1.png">
+              </li>
+              <li>
+                <h2 class="feedName">Vika Levina</h2>
+                <p class="taskDescription">Updated mockups and designed...</p>
+              </li>
+              <li>
+                <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="timelog"> 
+              <li>
+                <img class="timelogProfile" src="img/profile_2.png">
+              </li>
+              <li>
+                <h2 class="feedName">Vika Levina</h2>
+                <p class="taskDescription">Updated mockups and designed...</p>
+              </li>
+              <li>
+                <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="timelog"> 
+              <li>
+                <img class="timelogProfile" src="img/profile_3.png">
+              </li>
+              <li>
+                <h2 class="feedName">Vika Levina</h2>
+                <p class="taskDescription">Updated mockups and designed...</p>
+              </li>
+              <li>
+                <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="timelog"> 
+              <li>
+                <img class="timelogProfile" src="img/profile_1.png">
+              </li>
+              <li>
+                <h2 class="feedName">Vika Levina</h2>
+                <p class="taskDescription">Updated mockups and designed...</p>
+              </li>
+              <li>
+                <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <ul class="timelog"> 
+              <li>
+                <img class="timelogProfile" src="img/profile_2.png">
+              </li>
+              <li>
+                <h2 class="feedName">Vika Levina</h2>
+                <p class="taskDescription">Updated mockups and designed...</p>
+              </li>
+              <li>
+                <img class="feedClock" src="img/clock_icon_small.png"><h3 class="feedTime"><span>9</span> hrs</h3>
+              </li>
+            </ul>
+          </li>
         </ul>
-      </nav>
-    </div>
-  </footer>
+      </div>
+    </section>
+  </body>
 </html>
