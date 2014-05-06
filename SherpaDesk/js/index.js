@@ -27,17 +27,31 @@ $(document).ready(function() {
 	};
 
 	var sideBar = {
+		slide: false,
+
 		init: function() {
-			this.slideOut();
+			this.slideController();
 		}, 
 
 		slideOut: function() {
-			$(".SherpaDesk").click(function() {
-				$(".bodyContent").addClass("bodyContentOut");
-				$(".sideNav").addClass("sideNavOut");
-				// $(".sideNav").show("slide", { direction : "left"}, 200);
-				// $(".bodyContent").hide("slide", {direction : "right"}, 300);
-				// $(".bodyContent, header").animate({'left': '40%'}, 200);
+			$(".bodyContent, header").addClass("contentOut");
+			$(".sideNav").addClass("sideNavOut");
+			slide = true;
+		},
+
+		slideIn: function(e) {
+			e.preventDefault();
+			$(".bodyContent, header").removeClass("contentOut");
+			$(".sideNav").removeClass("sideNavOut");
+			slide = false;
+		}, 
+
+		slideController: function() {
+			$(".headerNavIcon").click(function() {
+				sideBar.slideOut();
+			});
+			$(".bodyContent").click(function(e) {
+				sideBar.slideIn(e);
 			});
 		}
 	};
