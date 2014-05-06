@@ -10,8 +10,7 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
 }
 
 *{
-  /*font-family: 'Open Sans', sans-serif;
-  font-weight: 300;*/
+  font-weight: 300;
   font-family: 'Helvetica Neue', sans-serif;
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0) !important; 
   -webkit-focus-ring-color: rgba(255, 255, 255, 0) !important; 
@@ -92,8 +91,8 @@ strong {
 }
 
 .plusIconHeader {
-	height: 30px;
-	margin-top: 10px;
+	height: 23px;
+	margin-top: 12px;
 	float: right;
 }
 
@@ -185,6 +184,13 @@ strong {
 	background: url("../img/bg.png");
 	background-size: cover;
 	height: 100%;
+}
+
+.bodyContentDark {
+	background: url("../img/bg_dark.png") no-repeat !important;
+	background-size: cover !important;
+	height: 510px;
+	overflow: scroll;
 }
 
 header, .bodyContent {
@@ -312,7 +318,7 @@ header, .bodyContent {
 
 header {
 	background: #25B0E6;
-	overflow: auto;
+	overflow: hidden;
 	height: auto;
 	left: 0;
 	position: relative;
@@ -1105,7 +1111,7 @@ header {
 }
 
 .timelogs {
-	margin-top: 35px;
+	padding-top: 35px;
 	list-style-type: none;
 }
  
