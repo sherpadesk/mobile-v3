@@ -27,8 +27,6 @@ $(document).ready(function() {
 	};
 
 	var sideBar = {
-		slide: false,
-
 		init: function() {
 			this.slideController();
 		}, 
@@ -56,9 +54,42 @@ $(document).ready(function() {
 		}
 	};
 
+	var searchBar = {
+		init: function() {
+			this.slideOut();
+			this.slideIn();
+		},
+
+		slideOut: function() {
+			$(".topHeader li:last-child").on("click", ".headerSearchIcon", function() {
+				var parent = $(this).parent();
+				var insert = "<div class='headerSearchContainer'><img class='searchIconExpanded' src='../img/search_icon.png'><input class='headerSearch'><img class='searchCloseExpanded' src='../img/close_search.png'></div>"
+				$(parent).empty();
+				$(insert).appendTo( $( parent ) );
+				$(".headerSearchContainer").animate({
+					width: "235px"
+				}, 300);
+			});
+		},
+
+		slideIn: function() {
+			var parent = ".topHeader li:last-child";
+			var insert = "<img class='headerSearchIcon' src='img/search_icon.png'>"
+			$(parent).on("click", ".searchCloseExpanded", function() {
+				$(".headerSearchContainer").animate({
+					width: "5px"
+				}, 300, function() {
+					$(parent).empty();
+					$(insert).appendTo( $( parent ) );
+				});
+			});
+		}
+	};
+
 	(function() {
 		homePage.init();
 		sideBar.init();
+		searchBar.init();
 	}()); 
 
 }); 

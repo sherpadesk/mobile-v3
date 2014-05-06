@@ -17,6 +17,10 @@ a {
   color:inherit;
 }
 
+body, .sideNav {
+	padding-top: 80px;
+}
+
 body, html {
 	height: 100%;
 	width: 100%;
@@ -277,6 +281,11 @@ header, .bodyContent {
 	z-index: 3;
 }
 
+.bottomHeaderContainer {
+	margin: 0 auto;
+	width: 90%;
+}
+
 .bottomHeader li {
 	color: #ffffff;
 	float: left;
@@ -285,6 +294,14 @@ header, .bodyContent {
 	text-align: center;
 	line-height: 35px;
 	vertical-align: middle;
+}
+
+.bottomHeader li:first-child {
+	text-align: left;
+}
+
+.bottomHeader li:last-child {
+	text-align: right;
 }
 
 header {
@@ -338,6 +355,53 @@ header {
 	line-height: 50px;
 	text-align: center;
 	vertical-align: middle;
+}
+
+.headerSearch {
+	background: transparent;
+	border: none;
+	font-size: 14px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	color: #ffffff;
+	height: 30px;
+	float: left;
+	padding: 0 5px 0 5px;
+	width: 70%;
+}
+
+.headerSearchContainer {
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	box-sizing:border-box;
+  	-moz-box-sizing:border-box;
+	height: 30px;
+	margin-top: 7px;
+	float: right;
+	background: #0099CC;
+	width: 0px;
+}
+
+.headerSearchIcon {
+	height: 23px;
+	margin-top: 10px;
+	float: right;
+}
+
+.searchIconExpanded {
+	height: 23px;
+	margin: 4px 0 0 6px;
+	float: left;
+}
+
+.searchCloseExpanded {
+	float: left;
+	margin-top: -2px;
+	padding-left: 10px;
 }
 
 /* Dashboard
@@ -718,9 +782,10 @@ header {
 
 .feed {
 	height: 260px;
-	overflow: scroll;
+	overflow-y: scroll;
 	width: 100%;
 }
+
 
 .feedContainer {
 	margin: 15px auto 0 auto;
