@@ -21,13 +21,16 @@ a {
 }
 
 body, .sideNav {
+	background: url("../img/bg_dark.png");
 	padding-top: 80px;
 }
 
 body, html {
+/*  height: 100%;
   width: 100%;
   position: relative;
-  overflow: hidden;
+  overflow: hidden;*/
+  height: 100%;
 }
 strong {
   font-size: 20px;
@@ -194,9 +197,8 @@ strong {
    ========================================================================== */
 
 .bodyContent {
-  background: url("../img/bg.png");
-  background-size: cover;
-  height: 100%;
+/*  background-size: cover;
+  height: 100%;*/
 }
 
 .bodyContentDark {
@@ -1323,7 +1325,7 @@ footer {
   margin: 0 auto;
   overflow: scroll;
   padding-top: 30px;
-  height: 380px;
+  height: 470px;
 }
 .styled-selectTicket select {
    background: #25B0E6;
