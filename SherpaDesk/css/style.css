@@ -21,11 +21,10 @@ a {
 }
 
 body, .sideNav {
-/*	padding-top: 80px;*/
+	padding-top: 80px;
 }
 
 body, html {
-  height: 100%;
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -1720,6 +1719,10 @@ footer {
   margin-top: 10px;
 }
 
+#tabpage_info, #tabpage_options {
+	display: none;
+}
+
 .TDSinfo {
   background: rgba(0, 0, 0, 0.5);
   width: 100%;
@@ -1736,14 +1739,14 @@ footer {
 }
 .replyButton {
   width: 40%;
-  height: 45px;
-  background-color: #57DE57;
+  height: 35px;
+  background-color: #4bb24d;
   margin-left: auto;
   margin-top: 5px;
   color: #ffffff;
-  font-size: 20px;
+  font-size: 14px;
   text-align: center;
-  line-height: 45px;
+  line-height: 35px;
 }
 
 .responseBlock {
