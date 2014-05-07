@@ -1162,6 +1162,7 @@ header {
   margin: 0 auto;
   overflow: scroll;
   width: 90%;
+  overflow-y:auto;
 }
 
 .buttonList {
