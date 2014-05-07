@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->    
     <title>SherpaDesk</title>
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css" />
@@ -10,118 +10,128 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Jquery UI -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <!-- Main.js -->
-    <script src="js/main.js"></script>
+    <script src="js/index.js"></script>
   </head>
   <header>
-    <div class="headerContainer">
-      <ul class="topHeader">
-        <li><a href="ticket_list.html"><img class="backIcon" src="img/back_icon.png"></a></li>
-        <li><h1 class="SherpaDesk">Account List</h1></li>
-        <li></li>
-      </ul>
-    </div>
-    <ul class="bottomHeader clearfix">
-      <li><a href="add_tickets.html">+ Tickets</a></li>
-      <li><a href = "invoice.html">+ Invoice</a></li>
-      <li><a href = "timelog.html">+ Time</a></li>
+    <ul class="topHeader">
+      <li><img class="headerNavIcon " src="img/navicon.png"></li>
+      <li><h1 class="SherpaDesk">Accounts</h1></li>
+      <li><a href="add_time.html"><img class="plusIconHeader" src="img/plus_icon.png"></a></li>
     </ul>
   </header>
-  <body class='dark'>
-    <div class="accountListContainer">
-      <div class="AccountWrapper">
-        <ul class="accountList">
-          <li>
-            <div class="TicketWrapper">
-              <ul class="TicketWrapperList">  
-                <li class="TicketWrapperListName"><p>SherpaDesk</p></li>
+  <body>
+    <nav class="sideNav">
+      <img class="navProfile" src="img/profile_3.png">
+      <h2 class="navName">Nora Marrow</h2>
+      <ul class="sideNavLinks">
+        <a href="index.html"><li><div class="sideNavCircle"></div><span>Home</span></li></a>
+        <a href="timelog.html"><li><div class="sideNavCircle"></div><span>Timelogs</span></li></a>
+        <li><div class="sideNavCircle"></div><span>Accounts</span></li>
+        <li><div class="sideNavCircle"></div><span>Expenses</span></li>
+        <li><div class="sideNavCircle"></div><span>Queue</span></li>
+        <li><div class="sideNavCircle"></div><span>Projects</span></li>
+      </ul>
+    </nav>
+    <section class="bodyContent bodyContentDark">
+      <div class="accountListContainer">
+        <div class="AccountWrapper">
+          <ul class="accountList">
+            <li>
+              <div class="TicketWrapper">
+                <ul class="TicketWrapperList">  
+                  <li class="TicketWrapperListName"><p>SherpaDesk</p></li>
 
-                <li class= "TicketWrapperData"><strong>32</strong>  hrs</li>
-                <li>|</li>
-                <li class= "TicketWrapperData"><strong>40</strong>  tks</li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="TicketWrapper">
-              <ul class="TicketWrapperList">  
-                <li class="TicketWrapperListName">Amie</li>
+                  <li class= "TicketWrapperData"><strong>32</strong>  hrs</li>
+                  <li>|</li>
+                  <li class= "TicketWrapperData"><strong>40</strong>  tks</li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div class="TicketWrapper">
+                <ul class="TicketWrapperList">  
+                  <li class="TicketWrapperListName">Amie</li>
 
-                <li class= "TicketWrapperData"><strong>3</strong>  hrs</li>
-                <li>|</li>
-                <li class= "TicketWrapperData"><strong>10</strong>  tks</li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="TicketWrapper">
-              <ul class="TicketWrapperList">  
-                <li class="TicketWrapperListName">IT Support</li>
+                  <li class= "TicketWrapperData"><strong>3</strong>  hrs</li>
+                  <li>|</li>
+                  <li class= "TicketWrapperData"><strong>10</strong>  tks</li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div class="TicketWrapper">
+                <ul class="TicketWrapperList">  
+                  <li class="TicketWrapperListName">IT Support</li>
 
-                <li class= "TicketWrapperData"><strong>22</strong>  hrs</li>
-                <li>|</li>
-                <li class= "TicketWrapperData"><strong>140</strong>  tks</li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="TicketWrapper">
-              <ul class="TicketWrapperList">  
-                <li class="TicketWrapperListName">ATV</li>
+                  <li class= "TicketWrapperData"><strong>22</strong>  hrs</li>
+                  <li>|</li>
+                  <li class= "TicketWrapperData"><strong>140</strong>  tks</li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div class="TicketWrapper">
+                <ul class="TicketWrapperList">  
+                  <li class="TicketWrapperListName">ATV</li>
 
-                <li class= "TicketWrapperData"><strong>12</strong>  hrs</li>
-                <li>|</li>
-                <li class= "TicketWrapperData"><strong>20</strong>  tks</li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="TicketWrapper">
-              <ul class="TicketWrapperList">  
-                <li class="TicketWrapperListName">GlitchMob</li>
+                  <li class= "TicketWrapperData"><strong>12</strong>  hrs</li>
+                  <li>|</li>
+                  <li class= "TicketWrapperData"><strong>20</strong>  tks</li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div class="TicketWrapper">
+                <ul class="TicketWrapperList">  
+                  <li class="TicketWrapperListName">GlitchMob</li>
 
-                <li class= "TicketWrapperData"><strong>32</strong>  hrs</li>
-                <li>|</li>
-                <li class= "TicketWrapperData"><strong>40</strong>  tks</li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="TicketWrapper">
-              <ul class="TicketWrapperList">  
-                <li class="TicketWrapperListName">Arizona inc</li>
+                  <li class= "TicketWrapperData"><strong>32</strong>  hrs</li>
+                  <li>|</li>
+                  <li class= "TicketWrapperData"><strong>40</strong>  tks</li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div class="TicketWrapper">
+                <ul class="TicketWrapperList">  
+                  <li class="TicketWrapperListName">Arizona inc</li>
 
-                <li class= "TicketWrapperData"><strong>12</strong>  hrs</li>
-                <li>|</li>
-                <li class= "TicketWrapperData"><strong>30</strong>  tks</li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="TicketWrapper">
-              <ul class="TicketWrapperList">  
-                <li class="TicketWrapperListName">SherpaDesk</li>
+                  <li class= "TicketWrapperData"><strong>12</strong>  hrs</li>
+                  <li>|</li>
+                  <li class= "TicketWrapperData"><strong>30</strong>  tks</li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div class="TicketWrapper">
+                <ul class="TicketWrapperList">  
+                  <li class="TicketWrapperListName">SherpaDesk</li>
 
-                <li class= "TicketWrapperData"><strong>32</strong>  hrs</li>
-                <li>|</li>
-                <li class= "TicketWrapperData"><strong>40</strong>  tks</li>
-              </ul>
-            </div>
-          </li>
-          <li>
-            <div class="TicketWrapper">
-              <ul class="TicketWrapperList">  
-                <li class="TicketWrapperListName">ATV</li>
+                  <li class= "TicketWrapperData"><strong>32</strong>  hrs</li>
+                  <li>|</li>
+                  <li class= "TicketWrapperData"><strong>40</strong>  tks</li>
+                </ul>
+              </div>
+            </li>
+            <li>
+              <div class="TicketWrapper">
+                <ul class="TicketWrapperList">  
+                  <li class="TicketWrapperListName">ATV</li>
 
-                <li class= "TicketWrapperData"><strong>52</strong>  hrs</li>
-                <li>|</li>
-                <li class= "TicketWrapperData"><strong>60</strong>  tks</li>
-              </ul>
-            </div>
-          </li>
-        </ul>
+                  <li class= "TicketWrapperData"><strong>52</strong>  hrs</li>
+                  <li>|</li>
+                  <li class= "TicketWrapperData"><strong>60</strong>  tks</li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </section>
   </body>
   <footer>
     <div class="footerContainer">
