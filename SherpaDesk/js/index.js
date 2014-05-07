@@ -86,10 +86,35 @@ $(document).ready(function() {
 		}
 	};
 
+	var ticketDetails = {
+		init: function() {
+			this.tab();
+		},
+
+		tab: function() {
+			$(".tabHeader").click(function() {
+				$(".tabpage").fadeOut(300);
+				switch( $(this).attr("data-id") ) {
+					case "reply":
+						$("#tabpage_reply").fadeIn(300);
+						break;
+					case "info":
+						$("#tabpage_info").fadeIn(300);
+						break
+					case "options":
+						$("#tabpage_options").fadeIn(300);
+					default:
+						break;
+				}
+			});
+		}
+	};
+
 	(function() {
 		homePage.init();
 		sideBar.init();
 		searchBar.init();
+		ticketDetails.init();
 	}()); 
 
 }); 
