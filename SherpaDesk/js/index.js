@@ -86,7 +86,6 @@ $(document).ready(function() {
 		}
 	};
 
-<<<<<<< HEAD
 	var ticker = {
 		init: function() {
 			this.changeTime();
@@ -104,7 +103,10 @@ $(document).ready(function() {
 			$(".buttonList li:nth-child(1)").click(function() {
 				counter -= .25;
 				spanSelector.html(counter);
-=======
+			});
+		}
+	};
+
 	var ticketDetails = {
 		init: function() {
 			this.tab();
@@ -125,7 +127,6 @@ $(document).ready(function() {
 					default:
 						break;
 				}
->>>>>>> FETCH_HEAD
 			});
 		}
 	};
@@ -134,11 +135,8 @@ $(document).ready(function() {
 		homePage.init();
 		sideBar.init();
 		searchBar.init();
-<<<<<<< HEAD
 		ticker.init();
-=======
 		ticketDetails.init();
->>>>>>> FETCH_HEAD
 	}()); 
 
 }); 
