@@ -639,7 +639,6 @@ header {
   margin-top: -5px;
   width: 100%;
   background-color: #0099CC;
-  padding-left: 15%;
 }
 
 .tabs ul {
@@ -648,7 +647,7 @@ header {
 }
 
 .tabs > ul > li {
-  width: 20%;
+  width: 33.33%;
   text-align: center;
   line-height: 35px;
   height: 35px;
@@ -1696,7 +1695,7 @@ footer {
 
 .tabpageContainer {
   width: 90%;
-  height: 400px;
+  height: 250px;
   overflow: scroll;
   margin: 0 auto;
   margin-top: 10px;
@@ -1734,6 +1733,10 @@ footer {
   border-bottom: 1px solid #cccccc;
   padding-bottom: 5px;
   padding-top: 5px;
+}
+
+.responseBlock:last-child {
+	border-bottom: none;
 }
 
 .responseBlock li {
@@ -1777,12 +1780,6 @@ footer {
   height: 60px;
 }
 
-.spacer{
-  width: 100%;
-  height: 10px;
-  border-bottom: 2px solid #cccccc;
-}
-
 .ticketOptions {
   width: 100%;
   height: 40px;
@@ -1790,14 +1787,14 @@ footer {
   color: #ffffff;
   text-align: center;
   line-height: 40px;
-  margin: 0 auto;
-  margin-top: 20px;
+  margin: 20px 0 20px 0;
 
 }
 
 .textInputContainer {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  border-bottom: 1px solid #ffffff;
+  margin: 10px 0;
+  padding: 15px;
 }
 
 .TDSinfoContainer {
