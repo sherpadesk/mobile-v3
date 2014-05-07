@@ -86,10 +86,32 @@ $(document).ready(function() {
 		}
 	};
 
+	var ticker = {
+		init: function() {
+			this.changeTime();
+		},
+
+		changeTime: function() {
+			var counter = 0;
+			var spanSelector = $(".buttonList li:nth-child(2) span");
+
+			spanSelector.html(counter);
+			$(".buttonList li:nth-child(3)").click(function() {
+				counter += .25;
+				spanSelector.html(counter);
+			});
+			$(".buttonList li:nth-child(1)").click(function() {
+				counter -= .25;
+				spanSelector.html(counter);
+			});
+		}
+	};
+
 	(function() {
 		homePage.init();
 		sideBar.init();
 		searchBar.init();
+		ticker.init();
 	}()); 
 
 }); 
