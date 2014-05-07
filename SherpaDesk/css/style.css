@@ -639,7 +639,7 @@ header {
   margin-top: -5px;
   width: 100%;
   background-color: #0099CC;
-  padding-left: 15%;
+
 }
 
 .tabs ul {
@@ -648,7 +648,7 @@ header {
 }
 
 .tabs > ul > li {
-  width: 20%;
+  width: 33.33%;
   text-align: center;
   line-height: 35px;
   height: 35px;
@@ -792,8 +792,9 @@ header {
 .AccountDetailsTicketsContainer {
   overflow: scroll;
   margin: 0 auto;
-  height: 217px;
-  width: 90%;
+  height: 200px;
+  width: 100%;
+  background-color: blue;
 }
 /* Feed
    ========================================================================== */
@@ -1492,7 +1493,46 @@ footer {
 }
 
 
+/* update css */
 
+.TicketBlockFace {
+  width: 50px;
+  height: 50px;
+}
+.TicketBlock {
+  width: 100%;
+  background-color: green;
+  overflow: auto;
+  list-style: none;
+}
+
+.TicketBlock li {
+  float: left;
+  color: #ffffff;
+  width: 55%;
+}
+
+.TicketBlock p {
+  font-size: 12px;
+}
+
+.TicketBlock span {
+  font-size: 12px;
+}
+
+.TicketBlock li:first-child {
+  width: 25%;
+}
+
+.TicketBlock li:last-child {
+  width: 10%;
+  text-align: right;
+}
+
+.TicketBlockNumber {
+  width: 10%;
+  text-align: right;
+}
 
 
 

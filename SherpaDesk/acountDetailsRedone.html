@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SherpaDesk</title>
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <!-- Jquery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Main.js -->
+    <script src="js/main.js"></script>
+  </head>
+  <header>
+    <div class="headerContainer">
+      <ul class="topHeader">
+        <li><a href="index.html"><img class="backIcon" src="img/back_icon.png"></a></li>
+        <li><h1 class="SherpaDesk">Account Details</h1></li>
+        <li></li>
+      </ul>
+    </div>
+    <ul class="bottomHeader clearfix">
+      <li><a href="add_tickets.html">+ Tickets</a></li>
+      <li><a href = "invoice.html">+ Invoice</a></li>
+      <li><a href = "timelog.html">+ Time</a></li>
+    </ul>
+  </header>
+  <body class='dark'>
+    <div class="accountDetailsContainer"> 
+      <ul class="OptionsList">
+        <li>
+          <div class="OptionWrapper"><h3 class="OptionTitle">TICKETS</h3></div>
+          <div class="NoticationWrapper"><h2>12</h2></div>
+        </li>
+        <li>
+          <div class="OptionWrapper"><h3 class="OptionTitle">INVOICES</h3></div>
+          <div class="NoticationWrapper"><h2>2</h2></div>
+        </li>
+        <li>
+          <div class="OptionWrapper"><h3 class="OptionTitle">TIMES</h3></div>
+          <div class="NoticationWrapper"><h2>9</h2></div>
+        </li>
+      </ul>
+      <h4 class="openTicketTitle">OPEN TICKETS</h4>
+      <div class="AccountDetailsTicketsContainer">
+        <ul class="TicketBlock">
+          <li>
+            <img src="img/profile_1.png" class="TicketBlockFace">
+            <span>Vika Levina</span>
+          </li>
+          <li>
+            <h4>Generating Tickets</h4>
+            <p>tickets from the dashboard, will not transfer to proper queue</p>
+          </li>
+          <li>
+            <p class="TicketBlockNumber">2342</p>
+          </li>
+          <li>
+            <p>Support</p>
+          </li>
+        </ul>
+    </div>
+      <div class="buttonShowClosedTickets">SHOW CLOSED TICKETS</div>
+    </div>
+  </body>
+  <footer>
+    <div class="footerContainer">
+      <nav>
+        <ul class="navIcons">
+          <li><a href="index.html"><img class="navIcon" src="img/projects_icon.png"></a><p class="navTitle">Projects</p></li>
+          <li><a href="timelog.html"><img class="navIcon" src="img/time_icon.png"></a><p class="navTitle">Timelogs</p></li>
+          <li><a href="Account_List.html"><img class="navIcon" src="img/account_icon.png"></a><p class="navTitle">Accounts</p></li>
+          <li><img class="navIcon" src="img/expenses_icon.png"><p class="navTitle">Expenses</p></li>
+          <li><img class="navIcon" src="img/queue_icon.png"><p class="navTitle">Queue</p></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
