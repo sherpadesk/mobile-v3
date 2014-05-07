@@ -55,13 +55,13 @@
     <div id="tabContainer">
         <div class="tabs">
             <ul>
-                <li id="tabHeader_1">Reply</li>
-                <li id="tabHeader_2">Info</li>
-                <li id="tabHeader_2">Options</li>
+                <li class="tabHeader" data-id="reply">Reply</li>
+                <li class="tabHeader" data-id="info">Info</li>
+                <li class="tabHeader" data-id="options">Options</li>
             </ul>
         </div>
 
-        <div class="tabpage" id="tabpage_1">
+        <div class="tabpage" id="tabpage_reply">
             <div class="tabpageContainer">
                 <div class="textInputContainer">
                     <textarea class="textInput" type="text" placeholder="Add Response"></textarea>
@@ -102,8 +102,25 @@
                 </ul>                
             </div>
         </div>
+
+        <div class="tabpage" id="tabpage_info">
+            <div class="tabpageContainer">
+                    
+            </div>
+        </div>
+
+        <div class="tabpage" id="tabpage_options">
+            <div class="tabpageContainer">
+              <h3 class="smallHeader">Ticket actions</h3>
+              <a href="add_tickets.html"><button class="send">Add Time</button></a>
+              <a href="invoice.html"><button class="send">Create Invoice</button></a>
+              <h3 class="smallHeader">Ticket functions</h3>
+              <button class="blueButton">Transfer Ticket</button>
+              <button class="blueButton">Close Ticket</button>
+            </div>
+        </div>
+
     </div>
-    <script src="js/tabs.js"></script>
 </body>
 
 </html>

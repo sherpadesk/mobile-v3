@@ -86,6 +86,7 @@ $(document).ready(function() {
 		}
 	};
 
+<<<<<<< HEAD
 	var ticker = {
 		init: function() {
 			this.changeTime();
@@ -103,6 +104,28 @@ $(document).ready(function() {
 			$(".buttonList li:nth-child(1)").click(function() {
 				counter -= .25;
 				spanSelector.html(counter);
+=======
+	var ticketDetails = {
+		init: function() {
+			this.tab();
+		},
+
+		tab: function() {
+			$(".tabHeader").click(function() {
+				$(".tabpage").fadeOut(300);
+				switch( $(this).attr("data-id") ) {
+					case "reply":
+						$("#tabpage_reply").fadeIn(300);
+						break;
+					case "info":
+						$("#tabpage_info").fadeIn(300);
+						break
+					case "options":
+						$("#tabpage_options").fadeIn(300);
+					default:
+						break;
+				}
+>>>>>>> FETCH_HEAD
 			});
 		}
 	};
@@ -111,7 +134,11 @@ $(document).ready(function() {
 		homePage.init();
 		sideBar.init();
 		searchBar.init();
+<<<<<<< HEAD
 		ticker.init();
+=======
+		ticketDetails.init();
+>>>>>>> FETCH_HEAD
 	}()); 
 
 }); 

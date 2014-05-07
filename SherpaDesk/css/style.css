@@ -42,6 +42,16 @@ strong {
   position: absolute;
 }
 
+.blueButton {
+  background: #0099CC;
+  border: none;
+  color: #ffffff;
+  font-size: 14px;
+  height: 45px;
+  margin-bottom: 15px;
+  width: 100%;	
+}
+
 .container {
   margin: 0 auto;
   width: 90%;
@@ -62,7 +72,7 @@ strong {
   color: #ffffff;
   font-size: 14px;
   height: 45px;
-  margin-top: 15px;
+  margin-bottom: 15px;
   width: 100%;
 }
 
@@ -173,6 +183,12 @@ strong {
    overflow: hidden;
    background: url("../img/select_arrow.png") no-repeat #489CD6;
    background-position: top 18px right 18px;
+}
+
+.smallHeader {
+	color: #ffffff;
+	font-size: 18px;
+	margin: 20px 0 5px 0;
 }
 
 /* SideNav
