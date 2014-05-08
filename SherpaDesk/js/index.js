@@ -138,27 +138,38 @@ $(document).ready(function() {
 				var userInput = $(".textInput").val();
 				var prependVal = "<ul class='responseBlock'><li><img src='img/profile_3.png' class='responseImg'><span>Response</span></li><li class=' responseText'><h3>Lisa Nesil</h3><p>" + userInput + "</p></li><li>Just now</li></ul>";
 				// $(".tabpageContainer").prepend(prependVal).fadeIn(6000);
-				$(prependVal).hide().prependTo(".tabpageContainer").slideDown(200);
+				$(prependVal).hide().prependTo("#tabpage_reply .tabpageContainer").slideDown(200);
 			});
 		},
 
 		scrollResponse: function() {
-			var lastScrollTop = 0;
 			$(window).scroll(function(e) {
-				// var scrollTop = $(this).scrollTop();
-				// if (scrollTop > lastScrollTop) {
-				// 	$(".ticketDetailsHeader").slideUp();
-				// } else {
-					
-				// }
-				// lastScrollTop = scrollTop;
-				if ($(window).scrollTop() >= 110) {
-					$(".tabs").animate({
-						position: "fixed"
-					});
-				} else {
-					// $(".ticketDetailsHeader").slideDown();
-				}
+				$("body").bind("touchmove", function(e) {
+					if ($(window).scrollTop() >= 196.5) {
+						$(".tabs").css({
+							position: "fixed",
+							top: "0",
+							margin: "45px 0 0 0"
+						});
+					} else {
+						$(".tabs").css({
+							position: "relative",
+							margin: "0"
+						}, 300);
+					}
+				});
+			});
+		}
+	};
+
+	var invoice = {
+		init: function() {
+			this.removeRecipients();
+		},
+
+		removeRecipients: function() {
+			$(".closeIcon").click(function() {
+				$(this).parent().parent().parent().slideUp();
 			});
 		}
 	};
@@ -169,6 +180,7 @@ $(document).ready(function() {
 		searchBar.init();
 		ticker.init();
 		ticketDetails.init();
+		invoice.init();
 	}()); 
 
 }); 

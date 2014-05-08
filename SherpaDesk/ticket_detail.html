@@ -61,11 +61,11 @@
                 <li class="tabHeader" data-id="options">Options</li>
             </ul>
         </div>
-        <form class="textInputContainer">
-            <textarea class="textInput" type="text" placeholder="Add Response"></textarea>
-            <button class="replyButton">Reply</button>
-        </form>
         <div class="tabpage" id="tabpage_reply">
+            <form class="textInputContainer">
+                <textarea class="textInput" type="text" placeholder="Add Response"></textarea>
+                <button class="replyButton">Reply</button>
+            </form>        
             <div class="tabpageContainer">
                 <ul class="responseBlock">
                     <li>
@@ -112,8 +112,9 @@
         <div class="tabpage" id="tabpage_options">
             <div class="tabpageContainer">
               <h3 class="smallHeader">Ticket actions</h3>
-              <a href="add_tickets.html"><button class="send">Add Time</button></a>
-              <a href="invoice.html"><button class="send">Create Invoice</button></a>
+              <!-- <button class="send" action="add_time.html">Add Time</button> -->
+              <a href="add_time.html" class="send">Add Time</a>
+              <button class="send">Create Invoice</button>
               <h3 class="smallHeader">Ticket functions</h3>
               <button class="blueButton">Transfer Ticket</button>
               <button class="blueButton">Close Ticket</button>

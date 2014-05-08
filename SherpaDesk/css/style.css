@@ -68,7 +68,7 @@ strong {
 
 .dark {
   background: url("../img/bg_dark.png");
-  background-size: cover; 
+  /*background-size: cover; */
 }
 
 .send {
@@ -76,7 +76,7 @@ strong {
   border: none;
   color: #ffffff;
   font-size: 14px;
-  height: 45px;
+  height: 100px;
   margin-bottom: 15px;
   width: 100%;
 }
