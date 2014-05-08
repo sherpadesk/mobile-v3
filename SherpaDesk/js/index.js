@@ -110,6 +110,8 @@ $(document).ready(function() {
 	var ticketDetails = {
 		init: function() {
 			this.tab();
+			this.addResponse();
+			this.scrollResponse();
 		},
 
 		tab: function() {
@@ -126,6 +128,36 @@ $(document).ready(function() {
 						$("#tabpage_options").fadeIn(300);
 					default:
 						break;
+				}
+			});
+		},
+
+		addResponse: function() {
+			$(".replyButton").click(function(e) {
+				e.preventDefault();
+				var userInput = $(".textInput").val();
+				var prependVal = "<ul class='responseBlock'><li><img src='img/profile_3.png' class='responseImg'><span>Response</span></li><li class=' responseText'><h3>Lisa Nesil</h3><p>" + userInput + "</p></li><li>Just now</li></ul>";
+				// $(".tabpageContainer").prepend(prependVal).fadeIn(6000);
+				$(prependVal).hide().prependTo(".tabpageContainer").slideDown(200);
+			});
+		},
+
+		scrollResponse: function() {
+			var lastScrollTop = 0;
+			$(window).scroll(function(e) {
+				// var scrollTop = $(this).scrollTop();
+				// if (scrollTop > lastScrollTop) {
+				// 	$(".ticketDetailsHeader").slideUp();
+				// } else {
+					
+				// }
+				// lastScrollTop = scrollTop;
+				if ($(window).scrollTop() >= 110) {
+					$(".tabs").animate({
+						position: "fixed"
+					});
+				} else {
+					// $(".ticketDetailsHeader").slideDown();
 				}
 			});
 		}

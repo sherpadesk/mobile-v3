@@ -22,7 +22,9 @@ a {
 
 body, .sideNav {
 	background: url("../img/bg_dark.png");
-	padding-top: 80px;
+	/*padding-top: 80px*/;
+  /*background-size: cover;*/
+  background-repeat: no-repeat;
 }
 
 body, html {
@@ -32,6 +34,7 @@ body, html {
   overflow: hidden;*/
   height: 100%;
 }
+
 strong {
   font-size: 20px;
   font-weight: 650;
@@ -197,8 +200,7 @@ strong {
    ========================================================================== */
 
 .bodyContent {
-/*  background-size: cover;
-  height: 100%;*/
+  margin-top: 45px;
 }
 
 .bodyContentDark {
@@ -334,9 +336,11 @@ header, .bodyContent {
 header {
   background: #25B0E6;
   overflow: hidden;
-  height: auto;
-  left: 0;
-  position: relative;
+  height: 45px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 3;
 }
 
 .headerContainer {
@@ -655,7 +659,6 @@ header {
   height: 35px;
   margin-bottom: 4px;
   margin: 0 auto;
-  margin-top: -5px;
   width: 100%;
   background-color: #0099CC;
 }
@@ -1709,8 +1712,6 @@ footer {
 
 .tabpageContainer {
   width: 90%;
-  height: 250px;
-  overflow: scroll;
   margin: 0 auto;
   margin-top: 10px;
 }
@@ -1734,15 +1735,15 @@ footer {
   margin-bottom: 5px;
 }
 .replyButton {
+  border: none;
   width: 40%;
   height: 35px;
   background-color: #4bb24d;
-  margin-left: auto;
-  margin-top: 5px;
   color: #ffffff;
   font-size: 14px;
   text-align: center;
-  line-height: 35px;
+  display: block;
+  margin-left: auto;
 }
 
 .responseBlock {
@@ -1787,6 +1788,10 @@ footer {
   color: #ffffff;
   width: 70%;
   height: 90%;
+}
+
+.responseText h3 {
+  font-size: 18px;
 }
 
 .responseBlock p {
