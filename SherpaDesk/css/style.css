@@ -636,7 +636,7 @@ header {
 
 #tabWrapper {
   width:100%;
-  margin:5px auto 0;
+  margin:45px auto 0;
 }
 
 #tabWrapper h1 {
@@ -673,7 +673,7 @@ header {
 }
 
 .tabs > ul > li {
-  width: 33.33%;
+  width: 24.33%;
   text-align: center;
   line-height: 35px;
   height: 35px;
@@ -1753,9 +1753,6 @@ footer {
   padding-top: 5px;
 }
 
-.responseBlock:last-child {
-  border-bottom: none;
-}
 
 .responseBlock li {
   float: left;
@@ -1833,55 +1830,7 @@ footer {
   width: 50px;
   height: 50px;
 }
-.TicketBlock {
-  width: 100%;
-  overflow: auto;
-  list-style: none;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 5px;
-}
-
-.TicketBlock li {
-  float: left;
-  color: #ffffff;
-  width: 55%;
-}
-
-
-.TicketBlock p {
-  font-size: 12px;
-}
-
-.TicketBlockText {
-  color: #ffffff;
-  height: 90%;
-  font-size: 12px;
-}
-
-.TicketBlockHeader {
-  font-size: 18px;
-}
-
-
-.TicketBlock li:first-child {
-  width: 21%;
-  height: 100%;
-  color: #cccccc;
-  text-align: center;
-
-  font-size: 12px;
-}
-
-.TicketBlock li:first-child {
-  width: 25%;
-}
-
-.TicketBlock li:last-child {
-  width: 10%;
-  text-align: right;
-}
 
 .TicketBlockNumber {
-  width: 10%;
-  text-align: right;
+  font-size: 10px;
 }
