@@ -137,7 +137,6 @@ $(document).ready(function() {
 				e.preventDefault();
 				var userInput = $(".textInput").val();
 				var prependVal = "<ul class='responseBlock'><li><img src='img/profile_3.png' class='responseImg'><span>Response</span></li><li class=' responseText'><h3>Lisa Nesil</h3><p>" + userInput + "</p></li><li>Just now</li></ul>";
-				// $(".tabpageContainer").prepend(prependVal).fadeIn(6000);
 				$(prependVal).hide().prependTo("#tabpage_reply .tabpageContainer").slideDown(200);
 			});
 		},

@@ -20,7 +20,7 @@ a {
   color:inherit;
 }
 
-body, .sideNav {
+body {
   background: url("../img/bg_dark.png");
   /*padding-top: 80px*/;
   /*background-size: cover;*/
@@ -311,7 +311,7 @@ header, .bodyContent {
   height: 40px;
   list-style-type: none;
   width: 100%;
-  z-index: 3;
+  z-index: -3;
 }
 
 .bottomHeaderContainer {
@@ -344,7 +344,7 @@ header {
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: 3;
+  z-index: 2;
 }
 
 .headerContainer {
@@ -775,9 +775,9 @@ header {
   margin-top: -9.5px;
   margin-bottom: 10.5px;
 }
+
 .TicketfeedContainer {
   width: 90%;
-  max-width: 430px;
   margin: 0 auto;
 }  
 
@@ -825,8 +825,6 @@ header {
    ========================================================================== */
 
 .feed {
-  height: 260px;
-  overflow-y: scroll;
   width: 100%;
 }
 
