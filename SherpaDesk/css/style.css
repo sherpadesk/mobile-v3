@@ -21,8 +21,8 @@ a {
 }
 
 body, .sideNav {
-	background: url("../img/bg_dark.png");
-	/*padding-top: 80px*/;
+  background: url("../img/bg_dark.png");
+  /*padding-top: 80px*/;
   /*background-size: cover;*/
   background-repeat: no-repeat;
 }
@@ -54,7 +54,7 @@ strong {
   font-size: 14px;
   height: 45px;
   margin-bottom: 15px;
-  width: 100%;	
+  width: 100%;  
 }
 
 .container {
@@ -75,10 +75,14 @@ strong {
   background: #4bb24d;
   border: none;
   color: #ffffff;
+  display: block;
   font-size: 14px;
-  height: 100px;
+  height: 45px;
   margin-bottom: 15px;
+  text-align: center;
+  line-height: 45px;
   width: 100%;
+  vertical-align: middle;
 }
 
 .feedProfile {
@@ -191,9 +195,9 @@ strong {
 }
 
 .smallHeader {
-	color: #ffffff;
-	font-size: 18px;
-	margin: 20px 0 5px 0;
+  color: #ffffff;
+  font-size: 18px;
+  margin: 20px 0 5px 0;
 }
 
 /* SideNav
@@ -1716,7 +1720,7 @@ footer {
 }
 
 #tabpage_info, #tabpage_options {
-	display: none;
+  display: none;
 }
 
 .TDSinfo {
@@ -1844,12 +1848,16 @@ footer {
 .TicketBlock li {
   float: left;
   color: #ffffff;
-  width: 70%;
-  margin-top: 8px;
-  margin-left: 10px;
-  height: 90%;
+  width: 55%;
 }
 
+<<<<<<< HEAD
+.TicketBlock p {
+  font-size: 12px;
+}
+
+.TicketBlock span {
+=======
 .TicketBlockText {
   color: #ffffff;
   height: 90%;
@@ -1866,16 +1874,20 @@ footer {
   height: 100%;
   color: #cccccc;
   text-align: center;
+>>>>>>> FETCH_HEAD
   font-size: 12px;
+}
 
+.TicketBlock li:first-child {
+  width: 25%;
 }
 
 .TicketBlock li:last-child {
-  width: 90%;
-  height: 30%;
+  width: 10%;
   text-align: right;
-  margin-top: 10px;
-  color: #cccccc;
-  font-size: 10px;
-  
+}
+
+.TicketBlockNumber {
+  width: 10%;
+  text-align: right;
 }
