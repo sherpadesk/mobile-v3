@@ -1844,27 +1844,34 @@ footer {
 .TicketBlock li {
   float: left;
   color: #ffffff;
-  width: 55%;
+  width: 70%;
+  margin-top: 8px;
+  margin-left: 10px;
+  height: 90%;
 }
 
-.TicketBlock p {
-  font-size: 12px;
+.TicketBlockText {
+  color: #ffffff;
+  height: 90%;
 }
 
-.TicketBlock span {
-  font-size: 12px;
-}
 
 .TicketBlock li:first-child {
-  width: 25%;
+  width: 21%;
+  height: 100%;
+  margin-top: 10px;
+  color: #cccccc;
+  text-align: center;
+  font-size: 12px;
+
 }
 
 .TicketBlock li:last-child {
-  width: 10%;
+  width: 90%;
+  height: 30%;
   text-align: right;
-}
-
-.TicketBlockNumber {
-  width: 10%;
-  text-align: right;
+  margin-top: 10px;
+  color: #cccccc;
+  font-size: 10px;
+  
 }
