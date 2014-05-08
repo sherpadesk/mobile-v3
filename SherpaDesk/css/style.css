@@ -821,6 +821,13 @@ header {
   width: 90%;
   border-top: 1px solid #cccccc;
 }
+
+.AccountTicketsContainer {
+
+  margin: 0 auto;
+  width: 90%;
+  border-top: 1px solid #cccccc;
+}
 /* Feed
    ========================================================================== */
 
