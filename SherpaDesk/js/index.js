@@ -37,8 +37,8 @@ $(document).ready(function() {
 			slide = true;
 		},
 
-		slideIn: function(e) {
-			e.preventDefault();
+		slideIn: function() {
+			// e.preventDefault();
 			$(".bodyContent, header").removeClass("contentOut");
 			$(".sideNav").removeClass("sideNavOut");
 			slide = false;
@@ -48,8 +48,8 @@ $(document).ready(function() {
 			$(".headerNavIcon").click(function() {
 				sideBar.slideOut();
 			});
-			$(".bodyContent").click(function(e) {
-				sideBar.slideIn(e);
+			$(".bodyContent").click(function() {
+				sideBar.slideIn();
 			});
 		}
 	};
