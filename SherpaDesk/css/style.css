@@ -1175,11 +1175,9 @@ header {
    ========================================================================== */
 
 .accountContainer {
-  height: 440px;
   margin: 0 auto;
-  overflow: scroll;
   width: 90%;
-  overflow-y:auto;
+  overflow:auto;
 }
 
 .buttonList {
