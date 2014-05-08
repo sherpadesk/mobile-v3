@@ -815,6 +815,7 @@ header {
   margin: 0 auto;
   height: 217px;
   width: 90%;
+  border-top: 1px solid #cccccc;
 }
 /* Feed
    ========================================================================== */
@@ -1421,8 +1422,6 @@ footer {
 .accountDetailsContainer {
   width: 90%;
   margin: 0 auto;
-  overflow: scroll;
-  height: 485px;
   padding-top: 20px;
 }
 
@@ -1836,9 +1835,10 @@ footer {
 }
 .TicketBlock {
   width: 100%;
-  background-color: green;
   overflow: auto;
   list-style: none;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
 }
 
 .TicketBlock li {
@@ -1853,13 +1853,17 @@ footer {
 .TicketBlockText {
   color: #ffffff;
   height: 90%;
+  font-size: 12px;
+}
+
+.TicketBlockHeader {
+  font-size: 18px;
 }
 
 
 .TicketBlock li:first-child {
   width: 21%;
   height: 100%;
-  margin-top: 10px;
   color: #cccccc;
   text-align: center;
   font-size: 12px;
