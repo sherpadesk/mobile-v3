@@ -1851,13 +1851,11 @@ footer {
   width: 55%;
 }
 
-<<<<<<< HEAD
+
 .TicketBlock p {
   font-size: 12px;
 }
 
-.TicketBlock span {
-=======
 .TicketBlockText {
   color: #ffffff;
   height: 90%;
@@ -1874,7 +1872,7 @@ footer {
   height: 100%;
   color: #cccccc;
   text-align: center;
->>>>>>> FETCH_HEAD
+
   font-size: 12px;
 }
 
