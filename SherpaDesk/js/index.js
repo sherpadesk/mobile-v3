@@ -184,7 +184,6 @@ fullscreen();
 			});
 		}
 	};
-
 	(function() {
 		homePage.init();
 		sideBar.init();
