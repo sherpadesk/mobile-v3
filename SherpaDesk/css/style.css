@@ -1648,9 +1648,12 @@ footer {
    ========================================================================== */
 .ticketDetailsHeader {
   width: 100%;
-  height: 200px;
+  overflow: auto;
   background: rgba(0, 0, 0, 0.5);
+}
 
+.ticketDetailsHeaderText {
+  font-size: 13px;
 }
 
 .ticketDetialsHeaderWrapper {
@@ -1678,14 +1681,26 @@ footer {
 .TDSList {
   list-style: none;
   height: 75px;
+  margin: 0 auto;
+  width: 80%;
+  padding-left: 15%;
   }
 
 .TDSList li{
   float: left;
-  width: 39%;
-  color: #ffffff;
-  font-size: 18px;
-  margin-top: 10px;
+  font-size: 11px;
+  margin-top: 15px;
+  width: 24%;
+  color: #cccccc;
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+.TDSList li:nth-child(2) {
+  width: 3%;
+}
+.TDSList li:nth-child(4) {
+  width: 3%;
 }
 
 .ticketInqury {
@@ -1695,24 +1710,13 @@ footer {
   margin: 0 auto;
 }
 
-.TDSListWrapper p {
-  font-size: 13px;
+.TDSListWrapper h3 {
+  text-align: center;
 }
+
+
 .ticketInqury p {
   font-size: 14px;
-}
-
-.TDSList li:first-child{
-  width: 26%;
-  margin-top: 0px;
-}
-
-.TDSList li:last-child{
-  width: 35%;
-  text-align: right;
-  font-size: 10px;
-  color: #cccccc;
-  margin-top: 10px;
 }
 
 .tabpageContainer {
@@ -1839,4 +1843,40 @@ footer {
 
 .TicketBlockNumber {
   font-size: 10px;
+}
+
+.user {
+  color: #ffffff;
+  margin-top: 15px;
+}
+
+.user img {
+  width: 60px;
+  height: 60px;
+  float: left;
+}
+
+.user h4 {
+  float: left;
+  margin-top: 17px;
+  margin-left: 15px;
+  margin-bottom: 40px;
+}
+
+.user p {
+  font-size: 10px;
+  color: #cccccc;
+  float: right;
+}
+
+.updateButton {
+  border: none;
+  width: 40%;
+  height: 35px;
+  background-color: #4bb24d;
+  color: #ffffff;
+  font-size: 14px;
+  text-align: center;
+  display: block;
+  margin: 25px auto;
 }

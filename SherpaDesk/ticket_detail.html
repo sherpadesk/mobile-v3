@@ -39,23 +39,19 @@
     </div>
 </header>
 
-<body>
-  <div class="bodyContent">
+<body class="bodyContent">
+  <div>
     <div class="ticketDetailsHeader">
         <div class="TDSListWrapper">
-            <ul class="TDSList">
-                <li>
-                    <img src="img/profile_2.png" class="responseImg">
-                </li>
-                <li>Stephan Raj</li>
-                <li>
-                    <p>Tech Support</p>
-                    <p>1 day ago</p>
-                    <p>Lisa Nesil</p>
-                </li>
-            </ul>
             <h3>Warning Message</h3>
-            <p>This customer did respond but i am recieving this message when closing the ticket. Any idea what i may not doing</p>
+            <p class="ticketDetailsHeaderText">This customer did respond but i am recieving this message when closing the ticket. Any idea what i may not doing</p>
+            <ul class="TDSList">
+              <li><p>Support</p></li>
+              <li>|</li>
+              <li><p>1 day ago</p></li>
+              <li>|</li>
+              <li><p>Lisa Nesil</p></li>
+            </ul>
         </div>
     </div>
     <div id="tabContainer">
@@ -74,18 +70,18 @@
             <div class="tabpageContainer">
                 <ul class="responseBlock">
                     <li>
-                        <img src="img/profile_1.png" class="responseImg">
+                        <img src="img/profile_8.png" class="responseImg">
                         <span>Response</span>
                     </li>
                     <li class="responseText">
-                        <h3>Lisa Nesil</h3>
+                        <h3>Max Lucas</h3>
                         <p>It seems like in your case it has to do with the SLA. I am going to look into it more, if this happens again make sure to let us know.</p>
                     </li>
                     <li>4 hours ago</li>
                 </ul>
                 <ul class="responseBlock">
                     <li>
-                        <img src="img/profile_2.png" class="responseImg">
+                        <img src="img/profile_6.png" class="responseImg">
                         <span>Response</span>
                     </li>
                     <li class="responseText">
@@ -96,7 +92,7 @@
                 </ul>
                 <ul class="responseBlock">
                     <li>
-                        <img src="img/profile_1.png" class="responseImg">
+                        <img src="img/profile_7.png" class="responseImg">
                         <span>Queue Pickup</span>
                     </li>
                     <li class="responseText">
@@ -110,7 +106,51 @@
 
         <div class="tabpage" id="tabpage_info">
             <div class="tabpageContainer">
-                    
+               <div class="user">
+                <img src="img/profile_6.png">
+                <h4>Stephan Raj</h4>
+                <p>Updated: May 9 </p>
+                <div class="styledSelect">
+           <select>
+              <option value="SherpaDesk">Sherpadesk</option>
+           </select>
+        </div>
+        <div class="styledSelect">
+           <select>
+              <option value="3-Active Plate">Level 3 Active Plate</option>
+              <option value="2-Active Plate">Level 2 Active Plate</option>
+              <option value="1-Active Plate">Level 1 Active Plate</option>
+           </select>
+        </div>
+        <div class="styledSelect">
+           <select>
+              <option value="3-Priority">Priority 3 Hard Error</option>
+              <option value="2-Priority">Priority 2 Soft Error</option>
+              <option value="1-Priority">Level 1 Lite Fix</option>
+            </select>
+        </div>
+        <div class="styledSelect">
+           <select>
+              <option value="Lisa">Lisa Nesil</option>
+              <option value="Ehtan">Ethan</option>
+           </select>
+        </div>
+        <div class="styledSelect">
+           <select>
+              <option value="Atlanta">Atlanta</option>
+              <option value="San Francisco">San Francisco</option>
+              <option value="Russia">Russia</option>
+           </select>
+        </div>
+        <div class="styledSelect">
+           <select>
+              <option value="Support">Support</option>
+              <option value="Tech">Tech</option>
+              <option value="Development">Development</option>
+           </select>
+        </div>
+        <button class="updateButton">Update</button>
+               </div>   
             </div>
         </div>
 
