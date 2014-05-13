@@ -549,17 +549,6 @@ header {
   padding: 0 22px;
 }
 
-.ticketBox {
-  width: 20px;
-  height: 20px;
-  background: #25B0E6;
-}
-
-.ticketBoxTwo {
-  width: 20px;
-  height: 20px;
-  background:rgba(0, 0, 0, .6);
-}
 
 .sideStatsLeft, .sideStatsRight {
   color: #ffffff;
@@ -575,6 +564,7 @@ header {
 .sideStatsRight {
   float: right;
   font-weight: 600;
+  font-size: 20px;
 }
 
 /* TicketList Redone 
@@ -1662,6 +1652,7 @@ footer {
   width: 33.33%;
   height: 50%;
   text-align: center;
+  font-size: 20px;
 }
 
 .ActiveAccountsList li ul li img {
@@ -1674,6 +1665,7 @@ footer {
   height: 50%;
   text-align: left;
   padding-left: 25px;
+  font-size: 16px;
 }
 .activeAccountTitle {
   color: white;
