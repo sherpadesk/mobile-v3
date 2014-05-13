@@ -11,31 +11,36 @@ function fullscreen() {
  
 fullscreen();
 	
-	var homePage = {
-		init: function() {
-			this.tabDashboard();
-		},
+	var homepage = {
+  init: function() {
+    this.tabDashboard() 
+  },
 
-		tabDashboard: function() {
-			// Default selected 
-			$(".navCircle:first").css("background","#ffffff");
-			// Newly selected
-			$(".dashboardContainer").on("swipe",function() {
-				$(this).siblings().animate({
-					backgroundColor: "rgba(0,0,0,0)"
-				}, 300);
-				$(this).animate({
-					backgroundColor: "#ffffff"
-				}, 300);
-				if ($(this).attr("data-dashboard") == "2") {
-					$(".dashboardContainer").hide("slide", { direction: "left"}, 300);
-				} else {
-					$(".dashboardContainer").show("slide", { direction: "left"}, 300);
-				}
-			});
-			// Need to figure out next slide 
-		}
-	};
+  tabDashboard: function() {
+    //Default selected 
+    $(."dashboardContainer").swipe({
+      swipe:function(event, direction, distance, duration, fingerCount) {
+        switch(direction) {
+          case "left":
+          $(".navCircle").siblings().animate({
+            backgroundColor: "rgba(0,0,0,0)"
+          }, 300);
+          $(".navCircle").animate({
+            backgroundColor: "#ffffff"
+          }, 300);
+          if ($(".navCircle").attr("data-dashboard")=="2") {
+            $("dashboardContainer").hide("slide", { direction: "left"}, 300);
+            $("dashboardContainer").show("slide", { direction: "left"}, 300);
+          }
+          break;
+          case "right":
+          back();
+          break;
+        }
+      }
+    });
+  }
+}
 
 	var sideBar = {
 		init: function() {
