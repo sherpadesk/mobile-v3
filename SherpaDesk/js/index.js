@@ -20,7 +20,7 @@ fullscreen();
 			// Default selected 
 			$(".navCircle:first").css("background","#ffffff");
 			// Newly selected
-			$(".navCircle").on("swipe",function() {
+			$(".dashboardContainer").on("swipe",function() {
 				$(this).siblings().animate({
 					backgroundColor: "rgba(0,0,0,0)"
 				}, 300);
