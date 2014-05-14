@@ -1636,7 +1636,7 @@ footer {
 
 .ActiveAccountsList li ul {
   list-style-type: none;
-  color: #ffffff;
+  color: #ccc;
   overflow: auto;
   border-bottom: 1px solid #ccc;
   margin: 5px auto;
@@ -1652,7 +1652,7 @@ footer {
   width: 33.33%;
   height: 50%;
   text-align: center;
-  font-size: 24px;
+  font-size: 12px;
 }
 
 .ActiveAccountsList li ul li img {
@@ -1665,6 +1665,7 @@ footer {
   height: 50%;
   text-align: left;
   font-size: 20px;
+  color: #fff;
 }
 .activeAccountTitle {
   color: white;
@@ -1937,6 +1938,10 @@ footer {
 .first-slide {
 
 }
+
+.second-slide {
+   
+}
 .second-slide ul {
   list-style-type: none;
   margin-left: 10%;
@@ -1967,12 +1972,36 @@ footer {
   border: 1px solid rgba(151,187,205,1);
 }
 
-#canvas {
+#bar {
   width: 100%;
   height: 100%;
+  color: #ffffff !important;
 }
 .third-slide {
- 
+ color: #ffffff !important;
+}
+
+.third-slide ul {
+  list-style-type: none;
+  margin-left: 10%;
+}
+
+.third-slide li {
+  float: left;
+  width: 50%; 
+  margin: 5px auto -15px;
+}
+
+.third-slide li span {
+  margin: -18px 0 0 22px;
+  float: left;
+  font-size: 14px;
+}
+
+#line {
+  margin-top: 23px;
+  margin-left: -20px;
+  color: #ffffff !important;
 }
 
 .pagination {
@@ -1998,3 +2027,4 @@ footer {
 .swiper-active-switch {
   background: #fff;
 }
+

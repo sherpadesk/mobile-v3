@@ -92,7 +92,7 @@
             <span>Closed Tickets</span>
           </li>
         </ul>
-        <canvas id="canvas" ></canvas>
+        <canvas id="bar" ></canvas>
         <script>var barChartData = {
       labels : ["30 days","60 days","90 days",],
       datasets : [
@@ -110,10 +110,44 @@
       
     }
 
-  var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData);</script>
+  var myLine = new Chart(document.getElementById("bar").getContext("2d")).Bar(barChartData);</script>
       </div>
       <div class="swiper-slide third-slide">
-        <div class="title">Slide 3</div>
+        <ul>
+          <li>
+            <div class="graphKeyBlue"></div>
+            <span>Your ATT</span>
+          </li>
+          <li>
+            <div class="graphKeyRed"></div>
+            <span>Company ATT</span>
+          </li>
+        </ul>
+        <canvas id="line"></canvas>
+
+
+  <script> var lineChartData = {
+      labels : ["5 days","10","15","20","25","30"],
+      datasets : [
+        {
+          fillColor : "rgba(220,220,220,0.5)",
+          strokeColor : "rgba(220,220,220,1)",
+          pointColor : "rgba(220,220,220,1)",
+          pointStrokeColor : "#fff",
+          data : [2,5,3,2,3,2,3]
+        },
+        {
+          fillColor : "rgba(151,187,205,0.5)",
+          strokeColor : "rgba(151,187,205,1)",
+          pointColor : "rgba(151,187,205,1)",
+          pointStrokeColor : "#fff",
+          data : [3,4,3,1,3,2,3]
+        }
+      ]
+      
+    }
+
+  var myLine = new Chart(document.getElementById("line").getContext("2d")).Line(lineChartData);</script>
       </div>
     </div>
     <div class="pagination"></div>
@@ -147,41 +181,41 @@
         <li>
           <ul>
             <li>ACLU</li>
-            <li>1 <img src="img/document.png"></li>
-            <li>2 <img src="img/clock_icon_small.png"></li>
-            <li>$3<span class="detail3Small">.00</span></li>
-          </ul>
-        </li>
-        <li>
-          <ul>
-            <li>NextQT</li>
-            <li>1 <img src="img/document.png"></li>
-            <li>2 <img src="img/clock_icon_small.png"></li>
-            <li>$3<span class="detail3Small">.00</span></li>
+            <li></li>
+            <li></li>
+            <li>2 Tickets</li>
           </ul>
         </li>
         <li>
           <ul>
             <li>Amex</li>
-            <li>1 <img src="img/document.png"></li>
-            <li>2 <img src="img/clock_icon_small.png"></li>
-            <li>$3<span class="detail3Small">.00</span></li>
+            <li>2 Times</li>
+            <li>$3 Invoices</li>
+            <li></li>
           </ul>
         </li>
         <li>
           <ul>
-            <li>JRM Design</li>
-            <li>1 <img src="img/document.png"></li>
-            <li>2 <img src="img/clock_icon_small.png"></li>
-            <li>$3<span class="detail3Small">.00</span></li>
+            <li>jmrDesign</li>
+            <li>1 Tickets</li>
+            <li></li>
+            <li>$3 Invoices</span></li>
           </ul>
         </li>
         <li>
           <ul>
-            <li>First Quality</li>
-            <li>1 <img src="img/document.png"></li>
-            <li>2 <img src="img/clock_icon_small.png"></li>
-            <li>$3<span class="detail3Small">.00</span></li>
+            <li>Reflix</li>
+            <li>1 Tickets</li>
+            <li>2 Times</li>
+            <li>$3 Invoices</span></li>
+          </ul>
+        </li>
+        <li>
+          <ul>
+            <li>NextQT</li>
+            <li>1 Tickets</li>
+            <li></li>
+            <li></li>
           </ul>
         </li>
     </div>
