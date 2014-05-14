@@ -2,7 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="apple-touch-icon" href="img/icon.png"/>
+    <link rel="apple-touch-startup-image" href="img/profile_2.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>    
     <title>SherpaDesk</title>
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css" />
@@ -10,49 +16,50 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Jquery UI -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <!-- Main.js -->
-    <script src="js/main.js"></script>
-    <script src="js/Chart.js"></script>
+    <script src="js/indexRedesign.js"></script>
+    <script type="jquery.touchSwipe.min.js"></script>
+    <script type="jquery.touchSwipe.js"></script>
   </head>
-  <header>
+  <header class="test">
+    <ul class="topHeader">
+      <li><img class="headerNavIcon " src="img/navicon.png"></li>
+      <li><h1 class="SherpaDesk">SherpaDesk</h1></li>
+      <!-- <li><input class="headerSearch"></li> -->
+      <li><img class="headerSearchIcon" src="img/search_icon.png"></li>
+    </ul>
+    <div></div>
     <ul class="bottomHeader clearfix">
-      <li><a href="add_tickets.html">+ Tickets</a></li>
-      <li><a href = "invoice.html">+ Invoice</a></li>
-      <li><a href = "timelog.html">+ Time</a></li>
+      <div class="bottomHeaderContainer">
+        <li><a href="add_tickets.html">+ Tickets</a></li>
+        <li><a href = "invoice.html">+ Invoice</a></li>
+        <li><a href = "timelog.html">+ Time</a></li>
+      </div>
     </ul>
   </header>
   <body>
-    <section class="dashboard clearfix">
-      <div class="dashboardContainer">
-        <a href="ticket_list.html"><div class="dashboardLeft">
-          <h1 class="mainStat">30</h1>
-          <h2 class="mainStatTitle">All Tickets</h2>
-        </div></a>
-        <div class="dashboardRight">
-          <ul class="sideStats">
-            <li>
-              <div class="subTicketsTicker">
-                <h2 class="SubTicketsTitle">User</h2>
-              </div>
-              <div class="subTicketsTickerHalf">
-                <h2 class="SubTicketsTitle">10</h2>
-              </div>
-            </li>
-            <li>
-              <div class="subTicketsTicker">
-                <h2 class="SubTicketsTitle">Tech</h2>
-              </div>
-              <div class="subTicketsTickerHalf">
-                <h2 class="SubTicketsTitle">5</h2>
-              </div>
-            </li>
-          </ul>
+    <nav class="sideNav">
+      <img class="navProfile" src="img/profile_3.png">
+      <h2 class="navName">Nora Marrow</h2>
+      <ul class="sideNavLinks">
+        <a href="index.html"><li><div class="sideNavCircle"></div><span>Home</span></li></a>
+        <a href="timelog.html"><li><div class="sideNavCircle"></div><span>Timelogs</span></li></a>
+        <a href="Account_List.html"><li><div class="sideNavCircle"></div><span>Accounts</span></li></a>
+        <a href="ticket_list.html"><li><div class="sideNavCircle"></div><span>Tickets</span></li></a>
+        <li><div class="sideNavCircle"></div><span>Queue</span></li>
+        <li><div class="sideNavCircle"></div><span>Projects</span></li>
+      </ul>
+    </nav>
+    <div class="bodyContent">
+      <section class="dashboard clearfix">
+        <div class="swipeTabs" id="swipe">
+          
         </div>
-      </div>
-    </section>
-    <section class="chartContainer">
-      <h3 class="queuesHeader">Queues</h3>
-      <div class="accountDetailsContainer"> 
+      </section>
+      <div class="QueuesTickerContainer"> 
       <ul class="OptionsList">
         <li>
           <div class="OptionWrapper"><h3 class="OptionTitle">New Ticket</h3></div>
@@ -67,43 +74,49 @@
           <div class="NoticationWrapper"><h2>9</h2></div>
         </li>
       </ul>
-    </section>
+    </div>
     <div class="ActiveAccountsContainer">
       <ul class="ActiveAccountsList">
         <li>
-          <div class="accountNameBlock"><h3 class="activeAccountTitle">ACLU</h3></div>
-          <div class="accountActivityBlock"><h4 class="activeAccountActivity">New Ticket</h4></div>
+          <ul>
+            <li>ACLU</li>
+            <li>1 <img src="img/document.png"></li>
+            <li>2 <img src="img/clock_icon_small.png"></li>
+            <li>$3<span class="detail3Small">.00</span></li>
+          </ul>
         </li>
         <li>
-          <div class="accountNameBlock"><h3 class="activeAccountTitle">First Quality</h3></div>
-          <div class="accountActivityBlock"><h4 class="activeAccountActivity">Add support</h4></div>
+          <ul>
+            <li>NextQT</li>
+            <li>1 <img src="img/document.png"></li>
+            <li>2 <img src="img/clock_icon_small.png"></li>
+            <li>$3<span class="detail3Small">.00</span></li>
+          </ul>
         </li>
         <li>
-          <div class="accountNameBlock"><h3 class="activeAccountTitle">NETXQ</h3></div>
-          <div class="accountActivityBlock"><h4 class="activeAccountActivity">New Ticket</h4></div>
+          <ul>
+            <li>Amex</li>
+            <li>1 <img src="img/document.png"></li>
+            <li>2 <img src="img/clock_icon_small.png"></li>
+            <li>$3<span class="detail3Small">.00</span></li>
+          </ul>
         </li>
         <li>
-          <div class="accountNameBlock"><h3 class="activeAccountTitle">jmrDesign</h3></div>
-          <div class="accountActivityBlock"><h4 class="activeAccountActivity">Invoice</h4></div>
+          <ul>
+            <li>JRM Design</li>
+            <li>1 <img src="img/document.png"></li>
+            <li>2 <img src="img/clock_icon_small.png"></li>
+            <li>$3<span class="detail3Small">.00</span></li>
+          </ul>
         </li>
         <li>
-          <div class="accountNameBlock"><h3 class="activeAccountTitle">Riwal</h3></div>
-          <div class="accountActivityBlock"><h4 class="activeAccountActivity">New Ticket</h4></div>
+          <ul>
+            <li>First Quality</li>
+            <li>1 <img src="img/document.png"></li>
+            <li>2 <img src="img/clock_icon_small.png"></li>
+            <li>$3<span class="detail3Small">.00</span></li>
+          </ul>
         </li>
-      </ul>
     </div>
   </body>
-  <footer>
-    <div class="footerContainer">
-      <nav>
-        <ul class="navIcons">
-          <li><a href="index.html"><img class="navIcon" src="img/projects_icon.png"></a><p class="navTitle">Projects</p></li>
-          <li><a href="timelog.html"><img class="navIcon" src="img/time_icon.png"></a><p class="navTitle">Timelogs</p></li>
-          <li><a href="Account_List.html"><img class="navIcon" src="img/account_icon.png"></a><p class="navTitle">Accounts</p></li>
-          <li><img class="navIcon" src="img/expenses_icon.png"><p class="navTitle">Payment</p></li>
-          <li><img class="navIcon" src="img/queue_icon.png"><p class="navTitle">Queue</p></li>
-        </ul>
-      </nav>
-    </div>
-  </footer>
 </html>

@@ -11,36 +11,31 @@ function fullscreen() {
  
 fullscreen();
 	
-	var homepage = {
-  init: function() {
-    this.tabDashboard() 
-  },
+	var homePage = {
+		init: function() {
+			this.tabDashboard();
+		},
 
-  tabDashboard: function() {
-    //Default selected 
-    $(."dashboardContainer").swipe({
-      swipe:function(event, direction, distance, duration, fingerCount) {
-        switch(direction) {
-          case "left":
-          $(".navCircle").siblings().animate({
-            backgroundColor: "rgba(0,0,0,0)"
-          }, 300);
-          $(".navCircle").animate({
-            backgroundColor: "#ffffff"
-          }, 300);
-          if ($(".navCircle").attr("data-dashboard")=="2") {
-            $("dashboardContainer").hide("slide", { direction: "left"}, 300);
-            $("dashboardContainer").show("slide", { direction: "left"}, 300);
-          }
-          break;
-          case "right":
-          back();
-          break;
-        }
-      }
-    });
-  }
-}
+		tabDashboard: function() {
+			// Default selected 
+			$(".navCircle:first").css("background","#ffffff");
+			// Newly selected
+			$(".navCircle").click(function() {
+				$(this).siblings().animate({
+					backgroundColor: "rgba(0,0,0,0)"
+				}, 300);
+				$(this).animate({
+					backgroundColor: "#ffffff"
+				}, 300);
+				if ($(this).attr("data-dashboard") == "2") {
+					$(".dashboardContainer").hide("slide", { direction: "left"}, 300);
+				} else {
+					$(".dashboardContainer").show("slide", { direction: "left"}, 300);
+				}
+			});
+			// Need to figure out next slide 
+		}
+	};
 
 	var sideBar = {
 		init: function() {
@@ -152,7 +147,7 @@ fullscreen();
 			$(".replyButton").click(function(e) {
 				e.preventDefault();
 				var userInput = $(".textInput").val();
-				var prependVal = "<ul class='responseBlock'><li><img src='img/profile_7.png' class='responseImg'><span>Response</span></li><li class=' responseText'><h3>Lisa Nesil</h3><p>" + userInput + "</p></li><li>Just now</li></ul>";
+				var prependVal = "<ul class='responseBlock'><li><img src='img/profile_3.png' class='responseImg'><span>Response</span></li><li class=' responseText'><h3>Lisa Nesil</h3><p>" + userInput + "</p></li><li>Just now</li></ul>";
 				$(prependVal).hide().prependTo("#tabpage_reply .tabpageContainer").slideDown(200);
 				$(".textInput").val("");
 			});
