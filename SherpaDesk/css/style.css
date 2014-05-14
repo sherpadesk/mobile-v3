@@ -1644,7 +1644,8 @@ footer {
 }
 
 .ActiveAccountsList strong {
-  font-size: 12px;
+  font-size: 18px;
+  color: #ffffff;
 }
 
 .ActiveAccountsList li ul li {
@@ -1961,14 +1962,14 @@ footer {
 .graphKeyRed {
   height: 15px;
   width: 15px;
-  background-color:rgba(220,220,220,0.5);
+  background-color:rgba(65,87,250,0.5);
   border: 1px solid rgba(220,220,220,1);
 }
 
 .graphKeyBlue {
   height: 15px;
   width: 15px;
-  background-color:rgba(151,187,205,0.5);
+  background-color:rgba(250,45,45,0.5);
   border: 1px solid rgba(151,187,205,1);
 }
 
