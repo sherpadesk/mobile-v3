@@ -1934,32 +1934,51 @@ footer {
   color: #fff;
   text-align: center;
 }
-.red-slide {
-  background: #ca4040;
+.first-slide {
+
 }
-.blue-slide {
-  background: #4390ee;
+.second-slide ul {
+  list-style-type: none;
+  margin-left: 10%;
 }
-.orange-slide {
-  background: #ff8604;
+
+.second-slide li {
+  float: left;
+  width: 50%; 
+  margin: 5px auto 5px;
 }
-.green-slide {
-  background: #49a430;
+
+.second-slide li span {
+  margin: -18px 0 0 22px;
+  float: left;
+  font-size: 14px;
 }
-.pink-slide {
-  background: #973e76;
+.graphKeyRed {
+  height: 15px;
+  width: 15px;
+  background-color:rgba(220,220,220,0.5);
+  border: 1px solid rgba(220,220,220,1);
 }
-.swiper-slide .title {
-  font-style: italic;
-  font-size: 42px;
-  margin-top: 80px;
-  margin-bottom: 0;
-  line-height: 45px;
+
+.graphKeyBlue {
+  height: 15px;
+  width: 15px;
+  background-color:rgba(151,187,205,0.5);
+  border: 1px solid rgba(151,187,205,1);
 }
+
+#canvas {
+  width: 100%;
+  height: 100%;
+}
+.third-slide {
+ 
+}
+
 .pagination {
   position: absolute;
   z-index: 20;
-  left: 10px;
+  left: 45%;
   bottom: 10px;
 }
 .swiper-pagination-switch {

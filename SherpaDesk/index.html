@@ -12,6 +12,7 @@
     <title>SherpaDesk</title>
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/idangerous.swiper.css">
     <!-- Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
@@ -21,7 +22,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <!-- Main.js -->
     <script src="js/index.js"></script>
-    <script type="jquery.touchSwipe.min.js"></script>
+    <script src="js/Chart.js"></script>
   </head>
   <header class="test">
     <ul class="topHeader">
@@ -54,6 +55,9 @@
     </nav>
     <div class="bodyContent">
       <section class="dashboard clearfix">
+        <div class="swiper-container">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide first-slide">
         <div class="dashboardContainer">
           <a href="ticket_list.html"><div class="dashboardLeft">
             <h1 class="mainStat">30</h1>
@@ -76,9 +80,50 @@
             </ul>
           </div>
         </div>
-        <div class="navCircleContainer">
-          <div class="navCircle" data-dashboard="1"></div>
-          <div class="navCircle" data-dashboard="2"></div>
+      </div>
+      <div class="swiper-slide second-slide">
+        <ul>
+          <li>
+            <div class="graphKeyBlue"></div>
+            <span>Open Tickets</span>
+          </li>
+          <li>
+            <div class="graphKeyRed"></div>
+            <span>Closed Tickets</span>
+          </li>
+        </ul>
+        <canvas id="canvas" ></canvas>
+        <script>var barChartData = {
+      labels : ["30 days","60 days","90 days",],
+      datasets : [
+        {
+          fillColor : "rgba(220,220,220,0.5)",
+          strokeColor : "rgba(220,220,220,1)",
+          data : [65,59,90]
+        },
+        {
+          fillColor : "rgba(151,187,205,0.5)",
+          strokeColor : "rgba(151,187,205,1)",
+          data : [28,48,40]
+        }
+      ]
+      
+    }
+
+  var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData);</script>
+      </div>
+      <div class="swiper-slide third-slide">
+        <div class="title">Slide 3</div>
+      </div>
+    </div>
+    <div class="pagination"></div>
+  </div>
+  <script src="js/jquery-1.10.1.min.js"></script>
+  <script src="js/idangerous.swiper-2.1.min.js"></script>
+  <script>var mySwiper = new Swiper('.swiper-container',{
+    pagination: '.pagination',
+    paginationClickable: true
+  })</script>
         </div>
       </section>
       <div class="QueuesTickerContainer"> 

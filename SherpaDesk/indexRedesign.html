@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <!-- Main.js -->
+    <script src="js/index.js"></script>
+    <script src="js/Chart.js"></script>
   </head>
   <header class="test">
     <ul class="topHeader">
@@ -55,41 +57,73 @@
       <section class="dashboard clearfix">
         <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide red-slide">
-        <div class="title">Slide 1</div>
+      <div class="swiper-slide first-slide">
+        <div class="dashboardContainer">
+          <a href="ticket_list.html"><div class="dashboardLeft">
+            <h1 class="mainStat">30</h1>
+            <h2 class="mainStatTitle">All Tickets</h2>
+          </div></a>
+          <div class="dashboardRight">
+            <ul class="sideStats">
+              <li>
+                <span class="sideStatsLeft">As User</span>
+                <span class="sideStatsRight">7 <img src="img/document.png"></span>
+              </li>
+              <li>
+                <span class="sideStatsLeft">As Tech</span>
+                <span class="sideStatsRight">3 <img src="img/document.png"></span>
+              </li>
+              <li>
+                <span class="sideStatsLeft">Alt Tech</span>
+                <span class="sideStatsRight">5 <img src="img/document.png"></span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="swiper-slide blue-slide">
-        <div class="title">Slide 2</div>
+      <div class="swiper-slide second-slide">
+        <ul>
+          <li>
+            <div class="graphKeyBlue"></div>
+            <span>Open Tickets</span>
+          </li>
+          <li>
+            <div class="graphKeyRed"></div>
+            <span>Closed Tickets</span>
+          </li>
+        </ul>
+        <canvas id="canvas" ></canvas>
+        <script>var barChartData = {
+      labels : ["30 days","60 days","90 days",],
+      datasets : [
+        {
+          fillColor : "rgba(220,220,220,0.5)",
+          strokeColor : "rgba(220,220,220,1)",
+          data : [65,59,90]
+        },
+        {
+          fillColor : "rgba(151,187,205,0.5)",
+          strokeColor : "rgba(151,187,205,1)",
+          data : [28,48,40]
+        }
+      ]
+      
+    }
+
+  var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(barChartData);</script>
       </div>
-      <div class="swiper-slide orange-slide">
+      <div class="swiper-slide third-slide">
         <div class="title">Slide 3</div>
-      </div>
-      <div class="swiper-slide green-slide">
-        <div class="title">Slide 4</div>
-      </div>
-      <div class="swiper-slide pink-slide">
-        <div class="title">Slide 5</div>
-      </div>
-      <div class="swiper-slide red-slide">
-        <div class="title">Slide 6</div>
-      </div>
-      <div class="swiper-slide blue-slide">
-        <div class="title">Slide 7</div>
-      </div>
-      <div class="swiper-slide orange-slide">
-        <div class="title">Slide 8</div>
       </div>
     </div>
     <div class="pagination"></div>
   </div>
   <script src="js/jquery-1.10.1.min.js"></script>
   <script src="js/idangerous.swiper-2.1.min.js"></script>
-  <script>
-  var mySwiper = new Swiper('.swiper-container',{
+  <script>var mySwiper = new Swiper('.swiper-container',{
     pagination: '.pagination',
     paginationClickable: true
-  })
-  </script>
+  })</script>
         </div>
       </section>
       <div class="QueuesTickerContainer"> 
