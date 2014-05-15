@@ -1917,9 +1917,17 @@ footer {
   display: block;
   margin: 25px auto;
 }
+.responseBlock h4 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.responseBlock p {
+  font-size: 14px;
+}
 
 
-/* test css */
+/* DashBoard Slider css */
 
 .swipeTabs {
   width: 200px;
