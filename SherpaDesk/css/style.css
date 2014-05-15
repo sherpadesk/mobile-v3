@@ -316,6 +316,7 @@ header, .bodyContent {
   list-style-type: none;
   width: 100%;
   z-index: -3;
+  opacity: .9;
 }
 
 .bottomHeaderContainer {
@@ -327,10 +328,18 @@ header, .bodyContent {
   color: #ffffff;
   float: left;
   font-size: 14px;
-  width: 33.33%;
+  width: 28%;
   text-align: center;
   line-height: 35px;
   vertical-align: middle;
+}
+
+.bottomHeader li:nth-child(2) {
+  width: 8.5%;
+}
+
+.bottomHeader li:nth-child(4) {
+  width: 5.5%;
 }
 
 .bottomHeader li:first-child {
