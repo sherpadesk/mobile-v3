@@ -1690,11 +1690,12 @@ footer {
   background: rgba(0, 0, 0, 0.5);
 }
 
-.ticketDetailsHeaderText {
+.ticketDetailsInfoText {
   font-size: 13px;
+  color: #ffffff;
 }
 
-.ticketDetialsHeaderWrapper {
+.ticketDetailsHeaderWrapper {
   width: 100%;
   height: 200px;
   margin: 0 auto;
@@ -1702,12 +1703,28 @@ footer {
 }
 .TDSListWrapper {
   width: 90%;
-  height: 70px;
+  height: 60px;
   margin: 0 auto;
-  padding-top: 15px;
+  padding-top: 10px;
   color: #ffffff;
 }
 
+.orginalMessageContainer {
+  width: 90%;
+  overflow: auto;
+  margin: 0 auto;
+}
+
+.orginalMessageContainer h4 {
+  color: #ffffff;
+  font-weight: 600;
+  margin: 10px auto 5px;
+}
+
+.orginalMessageContainer img {
+  float: left;
+  margin: 10px 9px 0;
+}
 
 
 .ticketTitleTDS {
@@ -1749,8 +1766,24 @@ footer {
 }
 
 .TDSListWrapper h3 {
-  text-align: center;
+  text-align: left;
+  float: left;
+  margin-top: 7px;
+  width: 70%;
 }
+
+.shortInfo {
+  width: 30%;
+  list-style: none;
+  float: left;
+}
+
+.shortInfo p {
+  color: #cccccc;
+  font-size: 10px;
+  text-align: right;
+}
+
 
 
 .ticketInqury p {
@@ -1885,31 +1918,12 @@ footer {
 
 .user {
   color: #ffffff;
-  margin-top: 15px;
-}
-
-.user img {
-  width: 60px;
-  height: 60px;
-  float: left;
-}
-
-.user h4 {
-  float: left;
-  margin-top: 17px;
-  margin-left: 15px;
-  margin-bottom: 40px;
-}
-
-.user p {
-  font-size: 10px;
-  color: #cccccc;
-  float: right;
+  margin-top: 35px;
 }
 
 .updateButton {
   border: none;
-  width: 40%;
+  width: 100%;
   height: 35px;
   background-color: #4bb24d;
   color: #ffffff;
