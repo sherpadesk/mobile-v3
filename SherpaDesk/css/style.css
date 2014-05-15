@@ -825,10 +825,8 @@ header {
 }
 
 .AccountDetailsTicketsContainer {
-  overflow: scroll;
+  overflow: auto;
   margin: 0 auto;
-  height: 217px;
-  width: 90%;
   border-top: 1px solid #cccccc;
 }
 
@@ -1586,7 +1584,7 @@ footer {
   background:#0099CC;
   border: 0;
   display: block;
-  margin-top: 30px;
+  margin: 30px auto 15px;
   color: #ffffff;
   height: 45px;
   width: 100%;
