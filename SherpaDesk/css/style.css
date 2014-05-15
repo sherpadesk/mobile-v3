@@ -1146,7 +1146,7 @@ header {
    ========================================================================== */
 
 .timelogContainer {
-  height: 200px;
+  overflow: auto;
   margin: 0 auto;
   width: 90%;
 }
