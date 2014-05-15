@@ -184,7 +184,28 @@ fullscreen();
 			});
 		}
 	};
+
+	var footer = {
+		init: function() {
+			this.dropFooter();
+		},
+
+		dropFooter: function() {
+			function scrolled() {
+			    //do by scroll start
+			    $(this).off('scroll')[0].setTimeout(function(){
+			        //do by scroll end
+			        $("footer").show();
+			        $(this).on('scroll',scrolled);
+			    }, 500)
+			    $("footer").hide();
+			}
+			$(window).on('scroll',scrolled);
+		}
+	};
+
 	(function() {
+		footer.init();
 		homePage.init();
 		sideBar.init();
 		searchBar.init();
