@@ -89,10 +89,6 @@ strong {
   vertical-align: middle;
 }
 
-.feedProfile {
-  height: 50px;
-}
-
 .feedClock {
   height: 12px;
   display: inline;
@@ -117,31 +113,6 @@ strong {
   float: right;
 }
 
-.selectOptions {
-  background: #489CD6;
-  border: 0;
-  box-sizing:border-box;
-    -moz-box-sizing:border-box;
-  border-radius: 0;
-  margin: 2px 0 15px 0;
-  color: #ffffff;
-  height: 45px;
-  width: 100%;
-  -webkit-appearance: none;
-  font-size: 16px;
-  padding: 0 20px;
-}
-
-.reply {
-  color: #ffffff;
-  font-size: 14px;
-  text-align: center;
-}
-
-.replyIcon {
-  height: 10px;
-}
-
 .textInput {
   background: rgba(0, 0, 0, .4);
   box-sizing:border-box;
@@ -152,18 +123,6 @@ strong {
   height: 140px;
   padding: 10px;
   width: 100%;
-}
-
-.ticketsView {
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  text-align: left;
-}
-
-.ticketsDesc {
-  color: #ffffff;
-  font-size: 12px;
 }
 
 .greenButton {
@@ -211,13 +170,6 @@ strong {
   margin-top: 45px;
 }
 
-.bodyContentDark {
-  background: url("../img/bg_dark.png") no-repeat !important;
-  background-size: cover !important;
-  height: 510px;
-  overflow: scroll;
-}
-
 header, .bodyContent {
   -webkit-transition: -webkit-transform .2s ease-in; /* Changed here */ 
      -moz-transition: -moz-transform .2s ease-in;
@@ -225,14 +177,6 @@ header, .bodyContent {
           transition: transform .2s ease-in;  
 }
 
-.contentOut {
-  transform:translateX(40%);
-  -webkit-transform: translateX(40%);
-  -webkit-transition: -webkit-transform .2s ease-in; /* Changed here */ 
-     -moz-transition: -moz-transform .2s ease-in;
-       -o-transition: -o-transform .2s ease-in;
-          transition: transform .2s ease-in;
-}
 
 .sideNav {
   background-color: #1C1B22;
@@ -476,28 +420,6 @@ header {
   width: 50%;
 }
 
-.subTicketsTicker {
-  width: 70%;
-  height: 50px;
-  background-color: #25B0E6;
-  float: left;
-  margin-bottom: 13px;
-}
-
-.subTicketsTickerHalf {
-  width: 30%;
-  height: 50px;
-  background-color: #0099CC;
-  float: left;
-  margin-bottom: 13px;
-}
-
-.SubTicketsTitle {
-  color: #ffffff;
-  text-align: center;
-  line-height: 50px;
-}
-
 .dashboardLeft {
   box-sizing:border-box;
     -moz-box-sizing:border-box;
@@ -529,18 +451,6 @@ header {
   height: 10px;
   margin: 0 5px;
   width: 10px;
-}
-
-#navCircleFilled {
-  background: #ffffff;
-}
-
-.navCircleContainer {
-  height: 30px;
-  margin: 0 auto;
-  position: absolute;
-  right: 0; bottom: -5px; left: 0;
-  width: 40px;
 }
 
 .sideStats {
@@ -576,102 +486,6 @@ header {
   float: right;
   font-weight: 600;
   font-size: 24px;
-}
-
-/* TicketList Redone 
-   ========================================================================== */
-.TicketListfeed {
-  height: 500px;
-  overflow: scroll;
-  width: 100%;
-}
-.TicketListFeedWrapper {
-  width: 100%;
-  height: 70px;
-}
-
-.TicketListfeedSingle {
-  list-style-type: none;
-  margin-top: 10px;
-}
-
-.TicketListfeedSingle li {
-  float: left;
-}
-
-.TicketListFace {
-  width: 20%;
-  float: left;
-}
-
-.TicketListSubInfo {
-  width: 60%;
-  color: #ffffff;
-  font-size: 10px;
-  float: left;
-}
-
-.TicketListfeedSingle span {
-  color: #ffffff;
-  font-size: 10px;
-  display: block;
-}
-
-.TicketListfeedSingle h2 {
-  color: #ffffff;
-  font-size: 15px;
-  float: left;
-  margin-top: 2.5px;
-  margin-bottom: 2.5px;
-  font-weight: 600;
-}
-
-.TicketListFeedInfo {
-  width: 10%;
-}
-
-.TicketListFeedInfo ul {
-  width: 10%;
-  list-style: none;
-  color: #ffffff;
-  padding-left: 0px;
-  font-size: 10px;
-  
-}
-.Num {
-  margin-bottom: 35px;
-  margin-top: -22px;
-  margin-left: 30px;
-}
-
-.LongSpacerBar {
-  color: white;
-  margin-top: -9.5px;
-  margin-bottom: 10.5px;
-}
-
-.tabTitle {
-  margin-bottom: 10px;
-}
-
-#tabWrapper {
-  width:100%;
-  margin:45px auto 0;
-}
-
-#tabWrapper h1 {
-  color: #ffffff;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-#tabWrapper a {
-  display: block;
-  font-size: 1.2em;
-  padding-top: 20px;
-  color: #ffffff;
-  text-decoration: none;
-  text-align: center;
 }
 
 #tabContainer {
@@ -725,115 +539,10 @@ header {
   color: #ffffff;
 }
 
-.tabscontent {
-  margin:0;
-  color:#333;
-}
-.TicketListfeed {
-  height: 500px;
-  overflow: scroll;
-  width: 100%;
-}
-.TicketListFeedWrapper {
-  width: 100%;
-  height: 50px;
-}
-
-.TicketListfeedSingle {
-  list-style-type: none;
-  margin-top: 10px;
-}
-
-.TicketListfeedSingle li {
-  float: left;
-}
-
-.TicketListFace {
-  width: 20%;
-  float: left;
-}
-
-.TicketListSubInfo {
-  width: 60%;
-  color: #ffffff;
-  font-size: 10px;
-  float: left;
-  text-align: justify;
-}
-
-.TicketListfeedSingle span {
-  color: #ffffff;
-  font-size: 10px;
-  display: block;
-}
-
-.TicketListfeedSingle h2 {
-  color: #ffffff;
-  font-size: 15px;
-  float: left;
-  margin-top: 2.5px;
-  margin-bottom: 2.5px;
-  font-weight: 600;
-}
-
-.TicketListFeedInfo {
-  width: 10%;
-}
-
-.TicketListFeedInfo ul {
-  width: 10%;
-  list-style: none;
-  color: #ffffff;
-  padding-left: 0px;
-  font-size: 10px;
-  
-}
-.Num {
-  margin-bottom: 35px;
-  margin-top: -22px;
-  margin-left: 50px;
-}
-
-.acc {
-  margin-left: 18px;
-}
-
-.LongSpacerBar {
-  color: white;
-  margin-top: -9.5px;
-  margin-bottom: 10.5px;
-}
-
-.TicketfeedContainer {
-  width: 90%;
-  margin: 0 auto;
-}  
-
-.searchBar {
-  margin-top: 15px;
-  margin-left: 10px;
-  width: 80%;
-  height: 35px;
-  border:2px solid white;
-}
-
-.search {
-  margin: 0px;
-  width: 98%;
-  background-color: transparent;
-  color: white;
-  font-size: 15px;
-  height: 30px;
-}
-
 .searchIcon {
   height: 20px;
   margin-top:5px;
   }
-
-.SearchButton {
-  height: 18px;
-}
 
 .ticketsContainer {
   overflow: scroll;
@@ -848,11 +557,6 @@ header {
   border-top: 1px solid #cccccc;
 }
 
-.AccountTicketsContainer {
-  margin: 0 auto;
-  width: 90%;
-  border-top: 1px solid #cccccc;
-}
 /* Feed
    ========================================================================== */
 
@@ -866,38 +570,9 @@ header {
   width: 90%;
 }   
 
-.feedSingle {
-  list-style-type: none;
-}
-
-.feedSingle > li {
-  float: left;
-  width: 60%;
-}
-
-.feedSingle > li:first-child {
-  width: 22%;
-}
-
-.feedSingle > li:last-child {
-  margin-top: 12px;
-  width: 18%;
-}
-
 .feedTime span {
   color: #ffffff;
   font-size: 16px;
-}
-
-.feeds {
-  list-style-type: none;
-}
-
-.feeds > li {
-  height: 45px;
-  margin-bottom: 25px;
-  width: 100%;
-  float: left;
 }
 
 .taskDescription {
@@ -911,20 +586,6 @@ header {
   margin: 0px auto;
   max-width: 80%;
   padding: 0 5%;
-}
-
-.headline {
-  color: #ffffff;
-  text-align: center;
-  font-size: 18px;
-  margin-top: 2.5%;
-}
-
-.elementTitle {
-  color: #ffffff;
-  margin-left: 8%;
-  margin-top: 10%;
-  font-size: .75em;
 }
 
 .buttonList li {
@@ -943,21 +604,6 @@ header {
   height: 30px;
   padding-bottom: 10%;
   margin: 20%;
-
-}
-
-.ticker {
-  background-color: #000000;
-  opacity: 0.5;
-  color: #ffffff;
-  font-size: 30px;
-  width: 100%;
-  text-align: center;
-  vertical-align: middle;
-  height: 30px;
-  padding-bottom: 10%;
-  margin: 20%;
-  margin-left: 12%;
 
 }
 
@@ -1245,17 +891,6 @@ header {
   font-size: 30px;
 }
 
-.addTimeInput {
-  background: rgba(0, 0, 0, .4);
-  box-sizing:border-box;
-    -moz-box-sizing:border-box;
-  border: none;
-  color: #ffffff;
-  height: 140px;
-  padding: 10px;
-  width: 100%;
-}
-
 /* Footer
    ========================================================================== */
 
@@ -1266,13 +901,6 @@ footer {
   margin: 0 -50%;
   /* display: block; */
   width: 100%;
-}
-
-.footerContainer {
-  margin: 7px auto 0 auto;
-  width: 90%; 
-  position: relative;
-  padding-bottom: 50px;
 }
 
 .navIcon {
@@ -1305,52 +933,6 @@ footer {
   width: 90%;
 }
 
-.ticketsDesc {
-  color: #ffffff;
-  font-size: 12px;
-}
-
-.ticketsList {
-  list-style-type: none;
-  margin-top: 35px;
-}
-
-.ticketsList > li {
-  background: rgba(0, 0, 0, .4);
-  box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    overflow: auto;
-  padding: 10px;
-  width: 100%;
-}
-
-.ticketsProfile {
-  height: 50px;
-}
-
-
-.ticketsList ul {
-  list-style-type: none;
-}
-
-.ticketsList ul li {
-  float: left;
-  margin-top: 10px;
-  width: 63%;
-}
-
-.ticketsList ul li:first-child {
-  margin-top: 5px;
-  width: 22%;
-}
-
-.ticketsList ul li:last-child {
-  margin-top: 7px;
-  width: 15%;
-}
-
-/* New */
-
 /* +tickets
    ========================================================================== */
 .CreateInvoiceWrapper {
@@ -1358,70 +940,6 @@ footer {
   margin: 0 auto;
   overflow: scroll;
   padding-top: 30px;
-  height: 470px;
-}
-.styled-selectTicket select {
-   background: #25B0E6;
-   width: 100%;
-   padding-bottom: 10px;
-   padding-left: 5px;
-   font-size: 16px;
-   line-height: 1;
-   border: 0;
-   border-radius: 0;
-   height: 40px;
-   -webkit-appearance: none;
-   color: #ffffff;
-
-   }
-
-   .styled-selectTicket {
-   width: 100%;
-   max-width: 500px;
-   height: 30px;
-   overflow: hidden;
-   font-size: 70%; 
-   }
-
-.textAreaTicket {
-  width: 83.5%;
-  width: 100%;
-  height: 40px;
-  background: rgba(0, 0, 0, 0.5);;
-  resize: none;
-  border: none;
-  color: #ffffff;
-  margin-bottom: 25px;
-   }
-
- .buttonTicket {
-  background-color: #57DE57;
-  width: 100%;
-  max-width: 500px;
-  height: 35px;
-  max-height: 20px;
-  color: #ffffff;
-  text-align: center;
-  padding: 2%;
-  display: block;
-  margin-top: 5%;
-  margin: 0 auto;
-  margin-bottom: 160px;
-
-}
-
-.elementTitleTicket {
-  color: #ffffff;
-  margin-top: 4%;
-  margin-bottom: 2%;
-  font-size: .75em;
-}
-
-.elementTitleTicketTextArea {
-  color: #ffffff;
-  margin-top: 4%;
-  margin-bottom: 2%;
-  font-size: .75em;
 }
 
 /* Select Payment 
@@ -1510,94 +1028,8 @@ footer {
   margin-top: 35px;
 }
 
-.openTicketWrapper {
-  overflow: scroll;
-  height: 225px;
-}
-
-.TicketWrapper {
-  background: transparent;
-  height: 65px;
-  width: 100%;
-  border-top: 2px solid white;
-  color: white;
-}
-
-.TicketWrapperList {
-  color: #ffffff;
-  list-style-type: none;
-  text-align: center;
-  line-height: 66px;
-}
-
-.TicketWrapperList li {
-  float: left;
-}
-
-.TicketWrapperListName {
-  font-size: 20px;
-  width: 45%;
-  margin-right: 40px;
-  text-align: left;
-  padding-left: 15px;
-}
-
-.TicketWrapperData {
-  font-size: 13px;
-  width: 15%;
-}
-
-
-
-
-
-
 /* Account_details
    ========================================================================== */
-.accountListContainer {
-  width: 90%;
-  margin: 0 auto;
-  overflow: scroll;
-  height: 500px;
-  padding-top: 10px;
-}
-
-.accountGroupTitle {
-  text-align: center;
-  font-size: 14px;
-  color: #ffffff;
-  margin-top: 15px;
-  margin-bottom: 5px;
-}
-.spacerBar {
-  text-align: center;
-  font-size: 14px;
-  color: #ffffff;
-  margin-top: 10px;
-  margin-bottom: 18px;
-}
-
-.AccountWrapper {
-  width: 100%;
-  overflow: scroll;
-  height: 500px;
-}
-
-.AccountTicketNumber {
-  height: 100%;
-  width: 12%;
-  float: left;
-  color: #ffffff;
-  line-height: 20px;
-    box-sizing:border-box;
-  -moz-box-sizing:border-box;
-}
-
-.accountTicketNumberWrapper {
-  list-style-type: none;
-  font-size: 12px;
-  margin-top: 15px;
-}
 
 .buttonShowClosedTickets {
   background:#0099CC;
@@ -1612,30 +1044,8 @@ footer {
   line-height: 45px;
 }
 
-.accountList {
-  list-style:none;
-  list-style-type:none;
-}
-
-.accountList li{
-  margin-bottom: 15px;
-}
-
-
 /* Dashboard Redesign
    ========================================================================== */
-.chartContainer {
-  width: 100%;
-  height: 210px;
-  margin-top: -15px;
-}
-
-.queuesHeader {
-  color: #ffffff;
-  text-align: center;
-  margin-top:20px;
-  margin-bottom: -30px;
-}
 
 .ActiveAccountsContainer {
   width: 90%;
@@ -1716,12 +1126,6 @@ footer {
   color: #ffffff;
 }
 
-.ticketDetailsHeaderWrapper {
-  width: 100%;
-  height: 200px;
-  margin: 0 auto;
-  position: fixed;
-}
 .TDSListWrapper {
   width: 90%;
   height: 60px;
@@ -1745,45 +1149,6 @@ footer {
 .orginalMessageContainer img {
   float: left;
   margin: 10px 9px 0;
-}
-
-
-.ticketTitleTDS {
-  color: #ffffff;
-  text-align: justify;
-  margin-bottom: -20px;
-}
-
-.TDSList {
-  list-style: none;
-  height: 75px;
-  margin: 0 auto;
-  width: 80%;
-  padding-left: 15%;
-  }
-
-.TDSList li{
-  float: left;
-  font-size: 11px;
-  margin-top: 15px;
-  width: 24%;
-  color: #cccccc;
-  text-align: center;
-  padding-bottom: 15px;
-}
-
-.TDSList li:nth-child(2) {
-  width: 3%;
-}
-.TDSList li:nth-child(4) {
-  width: 3%;
-}
-
-.ticketInqury {
-  color: #ffffff;
-  width: 90%;
-  height: 100px;
-  margin: 0 auto;
 }
 
 .TDSListWrapper h3 {
@@ -1821,20 +1186,6 @@ footer {
   display: none;
 }
 
-.TDSinfo {
-  background: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 150px;
-  margin-bottom: 10px;
-  color: #ffffff;
-  padding-right: 5px;
-  padding-left: 5px;
-  padding-top: 5px;
-}
-
-.TDSinfoTitle {
-  margin-bottom: 5px;
-}
 .replyButton {
   border: none;
   width: 40%;
@@ -1901,31 +1252,6 @@ footer {
   height: 60px;
 }
 
-.ticketOptions {
-  width: 100%;
-  height: 40px;
-  background-color:#57DE57;
-  color: #ffffff;
-  text-align: center;
-  line-height: 40px;
-  margin: 20px 0 20px 0;
-
-}
-
-.textInputContainer {
-  border-bottom: 1px solid #ffffff;
-  margin: 10px 0;
-  padding: 15px;
-}
-
-.TDSinfoContainer {
-  width: 90%;
-  height: 400px;
-  overflow: scroll;
-  margin: 0 auto;
-  background-color: blue;
-}
-
 /* update css */
 
 .TicketBlockFace {
@@ -1945,7 +1271,7 @@ footer {
 .updateButton {
   border: none;
   width: 100%;
-  height: 35px;
+  height: 45px;
   background-color: #4bb24d;
   color: #ffffff;
   font-size: 14px;
@@ -1964,13 +1290,6 @@ footer {
 
 
 /* DashBoard Slider css */
-
-.swipeTabs {
-  width: 200px;
-  height: 200px;
-  background-color: blue;
-  margin: 0 auto;
-}
 
 .swiper-container {
   width: 100%;
