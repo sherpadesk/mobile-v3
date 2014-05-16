@@ -191,16 +191,21 @@ fullscreen();
 		},
 
 		dropFooter: function() {
-			function scrolled() {
-			    //do by scroll start
-			    $(this).off('scroll')[0].setTimeout(function(){
-			        //do by scroll end
-			        $("footer").show();
-			        $(this).on('scroll',scrolled);
-			    }, 500)
-			    $("footer").hide();
-			}
-			$(window).on('scroll',scrolled);
+			var lastScrollTop = 0;
+			$(window).scroll(function(event){
+			   var st = $(this).scrollTop();
+			   //alert(st);
+			   if(st < 3 && st > 0){
+    				$("footer").fadeIn(100);
+ 				 } else if (st > lastScrollTop){
+			       // downscroll code
+			       $("footer").fadeOut(100);
+			   } else {
+			      // upscroll code
+			      $("footer").fadeIn(100);
+			   }
+			   //lastScrollTop = st;
+			});
 		}
 	};
 
