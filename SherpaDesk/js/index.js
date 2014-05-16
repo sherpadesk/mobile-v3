@@ -194,10 +194,14 @@ fullscreen();
 			var lastScrollTop = 0;
 			$(window).scroll(function(event){
 			   var st = $(this).scrollTop();
-			   //alert(st);
+			   var vph = $(window).height();
+			   console.log(st);
+			   console.log("viewportHeight "+vph);
 			   if(st < 3 && st > 0){
-    				$("footer").fadeIn(100);
- 				 } else if (st > lastScrollTop){
+			     $("footer").fadeIn(100);
+			   } else if(st > vph - 95) {
+			     $("footer").fadeIn(100);
+			   } else if (st > lastScrollTop){
 			       // downscroll code
 			       $("footer").fadeOut(100);
 			   } else {
