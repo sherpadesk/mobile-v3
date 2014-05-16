@@ -147,7 +147,7 @@ fullscreen();
 			$(".replyButton").click(function(e) {
 				e.preventDefault();
 				var userInput = $(".textInput").val();
-				var prependVal = "<ul class='responseBlock'><li><img src='img/profile_3.png' class='responseImg'><span>Response</span></li><li class=' responseText'><h3>Max Kent</h3><p>" + userInput + "</p></li><li>Just now</li></ul>";
+				var prependVal = "<ul class='responseBlock'><li><img src='img/profile_3.png' class='responseImg'><span>Response</span></li><li class=' responseText'><h3>Lisa Nesil</h3><p>" + userInput + "</p></li><li>Just now</li></ul>";
 				$(prependVal).hide().prependTo("#tabpage_reply .tabpageContainer").slideDown(200);
 				$(".textInput").val("");
 			});
@@ -191,22 +191,17 @@ fullscreen();
 		},
 
 		dropFooter: function() {
-			var mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel" //FF doesn't recognize mousewheel as of FF3.x
-			$("body").bind(mousewheelevt, function(e){
-			
-			    var evt = window.event || e //equalize event object     
-			    evt = evt.originalEvent ? evt.originalEvent : evt; //convert to originalEvent if possible               
-			    var delta = evt.detail ? evt.detail*(-40) : evt.wheelDelta //check for detail first, because it is used by Opera and FF
-			
-			    if(delta > 0) {
-			        //scroll up
-			        $("footer").fadeIn(100);
-			    }
-			    else{
-			        //scroll down
-			        $("footer").fadeOut(100);
-			    }   
-			});
+			var previousScroll = 0;
+
+    $(window).scroll(function(){
+       var currentScroll = $(this).scrollTop();
+       if (currentScroll > previousScroll){
+           $("footer").fadeOut(100);
+       } else {
+          $("footer").fadeIn(100);
+       }
+       previousScroll = currentScroll;
+    });
 		}
 	};
 
