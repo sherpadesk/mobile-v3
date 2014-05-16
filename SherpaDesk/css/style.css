@@ -1137,7 +1137,7 @@ footer {
 .orginalMessageContainer {
   width: 90%;
   overflow: auto;
-  margin: 0 auto;
+  margin: 15px auto 15px;
 }
 
 .orginalMessageContainer h4 {
