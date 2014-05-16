@@ -199,7 +199,7 @@ fullscreen();
 			   console.log("viewportHeight "+vph);
 			   if(st < 3 && st > 0){
 			     $("footer").fadeIn(100);
-			   } else if(st > vph - 95) {
+			   } else if(st > vph - 67) {
 			     $("footer").fadeIn(100);
 			   } else if (st > lastScrollTop){
 			       // downscroll code
