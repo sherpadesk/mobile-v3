@@ -949,7 +949,7 @@ footer {
 .CreateInvoiceWrapper {
   width: 90%;
   margin: 0 auto;
-  overflow: scroll;
+  overflow: auto;
   padding-top: 30px;
 }
 
