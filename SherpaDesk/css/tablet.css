@@ -727,10 +727,11 @@ margin: 0 auto;
 }
 
 .invoiceContainer {
-  overflow: scroll;
   margin: 0 auto;
   height: 545px;
   width: 90%;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .invoiceDetail {
@@ -1351,7 +1352,7 @@ footer {
 }
 .second-slide ul {
   list-style-type: none;
-  margin-left: 10%;
+  margin-left: 24%;
 }
 
 .second-slide li {
@@ -1390,7 +1391,7 @@ footer {
 
 .third-slide ul {
   list-style-type: none;
-  margin-left: 10%;
+  margin-left: 24%;
 }
 
 .third-slide li {

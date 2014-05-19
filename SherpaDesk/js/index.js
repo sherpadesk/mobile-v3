@@ -216,9 +216,9 @@ fullscreen();
 	};
 
 	(function() {
-		if($(window).width() < 768){footer.init();}
+		if($(window).width() < 478){footer.init();}
 		homePage.init();
-		if($(window).width() > 768){hideFooter.init();}
+		if($(window).width() > 478){hideFooter.init();}
 		sideBar.init();
 		searchBar.init();
 		ticker.init();
