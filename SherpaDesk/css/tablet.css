@@ -1,4 +1,5 @@
-html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, menu, nav, section, time, mark, audio, video {
+@media screen and (min-width: 480px) {
+  html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, menu, nav, section, time, mark, audio, video {
     margin: 0;
     padding: 0;
     border: 0;
@@ -24,7 +25,7 @@ a {
 }
 
 body {
-  background: url("../img/bg_dark.png");
+  background: url("../img/mountainBG.jpg");
   /*padding-top: 80px*/;
   /*background-size: cover;*/
   background-repeat: no-repeat;
@@ -37,6 +38,7 @@ body, html {
   overflow: hidden;*/
   height: 100%;
   margin-left: -3px;
+  overflow-x:hidden;
 }
 
 strong {
@@ -255,10 +257,10 @@ header, .bodyContent {
    ========================================================================== */
 
 .bottomHeader {
-  background: #0099CC;
-  height: 40px;
+  height: 150px;
   list-style-type: none;
-  width: 100%;
+  background-color: transparent;
+  width: 40%;
   z-index: -3;
   opacity: .9;
 }
@@ -271,27 +273,31 @@ header, .bodyContent {
 .bottomHeader li {
   color: #ffffff;
   float: left;
-  font-size: 14px;
-  width: 28%;
+  font-size: 20px;
+  width: 100%;
   text-align: center;
-  line-height: 35px;
+  line-height: 45px;
   vertical-align: middle;
+  margin-bottom: 10px;
+  background-color:#0099CC; 
 }
 
 .bottomHeader li:nth-child(2) {
-  width: 8.5%;
+  width: 0px;
+  color: transparent;
 }
 
 .bottomHeader li:nth-child(4) {
-  width: 5.5%;
+  width: 0px;
+  color: transparent;
 }
 
 .bottomHeader li:first-child {
-  text-align: left;
+  text-align: center;
 }
 
 .bottomHeader li:last-child {
-  text-align: right;
+  text-align: center;
 }
 
 header {
@@ -456,6 +462,8 @@ header {
 .sideStats {
   list-style-type: none;
   height: 100%;
+  width: 64%;
+margin: 0 auto;
 }
 
 .sideStats img {
@@ -465,8 +473,8 @@ header {
 .sideStats li {
   box-sizing:border-box;
     -moz-box-sizing:border-box;
+  height: 33.33%;
   padding: 0 15px;
-  width: 75%;
 }
 
 
@@ -555,6 +563,7 @@ header {
   overflow: auto;
   margin: 0 auto;
   border-top: 1px solid #cccccc;
+  width: 90%;
 }
 
 /* Feed
@@ -894,9 +903,9 @@ header {
    ========================================================================== */
 
 footer {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
+  position: relative;
+  bottom: 515px;
+  left: 106%;
   margin: 0 -50%;
   /* display: block; */
   width: 100%;
@@ -986,9 +995,22 @@ footer {
 .OptionsList {
   list-style-type: none;
   margin-top: 20px;
+  width: 40%;
 }
 
+.OptionsListAccountDetail {
+  list-style-type: none;
+  margin-top: 20px;
+  width: 100%;
+  height: 45px;
 
+}
+.OptionsListAccountDetail > li{
+ margin:0 0 10px 0;
+ height: 45px;
+ float: left;
+ width: 33%;
+}
 
 .OptionTitle {
   color: #ffffff;
@@ -996,16 +1018,6 @@ footer {
   line-height: 45px;
   text-align: center;
   padding-left: 10px; 
-}
-
-.OptionsListAccountDetail {
-  list-style-type: none;
-  margin-top: 20px;
-  width: 100%;
-}
-.OptionsListAccountDetail > li{
- margin:0 0 10px 0;
- height: 45px;
 }
 
 .OptionsList > li{
@@ -1020,8 +1032,15 @@ footer {
   float: left;
 }
 
+.OptionWrapperAccountDetail {
+  width: 75%;
+  background-color: #25B0E6;
+  height: 100%;
+  float: left;
+}
+
 .NoticationWrapper {
-  width: 15%;
+  width: 25%;
   background-color: #0099CC;
   height: 100%;
   float: left;
@@ -1037,12 +1056,6 @@ footer {
   margin-top: 35px;
 }
 
-.OptionWrapperAccountDetail {
-  width: 85%;
-  background-color: #25B0E6;
-  height: 100%;
-  float: left;
-}
 /* Account_details
    ========================================================================== */
 
@@ -1053,7 +1066,7 @@ footer {
   margin: 30px auto 15px;
   color: #ffffff;
   height: 45px;
-  width: 100%;
+  width: 55%;
   font-size: 16px;
   text-align: center;
   line-height: 45px;
@@ -1221,15 +1234,6 @@ footer {
   padding-top: 5px;
 }
 
-.responseBlock img {
-  float: left;
-  margin-left: 5px;
-}
-
-.responseBlock span {
-  float: left;
-}
-
 
 .responseBlock li {
   float: left;
@@ -1239,7 +1243,7 @@ footer {
 }
 
 .responseBlock li:first-child {
-  width: 21%;
+  width: 14%;
   height: 100%;
   margin-top: 10px;
   color: #cccccc;
@@ -1393,7 +1397,7 @@ footer {
 .pagination {
   position: absolute;
   z-index: 20;
-  left: 45%;
+  left: 47%;
   bottom: 10px;
 }
 .swiper-pagination-switch {
@@ -1414,3 +1418,5 @@ footer {
   background: #fff;
 }
 
+
+}

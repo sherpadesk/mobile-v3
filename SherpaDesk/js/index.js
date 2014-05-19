@@ -206,7 +206,7 @@ fullscreen();
 	};
 
 	(function() {
-		footer.init();
+		if($(window).width() < 768){footer.init();}
 		homePage.init();
 		sideBar.init();
 		searchBar.init();
