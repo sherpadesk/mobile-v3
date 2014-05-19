@@ -1009,7 +1009,8 @@ footer {
  margin:0 0 10px 0;
  height: 45px;
  float: left;
- width: 33%;
+ width: 28%;
+ margin-left: 20px;
 }
 
 .OptionTitle {
@@ -1039,8 +1040,17 @@ footer {
   float: left;
 }
 
-.NoticationWrapper {
+.NoticationWrapperAccountDetail {
   width: 25%;
+  background-color: #0099CC;
+  height: 100%;
+  float: left;
+  color: #ffffff;
+  line-height: 45px;
+  text-align: center;
+}
+.NoticationWrapper {
+  width: 15%;
   background-color: #0099CC;
   height: 100%;
   float: left;

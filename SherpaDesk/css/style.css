@@ -1030,6 +1030,16 @@ footer {
   text-align: center;
 }
 
+.NoticationWrapperAccountDetail {
+  width: 15%;
+  background-color: #0099CC;
+  height: 100%;
+  float: left;
+  color: #ffffff;
+  line-height: 45px;
+  text-align: center;
+}
+
 .openTicketTitle {
   text-align: center;
   font-size: 14px;

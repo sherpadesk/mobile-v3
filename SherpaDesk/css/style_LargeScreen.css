@@ -980,7 +980,7 @@ footer {
 /* Account_details
    ========================================================================== */
 .accountDetailsContainer {
-  width: 90%;
+  width: 60%;
   margin: 0 auto;
   padding-top: 20px;
 }
@@ -1052,7 +1052,7 @@ footer {
   margin: 30px auto 15px;
   color: #ffffff;
   height: 45px;
-  width: 100%;
+  width: 55%;
   font-size: 16px;
   text-align: center;
   line-height: 45px;
@@ -1062,8 +1062,8 @@ footer {
    ========================================================================== */
 
 .ActiveAccountsContainer {
-  width: 90%;
-  margin-left: 20px;
+  width: 60%;
+  margin: 0 auto;
   overflow: auto;
 }
 
