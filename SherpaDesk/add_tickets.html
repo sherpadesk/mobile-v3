@@ -36,7 +36,13 @@
 <body>
   <div class="bodyContent">
     <div class="CreateInvoiceWrapper"> 
-
+        <div class="styledSelect detailedOption">
+           <select>
+              <option value="" disabled selected>Select a End User</option>
+              <option value="Sherpadesk">Sherpadesk</option>
+              <option value="ACME INC">ACME INC</option>
+           </select>
+        </div>
         <div class="styledSelect">
            <select>
               <option value="" disabled selected>Select an account</option>
@@ -44,40 +50,90 @@
               <option value="ACME INC">ACME INC</option>
            </select>
         </div>
-
+        <div class="styledSelect detailedOption">
+           <select>
+              <option value="" disabled selected>Select a Location</option>
+              <option value="Sherpadesk">Sherpadesk</option>
+              <option value="ACME INC">ACME INC</option>
+           </select>
+        </div>
+        <div class="styledSelect detailedOption">
+           <select>
+              <option value="" disabled selected>Select a Project</option>
+              <option value="Sherpadesk">Sherpadesk</option>
+              <option value="ACME INC">ACME INC</option>
+           </select>
+        </div>
+        <div class="selectionGroup"></div>
         <div class="styledSelect">
            <select>
-              <option value="" disabled selected>Select a technician</option>
+              <option value="" disabled selected>Select a Class</option>
               <option value="Sherpadesk">Jon Vickers</option>
               <option value="ACME INC">Patrick Clements</option>
            </select>
         </div>
 
-        <div class="styledSelect">
+        <div class="styledSelect detailedOption">
            <select>
-              <option value="" disabled selected>Select a class</option>
+              <option value="" disabled selected>Select a Level</option>
               <option value="Sherpadesk">Jon Vickers</option>
               <option value="ACME INC">Patrick Clements</option>
            </select>
         </div>
-
         <div class="styledSelect">
            <select>
-              <option value="" disabled selected>Select a subject</option>
-              <option value="Sherpadesk">Jon Vickers</option>
-              <option value="ACME INC">Patrick Clements</option>
+              <option value="" disabled selected>Select a Priority</option>
+              <option value="Sherpadesk">Sherpadesk</option>
+              <option value="ACME INC">ACME INC</option>
            </select>
         </div>
-
         <div class="styledSelect">
            <select>
-              <option value="" disabled selected>Select a priority</option>
-              <option value="Sherpadesk">Jon Vickers</option>
-              <option value="ACME INC">Patrick Clements</option>
+              <option value="" disabled selected>Select a Technician</option>
+              <option value="Sherpadesk">Sherpadesk</option>
+              <option value="ACME INC">ACME INC</option>
            </select>
         </div>
-        <textarea class="textInput" type="text" placeholder="I completed..."></textarea>
+        <div class="styledSelect detailedOption">
+           <select>
+              <option value="" disabled selected>Select a Alternate Tech</option>
+              <option value="Sherpadesk">Sherpadesk</option>
+              <option value="ACME INC">ACME INC</option>
+           </select>
+        </div>
+        <div class="selectionGroup"></div>
+          <div class="styledSelect detailedOption">
+           <select>
+              <option value="" disabled selected>Status</option>
+              <option value="Sherpadesk">Sherpadesk</option>
+              <option value="ACME INC">ACME INC</option>
+           </select>
+        </div>
+        <div class="styledSelect detailedOption">
+           <select>
+              <option value="" disabled selected>Due Date</option>
+              <option value="Sherpadesk">Sherpadesk</option>
+              <option value="ACME INC">ACME INC</option>
+           </select>
+        </div>
+        <div class="styledSelect detailedOption">
+           <select>
+              <option value="" disabled selected>Attach Assets</option>
+              <option value="Sherpadesk">Sherpadesk</option>
+              <option value="ACME INC">ACME INC</option>
+           </select>
+        </div>
+        <div class="styledSelect detailedOption">
+           <select>
+              <option value="" disabled selected>ToDo Templates</option>
+              <option value="Sherpadesk">Sherpadesk</option>
+              <option value="ACME INC">ACME INC</option>
+           </select>
+        </div>
+        <textarea class="textInputSmall" type="text" placeholder="Subject"></textarea>
+        <textarea class="textInput" type="text" placeholder="Details..."></textarea>
         <a href="selectPayment.html"><button class="greenButton">Add Ticket</button></a>
+        <button class="greenButton" id="details">Detailed Ticket</button>
     </div>
   </div>
 </body>

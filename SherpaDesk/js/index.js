@@ -215,7 +215,22 @@ fullscreen();
 		}
 	};
 
+	var showExtendedDetails = {
+		init: function() {
+			this.showDetailOptions();
+		},
+
+		showDetailOptions: function() {
+				$("#details").click(function(){
+				$(".detailedOption").slideDown(200);
+				$(".selectionGroup").slideDown(200);
+				$("#details").text("Express Ticket");
+			});
+		}
+	};
+
 	(function() {
+		showExtendedDetails.init();
 		if($(window).width() < 478){footer.init();}
 		homePage.init();
 		if($(window).width() > 478){hideFooter.init();}

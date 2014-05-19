@@ -125,6 +125,18 @@ strong {
   width: 100%;
 }
 
+.textInputSmall {
+  background: rgba(0, 0, 0, .4);
+  box-sizing:border-box;
+    -moz-box-sizing:border-box;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  height: 40px;
+  padding: 10px;
+  width: 100%;
+}
+
 .greenButton {
   background: #4bb24d;
   border: none;
@@ -1429,5 +1441,17 @@ footer {
   margin: 0 auto
 }
 
+/* Add Tickets Update  */
 
+.detailedOption {
+  display: none;
+}
+
+.selectionGroup {
+  border-bottom: 1px solid #ccc;
+  width: 30%;
+  height: 5px;
+  margin-bottom: 10px;
+  display: none;
+}
 
