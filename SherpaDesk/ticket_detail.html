@@ -13,6 +13,10 @@
     <title>SherpaDesk</title>
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css" />
+    <!-- Media query for tablets -->
+    <link rel="stylesheet" href="css/tablet.css" />
+    <!-- Media query for large Screen -->
+    <link rel="stylesheet" href="css/style_LargeScreen.css" />
     <!-- Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
@@ -66,12 +70,12 @@
             <img src="img/profile_3.png">
                 <h4>Max Kent</h4>
           <p class="ticketDetailsInfoText">This customer did respond but i am recieving this message when closing the ticket.</p>
-          </div>       
-            <div class="tabpageContainer">
-              <form class="textInputContainer">
+          </div> 
+          <form class="textInputContainer">
                 <textarea class="textInput" type="text" placeholder="Add Response"></textarea>
                 <button class="replyButton">Reply</button>
-            </form> 
+            </form>       
+            <div class="tabpageContainer">
                 <ul class="responseBlock">
                     <li>
                         <img src="img/profile_8.png" class="responseImg">
@@ -109,7 +113,7 @@
         </div>
 
         <div class="tabpage" id="tabpage_info">
-            <div class="tabpageContainer">
+            <div class="tabpageContainer shrinker">
                <div class="user">
                 <div class="styledSelect">
            <select>
@@ -156,7 +160,7 @@
         </div>
 
         <div class="tabpage" id="tabpage_options">
-            <div class="tabpageContainer">
+            <div class="tabpageContainer shrinker">
               <h3 class="smallHeader">Ticket actions</h3>
               <a href="add_time.html" class="send">Add Time</a>
               <a href="invoice.html" class="send">Create Invoice</a>

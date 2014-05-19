@@ -91,6 +91,11 @@ strong {
   vertical-align: middle;
 }
 
+.shrinker {
+  width: 50% !important;
+  margin: 0 auto !important;
+}
+
 .feedClock {
   height: 12px;
   display: inline;
@@ -135,7 +140,8 @@ strong {
   font-weight: 700;
   height: 45px;
   margin: 15px 0 20px 0;
-  width: 100%;
+  width: 30%;
+  float: right;
 }
 
 .styledSelect select {
@@ -462,7 +468,7 @@ header {
 .sideStats {
   list-style-type: none;
   height: 100%;
-  width: 39%;
+  width: 34%;
   margin: 0 auto;
 }
 
@@ -512,6 +518,8 @@ header {
 .tabs ul {
   font-size: 15px;
   list-style: none;
+  width: 75%;
+  margin: 0 auto;
 }
 
 .tabs > ul > li {
@@ -726,7 +734,7 @@ header {
   overflow: scroll;
   margin: 0 auto;
   height: 545px;
-  width: 90%;
+  width: 50%;
 }
 
 .invoiceDetail {
@@ -861,7 +869,7 @@ header {
 
 .accountContainer {
   margin: 0 auto;
-  width: 90%;
+  width: 40%;
   overflow:auto;
 }
 
@@ -1141,7 +1149,7 @@ footer {
 }
 
 .TDSListWrapper {
-  width: 90%;
+  width: 55%;
   height: 60px;
   margin: 0 auto;
   padding-top: 10px;
@@ -1184,7 +1192,10 @@ footer {
   text-align: right;
 }
 
-
+.tabpage {
+  width: 60%;
+  margin: 0 auto;
+}
 
 .ticketInqury p {
   font-size: 14px;
@@ -1202,7 +1213,7 @@ footer {
 
 .replyButton {
   border: none;
-  width: 40%;
+  width: 20%;
   height: 35px;
   background-color: #4bb24d;
   color: #ffffff;
@@ -1229,7 +1240,7 @@ footer {
 }
 
 .responseBlock li:first-child {
-  width: 21%;
+  width: 11%;
   height: 100%;
   margin-top: 10px;
   color: #cccccc;
@@ -1404,5 +1415,9 @@ footer {
   background: #fff;
 }
 
+.textInputContainer {
+  width: 90%;
+  margin: 0 auto
+}
 
 }

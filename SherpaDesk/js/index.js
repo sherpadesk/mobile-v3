@@ -205,9 +205,20 @@ fullscreen();
 		}
 	};
 
+	var hideFooter = {
+		init: function() {
+			this.hide();
+		},
+
+		hide: function() {
+			$(".hideFooter").hide();
+		}
+	};
+
 	(function() {
 		if($(window).width() < 768){footer.init();}
 		homePage.init();
+		if($(window).width() > 768){hideFooter.init();}
 		sideBar.init();
 		searchBar.init();
 		ticker.init();
