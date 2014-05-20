@@ -1185,7 +1185,7 @@ footer {
 
 .orginalMessageContainer img {
   float: left;
-  margin: 10px 9px 0;
+  margin: 10px -5px 0;
 }
 
 .TDSListWrapper h3 {
@@ -1263,6 +1263,7 @@ footer {
 
 .responseBlock span {
   float: left;
+  margin-left: 7px;
 }
 
 
@@ -1513,10 +1514,10 @@ footer {
   list-style-type: none;
   color: #fff;
   width: 100%;
-  height: 30px;
+  height: 40px;
   border-bottom: 1px solid #ccc;
   margin: 10px auto 10px;
-  line-height: 20px;
+  line-height: 30px;
 }
 
 .tableRow li {

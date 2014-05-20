@@ -1170,7 +1170,7 @@ footer {
 
 .orginalMessageContainer img {
   float: left;
-  margin: 10px 9px 0;
+  margin: 10px -5px 0;
 }
 
 .TDSListWrapper h3 {
@@ -1240,7 +1240,7 @@ footer {
 }
 
 .responseBlock li:first-child {
-  width: 11%;
+  width: 16%;
   height: 100%;
   margin-top: 10px;
   color: #cccccc;
