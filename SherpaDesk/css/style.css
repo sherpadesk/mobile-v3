@@ -1218,6 +1218,19 @@ footer {
   margin: 0 auto;
   margin-top: 10px;
 }
+.slaInfo {
+  color: #ccc;
+  list-style-type: none;
+  font-size: 10px;
+  padding-bottom: 1px;
+  width: 50%;
+  margin: 0 auto;
+}
+
+.slaInfo li {
+  float: left;
+  width: 50%;
+}
 
 #tabpage_info, #tabpage_options {
   display: none;
