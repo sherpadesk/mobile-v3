@@ -222,10 +222,10 @@ fullscreen();
 
 		showDetailOptions: function() {
 				$("#details").click(function(){
-				$(".detailedOption").slideToggle(200);
-				$(".selectionGroup").slideToggle(200);
-				$(".detailsArrowDown").toggle();
-				$(".upArrow").toggle(200);
+				$(".detailedOption").slideToggle(300);
+				$(".selectionGroup").slideToggle(300);
+				$(".detailsArrowDown").slideToggle(300);
+				$(".upArrow").slideToggle(300);
 
 
 			});
