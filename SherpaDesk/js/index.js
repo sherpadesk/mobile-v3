@@ -123,6 +123,11 @@ fullscreen();
 			this.tab();
 			this.addResponse();
 			this.scrollResponse();
+			this.latestPost();
+		},
+
+		latestPost: function() {
+			$(".orginalMessageContainer .responseBlock").addClass("latestResponse");
 		},
 
 		tab: function() {
@@ -147,9 +152,14 @@ fullscreen();
 			$(".replyButton").click(function(e) {
 				e.preventDefault();
 				var userInput = $(".textInput").val();
-				var prependVal = "<ul class='responseBlock'><li><img src='img/profile_3.png' class='responseImg'><span>Response</span></li><li class=' responseText'><h3>Lisa Nesil</h3><p>" + userInput + "</p></li><li>Just now</li></ul>";
-				$(prependVal).hide().prependTo("#tabpage_reply .tabpageContainer").slideDown(200);
+				var prependVal = "<ul class='responseBlock'><li><img src='img/profile_3.png' class='responseImg'><span>Response</span></li><li class=' responseText'><h3>Max Kent</h3><p>" + userInput + "</p></li><li>Just now</li></ul>";
+				$(prependVal).hide().prependTo("#tabpage_reply .orginalMessageContainer").slideDown(200);
 				$(".textInput").val("");
+				var responseBumbed = $(".latestResponse");
+				$(".latestResponse").remove();
+				$(responseBumbed).hide().prependTo("#tabpage_reply .tabpageContainer").slideDown(200);
+				$(".latestResponse").removeClass("latestResponse");
+				$(".orginalMessageContainer .responseBlock").addClass("latestResponse");
 			});
 		},
 

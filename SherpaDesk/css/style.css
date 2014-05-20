@@ -727,7 +727,7 @@ header {
 }
 
 .invoiceContainer {
-  overflow: scroll;
+  overflow: auto;
   margin: 0 auto;
   height: 545px;
   width: 90%;
@@ -1166,7 +1166,7 @@ footer {
 .TDSListWrapper {
   width: 90%;
   height: 60px;
-  margin: 0 auto;
+  margin: 10px auto;
   padding-top: 10px;
   color: #ffffff;
 }
@@ -1274,7 +1274,7 @@ footer {
   width: 95%;
   height: 30%;
   text-align: right;
-  margin-top: 10px;
+  margin-top: 5px;
   color: #cccccc;
   font-size: 10px;
 }
@@ -1283,6 +1283,10 @@ footer {
   color: #ffffff;
   width: 70%;
   height: 90%;
+}
+
+.latestResponse {
+  border-bottom: 0px solid transparent;
 }
 
 .responseText h3 {
