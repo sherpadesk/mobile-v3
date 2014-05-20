@@ -222,9 +222,12 @@ fullscreen();
 
 		showDetailOptions: function() {
 				$("#details").click(function(){
-				$(".detailedOption").slideDown(200);
-				$(".selectionGroup").slideDown(200);
-				$("#details").text("Express Ticket");
+				$(".detailedOption").slideToggle(200);
+				$(".selectionGroup").slideToggle(200);
+				$(".detailsArrowDown").toggle();
+				$(".upArrow").toggle(200);
+
+
 			});
 		}
 	};

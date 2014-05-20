@@ -1455,3 +1455,23 @@ footer {
   display: none;
 }
 
+ .detailsArrowDown {
+  color: #ccc;
+  opacity: 0.5;
+  text-align: center;
+ }
+
+ .detailsArrowUp {
+  color: #ccc;
+  opacity: 0.5;
+  text-align: center;
+ }
+
+.tester {
+  margin: 0 auto;
+  width: 40px;
+}
+
+.upArrow {
+  display: none;
+}
