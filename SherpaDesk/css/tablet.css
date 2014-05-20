@@ -186,7 +186,7 @@ header, .bodyContent {
   height: 110%;
   position: absolute;
   top: 0; left: 0;
-  width: 60%;
+  width: 30%;
   z-index: 2;
   transform:translateX(-100%);
   -webkit-transform: translateX(-100%);
