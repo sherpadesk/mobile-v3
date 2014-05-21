@@ -176,6 +176,7 @@ strong {
 
 .bodyContent {
   margin-top: 45px;
+  max-width: 1100px;
 }
 
 header, .bodyContent {
@@ -314,6 +315,7 @@ header {
   width: 102%;
   top: 0;
   z-index: 2;
+  max-width: 1100px;
 }
 
 .headerContainer {
@@ -911,7 +913,7 @@ header {
 
 footer {
   position: relative;
-  bottom: 515px;
+  bottom: 525px;
   left: 106%;
   margin: 0 -50%;
   /* display: block; */

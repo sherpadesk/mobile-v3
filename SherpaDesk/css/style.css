@@ -130,6 +130,7 @@ strong {
   box-sizing:border-box;
     -moz-box-sizing:border-box;
   border: none;
+  overflow: auto;
   color: #ffffff;
   font-size: 16px;
   height: 40px;
@@ -182,6 +183,20 @@ strong {
   margin-top: 45px;
 }
 
+.bodyLock {
+  overflow-x: hidden; 
+  overflow-y: hidden;
+}
+
+.bodyContentCover {
+  z-index: 2;
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
 header, .bodyContent {
   -webkit-transition: -webkit-transform .2s ease-in; /* Changed here */ 
      -moz-transition: -moz-transform .2s ease-in;
@@ -192,11 +207,12 @@ header, .bodyContent {
 
 .sideNav {
   background-color: #1C1B22;
-  height: 110%;
+  height: 131%;
   position: absolute;
   top: 0; left: 0;
   width: 60%;
-  z-index: 2;
+  z-index: 3;
+  overflow-y:scroll !important; 
   transform:translateX(-100%);
   -webkit-transform: translateX(-100%);
   -webkit-transform: translateX(-100%);

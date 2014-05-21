@@ -45,6 +45,8 @@ fullscreen();
 		slideOut: function() {
 			$(".bodyContent, header").addClass("contentOut");
 			$(".sideNav").addClass("sideNavOut");
+			$("body").toggleClass("bodyLock");
+			$("a").toggleClass("disabled");
 			slide = true;
 		},
 
@@ -52,6 +54,8 @@ fullscreen();
 			// e.preventDefault();
 			$(".bodyContent, header").removeClass("contentOut");
 			$(".sideNav").removeClass("sideNavOut");
+			$("body").toggleClass("bodyLock");
+			$("a").toggleClass("disabled");
 			slide = false;
 		}, 
 
@@ -59,7 +63,7 @@ fullscreen();
 			$(".headerNavIcon").click(function() {
 				sideBar.slideOut();
 			});
-			$(".bodyContent").click(function() {
+			$(".bodyContentCover").click(function() {
 				sideBar.slideIn();
 			});
 		}
