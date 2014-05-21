@@ -1273,17 +1273,19 @@ footer {
   border-bottom: 1px solid #cccccc;
   padding-bottom: 5px;
   padding-top: 5px;
-  z-index: 3;
+  z-index: 5;
 }
 
 .responseBlock img {
   float: left;
   margin-left: 5px;
+  z-index: 1;
 }
 
 .responseBlock span {
   float: left;
   margin-left: 7px;
+  z-index: 2;
 }
 
 
@@ -1292,6 +1294,7 @@ footer {
   margin-top: 8px;
   margin-left: 10px;
   width: 70%;
+  z-index: 2;
 }
 
 .responseBlock li:first-child {
@@ -1317,6 +1320,7 @@ footer {
   color: #ffffff;
   width: 70%;
   height: 90%;
+  z-index: 2;
 }
 
 .latestResponse {
@@ -1585,7 +1589,7 @@ footer {
   width: 92%;
   background-color: rgba(34,167,240,.8);
   height: 110px;
-  z-index: 4;
+  z-index: 5;
   position: absolute;
   display: none;
 }
@@ -1594,11 +1598,13 @@ footer {
   float: left;
   width: 33.33%;
   text-align: center;
+  z-index: 1;
 }
 
 .rightOptions i {
   color: #ccc;
   line-height: 110px;
+  z-index: 2;
  
 }
 
