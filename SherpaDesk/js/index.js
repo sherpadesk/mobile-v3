@@ -265,7 +265,7 @@ fullscreen();
 		},
 
 		rightActions: function() {
-			$("#thisBlock").on("swiperight",function(){
+			$("#thisBlock" || ".responseText" || ".responseImg").on("swiperight",function(){
 				$(".rightOptions").toggle().slideDown(300);
 			});
 			$(".rightOptions").on("swipeleft",function(){
