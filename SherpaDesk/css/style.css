@@ -421,6 +421,7 @@ header {
 .dashboardContainer {
   height: 150px;
   margin: 0 auto;
+  overflow: auto;
   padding-top: 15px;
   width: 100%;
 }
@@ -992,6 +993,7 @@ footer {
 .QueuesTickerContainer {
   width: 90%;
   margin: 0 auto 25px;
+  overflow: auto;
 
 }
 
@@ -1217,6 +1219,7 @@ footer {
   width: 90%;
   margin: 0 auto;
   margin-top: 10px;
+  overflow: auto;
 }
 .slaInfo {
   color: #ccc;
@@ -1524,4 +1527,36 @@ footer {
   float: left;
   width: 25%;
   text-align: center;
+}
+
+.billable {
+  width: 25px;
+  height: 25px;
+  background-color:transparent;
+  border-radius: 100%;
+  border: 2px solid rgba(189, 195, 199,.5);
+  margin-bottom: 10px;
+  float: left;
+}
+
+  .billTag {
+    color: #ccc;
+    float: left;
+    display: block;
+    margin-left: 7px;
+    font-size: 14px;
+    margin-top: 3px;
+  }
+
+  .innerCircle {
+    width: 15px;
+  height: 15px;
+  background-color:rgba(189, 195, 199,.5);
+  border-radius: 100%;
+  margin: 3px auto;
+  }
+
+  .billFill {
+  background-color: #25B0E6;
+  
 }

@@ -731,7 +731,7 @@ header {
 }
 
 .invoiceContainer {
-  overflow: scroll;
+  overflow: auto;
   margin: 0 auto;
   height: 545px;
   width: 50%;
@@ -1205,6 +1205,7 @@ footer {
   width: 90%;
   margin: 0 auto;
   margin-top: 10px;
+  overflow: auto;
 }
 
 #tabpage_info, #tabpage_options {
@@ -1275,6 +1276,11 @@ footer {
 .responseImg {
   width: 60px;
   height: 60px;
+}
+
+.responseBlock span {
+  float: left;
+  margin-left: 0px;
 }
 
 /* update css */

@@ -242,7 +242,21 @@ fullscreen();
 		}
 	};
 
+	var billEm = {
+		init: function() {
+			this.checkBillButton();
+		}, 
+
+		checkBillButton: function() {
+			$(".billable").click(function(){
+				$(".innerCircle").toggleClass("billFill");
+			});
+		}
+
+	};
+
 	(function() {
+		billEm.init();
 		showExtendedDetails.init();
 		if($(window).width() < 478){footer.init();}
 		homePage.init();

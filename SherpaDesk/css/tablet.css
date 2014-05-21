@@ -1226,6 +1226,7 @@ footer {
   width: 90%;
   margin: 0 auto;
   margin-top: 10px;
+  overflow: auto;
 }
 
 #tabpage_info, #tabpage_options {
@@ -1252,6 +1253,10 @@ footer {
   padding-top: 5px;
 }
 
+.responseBlock span {
+  float: left;
+  margin-left: 0px;
+}
 
 .responseBlock li {
   float: left;
