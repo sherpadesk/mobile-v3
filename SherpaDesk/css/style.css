@@ -130,7 +130,7 @@ strong {
   box-sizing:border-box;
     -moz-box-sizing:border-box;
   border: none;
-  overflow: auto;
+  overflow: hidden;
   color: #ffffff;
   font-size: 16px;
   height: 40px;
@@ -212,7 +212,7 @@ header, .bodyContent {
   top: 0; left: 0;
   width: 60%;
   z-index: 3;
-  overflow-y:scroll !important; 
+  overflow-y:hidden; 
   transform:translateX(-100%);
   -webkit-transform: translateX(-100%);
   -webkit-transform: translateX(-100%);
