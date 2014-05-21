@@ -1576,3 +1576,31 @@ footer {
   background-color: #25B0E6;
   
 }
+
+/* Slide Ticket  */
+
+.rightOptions {
+  list-style-type: none;
+  width: 92%;
+  background-color: rgba(34,167,240,.8);
+  height: 110px;
+  z-index: 4;
+  position: absolute;
+  display: none;
+}
+
+.rightOptions li {
+  float: left;
+  width: 33.33%;
+  text-align: center;
+}
+
+.rightOptions i {
+  color: #ccc;
+  line-height: 110px;
+ 
+}
+
+.rightOptions div {
+  border: 
+}

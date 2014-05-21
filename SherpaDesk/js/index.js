@@ -259,7 +259,23 @@ fullscreen();
 
 	};
 
+	var ticketActions = {
+		init: function() {
+			this.rightActions();
+		},
+
+		rightActions: function() {
+			$("#thisBlock").on("swiperight",function(){
+				$(".rightOptions").toggle().slideDown(300);
+			});
+			$(".rightOptions").on("swipeleft",function(){
+				$(".rightOptions").toggle().slideUp(300);
+			});
+		}
+	};
+
 	(function() {
+		ticketActions.init();
 		billEm.init();
 		showExtendedDetails.init();
 		if($(window).width() < 478){footer.init();}
