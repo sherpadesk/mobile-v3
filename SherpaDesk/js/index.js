@@ -265,10 +265,10 @@ fullscreen();
 		},
 
 		rightActions: function() {
-			$("#thisBlock" || ".responseText" || ".responseImg").on("swiperight",function(){
+			$("#thisBlock" || ".responseText" || ".responseImg").on("swipe",function(){
 				$(".rightOptions").toggle().slideDown(300);
 			});
-			$(".rightOptions").on("swipeleft",function(){
+			$(".rightOptions").on("swipe",function(){
 				$(".rightOptions").toggle().slideUp(300);
 			});
 		}
