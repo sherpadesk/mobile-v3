@@ -19,8 +19,6 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
     <!-- Jquery UI -->
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
@@ -42,23 +40,21 @@
   </header>
   <body class="bodyContent">
     <div id="tabContainer">
-        <div class="tabs">
+        <div class="TicketTabs">
             <ul>
-                <li class="tabHeader" data-id="reply">Tech</li>
+                <li class="tabHeader" id="replyTab" data-id="reply">Tech</li>
                 <li>|</li>
                 <li class="tabHeader" data-id="info">User</li>
                 <li>|</li>
                 <li class="tabHeader" data-id="options">Alt Tech</li>
+                <li>|</li>
+                <li class="tabHeader" data-id="all">ALL Tickets</li>
             </ul>
         </div>
         <div class="tabpage" id="tabpage_reply">
             <div class="tabpageContainer">
-                <a href="#">
-                  <ul class="rightOptions">
-                    <li><i class="fa fa-comments fa-3x"></i></li>
-                    <li><i class="fa fa-share-alt fa-3x"></i></li>
-                    <li><i class="fa fa-ban fa-3x"></i></li>
-                  </ul>
+                <a href="ticket_detail.html">
+                  
                 <ul class="responseBlock" id="thisBlock">
                   <li>
                     <img src="img/profile_7.png" class="TicketBlockFace">
@@ -219,6 +215,8 @@
             </div>
         </div>
     </div>
+  </div>
+  <div class="tabpage" id="tabpage_all">
   </div>
   <footer class="hideFooter">
       <ul class="bottomHeader clearfix">

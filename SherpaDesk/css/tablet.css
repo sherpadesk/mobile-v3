@@ -293,13 +293,6 @@ header, .bodyContent {
   color: transparent;
 }
 
-.bottomHeader li:first-child {
-  text-align: center;
-}
-
-.bottomHeader li:last-child {
-  text-align: center;
-}
 
 header {
   background: #25B0E6;
@@ -1265,7 +1258,7 @@ footer {
   margin-top: 8px;
   margin-left: 10px;
   width: 70%;
-  
+
 }
 
 .responseBlock li:first-child {

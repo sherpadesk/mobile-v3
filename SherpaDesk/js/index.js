@@ -140,12 +140,16 @@ fullscreen();
 				switch( $(this).attr("data-id") ) {
 					case "reply":
 						$("#tabpage_reply").fadeIn(300);
+						$("#replyTab").toggleClass("tabActiveHeader");
 						break;
 					case "info":
 						$("#tabpage_info").fadeIn(300);
 						break
 					case "options":
 						$("#tabpage_options").fadeIn(300);
+						break;
+					case "all":
+						$("#tabpage_all").fadeIn(300);
 					default:
 						break;
 				}
@@ -259,23 +263,9 @@ fullscreen();
 
 	};
 
-	var ticketActions = {
-		init: function() {
-			this.rightActions();
-		},
-
-		rightActions: function() {
-			$("#thisBlock" || ".responseText" || ".responseImg").on("swipe",function(){
-				$(".rightOptions").toggle().slideDown(300);
-			});
-			$(".rightOptions").on("swipe",function(){
-				$(".rightOptions").toggle().slideUp(300);
-			});
-		}
-	};
+	
 
 	(function() {
-		ticketActions.init();
 		billEm.init();
 		showExtendedDetails.init();
 		if($(window).width() < 478){footer.init();}

@@ -314,13 +314,6 @@ header, .bodyContent {
   width: 5.5%;
 }
 
-.bottomHeader li:first-child {
-  text-align: left;
-}
-
-.bottomHeader li:last-child {
-  text-align: right;
-}
 
 header {
   background: #25B0E6;
@@ -437,7 +430,7 @@ header {
 .dashboardContainer {
   height: 150px;
   margin: 0 auto;
-  overflow: auto;
+  overflow: hidden;
   padding-top: 15px;
   width: 100%;
 }
@@ -561,10 +554,8 @@ header {
   height: 20px;
 }
 
-.tabs > ul > li.tabActiveHeader {
+.tabActiveHeader {
   border-bottom: 2px solid #ffffff;
-  height: 33px;
-  cursor:pointer;
   color: #ffffff;
 }
 
@@ -1534,6 +1525,10 @@ footer {
   margin-bottom: 10px;
 }
 
+.tableHeader li:first-child {
+  text-align: left;
+}
+
 .tableRow {
   list-style-type: none;
   color: #fff;
@@ -1548,6 +1543,10 @@ footer {
   float: left;
   width: 25%;
   text-align: center;
+}
+
+.tableRow li:first-child {
+  text-align: left;
 }
 
 .billable {
@@ -1582,32 +1581,42 @@ footer {
   
 }
 
-/* Slide Ticket  */
+/* Ticket List update   */
 
-.rightOptions {
-  list-style-type: none;
-  width: 92%;
-  background-color: rgba(34,167,240,.8);
-  height: 110px;
-  z-index: 5;
-  position: absolute;
-  display: none;
+.TicketTabs ul {
+  font-size: 15px;
+  list-style: none;
 }
 
-.rightOptions li {
-  float: left;
-  width: 33.33%;
+.TicketTabs > ul > li {
+  width: 18%;
   text-align: center;
-  z-index: 1;
+  line-height: 35px;
+  height: 35px;
+  display: block;
+  float: left;
+  color: #ffffff;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none; 
+  background: #0099CC; /* old browsers */
 }
 
-.rightOptions i {
-  color: #ccc;
-  line-height: 110px;
-  z-index: 2;
- 
+.TicketTabs ul li:nth-child(2) {
+  width: 2%;
 }
 
-.rightOptions div {
-  border: 
+.TicketTabs ul li:nth-child(4) {
+  width: 2%;
 }
+
+.TicketTabs ul li:nth-child(6) {
+  width: 2%;
+}
+
+.TicketTabs li:last-child {
+  width: 40%;
+  text-align: right;
+  padding-right: 5%;
+}
+
