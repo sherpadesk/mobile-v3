@@ -44,14 +44,15 @@
             <ul>
                 <li class="tabHeader" id="replyTab" data-id="reply">Tech</li>
                 <li>|</li>
-                <li class="tabHeader" data-id="info">User</li>
+                <li class="tabHeader" id="userTab" data-id="info">User</li>
                 <li>|</li>
-                <li class="tabHeader" data-id="options">Alt Tech</li>
+                <li class="tabHeader" id="altTab" data-id="options">Alt</li>
                 <li>|</li>
-                <li class="tabHeader" data-id="all">ALL Tickets</li>
+                <li class="tabHeader" id="openTab"data-id="all">All Open</li>
             </ul>
         </div>
         <div class="tabpage" id="tabpage_reply">
+          <div class="currentPage"></div>
             <div class="tabpageContainer">
                 <a href="ticket_detail.html">
                   
@@ -217,6 +218,21 @@
     </div>
   </div>
   <div class="tabpage" id="tabpage_all">
+    <div class="tabpageContainer">
+      <ul class="responseBlock">
+                  <li>
+                    <img src="img/profile_7.png" class="TicketBlockFace">
+                    <span>Lisa Nesil</span>
+                  </li>
+                  <li class="responseText">
+                    <h4>Exporting Tickets</h4>
+                    <p>How to export tickets from one queue to another?</p>
+                  </li>
+                  <li>
+                    <p class="TicketBlockNumber">2342 | support</p>
+                  </li>
+                </ul>
+    </div>
   </div>
   <footer class="hideFooter">
       <ul class="bottomHeader clearfix">

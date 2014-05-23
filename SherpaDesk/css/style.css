@@ -1635,7 +1635,6 @@ footer {
 
 .TicketTabs li:last-child {
   width: 40%;
-  text-align: right;
-  padding-right: 5%;
+  text-align: center;
 }
 

@@ -140,7 +140,6 @@ fullscreen();
 				switch( $(this).attr("data-id") ) {
 					case "reply":
 						$("#tabpage_reply").fadeIn(300);
-						$("#replyTab").toggleClass("tabActiveHeader");
 						break;
 					case "info":
 						$("#tabpage_info").fadeIn(300);
