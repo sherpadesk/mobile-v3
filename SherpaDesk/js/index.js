@@ -146,10 +146,7 @@ fullscreen();
 						break
 					case "options":
 						$("#tabpage_options").fadeIn(300);
-						break;
-					case "all":
-						$("#tabpage_all").fadeIn(300);
-					default:
+						default:
 						break;
 				}
 			});

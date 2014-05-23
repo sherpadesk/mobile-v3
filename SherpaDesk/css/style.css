@@ -560,6 +560,10 @@ header {
   color: #ffffff;
 }
 
+.currentPage {
+  width: 
+}
+
 .searchIcon {
   height: 20px;
   margin-top:5px;
@@ -1283,6 +1287,7 @@ footer {
 .responseBlock img {
   float: left;
   margin-left: 5px;
+  margin-top: 3px;
   z-index: 1;
 }
 
@@ -1292,7 +1297,9 @@ footer {
   z-index: 2;
 }
 
-
+.nameNtech {
+  list-style-type: none;
+}
 .responseBlock li {
   float: left;
   margin-top: 8px;
@@ -1315,7 +1322,7 @@ footer {
   width: 95%;
   height: 30%;
   text-align: right;
-  margin-top: 5px;
+  margin-top: -20px;
   color: #cccccc;
   font-size: 10px;
 }
@@ -1331,12 +1338,18 @@ footer {
   border-bottom: 0px solid transparent;
 }
 
+.blockNumber {
+  margin-left: 0px;
+}
+
 .responseText h3 {
   font-size: 18px;
 }
 
 .responseBlock p {
   font-size: 14px;
+  margin-left: 0px;
+  width: 100%;
 }
 
 .responseImg {
@@ -1637,4 +1650,18 @@ footer {
   width: 40%;
   text-align: center;
 }
+
+/* Queues page */
+
+.QueuesContainer {
+  width: 90%;
+  overflow: auto;
+  margin: 0 auto;
+}
+
+.QueuesContainer ul {
+  margin-top: 70px;
+}
+
+
 
