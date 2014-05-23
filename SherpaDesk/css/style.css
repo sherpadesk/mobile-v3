@@ -478,6 +478,7 @@ header {
 .sideStats {
   list-style-type: none;
   height: 100%;
+  width: 109%;
 }
 
 .sideStats img {
@@ -488,7 +489,7 @@ header {
   box-sizing:border-box;
     -moz-box-sizing:border-box;
   padding: 0 15px;
-  width: 75%;
+  width: 80%;
 }
 
 
@@ -1122,7 +1123,7 @@ footer {
 }
 
 .ActiveAccountsList li ul li {
-  float: left;
+  float: right;
   width: 33.33%;
   height: 50%;
   text-align: center;
@@ -1156,6 +1157,18 @@ footer {
   margin-right: 10px;
 }
 
+.activeAccountHeader {
+  list-style-type: none;
+  width: 90%;
+  margin-bottom: -1px;
+}
+
+.activeAccountHeader li {
+  float: left;
+  width: 33.33%;
+  color: #ccc;
+  text-align: right;
+}
 /* Ticket Detials
    ========================================================================== */
 .ticketDetailsHeader {
@@ -1514,6 +1527,7 @@ footer {
 .tableHeader {
   list-style-type: none;
   color: #ccc;
+  opacity: .7;
   width: 100%;
   overflow: auto;
 }
@@ -1525,27 +1539,32 @@ footer {
   margin-bottom: 10px;
 }
 
-.tableHeader li:first-child {
+.tableRows li:first-child {
   text-align: left;
 }
 
-.tableRow {
+.tableRows {
   list-style-type: none;
   color: #fff;
   width: 100%;
-  height: 40px;
-  border-bottom: 1px solid #ccc;
-  margin: 10px auto 10px;
-  line-height: 30px;
+  overflow: auto;
 }
 
-.tableRow li {
+.tableRows li {
   float: left;
   width: 25%;
+  height: 40px;
   text-align: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
 }
 
-.tableRow li:first-child {
+.tableRows li:last-child {
+  text-align: right;
+  padding-right: 24px;
+}
+
+.tableRows li:first-child {
   text-align: left;
 }
 
