@@ -982,7 +982,8 @@ var SherpaDesk = {
 
 		var timeEntries = SherpaDesk.getSherpaDesk(configPass, 'time');
 		timeEntries.done(function(results){			
-			SherpaDesk.showTimeLogs(results);
+		    SherpaDesk.showTimeLogs(results);
+		    fixedDate("p.date");
 			
 			//Set the home button
 			$('a.home_button').on('click', function(e){
