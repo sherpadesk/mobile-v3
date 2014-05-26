@@ -50,7 +50,7 @@ function program2(depth0,data) {
   else { stack1 = (depth0 && depth0.id); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
     + "\" data-open=\""
-    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.ticket_counts)),stack1 == null || stack1 === false ? stack1 : stack1.open)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.account_statistics.ticket_counts)),stack1 == null || stack1 === false ? stack1 : stack1.open)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "\" data-name=\"";
   if (stack2 = helpers.name) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
   else { stack2 = (depth0 && depth0.name); stack2 = typeof stack2 === functionType ? stack2.call(depth0, {hash:{},data:data}) : stack2; }
@@ -60,7 +60,7 @@ function program2(depth0,data) {
   else { stack2 = (depth0 && depth0.name); stack2 = typeof stack2 === functionType ? stack2.call(depth0, {hash:{},data:data}) : stack2; }
   buffer += escapeExpression(stack2)
     + "</p>												\r\n						<p class=\"account_tkt_cnt\">"
-    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.ticket_counts)),stack1 == null || stack1 === false ? stack1 : stack1.open)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.account_statistics.ticket_counts)),stack1 == null || stack1 === false ? stack1 : stack1.open)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
     + "</p>                                     \r\n					</div>\r\n				</a>				\r\n			</li>\r\n			";
   return buffer;
   }
