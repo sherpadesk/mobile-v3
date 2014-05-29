@@ -5,6 +5,13 @@ $(document).ready(function(){
 	var userInstanceKey = "";
 	var	userKey = "xyjfvhjajkmcarswif5k0whm7hkhmfju";
 
+	var storeLocalData = function() {
+		localStorage.setItem('userOrgKey',userOrgKey);
+		localStorage.setItem('userOrg',userOrg);
+		localStorage.setItem('userInstanceKey',userInstanceKey);
+		localStorage.setItem('userKey',userKey);
+	};
+
 	var getTicketCount = function() {
 		$.ajax({
 			type: 'GET',
@@ -79,13 +86,19 @@ $(document).ready(function(){
 					for (var i = 0; i < returnData.length; i++)
 					{
 						if(returnData[i].name.length > 10) {
-							var activeAccount = "<ul class='tableRows'><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li>"+returnData[i].account_statistics.ticket_counts.open+"</li></ul>";
+							var activeAccount = "<a href='account_details.html'><ul class='tableRows' data-id="+returnData[i].name+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li>"+returnData[i].account_statistics.ticket_counts.open+"</li></ul></a>";
 						$(activeAccount).appendTo(".ActiveAccountsContainer");
 						}else{
-						var activeAccount = "<ul class='tableRows'><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li>"+returnData[i].account_statistics.ticket_counts.open+"</li></ul>";
+						var activeAccount = "<a href='account_details.html'><ul class='tableRows' data-id="+returnData[i].name+"><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li>"+returnData[i].account_statistics.ticket_counts.open+"</li></ul></a>";
 						$(activeAccount).appendTo(".ActiveAccountsContainer");
 					}
 					}
+					var accountID = "";
+					$(".tableRows").click(function(){
+					accountID = $(this).attr("data-id");
+					alert(accountID);
+					$("#AD").html(accountID);
+					});
 
 					},
 				error: function() {
@@ -116,6 +129,7 @@ $(document).ready(function(){
 					userOrg = returnData[0].name;
 					userInstanceKey = returnData[0].instances[0].key;
 					$(".SherpaDesk").html(userOrg);
+					storeLocalData();
 					getTicketCount();
 					getQueueList();
 					getActiveAccounts();
@@ -132,6 +146,7 @@ $(document).ready(function(){
 
 
 	(function() {
+		
 		org.init();
 		
 	}()); 
