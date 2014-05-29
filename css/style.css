@@ -1102,6 +1102,7 @@ footer {
   width: 90%;
   margin-left: 20px;
   overflow: auto;
+  z-index: 1;
 }
 
 .ActiveAccountsList {
@@ -1565,6 +1566,7 @@ footer {
   color: #fff;
   width: 100%;
   overflow: auto;
+  z-index: 5;
 }
 
 .tableRows li {

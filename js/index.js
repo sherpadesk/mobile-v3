@@ -9,6 +9,7 @@ function fullscreen() {
     });
 }
  
+
 fullscreen();
 	
 	var homePage = {
