@@ -12,6 +12,17 @@ $(document).ready(function(){
 		localStorage.setItem('userKey',userKey);
 	};
 
+	var accountGetter = function() {
+		var accountID = "";
+		$(".tableRows").click(function(){
+			alert();
+		accountID = $(this).attr("data-id");
+		localStorage.setItem("accountID",accountID);
+		$("#AD").html(localStorage.getItem("accountID"));
+		alert();
+	});
+	};
+
 	var getTicketCount = function() {
 		$.ajax({
 			type: 'GET',
@@ -93,12 +104,8 @@ $(document).ready(function(){
 						$(activeAccount).appendTo(".ActiveAccountsContainer");
 					}
 					}
-					var accountID = "";
-					$(".tableRows").click(function(){
-					accountID = $(this).attr("data-id");
-					alert(accountID);
-					$("#AD").html(accountID);
-					});
+					
+					
 
 					},
 				error: function() {
@@ -133,6 +140,8 @@ $(document).ready(function(){
 					getTicketCount();
 					getQueueList();
 					getActiveAccounts();
+					accountGetter();
+					
 				},
 				error: function() {
 					alert("fail @ getOrg");
@@ -142,7 +151,6 @@ $(document).ready(function(){
 		}
 	};
 
-	
 
 
 	(function() {
