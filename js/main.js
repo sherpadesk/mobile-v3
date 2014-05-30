@@ -6,7 +6,42 @@ $(document).ready(function(){
 	var	userKey = "xyjfvhjajkmcarswif5k0whm7hkhmfju";
 	var accountDetailed = "";
 
-	var accountPageSetup = {
+
+	var timeLogs = {
+		init:function() {
+			this.getLogs();
+		},
+
+		getLogs:function() {
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/time?limit=200",
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						$(".timelogs").empty();
+						for(var i = 0; i < returnData.length; i++)
+						{
+							var email = $.md5(returnData[i].user_email);
+							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+returnData[i].note+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+returnData[i].hours+"</span> hrs</h3></li></ul></li>";
+          					$(log).appendTo(".timelogs");
+						}
+					},
+				error: function() {
+					alert("fail @ timelogs");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+		}
+	};
+
+	var accountDetailsPageSetup = {
 		init:function() {
 			this.clickedAccount();
 			this.pageSetup();
@@ -53,10 +88,11 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 					console.log(returnData);
-					$(".AccountDetailsTicketsContainer").empty();
+					$(".AccountDetailsTicketsContainer").empty(); 
 					for(var i = 0; i < returnData.length; i++) 
-					{
-						var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber'>#"+returnData[i].number+"</p><img src='img/profile_7.png' class='TicketBlockFace'><span>"+returnData[i].user_firstname+" "+returnData[i].user_lastname+"</span></li><li class='responseText'><h4>"+returnData[i].subject+"</h4><p>How to export tickets from one queue to another?</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+					{	
+						var email = $.md5(returnData[i].user_email);
+						var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+" "+returnData[i].user_lastname+"</span></li><li class='responseText'><h4>"+returnData[i].subject+"</h4><p>How to export tickets from one queue to another?</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 						$(ticket).appendTo(".AccountDetailsTicketsContainer");
 					}
 				
@@ -153,7 +189,7 @@ $(document).ready(function(){
 					console.log(returnData);
 					for (var i = 0; i < returnData.length; i++)
 					{
-						if(returnData[i].name.length > 10) {
+						if(returnData[i].name.length > 9) {
 							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li>"+returnData[i].account_statistics.ticket_counts.open+"</li></ul>";
 						$(activeAccount).appendTo(".ActiveAccountsContainer");
 						}else{
@@ -211,7 +247,8 @@ $(document).ready(function(){
 
 	(function() {
 		org.init();
-		accountPageSetup.init();
+		accountDetailsPageSetup.init();
+		timeLogs.init();
 		
 	}()); 
 	

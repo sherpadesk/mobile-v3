@@ -577,9 +577,10 @@ header {
 }
 
 .AccountDetailsTicketsContainer {
-  overflow: auto;
+  overflow: scroll;
   margin: 0 auto;
   border-top: 1px solid #cccccc;
+  max-height: 750px;
 }
 
 /* Feed
@@ -840,6 +841,8 @@ header {
 .timelogs {
   padding-top: 35px;
   list-style-type: none;
+  overflow: scroll;
+  max-height: 750px;
 }
  
 .timelogs > li {
@@ -871,6 +874,8 @@ header {
   display: block;
   height: 50px;
   margin: 0 auto;
+  border-radius: 100%;
+  border: 2px solid #fff;
 }
 
 /* account
@@ -1290,12 +1295,15 @@ footer {
   margin-left: 5px;
   margin-top: 3px;
   z-index: 1;
+  border-radius: 100%;
+  border: 2px solid #fff;
 }
 
 .responseBlock span {
   float: left;
-  margin-left: 7px;
+  margin-left: -8px;
   z-index: 2;
+  width: 140%;
 }
 
 .nameNtech {
@@ -1340,7 +1348,7 @@ footer {
 }
 
 .blockNumber {
-  margin-left: 0px;
+  margin-left: -3px;
 }
 
 .responseText h3 {
@@ -1349,7 +1357,6 @@ footer {
 
 .responseBlock p {
   font-size: 14px;
-  margin-left: 0px;
   width: 100%;
 }
 
