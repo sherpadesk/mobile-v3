@@ -260,6 +260,27 @@ fullscreen();
 
 	};
 
+	var StickRecentTickets = {
+		init: function() {
+			this.stickTitle();
+		},
+
+		stickTitle: function() {
+			$(window).scroll(function(){
+				var top = $(this).scrollTop();
+				console.log(top);
+				if(top > 225) 
+				{
+					 $(".AccountDetailsTicketsContainer").addClass("recentTicketsStick");
+				}
+				else 
+				{
+					$(".AccountDetailsTicketsContainer").removeClass("recentTicketsStick");
+				}
+			});
+		}
+	};
+
 	
 
 	(function() {
@@ -273,6 +294,7 @@ fullscreen();
 		ticker.init();
 		ticketDetails.init();
 		invoice.init();
+		StickRecentTickets.init();
 	}()); 
 
 }); 
