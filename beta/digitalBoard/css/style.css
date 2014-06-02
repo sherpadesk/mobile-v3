@@ -153,6 +153,10 @@ strong {
   color: #fff;
 }
 
+.feedBacker h1 {
+  color:#fff;
+  margin-left: 10px;
+}
 
 .feedBackList {
   width: 80%;

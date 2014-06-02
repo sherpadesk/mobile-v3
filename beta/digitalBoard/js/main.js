@@ -1,5 +1,7 @@
 $(document).ready(function(){
-	
+	$(document).ready(function() {
+            setInterval("location.reload(true)", 600000);
+        }); 
 	var userOrgKey = "";
 	var userOrg = "";
 	var userInstanceKey = "";
@@ -35,8 +37,7 @@ $(document).ready(function(){
 							if(returnData[i].fullname === "Future Consideration")
 							{
 								que = returnData[i].id;
-								alert(que);
-							}
+															}
 						} 
 						$.ajax({
 			type: 'GET',
@@ -116,10 +117,24 @@ $(document).ready(function(){
 
 		}
 	};
+
+	var scrambler = {
+		init:function(){
+		this.scramble();
+		},
+		scramble:function() {
+			window.setInterval(event, 30000);
+    		function event() {
+				$(".sectionList li").hide();
+				$(".sectionList li").slideDown( 5000 ).delay( 800 ).fadeIn( 400 );		 	
+			}
+		}
+	};
 	
 
 	(function() {
 		org.init();
+		scrambler.init();
 	}()); 
 	
 
