@@ -268,7 +268,7 @@ fullscreen();
 		stickTitle: function() {
 			$(window).scroll(function(){
 				var top = $(this).scrollTop();
-				console.log(top);
+				
 				if(top > 225) 
 				{
 					 $(".AccountDetailsTicketsContainer").addClass("recentTicketsStick");

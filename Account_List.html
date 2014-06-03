@@ -19,7 +19,12 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <!-- Main.js -->
     <script src="js/index.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jquery.md5.js"></script>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
   </head>
+  <div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
   <div class="maxSize">
   <header>
     <ul class="topHeader">
@@ -42,92 +47,11 @@
       </ul>
     </nav>
     <section class="bodyContent">
-<div class="ActiveAccountsContainer">
-      <ul class="ActiveAccountsList">
-        <a href="account_details.html">
-        <li>
-          <ul>
-            <li>ACLU</li>
-            <li></li>
-            <li></li>
-            <li><strong>2 </strong>Tickets</li>
-          </ul>
-        </li>
-        <li>
-          <ul>
-            <li>Amex</li>
-            <li><strong>1 </strong>Hours</li>
-            <li><strong>3 </strong>Invoices</li>
-            <li></li>
-          </ul>
-        </li>
-        <li>
-          <ul>
-            <li>jmrDesign</li>
-            <li><strong>1 </strong>Tickets</li>
-            <li></li>
-            <li><strong>5 </strong>Invoices</strong></li>
-          </ul>
-        </li>
-        <li>
-          <ul>
-            <li>Reflix</li>
-            <li><strong>3 </strong>Tickets</li>
-            <li><strong>12 </strong>Hours</li>
-            <li><strong>2 </strong>Invoices</strong></li>
-          </ul>
-        </li>
-        <li>
-          <ul>
-            <li>NextQT</li>
-            <li><strong>7 </strong>Tickets</li>
-            <li></li>
-            <li></li>
-          </ul>
-        </li>
-        </a>
-        <a href="account_details.html">
-        <li>
-          <ul>
-            <li>ACLU</li>
-            <li></li>
-            <li></li>
-            <li><strong>2 </strong>Tickets</li>
-          </ul>
-        </li>
-        <li>
-          <ul>
-            <li>Amex</li>
-            <li><strong>1 </strong>Hours</li>
-            <li><strong>3 </strong>Invoices</li>
-            <li></li>
-          </ul>
-        </li>
-        <li>
-          <ul>
-            <li>jmrDesign</li>
-            <li><strong>1 </strong>Tickets</li>
-            <li></li>
-            <li><strong>5 </strong>Invoices</strong></li>
-          </ul>
-        </li>
-        <li>
-          <ul>
-            <li>Reflix</li>
-            <li><strong>3 </strong>Tickets</li>
-            <li><strong>12 </strong>Hours</li>
-            <li><strong>2 </strong>Invoices</strong></li>
-          </ul>
-        </li>
-        <li>
-          <ul>
-            <li>NextQT</li>
-            <li><strong>7 </strong>Tickets</li>
-            <li></li>
-            <li></li>
-          </ul>
-        </li>
-        </a>
+<div class="ActiveAccountsContainer" id="fullList">
+      <ul class="listedAccount">
+        <li>Account</li>
+        <li><div class="tks">15</div></li>
+      </ul>      
     </div>
     </section>
     <footer class="hideFooter">
