@@ -7,6 +7,52 @@ $(document).ready(function(){
 	var accountDetailed = "";
 
 
+	var UserLogin = {
+		init:function(){
+			this.login();
+		},
+
+		login:function() {
+			$("#loginButton").click(function(){
+				var userName = $("#userName").value();
+				var password = $("#password").value();
+			});
+		}
+	};
+
+	var ticketList = {
+		init:function() {
+			this.showTickets();
+		},
+
+		showTickets():function() {
+			$("maxSize").hide();
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/accounts",
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn("200");
+					};
+				},
+				error: function() {
+					console.log("fail @ ticket List");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+		}
+	};
 	var accountList = {
 		init:function() {
 			this.listAccounts();
@@ -48,7 +94,7 @@ $(document).ready(function(){
 					};
 				},
 				error: function() {
-					alert("fail @ listAccounts");
+					console.log("fail @ listAccounts");
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
@@ -87,7 +133,7 @@ $(document).ready(function(){
 						}
 					},
 				error: function() {
-					alert("fail @ timelogs");
+					console.log("fail @ timelogs");
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
@@ -133,7 +179,7 @@ $(document).ready(function(){
 				window.setTimeout(reveal,500);
 				},
 				error: function() {
-					alert("fail @ accounts");
+					console.log("fail @ accounts");
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
@@ -169,7 +215,7 @@ $(document).ready(function(){
 				
 					},
 				error: function() {
-					alert("fail @ accounts");
+					console.log("fail @ accounts");
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
@@ -206,7 +252,7 @@ $(document).ready(function(){
 
 					},
 				error: function() {
-					alert("fail @ get getTicketCount");
+					console.log("fail @ get getTicketCount");
 					console.log(userOrgKey + '-' + userInstanceKey +':'+userKey);(userOrg);
 					}
 		});
@@ -236,7 +282,7 @@ $(document).ready(function(){
 						}
 					},
 				error: function() {
-					alert("fail");
+					console.log("fail");
 					console.log(userOrgKey + '-' + userInstanceKey +':'+userKey);(userOrg);
 					}
 		});
@@ -273,7 +319,7 @@ $(document).ready(function(){
 
 					},
 				error: function() {
-					alert("fail @ get getTicketCount");
+					console.log("fail @ get getTicketCount");
 					console.log(userOrgKey + '-' + userInstanceKey +':'+userKey);(userOrg);
 					}
 		});
@@ -315,7 +361,7 @@ $(document).ready(function(){
 				window.setTimeout(reveal,500);
 				},
 				error: function() {
-					alert("fail @ getOrg");
+					console.log("fail @ getOrg");
 				}
 			}).promise();
 
