@@ -120,7 +120,7 @@ $(document).ready(function(){
 			});
 		},
 
-<<<<<<< HEAD
+
 		altTickets:function() {
 			$.ajax({
 			type: 'GET',
@@ -167,9 +167,6 @@ $(document).ready(function(){
 		},
 
 		userTickets:function() {
-=======
-		showTickets:function() {
->>>>>>> FETCH_HEAD
 			$("maxSize").hide();
 			$.ajax({
 			type: 'GET',
