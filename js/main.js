@@ -16,6 +16,7 @@ $(document).ready(function(){
 			$("#loginButton").click(function(){
 				var userName = $("#userName").value();
 				var password = $("#password").value();
+
 			});
 		}
 	};
@@ -119,6 +120,7 @@ $(document).ready(function(){
 			});
 		},
 
+<<<<<<< HEAD
 		altTickets:function() {
 			$.ajax({
 			type: 'GET',
@@ -165,6 +167,9 @@ $(document).ready(function(){
 		},
 
 		userTickets:function() {
+=======
+		showTickets:function() {
+>>>>>>> FETCH_HEAD
 			$("maxSize").hide();
 			$.ajax({
 			type: 'GET',
