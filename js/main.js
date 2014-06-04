@@ -16,6 +16,7 @@ $(document).ready(function(){
 			$("#loginButton").click(function(){
 				var userName = $("#userName").value();
 				var password = $("#password").value();
+				alert(userName + password);
 			});
 		}
 	};
@@ -25,7 +26,7 @@ $(document).ready(function(){
 			this.showTickets();
 		},
 
-		showTickets():function() {
+		showTickets:function() {
 			$("maxSize").hide();
 			$.ajax({
 			type: 'GET',
