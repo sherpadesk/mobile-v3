@@ -287,7 +287,17 @@ header, .bodyContent {
           transition: transform .2s ease-in;  
 }
 
+.fold {
+  width: 30px;
+  float: right;
+  height: 30px;
+  margin: 10px 10px 0 -40px;
+}
 
+nav i {
+  color: #fff;
+  float: right;
+}
 .sideNav {
   background-color: #1C1B22;
   height: 131%;
@@ -1336,7 +1346,8 @@ footer {
   width: 90%;
   margin: 0 auto;
   margin-top: 10px;
-  overflow: auto;
+  overflow: scroll;
+  max-height: 750px;
 }
 .slaInfo {
   color: #ccc;
@@ -1352,7 +1363,7 @@ footer {
   width: 50%;
 }
 
-#tabpage_info, #tabpage_options {
+#tabpage_info, #tabpage_options,#tabpage_all {
   display: none;
 }
 
@@ -1388,7 +1399,6 @@ footer {
 
 .responseBlock span {
   float: left;
-  margin-left: -8px;
   z-index: 2;
   width: 100%;
   margin: 0 auto;
@@ -1408,7 +1418,6 @@ footer {
 .responseBlock li:first-child {
   width: 21%;
   height: 100%;
-  margin-top: 10px;
   color: #cccccc;
   font-size: 12px;
   text-align: center;
@@ -1437,15 +1446,25 @@ footer {
 
 .blockNumber {
   margin-left: -3px;
+  color:#fff;
+  margin-top: -8px;
+}
+
+.numberStyle {
+  margin-top: -7px;
+font-weight: 600;
+font-size: 16px !important;
 }
 
 .responseText h3 {
   font-size: 18px;
 }
 
-.responseBlock p {
+.initailPost{
   font-size: 14px;
   width: 100%;
+  color: #DADADA;
+  margin-top: 3px;
 }
 
 .responseImg {
@@ -1454,6 +1473,8 @@ footer {
 }
 
 /* update css */
+
+
 
 .TicketBlockFace {
   width: 50px;
@@ -1483,10 +1504,7 @@ footer {
 .responseBlock h4 {
   font-size: 18px;
   font-weight: 600;
-}
-
-.responseBlock p {
-  font-size: 14px;
+  margin-top: -9px;
 }
 
 
@@ -1813,4 +1831,9 @@ br {
   height: 50px;
   margin: 75% auto;
   text-align: center;
+}
+
+.innerContainer {
+  overflow: scroll;
+  width: 100%;
 }

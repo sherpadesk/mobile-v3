@@ -22,10 +22,149 @@ $(document).ready(function(){
 
 	var ticketList = {
 		init:function() {
-			this.showTickets();
+			this.userTickets();
+			this.techTickets();
+			this.altTickets();
+			this.allTickets();
+			
 		},
 
-		showTickets():function() {
+		techTickets:function() {
+			$(".tabpageContainer").empty();
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/tickets?status=open&limit=500&role=tech",
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						
+						for(var i = 0; i < returnData.length; i++) 
+						 {	
+							var email = $.md5(returnData[i].user_email);
+							var intialPost = returnData[i].initial_post;
+							var subject = returnData[i].subject;
+							if(subject.length > 19)
+							{
+								subject = subject.substring(0,16)+"...";
+							}
+							if(intialPost.length > 100) 
+							{
+								intialPost = intialPost.substring(1,100);
+							}
+							var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+							
+							$(ticket).appendTo("#techContainer");
+						 }
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn("200");
+					};
+				},
+				error: function() {
+					console.log("fail @ ticket List");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+		},
+
+		allTickets:function() {
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/tickets?status=allopen&limit=500&query=all",
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						
+						for(var i = 0; i < returnData.length; i++) 
+						 {	
+							var email = $.md5(returnData[i].user_email);
+							var intialPost = returnData[i].initial_post;
+							var subject = returnData[i].subject;
+							if(subject.length > 19)
+							{
+								subject = subject.substring(0,16)+"...";
+							}
+							if(intialPost.length > 100) 
+							{
+								intialPost = intialPost.substring(1,100);
+							}
+							var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+							$(ticket).appendTo(".tabpageContainer");
+						 }
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn("200");
+					};
+				},
+				error: function() {
+					console.log("fail @ ticket List");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+		},
+
+		altTickets:function() {
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/tickets?status=open&limit=500&role=alt_tech",
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						
+						for(var i = 0; i < returnData.length; i++) 
+						 {	
+							var email = $.md5(returnData[i].user_email);
+							var intialPost = returnData[i].initial_post;
+							var subject = returnData[i].subject;
+							if(subject.length > 19)
+							{
+								subject = subject.substring(0,16)+"...";
+							}
+							if(intialPost.length > 100) 
+							{
+								intialPost = intialPost.substring(1,100);
+							}
+							var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+							
+							$(ticket).appendTo("#altContainer");
+						 }
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn("200");
+					};
+				},
+				error: function() {
+					console.log("fail @ ticket List");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+		},
+
+		userTickets:function() {
 			$("maxSize").hide();
 			$.ajax({
 			type: 'GET',
@@ -35,10 +174,27 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/accounts",
+				url:"http://api.beta.sherpadesk.com/tickets?status=open,onhold&limit=500&role=user",
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
+						for(var i = 0; i < returnData.length; i++) 
+						 {	
+							var email = $.md5(returnData[i].user_email);
+							var intialPost = returnData[i].initial_post;
+							var subject = returnData[i].subject;
+							if(subject.length > 14)
+							{
+								subject = subject.substring(0,11)+"...";
+							}
+							if(intialPost.length > 100) 
+							{
+								intialPost = intialPost.substring(1,100);
+							}
+							var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+							
+							$(ticket).appendTo("#userContainer");
+						 }
 					},
 					complete:function(){
 					function reveal(){
@@ -199,17 +355,17 @@ $(document).ready(function(){
 					for(var i = 0; i < returnData.length; i++) 
 					{	
 						var email = $.md5(returnData[i].user_email);
-						var intialPost = returnData[i].initial_post;
+						var initialPost = returnData[i].initial_post;
 						var subject = returnData[i].subject;
 						if(subject.length > 19)
 						{
 							subject = subject.substring(0,16)+"...";
 						}
-						if(intialPost.length > 100) 
+						if(initialPost.length > 50) 
 						{
-							intialPost = intialPost.substring(1,100);
+							initialPost = initialPost.substring(1,50);
 						}
-						var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+" "+returnData[i].user_lastname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+						var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 						$(ticket).appendTo(".AccountDetailsTicketsContainer");
 					}
 				
@@ -343,6 +499,7 @@ $(document).ready(function(){
 				cache: false,
 				dataType: 'json',			
 				success: function(returnData) {
+					console.log(returnData);
 					userOrgKey = returnData[0].key;
 					userOrg = returnData[0].name;
 					userInstanceKey = returnData[0].instances[0].key;
@@ -370,6 +527,7 @@ $(document).ready(function(){
 	
 
 	(function() {
+		ticketList.init();
 		org.init();
 		accountDetailsPageSetup.init();
 		timeLogs.init();

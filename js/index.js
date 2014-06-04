@@ -44,6 +44,7 @@ fullscreen();
 		}, 
 
 		slideOut: function() {
+			$(".sideNav").css("top",$(window).scrollTop()+"px");
 			$(".bodyContent, header").addClass("contentOut");
 			$(".sideNav").addClass("sideNavOut");
 			$("body").toggleClass("bodyLock");
@@ -53,7 +54,7 @@ fullscreen();
 
 		slideIn: function() {
 			// e.preventDefault();
-			$(".bodyContent, header").removeClass("contentOut");
+			$(".bodyContent, .header").removeClass("contentOut");
 			$(".sideNav").removeClass("sideNavOut");
 			$("body").toggleClass("bodyLock");
 			$("a").toggleClass("disabled");
@@ -64,7 +65,7 @@ fullscreen();
 			$(".headerNavIcon").click(function() {
 				sideBar.slideOut();
 			});
-			$(".bodyContentCover").click(function() {
+			$(".bodyContentCover, .fold").click(function() {
 				sideBar.slideIn();
 			});
 		}
@@ -144,10 +145,10 @@ fullscreen();
 						break;
 					case "info":
 						$("#tabpage_info").fadeIn(300);
-						break
+						break;
 					case "all":
 						$("#tabpage_all").fadeIn(300);
-						break
+						break;
 					case "options":
 						$("#tabpage_options").fadeIn(300);
 						default:
