@@ -20,20 +20,24 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <!-- Jquery UI -->
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    
     <!-- Main.js -->
     <script src="js/index.js"></script>
+    <script src="js/Chart.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jquery.md5.js"></script>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
   </head>
+  <div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
   <div class="maxSize">
   <header>
     <ul class="topHeader">
   <header>
     <div class="headerContainer">
       <ul class="topHeader">
-        <li><a href="index.html"><img class="backIcon" src="img/back_icon.png"></a></li>
-        <li><h1 class="SherpaDesk">Invoice #234</h1></li>
+        <li><a href="allInvoice_list.html"><img class="backIcon" src="img/back_icon.png"></a></li>
+        <li><h1 id="invoiceNumber" class="SherpaDesk">Invoice #234</h1></li>
         <li></li>
       </ul>
     </div>
@@ -43,15 +47,15 @@
     <div class="bodyContent">
       <div class="invoiceContainer clearfix">
         <ul class="invoiceAccount">
-          <li>ACME, INC.</li>
-          <li>change</li>
+          <li id="customerName">ACME, INC.</li>
+          <li id="invoiceDate">change</li>
         </ul>
         <ul class="invoiceInfo">
           <li>
             <ul class="invoiceDetail">
               <li class="detail1">Time</li>
-              <li class="detail2">21 hrs</li>
-              <li class="detail3">$199<span class="detail3Small">.00</span></li>
+              <li id="invoiceHours" class="detail2">21 hrs</li>
+              <li id="invoiceAmount"class="detail3">$199<span class="detail3Small">.00</span></li>
               <li class="detail4"><img class="plusIcon" src="img/plus_icon.png"></li>
             </ul>
           </li>
@@ -66,7 +70,7 @@
           <li>
             <ul class="invoiceDetail">
               <li class="detail1Short">Expenses</li>
-              <li class="detail2Short">$250<span class="detail3Small">.00</span></li>
+              <li id="invoiceExpenses" class="detail2Short">$250<span class="detail3Small">.00</span></li>
               <li class="detail3Short"><img class="plusIcon" src="img/plus_icon.png"></li>
             </ul>
           </li>

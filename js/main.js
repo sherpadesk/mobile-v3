@@ -21,6 +21,67 @@ $(document).ready(function(){
 		}
 	};
 
+	var detailedInvoice = {
+		init:function(){
+			this.specifics();
+		},
+
+		specifics:function(){
+			$(document).on("click",".invoiceRows", function(){
+				localStorage.setItem('invoiceNumber',$(this).attr("data-id"));
+				window.location = "invoice.html";
+			});
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/invoices/"+localStorage.getItem("invoiceNumber"),
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						$("#invoiceNumber").html("Invoice  #"+returnData.id);
+						$("#customerName").html(returnData.customer);
+						$("#invoiceDate").html(returnData.date.substring(0,10));
+						$("#invoiceHours").html(returnData.total_hours+" hrs");
+						var amount = 0;
+						var change = "00";
+						var length = returnData.amount.toString().length;
+						if(returnData.amount.toString().indexOf(".") >= 0)
+							{
+								amount = returnData.amount.toString().substring(0, length -3);
+								change = returnData.amount.toString().substring(length-2, length);
+							}
+						$("#invoiceAmount").html(amount +"<span class='detail3Small'>."+change+"</span>");
+						var expences = 0;
+						if(returnData.expences.length > 0)
+						{
+							for(var i = 0; i < returnData.expences.length; i++)
+							{
+								expences = expences + returnData.expences[i].total;
+							}
+						}
+						$("#invoiceExpenses").html(expences+"<span class='detail3Small'>.00</span>");
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					console.log("fail @ Invoice details");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+
+
+		}
+	};
+
 	var invoiceList = {
 		init:function(){
 			this.listInvoices();
@@ -29,6 +90,9 @@ $(document).ready(function(){
 		listInvoices:function(){
 			$("#invoiceOption").click(function(){
 				window.location = "Invoice_List.html";
+			});
+			$("#allInvoice").click(function(){
+				window.location = "allInvoice_List.html";
 			});
 			$.ajax({
 			type: 'GET',
@@ -42,6 +106,50 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
+						for(var i = 0; i < returnData.length; i++)
+						{	var customer = returnData[i].customer;
+							var date = returnData[i].date.substring(0,10);
+							if(customer.length > 10)
+							{
+								customer = customer.substring(0,7)+"...";
+							}
+							var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows'><li>"+customer+"</li><li>"+date+"</li><li>$"+returnData[i].total_cost+"</li></ul>";
+							$(insert).appendTo("#invoiceList");
+						}
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					console.log("fail @ Invoice List");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/invoices",
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						for(var i = 0; i < returnData.length; i++)
+						{	var customer = returnData[i].customer;
+							var date = returnData[i].date.substring(0,10);
+							if(customer.length > 10)
+							{
+								customer = customer.substring(0,7)+"...";
+							}
+							var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows'><li>"+customer+"</li><li>"+date+"</li><li>$"+returnData[i].total_cost+"</li></ul>";
+							$(insert).appendTo("#allInvoiceList");
+						}
 					},
 					complete:function(){
 					function reveal(){
@@ -612,6 +720,7 @@ $(document).ready(function(){
 		timeLogs.init();
 		accountList.init();
 		invoiceList.init();
+		detailedInvoice.init();
 	}()); 
 	
 

@@ -1702,6 +1702,39 @@ font-size: 16px !important;
   text-align: left;
 }
 
+.invoiceRows {
+  list-style-type: none;
+  color: #fff;
+  width: 100%;
+  overflow: auto;
+  z-index: 5;
+}
+
+.invoiceRows li {
+  float: left;
+  width: 33.33%;
+  height: 40px;
+  text-align: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.invoiceRows li:last-child {
+  text-align: right;
+  
+}
+
+.invoiceRows li:nth-child(2) {
+  font-size: 13px;  
+  line-height: 22px;
+  padding-left: 14px;
+  color: #E4E4E4;
+}
+
+.invoiceRows li:first-child {
+  text-align: left;
+}
+
 .billable {
   width: 25px;
   height: 25px;
@@ -1839,4 +1872,8 @@ br {
 .innerContainer {
   overflow: scroll;
   width: 100%;
+}
+
+.spacer {
+  height: 10px;
 }
