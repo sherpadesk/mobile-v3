@@ -21,6 +21,82 @@ $(document).ready(function(){
 		}
 	};
 
+	var invoiceList = {
+		init:function(){
+			this.listInvoices();
+		},
+
+		listInvoices:function(){
+			$("#invoiceOption").click(function(){
+				window.location = "Invoice_List.html";
+			});
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/invoices?account="+localStorage.getItem("DetailedAccount"),
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					console.log("fail @ Invoice List");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+		}
+	};
+
+	var getQueues = {
+		init:function() {
+			this.queues();
+		},
+
+		queues:function() {
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/queues",
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						 $(".OptionsList").empty();
+						 for(var i = 0; i < returnData.length; i++)
+						 {
+						 	var insert = "<li><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NoticationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
+						 	$(insert).appendTo(".OptionsList");
+						 }
+
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					console.log("fail @ Queues List");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+		}
+	};
+
 	var ticketList = {
 		init:function() {
 			this.userTickets();
@@ -66,7 +142,7 @@ $(document).ready(function(){
 					complete:function(){
 					function reveal(){
 					$(".loadScreen").hide();
-					$(".maxSize").fadeIn("200");
+					$(".maxSize").fadeIn();
 					};
 				},
 				error: function() {
@@ -104,13 +180,13 @@ $(document).ready(function(){
 								intialPost = intialPost.substring(1,100);
 							}
 							var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
-							$(ticket).appendTo(".tabpageContainer");
+							$(ticket).appendTo("#allContainer");
 						 }
 					},
 					complete:function(){
 					function reveal(){
 					$(".loadScreen").hide();
-					$(".maxSize").fadeIn("200");
+					$(".maxSize").fadeIn();
 					};
 				},
 				error: function() {
@@ -156,7 +232,7 @@ $(document).ready(function(){
 					complete:function(){
 					function reveal(){
 					$(".loadScreen").hide();
-					$(".maxSize").fadeIn("200");
+					$(".maxSize").fadeIn();
 					};
 				},
 				error: function() {
@@ -201,7 +277,7 @@ $(document).ready(function(){
 					complete:function(){
 					function reveal(){
 					$(".loadScreen").hide();
-					$(".maxSize").fadeIn("200");
+					$(".maxSize").fadeIn();
 					};
 				},
 				error: function() {
@@ -248,7 +324,7 @@ $(document).ready(function(){
 					complete:function(){
 					function reveal(){
 					$(".loadScreen").hide();
-					$(".maxSize").fadeIn("200");
+					$(".maxSize").fadeIn();
 					};
 				},
 				error: function() {
@@ -332,7 +408,7 @@ $(document).ready(function(){
 					complete:function(){
 					function reveal(){
 					$(".loadScreen").hide();
-					$(".maxSize").fadeIn("200");
+					$(".maxSize").fadeIn();
 				};
 				window.setTimeout(reveal,500);
 				},
@@ -515,7 +591,7 @@ $(document).ready(function(){
 				complete:function(){
 					function reveal(){
 					$(".loadScreen").hide();
-					$(".maxSize").fadeIn("200");
+					$(".maxSize").fadeIn();
 				};
 				window.setTimeout(reveal,500);
 				},
@@ -530,10 +606,12 @@ $(document).ready(function(){
 
 	(function() {
 		ticketList.init();
+		getQueues.init();
 		org.init();
 		accountDetailsPageSetup.init();
 		timeLogs.init();
 		accountList.init();
+		invoiceList.init();
 	}()); 
 	
 

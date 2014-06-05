@@ -21,13 +21,15 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <!-- Jquery UI -->
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <!-- Main.js -->
     <script src="js/index.js"></script>
     <script src="js/Chart.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jquery.md5.js"></script>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
   </head>
+  <div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
   <div class="maxSize">
   <header class="test">
     <ul class="topHeader">
@@ -54,18 +56,6 @@
       </ul>
     </nav>
     <div class="bodyContent">
-
-    <div id="tabContainer">
-        <div class="tabs">
-            <ul>
-                <li class="tabHeader" data-id="reply">Ready</li>
-                <li>|</li>
-                <li class="tabHeader" data-id="info">Sent</li>
-                <li>|</li>
-                <li class="tabHeader" data-id="options">Paid</li>
-            </ul>
-        </div>
-        <div class="tabpage" id="tabpage_reply">
             <div class="tabpageContainer">
               <ul class="tableHeader">
                 <li>Account</li>
@@ -122,84 +112,6 @@
                 <li>$45</li>
               </ul>
             </div>
-        </div>
-        <div class="tabpage" id="tabpage_info">
-            <div class="tabpageContainer">
-              
-                <ul class="tableHeader">
-                <li>Account</li>
-                <li>Hours</li>
-                <li>Labor</li>
-                <li>Total</li>
-              </ul>
-                
-                <ul class="tableRows">
-                <li>ACLU</li>
-                <li>1</li>
-                <li>$45</li>
-                <li>$45</li>
-              </ul>
-              <ul class="tableRows">
-                <li>Riwal</li>
-                <li>6.5</li>
-                <li> $534</li>
-                <li>$534</li>
-              </ul>
-                <ul class="tableRows">
-                <li>Insig..</li>
-                <li>11.5</li>
-                <li>--</li>
-                <li>$0</li>
-              </ul>
-               <ul class="tableRows">
-                <li>Cermecs</li>
-                <li>3.75</li>
-                <li>$5.25</li>
-                <li>$5.75</li>
-              </ul>
-                <ul class="tableRows">
-                <li>RonJon</li>
-                <li>1</li>
-                <li>$45</li>
-                <li>$45</li>
-              </ul>
-        </div>
-      </div>
-        <div class="tabpage" id="tabpage_options">
-            <div class="tabpageContainer shrinker">
-              
-                <ul class="tableHeader">
-                <li>Account</li>
-                <li>Hours</li>
-                <li>Labor</li>
-                <li>Total</li>
-              </ul>
-              <ul class="tableRows">
-                <li>Riwal</li>
-                <li>6.5</li>
-                <li> $534</li>
-                <li>$534</li>
-              </ul>
-                <ul class="tableRows">
-                <li>Insig..</li>
-                <li>11.5</li>
-                <li>--</li>
-                <li>$0</li>
-              </ul>
-               <ul class="tableRows">
-                <li>Cermecs</li>
-                <li>3.75</li>
-                <li>$5.25</li>
-                <li>$5.75</li>
-              </ul>
-                <ul class="tableRows">
-                <li>RonJon</li>
-                <li>1</li>
-                <li>$45</li>
-                <li>$45</li>
-              </ul>
-            </div>
-        </div>
       </div>
   </body>
   </div>
