@@ -46,7 +46,7 @@ $(document).ready(function(){
 						$("#invoiceNumber").html("Invoice  #"+returnData.id);
 						$("#customerName").html(returnData.customer);
 						$("#invoiceDate").html(returnData.date.substring(0,10));
-						$("#invoiceHours").html(returnData.total_hours+" hrs");
+						$("#invoiceHours").html(returnData.total_hours+"<span class='detail3Small'>hrs</span>");
 						var amount = 0;
 						var change = "00";
 						var length = returnData.amount.toString().length;
@@ -55,7 +55,12 @@ $(document).ready(function(){
 								amount = returnData.amount.toString().substring(0, length -3);
 								change = returnData.amount.toString().substring(length-2, length);
 							}
-						$("#invoiceAmount").html(amount +"<span class='detail3Small'>."+change+"</span>");
+							else
+							{
+								amount = returnData.amount;
+							}
+						$("#invoiceAmount").html("$"+amount +"<span class='detail3Small'>."+change+"</span>");
+						$("#invoiceTravel").html("$"+returnData.travel_cost+"<span class='detail3Small'>.00</span>");
 						var expences = 0;
 						if(returnData.expences.length > 0)
 						{
@@ -64,7 +69,16 @@ $(document).ready(function(){
 								expences = expences + returnData.expences[i].total;
 							}
 						}
-						$("#invoiceExpenses").html(expences+"<span class='detail3Small'>.00</span>");
+						$("#invoiceExpenses").html("$"+expences+"<span class='detail3Small'>.00</span>");
+						$("#invoiceAdjustments").html("$"+returnData.misc_cost+"<span class='detail3Small'>.00</span>");
+						$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
+						$("#recipientList").empty();
+						for(var x = 0; x < returnData.recipients.length; x++)
+						{
+							var email = $.md5(returnData.recipients[x].email);
+							var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><div class='recipient'><p>jonathanwhite2013@gmail.com</p><img class='closeIcon' src='img/close_icon.png'></div></li></ul></li>";
+							$(insert).appendTo("#recipientList");
+						}
 					},
 					complete:function(){
 					function reveal(){

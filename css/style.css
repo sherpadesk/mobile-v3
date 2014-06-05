@@ -1877,3 +1877,8 @@ br {
 .spacer {
   height: 10px;
 }
+
+.recipientDetail li:first-child img {
+  border-radius: 50px;
+  border: 2px solid #fff;
+}

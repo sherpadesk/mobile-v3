@@ -198,7 +198,7 @@ fullscreen();
 		},
 
 		removeRecipients: function() {
-			$(".closeIcon").click(function() {
+			$(document).on("click",".closeIcon",function(){
 				$(this).parent().parent().parent().slideUp();
 			});
 		}
