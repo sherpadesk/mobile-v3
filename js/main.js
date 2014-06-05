@@ -31,6 +31,7 @@ $(document).ready(function(){
 				localStorage.setItem('invoiceNumber',$(this).attr("data-id"));
 				window.location = "invoice.html";
 			});
+
 			$.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
@@ -76,8 +77,18 @@ $(document).ready(function(){
 						for(var x = 0; x < returnData.recipients.length; x++)
 						{
 							var email = $.md5(returnData.recipients[x].email);
-							var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><div class='recipient'><p>jonathanwhite2013@gmail.com</p><img class='closeIcon' src='img/close_icon.png'></div></li></ul></li>";
+							var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p><img class='closeIcon' src='img/close_icon.png'></div></li></ul></li>";
 							$(insert).appendTo("#recipientList");
+						}
+						$("#invoiceLogs").empty();
+						for(var u = 0; u < returnData.time_logs.length; u++)
+						{
+							var name = returnData.time_logs[u].name;
+							var log = returnData.time_logs[u].total;
+							var date = returnData.time_logs[u].date.substring(0,10);
+							var logID = returnData.time_logs[u].date.id;
+							var insert = "<li><ul class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span> hrs</h3></li></ul></li>";
+							$(insert).appendTo("#invoiceLogs");
 						}
 					},
 					complete:function(){
@@ -92,7 +103,6 @@ $(document).ready(function(){
 					}
 			});
 
-
 		}
 	};
 
@@ -105,7 +115,7 @@ $(document).ready(function(){
 			$("#invoiceOption").click(function(){
 				window.location = "Invoice_List.html";
 			});
-			$("#allInvoice").click(function(){
+			$("#allInvoice, #invoiceFooter").click(function(){
 				window.location = "allInvoice_List.html";
 			});
 			$.ajax({
@@ -475,7 +485,7 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
-						$(".timelogs").empty();
+						$("#timelogs").empty();
 						for(var i = 0; i < returnData.length; i++)
 						{
 							var email = $.md5(returnData[i].user_email);
@@ -485,7 +495,7 @@ $(document).ready(function(){
 								text = text.substring(0,7)+"...";
 							}
 							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+returnData[i].hours+"</span> hrs</h3></li></ul></li>";
-          					$(log).appendTo(".timelogs");
+          					$(log).appendTo("#timelogs");
 						}
 					},
 				error: function() {

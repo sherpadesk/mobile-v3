@@ -25,28 +25,15 @@
   <div class="maxSize">
   <header>
     <ul class="topHeader">
-      <li><img class="headerNavIcon " src="img/navicon.png"></li>
-      <li><h1 class="SherpaDesk">Timelog</h1></li>
-      <li><a href="add_time.html"><img class="plusIconHeader" src="img/plus_icon.png"></a></li>
-    </ul>
+        <li><a href="invoice.html"><img class="backIcon" src="img/back_icon.png"></a></li>
+        <li><h1 class="SherpaDesk">TimeLogs</h1></li>
+        <li><a href="add_time.html"><img class="plusIconHeader" src="img/plus_icon.png"></a></li>
+      </ul>
   </header>
   <body>
-    <nav class="sideNav">
-      <div class="fold"><i class="fa fa-angle-double-left fa-2x"></i></div>
-      <img class="navProfile" src="img/profile_3.png">
-      <h2 class="navName">Jason Marrow</h2>
-      <ul class="sideNavLinks">
-        <a href="index.html"><li><div class="sideNavCircle"></div><span>Home</span></li></a>
-        <a href="timelog.html"><li><div class="sideNavCircle"></div><span>Timelogs</span></li></a>
-        <a href="Account_List.html"><li><div class="sideNavCircle"></div><span>Accounts</span></li></a>
-        <a href="ticket_list.html"><li><div class="sideNavCircle"></div><span>Tickets</span></li></a>
-        <li><div class="sideNavCircle"></div><span id="allInvoice">Invoices</span></li>
-        <a href="Queues.html"><li><div class="sideNavCircle"></div><span>Queues</span></li></a>
-      </ul>
-    </nav>
     <section class="bodyContent">
       <div class="timelogContainer">
-        <ul id="timelogs" class="timelogs">
+        <ul id="invoiceLogs" class="timelogs">
           <li>
             <ul class="timelog"> 
               <li>
@@ -188,6 +175,7 @@
             </ul>
           </li>
         </ul>
+        <button class="greenButton" id="submitTime">Update</button>
       </div>
     </section>
   </body>

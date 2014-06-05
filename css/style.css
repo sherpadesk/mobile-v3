@@ -842,7 +842,6 @@ header {
 .invoiceContainer {
   overflow: auto;
   margin: 0 auto;
-  height: 545px;
   width: 90%;
 }
 
@@ -1881,4 +1880,9 @@ br {
 .recipientDetail li:first-child img {
   border-radius: 50px;
   border: 2px solid #fff;
+}
+
+.timeLogAddButton {
+  margin-left: 20px;
+  margin-top: 5px;
 }
