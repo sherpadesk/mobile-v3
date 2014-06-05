@@ -147,6 +147,7 @@ strong {
   height: 45px;
   margin: 15px 0 20px 0;
   width: 100%;
+  border-radius: 3px;
 }
 
 .styledSelect select {
@@ -167,6 +168,7 @@ strong {
    overflow: hidden;
    background: url("../img/select_arrow.png") no-repeat #489CD6;
    background-position: top 18px right 18px;
+   border-radius: 3px;
 }
 
 .smallHeader {
