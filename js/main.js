@@ -71,7 +71,7 @@ $(document).ready(function(){
 							}
 						}
 						$("#invoiceExpenses").html("$"+expences+"<span class='detail3Small'>.00</span>");
-						$("#invoiceAdjustments").html("$"+returnData.misc_cost+"<span class='detail3Small'>.00</span>");
+						$("#invoiceAdjustments").html("$0<span class='detail3Small'>.00</span>");
 						$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
 						$("#recipientList").empty();
 						for(var x = 0; x < returnData.recipients.length; x++)

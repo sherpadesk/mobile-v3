@@ -110,16 +110,15 @@ fullscreen();
 
 		changeTime: function() {
 			var counter = 0;
-			var spanSelector = $(".buttonList li:nth-child(2) span");
 
-			spanSelector.html(counter);
-			$(".buttonList li:nth-child(3)").click(function() {
+			$("#addTimeTicker").val(counter);
+			$(".buttonList li:nth-child(3), .buttonListSymbols").click(function() {
 				counter += .25;
-				spanSelector.html(counter);
+				$("#addTimeTicker").val(counter);
 			});
-			$(".buttonList li:nth-child(1)").click(function() {
+			$(".buttonList li:nth-child(1), .buttonListSymbols").click(function() {
 				counter -= .25;
-				spanSelector.html(counter);
+				$("#addTimeTicker").val(counter);
 			});
 		}
 	};
@@ -257,7 +256,7 @@ fullscreen();
 		}, 
 
 		checkBillButton: function() {
-			$(".billable").click(function(){
+			$("#billem, #billem1").click(function(){
 				$(".innerCircle").toggleClass("billFill");
 			});
 
