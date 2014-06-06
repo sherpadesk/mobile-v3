@@ -543,10 +543,11 @@ $(document).ready(function(){
 				url:"http://api.beta.sherpadesk.com/accounts/"+localStorage.getItem("DetailedAccount"),
 				dataType:"json",
 				success: function(returnData) {
+					console.log(returnData);
 					$("#AD").html(returnData.name);
 					$("#ticketsOptionTicker").html(returnData.account_statistics.ticket_counts.open);
 					$("#invoiceOptionTicker").html(returnData.account_statistics.invoices);
-					$("#ticketsOptionTicker").html(returnData.account_statistics.ticket_counts.timelogs);
+					$("#timesOptionTicker").html(returnData.account_statistics.timelogs);
 					},
 					complete:function(){
 					function reveal(){
@@ -597,7 +598,37 @@ $(document).ready(function(){
 					}
 			});
 
-			
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/time?account="+localStorage.getItem("DetailedAccount"),
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						$("#accountLogs").empty();
+						for(var i = 0; i < returnData.length; i++)
+						{
+							var email = $.md5(returnData[i].user_email);
+							var text = returnData[i].note;
+							if(text.length > 15) 
+							{
+								text = text.substring(0,7)+"...";
+							}
+							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+returnData[i].hours+"</span> hrs</h3></li></ul></li>";
+          					$(log).appendTo("#accountLogs");
+						}
+						
+					},
+				error: function() {
+					console.log("fail @ timelogs");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
 		}
 
 

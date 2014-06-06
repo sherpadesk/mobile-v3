@@ -294,7 +294,7 @@ fullscreen();
 		},
 		slideDown:function(){
 		$("#openTicketslink").click(function(){
-			$('html,body').animate({ scrollTop: $('#openTickets').offset().top }, 'fast');
+			$('html,body').animate({ scrollTop: $('#openTickets').offset().top }, '400');
 		});
 	}
 
