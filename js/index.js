@@ -288,9 +288,22 @@ fullscreen();
 		}
 	};
 
+	var openTickets = {
+		init:function() {
+			this.slideDown();
+		},
+		slideDown:function(){
+		$("#openTicketslink").click(function(){
+			$('html,body').animate({ scrollTop: $('#openTickets').offset().top }, 'slow');
+		});
+	}
+
+	};
+
 	
 
 	(function() {
+		openTickets.init();
 		billEm.init();
 		showExtendedDetails.init();
 		if($(window).width() < 478){footer.init();}

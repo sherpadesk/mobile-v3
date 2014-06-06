@@ -31,18 +31,13 @@
         <li></li>
       </ul>
     </div>
-    <ul class="bottomHeader clearfix">
-      <li><a href="add_tickets.html">+ Tickets</a></li>
-      <li><a href = "invoice.html">+ Invoice</a></li>
-      <li><a href = "timelog.html">+ Time</a></li>
-    </ul>
   </header>
   <body>
     <div class="bodyContent">
     <div class="accountDetailsContainer"> 
       <ul class="OptionsListAccountDetail">
         <li>
-          <a href="ticket_list.html">
+          <a id="openTicketslink" href="#">
           <div class="OptionWrapperAccountDetail"><h3 class="OptionTitle"> OPEN TICKETS</h3></div>
           <div class="NoticationWrapperAccountDetail"><h2 id="ticketsOptionTicker">12</h2></div>
           </a>
@@ -58,7 +53,8 @@
           </a>
         </li>
       </ul>
-      <h4 class="openTicketTitle">RECENT TICKETS</h4>
+      <span id="openTickets"></span>
+      <h4 class="openTicketTitle">OPEN TICKETS</h4>
       <div class="AccountDetailsTicketsContainer">
         <a href="ticket_detail.html">
                   
