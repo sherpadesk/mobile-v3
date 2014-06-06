@@ -90,6 +90,17 @@ $(document).ready(function(){
 							var insert = "<li><ul class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span> hrs</h3></li></ul></li>";
 							$(insert).appendTo("#invoiceLogs");
 						}
+						$("#expencesList").empty();
+						for(var c = 0; c < returnData.expences.length; c++)
+						{
+							var name = returnData.expences[c].name;
+							var log = returnData.expences[c].total;
+							var date = returnData.expences[c].date.substring(0,10);
+							var logID = returnData.expences[c].date.id;
+							var insert = "<li><ul class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
+							$(insert).appendTo("#expencesList");
+						}
+
 					},
 					complete:function(){
 					function reveal(){
