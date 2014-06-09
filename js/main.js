@@ -21,6 +21,20 @@ $(document).ready(function(){
 		}
 	};
 
+	var detailedTicket = {
+		init:function(){
+			this.showTicket();
+		},
+
+		showTicket:function(){
+			$(document).on("click",".responseBlock", function(){
+				localStorage.setItem('ticketNumber', $(this).attr("data-id"));
+				alert(localStorage.getItem('ticketNumber'));
+				window.location = "ticket_detail.html";
+			});
+		}
+	}
+
 	var detailedInvoice = {
 		init:function(){
 			this.specifics();
@@ -572,13 +586,13 @@ $(document).ready(function(){
 				url:"http://api.beta.sherpadesk.com/tickets?status=open&account="+localStorage.getItem("DetailedAccount"),
 				dataType:"json",
 				success: function(returnData) {
-					console.log(returnData);
 					$(".AccountDetailsTicketsContainer").empty(); 
 					for(var i = 0; i < returnData.length; i++) 
 					{	
 						var email = $.md5(returnData[i].user_email);
 						var initialPost = returnData[i].initial_post;
 						var subject = returnData[i].subject;
+						var data = returnData[i].key;
 						if(subject.length > 19)
 						{
 							subject = subject.substring(0,16)+"...";
@@ -587,7 +601,7 @@ $(document).ready(function(){
 						{
 							initialPost = initialPost.substring(1,50);
 						}
-						var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+						var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 						$(ticket).appendTo(".AccountDetailsTicketsContainer");
 					}
 				
@@ -779,6 +793,7 @@ $(document).ready(function(){
 	
 
 	(function() {
+		detailedTicket.init();
 		ticketList.init();
 		getQueues.init();
 		org.init();
