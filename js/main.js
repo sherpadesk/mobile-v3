@@ -29,9 +29,47 @@ $(document).ready(function(){
 		showTicket:function(){
 			$(document).on("click",".responseBlock", function(){
 				localStorage.setItem('ticketNumber', $(this).attr("data-id"));
-				alert(localStorage.getItem('ticketNumber'));
 				window.location = "ticket_detail.html";
 			});
+
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/tickets/"+localStorage.getItem('ticketNumber'),
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						var daysOld = returnData.daysold_in_minutes / -60;
+						if(daysOld > 24){
+							daysOld =daysOld/24;
+							alert(daysOld);
+						}
+
+						 $("#ticketNumber").html("OPEN | "+returnData.number);
+						 $("#ticketSubject").html(returnData.subject);
+						 $("#ticketClass").html(returnData.class_name);
+						 $("#ticketTech").html(returnData.tech_firstname);
+						 $("#lastUpdate").html(returnData.daysold_in_minutes)
+						
+
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					console.log("fail @ Ticket Detail");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+
 		}
 	}
 

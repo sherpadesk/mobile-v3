@@ -1343,7 +1343,7 @@ footer {
   float: left;
 }
 
-.shortInfo p {
+.shortInfo li {
   color: #cccccc;
   font-size: 10px;
   text-align: right;
