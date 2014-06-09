@@ -14,9 +14,30 @@ $(document).ready(function(){
 
 		login:function() {
 			$("#loginButton").click(function(){
-				var userName = $("#userName").value();
-				var password = $("#password").value();
-
+				var userName = $("#userName").val();
+				var password = $("#password").val();
+				$.ajax({
+			type: 'POST',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization',
+          'Basic ' + btoa(userName + ':' + password ));
+			},
+				url:"http://api.beta.sherpadesk.com/login",
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						localStorage.setItem("userKey", returnData.api_token)
+						localStorage.setItem('userName', userName);
+						window.location = "org.html";
+					},
+					complete:function(){
+				},
+				error: function() {
+					console.log("fail @ Login");
+					alert("error", "There was a problem with your login.  Please try again.");
+					}
+			});
 			});
 		}
 	};
@@ -821,11 +842,14 @@ $(document).ready(function(){
 	
 	var org = {
 		init: function() {
-			this.getOrg();
+		    this.getOrg();
+		    localStorage.setItem('userRole', 'user');
+		    $('#instSelect').hide();
 		},
 
 		getOrg: function() {
-			$(".maxSize").hide();
+		    $(".maxSize").hide();
+		    userKey = localStorage.getItem("userKey");
 			$.ajax({
 				type: 'GET',
 				beforeSend: function (xhr) {
@@ -836,16 +860,91 @@ $(document).ready(function(){
 				async: true,
 				cache: false,
 				dataType: 'json',			
-				success: function(returnData) {
-					console.log(returnData);
-					userOrgKey = returnData[0].key;
-					userOrg = returnData[0].name;
-					userInstanceKey = returnData[0].instances[0].key;
-					$("#indexTitle").html(userOrg);
-					storeLocalData();
-					getTicketCount();
-					getQueueList();
-					getActiveAccounts();
+				success: function(results) {
+					console.log(results);
+				    // If there are more than one org
+					if (results.length > 1) {
+					    localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+					    var orglistitem = results;
+					    for (var i = 0; i < orglistitem.length; i++) {
+					        $('#orgSelect')
+                                .append($("<option></option>")
+                                .attr("value", orglistitem[i].key)
+                                .text(orglistitem[i++].name));
+					    }
+					    $('#orgSelect')
+                        // listen for org selection	
+                            .change(function () {
+                                var index_number = this.value;
+                                userOrgKey = results[index_number].key;
+                                userOrg = results[index_number].name;
+                                var instances = results[index_number].instances;
+                                localStorage.setItem('userOrgKey', orgkey);
+
+                                // If there is only one instance on the selected org								
+                                if (instances.length == 1) {
+                                    userInstanceKey = instances[0].key;
+                                    localStorage.setItem('userInstanceKey', instkey);
+                                    //window.location = "index.html";
+                                }
+                                else {
+                                    // If there is MORE than one instance on the selected org
+                                    for (var i = 0; i < instances.length; i++) {
+                                        $('#instSelect')
+                                            .append($("<option></option>")
+                                            .attr("value", instances[i].key)
+                                            .text(instances[i++].name));
+                                    }
+                                    $('#instSelect').show();
+                                    // listen for Instance selection	
+                                    $('#instSelect').change(function () {
+                                        var userInstanceKey = instances[this.value].key;
+                                        localStorage.setItem('userInstanceKey', userInstanceKey);
+                                        localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+                                        //window.location = "index.html";
+                                    });
+                                };
+                            });
+					};// End > 1 
+
+				    // If there is ONLY ONE org and instance
+					if (results.length == 1) {
+					    userOrgKey = results[0].key;
+					    userOrg =  results[0].name;
+					    localStorage.setItem('userOrgKey', userOrgKey);
+					    localStorage.setItem('sd_is_MultipleOrgInst', 'false');
+					    //location.reload(true);
+					    var myinst = results[0].instances;
+					    // If there is only one instance on the selected org								
+					    if (myinst.length == 1) {
+					        userInstanceKey = myinst[0].key;
+					        localStorage.setItem('userInstanceKey', userInstanceKey);
+					        //window.location = "index.html";
+					    }
+					    else {
+					        // If there is MORE than one instance on the selected org
+					        for (var i = 0; i < instances.length; i++) {
+					            $('#instSelect')
+                                    .append($("<option></option>")
+                                    .attr("value", instances[i].key)
+                                    .text(instances[i++].name));
+					        }
+					        $('#instSelect').show();
+					        // listen for Instance selection	
+					        $('#instSelect').change(function () {
+					            userInstanceKey = instances[this.value].key;
+					            localStorage.setItem('userInstanceKey', userInstanceKey);
+					            localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+					        });
+					    };
+					};
+					
+				    //$("#indexTitle").html(userOrg);
+				    storeLocalData();
+				    //window.location = "index.html";
+					//getTicketCount();
+					//getQueueList();
+					//getActiveAccounts();
 
 				},
 				complete:function(){
@@ -864,7 +963,8 @@ $(document).ready(function(){
 	};
 	
 
-	(function() {
+	(function () {
+	    UserLogin.init();
 		detailedTicket.init();
 		ticketList.init();
 		getQueues.init();
