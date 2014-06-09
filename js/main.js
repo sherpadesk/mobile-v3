@@ -46,16 +46,50 @@ $(document).ready(function(){
 						console.log(returnData);
 						var daysOld = returnData.daysold_in_minutes / -60;
 						if(daysOld > 24){
-							daysOld =daysOld/24;
-							alert(daysOld);
+							daysOld = daysOld/24;
+							daysOld = parseInt(daysOld);
+							daysOld = daysOld +" days ago";
+						} else {
+							daysOld = parseInt(daysOld) +" hours ago";
 						}
 
 						 $("#ticketNumber").html("OPEN | "+returnData.number);
 						 $("#ticketSubject").html(returnData.subject);
 						 $("#ticketClass").html(returnData.class_name);
 						 $("#ticketTech").html(returnData.tech_firstname);
-						 $("#lastUpdate").html(returnData.daysold_in_minutes)
-						
+						 $("#lastUpdate").html(daysOld);
+						 $("#ticketHours").html(returnData.total_hours+" Hours");
+						 $("#ticketSLA").html("SLA: "+returnData.sla_complete_date.toString().substring(0,10));
+
+						 $("#classOptions").empty();
+						 for(var a = 0; a < returnData.classes.length; a++)
+						 {
+						 	var className = returnData.classes[a].name;
+						 	var classId = returnData.classes[a].id;
+						 	var insert = "<option value="+classId+">"+className+"</option>";
+						 	$(insert).appendTo("#classOptions");
+						 }
+						 $("#ticketLevel").empty();
+						 var levelInsert = "<option value="+returnData.level+">Level "+returnData.level+" "+returnData.level_name+"</option>";
+						 $(levelInsert).appendTo("#ticketLevel");
+						 $("#ticketPriority").empty();
+						 var priorityInsert = "<option value="+returnData.priority_id+">Priority "+returnData.priority+"</option>";
+						 $(priorityInsert).appendTo("#ticketPriority");
+						 $("#ticketTechs").empty();
+						 for(var b = 0; b < returnData.technicians.length; b++)
+						 {
+						 	var techName = returnData.technicians[b].user_fullname;
+						 	var techId = returnData.technicians[b].user_id;
+						 	var insert = "<option value="+techId+">"+techName+"</option>";
+						 	$(insert).appendTo("#ticketTechs");
+						 }
+						 $("#ticketLocation").empty();
+						 var locationInsert = "<option value="+returnData.location_id+">"+returnData.location_name+"</option>";
+						 $(locationInsert).appendTo("#ticketLocation");
+						 $("#ticketProject").empty();
+						 var projectInsert = "<option value="+returnData.project_id+">"+project_name+"</option>";
+						 $(projectInsert).appendTo("#ticketProject");
+
 
 					},
 					complete:function(){
@@ -302,7 +336,7 @@ $(document).ready(function(){
 		},
 
 		techTickets:function() {
-			$(".tabpageContainer").empty();
+			$("#techContainer, #optionsConainer, #allContainer, #userContainer").empty();
 			$.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
