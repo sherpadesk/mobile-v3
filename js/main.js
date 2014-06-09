@@ -3,7 +3,7 @@ $(document).ready(function(){
 	var userOrgKey = "";
 	var userOrg = "";
 	var userInstanceKey = "";
-	var	userKey = "xyjfvhjajkmcarswif5k0whm7hkhmfju";
+	var	userKey = "";
 	var accountDetailed = "";
 
 
@@ -11,7 +11,6 @@ $(document).ready(function(){
 		init:function(){
 			this.login();
 		},
-
 		login:function() {
 			$("#loginButton").click(function(){
 				var userName = $("#userName").val();
@@ -108,7 +107,7 @@ $(document).ready(function(){
 						 var locationInsert = "<option value="+returnData.location_id+">"+returnData.location_name+"</option>";
 						 $(locationInsert).appendTo("#ticketLocation");
 						 $("#ticketProject").empty();
-						 var projectInsert = "<option value="+returnData.project_id+">"+project_name+"</option>";
+						 var projectInsert = "<option value="+returnData.project_id+">"+returnData.project_name+"</option>";
 						 $(projectInsert).appendTo("#ticketProject");
 
 
@@ -754,7 +753,7 @@ $(document).ready(function(){
 			beforeSend: function (xhr) {
 				xhr.withCredentials = true;
 				xhr.setRequestHeader('Authorization', 
-                          'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
 				url:"http://api.beta.sherpadesk.com/tickets/counts",
@@ -779,7 +778,7 @@ $(document).ready(function(){
 			beforeSend: function (xhr) {
 				xhr.withCredentials = true;
 				xhr.setRequestHeader('Authorization', 
-                          'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
 				url:"http://api.beta.sherpadesk.com/queues?sort_by=tickets_count",
@@ -809,10 +808,10 @@ $(document).ready(function(){
 			beforeSend: function (xhr) {
 				xhr.withCredentials = true;
 				xhr.setRequestHeader('Authorization', 
-                          'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://u0diuk-b95s6o:fzo3fkthioj5xi696jzocabuojekpb5o@api.beta.sherpadesk.com/accounts?query=account_statistics.ticket_counts.open>0",
+				url:"http://api.beta.sherpadesk.com/accounts?query=account_statistics.ticket_counts.open>0",
 				dataType:"json",
 				success: function(returnData) {
 					$("#activeList").empty();
@@ -919,7 +918,14 @@ $(document).ready(function(){
 					    if (myinst.length == 1) {
 					        userInstanceKey = myinst[0].key;
 					        localStorage.setItem('userInstanceKey', userInstanceKey);
+							if(window.location.pathname == "org.html"){
+								window.location = "index.html";
+							}
+							$("#orgButton").click(function(){
+								window.location = "index.html";
+							});
 					        //window.location = "index.html";
+					    
 					    }
 					    else {
 					        // If there is MORE than one instance on the selected org
@@ -939,12 +945,12 @@ $(document).ready(function(){
 					    };
 					};
 					
-				    //$("#indexTitle").html(userOrg);
+				    $("#indexTitle").html(userOrg);
 				    storeLocalData();
 				    //window.location = "index.html";
-					//getTicketCount();
-					//getQueueList();
-					//getActiveAccounts();
+					getTicketCount();
+					getQueueList();
+					getActiveAccounts();
 
 				},
 				complete:function(){
@@ -965,10 +971,10 @@ $(document).ready(function(){
 
 	(function () {
 	    UserLogin.init();
+	    org.init();
 		detailedTicket.init();
 		ticketList.init();
 		getQueues.init();
-		org.init();
 		accountDetailsPageSetup.init();
 		timeLogs.init();
 		accountList.init();
