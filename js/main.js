@@ -42,26 +42,56 @@ $(document).ready(function(){
 			});
 		}
 	};
+	var postComment = {
+		init:function(){
+			this.sendComment();
+		},
+
+		sendComment:function(){
+			$("#reply").click(function(){
+				var comment = $("commentText").val();
+				 $.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: 'http://api.beta.sherpadesk.com/tickets/'+localStorage.getItem('ticketNumber'),
+    				data: {
+    						"note_text": comment,
+   						    "action": "response"
+						   }, 
+    				dataType: 'json',
+    				success: function (d) {
+    				         alert(success);
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         alert(textStatus);
+    				}
+ 				}); 
+			});
+		}
+	};
 
 	var addTime = {
 		init:function(){
 			this.inputTime();
 		},
 
-
-
 		inputTime:function(){
 			var ticketKey = localStorage.getItem('ticketNumber');
-			var isBillable = false;
-			if($(".innerCircle").hasClass("billFill")){
-				isBillable = true;
-			}
+			var isBillable = true;
 			var date = new Date().toJSON().slice(0,10);
 
 			$("#submitTicketTime").click(function(){
 				var time = $("#addTimeTicket").val();
 				var note = $("#noteTimeTicket").val();
 				var tech = localStorage.getItem('techId');
+				if($(".innerCircle").hasClass("billFill")){
+				isBillable = true;
+				}else{
+					isBillable = false;
+				}
 
 				 $.ajax({
     				type: 'POST',
@@ -212,6 +242,11 @@ $(document).ready(function(){
 				var accountId = $("#timeAccounts").val();
 				var projectId = $("#timeProjects").val();
 				var taskId = $("#taskTypes").val();
+				if($(".innerCircle").hasClass("billFill")){
+				isBillable = true;
+				}else{
+					isBillable = false;
+				}
 				$.ajax({
     				type: 'POST',
     				beforeSend: function (xhr) {
@@ -1273,6 +1308,7 @@ $(document).ready(function(){
 		invoiceList.init();
 		detailedInvoice.init();
 		addTime.init();
+		postComment.init();
 	}()); 
 	
 
