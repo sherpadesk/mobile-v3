@@ -41,6 +41,8 @@ $(document).ready(function(){
 		}
 	};
 
+
+
 	var detailedTicket = {
 		init:function(){
 			this.showTicket();
@@ -104,11 +106,43 @@ $(document).ready(function(){
 						 	$(insert).appendTo("#ticketTechs");
 						 }
 						 $("#ticketLocation").empty();
+						 if(returnData.location_id == 0)
+						 {
+						 	$("#location").remove();
+						 }
 						 var locationInsert = "<option value="+returnData.location_id+">"+returnData.location_name+"</option>";
 						 $(locationInsert).appendTo("#ticketLocation");
 						 $("#ticketProject").empty();
+						 if(returnData.project_id == 0)
+						 {
+						 	$("#project").remove();
+						 }
 						 var projectInsert = "<option value="+returnData.project_id+">"+returnData.project_name+"</option>";
 						 $(projectInsert).appendTo("#ticketProject");
+
+						 //add comments (ticketLogs) to the page
+						 $("#comments").empty();
+						 for(var c = 0; c < returnData.ticketlogs.length -1; c++)
+						 {
+						 	var email = $.md5(returnData.ticketlogs[c].user_email);
+						 	var type = returnData.ticketlogs[c].log_type;
+						 	var userName = returnData.ticketlogs[c].user_firstname+" "+returnData.ticketlogs[c].user_lastname;
+						 	var note = returnData.ticketlogs[c].note;
+						 	var date = returnData.ticketlogs[c].record_date.toString().substring(0,10);
+
+						 	if(note.indexOf("uploaded:")>= 0)
+						 	{
+						 		var index = note.indexOf("uploaded:");
+						 	}
+
+						 	var insert = "<ul class='responseBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='responseImg'><span>"+type+"</span></li><li class='responseText'><h3>"+userName+"</h3><p>"+note+"</p></li><li>"+date+"</li></ul>";
+						 	$(insert).appendTo("#comments");
+						 }
+						 $(".orginalMessageContainer").empty();
+						 var orginalMessageEmail = $.md5(returnData.ticketlogs[0].user_email);
+						 var orginalMessageinsert = "<ul class='responseBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=30' class='responseImg'><span>"+returnData.ticketlogs[0].log_type+"</span></li><li class='responseText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3><p>"+returnData.ticketlogs[0].note+"</p></li><li>"+returnData.ticketlogs[0].record_date.toString().substring(0,10)+"</li></ul>";
+						 	$(orginalMessageinsert).appendTo(".orginalMessageContainer");
+
 
 
 					},
@@ -206,6 +240,8 @@ $(document).ready(function(){
 							var insert = "<li><ul class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
 							$(insert).appendTo("#expencesList");
 						}
+							
+
 
 					},
 					complete:function(){
