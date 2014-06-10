@@ -296,6 +296,7 @@ $(document).ready(function(){
 				url:"http://api.beta.sherpadesk.com/invoices?account="+localStorage.getItem("DetailedAccount"),
 				dataType:"json",
 				success: function(returnData) {
+						$("#invoiceList").empty();
 						console.log(returnData);
 						for(var i = 0; i < returnData.length; i++)
 						{	var customer = returnData[i].customer;
@@ -331,6 +332,7 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
+						$("#allInvoiceList").empty();
 						for(var i = 0; i < returnData.length; i++)
 						{	var customer = returnData[i].customer;
 							var date = returnData[i].date.substring(0,10);
