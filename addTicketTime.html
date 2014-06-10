@@ -48,36 +48,12 @@
       <div class="accountContainer">
         <ul class="buttonList">
           <li><span class="buttonListSymbols">-</span></li>
-          <li><input id="addTime" type="number"></li>
+          <li><input id="addTimeTicket" type="number"></li>
           <li><span class="buttonListSymbols">+</span></li>
         </ul>
-        <div class="styledSelect">
-             <select id="timeAccounts">
-                <!-- <option value="" disabled selected>Select an account</option> -->
-                <option value="Sherpadesk">Sherpadesk</option>
-                <option value="ACME INC">ACME INC</option>
-             </select>
-          </div>
-          <div class="styledSelect">
-             <select id="timeProjects">
-                <!-- <option value="" disabled selected>Select an account</option> -->
-                <option value="Sherpadesk">Chrome Extension</option>
-                <option value="ACME INC">Mobile</option>
-                <option value="ACME INC">Ticket Detail</option>
-                <option value="ACME INC">Email Invoices</option>
-             </select>
-          </div>
-          <div class="styledSelect">
-             <select id="taskTypes">
-                <!-- <option value="" disabled selected>Select a Task</option> -->
-                <option value="Sherpadesk">Mobile Development</option>
-                <option value="ACME INC">Software Dev</option>
-                <option value="ACME INC">Support</option>
-             </select>
-          </div>
+          <textarea id="noteTimeTicket" class="textInput" type="text" placeholder="I completed..."></textarea>
           <div id="billem" class="billable"><div id="billem1" class="innerCircle"></div></div><span class="billTag">Billable</span>
-          <textarea id="noteTime" class="textInput" type="text" placeholder="I completed..."></textarea>
-          <button class="greenButton" id="submitTime">Add Time</button>
+          <button class="greenButton" id="submitTicketTime">Add Time</button>
       </div>
     </div>
   </body>

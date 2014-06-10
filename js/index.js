@@ -111,10 +111,10 @@ fullscreen();
 		changeTime: function() {
 			var counter = 0;
 
-			$("#addTimeTicker").val(counter);
+			$("#addTimeTicket").val(counter);
 			$(".buttonList li:nth-child(3), .buttonListSymbols").click(function() {
 				counter += .25;
-				$("#addTimeTicker").val(counter);
+				$("#addTimeTicket").val(counter);
 			});
 			$(".buttonList li:nth-child(1), .buttonListSymbols").click(function() {
 				counter -= .25;

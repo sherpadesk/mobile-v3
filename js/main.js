@@ -29,8 +29,10 @@ $(document).ready(function(){
 						localStorage.setItem("userKey", returnData.api_token)
 						localStorage.setItem('userName', userName);
 						window.location = "org.html";
+						
 					},
 					complete:function(){
+				
 				},
 				error: function() {
 					console.log("fail @ Login");
@@ -41,7 +43,206 @@ $(document).ready(function(){
 		}
 	};
 
+	var addTime = {
+		init:function(){
+			this.inputTime();
+		},
 
+
+
+		inputTime:function(){
+			var ticketKey = localStorage.getItem('ticketNumber');
+			var isBillable = false;
+			if($(".innerCircle").hasClass("billFill")){
+				isBillable = true;
+			}
+			var date = new Date().toJSON().slice(0,10);
+
+			$("#submitTicketTime").click(function(){
+				var time = $("#addTimeTicket").val();
+				var note = $("#noteTimeTicket").val();
+				var tech = localStorage.getItem('techId');
+
+				 $.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: 'http://api.beta.sherpadesk.com/time',
+    				data: {
+    						"ticket_key": ticketKey,
+    						"note_text": note,
+    						"task_type_id": 1,
+    						"hours": time,
+    						"is_billable": isBillable,
+    						"date": date,
+    						"start_date": new Date().toJSON(),
+    						"stop_date": new Date().toJSON(),
+    						"tech_id": tech,
+						   }, 
+    				dataType: 'json',
+    				success: function (d) {
+    				         window.location = "ticket_detail.html";
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         alert(textStatus);
+    				}
+ 				});  
+			});
+			//get task types 
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/task_types",
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						$("#taskTypes").empty();
+						for(var i = 0; i < returnData.length; i++)
+						{
+							var value = returnData[i].id;
+							var task = returnData[i].name;
+							var insert = "<option value="+value+">"+task+"</option>";
+							$(insert).appendTo("#taskTypes");
+						}
+						
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					console.log("fail @ task typest");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+			
+
+			//get accounts 
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/accounts",
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						$("#timeAccounts").empty();
+						var chooseAccount = "<option value=0>Choose An Account</option>";
+						$(chooseAccount).appendTo("#timeAccounts");
+						for(var i = 0; i < returnData.length; i++)
+						{ 
+							var value = returnData[i].id;
+							var task = returnData[i].name;
+							var insert = "<option value="+value+">"+task+"</option>";
+							$(insert).appendTo("#timeAccounts");
+						}
+						var chooseProject = "<option value=0>Choose a Project</option>";
+						$(chooseProject).appendTo("#timeProjects");
+						
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					console.log("fail @ time accounts");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+			$("#timeProjects").empty();
+			$("#timeAccounts").on("change", function(){
+
+			//get projects
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/accounts/"+$("#timeAccounts").val(),
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						$("#timeProjects").empty();
+						for(var i = 0; i < returnData.projects.length; i++)
+						{
+							var value = returnData.projects[i].id;
+							var task = returnData.projects[i].name;
+							var insert = "<option value="+value+">"+task+"</option>";
+							console.log(insert);
+							$(insert).appendTo("#timeProjects");
+						}
+						
+						
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					console.log("fail @ time accounts");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+			});
+
+			$("#submitTime").click(function(){
+				var time = $("#addTime").val();
+				var note = $("#noteTime").val();
+				var tech = localStorage.getItem('userId');
+				var accountId = $("#timeAccounts").val();
+				var projectId = $("#timeProjects").val();
+				var taskId = $("#taskTypes").val();
+				$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: 'http://api.beta.sherpadesk.com/time',
+    				data: {
+    						"tech_id" : tech,
+    						"project_id": projectId,
+    						"account_id" :accountId,
+    						"note_text": note,
+    						"task_type_id":taskId,
+    						"hours":time,
+    						"is_billable": isBillable,
+    						"date": date,
+    						"start_date": new Date().toJSON(),
+    						"stop_date": new Date().toJSON(),
+						   }, 
+    				dataType: 'json',
+    				success: function (d) {
+    				         window.location = "index.html";
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         alert(textStatus);
+    				}
+ 				});
+			});
+
+		}
+	};
 
 	var detailedTicket = {
 		init:function(){
@@ -53,6 +254,7 @@ $(document).ready(function(){
 				localStorage.setItem('ticketNumber', $(this).attr("data-id"));
 				window.location = "ticket_detail.html";
 			});
+
 
 			$.ajax({
 			type: 'GET',
@@ -67,6 +269,8 @@ $(document).ready(function(){
 				success: function(returnData) {
 						console.log(returnData);
 						var daysOld = returnData.daysold_in_minutes / -60;
+						localStorage.setItem('techId', returnData.tech_id);
+						localStorage.setItem('ticketId',returnData.id);
 						if(daysOld > 24){
 							daysOld = daysOld/24;
 							daysOld = parseInt(daysOld);
@@ -130,13 +334,14 @@ $(document).ready(function(){
 						 	var note = returnData.ticketlogs[c].note;
 						 	var date = returnData.ticketlogs[c].record_date.toString().substring(0,10);
 						 	var attachments = [];
-
+						 	if(returnData.attachments != null){
 						 	for(var e = 0; e < returnData.attachments.length; e++)
 						 	{
 						 		if(note.indexOf(returnData.attachments[e].name) >= 0) 
 						 		{
 						 			attachments.push(returnData.attachments[e].url);
 						 		}
+						 	}
 						 	}
 
 
@@ -427,6 +632,7 @@ $(document).ready(function(){
 							var email = $.md5(returnData[i].user_email);
 							var intialPost = returnData[i].initial_post;
 							var subject = returnData[i].subject;
+							var data = returnData[i].key;
 							if(subject.length > 19)
 							{
 								subject = subject.substring(0,16)+"...";
@@ -435,7 +641,7 @@ $(document).ready(function(){
 							{
 								intialPost = intialPost.substring(1,100);
 							}
-							var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 							
 							$(ticket).appendTo("#techContainer");
 						 }
@@ -472,6 +678,7 @@ $(document).ready(function(){
 							var email = $.md5(returnData[i].user_email);
 							var intialPost = returnData[i].initial_post;
 							var subject = returnData[i].subject;
+							var data = returnData[i].key;
 							if(subject.length > 19)
 							{
 								subject = subject.substring(0,16)+"...";
@@ -480,7 +687,7 @@ $(document).ready(function(){
 							{
 								intialPost = intialPost.substring(1,100);
 							}
-							var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 							$(ticket).appendTo("#allContainer");
 						 }
 					},
@@ -517,6 +724,7 @@ $(document).ready(function(){
 							var email = $.md5(returnData[i].user_email);
 							var intialPost = returnData[i].initial_post;
 							var subject = returnData[i].subject;
+							var data = returnData[i].key;
 							if(subject.length > 19)
 							{
 								subject = subject.substring(0,16)+"...";
@@ -525,7 +733,7 @@ $(document).ready(function(){
 							{
 								intialPost = intialPost.substring(1,100);
 							}
-							var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 							
 							$(ticket).appendTo("#altContainer");
 						 }
@@ -562,6 +770,7 @@ $(document).ready(function(){
 							var email = $.md5(returnData[i].user_email);
 							var intialPost = returnData[i].initial_post;
 							var subject = returnData[i].subject;
+							var data = returnData[i].key;
 							if(subject.length > 14)
 							{
 								subject = subject.substring(0,11)+"...";
@@ -570,7 +779,7 @@ $(document).ready(function(){
 							{
 								intialPost = intialPost.substring(1,100);
 							}
-							var ticket = "<ul class='responseBlock' id='thisBlock'><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 							
 							$(ticket).appendTo("#userContainer");
 						 }
@@ -889,6 +1098,37 @@ $(document).ready(function(){
 					console.log(userOrgKey + '-' + userInstanceKey +':'+userKey);(userOrg);
 					}
 		});
+
+		//get user info 
+		$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/users?query="+localStorage.getItem('userName'),
+				dataType:"json",
+				success: function(returnData) {
+					console.log(returnData);
+					$(".navName").html(returnData[0].firstname+" "+returnData[0].lastname);
+					var email = $.md5(returnData[0].email);
+					$(".navProfile").attr("src","http://www.gravatar.com/avatar/" + email + "?d=mm&s=30");
+					localStorage.setItem("userId",returnData[0].id);
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+				};
+				window.setTimeout(reveal,500);
+				},
+				error: function() {
+					console.log("fail @ accounts");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
 	};
 	
 	var org = {
@@ -1032,6 +1272,7 @@ $(document).ready(function(){
 		accountList.init();
 		invoiceList.init();
 		detailedInvoice.init();
+		addTime.init();
 	}()); 
 	
 
