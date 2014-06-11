@@ -382,6 +382,42 @@ nav i {
   border-radius: 50px;
 }
 
+.searchReturn {
+  width: 235px;
+  height: 150px;
+  background-color: rgba(0, 188, 255, 0.93);
+  z-index: 3;
+  position: absolute;
+  right: 18px;
+  top: 38px;
+  border-radius: 15px;
+  display: none;
+  overflow: scroll;
+}
+
+.searchReturn ul {
+  list-style-type: none;
+  list-style: none;
+  width: 100%;
+}
+
+
+.searchReturn li {
+  float: left;
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 253, 253, 0.36);
+  height: 40px;
+  list-style: none;
+  line-height: 40px;
+}
+
+.returnedItem {
+  color: #fff;
+  font-size: 18px;
+  width: 100%;
+  z-index: 3;
+  margin-left: 10px;
+}
 /* Header
    ========================================================================== */
 

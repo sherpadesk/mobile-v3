@@ -80,6 +80,132 @@ $(document).ready(function(){
 	var search = {
 		init:function(){
 			this.universalSearch();
+		},
+
+		universalSearch:function(){
+			$(document).on("keypress",".headerSearch",function(e){
+   			 if(e.which == 13) {
+       		 var searchItem  = $(".headerSearch").val().toLowerCase();
+       		 localStorage.setItem("searchItem",searchItem);
+       		 var found = false;
+       		 var matchedTickets = [];
+      		 	
+       		 $.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/accounts",
+				dataType:"json",
+				success: function(returnData) {
+						for(var i = 0; i < returnData.length; i++)
+						{
+							if(returnData[i].name.toLowerCase() == searchItem)
+							{
+								found = true;
+								localStorage.setItem("DetailedAccount", returnData[i].id);
+							}
+							if (found == true)
+							{
+								window.location = "account_details.html";
+							}
+						}
+						
+						
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					alert("fail @ search");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/tickets/"+searchItem,
+				dataType:"json",
+				success: function(returnData) {
+						localStorage.setItem("ticketNumber",searchItem);
+						window.location = "ticket_detail.html";
+						
+						
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/tickets",
+				dataType:"json",
+				success: function(returnData) {
+					console.log(returnData);
+						for(var i = 0; i < returnData.length; i++)
+						{
+							if(returnData[i].subject.toLowerCase().indexOf(searchItem) >= 0)
+							{
+								matchedTickets.push(returnData[i]);
+
+							}
+						}
+						for(var a = 0; a < matchedTickets.length; a++)
+						{
+							$(".searchReturn").show();
+							var insert = "<li class='searched' data-id="+matchedTickets[a].key+"><span class='returnedItem'>"+matchedTickets[a].subject +" #"+matchedTickets[a].number+"</span></li>";
+							$(insert).appendTo(".searchReturn");
+						}
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+				$(document).on("click",".searchCloseExpanded", function(){
+					$(".searchReturn").hide();
+					$(".searchReturn").empty();
+				});
+				$(document).on("click",".searched", function(){
+					localStorage.setItem('ticketNumber', $(this).attr("data-id"));
+					window.location = "ticket_detail.html";
+				});
+   				 }
+
+
+			});
+			//get accounts 
+
 		}
 	};
 
@@ -1326,6 +1452,7 @@ $(document).ready(function(){
 
 	(function () {
 	    UserLogin.init();
+	    search.init();
 	    org.init();
 		detailedTicket.init();
 		ticketList.init();
