@@ -1019,7 +1019,7 @@ $(document).ready(function(){
 							var openTks = returnData[i].account_statistics.ticket_counts.open;
 							if( openTks > 99)
 							{
-								openTks = "99<sup>+</sup>"
+								openTks = "99<sup>+</sup>";
 								var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li><div class='tks toManyTks'>"+openTks+"</div></li></ul>";
 								$(insert).appendTo($("#fullList"));
 							}else{
@@ -1217,7 +1217,12 @@ $(document).ready(function(){
 				url:"http://api.beta.sherpadesk.com/tickets/counts",
 				dataType:"json",
 				success: function(returnData) {
-					$(".mainStat").html(returnData.open_all);
+					var allTickets = returnData.open_all;
+					if(allTickets > 100){
+						allTickets = "99<sup>+</sup>";
+						$("all").addClass("toManyTks");
+					}
+					$("#all").html(allTickets);
 					$("#userStat").html(returnData.open_as_user);
 					$("#techStat").html(returnData.open_as_tech);
 					$("#altStat").html(returnData.open_as_alttech);
@@ -1279,10 +1284,10 @@ $(document).ready(function(){
 					for (var i = 0; i < returnData.length; i++)
 					{
 						if(returnData[i].name.length > 9) {
-							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li>"+returnData[i].account_statistics.ticket_counts.open+"</li></ul>";
+							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+returnData[i].account_statistics.ticket_counts.open+"</div></li></ul>";
 						$(activeAccount).appendTo("#activeList");
 						}else{
-							var activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li>"+returnData[i].account_statistics.ticket_counts.open+"</li></ul>";
+							var activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+returnData[i].account_statistics.ticket_counts.open+"</div></li></ul>";
 						$(activeAccount).appendTo("#activeList");
 					}
 					}
