@@ -183,10 +183,11 @@ strong {
   overflow: hidden;
 }
 .loginScreen {
+  background-color: #ccc;
   background: url("../img/loginBG.png");
   /*padding-top: 80px*/;
   background-size: cover;
-  background-repeat: repeat;
+  background-repeat: no-repeat;
   background-position:center; 
   overflow: hidden;
 }
