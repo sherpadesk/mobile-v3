@@ -198,6 +198,11 @@ $(document).ready(function(){
 					$(".searchReturn").hide();
 					$(".searchReturn").empty();
 				});
+				$(document).on("click",".bodyLock", function(){
+					$("body").removeClass("bodyLock");
+					$(".searchReturn").hide();
+					$(".searchReturn").empty();
+				});
 				$(document).on("click",".searched", function(){
 					$("body").removeClass("bodyLock");
 					localStorage.setItem('ticketNumber', $(this).attr("data-id"));

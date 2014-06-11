@@ -276,6 +276,7 @@ strong {
 .bodyLock {
   overflow-x: hidden; 
   overflow-y: hidden;
+  z-index: 3;
 }
 
 .bodyContentCover {
