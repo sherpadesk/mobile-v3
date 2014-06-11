@@ -249,7 +249,7 @@ fullscreen();
 			});
 		}
 	};
-
+/*
 	var billEm = {
 		init: function() {
 			this.checkBillButton();
@@ -266,7 +266,7 @@ fullscreen();
 		}
 
 	};
-
+*/
 	var StickRecentTickets = {
 		init: function() {
 			this.stickTitle();
@@ -304,7 +304,7 @@ fullscreen();
 
 	(function() {
 		openTickets.init();
-		billEm.init();
+		
 		showExtendedDetails.init();
 		if($(window).width() < 478){footer.init();}
 		homePage.init();

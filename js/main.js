@@ -42,6 +42,8 @@ $(document).ready(function(){
 			});
 		}
 	};
+
+
 	var postComment = {
 		init:function(){
 			this.sendComment();
@@ -483,7 +485,7 @@ $(document).ready(function(){
 							var log = returnData.time_logs[u].total;
 							var date = returnData.time_logs[u].date.substring(0,10);
 							var logID = returnData.time_logs[u].date.id;
-							var insert = "<li><ul class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span> hrs</h3></li></ul></li>";
+							var insert = "<li><ul id='invoiceTimelog' class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span> hrs</h3></li></ul></li>";
 							$(insert).appendTo("#invoiceLogs");
 						}
 						$("#expencesList").empty();
@@ -493,11 +495,9 @@ $(document).ready(function(){
 							var log = returnData.expences[c].total;
 							var date = returnData.expences[c].date.substring(0,10);
 							var logID = returnData.expences[c].date.id;
-							var insert = "<li><ul class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
+							var insert = "<li><ul id='invoiceExpense' class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
 							$(insert).appendTo("#expencesList");
 						}
-							
-
 
 					},
 					complete:function(){
@@ -512,6 +512,26 @@ $(document).ready(function(){
 					}
 			});
 
+		}
+	};
+
+	//methods & Api calls that deal with changing time adding adjustments, expenses 
+	var updateInvoice ={
+		init:function(){
+			this.changeInvoice();
+		},
+
+		changeInvoice:function(){
+			//update timelog after being clicked 
+			$(document).on("click","#invoiceTimelog",function(){
+				$(this).find(".innerCircle").toggleClass("billFill");
+
+			});
+			//update expense after beign clicked 
+			$(document).on("click","#invoiceExpense",function(){
+				$(this).find(".innerCircle").toggleClass("billFill");
+
+			});
 		}
 	};
 
@@ -1311,6 +1331,7 @@ $(document).ready(function(){
 		detailedInvoice.init();
 		addTime.init();
 		postComment.init();
+		updateInvoice.init();
 	}()); 
 	
 
