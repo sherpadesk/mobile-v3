@@ -177,7 +177,7 @@ $(document).ready(function(){
 						for(var a = 0; a < matchedTickets.length; a++)
 						{
 							$(".searchReturn").show();
-							var insert = "<li class='searched' data-id="+matchedTickets[a].key+"><span class='returnedItem'>"+matchedTickets[a].subject +" #"+matchedTickets[a].number+"</span></li>";
+							var insert = "<li class='searched' data-id="+matchedTickets[a].key+"><span class='returnedItem'> #"+matchedTickets[a].number+" "+matchedTickets[a].subject +"</span></li>";
 							$(insert).appendTo(".searchReturn");
 						}
 					},

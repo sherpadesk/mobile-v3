@@ -409,6 +409,7 @@ nav i {
   height: 40px;
   list-style: none;
   line-height: 40px;
+  overflow: hidden;
 }
 
 .returnedItem {
