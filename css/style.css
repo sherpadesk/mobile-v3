@@ -183,7 +183,6 @@ strong {
   overflow: hidden;
 }
 .loginScreen {
-  background-color: #ccc;
   background: url("../img/loginBG.png");
   /*padding-top: 80px*/;
   background-size: cover;
@@ -196,6 +195,11 @@ strong {
   width: 80%;
   margin: 190px auto;
   max-width: 400px;
+}
+
+#errorMessage {
+  color: #FF4D4D;
+  margin-bottom: 2px;
 
 }
 
@@ -298,11 +302,11 @@ header, .bodyContent {
 }
 
 nav i {
-  color: #fff;
+  color: #88DDFA;
   float: right;
 }
 .sideNav {
-  background-color: #1C1B22;
+  background-color: rgba(0,0,0,0.8);
   height: 131%;
   position: absolute;
   top: 0; left: 0;
@@ -337,7 +341,7 @@ nav i {
 
 .sideNavLinks li {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 19px;
   height: 50px;
   padding: 0 30px;
 }
@@ -351,7 +355,7 @@ nav i {
 
 .sideNavCircle {
   background: none;
-  border: 1px solid #25B0E6;
+  
   box-sizing:border-box;
     -moz-box-sizing:border-box;
   -webkit-border-radius: 50%;
@@ -360,7 +364,7 @@ nav i {
   float: left;
   height: 12px;
   width: 12px;
-  margin-top: 18px;
+  margin-top: 16px;
 }
 
 .navName {

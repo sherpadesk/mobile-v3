@@ -35,8 +35,8 @@ $(document).ready(function(){
 				
 				},
 				error: function() {
-					console.log("fail @ Login");
-					alert("not working");
+					$("#errorMessage").html("Invalid Username / Password");
+					$("#password").val("");
 					}
 			});
 			});
@@ -74,6 +74,12 @@ $(document).ready(function(){
     				}
  				}); 
 			});
+		}
+	};
+
+	var search = {
+		init:function(){
+			this.universalSearch();
 		}
 	};
 
