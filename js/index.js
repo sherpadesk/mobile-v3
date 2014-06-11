@@ -126,7 +126,7 @@ fullscreen();
 	var ticketDetails = {
 		init: function() {
 			this.tab();
-			this.addResponse();
+			
 			this.scrollResponse();
 			this.latestPost();
 		},

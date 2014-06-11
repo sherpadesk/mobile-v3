@@ -49,21 +49,23 @@ $(document).ready(function(){
 
 		sendComment:function(){
 			$("#reply").click(function(){
-				var comment = $("commentText").val();
+			    var comment = $("#commentText").val();
 				 $.ajax({
     				type: 'POST',
     				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
     				    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
     				url: 'http://api.beta.sherpadesk.com/tickets/'+localStorage.getItem('ticketNumber'),
     				data: {
-    						"note_text": comment,
+    				    "note_text": comment,
    						    "action": "response"
 						   }, 
     				dataType: 'json',
     				success: function (d) {
-    				         alert(success);
+    				    alert(d);
+    				    location.reload(false);
     				},
     				error: function (e, textStatus, errorThrown) {
     				         alert(textStatus);
