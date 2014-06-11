@@ -127,6 +127,20 @@ strong {
   display: block;
 }
 
+.textInput1 {
+  background: rgba(0, 0, 0, .4);
+  box-sizing:border-box;
+    -moz-box-sizing:border-box;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  height: 140px;
+  padding: 10px;
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+
 .textInputSmall {
   background: rgba(0, 0, 0, .4);
   box-sizing:border-box;
@@ -828,6 +842,8 @@ header {
     resize: none;
     border: none;
    }
+
+   
 
   
 
