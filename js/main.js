@@ -177,6 +177,7 @@ $(document).ready(function(){
 						for(var a = 0; a < matchedTickets.length; a++)
 						{
 							$(".searchReturn").show();
+							$("body").addClass("bodyLock");
 							var insert = "<li class='searched' data-id="+matchedTickets[a].key+"><span class='returnedItem'> #"+matchedTickets[a].number+" "+matchedTickets[a].subject +"</span></li>";
 							$(insert).appendTo(".searchReturn");
 						}
@@ -193,10 +194,12 @@ $(document).ready(function(){
 					}
 			});
 				$(document).on("click",".searchCloseExpanded", function(){
+					$("body").removeClass("bodyLock");
 					$(".searchReturn").hide();
 					$(".searchReturn").empty();
 				});
 				$(document).on("click",".searched", function(){
+					$("body").removeClass("bodyLock");
 					localStorage.setItem('ticketNumber', $(this).attr("data-id"));
 					window.location = "ticket_detail.html";
 				});
