@@ -66,7 +66,7 @@ $(document).ready(function(){
 						   }, 
     				dataType: 'json',
     				success: function (d) {
-    				    alert(d);
+    				    
     				    location.reload(false);
     				},
     				error: function (e, textStatus, errorThrown) {
@@ -272,7 +272,7 @@ $(document).ready(function(){
 						   }, 
     				dataType: 'json',
     				success: function (d) {
-    				         window.location = "index.html";
+    				         window.location = "dashboard.html";
     				},
     				error: function (e, textStatus, errorThrown) {
     				         alert(textStatus);
@@ -1268,10 +1268,10 @@ $(document).ready(function(){
 					        userInstanceKey = myinst[0].key;
 					        localStorage.setItem('userInstanceKey', userInstanceKey);
 							if(window.location.pathname == "org.html"){
-								window.location = "index.html";
+								window.location = "dashboard.html";
 							}
 							$("#orgButton").click(function(){
-								window.location = "index.html";
+								window.location = "dashboard.html";
 							});
 					        //window.location = "index.html";
 					    
