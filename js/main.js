@@ -36,7 +36,7 @@ $(document).ready(function(){
 				},
 				error: function() {
 					console.log("fail @ Login");
-					alert("error", "There was a problem with your login.  Please try again.");
+					alert("not working");
 					}
 			});
 			});
