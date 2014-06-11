@@ -186,7 +186,7 @@ strong {
   background: url("../img/loginBG.png");
   /*padding-top: 80px*/;
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-position:center; 
   overflow: hidden;
 }
