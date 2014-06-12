@@ -43,7 +43,149 @@ $(document).ready(function(){
 		}
 	};
 
+	var newTicket = {
+		init:function() {
+			this.addTicket();
+		},
 
+		addTicket:function() {
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/accounts",
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						$("#addTicketAccounts").empty();
+						var chooseAccount = "<option value=0 disabled selected>Choose an Account</option>";
+						$(chooseAccount).appendTo("#addTicketAccounts");
+						for(var i = 0; i < returnData.length; i++)
+						{ 
+							var value = returnData[i].id;
+							var task = returnData[i].name;
+							var insert = "<option value="+value+">"+task+"</option>";
+							$(insert).appendTo("#addTicketAccounts");
+						}
+						var chooseTech = "<option value=0 disabled selected>Choose a Tech</option>";
+						var chooseClass = "<option value=0 disabled selected>Choose a class</option>";
+						$("#addTicketTechs").empty();
+						$("#addTicketClass").empty();
+						$(chooseTech).appendTo("#addTicketTechs");
+						$(chooseClass).appendTo("#addTicketClass");
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					console.log("fail @ time accounts");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+			 $("#addTicketAccounts").on("change",function(){
+			  $.ajax({
+				type: 'GET',
+				beforeSend: function (xhr) {
+					xhr.withCredentials = true;
+					xhr.setRequestHeader('Authorization', 
+            	              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+					},
+	
+						url:"http://api.beta.sherpadesk.com/technicians",
+						dataType:"json",
+						success: function(returnData) {
+								console.log(returnData);
+								for(var i = 0; i < returnData.length; i++)
+								{ 
+									var value = returnData[i].id;
+									var name = returnData[i].firstname;
+									var insert = "<option value="+value+">"+name+"</option>";
+									$(insert).appendTo("#addTicketTechs");
+								}
+							},
+							complete:function(){
+							function reveal(){
+							$(".loadScreen").hide();
+							$(".maxSize").fadeIn();
+							};
+						},
+						error: function() {
+							console.log("fail @ time accounts");
+							console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+							}
+				});
+			 });
+			$("#addTicketTechs").on("change",function(){
+				$.ajax({
+				type: 'GET',
+				beforeSend: function (xhr) {
+					xhr.withCredentials = true;
+					xhr.setRequestHeader('Authorization', 
+            	              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+					},
+	
+						url:"http://api.beta.sherpadesk.com/classes",
+						dataType:"json",
+						success: function(returnData) {
+								console.log(returnData);
+								for(var i = 0; i < returnData.length; i++)
+								{ 
+									var value = returnData[i].id;
+									var name = returnData[i].name;
+									var insert = "<option value="+value+">"+name+"</option>";
+									$(insert).appendTo("#addTicketClass");
+								}
+							},
+							complete:function(){
+							function reveal(){
+							$(".loadScreen").hide();
+							$(".maxSize").fadeIn();
+							};
+						},
+						error: function() {
+							console.log("fail @ time accounts");
+							console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+							}
+				});
+			});
+			$("#submitNewTicket").click(function(){
+
+			$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: 'http://api.beta.sherpadesk.com/tickets',
+    				data: {
+    				    	"status" : "open",
+    						"subject" : $("#addTicketSubject").val(),
+    						"initial_post" : $("#addTicketInitPost").val(), 
+    						"class_id" : $("#addTicketClass").val(),
+    						"account_id" : $("#addTicketAccounts").val(),
+    						"user_id" : localStorage.getItem('userId'),
+    						"tech_id" : $("#addTicketTechs").val()
+						   }, 
+    				dataType: 'json',
+    				success: function (d) {
+    				    
+    				    location.reload(false);
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         alert(textStatus);
+    				}
+ 				});
+			});
+		}
+	};
 	var postComment = {
 		init:function(){
 			this.sendComment();
@@ -1465,6 +1607,7 @@ $(document).ready(function(){
 
 	(function () {
 	    UserLogin.init();
+	    newTicket.init();
 	    search.init();
 	    org.init();
 		detailedTicket.init();
