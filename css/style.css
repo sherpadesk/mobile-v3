@@ -142,7 +142,7 @@ strong {
 }
 
 .textInputSmall {
-  background: rgba(0, 0, 0, .4);
+  background: rgba(0, 0, 0, .6);
   box-sizing:border-box;
     -moz-box-sizing:border-box;
   border: none;
@@ -224,7 +224,7 @@ strong {
 }
 
 .loginButton {
-  background: rgba(73,211,34,0.6);
+  background: rgba(73,211,34,0.7);
   border: none;
   color: #ffffff;
   font-size: 14px;
@@ -272,7 +272,7 @@ strong {
 
 
 .googleButton {
-  background: rgba(131,131,131,0.72);
+  background: rgba(131,131,131,0.82);
   border: none;
   color: #FDFDFD;
   font-size: 14px;
@@ -400,14 +400,14 @@ nav i {
 }
 
 .searchReturn {
-  width: 280px;
-  height: 150px;
+  width: 100%;
+  height: 170px;
   background-color: rgba(0, 188, 255, 0.93);
   z-index: 3;
   position: absolute;
-  right: 18px;
-  top: 38px;
-  border-radius: 15px;
+  right: 0px;
+  top: 45px;
+  border-radius: 0px 0px 15px 15px;
   display: none;
   overflow: scroll;
 }
@@ -1952,7 +1952,7 @@ font-size: 16px !important;
   height: 95px;
   background: #0099CC;
   text-align: center;
-  line-height: 80px;
+  line-height:90px;
   margin: 30px auto -1px;
   border-radius: 3px;
 

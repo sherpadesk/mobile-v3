@@ -80,13 +80,11 @@ $(document).ready(function(){
 
 		logOut:function(){
 			$("#signOut").click(function(){
-				alert();
-				 userOrgKey = "";
-				 userOrg = "";
-				 userInstanceKey = "";
-				 userKey = "";
-				 accountDetailed = "";
-				 window.location = "index.html";
+				localStorage.setItem('userOrgKey',"");
+				localStorage.setItem('userOrg',"");
+				localStorage.setItem('userInstanceKey',"");
+				localStorage.setItem('userKey',"");
+				window.location = "index.html";
 			});
 		}
 	};
@@ -1606,7 +1604,7 @@ $(document).ready(function(){
 								window.location = "dashboard.html";
 							}
 							$("#orgButton").click(function(){
-								alert(window.location.pathname);
+								
 								window.location = "dashboard.html";
 							});
 					        //window.location = "index.html";
