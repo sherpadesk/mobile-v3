@@ -73,6 +73,23 @@ $(document).ready(function(){
 			});
 		}
 	};
+	var signout = {
+		init:function(){
+			this.logOut();
+		},
+
+		logOut:function(){
+			$("#signOut").click(function(){
+				alert();
+				 userOrgKey = "";
+				 userOrg = "";
+				 userInstanceKey = "";
+				 userKey = "";
+				 accountDetailed = "";
+				 window.location = "index.html";
+			});
+		}
+	};
 
 	var newTicket = {
 		init:function() {
@@ -1589,6 +1606,7 @@ $(document).ready(function(){
 								window.location = "dashboard.html";
 							}
 							$("#orgButton").click(function(){
+								alert(window.location.pathname);
 								window.location = "dashboard.html";
 							});
 					        //window.location = "index.html";
@@ -1640,6 +1658,7 @@ $(document).ready(function(){
 	    UserLogin.init();
 	    newTicket.init();
 	    sendInvoince.init();
+	    signout.init();
 	    search.init();
 	    org.init();
 		detailedTicket.init();
