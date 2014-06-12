@@ -1602,7 +1602,7 @@ $(document).ready(function(){
 					    if (myinst.length == 1) {
 					        userInstanceKey = myinst[0].key;
 					        localStorage.setItem('userInstanceKey', userInstanceKey);
-							if(window.location.pathname == "org.html"){
+							if(window.location.pathname == "/org.html"){
 								window.location = "dashboard.html";
 							}
 							$("#orgButton").click(function(){
