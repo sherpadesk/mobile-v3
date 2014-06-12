@@ -43,6 +43,37 @@ $(document).ready(function(){
 		}
 	};
 
+	var sendInvoince = {
+		init:function() {
+			this.submitInvoice();
+		},
+
+		submitInvoice:function(){
+			$("#sendInvoiceButton").click(function(){
+				$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: 'http://api.beta.sherpadesk.com/invoices/'+localStorage.getItem('invoiceNumber'),
+    				data: {
+   						    "action": "sendEmail"
+						   }, 
+    				dataType: 'json',
+    				success: function (d) {
+    				    
+    				    location.reload(false);
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         alert(textStatus);
+    				}
+ 				});
+			});
+		}
+	};
+
 	var newTicket = {
 		init:function() {
 			this.addTicket();
@@ -1608,6 +1639,7 @@ $(document).ready(function(){
 	(function () {
 	    UserLogin.init();
 	    newTicket.init();
+	    sendInvoince.init();
 	    search.init();
 	    org.init();
 		detailedTicket.init();
