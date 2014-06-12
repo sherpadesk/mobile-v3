@@ -1651,8 +1651,26 @@ $(document).ready(function(){
 		}
 	};
 	
+	var ajaxCallTime = {
+		init:function(){
+			this.printTime();
+		},
+
+		printTime:function(){
+			console.log($.now());
+		}
+	};
 
 	(function () {
+		if(window.location.pathname == "/.html"){}
+		if(window.location.pathname == "/org.html"){}
+		if(window.location.pathname == "/org.html"){}
+		if(window.location.pathname == "/org.html"){}
+		if(window.location.pathname == "/org.html"){}
+		if(window.location.pathname == "/org.html"){}
+		if(window.location.pathname == "/org.html"){}
+		if(window.location.pathname == "/org.html"){}
+		ajaxCallTime.init();
 	    UserLogin.init();
 	    newTicket.init();
 	    sendInvoince.init();
@@ -1670,6 +1688,7 @@ $(document).ready(function(){
 		addTime.init();
 		postComment.init();
 		updateInvoice.init();
+		ajaxCallTime.init();
 	}()); 
 	
 
