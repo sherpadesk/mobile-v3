@@ -1442,7 +1442,7 @@ $(document).ready(function(){
 						}
 						for( var i = 0; i < queuesLength; i++)
 						{
-							var insertQueue = "<li><a href='ticket_list.html'><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NoticationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></a></li>";
+							var insertQueue = "<li><a href='ticket_list.html'><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3><div class='NoticationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></div></a></li>";
         					$(insertQueue).prependTo("#DashBoradQueues");					
 						}
 					},
@@ -1471,11 +1471,18 @@ $(document).ready(function(){
 					console.log(returnData);
 					for (var i = 0; i < returnData.length; i++)
 					{
-						if(returnData[i].name.length > 9) {
-							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+returnData[i].account_statistics.ticket_counts.open+"</div></li></ul>";
+						var openTickets = returnData[i].account_statistics.ticket_counts.open;
+						if(openTickets > 100)
+						{
+							openTickets = "99<sup>+</sup>";
+							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
+							$(activeAccount).appendTo("#activeList");
+						}
+						else if(returnData[i].name.length > 9) {
+							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
 						$(activeAccount).appendTo("#activeList");
 						}else{
-							var activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+returnData[i].account_statistics.ticket_counts.open+"</div></li></ul>";
+							var activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
 						$(activeAccount).appendTo("#activeList");
 					}
 					}
@@ -1600,7 +1607,7 @@ $(document).ready(function(){
 					    if (myinst.length == 1) {
 					        userInstanceKey = myinst[0].key;
 					        localStorage.setItem('userInstanceKey', userInstanceKey);
-							if(window.location.pathname == "/org.html"){
+							if(window.location.pathname == "/org.html" || window.location.pathname == "/Users/ethanandrews/Desktop/mobile-v3/org.html" ){
 								window.location = "dashboard.html";
 							}
 							$("#orgButton").click(function(){
@@ -1662,21 +1669,64 @@ $(document).ready(function(){
 	};
 
 	(function () {
-		if(window.location.pathname == "/.html"){}
-		if(window.location.pathname == "/org.html"){}
-		if(window.location.pathname == "/org.html"){}
-		if(window.location.pathname == "/org.html"){}
-		if(window.location.pathname == "/org.html"){}
-		if(window.location.pathname == "/org.html"){}
-		if(window.location.pathname == "/org.html"){}
-		if(window.location.pathname == "/org.html"){}
+		var page = window.location.pathname;
+		alert(page);
+		switch (page)
+		{
+		case "/account_details.html":
+		break;
+		case "/account_list.html":
+		break;
+		case "/accountTimes.html":
+		break;
+		case "/add_tickets.html":
+		break;
+		case "/add_time.html":
+		break;
+		case "/addExpence.html":
+		break;
+		case "/addTicketTime.html":
+		break;
+		case "/adjustment.html":
+		break;
+		case "/allInvoice_list.html":
+		break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/dashboard.html":
+			org.init();
+			accountDetailsPageSetup.init();
+			break;
+		case "/expen.html":
+		break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/index.html":
+			UserLogin.init();
+			break;
+		case "/invoice.html":
+		break;
+		case "/invoiceTImes.html":
+		break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/org.html":
+			org.init();
+			break;
+		case "/queues.html":
+		break;
+		case "/SelectPayment.html":
+		break;
+		case "/ticket_detail.html":
+		break;
+		case "/ticket_list.html":
+		break;
+		case "/timelog.html":
+		break;
+		case "/travel.html":
+		break;
+		}
 		ajaxCallTime.init();
-	    UserLogin.init();
+	    
 	    newTicket.init();
 	    sendInvoince.init();
 	    signout.init();
 	    search.init();
-	    org.init();
+	   
 		detailedTicket.init();
 		ticketList.init();
 		getQueues.init();

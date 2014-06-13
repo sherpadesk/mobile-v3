@@ -654,13 +654,12 @@ header {
   font-size: 16px;
   line-height: 35px;
   width: 35px;
-  background: #0099CC;
   text-align: center;
   float: left;
   font-weight: 600;
   font-size: 24px;
   border-radius: 3px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .sideStatsLeft{
@@ -1225,20 +1224,25 @@ footer {
 }
 
 .OptionWrapper {
-  width: 85%;
+  width: 100%;
   background-color: #25B0E6;
   height: 100%;
   float: left;
+  line-height: 45px;
+
 }
 
 .NoticationWrapper {
-  width: 15%;
+  width: 35px;
   background-color: #0099CC;
-  height: 100%;
-  float: left;
+  height: 35px;
+  float: right;
+  margin-right: 5px;
+  margin-top: 5px;
   color: #ffffff;
-  line-height: 45px;
+  line-height: 35px;
   text-align: center;
+  border-radius: 50px;
 }
 
 .NoticationWrapperAccountDetail {
@@ -1947,16 +1951,7 @@ font-size: 16px !important;
   border-radius: 26px;
 }
 
-.bigTks {
-  width: 95px;
-  height: 95px;
-  background: #0099CC;
-  text-align: center;
-  line-height:90px;
-  margin: 30px auto -1px;
-  border-radius: 3px;
 
-}
 
 .tks1 {
   width: 35px;
@@ -1966,12 +1961,13 @@ font-size: 16px !important;
   line-height: 35px;
   margin-left: 30px;
   border-radius: 26px;
+  font-size: 21px;
 }
 
 
 .toManyTks {
   line-height: 27px !important;
-  font-size: 21px !important;
+  font-size: 20px !important;
 }
 
 br {
