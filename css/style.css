@@ -24,8 +24,8 @@ a {
 }
 
 body {
-  /*background-color: #404D5A*/;
-  background: url("../img/bg_dark.png");
+  background-color: #404D5A;
+  /*background: url("../img/bg_dark.png");*/
   /*padding-top: 80px*/;
   /*background-size: cover;*/
   background-repeat: no-repeat;
