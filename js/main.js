@@ -1721,12 +1721,13 @@ $(document).ready(function(){
 		break;
 		}
 		ajaxCallTime.init();
-	    
+	    UserLogin.init();
 	    newTicket.init();
 	    sendInvoince.init();
 	    signout.init();
+	    accountDetailsPageSetup.init();
 	    search.init();
-	   
+	   	org.init();
 		detailedTicket.init();
 		ticketList.init();
 		getQueues.init();
