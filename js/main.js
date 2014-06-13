@@ -1673,16 +1673,16 @@ $(document).ready(function(){
 		
 		switch (page)
 		{
-		case "/Users/ethanandrews/Desktop/mobile-v3/account_details.html":
+		case "/account_details.html":
 			accountDetailsPageSetup.init();
 			invoiceList.init();
 			detailedTicket.init();
 			break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/Account_List.html":
+		case "/Account_List.html":
 			accountDetailsPageSetup.init();
 			accountList.init();
 			break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/Account_list.html":
+		case "/Account_list.html":
 			accountDetailsPageSetup.init();
 			accountList.init();
 			break;	
