@@ -1691,20 +1691,20 @@ $(document).ready(function(){
 		break;
 		case "/allInvoice_list.html":
 		break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/dashboard.html":
+		case "dashboard.html":
 			org.init();
 			accountDetailsPageSetup.init();
 			break;
 		case "/expen.html":
 		break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/index.html":
+		case "index.html":
 			UserLogin.init();
 			break;
 		case "/invoice.html":
 		break;
 		case "/invoiceTImes.html":
 		break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/org.html":
+		case "/org.html":
 			org.init();
 			break;
 		case "/queues.html":
