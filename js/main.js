@@ -1670,7 +1670,7 @@ $(document).ready(function(){
 
 	(function () {
 		var page = window.location.pathname;
-		alert(page);
+		
 		switch (page)
 		{
 		case "/Users/ethanandrews/Desktop/mobile-v3/account_details.html":
