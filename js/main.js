@@ -1742,7 +1742,7 @@ $(document).ready(function(){
 		case "/travel.html":
 		break;
 		}
-	    //UserLogin.init();
+	    UserLogin.init();
 	    newTicket.init();
 	    sendInvoince.init();
 	    signout.init();
