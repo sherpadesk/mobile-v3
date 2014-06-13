@@ -1697,7 +1697,7 @@ $(document).ready(function(){
 			break;
 		case "/expen.html":
 		break;
-		case "index.html":
+		case "/index.html":
 			UserLogin.init();
 			break;
 		case "/invoice.html":
