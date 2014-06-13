@@ -1701,42 +1701,42 @@ $(document).ready(function(){
 		break;
 		case "/allInvoice_list.html":
 		break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/dashboard.html":
+		case "/dashboard.html":
 			org.init();
 			accountDetailsPageSetup.init();
 			break;
 		case "/expen.html":
 		break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/index.html":
+		case "/":
 			UserLogin.init();
 			break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/invoice.html":
+		case "/invoice.html":
 			detailedInvoice.init();
 			
 			break;
 		case "/invoiceTImes.html":
 		break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/Invoice_List.html":
+		case "/Invoice_List.html":
 			invoiceList.init();
 			accountDetailsPageSetup.init();
 			break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/org.html":
+		case "/org.html":
 			org.init();
 			break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/Queues.html":
+		case "/Queues.html":
 			getQueues.init();
 			break;
 		case "/SelectPayment.html":
 		break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/ticket_detail.html":
+		case "/ticket_detail.html":
 			detailedTicket.init();
 			break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/ticket_list.html":
+		case "/ticket_list.html":
 			ticketList.init();
 			accountDetailsPageSetup.init();
 			detailedTicket.init();
 			break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/timelog.html":
+		case "/timelog.html":
 			timeLogs.init();
 			break;
 		case "/travel.html":
