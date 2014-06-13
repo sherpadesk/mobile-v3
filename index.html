@@ -29,13 +29,16 @@
     <script src="js/index.js"></script>
     <script src="js/main.js"></script>
     <script src="js/Chart.js"></script>
+    <script src="js/jquery.md5.js"></script>
+    <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
   </head>
   <div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
   <div class="maxSize">
     <div class="overflow">
-  <body class="loginScreen">
+      <span id="fastclick">
+  <body class="loginScreen" onload="initFastButtons();">
     <div class="bodyContentCover">
     <div class="bodyContent">
       <div class="loginContent">
@@ -48,6 +51,7 @@
       </ul>
       <div class="googleButton">Sign in with <strong>Google</strong></div>
       <div class="loginButton">Sign Up</div>
+    </span>
       </div>
     </div>
     </div>

@@ -30,10 +30,12 @@
     <script src="js/main.js"></script>
     <script src="js/Chart.js"></script>
     <script src="js/jquery.md5.js"></script>
+    <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
   </head>
   <div class="maxSize">
+    <span id="fastclick">
   <header>
     <div class="headerContainer">
       <ul class="topHeader">
@@ -43,7 +45,7 @@
       </ul>
     </div>
   </header>
-  <body >
+  <body onload="initFastButtons();">
     <div class="bodyContent">
       <div class="accountContainer">
         <ul class="buttonList">
@@ -57,5 +59,6 @@
       </div>
     </div>
   </body>
+</span>
   </div>
 </html>

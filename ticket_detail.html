@@ -31,11 +31,13 @@
     <script src="js/main.js"></script>
     <script src="js/Chart.js"></script>
     <script src="js/jquery.md5.js"></script>
+    <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
   </head>
   <div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
 <div class="maxSize">
+  <span id="fastclick">
 <header>
     <div class="headerContainer maxSize">
         <ul class="topHeader">
@@ -52,7 +54,7 @@
     </div>
 </header>
 
-<body class="bodyContent">
+<body class="bodyContent" onload="initFastButtons();">
   <div>
     <div class="ticketDetailsHeader">
         <div class="TDSListWrapper">
@@ -194,5 +196,6 @@
     </div>
   </div>
 </body>
+</span>
 </div>
 </html>
