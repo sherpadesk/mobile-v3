@@ -1690,9 +1690,7 @@ $(document).ready(function(){
 		break;
 		case "/add_tickets.html":
 		break;
-		case "/Users/ethanandrews/Desktop/mobile-v3/add_time.html":
-			addTime.init();
-			break;
+	
 		case "/addExpence.html":
 		break;
 		case "/addTicketTime.html":
@@ -1709,6 +1707,7 @@ $(document).ready(function(){
 		break;
 		case "/":
 			UserLogin.init();
+			accountDetailsPageSetup.init();
 			break;
 		case "/invoice.html":
 			detailedInvoice.init();
@@ -1757,7 +1756,7 @@ $(document).ready(function(){
 		//accountList.init();
 		//invoiceList.init();
 		//detailedInvoice.init();
-		//addTime.init();
+		addTime.init();
 		postComment.init();
 		updateInvoice.init();
 	}()); 
