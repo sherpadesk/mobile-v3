@@ -969,7 +969,7 @@ $(document).ready(function(){
 						 $(".OptionsList").empty();
 						 for(var i = 0; i < returnData.length; i++)
 						 {
-						 	var insert = "<li><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NoticationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
+						 	var insert = "<li><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3><div class='NoticationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></div></li>";
 						 	$(insert).appendTo(".OptionsList");
 						 }
 
@@ -1673,16 +1673,26 @@ $(document).ready(function(){
 		alert(page);
 		switch (page)
 		{
-		case "/account_details.html":
-		break;
-		case "/account_list.html":
-		break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/account_details.html":
+			accountDetailsPageSetup.init();
+			invoiceList.init();
+			detailedTicket.init();
+			break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/Account_List.html":
+			accountDetailsPageSetup.init();
+			accountList.init();
+			break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/Account_list.html":
+			accountDetailsPageSetup.init();
+			accountList.init();
+			break;	
 		case "/accountTimes.html":
 		break;
 		case "/add_tickets.html":
 		break;
-		case "/add_time.html":
-		break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/add_time.html":
+			addTime.init();
+			break;
 		case "/addExpence.html":
 		break;
 		case "/addTicketTime.html":
@@ -1691,55 +1701,65 @@ $(document).ready(function(){
 		break;
 		case "/allInvoice_list.html":
 		break;
-		case "dashboard.html":
+		case "/Users/ethanandrews/Desktop/mobile-v3/dashboard.html":
 			org.init();
 			accountDetailsPageSetup.init();
 			break;
 		case "/expen.html":
 		break;
-		case "/":
+		case "/Users/ethanandrews/Desktop/mobile-v3/index.html":
 			UserLogin.init();
 			break;
-		case "/invoice.html":
-		break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/invoice.html":
+			detailedInvoice.init();
+			
+			break;
 		case "/invoiceTImes.html":
 		break;
-		case "/org.html":
+		case "/Users/ethanandrews/Desktop/mobile-v3/Invoice_List.html":
+			invoiceList.init();
+			accountDetailsPageSetup.init();
+			break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/org.html":
 			org.init();
 			break;
-		case "/queues.html":
-		break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/Queues.html":
+			getQueues.init();
+			break;
 		case "/SelectPayment.html":
 		break;
-		case "/ticket_detail.html":
-		break;
-		case "/ticket_list.html":
-		break;
-		case "/timelog.html":
-		break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/ticket_detail.html":
+			detailedTicket.init();
+			break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/ticket_list.html":
+			ticketList.init();
+			accountDetailsPageSetup.init();
+			detailedTicket.init();
+			break;
+		case "/Users/ethanandrews/Desktop/mobile-v3/timelog.html":
+			timeLogs.init();
+			break;
 		case "/travel.html":
 		break;
 		}
-		ajaxCallTime.init();
-	    UserLogin.init();
+	    //UserLogin.init();
 	    newTicket.init();
 	    sendInvoince.init();
 	    signout.init();
-	    accountDetailsPageSetup.init();
+	    //accountDetailsPageSetup.init();
 	    search.init();
-	   	org.init();
-		detailedTicket.init();
-		ticketList.init();
-		getQueues.init();
-		accountDetailsPageSetup.init();
-		timeLogs.init();
-		accountList.init();
-		invoiceList.init();
-		detailedInvoice.init();
-		addTime.init();
+	   	//org.init();
+		//detailedTicket.init();
+		//ticketList.init();
+		//getQueues.init();
+		//accountDetailsPageSetup.init();
+		//timeLogs.init();
+		//accountList.init();
+		//invoiceList.init();
+		//detailedInvoice.init();
+		//addTime.init();
 		postComment.init();
 		updateInvoice.init();
-		ajaxCallTime.init();
 	}()); 
 	
 
