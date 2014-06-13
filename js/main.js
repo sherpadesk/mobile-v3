@@ -1669,6 +1669,7 @@ $(document).ready(function(){
 	};
 
 	(function () {
+		/*
 		var page = window.location.pathname;
 		
 		switch (page)
@@ -1718,6 +1719,7 @@ $(document).ready(function(){
 		case "/Invoice_List.html":
 			invoiceList.init();
 			accountDetailsPageSetup.init();
+			detailedInvoice.init();
 			break;
 		case "/org.html":
 			org.init();
@@ -1741,21 +1743,22 @@ $(document).ready(function(){
 		case "/travel.html":
 		break;
 		}
+		*/
 	    UserLogin.init();
 	    newTicket.init();
 	    sendInvoince.init();
 	    signout.init();
-	    //accountDetailsPageSetup.init();
+	    accountDetailsPageSetup.init();
 	    search.init();
-	   	//org.init();
-		//detailedTicket.init();
-		//ticketList.init();
-		//getQueues.init();
-		//accountDetailsPageSetup.init();
-		//timeLogs.init();
-		//accountList.init();
-		//invoiceList.init();
-		//detailedInvoice.init();
+	   	org.init();
+		detailedTicket.init();
+		ticketList.init();
+		getQueues.init();
+		accountDetailsPageSetup.init();
+		timeLogs.init();
+		accountList.init();
+		invoiceList.init();
+		detailedInvoice.init();
 		addTime.init();
 		postComment.init();
 		updateInvoice.init();
