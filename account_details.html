@@ -53,104 +53,39 @@
         <li>
           <a id="openTicketslink" href="#">
           <div class="OptionWrapperAccountDetail"><h3 class="OptionTitle"> OPEN TICKETS</h3></div>
-          <div class="NoticationWrapperAccountDetail"><h2 id="ticketsOptionTicker">12</h2></div>
+          <div class="NotificationWrapperAccountDetail"><h2 id="ticketsOptionTicker">12</h2></div>
           </a>
         </li>
         <li>
           <div id="invoiceOption" class="OptionWrapperAccountDetail"><h3 class="OptionTitle">INVOICES</h3></div>
-          <div class="NoticationWrapperAccountDetail"><h2 id="invoiceOptionTicker">2</h2></div>
+          <div class="NotificationWrapperAccountDetail"><h2 id="invoiceOptionTicker">2</h2></div>
         </li>
         <li>
           <a href="accountTimes.html">
           <div class="OptionWrapperAccountDetail"><h3 class="OptionTitle">TIMES</h3></div>
-          <div class="NoticationWrapperAccountDetail"><h2 id="timesOptionTicker">9</h2></div>
+          <div class="NotificationWrapperAccountDetail"><h2 id="timesOptionTicker">9</h2></div>
           </a>
         </li>
       </ul>
       <span id="openTickets"></span>
       <h4 class="openTicketTitle">OPEN TICKETS</h4>
       <div class="AccountDetailsTicketsContainer">
-        <a href="ticket_detail.html">
-                  
-                <ul class="responseBlock" id="thisBlock">
-                  <li>
-                    <p class="blockNumber">#2342</p>
-                    <img src="img/profile_7.png" class="TicketBlockFace">
-                    <span>Lisa Nesil</span>
-                  </li>
-                  <li class="responseText">
-                    <h4>Exporting Tickets</h4>
-                    <p>How to export tickets from one queue to another?</p>
-                  </li>
-                  <li>
-                    <p class="TicketBlockNumber">support</p>
-                  </li>
-                </ul>
-                </a>
-                <a href="ticket_detail.html">
-                <ul class="responseBlock">
-                  <li>
-                    <p class="TicketBlockNumber">#2342</p>
-                    <img src="img/profile_4.png" class="TicketBlockFace">
-                    <span>Tina Ansari</span>
-                  </li>
-                  <li class="responseText">
-                    <h4>Generating Tickets</h4>
-                    <p>tickets from the dashboard, will not transfer to proper queue</p>
-                  </li>
-                  <li>
-                    <p class="TicketBlockNumber">support</p>
-                  </li>
-                </ul>
-                </a>
-                <a href="ticket_detail.html">
-                <ul class="responseBlock">
-                  <li>
-                    <p class="TicketBlockNumber">#3945</p>
-                    <img src="img/profile_3.png" class="TicketBlockFace">
-                    <span>John Stark</span>
-                  </li>
-                  <li class="responseText">
-                    <h4>Exporting from Queue</h4>
-                    <p>tickets from the dashboard, will not transfer to proper queue</p>
-                  </li>
-                  <li>
-                    <p class="TicketBlockNumber">technical</p>
-                  </li>
-                </ul>
-                </a>
-                <a href="ticket_detail.html">
-                <ul class="responseBlock">
-                  <li>
-                    <p class="BlockNumber">#2342</p>
-                    <img src="img/profile_6.png" class="TicketBlockFace">
-                    <span>Sanja Levina</span>
-                  </li>
-                  <li class="responseText">
-                    <h4>Lost Tickets</h4>
-                    <p>tickets from the dashboard, will not transfer to proper queue</p>
-                  </li>
-                  <li>
-                    <p class="TicketBlockNumber"> support</p>
-                  </li>
-                </ul>
-                </a>
-                <a href="ticket_detail.html">
-                <ul class="responseBlock">
-                  <li>
-                    <p class="TicketBlockNumber">#1435</p>
-                    <img src="img/profile_5.png" class="TicketBlockFace">
-                    <span>Juw Kim</span>
-                  </li>
-                  <li class="responseText">
-                    <h4>Routing?</h4>
-                    <p>How should I rought tickets from one feed to another</p>
-                  </li>
-                  <li>
-                    <p class="TicketBlockNumber">technical</p>
-                </li>
-             </ul>
-             </a>
+        <!--<a href="ticket_detail.html">   
+          <ul class='responseBlock' id='thisBlock' data-id="+data+">
+            <li>
+              <p class='blockNumber numberStyle'>#"+returnData[i].number+"</p>
+              <img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'>
+              <span>"+returnData[i].user_firstname+"</span>
+            </li>
+            <li class='responseText'>
+              <h4>"+subject+"</h4>
+              <p class ='initailPost'>"+initialPost+"</p>
+            </li>
+            <li>
+              <p class='TicketBlockNumber'>"+returnData[i].class_name+"</p>
+            </li>
+          </ul>
+          </a>-->
     </div>
       <a href="ticket_list.html">
       <div class="buttonShowClosedTickets">SHOW CLOSED TICKETS</div>

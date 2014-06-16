@@ -33,7 +33,7 @@
     <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-  </head>s
+  </head>
   <div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
   <div class="maxSize">
     <span id="fastclick">
@@ -76,173 +76,75 @@
         <div class="tabpage" id="tabpage_reply">
           <div class="currentPage"></div>
             <div id="userContainer" class="tabpageContainer">
-                <a href="ticket_detail.html">
-                  
-                <ul class="responseBlock" id="thisBlock">
+                <!--<ul class='responseBlock' id='thisBlock' data-id="+data+">
                   <li>
-                    <img src="img/profile_7.png" class="TicketBlockFace">
-                    <span>Lisa Nesil</span>
+                    <p class='blockNumber numberStyle'>#"+returnData[i].number+"</p>
+                    <img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'>
+                    <span>"+returnData[i].user_firstname+"</span>
                   </li>
-                  <li class="responseText">
-                    <h4>Exporting Tickets</h4>
-                    <p>How to export tickets from one queue to another?</p>
-                  </li>
-                  <li>
-                    <p class="blockNumber">#2342</p>
-                  </li>
-                </ul>
-                </a>
-                <a href="ticket_detail.html">
-                <ul class="responseBlock">
-                  <li>
-                    <p class="TicketBlockNumber">#2342</p>
-                    <img src="img/profile_4.png" class="TicketBlockFace">
-                    <span>Tina Ansari</span>
-                  </li>
-                  <li class="responseText">
-                    <h4>Generating Tickets</h4>
-                    <p>tickets from the dashboard, will not transfer to proper queue</p>
+                  <li class='responseText'>
+                    <h4>"+subject+"</h4>
+                    <p class ='initailPost'>"+intialPost+"</p>
                   </li>
                   <li>
-                    <p class="TicketBlockNumber">support</p>
+                    <p class='TicketBlockNumber'>"+returnData[i].class_name+"</p>
                   </li>
-                </ul>
-                </a>
-                <a href="ticket_detail.html">
-                <ul class="responseBlock">
-                  <li>
-                    <p class="TicketBlockNumber">#3945</p>
-                    <img src="img/profile_3.png" class="TicketBlockFace">
-                    <span>John Stark</span>
-                  </li>
-                  <li class="responseText">
-                    <h4>Exporting from Queue</h4>
-                    <p>tickets from the dashboard, will not transfer to proper queue</p>
-                  </li>
-                  <li>
-                    <p class="TicketBlockNumber">technical</p>
-                  </li>
-                </ul>
-                </a>
-                <a href="ticket_detail.html">
-                <ul class="responseBlock">
-                  <li>
-                    <p class="BlockNumber">#2342</p>
-                    <img src="img/profile_6.png" class="TicketBlockFace">
-                    <span>Sanja Levina</span>
-                  </li>
-                  <li class="responseText">
-                    <h4>Lost Tickets</h4>
-                    <p>tickets from the dashboard, will not transfer to proper queue</p>
-                  </li>
-                  <li>
-                    <p class="TicketBlockNumber"> support</p>
-                  </li>
-                </ul>
-                </a>
-                <a href="ticket_detail.html">
-                <ul class="responseBlock">
-                  <li>
-                    <p class="TicketBlockNumber">#1435</p>
-                    <img src="img/profile_5.png" class="TicketBlockFace">
-                    <span>Juw Kim</span>
-                  </li>
-                  <li class="responseText">
-                    <h4>Routing?</h4>
-                    <p>How should I rought tickets from one feed to another</p>
-                  </li>
-                  <li>
-                    <p class="TicketBlockNumber">technical</p>
-                </li>
-             </ul>
-             </a>
+                </ul>-->
             </div>
         </div>
         <div class="tabpage" id="tabpage_info">
             <div id="techContainer" class="tabpageContainer">
-                <a href="ticket_detail.html">
-                <ul class="responseBlock">
+                <!--<ul class='responseBlock' id='thisBlock' data-id="+data+">
                   <li>
-                    <img src="img/profile_6.png" class="TicketBlockFace">
-                    <span>Sanja Levina</span>
+                    <p class='blockNumber numberStyle'>#"+returnData[i].number+"</p>
+                    <img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'>
+                    <span>"+returnData[i].user_firstname+"</span>
                   </li>
-                  <li class="responseText">
-                    <h4>Lost Tickets</h4>
-                    <p>tickets from the dashboard, will not transfer to proper queue</p>
-                  </li>
-                  <li>
-                    <p class="TicketBlockNumber">2342 | support</p>
-                  </li>
-                </ul>
-                </a>
-                <a href="ticket_detail.html">
-                <ul class="responseBlock">
-                  <li>
-                    <img src="img/profile_5.png" class="TicketBlockFace">
-                    <span>Ju Kim</span>
-                  </li>
-                  <li class="responseText">
-                    <h4>Routing?</h4>
-                    <p>How should I rought tickets from one feed to another</p>
+                  <li class='responseText'>
+                    <h4>"+subject+"</h4>
+                    <p class ='initailPost'>"+intialPost+"</p>
                   </li>
                   <li>
-                    <p class="TicketBlockNumber">1435 | technical</p>
-                </li>
-             </ul>
-             </a>
+                    <p class='TicketBlockNumber'>"+returnData[i].class_name+"</p>
+                  </li>
+                </ul>-->
             </div>
         </div>
 
         <div class="tabpage" id="tabpage_options">
             <div id="optionsConainer" class="tabpageContainer">
-                <ul class="responseBlock">
+                <!--<ul class='responseBlock' id='thisBlock' data-id="+data+">
                   <li>
-                    <img src="img/profile_7.png" class="TicketBlockFace">
-                    <span>Lisa Nesil</span>
+                    <p class='blockNumber numberStyle'>#"+returnData[i].number+"</p>
+                    <img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'>
+                    <span>"+returnData[i].user_firstname+"</span>
                   </li>
-                  <li class="responseText">
-                    <h4>Exporting Tickets</h4>
-                    <p>How to export tickets from one queue to another?</p>
-                  </li>
-                  <li>
-                    <p class="TicketBlockNumber">2342 | support</p>
-                  </li>
-                </ul>
-                <a href="ticket_detail.html">
-                <ul class="responseBlock">
-                  <li>
-                    <img src="img/profile_4.png" class="TicketBlockFace">
-                    <span>Tina Ansari</span>
-                  </li>
-                  <li class="responseText">
-                    <h4>Generating Tickets</h4>
-                    <p>tickets from the dashboard, will not transfer to proper queue</p>
+                  <li class='responseText'>
+                    <h4>"+subject+"</h4>
+                    <p class ='initailPost'>"+intialPost+"</p>
                   </li>
                   <li>
-                    <p class="TicketBlockNumber">2342 | support</p>
+                    <p class='TicketBlockNumber'>"+returnData[i].class_name+"</p>
                   </li>
-                </ul>
-                </a>
-                <a href="ticket_detail.html">
-                <ul class="responseBlock">
-                  <li>
-                    <img src="img/profile_3.png" class="TicketBlockFace">
-                    <span>John Stark</span>
-                  </li>
-                  <li class="responseText">
-                    <h4>Exporting from Queue</h4>
-                    <p>tickets from the dashboard, will not transfer to proper queue</p>
-                  </li>
-                  <li>
-                    <p class="TicketBlockNumber">3945 | technical</p>
-                  </li>
-                </ul>
-                </a>
+                </ul>-->
             </div>
         </div>
         <div class="tabpage" id="tabpage_all">
             <div id="allContainer" class="tabpageContainer">
-              
+              <!--<ul class='responseBlock' id='thisBlock' data-id="+data+">
+                  <li>
+                    <p class='blockNumber numberStyle'>#"+returnData[i].number+"</p>
+                    <img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'>
+                    <span>"+returnData[i].user_firstname+"</span>
+                  </li>
+                  <li class='responseText'>
+                    <h4>"+subject+"</h4>
+                    <p class ='initailPost'>"+intialPost+"</p>
+                  </li>
+                  <li>
+                    <p class='TicketBlockNumber'>"+returnData[i].class_name+"</p>
+                  </li>
+                </ul>-->
             </div>
         </div>
       </span>

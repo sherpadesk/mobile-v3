@@ -1047,6 +1047,7 @@ header {
 .timelog > li:last-child {
   margin-top: 12px;
   width: 30%;
+  text-align: center;
 }
 
 .timelogProfile {
@@ -1224,7 +1225,7 @@ footer {
 }
 
 .OptionWrapper {
-  width: 100%;
+  width: 85%;
   background-color: #25B0E6;
   height: 100%;
   float: left;
@@ -1232,20 +1233,18 @@ footer {
 
 }
 
-.NoticationWrapper {
-  width: 35px;
+.NotificationWrapper {
+  width: 15%;
   background-color: #0099CC;
-  height: 35px;
+  height: 45px;
   float: right;
-  margin-right: 5px;
-  margin-top: 5px;
   color: #ffffff;
-  line-height: 35px;
+  line-height: 45px;
   text-align: center;
   
 }
 
-.NoticationWrapperAccountDetail {
+.NotificationWrapperAccountDetail {
   width: 15%;
   background-color: #0099CC;
   height: 100%;
@@ -1476,6 +1475,89 @@ footer {
   display: block;
   margin-left: 55%;
   margin-top: 10px;
+}
+
+
+.commentBlock {
+  list-style: none;
+  overflow: auto;
+  border-bottom: 1px solid #cccccc;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  z-index: 5;
+}
+
+.commentBlock img {
+  float: left;
+  margin-left: 5px;
+  margin-top: -3px;
+  z-index: 1;
+  border-radius: 100%;
+  border: 2px solid #fff;
+}
+
+.commentBlock span {
+  float: left;
+  z-index: 2;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.nameNtech {
+  list-style-type: none;
+}
+.commentBlock li {
+  float: left;
+  margin-top: 8px;
+  margin-left: 10px;
+  width: 70%;
+  z-index: 2;
+}
+
+.commentBlock li:first-child {
+  width: 15.33%;
+  height: 25%;
+  color: #cccccc;
+  font-size: 12px;
+  text-align: center;
+}
+
+.commentBlock li:nth-child(2) {
+  width: 54.33%;
+  height: 25%;
+  color: #cccccc;
+  font-size: 12px;
+  text-align: center;
+}
+ 
+.commentBlock li:nth-child(3) {
+  width: 12.33%;
+  height: 25%;
+  color: #cccccc;
+  font-size: 12px;
+  text-align: right;
+  padding-right: 8px;
+}
+
+.commentBlock li:nth-child(4) {
+  width: 90%;
+  margin-bottom: 22px;
+}
+
+.commentBlock li:last-child {
+  width: 95%;
+  height: 30%;
+  text-align: right;
+  margin-top: -20px;
+  color: #cccccc;
+  font-size: 10px;
+}
+
+.commentText {
+  color: #ffffff;
+  width: 100%;
+  height: 90%;
+  z-index: 2;
 }
 
 .responseBlock {
@@ -1761,7 +1843,7 @@ font-size: 16px !important;
 .tableHeader li {
   float: left;
   width: 25%;
-  text-align: center;
+  text-align: right;
   margin-bottom: 10px;
 }
 
@@ -1783,7 +1865,7 @@ font-size: 16px !important;
 
 .tableRows li {
   float: left;
-  width: 25%;
+  width: 23%;
   height: 40px;
   text-align: center;
   margin-bottom: 10px;
@@ -1797,6 +1879,7 @@ font-size: 16px !important;
 
 .tableRows li:first-child {
   text-align: left;
+  width: 30%;
 }
 
 .invoiceRows {
@@ -1967,7 +2050,7 @@ font-size: 16px !important;
 
 .toManyTks {
   line-height: 27px !important;
-  font-size: 20px !important;
+  font-size: 19px !important;
 }
 
 br {

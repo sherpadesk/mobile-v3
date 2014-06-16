@@ -311,7 +311,6 @@ $(document).ready(function(){
 					};
 				},
 				error: function() {
-					alert("fail @ search");
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
@@ -400,11 +399,11 @@ $(document).ready(function(){
 
 
 			});
-			//get accounts 
 
 		}
 	};
 
+	// add time to an account 
 	var addTime = {
 		init:function(){
 			this.inputTime();
@@ -415,16 +414,18 @@ $(document).ready(function(){
 			var isBillable = true;
 			var date = new Date().toJSON().slice(0,10);
 
+			// on submit click get the time and note typed by the user 
 			$("#submitTicketTime").click(function(){
 				var time = $("#addTimeTicket").val();
 				var note = $("#noteTimeTicket").val();
 				var tech = localStorage.getItem('techId');
+				// check to see if user check for time to be billable 
 				if($(".innerCircle").hasClass("billFill")){
 				isBillable = true;
 				}else{
 					isBillable = false;
 				}
-
+				// add time to the orginization 
 				 $.ajax({
     				type: 'POST',
     				beforeSend: function (xhr) {
@@ -466,6 +467,7 @@ $(document).ready(function(){
 				success: function(returnData) {
 						console.log(returnData);
 						$("#taskTypes").empty();
+						// add task types to list 
 						for(var i = 0; i < returnData.length; i++)
 						{
 							var value = returnData[i].id;
@@ -504,6 +506,7 @@ $(document).ready(function(){
 						$("#timeAccounts").empty();
 						var chooseAccount = "<option value=0>Choose An Account</option>";
 						$(chooseAccount).appendTo("#timeAccounts");
+						// accounts to add time 
 						for(var i = 0; i < returnData.length; i++)
 						{ 
 							var value = returnData[i].id;
@@ -543,6 +546,7 @@ $(document).ready(function(){
 				success: function(returnData) {
 						console.log(returnData);
 						$("#timeProjects").empty();
+						// add projects 
 						for(var i = 0; i < returnData.projects.length; i++)
 						{
 							var value = returnData.projects[i].id;
@@ -566,7 +570,7 @@ $(document).ready(function(){
 					}
 			});
 			});
-
+			// submit time to account 
 			$("#submitTime").click(function(){
 				var time = $("#addTime").val();
 				var note = $("#noteTime").val();
@@ -611,15 +615,17 @@ $(document).ready(function(){
 		}
 	};
 
+	// needed methods to propogate a ticket detailed page 
 	var detailedTicket = {
 		init:function(){
 			this.showTicket();
 		},
 
 		showTicket:function(){
+			// listen for a click of a ticket block from a ticket list page (account detail  ticket list or complete ticket list)
 			$(document).on("click",".responseBlock", function(){
-				localStorage.setItem('ticketNumber', $(this).attr("data-id"));
-				window.location = "ticket_detail.html";
+				localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list 
+				window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
 			});
 
 
@@ -635,9 +641,11 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
+						// calculate the number of days since the ticket was created 
 						var daysOld = returnData.daysold_in_minutes / -60;
-						localStorage.setItem('techId', returnData.tech_id);
-						localStorage.setItem('ticketId',returnData.id);
+						localStorage.setItem('techId', returnData.tech_id); // set the local storage variable with the tech id asscioted with this ticket  
+						localStorage.setItem('ticketId',returnData.id); // set the local storage variable with the ticket ID 
+						// check to see if the ticket is less than a day old 
 						if(daysOld > 24){
 							daysOld = daysOld/24;
 							daysOld = parseInt(daysOld);
@@ -646,6 +654,7 @@ $(document).ready(function(){
 							daysOld = parseInt(daysOld) +" hours ago";
 						}
 
+						 // update page variables with correct ticket information 
 						 $("#ticketNumber").html("OPEN | "+returnData.number);
 						 $("#ticketSubject").html(returnData.subject);
 						 $("#ticketClass").html(returnData.class_name);
@@ -655,6 +664,7 @@ $(document).ready(function(){
 						 $("#ticketSLA").html("SLA: "+returnData.sla_complete_date.toString().substring(0,10));
 
 						 $("#classOptions").empty();
+						 // add select options to class Option box 
 						 for(var a = 0; a < returnData.classes.length; a++)
 						 {
 						 	var className = returnData.classes[a].name;
@@ -663,12 +673,15 @@ $(document).ready(function(){
 						 	$(insert).appendTo("#classOptions");
 						 }
 						 $("#ticketLevel").empty();
+						 // add select options to level Option box 
 						 var levelInsert = "<option value="+returnData.level+">Level "+returnData.level+" "+returnData.level_name+"</option>";
 						 $(levelInsert).appendTo("#ticketLevel");
 						 $("#ticketPriority").empty();
+						 // add select options to priority option box 
 						 var priorityInsert = "<option value="+returnData.priority_id+">Priority "+returnData.priority+"</option>";
 						 $(priorityInsert).appendTo("#ticketPriority");
 						 $("#ticketTechs").empty();
+						 // add select options to tech Option box
 						 for(var b = 0; b < returnData.technicians.length; b++)
 						 {
 						 	var techName = returnData.technicians[b].user_fullname;
@@ -677,6 +690,7 @@ $(document).ready(function(){
 						 	$(insert).appendTo("#ticketTechs");
 						 }
 						 $("#ticketLocation").empty();
+						 // add select options to location Option box 
 						 if(returnData.location_id == 0)
 						 {
 						 	$("#location").remove();
@@ -684,6 +698,7 @@ $(document).ready(function(){
 						 var locationInsert = "<option value="+returnData.location_id+">"+returnData.location_name+"</option>";
 						 $(locationInsert).appendTo("#ticketLocation");
 						 $("#ticketProject").empty();
+						 // add select options to project option box 
 						 if(returnData.project_id == 0)
 						 {
 						 	$("#project").remove();
@@ -701,6 +716,7 @@ $(document).ready(function(){
 						 	var note = returnData.ticketlogs[c].note;
 						 	var date = returnData.ticketlogs[c].record_date.toString().substring(0,10);
 						 	var attachments = [];
+						 	//check to see if this comment has attachments 
 						 	if(returnData.attachments != null){
 						 	for(var e = 0; e < returnData.attachments.length; e++)
 						 	{
@@ -711,8 +727,8 @@ $(document).ready(function(){
 						 	}
 						 	}
 
-
-						 	var insert = "<ul class='responseBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='responseImg'><span>"+type+"</span></li><li class='responseText'><h3>"+userName+"</h3><p>"+note+"</p></li><li>"+date+"</li></ul>";
+						 	// comment insert 
+						 	var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+type+"</span></li><li class='commentText'><p>"+note+"</p></li><li>"+date+"</li></ul>";
 						 	$(insert).appendTo("#comments");
 						 	for(var f = 0; f < attachments.length; f++)
 						 	{
@@ -726,8 +742,9 @@ $(document).ready(function(){
 						 	}
 						 }
 						 $(".orginalMessageContainer").empty();
+						 // add the lastest comment to the top of the comments list 
 						 var orginalMessageEmail = $.md5(returnData.ticketlogs[0].user_email);
-						 var orginalMessageinsert = "<ul class='responseBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=30' class='responseImg'><span>"+returnData.ticketlogs[0].log_type+"</span></li><li class='responseText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3><p>"+returnData.ticketlogs[0].note+"</p></li><li>"+returnData.ticketlogs[0].record_date.toString().substring(0,10)+"</li></ul>";
+						 var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=30' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+returnData.ticketlogs[0].log_type+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note+"</p></li><li>"+returnData.ticketlogs[0].record_date.toString().substring(0,10)+"</li></ul>"
 						 	$(orginalMessageinsert).appendTo(".orginalMessageContainer");
 
 
@@ -745,8 +762,9 @@ $(document).ready(function(){
 			});
 
 		}
-	}
+	};
 
+	//get info for a specific invoice 
 	var detailedInvoice = {
 		init:function(){
 			this.specifics();
@@ -770,10 +788,10 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
-						$("#invoiceNumber").html("Invoice  #"+returnData.id);
-						$("#customerName").html(returnData.customer);
-						$("#invoiceDate").html(returnData.date.substring(0,10));
-						$("#invoiceHours").html(returnData.total_hours+"<span class='detail3Small'>hrs</span>");
+						$("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number 
+						$("#customerName").html(returnData.customer); // customer name 
+						$("#invoiceDate").html(returnData.date.substring(0,10)); 
+						$("#invoiceHours").html(returnData.total_hours+"<span class='detail3Small'>hrs</span>"); // hours to invoice 
 						var amount = 0;
 						var change = "00";
 						var length = returnData.amount.toString().length;
@@ -786,8 +804,8 @@ $(document).ready(function(){
 							{
 								amount = returnData.amount;
 							}
-						$("#invoiceAmount").html("$"+amount +"<span class='detail3Small'>."+change+"</span>");
-						$("#invoiceTravel").html("$"+returnData.travel_cost+"<span class='detail3Small'>.00</span>");
+						$("#invoiceAmount").html("$"+amount +"<span class='detail3Small'>."+change+"</span>");  // invoice amount 
+						$("#invoiceTravel").html("$"+returnData.travel_cost+"<span class='detail3Small'>.00</span>"); // travel expenses amount 
 						var expences = 0;
 						if(returnData.expences.length > 0)
 						{
@@ -796,16 +814,18 @@ $(document).ready(function(){
 								expences = expences + returnData.expences[i].total;
 							}
 						}
-						$("#invoiceExpenses").html("$"+expences+"<span class='detail3Small'>.00</span>");
-						$("#invoiceAdjustments").html("$0<span class='detail3Small'>.00</span>");
+						$("#invoiceExpenses").html("$"+expences+"<span class='detail3Small'>.00</span>"); // expenses amount 
+						$("#invoiceAdjustments").html("$0<span class='detail3Small'>.00</span>"); // adjustments 
 						$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
 						$("#recipientList").empty();
+						// add recipients to recipients list 
 						for(var x = 0; x < returnData.recipients.length; x++)
 						{
 							var email = $.md5(returnData.recipients[x].email);
 							var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p><img class='closeIcon' src='img/close_icon.png'></div></li></ul></li>";
 							$(insert).appendTo("#recipientList");
 						}
+						// adds timelogs asscoited with this invoice to the invoice timelogs list 
 						$("#invoiceLogs").empty();
 						for(var u = 0; u < returnData.time_logs.length; u++)
 						{
@@ -813,9 +833,11 @@ $(document).ready(function(){
 							var log = returnData.time_logs[u].total;
 							var date = returnData.time_logs[u].date.substring(0,10);
 							var logID = returnData.time_logs[u].date.id;
-							var insert = "<li><ul id='invoiceTimelog' class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span> hrs</h3></li></ul></li>";
+							var insert = "<li><ul id='invoiceTimelog' class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span></h3></li></ul></li>";
 							$(insert).appendTo("#invoiceLogs");
 						}
+						//add update button to timelog list to enable timelog exclude / include 
+						$("<button class='greenButton' id='submitTime'>Update</button>").appendTo("#invoiceLogs");
 						$("#expencesList").empty();
 						for(var c = 0; c < returnData.expences.length; c++)
 						{
@@ -863,18 +885,22 @@ $(document).ready(function(){
 		}
 	};
 
+	// get a list of invoices both for a specific account as well as a complete list of invoices 
 	var invoiceList = {
 		init:function(){
 			this.listInvoices();
 		},
 
 		listInvoices:function(){
+			// go to list of account invoice on click 
 			$("#invoiceOption").click(function(){
 				window.location = "Invoice_List.html";
 			});
+			// go to complete list of invoice on click
 			$("#allInvoice, #invoiceFooter").click(function(){
 				window.location = "allInvoice_List.html";
 			});
+			// get list of invoices for a specific account 
 			$.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
@@ -888,9 +914,12 @@ $(document).ready(function(){
 				success: function(returnData) {
 						$("#invoiceList").empty();
 						console.log(returnData);
+						// add invoice to list 
 						for(var i = 0; i < returnData.length; i++)
-						{	var customer = returnData[i].customer;
+						{
+							var customer = returnData[i].customer; //account name 
 							var date = returnData[i].date.substring(0,10);
+							// check account name for display purposes 
 							if(customer.length > 10)
 							{
 								customer = customer.substring(0,7)+"...";
@@ -910,6 +939,7 @@ $(document).ready(function(){
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
+			// get complete invoice list for the entire orginization 
 			$.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
@@ -924,8 +954,10 @@ $(document).ready(function(){
 						console.log(returnData);
 						$("#allInvoiceList").empty();
 						for(var i = 0; i < returnData.length; i++)
-						{	var customer = returnData[i].customer;
+						{	
+							var customer = returnData[i].customer; // account name 
 							var date = returnData[i].date.substring(0,10);
+							// check account name for display purposes 
 							if(customer.length > 10)
 							{
 								customer = customer.substring(0,7)+"...";
@@ -948,6 +980,7 @@ $(document).ready(function(){
 		}
 	};
 
+	// get complete queue list for the orginization for the Queues list page 
 	var getQueues = {
 		init:function() {
 			this.queues();
@@ -967,9 +1000,10 @@ $(document).ready(function(){
 				success: function(returnData) {
 						console.log(returnData);
 						 $(".OptionsList").empty();
+						 // add queues to the queues list 
 						 for(var i = 0; i < returnData.length; i++)
 						 {
-						 	var insert = "<li><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3><div class='NoticationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></div></li>";
+						 	var insert = "<li><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
 						 	$(insert).appendTo(".OptionsList");
 						 }
 
@@ -988,6 +1022,7 @@ $(document).ready(function(){
 		}
 	};
 
+	// Ajax calls to get open tickets for the app user, tickets include (as tech, as user, as alt tech, all tickets)
 	var ticketList = {
 		init:function() {
 			this.userTickets();
@@ -996,7 +1031,7 @@ $(document).ready(function(){
 			this.allTickets();
 			
 		},
-
+		//get tickets as tech
 		techTickets:function() {
 			$("#techContainer, #optionsConainer, #allContainer, #userContainer").empty();
 			$.ajax({
@@ -1011,17 +1046,20 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
-						
+						//add tickets as tech to as tech list 
 						for(var i = 0; i < returnData.length; i++) 
 						 {	
+						 	// get email for gravitar avitar 
 							var email = $.md5(returnData[i].user_email);
 							var intialPost = returnData[i].initial_post;
 							var subject = returnData[i].subject;
 							var data = returnData[i].key;
+							//check subject length can be displayed correctly 
 							if(subject.length > 19)
 							{
 								subject = subject.substring(0,16)+"...";
 							}
+							//check intial post length can be displayed correctly 
 							if(intialPost.length > 100) 
 							{
 								intialPost = intialPost.substring(1,100);
@@ -1043,7 +1081,7 @@ $(document).ready(function(){
 					}
 			});
 		},
-
+		//get all tickets in this orginization 
 		allTickets:function() {
 			$.ajax({
 			type: 'GET',
@@ -1057,17 +1095,20 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
-						
+						//add tickets to the all section 
 						for(var i = 0; i < returnData.length; i++) 
 						 {	
+						 	//get email for gravitar 
 							var email = $.md5(returnData[i].user_email);
 							var intialPost = returnData[i].initial_post;
 							var subject = returnData[i].subject;
 							var data = returnData[i].key;
+							//check subject length 
 							if(subject.length > 19)
 							{
 								subject = subject.substring(0,16)+"...";
 							}
+							//check initial post length
 							if(intialPost.length > 100) 
 							{
 								intialPost = intialPost.substring(1,100);
@@ -1089,7 +1130,7 @@ $(document).ready(function(){
 			});
 		},
 
-
+		// get alt tech tickets 
 		altTickets:function() {
 			$.ajax({
 			type: 'GET',
@@ -1135,7 +1176,7 @@ $(document).ready(function(){
 					}
 			});
 		},
-
+		// get as user tickets
 		userTickets:function() {
 			$("maxSize").hide();
 			$.ajax({
@@ -1182,6 +1223,8 @@ $(document).ready(function(){
 			});
 		}
 	};
+
+	//get a complete list of accounts attached to the orginizations
 	var accountList = {
 		init:function() {
 			this.listAccounts();
@@ -1202,15 +1245,20 @@ $(document).ready(function(){
 				success: function(returnData) {
 						console.log(returnData);
 						$("#fullList").empty();
+						//add accounts to accountList
 						for(var i = 0; i < returnData.length; i++) 
 						{	
+							// check the number of open tickets for the account if the number of tickets is greater than 100 sub 99+
 							var openTks = returnData[i].account_statistics.ticket_counts.open;
 							if( openTks > 99)
 							{
 								openTks = "99<sup>+</sup>";
 								var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li><div class='tks toManyTks'>"+openTks+"</div></li></ul>";
 								$(insert).appendTo($("#fullList"));
-							}else{
+							}
+							// else add account and number of tickets normally to the list 
+							else
+							{
 							var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li><div class='tks'>"+openTks+"</div></li></ul>";
 							$(insert).appendTo($("#fullList"));
 							}
@@ -1230,6 +1278,7 @@ $(document).ready(function(){
 		}
 	};
 
+	// get complete list of timelogs for the orginization 
 	var timeLogs = {
 		init:function() {
 			this.getLogs();
@@ -1249,15 +1298,18 @@ $(document).ready(function(){
 				success: function(returnData) {
 						console.log(returnData);
 						$("#timelogs").empty();
+						//add timelogs to list 
 						for(var i = 0; i < returnData.length; i++)
 						{
+							//get users email for gravitar 
 							var email = $.md5(returnData[i].user_email);
 							var text = returnData[i].note;
+							// check text length 
 							if(text.length > 15) 
 							{
 								text = text.substring(0,7)+"...";
 							}
-							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+returnData[i].hours+"</span> hrs</h3></li></ul></li>";
+							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+returnData[i].hours+"</span></h3></li></ul></li>";
           					$(log).appendTo("#timelogs");
 						}
 					},
@@ -1269,12 +1321,14 @@ $(document).ready(function(){
 		}
 	};
 
+
+	// calls and methods to propagate the account details page 
 	var accountDetailsPageSetup = {
 		init:function() {
 			this.clickedAccount();
 			this.pageSetup();
 		},
-
+		// when an account is clicked from the active accounts list & account list page, save the account id & set window location to account_details.html
 		clickedAccount: function() {
 			$(document).on("click",'.tableRows, .listedAccount', function(){
 				localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
@@ -1296,6 +1350,7 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 					console.log(returnData);
+					//update numbers of notification tickers (open tickets / invoices / Times)
 					$("#AD").html(returnData.name);
 					$("#ticketsOptionTicker").html(returnData.account_statistics.ticket_counts.open);
 					$("#invoiceOptionTicker").html(returnData.account_statistics.invoices);
@@ -1313,6 +1368,7 @@ $(document).ready(function(){
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
+			// get the open tickets for the account and list them in the open tickets list 
 			$.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
@@ -1325,16 +1381,21 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 					$(".AccountDetailsTicketsContainer").empty(); 
+					//insert open tickets
 					for(var i = 0; i < returnData.length; i++) 
 					{	
+						// get email value for gravatar 
 						var email = $.md5(returnData[i].user_email);
 						var initialPost = returnData[i].initial_post;
 						var subject = returnData[i].subject;
+						//the key for this specific ticket
 						var data = returnData[i].key;
+						// ensure ticket subject length is not to long to be displayed (subject is elipsed if it is)
 						if(subject.length > 19)
 						{
 							subject = subject.substring(0,16)+"...";
 						}
+						// ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
 						if(initialPost.length > 50) 
 						{
 							initialPost = initialPost.substring(1,50);
@@ -1349,7 +1410,17 @@ $(document).ready(function(){
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
+		}
 
+	};
+
+	// get timeLogs for a specific account 
+	var accountTimeLogs = {
+		init:function(){
+			this.getTimeLogs();
+		},
+
+		getTimeLogs:function(){
 			$.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
@@ -1363,15 +1434,17 @@ $(document).ready(function(){
 				success: function(returnData) {
 						console.log(returnData);
 						$("#accountLogs").empty();
+						//add timelogs to log list 
 						for(var i = 0; i < returnData.length; i++)
 						{
 							var email = $.md5(returnData[i].user_email);
 							var text = returnData[i].note;
+							// ensure text attached to the time log is short enough to be displayed correctly 
 							if(text.length > 15) 
 							{
 								text = text.substring(0,7)+"...";
 							}
-							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+returnData[i].hours+"</span> hrs</h3></li></ul></li>";
+							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+returnData[i].hours+"</span></h3></li></ul></li>";
           					$(log).appendTo("#accountLogs");
 						}
 						
@@ -1382,10 +1455,9 @@ $(document).ready(function(){
 					}
 			});
 		}
-
-
 	};
 
+	// store user variables into local storage 
 	var storeLocalData = function() {
 		localStorage.setItem('userOrgKey',userOrgKey);
 		localStorage.setItem('userOrg',userOrg);
@@ -1393,6 +1465,7 @@ $(document).ready(function(){
 		localStorage.setItem('userKey',userKey);
 	};
 
+	// get the counts for open tickets (as tech, alt tech, user) and updates the ticket banner on the dashboard
 	var getTicketCount = function() {
 		$.ajax({
 			type: 'GET',
@@ -1406,10 +1479,12 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 					var allTickets = returnData.open_all;
+					//if ticket count is greater than 100 sub 99+
 					if(allTickets > 100){
 						allTickets = "99<sup>+</sup>";
 						$("all").addClass("toManyTks");
 					}
+					// update each notification ticker on the dashboard
 					$("#all").html(allTickets);
 					$("#userStat").html(returnData.open_as_user);
 					$("#techStat").html(returnData.open_as_tech);
@@ -1423,6 +1498,7 @@ $(document).ready(function(){
 		});
 	};
 
+	// get queues for the organization and list a max of 3 to the dashboard 
 	var getQueueList = function() {
 		$.ajax({
 			type: 'GET',
@@ -1437,12 +1513,14 @@ $(document).ready(function(){
 				success: function(returnData) {
 						var queuesLength = returnData.length; 
 						$("#DashBoradQueues").empty();
+						//limit the max amount of queues to 3 
 						if(queuesLength > 3 ) {
 							queuesLength = 3; 
 						}
+						//append queues to dashboard
 						for( var i = 0; i < queuesLength; i++)
 						{
-							var insertQueue = "<li><a href='ticket_list.html'><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3><div class='NoticationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></div></a></li>";
+							var insertQueue = "<li><a href='ticket_list.html'><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></a></li>";
         					$(insertQueue).prependTo("#DashBoradQueues");					
 						}
 					},
@@ -1453,6 +1531,7 @@ $(document).ready(function(){
 		});
 	};
 
+	//get accounts that have open tickets and list them in active accounts container on the Dashboard
 	var getActiveAccounts = function() {
 		$.ajax({
 			type: 'GET',
@@ -1466,18 +1545,22 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 					$("#activeList").empty();
-					var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Invoice</li><li>Tickets</li></ul>";
+					//insert for  the header of the active account table 
+					var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expense</li><li>Tickets</li></ul>";
 					$(tableHeader).prependTo("#activeList");
 					console.log(returnData);
+					//add accounts to the active accounts list 
 					for (var i = 0; i < returnData.length; i++)
 					{
 						var openTickets = returnData[i].account_statistics.ticket_counts.open;
+						// if account has more than 100 open tickets then sub 99+
 						if(openTickets > 100)
 						{
 							openTickets = "99<sup>+</sup>";
 							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
 							$(activeAccount).appendTo("#activeList");
 						}
+						//if account name is longer than 9 chars then elipse the account name 
 						else if(returnData[i].name.length > 9) {
 							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
 						$(activeAccount).appendTo("#activeList");
@@ -1486,8 +1569,6 @@ $(document).ready(function(){
 						$(activeAccount).appendTo("#activeList");
 					}
 					}
-					
-					
 
 					},
 				error: function() {
@@ -1509,9 +1590,13 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 					console.log(returnData);
+					//set the name of the nav side menu 
 					$(".navName").html(returnData[0].firstname+" "+returnData[0].lastname);
+					//get md5 value of users email for gravatar 
 					var email = $.md5(returnData[0].email);
+					//set user avatar picture in side menu
 					$(".navProfile").attr("src","http://www.gravatar.com/avatar/" + email + "?d=mm&s=30");
+					//set user id to local storage
 					localStorage.setItem("userId",returnData[0].id);
 					},
 					complete:function(){
@@ -1528,14 +1613,17 @@ $(document).ready(function(){
 			});
 	};
 	
+	// organization Ajax call 
 	var org = {
 		init: function() {
 		    this.getOrg();
+		    //sets user role to user in local storage 
 		    localStorage.setItem('userRole', 'user');
 		    $('#instSelect').hide();
 		},
 
 		getOrg: function() {
+			//hide load screen
 		    $(".maxSize").hide();
 		    userKey = localStorage.getItem("userKey");
 			$.ajax({
@@ -1658,94 +1746,12 @@ $(document).ready(function(){
 		}
 	};
 	
-	var ajaxCallTime = {
-		init:function(){
-			this.printTime();
-		},
 
-		printTime:function(){
-			console.log($.now());
-		}
-	};
-
+	//Main Method that calls all the functions for the app
 	(function () {
-		/*
-		var page = window.location.pathname;
-		
-		switch (page)
-		{
-		case "/account_details.html":
-			accountDetailsPageSetup.init();
-			invoiceList.init();
-			detailedTicket.init();
-			break;
-		case "/Account_List.html":
-			accountDetailsPageSetup.init();
-			accountList.init();
-			break;
-		case "/Account_list.html":
-			accountDetailsPageSetup.init();
-			accountList.init();
-			break;	
-		case "/accountTimes.html":
-		break;
-		case "/add_tickets.html":
-		break;
-	
-		case "/addExpence.html":
-		break;
-		case "/addTicketTime.html":
-		break;
-		case "/adjustment.html":
-		break;
-		case "/allInvoice_list.html":
-		break;
-		case "/dashboard.html":
-			org.init();
-			accountDetailsPageSetup.init();
-			break;
-		case "/expen.html":
-		break;
-		case "/":
-			UserLogin.init();
-			accountDetailsPageSetup.init();
-			break;
-		case "/invoice.html":
-			detailedInvoice.init();
-			
-			break;
-		case "/invoiceTImes.html":
-		break;
-		case "/Invoice_List.html":
-			invoiceList.init();
-			accountDetailsPageSetup.init();
-			detailedInvoice.init();
-			break;
-		case "/org.html":
-			org.init();
-			break;
-		case "/Queues.html":
-			getQueues.init();
-			break;
-		case "/SelectPayment.html":
-		break;
-		case "/ticket_detail.html":
-			detailedTicket.init();
-			break;
-		case "/ticket_list.html":
-			ticketList.init();
-			accountDetailsPageSetup.init();
-			detailedTicket.init();
-			break;
-		case "/timelog.html":
-			timeLogs.init();
-			break;
-		case "/travel.html":
-		break;
-		}
-		*/
 	    UserLogin.init();
 	    newTicket.init();
+	    accountTimeLogs.init();
 	    sendInvoince.init();
 	    signout.init();
 	    accountDetailsPageSetup.init();

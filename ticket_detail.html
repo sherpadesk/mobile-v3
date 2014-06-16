@@ -78,56 +78,42 @@
         </div>
         <div class="tabpage" id="tabpage_reply">
           <div class="orginalMessageContainer">
-            <ul class="responseBlock">
-                    <li>
-                        <img src="img/profile_8.png" class="responseImg">
-                        <span>Response</span>
-                    </li>
-                    <li class="responseText">
-                        <h3>Kino Lucas</h3>
-                        <p>It seems like in your case it has to do with the SLA. I am going to look into it more, if this happens again make sure to let us know.</p>
-                    </li>
-                    <li>4 hours ago</li>
-                </ul>
+            <!--<ul class='commentBlock'>
+                  <li>
+                    <img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='commentImg'>
+                  </li>
+                  <li class='commentText'>
+                    <h3>"+userName+"</h3>
+                  </li>
+                  <li>
+                    <span>"+type+"</span>
+                  </li>
+                  <li class='commentText'>
+                    <p>"+note+"</p>
+                  </li>
+                  <li>"+date+"</li>
+                </ul>-->  
               </div>  
           <!--form class="textInputContainer"-->
                 <textarea id="commentText" class="textInput" type="text" placeholder="Add Response"></textarea>
                 <button id="reply" class="replyButton">Reply</button>
             <!--/form-->       
             <div id="comments" class="tabpageContainer">
-                <ul class="responseBlock">
-                    <li>
-                        <img src="img/profile_8.png" class="responseImg">
-                        <span>Response</span>
-                    </li>
-                    <li class="responseText">
-                        <h3>Kino Lucas</h3>
-                        <p>It seems like in your case it has to do with the SLA. I am going to look into it more, if this happens again make sure to let us know.</p>
-                    </li>
-                    <li>4 hours ago</li>
-                </ul>
-                <ul class="responseBlock">
-                    <li>
-                        <img src="img/profile_6.png" class="responseImg">
-                        <span>Response</span>
-                    </li>
-                    <li class="responseText">
-                        <h3>Stephan Raj</h3>
-                        <p>No problem today. Does it have to do with the SLA or "follow-up" setting?</p>
-                    </li>
-                    <li>3 hours ago</li>
-                </ul>
-                <ul class="responseBlock">
-                    <li>
-                        <img src="img/profile_7.png" class="responseImg">
-                        <span>Queue Pickup</span>
-                    </li>
-                    <li class="responseText">
-                        <h3>Lisa Nesil</h3>
-                        <p>Im looking into the issue for you, did you happen to take the picture of your screen before or after the issue?</p>
-                    </li>
-                    <li>1 hours ago</li>
-                </ul>                
+                <!--<ul class='commentBlock'>
+                  <li>
+                    <img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='commentImg'>
+                  </li>
+                  <li class='commentText'>
+                    <h3>"+userName+"</h3>
+                  </li>
+                  <li>
+                    <span>"+type+"</span>
+                  </li>
+                  <li class='commentText'>
+                    <p>"+note+"</p>
+                  </li>
+                  <li>"+date+"</li>
+                </ul>-->               
             </div>
         </div>
 
@@ -140,41 +126,32 @@
                <div class="user">
                 <div class="styledSelect">
            <select id="classOptions">
-              <option value="SherpaDesk">Sherpadesk</option>
+              <!--<option value="+classId+">"+className+"</option>-->
            </select>
         </div>
         <div class="styledSelect">
            <select id="ticketLevel">
-              <option value="3-Active Plate">Level 3 Active Plate</option>
-              <option value="2-Active Plate">Level 2 Active Plate</option>
-              <option value="1-Active Plate">Level 1 Active Plate</option>
+              <!--<option value="+returnData.level+">Level "+returnData.level+" "+returnData.level_name+"</option>-->
            </select>
         </div>
         <div class="styledSelect">
            <select id="ticketPriority">
-              <option value="3-Priority">Priority 3 Hard Error</option>
-              <option value="2-Priority">Priority 2 Soft Error</option>
-              <option value="1-Priority">Level 1 Lite Fix</option>
+              <!--<option value="+returnData.priority_id+">Priority "+returnData.priority+"</option>-->
             </select>
         </div>
         <div class="styledSelect">
            <select id="ticketTechs">
-              <option value="Lisa">Lisa Nesil</option>
-              <option value="Ehtan">Ethan</option>
+              <!--<option value="+techId+">"+techName+"</option>-->
            </select>
         </div>
         <div id="location" class="styledSelect">
            <select id="ticketLocation">
-              <option value="Atlanta">Atlanta</option>
-              <option value="San Francisco">San Francisco</option>
-              <option value="Russia">Russia</option>
+              <!--<option value="+returnData.location_id+">"+returnData.location_name+"</option>-->
            </select>
         </div>
         <div id="project" class="styledSelect">
            <select id="ticketProject">
-              <option value="Support">Support</option>
-              <option value="Tech">Tech</option>
-              <option value="Development">Development</option>
+              <!--<option value="+returnData.project_id+">"+returnData.project_name+"</option>-->
            </select>
         </div>
         <button class="updateButton">Update</button>
@@ -184,10 +161,8 @@
 
         <div class="tabpage" id="tabpage_options">
             <div class="tabpageContainer shrinker">
-              <h3 class="smallHeader">Ticket actions</h3>
               <a href="addTicketTime.html" class="send">Add Time</a>
               <a href="invoice.html" class="send">Create Invoice</a>
-              <h3 class="smallHeader">Ticket functions</h3>
               <button class="blueButton">Transfer Ticket</button>
               <button class="blueButton">Pick Up Ticket</button>
               <button class="blueButton">Close Ticket</button>
