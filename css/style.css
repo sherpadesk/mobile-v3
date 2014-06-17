@@ -1528,7 +1528,7 @@ footer {
 }
 
 .commentBlock li:first-child {
-  width: 15.33%;
+  width: 4.33%;
   height: 25%;
   color: #cccccc;
   font-size: 12px;
@@ -1544,7 +1544,7 @@ footer {
 }
  
 .commentBlock li:nth-child(3) {
-  width: 12.33%;
+  width: 25.33%;
   height: 25%;
   color: #cccccc;
   font-size: 12px;

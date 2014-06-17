@@ -42,6 +42,53 @@ $(document).ready(function(){
 			});
 		}
 	};
+	//date formating function 
+	var formatDate = function(date){
+		var month = date.substring(5,7);
+		var day = date.substring(8,10);
+		switch(month){
+			case "01":
+				month = "Jan";
+				break;
+			case "02": 
+				month = "Feb";
+				break;
+			case "03": 
+				month = "Mar";
+				break;
+			case "04":
+				month = "Apr";
+				break;
+			case "05": 
+				month = "May";
+				break;
+			case '06': 
+				month = "Jun";
+				break;
+			case '07':
+				month = "Jul";
+				break;
+			case '08': 
+				month = "Aug";
+				break;
+			case '09': 
+				month = "Sep";
+				break;
+			case '10':
+				month = "Oct";
+				break;
+			case '11': 
+				month = "Nov";
+				break;
+			case '12': 
+				month = "Dec";
+				break;
+			default:
+				month = "nul";
+				break
+		}
+		return month+" "+day;
+	};
 	// send an invoice to recipents 
 	var sendInvoince = {
 		init:function() {
@@ -734,6 +781,7 @@ $(document).ready(function(){
 						 	var userName = returnData.ticketlogs[c].user_firstname+" "+returnData.ticketlogs[c].user_lastname;
 						 	var note = returnData.ticketlogs[c].note;
 						 	var date = returnData.ticketlogs[c].record_date.toString().substring(0,10);
+						 	date = formatDate(date);
 						 	var attachments = [];
 						 	//check to see if this comment has attachments 
 						 	if(returnData.attachments != null){
@@ -747,7 +795,7 @@ $(document).ready(function(){
 						 	}
 
 						 	// comment insert 
-						 	var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+type+"</span></li><li class='commentText'><p>"+note+"</p></li><li>"+date+"</li></ul>";
+						 	var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+note+"</p></li><li>"+type+"</li></ul>";
 						 	$(insert).appendTo("#comments");
 						 	for(var f = 0; f < attachments.length; f++)
 						 	{
@@ -763,7 +811,9 @@ $(document).ready(function(){
 						 $(".orginalMessageContainer").empty();
 						 // add the lastest comment to the top of the comments list 
 						 var orginalMessageEmail = $.md5(returnData.ticketlogs[0].user_email);
-						 var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=30' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+returnData.ticketlogs[0].log_type+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note+"</p></li><li>"+returnData.ticketlogs[0].record_date.toString().substring(0,10)+"</li></ul>"
+						 var orginalMessageDate = returnData.ticketlogs[0].record_date.toString().substring(0,10);
+						 orginalMessageDate = formatDate(orginalMessageDate);
+						 var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=30' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul>"
 						 	$(orginalMessageinsert).appendTo(".orginalMessageContainer");
 
 
@@ -850,7 +900,7 @@ $(document).ready(function(){
 						{
 							var name = returnData.time_logs[u].name;
 							var log = returnData.time_logs[u].total;
-							var date = returnData.time_logs[u].date.substring(0,10);
+							var date = formatDate(returnData.time_logs[u].date.substring(0,10));
 							var logID = returnData.time_logs[u].date.id;
 							var insert = "<li><ul id='invoiceTimelog' class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span></h3></li></ul></li>";
 							$(insert).appendTo("#invoiceLogs");
@@ -862,7 +912,7 @@ $(document).ready(function(){
 						{
 							var name = returnData.expences[c].name;
 							var log = returnData.expences[c].total;
-							var date = returnData.expences[c].date.substring(0,10);
+							var date = formatDate(returnData.expences[c].date.substring(0,10));
 							var logID = returnData.expences[c].date.id;
 							var insert = "<li><ul id='invoiceExpense' class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
 							$(insert).appendTo("#expencesList");
@@ -938,6 +988,7 @@ $(document).ready(function(){
 						{
 							var customer = returnData[i].customer; //account name 
 							var date = returnData[i].date.substring(0,10);
+							date = formatDate(date);
 							// check account name for display purposes 
 							if(customer.length > 10)
 							{
