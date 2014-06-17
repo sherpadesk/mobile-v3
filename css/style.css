@@ -127,6 +127,10 @@ strong {
   display: block;
 }
 
+#transferSelect {
+  display: none;
+}
+
 .textInput1 {
   background: rgba(0, 0, 0, .4);
   box-sizing:border-box;

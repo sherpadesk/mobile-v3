@@ -32,11 +32,14 @@ JavaScript(main.js) documentation
 
 ajaxCallTime.init();
 	    UserLogin.init();
+	    	- takes username and email obtains api key 
 	    newTicket.init();
 	    sendInvoince.init();
 	    signout.init();
 	    search.init();
 	    org.init();
+	    	- gets the number of organizations 
+	    	- calls the methods to setup the dashboard
 		detailedTicket.init();
 		ticketList.init();
 		getQueues.init();

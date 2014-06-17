@@ -42,6 +42,149 @@ $(document).ready(function(){
 			});
 		}
 	};
+
+	// pick up current detailed ticket 
+	var pickUpTicket = {
+		init:function() {
+			this.pick();
+		},
+
+		pick:function() {
+			$("#pickUp").click(function(){
+			$.ajax({
+    			type: 'PUT',
+    			beforeSend: function (xhr) {
+    			    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    			    },
+    			url: 'http://api.beta.sherpadesk.com/tickets/'+localStorage.getItem("ticketNumber"),
+    			data: {
+    					"action" : "pickup",
+    					"note_text": ""
+    			       
+    			       }, 
+    			dataType: 'json',
+    			success: function (d) {
+    			       location.reload(false);
+    			},
+    			error: function (e, textStatus, errorThrown) {
+    			         alert(textStatus);
+    			}
+ 			}); 
+ 			});
+		}
+	};
+
+	// transfer current detailed ticket 
+	var transferTicket = {
+		init:function() {
+			this.transfer();
+		},
+
+		transfer:function() {
+			$("#transfer").click(function(){
+			$("#transfer").hide();
+			$("#transferSelect").show();
+			$.ajax({
+				type: 'GET',
+				beforeSend: function (xhr) {
+					xhr.withCredentials = true;
+					xhr.setRequestHeader('Authorization', 
+            	              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+					},
+	
+						url:"http://api.beta.sherpadesk.com/technicians",
+						dataType:"json",
+						success: function(returnData) {
+								console.log(returnData);
+								// add techs to option select list 
+								var insert = "<option value=0 disabled selected> Choose Tech</option>";
+									$(insert).appendTo("#transferTechs");
+								for(var i = 0; i < returnData.length; i++)
+								{ 
+									var value = returnData[i].id;
+									var name = returnData[i].firstname;
+									var insert = "<option value="+value+">"+name+"</option>";
+									$(insert).appendTo("#transferTechs");
+								}
+							},
+							complete:function(){
+							function reveal(){
+							$(".loadScreen").hide();
+							$(".maxSize").fadeIn();
+							};
+						},
+						error: function() {
+							console.log("fail @ time accounts");
+							console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+							}
+				});
+
+			$("#transferTechs").on("change", function(){
+				var techId = $("#transferTechs").val();
+			$.ajax({
+    			type: 'PUT',
+    			beforeSend: function (xhr) {
+    			    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    			    },
+    			url: 'http://api.beta.sherpadesk.com/tickets/'+localStorage.getItem("ticketNumber"),
+    			data: {
+    					"action": "transfer",
+    					"note_text": "example",
+   					    "tech_id": techId,
+   					    "keep_attached": false
+    			       
+    			       }, 
+    			dataType: 'json',
+    			success: function (d) {
+    			       location.reload(false);
+    			},
+    			error: function (e, textStatus, errorThrown) {
+    			         alert(textStatus);
+    			}
+ 			}); 
+ 			});
+ 			});
+		}
+	};
+
+	
+	// close current detailed ticket 
+	var closeTicket = {
+		init:function() {
+			this.closeIt()
+		},
+
+		closeIt:function() {
+			$("#closeIt").click(function(){
+			$.ajax({
+    			type: 'PUT',
+    			beforeSend: function (xhr) {
+    			    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    			    },
+    			url: 'http://api.beta.sherpadesk.com/tickets/'+localStorage.getItem("ticketNumber"),
+    			data: {
+    					"status" : "closed",
+    					"note_text": "",
+    					"is_send_notifications": true,
+    					"resolved": true,
+    					"confirmed": true,
+    					"confirm_note": "confirmed by me"
+    			       
+    			       }, 
+    			dataType: 'json',
+    			success: function (d) {
+    			       location.reload(false);
+    			},
+    			error: function (e, textStatus, errorThrown) {
+    			         alert(textStatus);
+    			}
+ 			}); 
+ 			});
+		}
+	};
 	//date formating function 
 	var formatDate = function(date){
 		var month = date.substring(5,7);
@@ -158,7 +301,7 @@ $(document).ready(function(){
 						console.log(returnData);
 						// get list of accounts add them to option select list 
 						$("#addTicketAccounts").empty();
-						var chooseAccount = "<option value=0 disabled selected>Choose an Account</option>";
+						var chooseAccount = "<option value=0 disabled selected>Account</option>";
 						$(chooseAccount).appendTo("#addTicketAccounts");
 						for(var i = 0; i < returnData.length; i++)
 						{ 
@@ -167,8 +310,8 @@ $(document).ready(function(){
 							var insert = "<option value="+value+">"+task+"</option>";
 							$(insert).appendTo("#addTicketAccounts");
 						}
-						var chooseTech = "<option value=0 disabled selected>Choose a Tech</option>";
-						var chooseClass = "<option value=0 disabled selected>Choose a class</option>";
+						var chooseTech = "<option value=0 disabled selected>Tech</option>";
+						var chooseClass = "<option value=0 disabled selected>class</option>";
 						$("#addTicketTechs").empty();
 						$("#addTicketClass").empty();
 						$(chooseTech).appendTo("#addTicketTechs");
@@ -942,7 +1085,7 @@ $(document).ready(function(){
 
 		changeInvoice:function(){
 			//update timelog after being clicked 
-			$(document).on("click","#invoiceTimelog",function(){
+			$(document).on("click","#invoiceTimelog, #billem",function(){
 				$(this).find(".innerCircle").toggleClass("billFill");
 
 			});
@@ -1374,12 +1517,23 @@ $(document).ready(function(){
 							//get users email for gravitar 
 							var email = $.md5(returnData[i].user_email);
 							var text = returnData[i].note;
+							//check to see if hours are has a decimal 
+							var hours = returnData[i].hours;
+							hours =hours.toString();
+							if(hours.indexOf(".") >= 0)
+							{
+								// do nothing 
+							}
+							else 
+							{
+								hours = hours+".00";
+							}
 							// check text length 
 							if(text.length > 15) 
 							{
 								text = text.substring(0,7)+"...";
 							}
-							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+returnData[i].hours+"</span></h3></li></ul></li>";
+							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
           					$(log).appendTo("#timelogs");
 						}
 					},
@@ -1509,12 +1663,23 @@ $(document).ready(function(){
 						{
 							var email = $.md5(returnData[i].user_email);
 							var text = returnData[i].note;
+							// check for two decimals 
+							var hours = returnData[i].hours;
+							hours =hours.toString();
+							if(hours.indexOf(".") >= 0)
+							{
+								// do nothing 
+							}
+							else 
+							{
+								hours = hours+".00";
+							}
 							// ensure text attached to the time log is short enough to be displayed correctly 
 							if(text.length > 15) 
 							{
 								text = text.substring(0,7)+"...";
 							}
-							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+returnData[i].hours+"</span></h3></li></ul></li>";
+							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
           					$(log).appendTo("#accountLogs");
 						}
 						
@@ -1821,6 +1986,9 @@ $(document).ready(function(){
 	(function () {
 	    UserLogin.init();
 	    newTicket.init();
+	    pickUpTicket.init();
+	    transferTicket.init();
+	    closeTicket.init();
 	    accountTimeLogs.init();
 	    sendInvoince.init();
 	    signout.init();
