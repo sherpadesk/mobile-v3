@@ -154,6 +154,19 @@ strong {
   width: 100%;
 }
 
+.textInputSmallLight {
+  background: rgba(0, 0, 0, .4);
+  box-sizing:border-box;
+    -moz-box-sizing:border-box;
+  border: none;
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 16px;
+  height: 40px;
+  padding: 10px;
+  width: 100%;
+}
+
 .greenButton {
   background: #4bb24d;
   border: none;

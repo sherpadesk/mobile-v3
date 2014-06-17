@@ -6,7 +6,7 @@ $(document).ready(function(){
 	var	userKey = "";
 	var accountDetailed = "";
 
-
+	// user login 
 	var UserLogin = {
 		init:function(){
 			this.login();
@@ -42,7 +42,7 @@ $(document).ready(function(){
 			});
 		}
 	};
-
+	// send an invoice to recipents 
 	var sendInvoince = {
 		init:function() {
 			this.submitInvoice();
@@ -73,6 +73,7 @@ $(document).ready(function(){
 			});
 		}
 	};
+	// when signout button is pressed all user data is whiped from local storage 
 	var signout = {
 		init:function(){
 			this.logOut();
@@ -89,6 +90,7 @@ $(document).ready(function(){
 		}
 	};
 
+	// create a new ticket 
 	var newTicket = {
 		init:function() {
 			this.addTicket();
@@ -107,6 +109,7 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
+						// get list of accounts add them to option select list 
 						$("#addTicketAccounts").empty();
 						var chooseAccount = "<option value=0 disabled selected>Choose an Account</option>";
 						$(chooseAccount).appendTo("#addTicketAccounts");
@@ -135,6 +138,7 @@ $(document).ready(function(){
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
+			// after an account is choosed it get a list of technicians 
 			 $("#addTicketAccounts").on("change",function(){
 			  $.ajax({
 				type: 'GET',
@@ -148,6 +152,7 @@ $(document).ready(function(){
 						dataType:"json",
 						success: function(returnData) {
 								console.log(returnData);
+								// add techs to option select list 
 								for(var i = 0; i < returnData.length; i++)
 								{ 
 									var value = returnData[i].id;
@@ -168,6 +173,7 @@ $(document).ready(function(){
 							}
 				});
 			 });
+			// after techs are choosen then get a list of classes 
 			$("#addTicketTechs").on("change",function(){
 				$.ajax({
 				type: 'GET',
@@ -181,6 +187,7 @@ $(document).ready(function(){
 						dataType:"json",
 						success: function(returnData) {
 								console.log(returnData);
+								// add list of classes to option select list
 								for(var i = 0; i < returnData.length; i++)
 								{ 
 									var value = returnData[i].id;
@@ -201,8 +208,8 @@ $(document).ready(function(){
 							}
 				});
 			});
+			// make api post call when submit ticket button is clicked 
 			$("#submitNewTicket").click(function(){
-
 			$.ajax({
     				type: 'POST',
     				beforeSend: function (xhr) {
@@ -232,6 +239,8 @@ $(document).ready(function(){
 			});
 		}
 	};
+
+	// post a comment to a ticket on the ticket details page 
 	var postComment = {
 		init:function(){
 			this.sendComment();
@@ -265,12 +274,14 @@ $(document).ready(function(){
 		}
 	};
 
+	// Ajax calls for semi-universal search bar 
 	var search = {
 		init:function(){
 			this.universalSearch();
 		},
 
 		universalSearch:function(){
+			//get the search value when the enter key is pressed 
 			$(document).on("keypress",".headerSearch",function(e){
    			 if(e.which == 13) {
        		 var searchItem  = $(".headerSearch").val().toLowerCase();
@@ -278,6 +289,7 @@ $(document).ready(function(){
        		 var found = false;
        		 var matchedTickets = [];
       		 	
+      		 // search for a account value that matches the search critera 	
        		 $.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
@@ -314,6 +326,7 @@ $(document).ready(function(){
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
+			// search for a ticket number that matches the search critera 
 			$.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
@@ -341,6 +354,8 @@ $(document).ready(function(){
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
+
+			// search for tickets containing the search critera in the subject and return a list 
 			$.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
@@ -361,6 +376,7 @@ $(document).ready(function(){
 
 							}
 						}
+						// add list of tickets that match the search critera 
 						for(var a = 0; a < matchedTickets.length; a++)
 						{
 							$(".searchReturn").show();
@@ -380,16 +396,19 @@ $(document).ready(function(){
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
+				// close the search when the "X" icon is pressed 
 				$(document).on("click",".searchCloseExpanded", function(){
 					$("body").removeClass("bodyLock");
 					$(".searchReturn").hide();
 					$(".searchReturn").empty();
 				});
+				// close the search when something outside of the search is pressed 
 				$(document).on("click",".bodyLock", function(){
 					$("body").removeClass("bodyLock");
 					$(".searchReturn").hide();
 					$(".searchReturn").empty();
 				});
+				// go to the ticket detail of the pressed returned search return 
 				$(document).on("click",".searched", function(){
 					$("body").removeClass("bodyLock");
 					localStorage.setItem('ticketNumber', $(this).attr("data-id"));
