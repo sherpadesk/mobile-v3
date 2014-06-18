@@ -119,7 +119,7 @@ $(document).ready(function(){
 							console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 							}
 				});
-
+			// get value 
 			$("#transferTechs").on("change", function(){
 				var techId = $("#transferTechs").val();
 			$.ajax({
@@ -149,11 +149,28 @@ $(document).ready(function(){
 		}
 	};
 
+	var addRecip = {
+		init:function() {
+			this.addEm();
+		},
+
+		addEm:function() {
+			$(document).on("keypress","#addEm",function(e){
+   			 if(e.which == 13) {
+       		 var searchItem  = $(".headerSearch").val().toLowerCase();
+       		 localStorage.setItem("searchItem",searchItem);
+       		 var found = false;
+       		 
+       		 var email = $("headerSearch").val();
+       		}
+       		});
+		}
+	};
 	
 	// close current detailed ticket 
 	var closeTicket = {
 		init:function() {
-			this.closeIt()
+			this.closeIt();
 		},
 
 		closeIt:function() {
@@ -472,7 +489,7 @@ $(document).ready(function(){
 
 		universalSearch:function(){
 			//get the search value when the enter key is pressed 
-			$(document).on("keypress",".headerSearch",function(e){
+			$(document).on("keypress","#searchThis",function(e){
    			 if(e.which == 13) {
        		 var searchItem  = $(".headerSearch").val().toLowerCase();
        		 localStorage.setItem("searchItem",searchItem);
@@ -1992,6 +2009,7 @@ $(document).ready(function(){
 	    accountTimeLogs.init();
 	    sendInvoince.init();
 	    signout.init();
+	    addRecip.init();
 	    accountDetailsPageSetup.init();
 	    search.init();
 	   	org.init();

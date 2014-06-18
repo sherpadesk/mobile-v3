@@ -59,7 +59,7 @@ fullscreen();
 			$(document).on("click",".OptionWrapper, .tableRows ",function(){
 				$(this).addClass("glow");
 				
-				$(this).removeClass("glow").delay(1000);
+				$(this).delay(1000).removeClass("glow");
 			});
 		}
 	};
@@ -97,6 +97,44 @@ fullscreen();
 		}
 	};
 
+	var addRecip = {
+		init: function() {
+			this.slideOut();
+			this.slideIn();
+			
+		},
+
+		slideOut: function() {
+			$(document).on("click","#addRecipient", function(){
+				var insert = "<div id='addEm' class='headerSearchContainer addRecipColor'><input class='headerSearch'><img class='searchCloseExpanded addRecipX' src='img/close_search.png'></div>";
+				var parent = $(this).parent();
+				var label = '<li>Recipients</li>';
+				$(parent).empty();
+				$(label).appendTo("#recipHeader");
+				$(insert).appendTo("#recipHeader");
+				$(".headerSearchContainer").animate({
+					width: "200px"
+				}, 300);
+			});
+		},
+
+		slideIn: function() {
+			$(document).on("click",".searchCloseExpanded", function(){
+				$(".headerSearchContainer").animate({
+					width: "0px"
+				}, 300);
+				var insert = "<li id='addRecipient' class='detail3Short'><img class='plusIcon' src='img/plus_icon.png'></li>";
+				setTimeout(
+  				function() 
+  				{
+  				  //do something special
+  				  $(insert).appendTo("#recipHeader");
+  				}, 310);
+								
+				});
+						}
+	};
+
 	var searchBar = {
 		init: function() {
 			this.slideOut();
@@ -104,9 +142,9 @@ fullscreen();
 		},
 
 		slideOut: function() {
-			$(".topHeader li:last-child").on("click", ".headerSearchIcon", function() {
+			$(".topHeader li:last-child ").on("click", ".headerSearchIcon", function() {
 				var parent = $(this).parent();
-				var insert = "<div class='headerSearchContainer'><img class='searchIconExpanded' src='img/search_icon.png'><input class='headerSearch'><img class='searchCloseExpanded' src='img/close_search.png'></div>"
+				var insert = "<div id='searchThis' class='headerSearchContainer'><img class='searchIconExpanded' src='img/search_icon.png'><input class='headerSearch'><img class='searchCloseExpanded' src='img/close_search.png'></div>"
 				$(parent).empty();
 				$(insert).appendTo( $( parent ) );
 				$(".headerSearchContainer").animate({
@@ -332,6 +370,7 @@ fullscreen();
 		openTickets.init();
 		buttonClick.init();
 		backButton.init();
+		addRecip.init();
 		showExtendedDetails.init();
 		if($(window).width() < 478){footer.init();}
 		homePage.init();

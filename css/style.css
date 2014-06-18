@@ -577,6 +577,14 @@ header {
   width: 0px;
 }
 
+.addRecipColor {
+  background-color: rgba(0,0,0,0.4) !important;
+}
+
+.addRecipX {
+  padding-left: 30px !important;
+}
+
 .headerSearchIcon {
   height: 23px;
   margin-top: 10px;
@@ -922,12 +930,19 @@ header {
   height: 25px;
 }
 
+#sendInvoiceButton {
+  width: 90%;
+  margin: 0 auto 10px;
+  display: block;
+}
+
 .invoiceAccount {
   border-bottom: 1px solid #ffffff;
   color: #ffffff;
   list-style-type: none;
-  margin-top: 35px;
-  overflow: auto;
+  margin-top: 30px;
+  overflow: hidden;
+  height: 40px;
 }
 
 .invoiceAccount li:first-child {
@@ -960,16 +975,22 @@ header {
 .invoiceInfo {
   list-style-type: none;
   margin-top: 15px;
+  width: 99%;
 }
 
 .invoiceInfo li {
-  overflow: auto;
+  overflow: hidden;
   margin-bottom: 2px;
+  height: 50px;
+}
+
+.invoiceTotal span {
+  font-size: 17px;
 }
 
 .invoiceTotal {
   color: #ffffff;
-  font-size: 18px;
+  font-size: 30px;
   text-align: right;
   width: 85%;
 }
