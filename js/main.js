@@ -65,7 +65,7 @@ $(document).ready(function(){
     			       }, 
     			dataType: 'json',
     			success: function (d) {
-    			       location.reload(false);
+    			       window.location = "ticket_list.html";
     			},
     			error: function (e, textStatus, errorThrown) {
     			         alert(textStatus);
@@ -1210,6 +1210,63 @@ $(document).ready(function(){
 		}
 	};
 
+	// list tickets of the queue
+	var getQueueTickets = {
+		init:function() {
+			this.queueTickets();
+		},
+
+		queueTickets:function() {
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/queues/"+localStorage.getItem("currentQueue"),
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						$("#queueTickets").empty();
+						 for(var i = 0; i < returnData.length; i++) 
+						 {	
+						 	// get email for gravitar avitar 
+							var email = $.md5(returnData[i].user_email);
+							var intialPost = returnData[i].initial_post;
+							var subject = returnData[i].subject;
+							var data = returnData[i].key;
+							//check subject length can be displayed correctly 
+							if(subject.length > 19)
+							{
+								subject = subject.substring(0,16)+"...";
+							}
+							//check intial post length can be displayed correctly 
+							if(intialPost.length > 100) 
+							{
+								intialPost = intialPost.substring(1,100);
+							}
+							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+							
+							$(ticket).appendTo("#queueTickets");
+						 }
+
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+					};
+				},
+				error: function() {
+					console.log("fail @ Queues List");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+		}
+	};
+
 	// get complete queue list for the orginization for the Queues list page 
 	var getQueues = {
 		init:function() {
@@ -1217,6 +1274,10 @@ $(document).ready(function(){
 		},
 
 		queues:function() {
+			$(document).on("click","#queue", function(){
+				localStorage.setItem('currentQueue',$(this).attr("data-id"));
+				window.location = "queueTickets.html";
+			});
 			$.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
@@ -1233,7 +1294,7 @@ $(document).ready(function(){
 						 // add queues to the queues list 
 						 for(var i = 0; i < returnData.length; i++)
 						 {
-						 	var insert = "<li><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
+						 	var insert = "<li><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
 						 	$(insert).appendTo(".OptionsList");
 						 }
 
@@ -1772,7 +1833,7 @@ $(document).ready(function(){
 						//append queues to dashboard
 						for( var i = 0; i < queuesLength; i++)
 						{
-							var insertQueue = "<li><a href='ticket_list.html'><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></a></li>";
+							var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
         					$(insertQueue).prependTo("#DashBoradQueues");					
 						}
 					},
@@ -2004,6 +2065,7 @@ $(document).ready(function(){
 	    UserLogin.init();
 	    newTicket.init();
 	    pickUpTicket.init();
+	    getQueueTickets.init();
 	    transferTicket.init();
 	    closeTicket.init();
 	    accountTimeLogs.init();

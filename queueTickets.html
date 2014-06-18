@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" href="img/icon.png"/>
+    <link rel="apple-touch-startup-image" href="img/profile_2.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>    
+    <title>SherpaDesk</title>
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/idangerous.swiper.css">
+    <!-- Media query for tablets -->
+    <link rel="stylesheet" href="css/tablet.css" />
+    <!-- Media query for large Screen -->
+    <link rel="stylesheet" href="css/style_LargeScreen.css" />
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <!-- Jquery -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/md5.js"></script>
+    <!-- Jquery UI -->
+    <link rel="stylesheet" href="js/jquery-ui.css" />
+    <script src="js/jquery-ui.min.js"></script>
+    <!-- Main.js -->
+    <script src="js/index.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/Chart.js"></script>
+    <script src="js/jquery.md5.js"></script>
+    <script src="js/fastclick.js"></script>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+  </head>
+  <div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
+  <div class="maxSize">
+    <span id="fastclick">
+  <header class="test">
+    <ul class="topHeader">
+      <li><img class="headerNavIcon " src="img/navicon.png"></li>
+      <li><h1 class="SherpaDesk" >Tickets</h1></li>
+      <!-- <li><input class="headerSearch"></li> -->
+      <li><img class="headerSearchIcon" src="img/search_icon.png"></li>
+    </ul>
+    <div>
+    
+  </header>
+  <body class="bodyContent" onload="initFastButtons();">
+    <nav class="sideNav">
+      <div class="fold"><i class="fa a-angle-double-left fa-2x"></i></div>
+      <img class="navProfile" src="img/profile_3.png">
+      <h2 class="navName">NO USER DATA</h2>
+      <ul class="sideNavLinks">
+        <a href="dashboard.html"><li><div class="sideNavCircle"><i class="fa fa-tachometer "></i></div><span>Dashboard</span></li></a>
+        <a href="timelog.html"><li><div class="sideNavCircle"><i class="fa fa-clock-o"></i></div><span>Timelogs</span></li></a>
+        <a href="Account_List.html"><li><div class="sideNavCircle"><i class="fa fa-users"></i></div><span>Accounts</span></li></a>
+        <a href="ticket_list.html"><li><div class="sideNavCircle"><i class="fa fa-ticket"></i></div><span>Tickets</span></li></a>
+        <li><div class="sideNavCircle"><i class="fa fa-credit-card"></i> </div><span id="allInvoice">Invoices</span></li>
+        <a href="Queues.html"><li><div class="sideNavCircle"><i class="fa fa-sort-amount-asc"></i></div><span>Queues</span></li></a>
+        <li id="signOut" ><div class="sideNavCircle"><i class="fa fa-sign-in"></i></div><span>Signout</span></li>
+        <a href="https://sherpadesk.com/"><li><div class="sideNavCircle"><i class="fa fa-external-link"></i></div><span>Full App</span></li></a>
+      </ul>
+    </nav>
+    <div id="tabContainer">
+        <div class="tabpage" id="tabpage_reply">
+          <div class="currentPage"></div>
+            <div id="queueTickets" class="tabpageContainer">
+                <!--<ul class='responseBlock' id='thisBlock' data-id="+data+">
+                  <li>
+                    <p class='blockNumber numberStyle'>#"+returnData[i].number+"</p>
+                    <img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'>
+                    <span>"+returnData[i].user_firstname+"</span>
+                  </li>
+                  <li class='responseText'>
+                    <h4>"+subject+"</h4>
+                    <p class ='initailPost'>"+intialPost+"</p>
+                  </li>
+                  <li>
+                    <p class='TicketBlockNumber'>"+returnData[i].class_name+"</p>
+                  </li>
+                </ul>-->
+            </div>
+        </div>
+        </div>
+      </span>
+  </div>
+  </body>
+  </div>
+</html>
