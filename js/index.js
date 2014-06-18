@@ -44,8 +44,9 @@ fullscreen();
 		},
 
 		glow: function() {
-			$(document).on("click",".OptionWrapper, .tableRows",function(){
+			$(document).on("click",".OptionWrapper, .tableRows ",function(){
 				$(this).addClass("glow");
+				
 				$(this).removeClass("glow").delay(1000);
 			});
 		}
