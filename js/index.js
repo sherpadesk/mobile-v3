@@ -38,6 +38,19 @@ fullscreen();
 		}
 	};
 
+	var buttonClick = {
+		init:function() {
+			this.glow();
+		},
+
+		glow: function() {
+			$(document).on("click",".OptionWrapper, .tableRows",function(){
+				$(this).addClass("glow");
+				$(this).removeClass("glow").delay(1000);
+			});
+		}
+	};
+
 	var sideBar = {
 		init: function() {
 			this.slideController();
@@ -304,7 +317,7 @@ fullscreen();
 
 	(function() {
 		openTickets.init();
-		
+		buttonClick.init();
 		showExtendedDetails.init();
 		if($(window).width() < 478){footer.init();}
 		homePage.init();

@@ -127,6 +127,10 @@ strong {
   display: block;
 }
 
+.glow{
+  background-color: rgba(168, 195, 207, 0.5) !important;
+}
+
 #transferSelect {
   display: none;
 }
