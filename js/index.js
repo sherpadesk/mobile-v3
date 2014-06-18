@@ -38,6 +38,18 @@ fullscreen();
 		}
 	};
 
+	var backButton = {
+		init:function() {
+			this.lastPage();
+		},
+
+		lastPage:function(){
+			$(".goBack").click(function(){
+				window.history.back();
+			});
+		}
+	};
+
 	var buttonClick = {
 		init:function() {
 			this.glow();
@@ -319,6 +331,7 @@ fullscreen();
 	(function() {
 		openTickets.init();
 		buttonClick.init();
+		backButton.init();
 		showExtendedDetails.init();
 		if($(window).width() < 478){footer.init();}
 		homePage.init();
