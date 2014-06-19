@@ -50,19 +50,6 @@ fullscreen();
 		}
 	};
 
-	var buttonClick = {
-		init:function() {
-			this.glow();
-		},
-
-		glow: function() {
-			$(document).on("click",".OptionWrapper, .tableRows ",function(){
-				$(this).addClass("glow");
-				
-				$(this).delay(1000).removeClass("glow");
-			});
-		}
-	};
 
 	var sideBar = {
 		init: function() {
@@ -368,7 +355,6 @@ fullscreen();
 
 	(function() {
 		openTickets.init();
-		buttonClick.init();
 		backButton.init();
 		addRecip.init();
 		showExtendedDetails.init();
