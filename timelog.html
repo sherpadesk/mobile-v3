@@ -41,7 +41,7 @@
     <ul class="topHeader">
       <li><img class="headerNavIcon " src="img/navicon.png"></li>
       <li><h1 class="SherpaDesk">Timelog</h1></li>
-      <li><a href="add_time.html"><img class="plusIconHeader" src="img/plus_icon.png"></a></li>
+      <li><a href="add_time.html"><img id="TimeButton" class="plusIconHeader" src="img/plus_icon.png"></a></li>
     </ul>
   </header>
   <body onload="initFastButtons();">
@@ -61,6 +61,33 @@
       </ul>
     </nav>
     <section class="bodyContent">
+      <section class="addTimePanel">
+        <div class="accountContainer">
+        <ul class="buttonList">
+          <li><span class="buttonListSymbols">-</span></li>
+          <li><input id="addTimeTicket" type="number"></li>
+          <li><span class="buttonListSymbols">+</span></li>
+        </ul>
+        <div class="styledSelect">
+             <select id="timeAccounts">
+                <!-- <option value="+value+">"+task+"</option> -->
+             </select>
+          </div>
+          <div class="styledSelect">
+             <select id="timeProjects">
+                <!-- <option value="+value+">"+task+"</option> -->
+             </select>
+          </div>
+          <div class="styledSelect">
+             <select id="taskTypes">
+                <!-- <option value="+value+">"+task+"</option> -->
+             </select>
+          </div>
+          <div id="billem" class="billable"><div id="billem1" class="innerCircle"></div></div><span class="billTag">Billable</span>
+          <textarea id="noteTime" class="textInput1" type="text" placeholder="I completed..."></textarea>
+          <button class="greenButton" id="submitTime">Add Time</button>
+      </div>
+      </section>
       <div class="timelogContainer">
         <ul id="timelogs" class="timelogs">
           <!--<li>

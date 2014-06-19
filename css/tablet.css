@@ -182,7 +182,7 @@ header, .bodyContent {
 
 
 .sideNav {
-  background-color: #1C1B22;
+  background-color:rgba(0,0,0,0.8);
   height: 110%;
   position: absolute;
   top: 0; left: 0;
@@ -230,7 +230,7 @@ header, .bodyContent {
 
 .sideNavCircle {
   background: none;
-  border: 1px solid #25B0E6;
+ 
   box-sizing:border-box;
     -moz-box-sizing:border-box;
   -webkit-border-radius: 50%;
@@ -407,7 +407,7 @@ header {
 }
 
 .dashboardContainer {
-  height: 150px;
+  height: 170px;
   margin: 0 auto;
   padding-top: 15px;
   width: 100%;
@@ -479,15 +479,27 @@ margin: 0 auto;
   vertical-align: middle;
 }
 
-.sideStatsLeft {
-  float: left;
-  font-size: 20px;
-}
-
 .sideStatsRight {
-  float: right;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 35px;
+  width: 35px;
+  text-align: center;
+  float: left;
   font-weight: 600;
   font-size: 24px;
+  border-radius: 3px;
+  margin-top: 8px;
+}
+
+.sideStatsLeft{
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 50px;
+  width: 70%;
+  text-align: left;
+  float: left;
+  font-size: 20px;
 }
 
 #tabContainer {
@@ -1085,7 +1097,7 @@ footer {
 
 .ActiveAccountsContainer {
   width: 90%;
-  margin-left: 20px;
+  margin-left: 6%;
   overflow: auto;
 }
 
@@ -1440,5 +1452,23 @@ footer {
   width: 90%;
   margin: 0 auto
 }
+
+.tableHeader li {
+  float: left;
+  width: 25%;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.tableRows li {
+  float: left;
+  width: 23%;
+  height: 40px;
+  text-align: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-right: 35px;
+}
+
 
 }
