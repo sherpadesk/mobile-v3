@@ -639,8 +639,15 @@ $(document).ready(function(){
 							if(returnData[i].subject.toLowerCase().indexOf(searchItem) >= 0)
 							{
 								matchedTickets.push(returnData[i]);
+								found = true;
 
 							}
+						}
+						if(found == false){
+							$(".searchReturn").show();
+							$("body").addClass("bodyLock");
+							var insert = "<li class='' data-id=null><span class='returnedItem'>Nothing matches that Search</span></li>";
+							$(insert).appendTo(".searchReturn");
 						}
 						// add list of tickets that match the search critera 
 						for(var a = 0; a < matchedTickets.length; a++)
