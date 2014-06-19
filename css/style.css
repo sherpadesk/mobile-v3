@@ -976,6 +976,8 @@ header {
   list-style-type: none;
   margin-top: 15px;
   width: 99%;
+  max-height: 540px;
+  overflow: scroll;
 }
 
 .invoiceInfo li {

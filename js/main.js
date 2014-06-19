@@ -43,6 +43,65 @@ $(document).ready(function(){
 		}
 	};
 
+	//show closed tickets 
+	var closedTickets = {
+		init:function() {
+			this.showClosedTickets();
+			this.pageChange();
+		},
+
+		pageChange:function() {
+			$(".buttonShowClosedTickets").click(function(){
+				window.location = "closedTickets.html";
+			});
+		},
+
+		showClosedTickets:function() {
+			$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.beta.sherpadesk.com/tickets?status=closed&account="+localStorage.getItem("DetailedAccount"),
+				dataType:"json",
+				success: function(returnData) {
+					$("#closedTickets").empty(); 
+					//insert open tickets
+					for(var i = 0; i < returnData.length; i++) 
+					{	
+						// get email value for gravatar 
+						var email = $.md5(returnData[i].user_email);
+						var initialPost = returnData[i].initial_post;
+						var subject = returnData[i].subject;
+						//the key for this specific ticket
+						var data = returnData[i].key;
+						// ensure ticket subject length is not to long to be displayed (subject is elipsed if it is)
+						if(subject.length > 19)
+						{
+							subject = subject.substring(0,16)+"...";
+						}
+						// ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
+						if(initialPost.length > 50) 
+						{
+							initialPost = initialPost.substring(1,50);
+						}
+						var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+						$(ticket).appendTo("#closedTickets");
+					}
+				
+					},
+				error: function() {
+					console.log("fail @ accounts");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+		}
+
+	};
+
 	// pick up current detailed ticket 
 	var pickUpTicket = {
 		init:function() {
@@ -258,7 +317,7 @@ $(document).ready(function(){
 		submitInvoice:function(){
 			$("#sendInvoiceButton").click(function(){
 				$.ajax({
-    				type: 'POST',
+    				type: 'PUT',
     				beforeSend: function (xhr) {
     				    xhr.withCredentials = true;
     				    xhr.setRequestHeader('Authorization', 
@@ -270,8 +329,8 @@ $(document).ready(function(){
 						   }, 
     				dataType: 'json',
     				success: function (d) {
+    				    window.history.back();
     				    
-    				    location.reload(false);
     				},
     				error: function (e, textStatus, errorThrown) {
     				         alert(textStatus);
@@ -1018,8 +1077,14 @@ $(document).ready(function(){
 				success: function(returnData) {
 						console.log(returnData);
 						$("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number 
-						$("#customerName").html(returnData.customer); // customer name 
-						$("#invoiceDate").html(returnData.date.substring(0,10)); 
+						var custoName = returnData.customer;
+						if(custoName.length > 23){
+							custoName = custoName.substring(0,19)+"...";
+						} 
+						$("#customerName").html(custoName); // customer name 
+						var date = returnData.date.substring(0,10);
+						date = formatDate(date);
+						$("#invoiceDate").html(date); 
 						$("#invoiceHours").html(returnData.total_hours+"<span class='detail3Small'>hrs</span>"); // hours to invoice 
 						var amount = 0;
 						var change = "00";
@@ -2065,6 +2130,7 @@ $(document).ready(function(){
 	    UserLogin.init();
 	    newTicket.init();
 	    pickUpTicket.init();
+	    closedTickets.init();
 	    getQueueTickets.init();
 	    transferTicket.init();
 	    closeTicket.init();

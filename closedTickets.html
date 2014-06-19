@@ -40,13 +40,14 @@
   <header class="test">
     <ul class="topHeader">
       <li><img class="headerNavIcon " src="img/navicon.png"></li>
-      <li><h1 class="SherpaDesk">Queues</h1></li>
+      <li><h1 class="SherpaDesk" >Closed Tickets</h1></li>
       <!-- <li><input class="headerSearch"></li> -->
       <li><img class="headerSearchIcon" src="img/search_icon.png"></li>
     </ul>
     <div>
+    
   </header>
-  <body onload="initFastButtons();">
+  <body class="bodyContent" onload="initFastButtons();">
     <nav class="sideNav">
       <div class="fold"><i class="fa a-angle-double-left fa-2x"></i></div>
       <img class="navProfile" src="img/profile_3.png">
@@ -61,16 +62,30 @@
         <li id="signOut" ><div class="sideNavCircle"><i class="fa fa-sign-in"></i></div><span>Signout</span></li>
         <a href="https://sherpadesk.com/"><li><div class="sideNavCircle"><i class="fa fa-external-link"></i></div><span>Full App</span></li></a>
       </ul>
-    </nav> 
-    <div class="QueuesContainer"> 
-      <ul class="OptionsList">
-        <!--<li>
-          <div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div>
-          <div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div>
-        </li>-->
-      </ul>
-    </div>
+    </nav>
+    <div id="tabContainer">
+        <div class="tabpage" id="tabpage_reply">
+          <div class="currentPage"></div>
+            <div id="closedTickets" class="tabpageContainer">
+                <!--<ul class='responseBlock' id='thisBlock' data-id="+data+">
+                  <li>
+                    <p class='blockNumber numberStyle'>#"+returnData[i].number+"</p>
+                    <img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30' class='TicketBlockFace'>
+                    <span>"+returnData[i].user_firstname+"</span>
+                  </li>
+                  <li class='responseText'>
+                    <h4>"+subject+"</h4>
+                    <p class ='initailPost'>"+intialPost+"</p>
+                  </li>
+                  <li>
+                    <p class='TicketBlockNumber'>"+returnData[i].class_name+"</p>
+                  </li>
+                </ul>-->
+            </div>
+        </div>
+        </div>
+      </span>
+  </div>
   </body>
-</span>
   </div>
 </html>
