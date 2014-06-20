@@ -130,7 +130,8 @@ strong {
   font-size: 16px;
   height: 140px;
   padding: 10px;
-  width: 100%;
+  width: 151%;
+  margin-left: -114px;
 }
 
 .greenButton {
@@ -178,6 +179,7 @@ strong {
 .bodyContent {
   margin-top: 45px;
   max-width: 1100px;
+  height: 94%;
 }
 
 header, .bodyContent {
@@ -756,7 +758,7 @@ header {
   overflow: auto;
   margin: 0 auto;
   height: 545px;
-  width: 50%;
+  width: 100%;
 }
 
 .invoiceDetail {
@@ -775,7 +777,7 @@ header {
 }
 
 .invoiceInfo li {
-  overflow: auto;
+  overflow: hidden;
   margin-bottom: 2px;
 }
 
@@ -802,6 +804,7 @@ header {
   height: 40px;
   padding: 0 20px;
   width: 100%;
+  overflow: hidden;
 }
 
 .recipient p {
@@ -823,6 +826,7 @@ header {
 
 .recipientDetail {
   list-style-type: none;
+  width: 100%;
 }
 
 .recipientDetail li {
@@ -839,6 +843,12 @@ header {
 
 .recipientDetail > li > img {
   height: 40px;
+}
+
+.invoiceRows li:last-child {
+  text-align: right;
+  padding-right: 10px;
+  
 }
 
 /* Timelog 
@@ -1029,7 +1039,18 @@ footer {
   width: 40%;
 }
 
-
+.OptionsListAccountDetail > li{
+  margin: 0 0 10px 0;
+  height: 45px;
+  float: left;
+  width: 100%;
+  margin-left: 20px;
+}
+.OptionsListAccountDetail {
+  list-style-type: none;
+  margin-top: 20px;
+  width: 100%;
+}
 
 .OptionTitle {
   color: #ffffff;
@@ -1163,6 +1184,7 @@ footer {
   width: 100%;
   overflow: auto;
   background: rgba(0, 0, 0, 0.5);
+  height: 90px;
 }
 
 .ticketDetailsHeader h3 {
@@ -1203,6 +1225,7 @@ footer {
   float: left;
   margin-top: 7px;
   width: 70%;
+  font-size: 25px !important;
 }
 
 .shortInfo {
@@ -1213,8 +1236,14 @@ footer {
 
 .shortInfo p {
   color: #cccccc;
-  font-size: 10px;
   text-align: right;
+}
+
+.shortInfo li {
+  color: #cccccc;
+  margin-top: 3px;
+  text-align: right;
+  font-size: 13px;
 }
 
 .tabpage {
@@ -1227,10 +1256,13 @@ footer {
 }
 
 .tabpageContainer {
-  width: 90%;
-  margin: 0 auto;
-  margin-top: 10px;
-  overflow: auto;
+  width: 160%;
+/* margin: 0 auto; */
+margin-top: 10px;
+overflow: auto;
+max-height: 685px;
+margin-left: -136px;
+}
 }
 
 #tabpage_info, #tabpage_options {
@@ -1246,7 +1278,7 @@ footer {
   font-size: 14px;
   text-align: center;
   display: block;
-  margin-left: auto;
+  margin-left: 558px;
 }
 
 .responseBlock {
@@ -1254,7 +1286,9 @@ footer {
   overflow: auto;
   border-bottom: 1px solid #cccccc;
   padding-bottom: 5px;
+  margin: 0 auto;
   padding-top: 5px;
+  max-width: 455px;
 }
 
 
@@ -1466,6 +1500,22 @@ footer {
   display: none;
 }
 
+#accountLogsContainer {
+  margin-left: 200px;
+  width: 100%;
+}
+
+#acountLogs {
+  width: 50%;
+}
+
+.loginContent {
+  width: 80%;
+  margin: 190px auto;
+  max-width: 400px;
+  margin-left: 150px;
+}
+
 .tks1 {
   width: 35px;
   height: 35px;
@@ -1521,5 +1571,93 @@ footer {
   font-size: 25px !important;
 }
 
+.commentBlock {
+  list-style: none;
+  overflow: auto;
+  border-bottom: 1px solid #cccccc;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  z-index: 5;
+  width: 95%;
+  margin: 0 auto;
 }
+
+.commentBlock li:nth-child(2) {
+  width: 54.33%;
+  height: 25%;
+  color: #cccccc;
+  font-size: 20px;
+  text-align: left;
+}
+
+.commentBlock li:first-child {
+  width: 14%;
+  height: 25%;
+  color: #cccccc;
+  font-size: 12px;
+  text-align: center;
+}
+
+.commentBlock img {
+  float: left;
+  margin-left: 5px;
+  margin-top: -3px;
+  z-index: 1;
+  border-radius: 100%;
+  border: 2px solid #fff;
+  width: 50px;
+}
+
+.attachment {
+  width: 90%;
+  height: 25%;
+  margin-bottom: 5px;
+  margin: 10px auto;
+  display: block;
+}
+
+.attachmentBorder {
+  width: 90%;
+  height: 5px;
+  border-bottom: 1px solid #ccc;
+  margin: 0 auto;
+}
+.orginalMessageContainer {
+  width: 159%;
+  overflow: auto;
+  margin: 15px auto 15px;
+  margin-left: -135px;
+}
+
+#allInvoiceList {
+  width: 89%;
+  margin: 0 auto !important;
+}
+
+#invoiceList {
+  width: 90%;
+  margin: 0 auto !important;
+  display: block;
+}
+
+#sendInvoiceButton {
+  width: 51%;
+  margin: 1 auto -28px !important;
+  display: block;
+  margin-right: 25%;
+  margin-top: 50px;
+}
+
+#takePayment {
+  width: 51%;
+  margin: 1 auto -28px !important;
+  display: block;
+  margin-right: 25%;
+}
+
+.invoiceShrinker {
+  width: 55%;
+  margin: 0 auto;
+}
+
 }
