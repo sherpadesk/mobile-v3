@@ -39,6 +39,7 @@ body, html {
   height: 100%;
   margin-left: -3px;
   overflow-x:hidden;
+  max-width: 1073px;
   
 }
 
@@ -197,6 +198,7 @@ header, .bodyContent {
   top: 0; left: 0;
   width: 20%;
   z-index: 2;
+  max-width: 212px;
   transform:translateX(-100%);
   -webkit-transform: translateX(-100%);
   -webkit-transform: translateX(-100%);
