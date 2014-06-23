@@ -739,7 +739,6 @@ $(document).ready(function(){
 			// on submit click get the time and note typed by the user 
 			$("#submitTicketTime").click(function(){
 				var time = $("#addTimeTicket").val();
-				alert(time);
 				var note = $("#noteTimeTicket").val();
 				var tech = localStorage.getItem('techId');
 				// check to see if user check for time to be billable 
@@ -895,7 +894,7 @@ $(document).ready(function(){
 			});
 			// submit time to account 
 			$("#submitTime").click(function(){
-				var time = $("#addTime").val();
+				var time = $("#addTimeTicket").val();
 				var note = $("#noteTime").val();
 				var tech = localStorage.getItem('userId');
 				var accountId = $("#timeAccounts").val();

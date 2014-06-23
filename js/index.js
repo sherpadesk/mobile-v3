@@ -363,6 +363,9 @@ fullscreen();
 					//add the large style sheet 
 					var insert = '<link id="largeCss" rel="stylesheet" href="css/style_LargeScreen.css" />';
 					$(insert).appendTo('head');
+				}else {
+					$(".addTimePanel").hide();
+					$(".plusIconHeader").show();
 				}
 			$(window).resize(function(){
 				if($(window).width() >=800) 
@@ -370,8 +373,11 @@ fullscreen();
 					//add the large style sheet 
 					var insert = '<link id="largeCss" rel="stylesheet" href="css/style_LargeScreen.css" />';
 					$(insert).appendTo('head');
+					$(".addTimePanel").show();
+
 				}else{
 					$("#largeCss").remove();
+					$(".addTimePanel").hide();
 				}
 			});
 		}

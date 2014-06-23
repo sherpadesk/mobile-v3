@@ -239,7 +239,10 @@ strong {
 #errorMessage {
   color: #FF4D4D;
   margin-bottom: 2px;
+}
 
+.addTimePanel {
+  display: none;
 }
 
 .bodyContent {

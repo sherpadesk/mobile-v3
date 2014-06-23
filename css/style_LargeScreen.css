@@ -1532,6 +1532,7 @@ margin-left: -136px;
   width: 40%;
   margin-left: 7%;
   float:left;
+  display: block;
 }
 
 .listedAccount li:first-child {

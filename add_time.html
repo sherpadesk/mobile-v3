@@ -16,7 +16,7 @@
     <!-- Media query for tablets -->
     <link rel="stylesheet" href="css/tablet.css" />
     <!-- Media query for large Screen -->
-    <link rel="stylesheet" href="css/style_LargeScreen.css" />
+    <!--<link rel="stylesheet" href="css/style_LargeScreen.css" />-->
     <!-- Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
@@ -44,7 +44,7 @@
       </ul>
     </div>
   </header>
-  <body onload="initFastButtons();">
+  <body>
     <nav class="sideNav">
       <div class="fold"><i class="fa a-angle-double-left fa-2x"></i></div>
       <img class="navProfile" src="img/profile_3.png">
@@ -82,7 +82,7 @@
                 <!-- <option value="+value+">"+task+"</option> -->
              </select>
           </div>
-          <div id="billem" class="billable"><div id="billem1" class="innerCircle"></div></div><span class="billTag">Billable</span>
+          <div id="billem" class="billable"><div id="billem1" class="innerCircle billFill"></div></div><span class="billTag">Billable</span>
           <textarea id="noteTime" class="textInput1" type="text" placeholder="I completed..."></textarea>
           <button class="greenButton" id="submitTime">Add Time</button>
       </div>
