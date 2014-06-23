@@ -1,3 +1,5 @@
+
+ 
 html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, menu, nav, section, time, mark, audio, video {
     margin: 0;
     padding: 0;
@@ -220,7 +222,7 @@ strong {
   overflow: hidden;
 }
 .loginScreen {
-  background: url("../img/loginBG.png");
+  background: url("../img/mountainBG.jpg");
   /*padding-top: 80px*/;
   background-size: cover;
   background-repeat: no-repeat;
@@ -2132,6 +2134,10 @@ br {
   margin-left: 35px;
 }
 
+.addInput {
+  margin-top: -7px !important;
+}
+
 .input {
   margin-bottom: 15px;
   border: 0px;
@@ -2142,4 +2148,3 @@ br {
   color: #fff;
   padding-left: 10px;
 }
-

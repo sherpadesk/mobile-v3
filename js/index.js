@@ -93,7 +93,7 @@ fullscreen();
 
 		slideOut: function() {
 			$(document).on("click","#addRecipient", function(){
-				var insert = "<div id='addEm' class='headerSearchContainer addRecipColor'><input class='headerSearch'><img class='searchCloseExpanded addRecipX' src='img/close_search.png'></div>";
+				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer addRecipColor'><input class='headerSearch'><img class='searchCloseExpanded addRecipX' src='img/close_search.png'></div></li>";
 				var parent = $(this).parent();
 				var label = '<li>Recipients</li>';
 				$(parent).empty();
@@ -351,10 +351,36 @@ fullscreen();
 
 	};
 
-	
+	var largeScreenStlye = {
+		init:function() {
+			this.changeStyle();
+		},
+
+		changeStyle:function() {
+
+			if($(window).width() >=800) 
+				{
+					//add the large style sheet 
+					var insert = '<link id="largeCss" rel="stylesheet" href="css/style_LargeScreen.css" />';
+					$(insert).appendTo('head');
+				}
+			$(window).resize(function(){
+				if($(window).width() >=800) 
+				{
+					//add the large style sheet 
+					var insert = '<link id="largeCss" rel="stylesheet" href="css/style_LargeScreen.css" />';
+					$(insert).appendTo('head');
+				}else{
+					$("#largeCss").remove();
+				}
+			});
+		}
+	};
+
 
 	(function() {
 		openTickets.init();
+		largeScreenStlye.init();
 		backButton.init();
 		addRecip.init();
 		showExtendedDetails.init();

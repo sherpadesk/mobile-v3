@@ -12,6 +12,36 @@ $(document).ready(function(){
 			this.login();
 		},
 		login:function() {
+			$(document).on("keypress","#password, #userName",function(e){
+   			 if(e.which == 13) {
+       		 	var userName = $("#userName").val();
+				var password = $("#password").val();
+				$.ajax({
+			type: 'POST',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization',
+          'Basic ' + btoa(userName + ':' + password ));
+			},
+				url:"http://api.beta.sherpadesk.com/login",
+				dataType:"json",
+				success: function(returnData) {
+						console.log(returnData);
+						localStorage.setItem("userKey", returnData.api_token)
+						localStorage.setItem('userName', userName);
+						window.location = "org.html";
+						
+					},
+					complete:function(){
+				
+				},
+				error: function() {
+					$("#errorMessage").html("Invalid Username / Password");
+					$("#password").val("");
+					}
+			});
+       		 }
+       		});
 			$("#loginButton").click(function(){
 				var userName = $("#userName").val();
 				var password = $("#password").val();
