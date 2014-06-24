@@ -729,6 +729,13 @@ $(document).ready(function(){
 	var addTime = {
 		init:function(){
 			this.inputTime();
+			this.accountTime();
+		},
+
+		accountTime:function() {
+			$("#addTimeAccount").click(function(){
+				window.location = "add_time.html";
+			});
 		},
 
 		inputTime:function(){
