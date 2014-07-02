@@ -6,69 +6,95 @@ $(document).ready(function(){
 	var	userKey = "";
 	var accountDetailed = "";
 
+	function getParameterByName(name) {
+	    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+	    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+	}
+
+	function cleanQuerystring() {
+	    var clean_uri = location.protocol + "//" + location.host + location.pathname;
+	    window.history.replaceState({}, document.title, clean_uri);
+	}
+
 	// user login 
 	var UserLogin = {
-		init:function(){
-			this.login();
+	    init: function () {
+	        userKey = localStorage.getItem("userKey");
+	        if (userKey == '' || userKey == null) {
+	            var key = getParameterByName('t');
+	            var email = getParameterByName('e');
+	            if (key) {
+	                cleanQuerystring();
+	                localStorage.setItem('is_google', true);
+	                localStorage.setItem("userKey", key)
+	                localStorage.setItem('userName', email);
+	                window.location = "org.html";
+	            }
+	            else
+	                this.login();
+	        }
+		},
+		do_login: function () {
+		    var userName = $("#userName").val();
+		    var password = $("#password").val();
+		    if (userName == '' || password == '') {
+		        $("#errorMessage").html("Please enter a valid Email or Password");
+		        return;
+		    }
+		    $.ajax({
+		        type: 'POST',
+		        beforeSend: function (xhr) {
+		            xhr.withCredentials = true;
+		            xhr.setRequestHeader('Authorization',
+              'Basic ' + btoa(userName + ':' + password));
+		        },
+		        url: "http://api.beta.sherpadesk.com/login",
+		        dataType: "json",
+		        success: function (returnData) {
+		            console.log(returnData);
+		            localStorage.setItem("userKey", returnData.api_token)
+		            localStorage.setItem('userName', userName);
+		            window.location = "org.html";
+
+		        },
+		        complete: function () {
+
+		        },
+		        error: function () {
+		            if (userName && userName.indexOf("@gmail.com") != -1)
+		                $("#errorMessage").html("If you are attempting to login with a google account, please do not type your google password, click the 'Sign in with Google' button, it is more secure.");
+		            else
+		                $("#errorMessage").html("There was a problem with your login.  Please try again.");
+		            $("#password").val("");
+		        }
+		    });
 		},
 		login:function() {
-			$(document).on("keypress","#password, #userName",function(e){
-   			 if(e.which == 13) {
-       		 	var userName = $("#userName").val();
-				var password = $("#password").val();
-				$.ajax({
-			type: 'POST',
-			beforeSend: function (xhr) {
-				xhr.withCredentials = true;
-				xhr.setRequestHeader('Authorization',
-          'Basic ' + btoa(userName + ':' + password ));
-			},
-				url:"http://api.beta.sherpadesk.com/login",
-				dataType:"json",
-				success: function(returnData) {
-						console.log(returnData);
-						localStorage.setItem("userKey", returnData.api_token)
-						localStorage.setItem('userName', userName);
-						window.location = "org.html";
-						
-					},
-					complete:function(){
-				
-				},
-				error: function() {
-					$("#errorMessage").html("Invalid Username / Password");
-					$("#password").val("");
-					}
+			$('#login_signup').on('click', function (e) {
+			    e.preventDefault();
+			    var url = 'https://app.beta.sherpadesk.com/mc/signuporg.aspx';
+			    if (window.self !== window.top) {
+			        alert('Please register in new window and reopen Sherpadesk extension again.');
+			        window.open(url, '');
+			    }
+			    else {
+			      document.location.href = url;
+			    }
 			});
-       		 }
-       		});
-			$("#loginButton").click(function(){
-				var userName = $("#userName").val();
-				var password = $("#password").val();
-				$.ajax({
-			type: 'POST',
-			beforeSend: function (xhr) {
-				xhr.withCredentials = true;
-				xhr.setRequestHeader('Authorization',
-          'Basic ' + btoa(userName + ':' + password ));
-			},
-				url:"http://api.beta.sherpadesk.com/login",
-				dataType:"json",
-				success: function(returnData) {
-						console.log(returnData);
-						localStorage.setItem("userKey", returnData.api_token)
-						localStorage.setItem('userName', userName);
-						window.location = "org.html";
-						
-					},
-					complete:function(){
-				
-				},
-				error: function() {
-					$("#errorMessage").html("Invalid Username / Password");
-					$("#password").val("");
-					}
+			$('form.google_openid').get(0).setAttribute('action', 'http://api.beta.sherpadesk.com/api/auth/googleopenid');
+			$('#sign_in_with_google').on('click', function (e) {
+			    e.preventDefault();
+			    if (window.self !== window.top) {
+			        alert('Please go Google login in new window and reopen Sherpadesk extension again.');
+			        $('form.google_openid').get(0).setAttribute('target', '_blank');
+			    }
+			    $('form.google_openid').get(0).submit();
 			});
+			$("#loginButton").click(function () { UserLogin.do_login(); });
+			$(document).on("keypress", "#password, #userName", function (e) {
+			    if (e.which == 13) {
+			        UserLogin.do_login();
+			    }
 			});
 		}
 	};
@@ -1978,8 +2004,8 @@ $(document).ready(function(){
 						// if account has more than 100 open tickets then sub 99+
 						if(openTickets > 100)
 						{
-							openTickets = "99<sup>+</sup>";
-							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
+						    openTickets = "99<sup>+</sup>";
+							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
 							$(activeAccount).appendTo("#activeList");
 						}
 						//if account name is longer than 9 chars then elipse the account name 
