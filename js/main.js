@@ -24,7 +24,7 @@ $(document).ready(function(){
 	// user login 
 	var UserLogin = {
 	    init: function () {
-	        if (location.pathname.indexOf("index.html") < 0)
+	        if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/")
 	            return;
 	        userKey = localStorage.getItem("userKey");
 	        userOrgKey = localStorage.getItem('userOrgKey');
