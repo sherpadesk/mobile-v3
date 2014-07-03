@@ -1146,6 +1146,8 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
+						localStorage.setItem("invoiceAccountId",returnData.account_id);
+						localStorage.setItem("invoiceProjectId",returnData.project_id);
 						$("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number 
 						var custoName = returnData.customer;
 						if(custoName.length > 23){
@@ -1170,15 +1172,15 @@ $(document).ready(function(){
 							}
 						$("#invoiceAmount").html("$"+amount +"<span class='detail3Small'>."+change+"</span>");  // invoice amount 
 						$("#invoiceTravel").html("$"+returnData.travel_cost+"<span class='detail3Small'>.00</span>"); // travel expenses amount 
-						var expences = 0;
-						if(returnData.expences.length > 0)
+						var expenses = 0;
+						if(returnData.expenses.length > 0)
 						{
-							for(var i = 0; i < returnData.expences.length; i++)
+							for(var i = 0; i < returnData.expenses.length; i++)
 							{
-								expences = expences + returnData.expences[i].total;
+								expenses = expenses + returnData.expenses[i].total;
 							}
 						}
-						$("#invoiceExpenses").html("$"+expences+"<span class='detail3Small'>.00</span>"); // expenses amount 
+						$("#invoiceExpenses").html("$"+expenses+"<span class='detail3Small'>.00</span>"); // expenses amount 
 						$("#invoiceAdjustments").html("$0<span class='detail3Small'>.00</span>"); // adjustments 
 						$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
 						$("#recipientList").empty();
@@ -1196,21 +1198,19 @@ $(document).ready(function(){
 							var name = returnData.time_logs[u].name;
 							var log = returnData.time_logs[u].total;
 							var date = formatDate(returnData.time_logs[u].date.substring(0,10));
-							var logID = returnData.time_logs[u].date.id;
-							var insert = "<li><ul id='invoiceTimelog' class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span></h3></li></ul></li>";
+							var logID = returnData.time_logs[u].id;
+							var insert = "<li><ul id='invoiceTimelog' data-id='"+logID+"'  class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span></h3></li></ul></li>";
 							$(insert).appendTo("#invoiceLogs");
 						}
-						//add update button to timelog list to enable timelog exclude / include 
-						$("<button class='greenButton' id='submitTime'>Update</button>").appendTo("#invoiceLogs");
-						$("#expencesList").empty();
-						for(var c = 0; c < returnData.expences.length; c++)
+						$("#expensesList").empty();
+						for(var c = 0; c < returnData.expenses.length; c++)
 						{
-							var name = returnData.expences[c].name;
-							var log = returnData.expences[c].total;
-							var date = formatDate(returnData.expences[c].date.substring(0,10));
-							var logID = returnData.expences[c].date.id;
+							var name = returnData.expenses[c].name;
+							var log = returnData.expenses[c].total;
+							var date = formatDate(returnData.expenses[c].date.substring(0,10));
+							var logID = returnData.expenses[c].date.id;
 							var insert = "<li><ul id='invoiceExpense' class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
-							$(insert).appendTo("#expencesList");
+							$(insert).appendTo("#expensesList");
 						}
 
 					},
@@ -1238,12 +1238,84 @@ $(document).ready(function(){
 		changeInvoice:function(){
 			//update timelog after being clicked 
 			$(document).on("click","#invoiceTimelog, #billem",function(){
+				var timeId = $(this).attr("data-id");
+				var billable = false;
 				$(this).find(".innerCircle").toggleClass("billFill");
+				//change billable to oposite of its current state 
+				if($(this).find(".innerCircle").hasClass("billFill"))
+				{
+					billable = true;
+				}
+				$.ajax({
+    				type: 'PUT',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: 'http://api.beta.sherpadesk.com/time/'+timeId,
+    				data: {
+    				    	"is_billable" : billable,
+							"is_project_log": true
+						   }, 
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("time log has been updated "+billable);
+    				    
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
 
 			});
 			//update expense after beign clicked 
 			$(document).on("click","#invoiceExpense",function(){
 				$(this).find(".innerCircle").toggleClass("billFill");
+
+			});
+
+			//addTime to an invoice 
+			$("#submitInvoiceTime").click(function(){
+				var techId = localStorage.getItem("userId");
+				var projectId = localStorage.getItem("invoiceProjectId");
+				var accountId = localStorage.getItem("invoiceAccountId");
+				var note = $("#noteTimeTicket").val();
+				var hours = $("#addTimeTicket").val();
+				console.log(techId);
+				console.log(projectId);
+				console.log(accountId);
+				console.log(note);
+				console.log(hours);
+				$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: 'http://api.beta.sherpadesk.com/time',
+    				data: {
+    				    	"tech_id" : techId,
+    						"project_id": projectId,
+    						"account_id" :accountId,
+    						"note_text": note,
+    						"task_type_id": 1,
+    						"hours":hours,
+    						"is_billable": true,
+    						"date": new Date().toJSON(),
+    						"start_date": new Date().toJSON(),
+    						"stop_date": new Date().toJSON()
+						   }, 
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("time log has been added");
+    				    
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
 
 			});
 		}
