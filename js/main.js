@@ -1238,7 +1238,7 @@ $(document).ready(function(){
 							var name = returnData.expenses[c].name;
 							var log = returnData.expenses[c].total;
 							var date = formatDate(returnData.expenses[c].date.substring(0,10));
-							var logID = returnData.expenses[c].date.id;
+							var logID = returnData.expenses[c].id;
 							var insert = "<li><ul id='invoiceExpense' class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
 							$(insert).appendTo("#expensesList");
 						}
@@ -1258,7 +1258,7 @@ $(document).ready(function(){
 
 		}
 	};
-
+/*
 	//methods & Api calls that deal with changing time adding adjustments, expenses 
 	var updateInvoice ={
 		init:function(){
@@ -1274,7 +1274,7 @@ $(document).ready(function(){
 				//change billable to oposite of its current state 
 				if($(this).find(".innerCircle").hasClass("billFill"))
 				{
-					billable = true;
+					billable = false;
 				}
 				$.ajax({
     				type: 'PUT',
@@ -1301,7 +1301,67 @@ $(document).ready(function(){
 			});
 			//update expense after beign clicked 
 			$(document).on("click","#invoiceExpense",function(){
+				var timeId = $(this).find(".timeLogAddButton").attr("data-id");
+				alert(timeId);
 				$(this).find(".innerCircle").toggleClass("billFill");
+
+				$.ajax({
+    				type: 'DELETE',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: 'http://api.beta.sherpadesk.com/expenses'+timeId,
+    				data: {
+    				    	
+						   }, 
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("Deleted Expense");
+    				    
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+			});
+
+			//add an expense 
+			$("#addexpenseButton").click(function(){
+
+				$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: 'http://api.beta.sherpadesk.com/expenses',
+    				data: {
+    				    	"account_id": localStorage.getItem("invoiceAccountId"),
+    						"project_id": localStorage.getItem("invoiceProjectId"),
+    						"tech_id": localStorage.getItem("user_id"),
+    						"note": $("#expensesNote").val(),
+    						"note_internal": $("#expensesInternal").val(),
+    						"amount": $("#expenseAmount").val(),
+    						"is_billable": true,
+    						"vendor": "vendor name",
+    						"markup": 10
+						   }, 
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("time log has been added");
+    				    
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+			});
+
+			//add travel log 
+			$("#addTravelLog").click(function(){
 
 			});
 
@@ -1362,17 +1422,13 @@ $(document).ready(function(){
     				    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
-    				url: 'http://api.beta.sherpadesk.com/invoices',
+    				url: 'http://api.beta.sherpadesk.com/invoices?status=unbilled&project=-1&account=-1&adjustments=-2.4&adjustments_note=my_note',
     				data: {
-    						"status" : "unbilled",
-    						"project" : projectId,
-    						"account" : accountId,
-    						"adjustments" : "2.3",
-    						"adjustments_note" : "note"
+    						
 						   }, 
     				dataType: 'json',
     				success: function (d) {
-    				    console.log("adjusted");
+    				    location.reload(false);
     				    
     				},
     				error: function (e, textStatus, errorThrown) {
@@ -1380,8 +1436,10 @@ $(document).ready(function(){
     				}
  				});
 			});
+
 		}
 	};
+	*/
 
 	// get a list of invoices both for a specific account as well as a complete list of invoices 
 	var invoiceList = {

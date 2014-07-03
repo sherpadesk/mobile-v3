@@ -1,0 +1,42 @@
+Changed 
+/invoices/unbilled
+TO
+/invoices?status=unbilled
+
+get currency:
+http://api.beta.sherpadesk.com/config
+currency = "$"
+
+list of timelogs and other: 
+in invoice object, like "time_logs":[{"date":"2014-06-19T00:00:00.0000000","name":"Bennett, Matthew","total":0.00000000,"hours":0.0000,"id":"5205","ticket_id":"15"},{"date":"2014-06-23T00:00:00.0000000","name":"Bennett, Matthew","total":0.00000000,"hours":0.0000,"id":"5209","ticket_id":"15"},{"date":"2014-06-23T00:00:00.0000000","name":"Bennett, Matthew","total":0.00000000,"hours":1.0000,"id":"5210","ticket_id":"15"},{"date":"2014-06-23T00:00:00.0000000","name":"Bennett, Matthew","total":0.00000000,"hours":0.0000,"id":"5207","ticket_id":"15"},{"date":"2014-06-24T00:00:00.0000000","name":"Bennett, Matthew","total":0.00000000,"hours":1.0000,"id":"5213","ticket_id":"15"}]
+
+Add time to invoice:
+get ticket(project) number from time_logs and add time to it. 
+https://github.com/sherpadesk/api/wiki#input-time-a-ticket
+or 
+https://github.com/sherpadesk/api/wiki#update-time-a-ticket
+
+Add expence to invoice:
+https://github.com/sherpadesk/api/wiki#input-expense-to-project-or-account
+
+Add Adjustments:
+add parameter to querystring
+/invoices?status=unbilled&project=0&account=6&adjustments=-2.4&adjustments_note=my_note
+
+Add Travel logs:
+https://github.com/sherpadesk/api/wiki#travel-logs
+
+Recipients:
+you have already all possible recipients for invoice in invoice object. like: 
+
+"recipients":[{"id":7507,"email":"ethan@sherpadesk.com","fullname":"Ethan Andrews","phone":"","type":"admin","is_accounting_contact":true},{"id":19,"email":"spongebob@altavox.net","fullname":"Spongebob Squarepans","phone":"","type":"user","is_accounting_contact":false},{"id":21,"email":"sandy@altavox.net","fullname":"Sandy Squirrel","phone":"","type":"user","is_accounting_contact":false}]
+
+But you should show only users with is_accounting_contact = true.
+You can add any other user with is_accounting_contact = false, as recipient, if you need 
+
+add parameter recipients to request with user id list, like 19, 21
+POST /invoices?status=unbilled&project=0&account=6&recipients=19,21
+
+as result those users will be added as accounting contact: {"id":19,"email":"spongebob@altavox.net","fullname":"Spongebob Squarepans","phone":"","type":"user","is_accounting_contact":false},{"id":21,"email":"sandy@altavox.net","fullname":"Sandy Squirrel","phone":"","type":"user","is_accounting_contact":false}
+
+Eugene Tolmachov logged 10.00 hours (10 hours) as Software Dev task type.

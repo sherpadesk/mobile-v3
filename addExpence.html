@@ -54,11 +54,11 @@
 <body onload="initFastButtons();">
   <div class="bodyContent">
     <div class="CreateInvoiceWrapper"> 
-        <input class=" input" type="number" placeholder="Amount"></input>
-        <textarea class="textInput" type="text" placeholder="Customer Notes"></textarea>
-        <textarea class="textInput" type="text" placeholder="Internal Notes"></textarea>
+        <input id='expenseAmount' class=" input" type="number" placeholder="Amount"></input>
+        <textarea id="expenseNote" class="textInput" type="text" placeholder="Customer Notes"></textarea>
+        <textarea id="expenseInternal" class="textInput" type="text" placeholder="Internal Notes"></textarea>
         <div id="billem" class="billable"><div id="billem1" class="innerCircle"></div></div><span class="billTag">Billable</span>
-        <button class="greenButton">Add Log</button>
+        <button id="addexpenseButton" class="greenButton">Add Log</button>
         </div>
     </div>
   </div>
