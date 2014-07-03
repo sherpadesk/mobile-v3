@@ -16,11 +16,28 @@ $(document).ready(function(){
 	    window.history.replaceState({}, document.title, clean_uri);
 	}
 
+	function reveal() {
+	    $(".loadScreen").hide();
+	    $(".maxSize").fadeIn();
+	};
+
 	// user login 
 	var UserLogin = {
 	    init: function () {
+	        if (location.pathname.indexOf("index.html") < 0)
+	            return;
 	        userKey = localStorage.getItem("userKey");
-	        if (userKey == '' || userKey == null) {
+	        userOrgKey = localStorage.getItem('userOrgKey');
+	        userInstanceKey = localStorage.getItem('userInstanceKey');
+	        if (userKey && userOrgKey && userInstanceKey) {
+	            window.location = "dashboard.html";
+	            return;
+	        }
+	        if (userKey) {
+	            window.location = "org.html";
+	            return;
+	        }
+	        else {
 	            var key = getParameterByName('t');
 	            var email = getParameterByName('e');
 	            if (key) {
@@ -29,10 +46,10 @@ $(document).ready(function(){
 	                localStorage.setItem("userKey", key)
 	                localStorage.setItem('userName', email);
 	                window.location = "org.html";
+	                return;
 	            }
-	            else
-	                this.login();
 	        }
+	        this.login();
 		},
 		do_login: function () {
 		    var userName = $("#userName").val();
@@ -96,6 +113,7 @@ $(document).ready(function(){
 			        UserLogin.do_login();
 			    }
 			});
+			reveal();
 		}
 	};
 
@@ -223,11 +241,8 @@ $(document).ready(function(){
 									$(insert).appendTo("#transferTechs");
 								}
 							},
-							complete:function(){
-							function reveal(){
-							$(".loadScreen").hide();
-							$(".maxSize").fadeIn();
-							};
+						complete: function () {
+						    reveal();
 						},
 						error: function() {
 							console.log("fail @ time accounts");
@@ -402,15 +417,30 @@ $(document).ready(function(){
 		},
 
 		logOut:function(){
-			$("#signOut").click(function(){
-				localStorage.setItem('userOrgKey',"");
-				localStorage.setItem('userOrg',"");
-				localStorage.setItem('userInstanceKey',"");
-				localStorage.setItem('userKey',"");
-				window.location = "index.html";
-			});
+		    $("#signOut").click(function () {
+		        localStorage.removeItem('userOrgKey');
+		        localStorage.removeItem('userOrg');
+		        localStorage.removeItem('userInstanceKey');
+		        localStorage.removeItem('userKey');
+		        if (localStorage.is_google) {
+		            localStorage.removeItem('userName');
+		            localStorage.removeItem('is_google');
+		            GooglelogOut();
+		        }
+		        else
+		            window.location = "index.html";
+		    });
 		}
 	};
+
+	var GooglelogOut = function () {
+	    if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
+	        var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
+	        document.location.href = location.href.replace(/(.+\w\/)(.+)/, "$1") + "index.html";
+	    }
+	    else
+	        window.location = "index.html";
+	}
 
 	// create a new ticket 
 	var newTicket = {
@@ -2063,16 +2093,30 @@ $(document).ready(function(){
 	
 	// organization Ajax call 
 	var org = {
-		init: function() {
+	    init: function () {
+	        if (location.pathname.indexOf("org.html") < 0)
+	            return;
+	        $('.instSelect').hide();
+	        userKey = localStorage.getItem("userKey");
+	        if (!userKey)
+	        {
+	            window.location = "index.html";
+	            return;
+	        }
+	        userOrgKey = localStorage.getItem('userOrgKey');
+	        userInstanceKey = localStorage.getItem('userInstanceKey');
+	        if (userOrgKey && userInstanceKey)
+	        {
+	            window.location = "dashboard.html";
+	            return;
+	        }
 		    this.getOrg();
 		    //sets user role to user in local storage 
 		    localStorage.setItem('userRole', 'user');
-		    $('#instSelect').hide();
+	        //hide load screen
 		},
 
 		getOrg: function() {
-			//hide load screen
-		    $(".maxSize").hide();
 		    userKey = localStorage.getItem("userKey");
 			$.ajax({
 				type: 'GET',
@@ -2093,8 +2137,8 @@ $(document).ready(function(){
 					    for (var i = 0; i < orglistitem.length; i++) {
 					        $('#orgSelect')
                                 .append($("<option></option>")
-                                .attr("value", orglistitem[i].key)
-                                .text(orglistitem[i++].name));
+                                .attr("value", i)
+                                .text(orglistitem[i].name));
 					    }
 					    $('#orgSelect')
                         // listen for org selection	
@@ -2103,29 +2147,32 @@ $(document).ready(function(){
                                 userOrgKey = results[index_number].key;
                                 userOrg = results[index_number].name;
                                 var instances = results[index_number].instances;
-                                localStorage.setItem('userOrgKey', orgkey);
+                                localStorage.setItem('userOrgKey', userOrgKey);
 
                                 // If there is only one instance on the selected org								
                                 if (instances.length == 1) {
                                     userInstanceKey = instances[0].key;
-                                    localStorage.setItem('userInstanceKey', instkey);
-                                    //window.location = "index.html";
+                                    localStorage.setItem('userInstanceKey', userInstanceKey);
+                                    window.location = "dashboard.html";
+                                    return;
                                 }
                                 else {
                                     // If there is MORE than one instance on the selected org
+                                    $('#instSelect').find('option:gt(0)').remove();
                                     for (var i = 0; i < instances.length; i++) {
                                         $('#instSelect')
                                             .append($("<option></option>")
-                                            .attr("value", instances[i].key)
-                                            .text(instances[i++].name));
+                                            .attr("value", i)
+                                            .text(instances[i].name));
                                     }
-                                    $('#instSelect').show();
+                                    $('.instSelect').show();
                                     // listen for Instance selection	
                                     $('#instSelect').change(function () {
                                         var userInstanceKey = instances[this.value].key;
                                         localStorage.setItem('userInstanceKey', userInstanceKey);
                                         localStorage.setItem('sd_is_MultipleOrgInst', 'true');
-                                        //window.location = "index.html";
+                                        window.location = "dashboard.html";
+                                        return;
                                     });
                                 };
                             });
@@ -2143,48 +2190,37 @@ $(document).ready(function(){
 					    if (myinst.length == 1) {
 					        userInstanceKey = myinst[0].key;
 					        localStorage.setItem('userInstanceKey', userInstanceKey);
-							if(window.location.pathname == "/org.html" || window.location.pathname == "/Users/ethanandrews/Desktop/mobile-v3/org.html" ){
-								window.location = "dashboard.html";
-							}
-							$("#orgButton").click(function(){
-								
-								window.location = "dashboard.html";
-							});
-					        //window.location = "index.html";
-					    
+					        window.location = "dashboard.html";
+					        return;
 					    }
 					    else {
 					        // If there is MORE than one instance on the selected org
+					        $('#instSelect').find('option:gt(0)').remove();
 					        for (var i = 0; i < instances.length; i++) {
 					            $('#instSelect')
                                     .append($("<option></option>")
-                                    .attr("value", instances[i].key)
-                                    .text(instances[i++].name));
+                                    .attr("value", i)
+                                    .text(instances[i].name));
 					        }
-					        $('#instSelect').show();
+					        $('.instSelect').show();
 					        // listen for Instance selection	
 					        $('#instSelect').change(function () {
 					            userInstanceKey = instances[this.value].key;
 					            localStorage.setItem('userInstanceKey', userInstanceKey);
 					            localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+					            window.location = "dashboard.html";
+					            return;
 					        });
 					    };
 					};
 					
 				    $("#indexTitle").html(userOrg);
-				    storeLocalData();
+				    //storeLocalData();
 				    //window.location = "index.html";
-					getTicketCount();
-					getQueueList();
-					getActiveAccounts();
+				    reveal();
 
 				},
 				complete:function(){
-					function reveal(){
-					$(".loadScreen").hide();
-					$(".maxSize").fadeIn();
-				};
-				window.setTimeout(reveal,500);
 				},
 				error: function() {
 					console.log("fail @ getOrg");
@@ -2198,6 +2234,15 @@ $(document).ready(function(){
 	//Main Method that calls all the functions for the app
 	(function () {
 	    UserLogin.init();
+	    org.init();
+	    signout.init();
+	    getActiveAccounts();
+	    if (location.pathname.indexOf("dashboard.html") >= 0)
+	    {
+	        getTicketCount();
+	        getQueueList();
+	        reveal();
+	    }
 	    newTicket.init();
 	    pickUpTicket.init();
 	    closedTickets.init();
@@ -2206,11 +2251,9 @@ $(document).ready(function(){
 	    closeTicket.init();
 	    accountTimeLogs.init();
 	    sendInvoince.init();
-	    signout.init();
 	    addRecip.init();
 	    accountDetailsPageSetup.init();
 	    search.init();
-	   	org.init();
 		detailedTicket.init();
 		ticketList.init();
 		getQueues.init();
