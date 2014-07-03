@@ -1348,6 +1348,38 @@ $(document).ready(function(){
  				});
 
 			});
+
+			//add and adjustment to an invoice 
+			$("#addAdjustment").click(function(){
+				var amount = $("#adjustVal").val();
+				var note= $("#adjustNote").val();
+				var projectId = localStorage.getItem("invoiceProjectId");
+				var accountId = localStorage.getItem("invoiceAccountId");
+				$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: 'http://api.beta.sherpadesk.com/invoices',
+    				data: {
+    						"status" : "unbilled",
+    						"project" : projectId,
+    						"account" : accountId,
+    						"adjustments" : "2.3",
+    						"adjustments_note" : "note"
+						   }, 
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("adjusted");
+    				    
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+			});
 		}
 	};
 
