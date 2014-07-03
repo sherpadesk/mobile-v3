@@ -34,40 +34,30 @@
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
   </head>
-  <div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
   <div class="maxSize">
     <span id="fastclick">
   <header>
-    <ul class="topHeader">
+    <div class="headerContainer">
+      <ul class="topHeader">
         <li class="goBack"><img class="backIcon" src="img/back_icon.png"></li>
-        <li><h1 class="SherpaDesk">TimeLogs</h1></li>
-        <li><a href="addTimeInvoice.html"><img class="plusIconHeader" src="img/plus_icon.png"></a></li>
+        <li><h1 class="SherpaDesk">Add Time</h1></li>
+        <li></li>
       </ul>
+    </div>
   </header>
   <body onload="initFastButtons();">
-    <section class="bodyContent">
-      <div class="timelogContainer">
-        <ul id="invoiceLogs" class="timelogs">
-          <!--<li>
-            <ul id='invoiceTimelog' class='timelog'>
-              <li>
-                <div class='billable timeLogAddButton' data-id='"+logID+"'>
-                  <div class='innerCircle billFill'></div>
-                </div>
-              </li>
-              <li>
-                <h2 class='feedName'>"+name+"</h2>
-                <p class='taskDescription'>"+date+"</p>
-              </li>
-              <li>
-                <img class='feedClock' src='img/clock_icon_small.png'>
-                <h3 class='feedTime'><span>"+log+"</span></h3>
-              </li>-->
-            </ul>
-          </li>
+    <div class="bodyContent">
+      <div class="accountContainer">
+        <ul class="buttonList">
+          <li><span class="buttonListSymbols">-</span></li>
+          <li><input id="addTimeTicket" type="number"></li>
+          <li><span class="buttonListSymbols">+</span></li>
         </ul>
+          <textarea id="noteTimeTicket" class="textInput" type="text" placeholder="I completed..."></textarea>
+          <div id="billem" class="billable"><div id="billem1" class="innerCircle"></div></div><span class="billTag">Billable</span>
+          <button class="greenButton" id="submitInvoiceTime">Add Time</button>
       </div>
-    </section>
+    </div>
   </body>
 </span>
   </div>
