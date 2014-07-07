@@ -1286,11 +1286,55 @@ $(document).ready(function(){
     				url: 'http://api.beta.sherpadesk.com/time/'+timeId,
     				data: {
     				    	"is_billable" : false,
-							"is_project_log": false
+							"is_project_log": true
 						   }, 
     				dataType: 'json',
     				success: function (d) {
     				    console.log("time log has been updated "+billable);
+    				    
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+
+			});
+			
+			//addTime to an invoice 
+			$("#submitInvoiceTime").click(function(){
+				var techId = localStorage.getItem("userId");
+				var projectId = localStorage.getItem("invoiceProjectId");
+				var accountId = localStorage.getItem("invoiceAccountId");
+				var note = $("#noteTimeTicket").val();
+				var hours = $("#addTimeTicket").val();
+				console.log(techId);
+				console.log(projectId);
+				console.log(accountId);
+				console.log(note);
+				console.log(hours);
+				$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: 'http://api.beta.sherpadesk.com/time',
+    				data: {
+    				    	"tech_id" : techId,
+    						"project_id": projectId,
+    						"account_id" :accountId,
+    						"note_text": note,
+    						"task_type_id": 1,
+    						"hours":hours,
+    						"is_billable": true,
+    						"date": new Date().toJSON(),
+    						"start_date": new Date().toJSON(),
+    						"stop_date": new Date().toJSON()
+						   }, 
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("time log has been added");
     				    
     				},
     				error: function (e, textStatus, errorThrown) {
