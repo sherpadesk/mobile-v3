@@ -1258,6 +1258,49 @@ $(document).ready(function(){
 
 		}
 	};
+
+	// methods and API calls that deal with changing time adding adjustments, expenses 
+	var updateInvoice = {
+		init:function() {
+			this.updateTime();
+		},
+
+		updateTime:function(){
+			//update timelog after being clicked 
+			$(document).on("click","#invoiceTimelog, #billem",function(){
+				var timeId = $(this).attr("data-id");
+				var billable = false;
+				$(this).find(".innerCircle").toggleClass("billFill");
+				//change billable to oposite of its current state 
+				if($(this).find(".innerCircle").hasClass("billFill"))
+				{
+					billable = false;
+				}
+				$.ajax({
+    				type: 'PUT',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization', 
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: 'http://api.beta.sherpadesk.com/time/'+timeId,
+    				data: {
+    				    	"is_billable" : false,
+							"is_project_log": false
+						   }, 
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("time log has been updated "+billable);
+    				    
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+
+			});
+		}
+	};
 /*
 	//methods & Api calls that deal with changing time adding adjustments, expenses 
 	var updateInvoice ={
