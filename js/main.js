@@ -2225,6 +2225,45 @@ $(document).ready(function(){
 		});
 	};
 
+    //get instance config 
+	var getInstanceConfig = function (_userOrgKey, _userInstanceKey) {
+	    if (!_userOrgKey || !_userInstanceKey) {
+	        _userOrgKey = localStorage.getItem('userOrgKey');
+	        _userInstanceKey = localStorage.getItem('userInstanceKey');
+	    }
+	    if (!_userOrgKey || !_userInstanceKey) {
+	        return;
+	    }
+	    //get instance config 
+	    $.ajax({
+	        type: 'GET',
+	        beforeSend: function (xhr) {
+	            xhr.withCredentials = true;
+	            xhr.setRequestHeader('Authorization',
+                          'Basic ' + btoa(_userOrgKey + '-' + _userInstanceKey + ':' + localStorage.getItem("userKey")));
+	        },
+
+	        url: "http://api.beta.sherpadesk.com/config",
+	        dataType: "json",
+	        success: function (returnData) {
+	            localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
+	            localStorage.setItem('projectTracking', returnData.is_project_tracking);
+	            localStorage.setItem('timeTracking', returnData.is_time_tracking);
+	            localStorage.setItem('freshbooks', returnData.is_freshbooks);
+	            if (localStorage.getItem('userRole') == "tech")
+	                window.location = "dashboard.html";
+	            else
+	                window.location = "ticket_list.html";
+	        },
+	        complete: function () {
+
+	        },
+	        error: function () {
+	            console.log("fail @ config");
+	        }
+	    });
+	};
+
 	// get queues for the organization and list a max of 3 to the dashboard 
 	var getQueueList = function() {
 		$.ajax({
@@ -2359,9 +2398,9 @@ $(document).ready(function(){
 	            window.location = "dashboard.html";
 	            return;
 	        }
-		    this.getOrg();
-		    //sets user role to user in local storage 
-		    localStorage.setItem('userRole', 'user');
+	        this.getOrg();
+	        //sets user role to user in local storage 
+	        localStorage.setItem('userRole', "user");
 	        //hide load screen
 		},
 
@@ -2402,8 +2441,7 @@ $(document).ready(function(){
                                 if (instances.length == 1) {
                                     userInstanceKey = instances[0].key;
                                     localStorage.setItem('userInstanceKey', userInstanceKey);
-                                    window.location = "dashboard.html";
-                                    return;
+                                    getInstanceConfig(userOrgKey, userInstanceKey);
                                 }
                                 else {
                                     // If there is MORE than one instance on the selected org
@@ -2420,8 +2458,7 @@ $(document).ready(function(){
                                         var userInstanceKey = instances[this.value].key;
                                         localStorage.setItem('userInstanceKey', userInstanceKey);
                                         localStorage.setItem('sd_is_MultipleOrgInst', 'true');
-                                        window.location = "dashboard.html";
-                                        return;
+                                        getInstanceConfig(userOrgKey, userInstanceKey);
                                     });
                                 };
                             });
@@ -2439,8 +2476,7 @@ $(document).ready(function(){
 					    if (myinst.length == 1) {
 					        userInstanceKey = myinst[0].key;
 					        localStorage.setItem('userInstanceKey', userInstanceKey);
-					        window.location = "dashboard.html";
-					        return;
+					        getInstanceConfig(userOrgKey, userInstanceKey);
 					    }
 					    else {
 					        // If there is MORE than one instance on the selected org
@@ -2457,8 +2493,7 @@ $(document).ready(function(){
 					            userInstanceKey = instances[this.value].key;
 					            localStorage.setItem('userInstanceKey', userInstanceKey);
 					            localStorage.setItem('sd_is_MultipleOrgInst', 'true');
-					            window.location = "dashboard.html";
-					            return;
+                                getInstanceConfig(userOrgKey, userInstanceKey);
 					        });
 					    };
 					};
@@ -2466,10 +2501,13 @@ $(document).ready(function(){
 				    $("#indexTitle").html(userOrg);
 				    //storeLocalData();
 				    //window.location = "index.html";
-				    reveal();
-
 				},
-				complete:function(){
+				complete: function () {
+				    userOrgKey = localStorage.getItem('userOrgKey');
+				    userInstanceKey = localStorage.getItem('userInstanceKey');
+				    if (!userOrgKey || !userInstanceKey) {
+				        reveal();
+				    }
 				},
 				error: function() {
 					console.log("fail @ getOrg");
@@ -2490,7 +2528,7 @@ $(document).ready(function(){
 	    {
 	        getTicketCount();
 	        getQueueList();
-	        reveal();
+	        //reveal();
 	    }
 	    newTicket.init();
 	    pickUpTicket.init();
