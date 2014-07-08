@@ -1189,18 +1189,22 @@ $(document).ready(function(){
 						$("#invoiceDate").html(date); 
 						$("#invoiceHours").html(returnData.total_hours+"<span class='detail3Small'>hrs</span>"); // hours to invoice 
 						var amount = 0;
-						var change = "00";
+						var change = ".00";
 						var length = returnData.amount.toString().length;
 						if(returnData.amount.toString().indexOf(".") >= 0)
 							{
 								amount = returnData.amount.toString().substring(0, length -3);
-								change = returnData.amount.toString().substring(length-2, length);
+								change = "."+returnData.amount.toString().substring(length-2, length);
+								if(change.indexOf("..") >= 0)
+								{
+									change = "."+returnData.total_cost.toString().substring(length-1, length)+"0";
+								}
 							}
 							else
 							{
 								amount = returnData.amount;
 							}
-						$("#invoiceAmount").html("$"+amount +"<span class='detail3Small'>."+change+"</span>");  // invoice amount 
+						$("#invoiceAmount").html("$"+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount 
 						$("#invoiceTravel").html("$"+returnData.travel_cost+"<span class='detail3Small'>.00</span>"); // travel expenses amount 
 						var expenses = 0;
 						if(returnData.expenses.length > 0)
@@ -1212,7 +1216,23 @@ $(document).ready(function(){
 						}
 						$("#invoiceExpenses").html("$"+expenses+"<span class='detail3Small'>.00</span>"); // expenses amount 
 						$("#invoiceAdjustments").html("$0<span class='detail3Small'>.00</span>"); // adjustments 
-						$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
+						//$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
+						 length = returnData.total_cost.toString().length;
+						if(returnData.total_cost.toString().indexOf(".") >= 0)
+							{
+
+								amount = returnData.total_cost.toString().substring(0, length -3); 
+								change = "."+returnData.total_cost.toString().substring(length-2, length);
+								if(change.indexOf("..") >= 0)
+								{
+									change = "."+returnData.total_cost.toString().substring(length-1, length)+"0";
+								}
+							}
+							else
+							{
+								amount = returnData.total_cost;
+							}
+						$(".invoiceTotal").html("$"+amount+"<span class='detail3Small'>"+change+"</span>");
 						$("#recipientList").empty();
 						// add recipients to recipients list 
 						for(var x = 0; x < returnData.recipients.length; x++)
@@ -1259,92 +1279,6 @@ $(document).ready(function(){
 		}
 	};
 
-	// methods and API calls that deal with changing time adding adjustments, expenses 
-	var updateInvoice = {
-		init:function() {
-			this.updateTime();
-		},
-
-		updateTime:function(){
-			//update timelog after being clicked 
-			$(document).on("click","#invoiceTimelog, #billem",function(){
-				var timeId = $(this).attr("data-id");
-				var billable = false;
-				$(this).find(".innerCircle").toggleClass("billFill");
-				//change billable to oposite of its current state 
-				if($(this).find(".innerCircle").hasClass("billFill"))
-				{
-					billable = false;
-				}
-				$.ajax({
-    				type: 'PUT',
-    				beforeSend: function (xhr) {
-    				    xhr.withCredentials = true;
-    				    xhr.setRequestHeader('Authorization', 
-    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-    				    },
-    				url: 'http://api.beta.sherpadesk.com/time/'+timeId,
-    				data: {
-    				    	"is_billable" : false,
-							"is_project_log": true
-						   }, 
-    				dataType: 'json',
-    				success: function (d) {
-    				    console.log("time log has been updated "+billable);
-    				    
-    				},
-    				error: function (e, textStatus, errorThrown) {
-    				         console.log(textStatus);
-    				}
- 				});
-
-			});
-			
-			//addTime to an invoice 
-			$("#submitInvoiceTime").click(function(){
-				var techId = localStorage.getItem("userId");
-				var projectId = localStorage.getItem("invoiceProjectId");
-				var accountId = localStorage.getItem("invoiceAccountId");
-				var note = $("#noteTimeTicket").val();
-				var hours = $("#addTimeTicket").val();
-				console.log(techId);
-				console.log(projectId);
-				console.log(accountId);
-				console.log(note);
-				console.log(hours);
-				$.ajax({
-    				type: 'POST',
-    				beforeSend: function (xhr) {
-    				    xhr.withCredentials = true;
-    				    xhr.setRequestHeader('Authorization', 
-    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-    				    },
-    				url: 'http://api.beta.sherpadesk.com/time',
-    				data: {
-    				    	"tech_id" : techId,
-    						"project_id": projectId,
-    						"account_id" :accountId,
-    						"note_text": note,
-    						"task_type_id": 1,
-    						"hours":hours,
-    						"is_billable": true,
-    						"date": new Date().toJSON(),
-    						"start_date": new Date().toJSON(),
-    						"stop_date": new Date().toJSON()
-						   }, 
-    				dataType: 'json',
-    				success: function (d) {
-    				    console.log("time log has been added");
-    				    
-    				},
-    				error: function (e, textStatus, errorThrown) {
-    				         console.log(textStatus);
-    				}
- 				});
-
-			});
-		}
-	};
 /*
 	//methods & Api calls that deal with changing time adding adjustments, expenses 
 	var updateInvoice ={
