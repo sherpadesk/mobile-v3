@@ -3,9 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Support Ticket Platform</title>
+    <title>IT Support & HelpDesk | Sherpadesk</title>
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/medium.css" />
+    <link rel="stylesheet" href="css/small.css" />
     <!-- Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
@@ -13,8 +15,11 @@
     <!-- Main.js -->
     <script src="js/main.js"></script>
     <script src="js/jquery.color.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
         <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="shortcut icon" href="img/sherpaFace.png">
   </head>
   <body>
     <section class="sideMenuContainer">
@@ -34,10 +39,7 @@
                <div class="menuItem"><p>Blog</p></div>
            </li>
            <li>
-               <div class="loginButton">Login</div>
-           </li>
-           <li>
-               <div class="getStartedButton">Start Free</div>
+               <a href="https://sherpadesk.com/start-your-climb/"><div id="sideButton" class="getStartedButton">Start Free</div></a>
            </li>
        </ul>
    </section>
@@ -45,19 +47,16 @@
   <header>
     <ul class="headerNav">
         <li><img id="logo" src="img/SherpaLogo.png">*
+            <img id="logoBlue" src="img/logo.png">
         </li>
         <li>
             <a href="https://sherpadesk.com/start-your-climb/"><div id="headerButton" class="getStartedButton">Start Free</div></a>
             *
         </li>
-        <li>
-            <a href="https://sherpadesk.com/start-your-climb/">
-            <p>Support</p>
-            </a>
-        </li>
+       
         <li id="loginHeader">
             <a href="https://support.sherpadesk.com">
-            <p>Login</p>
+            <p>Support</p>
             </a>
         </li>
         <li>
@@ -83,91 +82,107 @@
     <section class="logos">
         <ul>
             <li>
-                <img class="client" src="img/logo1.png">
+                <img id="logo1" class="client" src="img/logo1.png">
             </li>
             <li>
-                <img class="client"  src="img/logo2.png">
+                <img id="logo2" class="client"  src="img/logo2.png">
             </li>
             <li>
-                <img class="thinLogo client"  src="img/logo3.png">
+                <img id="logo3" class="thinLogo client"  src="img/logo3.png">
             </li>
             <li>
-                <img class="thinLogo client"  src="img/logo4.png">
+                <img id="logo4" class="thinLogo client"  src="img/logo4.png">
             </li>
             <li>
-                <img class="thinLogo client"  src="img/logo5.png">
+                <img id="logo5" class="thinLogo client"  src="img/logo5.png">
             </li>
         </ul>
 
     </section>
     <section class="video">
-        <a href="http://fast.wistia.net/embed/iframe/myiuexgit2?popover=true" class="wistia-popover[height=360,playerColor=228aa9,width=640]">
+        <a id="largeVid" href="http://fast.wistia.net/embed/iframe/myiuexgit2?popover=true" class="wistia-popover[height=360,playerColor=228aa9,width=640]">
         <img id="video" src="img/videoThumb1.png">
         <div class="playVideoButton">
             <i class="fa fa-play-circle-o fa-3x"></i>
             <p>PLAY VIDEO</p>
         </div>
         </a>
+        <div class="playVideoButton">
+            <i class="fa fa-play-circle-o fa-3x"></i>
+            <p>PLAY VIDEO</p>
+        </div>
+        <img id="videoMobile" src="img/videoThumb1.png">
 <script charset="ISO-8859-1" src="http://fast.wistia.com/assets/external/popover-v1.js"></script>
-            <h1><span>Ticket </span>mangment and Time tracking made <span>easy</span></h1>
+            <h1>Jamerson was looking at new ways to make their business more <span>collaborative</span>, streamlined and efficient. Their challenge was finding a solution to work the way they worked and keep them organized. The simplicity of <span>SherpaDesk</span>, the ease of use for heir clients to create support tickets and the deep integration into FreshBooks allowed them to.</h1>
     </section>
     <section class="customers">
         <ul>
             <li>
                 <img src="img/jeanGray.png">
-                <h3>Ravi Khan, Ripple IT</h3>
-                <h5>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </h5>
+                <h3>Ravi Khan, IT Intelligenc Consulting</h3>
+                <h5>HerpaDesk is simple, scalable and affordable. Improves Communications between you and the customers you support</h5>
             </li>
             <li>
                 <img src="img/johnnyCage.png">
-                <h3>Ravi Khan, Ripple IT</h3>
-                <h5>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </h5>
+                <h3>Ravi Khan, Riwal</h3>
+                <h5>Besides all the great features it's prompt customer support that makes (SherpaDesk) great to work with</h5>
             </li>
             <li>
                 <img src="img/RaviKhan.png">
-                <h3>Ravi Khan, Ripple IT</h3>
-                <h5>Lorem Ipsum is simply dummy text of the printing and typesetting industry. .</h5>
+                <h3>Ravi Khan, Christenson Communities </h3>
+                <h5>You guys provide great support...honestly, I think you should charge a bit more</h5>
             </li>
         </ul>
     </section>
     <section class="pageBreak">
-        <h1>Use Sherpadesk Free with Four Techs</h1>
+        <h1>First 4 Techs are Free</h1>
         <a href="https://sherpadesk.com/start-your-climb/">
-        <div id="pageBreakGetStarted" class="getStartedButton">Start Now</div>
+        <div id="pageBreakGetStarted" class="getStartedButton">Start Supporting Customers</div>
         </a>
     </section>
     <section class="screenShot">
         <ul>
-            <li>
+            
+            <li class="SSText mobileOnly">
+                <h2>Centralize and manage all client issues</h2>
+                <h3>support issues are able to be generated and assigned to the right technician via email or through your company portal making sure each issue is never </h3>
+            </li>
+            <li class="ssImage">
                 <img src="img/ticketsSS.png">
             </li>
-            <li>
-                <h2>Ticket Management</h2>
-                <h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </h3>
+            <li class="SSText mobileHide">
+                <h2>Centralize and manage all client issues</h2>
+                <h3>support issues are able to be generated and assigned to the right technician via email or through your company portal making sure each issue is never </h3>
             </li>
-            <li>
-                <h2 id="midScreenShot">Log Time</h2>
-                <h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </h3>
+            <li class="SSText">
+                <h2 id="midScreenShot">keep accurate time logs across your team</h2>
+                <h3>Technicians are able to log time against projects and support issues to give ypu detailed information on how much time and cost are being allocated to your clients</h3>
             </li>
-            <li>
+            <li class="ssImage">
                 <img src="img/timeSS.png">
             </li>
-            <li>
+            <li class="mobileHide ssImage">
                 <img src="img/invoiceSS.png">
             </li>
-            <li>
-                <h2>Invoice Customers</h2>
-                <h3>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </h3>
+            <li class="SSText">
+                <h2>Send invoices quickly and track payments</h2>
+                <h3>Custom rate plans allow you to easily affrefate all time data to get invoices out to your customers and get your technician paid on time</h3>
+            </li>
+            <li class="mobileOnly ssImage">
+                <img src="img/invoiceSS.png">
             </li>
         </ul>
     </section>
     <section class="mobile">
+        <h1>Stay in Touch with Customers <span>24/7</span></h1>
         <div class="mobileWrapper">
-            <h1>Stay in Touch with Customers <span>24/7</span></h1>
             <div class="mobileText">
-                <h3><span>IT Support </span>on the go with our newly designed mobile platform </h3>
-                <h3>Accounts, Timelogs, Tickets, And Queues at your finger tips</h3>
-                <h3>Integrated with <span>Invoicing</span> capability</h3>
+                <h3 id="mobileH3"><span>SherpaDesk Tote</span> allows you to provide awesome customer support away from your desk while you are out in the field. The mobile application allows you flexibility to create new tickets, track time, send Invoices and close-out requests all from your smart phone</h3>
+                <h3>It's a little bit of<span> support love</span> in your pocket</h3>
+                <div class="appStoreWrapper">
+                <img class="appStore" src="img/apple.png">
+                <img class="appStore" src="img/googleplay.png">
+                </div>
             </div>
             <div id="phones">
             <ul>
@@ -176,29 +191,22 @@
                 <li><img src="img/page2.png"></li>
             </ul>
             </div>
+            <img class="soloPhone" src="img/page1.png">
         </div>
     </section>
     <section class="pricing">
         <div class="priceBlock">
-            <div id="overLayFree" class="overLay">
-                <p>Try Sherpadesk free for an unlimited time with up to 4 Agents / Techs.</p>
-                <i class="fa fa-arrow-down"></i>
-            </div>
             <div id="free" class="free">
                 <h1>FREE</h1>
                 <h2>$0<sup>.00</sup></h2>
                 <h3>per month</h3>
                 <h4>4 Agents / Techs</h4>
-                <h4>Accounts</h4>
-                <h4>Projects</h4>
+                <h4>3 Accounts</h4>
+                <h4>3 Projects</h4>
                 <div>Get Started</div>
             </div>
             <div class="or">
                 <h1>OR</h1>
-            </div>
-            <div id="overLayCustom"class="overLay">
-                <p>Use Sherpadesk to ultimate task managment of your company.</p>
-                <i class="fa fa-arrow-down"></i>
             </div>
             <div class="custom">
                 <h1>Custom</h1>
@@ -237,8 +245,9 @@ CEO, SherpaDesk
         <div class="optionWrapper">
             <h1>Start The Climb</h1>
             <a href="https://sherpadesk.com/start-your-climb/">
-            <div id="lastGetStarted">Lets Get Started</div>
+            <div id="lastGetStarted">Setup Your HelpDesk</div>
             </a>
+
             <img class="sherpaGuy" src="img/sherpaDesk-logo-final.png">
         </div>
     </section>

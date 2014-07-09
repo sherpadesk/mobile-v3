@@ -30,9 +30,27 @@ var downArrow = {
 		if(viewportHeight < 700){
 			viewportHeight = 780;
 		} 
+
 	 	var viewportWidth = $(window).width();
 	 	$("#headerGetStarted").css("top",viewportHeight - 250);
 	 	$("#headerGetStarted").css("left",(viewportWidth / 2) - 90 );
+	 	if(viewportWidth < 650) {
+	 			var viewportHeight = $(window).height();
+	 			$("#headerGetStarted").css("top",viewportHeight - 150);
+	 		}
+	 	$(window).resize(function(){
+	 		var viewportWidth = $(window).width();
+	 		
+	 		if(viewportWidth < 650) {
+	 			var viewportHeight = $(window).height();
+	 			$("#headerGetStarted").css("top",viewportHeight - 150);
+	 		}else {
+	 			var viewportHeight = $(window).height();
+	 			$("#headerGetStarted").css("top",viewportHeight - 250);
+	 		}
+	 		$("#headerGetStarted").css("left",(viewportWidth / 2) - 90 );
+
+	 	});
 	},
 
 
@@ -189,16 +207,31 @@ var header = {
    			if($(window).scrollTop() > height -180 ){
 				$("#logo").fadeOut(100);
 				$(".headerNav").css("box-shadow","0px 5px 5px rgba(136, 136, 136, 0.26)");
+				
    			}else{
    				$("#logo").fadeIn(700);
-
+   				
    			}
 	 	});
 	 	$(window).scroll(function() {
+   			if($(window).scrollTop() > height -80 ){
+				$("#loginHeader").css("margin-top","0px");
+				$("#phoneIcon").css("margin-top","10px");
+   			}else{
+   				$("#loginHeader").css("margin-top","14px");
+   				$("#phoneIcon").css("margin-top","18px");
+   			}
+	 	});
+
+	 	$(window).scroll(function() {
    			if($(window).scrollTop() > height -40 ){
+   				if($(window).width() > 400){
 				$("#headerButton").fadeIn(500);
+				$("#logoBlue").fadeIn(500);  					
+   				}
    			}else{
    				$("#headerButton").fadeOut(100);
+   				$("#logoBlue").fadeOut(100);
    				$(".headerNav").css("box-shadow","0px 5px 5px rgba(136, 136, 136, 0)");
    			}
 	 	});
@@ -212,7 +245,7 @@ var expandPhones = {
 
 	unFold:function() {
 		$(window).scroll(function(){
-			if($(window).scrollTop() > 3300)
+			if($(window).scrollTop() > 3000)
 			{
 				$("#phones").animate({
 					"width":"49.33%"

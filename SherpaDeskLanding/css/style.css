@@ -21,7 +21,7 @@ a {
 
 /* header */
 header {
-	background: url(../img/mountainsBG.png) 50% 0 repeat fixed ;
+	background: url(../img/mbg3.jpg) 50% 0 repeat fixed ;
   width: 100%;
   height: 1000px;
   -webkit-background-size: cover;
@@ -56,7 +56,7 @@ header:before {
 }
 
 .headerNav li:nth-child(1) {
-	width: 74%;
+	width: 76%;
 	font-size: 30px;
 	line-height: 45px;
 	margin-left: 10px;
@@ -67,40 +67,57 @@ header:before {
 .headerNav li {
 	float: left;
 	width: 5%;
-	font-size: 19px;
+	font-size: 29px;
 	line-height: 55px;
 	text-align: right;
 }
 
 .headerNav li:nth-child(2) {
-	width: 10%;
+	width: 12%;
 	color: transparent;
 }
 
+.headerNav li:nth-child(3) {
+	color: transparent !important;
+}
 .headerNav li:nth-child(5) {
 	text-align: center !important;
 	font-size: 17px !important
 }
 
 .phone {
-	width: 153px;
+	width: 271px;
 	/* background-color: #2B82B3; */
 	margin-right: 0px;
-	padding-right: 35px;
+	padding-right: 23px;
+	font-size: 38px;
+	color: #5A5757 !important;	
 	display: none;
+	font-weight: 600 !important;
 }
 
+#phoneIcon {
+	margin-top: 9px;
+	font-size: 42px;
+	margin-top: 18px;
+}
 
+#loginHeader {
+	margin-top: 14px;
+}
 
 #navIcon {
 	display: none;
 }
 
 .titleWrapper {
-	width: 60%;
+	width: 64%;
 	overflow: auto;
 	margin: 155px auto;
 	display: block;
+	background-color: rgba(0,0,0,0.5);
+	border-radius: 10px;
+	padding-left: 34px;
 }
 .titleWrapper span {
 	color: #fff;
@@ -140,6 +157,7 @@ header i {
 header p {
 	float: right;
 	color: #fff;
+	font-size: 23px;
 }
 
 #name {
@@ -260,10 +278,9 @@ header h3 {
 }
 
 .getStartedButton {
-	width: 180px;
+	width: 308px;
 	height: 60px;
 	background-color: #8bc500;
-	border: 1px solid #537E1C !important;
 	border-radius: 5px;
 	margin: 0 auto;
 	text-align: center;
@@ -285,6 +302,10 @@ header h3 {
 	color: rgba(252, 252, 252, 0.34);
 }
 
+#logoBlue {
+	width: 185px;
+	display: none;
+}
 
 .logos {
 	width: 100%;
@@ -324,12 +345,17 @@ header h3 {
 }
 
 .video img {
-	width: 800px;
+	width: 55%;
 	height: 470px;
 	display: block;
 	margin-left: 50px;
 	float: left;
 	margin-top: 40px;
+	margin-right: 75px;
+}
+
+#video {
+	min-width: 600px;
 }
 
 #headerButton {
@@ -360,7 +386,7 @@ header h3 {
 	top: 250px;
 	border-radius: 10px;
 	display: block;
-	left: 330px;
+	left: 23%;
 	z-index: 1;
 }
 
@@ -380,14 +406,14 @@ header h3 {
 }
 
 .video h1 {
-	text-align: center;
-	font-size: 40px;
+	text-align: left;
+	font-size: 25px;
 	color: #4c5156;
 	/* margin-top: 200px; */
-	margin: 200px auto;
+	margin: 100px auto;
 	font-weight: 300;
-	margin-left: 40px;
-	width: 97%;
+	/* margin-left: 40px; */
+	width: 91%;
 }
 
 .video span {
@@ -431,6 +457,9 @@ header h3 {
 	font-size: 16px;
 	font-weight: 300;
 	color: #4c5156;
+	width: 90%;
+	display: block;
+	margin: 0 auto;
 }
 
 .pageBreak {
@@ -445,18 +474,20 @@ header h3 {
 }
 
 .pageBreak h1 {
-	margin-left: 100px;
+	margin-left: 162px;
 	line-height: 250px;
 	color: #fff;
 	font-weight: 300;
-	font-size: 30px;
+	font-size: 53px;
 	
 }
 #pageBreakGetStarted {
 	margin-top: -70px;
 	margin-left: 247px;
 }
+.SSText {
 
+}
 .screenShot {
 	width: 100%;
 	height: 1350px;
@@ -484,6 +515,18 @@ header h3 {
 .screenShot img {
 	margin: 0 auto;
 	display: block;
+	height: 100%;
+	width: 100%;
+	max-width: 620px;
+	max-height: 350px;
+}
+
+.mobileOnly {
+	display: none;
+}
+
+.soloPhone {
+	display: none;
 }
 
 .screenShotPop {
@@ -504,20 +547,24 @@ header h3 {
 
 .screenShot h3 {
 	width: 85%;
-	text-align: center;
+	text-align: left;
 	font-weight: 300;
 	font-size: 22px;
 	display: block;
 	margin: 150px auto;
+	color: #4c5156;
+	letter-spacing: -0.5px;
 }
 
 .screenShot h2 {
 	font-weight: 300;
 	font-size: 35px;
 	color: #228aa9;
-	text-align: center;
+	text-align: left;
 	margin-bottom: -135px;
 	margin-top: 125px;
+	margin-left: 46px;
+
 }
 
 #midScreenShot {
@@ -527,17 +574,27 @@ header h3 {
 .mobile {
 	margin-top: 200px;
 	width: 100%;
-	height: 650px;
+	height: 730px;
 	overflow: visible;
 	background-color: #f1f4f7;
 	padding-top: 5px;
 	border-top: 1px solid #d8dbdf;
 }
 
+.appStoreWrapper {
+	margin: 20px auto;
+	display: block;
+	width: 100%;
+	/* background-color: blue; */
+	padding-left: 30%;
+	overflow: auto;
+}
+
 .mobileWrapper {
-	width: 90%;
-	margin: 0 auto;
+	width: 93%;
+	/* margin: 0 auto; */
 	overflow: visible;
+	margin-left: 6%;
 }
 
 .mobile h1 {
@@ -547,7 +604,6 @@ header h3 {
 	/* margin-top: 200px; */
 	margin: 50px auto;
 	font-weight: 300;
-	margin-left: 40px;
 	width: 97%;
 }
 
@@ -580,13 +636,17 @@ header h3 {
 
 .mobile h3 {
 	color: #4c5156;
-	width: 60%;
+	width: 85%;
 	font-weight: 300;
 	text-align: center;
 	margin: 0 auto;
 	margin-bottom: 50px;
 	display: block;
 	font-size: 25px;
+}
+
+#mobileH3 {
+	margin-top: -50px;
 }
 
 #phones {
@@ -596,6 +656,12 @@ header h3 {
 
 .mobile span {
 	color: rgba(34, 138, 169, 0.8);
+}
+
+.appStore {
+	width: 165px !important;
+	height: 50px !important;
+	margin: 0 auto;
 }
 
 .pricing {
@@ -667,7 +733,7 @@ header h3 {
 
 
 #lastGetStarted {
-	width: 180px;
+	width: 215px;
 	height: 60px;
 	background-color: #8bc500;
 	border-radius: 5px;
@@ -706,10 +772,11 @@ header h3 {
 	width: 125px;
 	height: 125px;
 	border-radius: 100%;
-	background-color: rgba(124, 55, 56, 0.8);
+	background-color: rgba(90, 80, 81, 0.8);
 	position: absolute;
 	left: 235px;
 	top: 150px;
+	z-index: 2;
 }
 .or h1 {
 	text-align: center;
@@ -725,20 +792,23 @@ header h3 {
 	background-color: rgba(181, 173, 158, 0.68);
 	float: left;
 	margin-right: 50px;
+	z-index: 1;
+	position: relative;
+
 }
 
 .free h1 {
 	text-align: center;
-	color: #2a2e30;
+	color: #fff;
 	font-size: 60px;
 	font-weight: 300;
-	border-bottom: 1px solid #2a2e30;
+	border-bottom: 1px solid #fff;
 }
 
 
 .free h2 {
 	text-align: center;
-	color: #2a2e30;
+	color: #fff;
 	font-size: 70px;
 	font-weight: 300;
 	margin-top: 15px;
@@ -746,7 +816,7 @@ header h3 {
 
 .free h3 {
 	text-align: center;
-	color: #2a2e30;
+	color: #fff;
 	font-weight: 300;
 	margin-top: 5px;
 }
@@ -757,7 +827,7 @@ header h3 {
 
 .free h4 {
 	text-align: center;
-	color: #2a2e30;
+	color: #fff;
 	font-weight: 300;
 	margin-top: 10px;
 }
@@ -765,7 +835,7 @@ header h3 {
 .free div {
 	width: 100%;
 	height: 50px;
-	background-color: rgba(59, 83, 131, 0.59);
+	background-color: rgba(97, 173, 46, 0.59);
 	text-align: center;
 	line-height: 50px;
 	font-size: 30px;
@@ -774,6 +844,8 @@ header h3 {
 	display: block;
 	margin-top: 49px;
 	font-weight: 300;
+	position: absolute;
+	bottom: 0;
 }
 
 .custom h1 {
@@ -814,15 +886,17 @@ header h3 {
 .custom div {
 	width: 100%;
 	height: 50px;
-	background-color: rgba(59, 83, 131, 0.59);
+	background-color: rgba(97, 173, 46, 0.69);
 	text-align: center;
 	line-height: 50px;
 	font-size: 30px;
 	color: #fff;
 	/* margin-bottom: 12px; */
 	display: block;
-	margin-top: 49px;
+	/* margin-top: 49px; */
 	font-weight: 300;
+	position: absolute;
+	bottom: 0;
 }
 
 .custom {
@@ -830,6 +904,8 @@ header h3 {
 	height: 100%;
 	background-color: rgba(220, 224, 219, 0.8);
 	float: left;
+	position: relative;
+	z-index: 0;
 }
 
 .overLay {
