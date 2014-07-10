@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/medium.css" />
     <link rel="stylesheet" href="css/small.css" />
+    <link rel="stylesheet" href="css/large.css" />
     <!-- Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
@@ -25,17 +26,14 @@
     <section class="sideMenuContainer">
        <ul class="menu">
            <li>
-               <i class="fa fa-home fa-2x selectedMenuItem"></i>
-               <div class="menuItem selectedMenuItem"><p>Pricing</p></div>
+               <div class="menuItem"><p>Contact</p></div>
            </li>
            <li>
-               <i class="fa fa-comments-o fa-2x"></i>
                <a href="https://support.sherpadesk.com/portal/">
                <div class="menuItem"><p>Support</p></div>
                </a>
            </li>
            <li>
-               <i class="fa fa-user fa-2x"></i>
                <div class="menuItem"><p>Blog</p></div>
            </li>
            <li>
@@ -59,8 +57,9 @@
             <p>Support</p>
             </a>
         </li>
-        <li>
-            <i id="phoneIcon" class="fa fa-phone fa-2x"></i>
+        <li id="contact">
+            <!--<i id="phoneIcon" class="fa fa-phone fa-2x"></i>-->
+            <p>Contact</p>
             <p class="phone">770-779-1234</p>
         </li>
         <li><i id ="navIcon" class="fa fa-bars fa-2x"></i></li>
@@ -107,11 +106,14 @@
             <p>PLAY VIDEO</p>
         </div>
         </a>
-        <div class="playVideoButton">
+        <a class="mobileStrict" href="http://fast.wistia.net/embed/iframe/myiuexgit2?popover=true" class="wistia-popover[height=360,playerColor=228aa9,width=640]">
+        <img id="" src="img/videoThumb1.png">
+        <div class="smallVid playVideoButton">
             <i class="fa fa-play-circle-o fa-3x"></i>
             <p>PLAY VIDEO</p>
         </div>
-        <img id="videoMobile" src="img/videoThumb1.png">
+        </a>
+        <img class="smallVid" id="videoMobile" src="img/videoThumb1.png">
 <script charset="ISO-8859-1" src="http://fast.wistia.com/assets/external/popover-v1.js"></script>
             <h1>Jamerson was looking at new ways to make their business more <span>collaborative</span>, streamlined and efficient. Their challenge was finding a solution to work the way they worked and keep them organized. The simplicity of <span>SherpaDesk</span>, the ease of use for heir clients to create support tickets and the deep integration into FreshBooks allowed them to.</h1>
     </section>
@@ -203,7 +205,9 @@
                 <h4>4 Agents / Techs</h4>
                 <h4>3 Accounts</h4>
                 <h4>3 Projects</h4>
+                <a href="http://sherpadesk.com/start-your-climb/">
                 <div>Get Started</div>
+                </a>
             </div>
             <div class="or">
                 <h1>OR</h1>
@@ -215,7 +219,9 @@
                 <h4> 5 or more Agents / Techs</h4>
                 <h4>Accounts</h4>
                 <h4>Invoices</h4>
+                <a href="http://sherpadesk.com/pricing/">
                 <div>Tweak This Plan</div>
+                </a>
             </div>
         </div>
     </section>
@@ -267,7 +273,7 @@ CEO, SherpaDesk
             <a class="link" href="https://sherpadesk.com/privacy-policy/"><h3>Privacy Policy</h3></a>
             <a class="link" href="https://sherpadesk.com/yeti-sightings/"><h3>Recent Yeti Sightings</h3></a>
         </li>
-        <li>
+        <li class="mobileHide">
             <h2>Stay updated </h2>
             <textarea placeholder="Email"></textarea>
             <div class="subscribe">SUBSCRIBE</div>

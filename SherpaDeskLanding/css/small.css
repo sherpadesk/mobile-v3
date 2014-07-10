@@ -24,7 +24,7 @@ a {
 header {
 	background: url(../img/mbg3.jpg) 50% 0 repeat fixed ;
   width: 100%;
-  height: 1000px;
+  height: 800px !important;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -118,10 +118,11 @@ header:before {
 	display: block;
 	background-color: rgba(0,0,0,0.5);
 	border-radius: 10px;
-	padding-left: 34px;
+	padding-left: 0px;
 }
 .titleWrapper span {
 	color: #fff;
+	font-size: 45px !important;
 }
 .huge {
 	font-size: 80px;
@@ -151,11 +152,15 @@ header:before {
 
 .smallStay {
 	font-size: 35px;
-	font-weight: 400;
+	font-weight: 600 !important;
 }
 
 #largeQoute {
 	display: none !important;
+}
+
+.subTitleWrapper h3 span {
+	display: block;
 }
 header h1 {
 	color: transparent;
@@ -238,14 +243,21 @@ header h3 {
 }
 
 .menuItem {
- float: left;
- width: 70%;
- height: 100%;
- line-height: 37px;
+	float: left;
+	width: 70%;
+	height: 100%;
+	line-height: 45px;
+	background-color: rgba(0,0,0,0.5);
+	border-radius: 4px;
+	text-align: center;
+	margin: 0 auto;
+	display: block;
+	margin-left: 21px;
 }
 
 .menuItem p {
- margin-left: 8px;
+ margin-left: 0px;
+ color: #fff;
 }
 
 .selectedMenuItem {
@@ -288,6 +300,10 @@ header h3 {
 	text-align: center;
 	color: #fff;
 	line-height: 40px;
+}
+
+#smallVid {
+	display: block;
 }
 
 .getStartedButton {
@@ -381,7 +397,7 @@ header h3 {
 	width: 305px;
 	height: 200px;
 	display: block;
-	margin-left: 8px;
+	margin-left: 2%;
 	float: left;
 	margin-top: 35px;
 }
@@ -463,7 +479,7 @@ header h3 {
 
 .customers {
 	width: 100%;
-	height: 1334px;
+	height: 1300px;
 	background-color: #fff !important;
 }
 
@@ -540,7 +556,7 @@ header h3 {
 .screenShot ul {
 	list-style-type: none;
 	width: 90%;
-	margin: 0 auto;
+	margin: -126px auto;
 	overflow: visible;
 }
 
@@ -981,7 +997,7 @@ header h3 {
 }
 footer {
 	width: 100%;
-	height: 400px;
+	height: 600px;
 	overflow: auto;
 	background-color: #f1f4f7;
 }
@@ -996,8 +1012,10 @@ footer ul {
 
 footer ul li {
 	float: left;
-	width: 25%;
+	width: 100% !important;
 	height: 100%;
+	margin-bottom: 5px;
+	text-align: center !important;
 }
 
 
@@ -1013,7 +1031,7 @@ footer h3 {
 
 .footer  li:nth-child(1) {
 	color: #3B5383 !important;
-	width: 18% !important;
+	width: 100% !important;
 }
 
 .footer  li:nth-child(3) {
@@ -1024,6 +1042,7 @@ footer h3 {
 .footer  li:nth-child(4) {
 	color: #3B5383 !important;
 	width: 20% !important;
+	display: none;
 }
 
 footer h2 {

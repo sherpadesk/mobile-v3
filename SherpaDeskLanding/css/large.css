@@ -1,0 +1,60 @@
+@media all and (max-width: 2000px) and (min-width: 1600px) {
+.playVideoButton {
+	background-color: rgba(0,0,0,0.2);
+	width: 200px;
+	height: 50px;
+	position: absolute;
+	top: 250px;
+	border-radius: 10px;
+	display: block;
+	left: 21%;
+	z-index: 1;
+}
+
+.headerNav li:nth-child(2) {
+width: 6%;
+color: transparent;
+}
+.headerNav li {
+float: left;
+width: 6%;
+font-size: 29px;
+line-height: 55px;
+text-align: right;
+}
+
+.headerNav li:nth-child(1) {
+width: 80%;
+font-size: 30px;
+line-height: 45px;
+margin-left: 10px;
+color: transparent;
+text-align: left;
+}
+.finalGetStarted h1 {
+margin-top: 30px;
+text-align: left;
+display: block;
+font-size: 81px;
+font-weight: 300;
+color: #fff;
+margin-left: 34%;
+color: #fff;
+/* float: left; */
+}
+#lastGetStarted {
+width: 215px;
+height: 60px;
+background-color: #8bc500;
+border-radius: 5px;
+text-align: center;
+float: none;
+color: #fff;
+line-height: 60px;
+margin-top: 50px;
+font-size: 18px;
+/* margin-left: 388px; */
+margin: 50px auto !important;
+display: block;
+}
+}

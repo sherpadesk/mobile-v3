@@ -60,6 +60,7 @@ var downArrow = {
 			viewportHeight = 700;
 		}
 	 var viewportWidth = $(window).width();
+	 
 
 	 $(".arrowDown").css("top",viewportHeight - 85);
 	 $(".arrowDown").css("left",(viewportWidth)-75 );
@@ -190,10 +191,10 @@ var header = {
 	},
 
 	showNumber:function() {
-		$("#phoneIcon").mouseenter(function(){
+		$("#contact").mouseenter(function(){
 			$(".phone").fadeIn("fast");
 		});
-		$("#phoneIcon").mouseleave(function(){
+		$("#contact").mouseleave(function(){
 			$(".phone").fadeOut("fast");
 		});
 	},
@@ -215,11 +216,14 @@ var header = {
 	 	});
 	 	$(window).scroll(function() {
    			if($(window).scrollTop() > height -80 ){
+
 				$("#loginHeader").css("margin-top","0px");
-				$("#phoneIcon").css("margin-top","10px");
+				$("#contact").css("margin-top","0px");
+				//$("#phoneIcon").css("margin-top","10px");
    			}else{
    				$("#loginHeader").css("margin-top","14px");
-   				$("#phoneIcon").css("margin-top","18px");
+   				$("#contact").css("margin-top","14px");
+   				//$("#phoneIcon").css("margin-top","18px");
    			}
 	 	});
 
