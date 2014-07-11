@@ -2224,17 +2224,18 @@ $(document).ready(function(){
 				url:"http://api.sherpadesk.com/queues?sort_by=tickets_count",
 				dataType:"json",
 				success: function(returnData) {
+					console.log(returnData);
 						var queuesLength = returnData.length; 
 						$("#DashBoradQueues").empty();
 						//limit the max amount of queues to 3 
-						if(queuesLength > 3 ) {
+						/*if(queuesLength > 3 ) {
 							queuesLength = 3; 
-						}
+						}*/
 						//append queues to dashboard
-						for( var i = 0; i < queuesLength; i++)
+						for( var i = 0; i < 3; i++)
 						{
 							var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
-        					$(insertQueue).prependTo("#DashBoradQueues");					
+        					//$(insertQueue).prependTo("#DashBoradQueues");					
 						}
 					},
 				error: function() {

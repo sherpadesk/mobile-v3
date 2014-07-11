@@ -26,7 +26,8 @@ a {
 }
 
 body {
-  background: url("../img/bg_dark.png");
+  /*background: url("../img/bg_dark.png");*/
+  background: #34495e;
   /*padding-top: 80px*/;
   /*background-size: cover;*/
   background-repeat: no-repeat;
