@@ -935,6 +935,7 @@ header {
 
 .plusIcon {
   height: 25px;
+  display: none;
 }
 
 #sendInvoiceButton {
