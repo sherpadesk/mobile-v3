@@ -1459,6 +1459,7 @@ footer {
   float: left;
   margin-top: 7px;
   width: 70%;
+  margin-bottom: 20px;
 }
 
 .shortInfo {
@@ -1540,7 +1541,7 @@ footer {
 
 .commentBlock img {
   float: left;
-  margin-left: 5px;
+  /*margin-left: 5px;*/
   margin-top: -3px;
   z-index: 1;
   border-radius: 100%;
@@ -1550,7 +1551,7 @@ footer {
 .commentBlock span {
   float: left;
   z-index: 2;
-  width: 100%;
+  width: 121%;
   margin: 0 auto;
 }
 
