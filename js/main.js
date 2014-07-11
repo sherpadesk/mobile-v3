@@ -635,6 +635,7 @@ $(document).ready(function(){
 		universalSearch:function(){
 			//get the search value when the enter key is pressed 
 			$(document).on("keypress","#searchThis",function(e){
+				$(document).prompt();
    			 if(e.which == 13) {
        		 var searchItem  = $(".headerSearch").val().toLowerCase();
        		 localStorage.setItem("searchItem",searchItem);
@@ -1651,12 +1652,12 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
-						 $(".OptionsList").empty();
+						 $("#queuesPage").empty();
 						 // add queues to the queues list 
 						 for(var i = 0; i < returnData.length; i++)
 						 {
 						 	var insert = "<li><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
-						 	$(insert).appendTo(".OptionsList");
+						 	$(insert).appendTo("#queuesPage");
 						 }
 
 					},
@@ -1898,20 +1899,25 @@ $(document).ready(function(){
 						console.log(returnData);
 						$("#fullList").empty();
 						//add accounts to accountList
+						var name = null;
 						for(var i = 0; i < returnData.length; i++) 
 						{	
+							 name = returnData[i].name;
+							if(name.length > 10){
+								name = name.substring(0,7)+"...";
+							}
 							// check the number of open tickets for the account if the number of tickets is greater than 100 sub 99+
 							var openTks = returnData[i].ticket_counts.open;
 							if( openTks > 99)
 							{
 								openTks = "99<sup>+</sup>";
-								var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li><div class='tks toManyTks'>"+openTks+"</div></li></ul>";
+								var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks toManyTks'>"+openTks+"</div></li></ul>";
 								$(insert).appendTo($("#fullList"));
 							}
 							// else add account and number of tickets normally to the list 
 							else
 							{
-							var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li><div class='tks'>"+openTks+"</div></li></ul>";
+							var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"</div></li></ul>";
 							$(insert).appendTo($("#fullList"));
 							}
 						}
@@ -2225,23 +2231,22 @@ $(document).ready(function(){
 				dataType:"json",
 				success: function(returnData) {
 					console.log(returnData);
-						var queuesLength = returnData.length; 
 						$("#DashBoradQueues").empty();
-						//limit the max amount of queues to 3 
-						/*if(queuesLength > 3 ) {
-							queuesLength = 3; 
-						}*/
-						//append queues to dashboard
+						
 						for( var i = 0; i < 3; i++)
 						{
 							var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
-        					//$(insertQueue).prependTo("#DashBoradQueues");					
+        					$(insertQueue).prependTo("#DashBoradQueues");					
 						}
 					},
+					complete:function(){
+					
+				},
 				error: function() {
 					console.log("fail");
 					console.log(userOrgKey + '-' + userInstanceKey +':'+userKey);(userOrg);
 					}
+
 		});
 	};
 
@@ -2264,15 +2269,23 @@ $(document).ready(function(){
 					$(tableHeader).prependTo("#activeList");
 					console.log(returnData);
 					//add accounts to the active accounts list 
-					for (var i = 0; i < returnData.length; i++)
+					var activeLength = returnData.length;
+					if(returnData.length > 7){activeLength = 7;}
+					for (var i = 0; i < activeLength; i++)
 					{
 						var openTickets = returnData[i].ticket_counts.open;
 						// if account has more than 100 open tickets then sub 99+
 						if(openTickets > 100)
 						{
+							if(returnData[i].name.length > 9){
+								openTickets = "99<sup>+</sup>";
+								var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].timelogs+"</li><li>"+returnData[i].invoices+"</li><li><div class='tks1 toManyTksSmall' >"+openTickets+"</div></li></ul>";
+								$(activeAccount).appendTo("#activeList");
+							}else{
 						    openTickets = "99<sup>+</sup>";
 							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].timelogs+"</li><li>"+returnData[i].invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
 							$(activeAccount).appendTo("#activeList");
+							}
 						}
 						//if account name is longer than 9 chars then elipse the account name 
 						else if(returnData[i].name.length > 9) {
