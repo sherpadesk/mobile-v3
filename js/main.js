@@ -65,7 +65,7 @@ $(document).ready(function(){
 		            xhr.setRequestHeader('Authorization',
               'Basic ' + btoa(userName + ':' + password));
 		        },
-		        url: "http://api.beta.sherpadesk.com/login",
+		        url: "http://api.sherpadesk.com/login",
 		        dataType: "json",
 		        success: function (returnData) {
 		            console.log(returnData);
@@ -89,7 +89,7 @@ $(document).ready(function(){
 		login:function() {
 			$('#login_signup').on('click', function (e) {
 			    e.preventDefault();
-			    var url = 'https://app.beta.sherpadesk.com/mc/signuporg.aspx';
+			    var url = 'https://app.sherpadesk.com/mc/signuporg.aspx';
 			    if (window.self !== window.top) {
 			        alert('Please register in new window and reopen Sherpadesk extension again.');
 			        window.open(url, '');
@@ -98,7 +98,7 @@ $(document).ready(function(){
 			      document.location.href = url;
 			    }
 			});
-			$('form.google_openid').get(0).setAttribute('action', 'http://api.beta.sherpadesk.com/api/auth/googleopenid');
+			$('form.google_openid').get(0).setAttribute('action', 'http://api.sherpadesk.com/api/auth/googleopenid');
 			$('#sign_in_with_google').on('click', function (e) {
 			    e.preventDefault();
 			    if (window.self !== window.top) {
@@ -139,7 +139,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/tickets?status=closed&account="+localStorage.getItem("DetailedAccount"),
+				url:"http://api.sherpadesk.com/tickets?status=closed&account="+localStorage.getItem("DetailedAccount"),
 				dataType:"json",
 				success: function(returnData) {
 					$("#closedTickets").empty(); 
@@ -190,7 +190,7 @@ $(document).ready(function(){
     			    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     			    },
-    			url: 'http://api.beta.sherpadesk.com/tickets/'+localStorage.getItem("ticketNumber"),
+    			url: 'http://api.sherpadesk.com/tickets/'+localStorage.getItem("ticketNumber"),
     			data: {
     					"action" : "pickup",
     					"note_text": ""
@@ -226,7 +226,7 @@ $(document).ready(function(){
             	              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 					},
 	
-						url:"http://api.beta.sherpadesk.com/technicians",
+						url:"http://api.sherpadesk.com/technicians",
 						dataType:"json",
 						success: function(returnData) {
 								console.log(returnData);
@@ -258,7 +258,7 @@ $(document).ready(function(){
     			    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     			    },
-    			url: 'http://api.beta.sherpadesk.com/tickets/'+localStorage.getItem("ticketNumber"),
+    			url: 'http://api.sherpadesk.com/tickets/'+localStorage.getItem("ticketNumber"),
     			data: {
     					"action": "transfer",
     					"note_text": "example",
@@ -311,7 +311,7 @@ $(document).ready(function(){
     			    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     			    },
-    			url: 'http://api.beta.sherpadesk.com/tickets/'+localStorage.getItem("ticketNumber"),
+    			url: 'http://api.sherpadesk.com/tickets/'+localStorage.getItem("ticketNumber"),
     			data: {
     					"status" : "closed",
     					"note_text": "",
@@ -394,7 +394,7 @@ $(document).ready(function(){
     				    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
-    				url: 'http://api.beta.sherpadesk.com/invoices/'+localStorage.getItem('invoiceNumber'),
+    				url: 'http://api.sherpadesk.com/invoices/'+localStorage.getItem('invoiceNumber'),
     				data: {
    						    "action": "sendEmail"
 						   }, 
@@ -457,7 +457,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/accounts",
+				url:"http://api.sherpadesk.com/accounts",
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -500,7 +500,7 @@ $(document).ready(function(){
             	              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 					},
 	
-						url:"http://api.beta.sherpadesk.com/technicians",
+						url:"http://api.sherpadesk.com/technicians",
 						dataType:"json",
 						success: function(returnData) {
 								console.log(returnData);
@@ -535,7 +535,7 @@ $(document).ready(function(){
             	              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 					},
 	
-						url:"http://api.beta.sherpadesk.com/classes",
+						url:"http://api.sherpadesk.com/classes",
 						dataType:"json",
 						success: function(returnData) {
 								console.log(returnData);
@@ -569,7 +569,7 @@ $(document).ready(function(){
     				    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
-    				url: 'http://api.beta.sherpadesk.com/tickets',
+    				url: 'http://api.sherpadesk.com/tickets',
     				data: {
     				    	"status" : "open",
     						"subject" : $("#addTicketSubject").val(),
@@ -608,7 +608,7 @@ $(document).ready(function(){
     				    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
-    				url: 'http://api.beta.sherpadesk.com/tickets/'+localStorage.getItem('ticketNumber'),
+    				url: 'http://api.sherpadesk.com/tickets/'+localStorage.getItem('ticketNumber'),
     				data: {
     				    "note_text": comment,
    						    "action": "response"
@@ -650,7 +650,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/accounts",
+				url:"http://api.sherpadesk.com/accounts",
 				dataType:"json",
 				success: function(returnData) {
 						for(var i = 0; i < returnData.length; i++)
@@ -687,7 +687,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/tickets/"+searchItem,
+				url:"http://api.sherpadesk.com/tickets/"+searchItem,
 				dataType:"json",
 				success: function(returnData) {
 						localStorage.setItem("ticketNumber",searchItem);
@@ -716,7 +716,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/tickets",
+				url:"http://api.sherpadesk.com/tickets",
 				dataType:"json",
 				success: function(returnData) {
 					console.log(returnData);
@@ -817,7 +817,7 @@ $(document).ready(function(){
     				    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
-    				url: 'http://api.beta.sherpadesk.com/time',
+    				url: 'http://api.sherpadesk.com/time',
     				data: {
     						"ticket_key": ticketKey,
     						"note_text": note,
@@ -847,7 +847,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/task_types",
+				url:"http://api.sherpadesk.com/task_types",
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -884,7 +884,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/accounts",
+				url:"http://api.sherpadesk.com/accounts",
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -926,7 +926,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/accounts/"+$("#timeAccounts").val(),
+				url:"http://api.sherpadesk.com/accounts/"+$("#timeAccounts").val(),
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -974,7 +974,7 @@ $(document).ready(function(){
     				    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
-    				url: 'http://api.beta.sherpadesk.com/time',
+    				url: 'http://api.sherpadesk.com/time',
     				data: {
     						"tech_id" : tech,
     						"project_id": projectId,
@@ -1022,7 +1022,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/tickets/"+localStorage.getItem('ticketNumber'),
+				url:"http://api.sherpadesk.com/tickets/"+localStorage.getItem('ticketNumber'),
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -1172,7 +1172,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/invoices/"+localStorage.getItem("invoiceNumber"),
+				url:"http://api.sherpadesk.com/invoices/"+localStorage.getItem("invoiceNumber"),
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -1304,7 +1304,7 @@ $(document).ready(function(){
     				    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
-    				url: 'http://api.beta.sherpadesk.com/time/'+timeId,
+    				url: 'http://api.sherpadesk.com/time/'+timeId,
     				data: {
     				    	"is_billable" : billable,
 							"is_project_log": true
@@ -1333,7 +1333,7 @@ $(document).ready(function(){
     				    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
-    				url: 'http://api.beta.sherpadesk.com/expenses'+timeId,
+    				url: 'http://api.sherpadesk.com/expenses'+timeId,
     				data: {
     				    	
 						   }, 
@@ -1358,7 +1358,7 @@ $(document).ready(function(){
     				    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
-    				url: 'http://api.beta.sherpadesk.com/expenses',
+    				url: 'http://api.sherpadesk.com/expenses',
     				data: {
     				    	"account_id": localStorage.getItem("invoiceAccountId"),
     						"project_id": localStorage.getItem("invoiceProjectId"),
@@ -1405,7 +1405,7 @@ $(document).ready(function(){
     				    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
-    				url: 'http://api.beta.sherpadesk.com/time',
+    				url: 'http://api.sherpadesk.com/time',
     				data: {
     				    	"tech_id" : techId,
     						"project_id": projectId,
@@ -1443,7 +1443,7 @@ $(document).ready(function(){
     				    xhr.setRequestHeader('Authorization', 
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
-    				url: 'http://api.beta.sherpadesk.com/invoices?status=unbilled&project=-1&account=-1&adjustments=-2.4&adjustments_note=my_note',
+    				url: 'http://api.sherpadesk.com/invoices?status=unbilled&project=-1&account=-1&adjustments=-2.4&adjustments_note=my_note',
     				data: {
     						
 						   }, 
@@ -1486,7 +1486,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/invoices?account="+localStorage.getItem("DetailedAccount"),
+				url:"http://api.sherpadesk.com/invoices?account="+localStorage.getItem("DetailedAccount"),
 				dataType:"json",
 				success: function(returnData) {
 						$("#invoiceList").empty();
@@ -1526,7 +1526,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/invoices",
+				url:"http://api.sherpadesk.com/invoices",
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -1573,7 +1573,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/queues/"+localStorage.getItem("currentQueue"),
+				url:"http://api.sherpadesk.com/queues/"+localStorage.getItem("currentQueue"),
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -1634,7 +1634,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/queues",
+				url:"http://api.sherpadesk.com/queues",
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -1681,7 +1681,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/tickets?status=open&limit=500&role=tech",
+				url:"http://api.sherpadesk.com/tickets?status=open&limit=500&role=tech",
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -1730,7 +1730,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/tickets?status=allopen&limit=500&query=all",
+				url:"http://api.sherpadesk.com/tickets?status=allopen&limit=500&query=all",
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -1779,7 +1779,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/tickets?status=open&limit=500&role=alt_tech",
+				url:"http://api.sherpadesk.com/tickets?status=open&limit=500&role=alt_tech",
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -1826,7 +1826,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/tickets?status=open,onhold&limit=500&role=user",
+				url:"http://api.sherpadesk.com/tickets?status=open,onhold&limit=500&role=user",
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -1879,7 +1879,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/accounts",
+				url:"http://api.sherpadesk.com/accounts",
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -1932,7 +1932,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/time?limit=200",
+				url:"http://api.sherpadesk.com/time?limit=200",
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -1996,7 +1996,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/accounts/"+localStorage.getItem("DetailedAccount"),
+				url:"http://api.sherpadesk.com/accounts/"+localStorage.getItem("DetailedAccount"),
 				dataType:"json",
 				success: function(returnData) {
 					console.log(returnData);
@@ -2027,7 +2027,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/tickets?status=open&account="+localStorage.getItem("DetailedAccount"),
+				url:"http://api.sherpadesk.com/tickets?status=open&account="+localStorage.getItem("DetailedAccount"),
 				dataType:"json",
 				success: function(returnData) {
 					$(".AccountDetailsTicketsContainer").empty(); 
@@ -2079,7 +2079,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/time?account="+localStorage.getItem("DetailedAccount"),
+				url:"http://api.sherpadesk.com/time?account="+localStorage.getItem("DetailedAccount"),
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -2136,7 +2136,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/tickets/counts",
+				url:"http://api.sherpadesk.com/tickets/counts",
 				dataType:"json",
 				success: function(returnData) {
 					var allTickets = returnData.open_all;
@@ -2177,7 +2177,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(_userOrgKey + '-' + _userInstanceKey + ':' + localStorage.getItem("userKey")));
 	        },
 
-	        url: "http://api.beta.sherpadesk.com/config",
+	        url: "http://api.sherpadesk.com/config",
 	        dataType: "json",
 	        success: function (returnData) {
 	            localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
@@ -2208,7 +2208,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/queues?sort_by=tickets_count",
+				url:"http://api.sherpadesk.com/queues?sort_by=tickets_count",
 				dataType:"json",
 				success: function(returnData) {
 						var queuesLength = returnData.length; 
@@ -2241,7 +2241,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/accounts?query=account_statistics.ticket_counts.open>0",
+				url:"http://api.sherpadesk.com/accounts?query=account_statistics.ticket_counts.open>0",
 				dataType:"json",
 				success: function(returnData) {
 					$("#activeList").empty();
@@ -2286,7 +2286,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.beta.sherpadesk.com/users?query="+localStorage.getItem('userName'),
+				url:"http://api.sherpadesk.com/users?query="+localStorage.getItem('userName'),
 				dataType:"json",
 				success: function(returnData) {
 					console.log(returnData);
@@ -2346,7 +2346,7 @@ $(document).ready(function(){
 					xhr.withCredentials = true;
 					xhr.setRequestHeader('Authorization', 'Basic ' + btoa('x:' + userKey));
 					},
-				url: 'http://api.beta.sherpadesk.com/organizations/',
+				url: 'http://api.sherpadesk.com/organizations/',
 				async: true,
 				cache: false,
 				dataType: 'json',			

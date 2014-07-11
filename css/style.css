@@ -1828,6 +1828,7 @@ font-size: 16px !important;
   z-index: 20;
   left: 45%;
   bottom: 10px;
+  display: none;
 }
 .swiper-pagination-switch {
   display: inline-block;
