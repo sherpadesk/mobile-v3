@@ -635,7 +635,6 @@ $(document).ready(function(){
 		universalSearch:function(){
 			//get the search value when the enter key is pressed 
 			$(document).on("keypress","#searchThis",function(e){
-				$(document).prompt();
    			 if(e.which == 13) {
        		 var searchItem  = $(".headerSearch").val().toLowerCase();
        		 localStorage.setItem("searchItem",searchItem);
