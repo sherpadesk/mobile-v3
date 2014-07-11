@@ -1046,7 +1046,14 @@ $(document).ready(function(){
 						 $("#ticketTech").html(returnData.tech_firstname);
 						 $("#lastUpdate").html(daysOld);
 						 $("#ticketHours").html(returnData.total_hours+" Hours");
-						 $("#ticketSLA").html("SLA: "+returnData.sla_complete_date.toString().substring(0,10));
+						 if(returnData.sla_complete_date == null)
+						 {
+						 	//do nothing 
+						 }
+						 else
+						 {
+						 	$("#ticketSLA").html("SLA: "+returnData.sla_complete_date.toString().substring(0,10));
+						 }
 
 						 $("#classOptions").empty();
 						 // add select options to class Option box 
@@ -1207,7 +1214,7 @@ $(document).ready(function(){
 						$("#invoiceAmount").html("$"+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount 
 						$("#invoiceTravel").html("$"+returnData.travel_cost+"<span class='detail3Small'>.00</span>"); // travel expenses amount 
 						var expenses = 0;
-						if(returnData.expenses.length > 0)
+						if(returnData.expenses != null)
 						{
 							for(var i = 0; i < returnData.expenses.length; i++)
 							{
@@ -1234,15 +1241,18 @@ $(document).ready(function(){
 							}
 						$(".invoiceTotal").html("$"+amount+"<span class='detail3Small'>"+change+"</span>");
 						$("#recipientList").empty();
-						// add recipients to recipients list 
+						// add recipients to recipients list
+						if(returnData.recipients != null){
 						for(var x = 0; x < returnData.recipients.length; x++)
 						{
 							var email = $.md5(returnData.recipients[x].email);
 							var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p><img class='closeIcon' src='img/close_icon.png'></div></li></ul></li>";
 							$(insert).appendTo("#recipientList");
 						}
+						} 
 						// adds timelogs asscoited with this invoice to the invoice timelogs list 
 						$("#invoiceLogs").empty();
+						if(returnData.time_logs != null){
 						for(var u = 0; u < returnData.time_logs.length; u++)
 						{
 							var name = returnData.time_logs[u].name;
@@ -1252,6 +1262,8 @@ $(document).ready(function(){
 							var insert = "<li><ul id='invoiceTimelog' data-id='"+logID+"'  class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span></h3></li></ul></li>";
 							$(insert).appendTo("#invoiceLogs");
 						}
+						}
+						if(returnData.recipients != null){
 						$("#expensesList").empty();
 						for(var c = 0; c < returnData.expenses.length; c++)
 						{
@@ -1261,6 +1273,7 @@ $(document).ready(function(){
 							var logID = returnData.expenses[c].id;
 							var insert = "<li><ul id='invoiceExpense' class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
 							$(insert).appendTo("#expensesList");
+						}
 						}
 
 					},
@@ -1888,7 +1901,7 @@ $(document).ready(function(){
 						for(var i = 0; i < returnData.length; i++) 
 						{	
 							// check the number of open tickets for the account if the number of tickets is greater than 100 sub 99+
-							var openTks = returnData[i].account_statistics.ticket_counts.open;
+							var openTks = returnData[i].ticket_counts.open;
 							if( openTks > 99)
 							{
 								openTks = "99<sup>+</sup>";
@@ -2002,9 +2015,9 @@ $(document).ready(function(){
 					console.log(returnData);
 					//update numbers of notification tickers (open tickets / invoices / Times)
 					$("#AD").html(returnData.name);
-					$("#ticketsOptionTicker").html(returnData.account_statistics.ticket_counts.open);
-					$("#invoiceOptionTicker").html(returnData.account_statistics.invoices);
-					$("#timesOptionTicker").html(returnData.account_statistics.timelogs);
+					$("#ticketsOptionTicker").html(returnData.ticket_counts.open);
+					$("#invoiceOptionTicker").html(returnData.invoices);
+					$("#timesOptionTicker").html(returnData.timelogs);
 					},
 					complete:function(){
 					function reveal(){
@@ -2252,20 +2265,20 @@ $(document).ready(function(){
 					//add accounts to the active accounts list 
 					for (var i = 0; i < returnData.length; i++)
 					{
-						var openTickets = returnData[i].account_statistics.ticket_counts.open;
+						var openTickets = returnData[i].ticket_counts.open;
 						// if account has more than 100 open tickets then sub 99+
 						if(openTickets > 100)
 						{
 						    openTickets = "99<sup>+</sup>";
-							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
+							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].timelogs+"</li><li>"+returnData[i].invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
 							$(activeAccount).appendTo("#activeList");
 						}
 						//if account name is longer than 9 chars then elipse the account name 
 						else if(returnData[i].name.length > 9) {
-							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
+							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].timelogs+"</li><li>"+returnData[i].invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
 						$(activeAccount).appendTo("#activeList");
 						}else{
-							var activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
+							var activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].timelogs+"</li><li>"+returnData[i].invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
 						$(activeAccount).appendTo("#activeList");
 					}
 					}
@@ -2485,7 +2498,7 @@ $(document).ready(function(){
 		detailedInvoice.init();
 		addTime.init();
 		postComment.init();
-		updateInvoice.init();
+		//updateInvoice.init();
 	}()); 
 	
 
