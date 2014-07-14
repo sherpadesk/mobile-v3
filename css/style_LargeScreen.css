@@ -1293,6 +1293,15 @@ margin-left: -136px;
   max-width: 455px;
 }
 
+.responseBlock img {
+float: left;
+margin-left: 9px;
+margin-top: 3px;
+z-index: 1;
+border-radius: 100%;
+border: 2px solid #fff;
+}
+
 
 .responseBlock li {
   float: left;

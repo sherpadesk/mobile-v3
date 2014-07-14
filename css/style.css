@@ -503,7 +503,7 @@ nav i {
 header {
   background: #25B0E6;
   overflow: hidden;
-  height: 45px;
+  height: 50px;
   position: fixed;
   width: 102%;
   top: 0;
@@ -533,7 +533,7 @@ header {
 
 .topHeader li {
   float: left;
-  height: 45px;
+  height: 50px;
   width: 60%;
   position: relative;
 }
@@ -550,7 +550,7 @@ header {
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
-  line-height: 45px;
+  line-height: 50px;
   text-align: center;
   vertical-align: middle;
 }
@@ -594,7 +594,7 @@ header {
 
 .headerSearchIcon {
   height: 23px;
-  margin-top: 10px;
+  margin-top: 13px;
   float: right;
 }
 
@@ -1541,11 +1541,13 @@ footer {
 
 .commentBlock img {
   float: left;
-  /*margin-left: 5px;*/
-  margin-top: -3px;
+  /* margin-left: 5px; */
+  margin-top: -10px;
   z-index: 1;
   border-radius: 100%;
   border: 2px solid #fff;
+  width: 42px;
+
 }
 
 .commentBlock span {
@@ -1622,12 +1624,14 @@ footer {
 
 .responseBlock {
   list-style: none;
-  overflow: auto;
+  overflow: hidden;
   border-bottom: 1px solid #cccccc;
   padding-bottom: 5px;
   padding-top: 5px;
   z-index: 5;
 }
+
+
 
 .responseBlock img {
   float: left;
@@ -1642,7 +1646,11 @@ footer {
   float: left;
   z-index: 2;
   width: 100%;
-  margin: 0 auto;
+  margin-left: -10%; 
+}
+
+.responseBlock p {
+  width: 102%;
 }
 
 .nameNtech {
@@ -1686,7 +1694,7 @@ footer {
 }
 
 .blockNumber {
-  margin-left: -3px;
+  margin-left: -6px;
   color:#fff;
   margin-top: -8px;
 }
