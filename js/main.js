@@ -69,6 +69,7 @@ $(document).ready(function(){
 		        dataType: "json",
 		        success: function (returnData) {
 		            console.log(returnData);
+
 		            localStorage.setItem("userKey", returnData.api_token)
 		            localStorage.setItem('userName', userName);
 		            window.location = "org.html";
