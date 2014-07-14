@@ -1071,8 +1071,7 @@ header {
 .timelogs {
   padding-top: 35px;
   list-style-type: none;
-  overflow: scroll;
-  max-height: 750px;
+  overflow: visible;
 }
  
 .timelogs > li {
@@ -1494,8 +1493,7 @@ footer {
   width: 90%;
   margin: 0 auto;
   margin-top: 10px;
-  overflow: scroll;
-  max-height: 605px;
+  overflow: visible;
   overflow-x:hidden; 
 }
 .slaInfo {
@@ -1660,6 +1658,7 @@ footer {
   float: left;
   margin-top: 8px;
   margin-left: 10px;
+  margin-bottom: 10px;
   width: 70%;
   z-index: 2;
 }

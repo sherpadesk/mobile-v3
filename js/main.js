@@ -474,7 +474,7 @@ $(document).ready(function(){
 							$(insert).appendTo("#addTicketAccounts");
 						}
 						var chooseTech = "<option value=0 disabled selected>Tech</option>";
-						var chooseClass = "<option value=0 disabled selected>class</option>";
+						var chooseClass = "<option value=0 disabled selected>Class</option>";
 						$("#addTicketTechs").empty();
 						$("#addTicketClass").empty();
 						$(chooseTech).appendTo("#addTicketTechs");
@@ -509,7 +509,7 @@ $(document).ready(function(){
 								for(var i = 0; i < returnData.length; i++)
 								{ 
 									var value = returnData[i].id;
-									var name = returnData[i].firstname;
+									var name = returnData[i].firstname+" "+returnData[i].lastname;
 									var insert = "<option value="+value+">"+name+"</option>";
 									$(insert).appendTo("#addTicketTechs");
 								}
@@ -563,6 +563,12 @@ $(document).ready(function(){
 			});
 			// make api post call when submit ticket button is clicked 
 			$("#submitNewTicket").click(function(){
+				if($("#addTicketSubject").val() == "" || $("#addTicketTechs").val() == "" || $("#addTicketClass").val() == "" || $("#addTicketSubject").val() == "")
+				{
+					alert("please enter valid ticket Info");
+				}
+				else 
+				{
 			$.ajax({
     				type: 'POST',
     				beforeSend: function (xhr) {
@@ -589,6 +595,8 @@ $(document).ready(function(){
     				         alert(textStatus);
     				}
  				});
+								
+				}
 			});
 		}
 	};
