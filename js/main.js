@@ -237,7 +237,7 @@ $(document).ready(function(){
 								for(var i = 0; i < returnData.length; i++)
 								{ 
 									var value = returnData[i].id;
-									var name = returnData[i].firstname;
+									var name = returnData[i].firstname+" "+returnData[i].lastname;
 									var insert = "<option value="+value+">"+name+"</option>";
 									$(insert).appendTo("#transferTechs");
 								}

@@ -1607,6 +1607,7 @@ footer {
 .commentBlock li:nth-child(4) {
   width: 90%;
   margin-bottom: 22px;
+  overflow-x: hidden;
 }
 
 .commentBlock li:last-child {
