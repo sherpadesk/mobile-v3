@@ -565,7 +565,15 @@ $(document).ready(function(){
 			$("#submitNewTicket").click(function(){
 				if($("#addTicketSubject").val() == "" || $("#addTicketTechs").val() == "" || $("#addTicketClass").val() == "" || $("#addTicketSubject").val() == "")
 				{
-					alert("please enter valid ticket Info");
+					$(".errorMessage").fadeIn(100);
+					setTimeout(
+  					function() 
+  					{
+  						$(".errorMessage").fadeOut(100);
+  				  		
+  					}, 1500);
+  					
+					
 				}
 				else 
 				{
@@ -595,7 +603,7 @@ $(document).ready(function(){
     				         alert(textStatus);
     				}
  				});
-								
+
 				}
 			});
 		}
