@@ -782,8 +782,7 @@ header {
 }
 
 .recentTicketsStick {
-  max-height: 750px;
-  overflow: scroll !important;
+  
 }
 
 /* Feed
@@ -1637,7 +1636,7 @@ footer {
 
 .responseBlock {
   list-style: none;
-  overflow: hidden;
+  overflow: hidden !important;
   border-bottom: 1px solid #cccccc;
   padding-bottom: 5px;
   padding-top: 5px;
