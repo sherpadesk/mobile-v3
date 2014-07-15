@@ -475,10 +475,13 @@ $(document).ready(function(){
 						}
 						var chooseTech = "<option value=0 disabled selected>Tech</option>";
 						var chooseClass = "<option value=0 disabled selected>Class</option>";
+						var chooseSubClass = "<option value=0 disabled selected>Sub Class</option>";
 						$("#addTicketTechs").empty();
 						$("#addTicketClass").empty();
+						$("#addTicketSubClass").empty();
 						$(chooseTech).appendTo("#addTicketTechs");
 						$(chooseClass).appendTo("#addTicketClass");
+						$(chooseSubClass).appendTo("#addTicketSubClass");
 					},
 					complete:function(){
 					function reveal(){
@@ -547,6 +550,44 @@ $(document).ready(function(){
 									var name = returnData[i].name;
 									var insert = "<option value="+value+">"+name+"</option>";
 									$(insert).appendTo("#addTicketClass");
+								}
+							},
+							complete:function(){
+							function reveal(){
+							$(".loadScreen").hide();
+							$(".maxSize").fadeIn();
+							};
+						},
+						error: function() {
+							console.log("fail @ time accounts");
+							console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+							}
+				});
+			});
+			$("#addTicketClass").on("change",function(){
+				$.ajax({
+				type: 'GET',
+				beforeSend: function (xhr) {
+					xhr.withCredentials = true;
+					xhr.setRequestHeader('Authorization', 
+            	              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+					},
+	
+						url:"http://api.sherpadesk.com/classes/API/",
+						dataType:"json",
+						data: {
+    					"class_id":"631"
+    			       
+    			       },
+						success: function(returnData) {
+								console.log(returnData);
+								// add list of classes to option select list
+								for(var i = 0; i < returnData.length; i++)
+								{ 
+									var value = returnData[i].id;
+									var name = returnData[i].name;
+									var insert = "<option value="+value+">"+name+"</option>";
+									$(insert).appendTo("#addTicketSubClass");
 								}
 							},
 							complete:function(){
@@ -1923,7 +1964,7 @@ $(document).ready(function(){
 								name = name.substring(0,7)+"...";
 							}
 							// check the number of open tickets for the account if the number of tickets is greater than 100 sub 99+
-							var openTks = returnData[i].ticket_counts.open;
+							var openTks = returnData[i].account_statistics.ticket_counts.open;
 							if( openTks > 99)
 							{
 								openTks = "99<sup>+</sup>";
@@ -1990,11 +2031,16 @@ $(document).ready(function(){
 								hours = hours+".00";
 							}
 							// check text length 
-							if(text.length > 15) 
+							if(text.length > 18) 
 							{
-								text = text.substring(0,7)+"...";
+								text = text.substring(0,18)+"...";
 							}
-							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
+							var nameCheck = returnData[i].user_name;
+							if(nameCheck.length > 15)
+							{
+								nameCheck = nameCheck.substring(0,12)+"..."
+							}
+							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
           					$(log).appendTo("#timelogs");
 						}
 					},
@@ -2037,7 +2083,7 @@ $(document).ready(function(){
 					console.log(returnData);
 					//update numbers of notification tickers (open tickets / invoices / Times)
 					$("#AD").html(returnData.name);
-					$("#ticketsOptionTicker").html(returnData.ticket_counts.open);
+					$("#ticketsOptionTicker").html(returnData.account_statistics.ticket_counts.open);
 					$("#invoiceOptionTicker").html(returnData.invoices);
 					$("#timesOptionTicker").html(returnData.timelogs);
 					},
@@ -2083,7 +2129,7 @@ $(document).ready(function(){
 						// ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
 						if(initialPost.length > 50) 
 						{
-							initialPost = initialPost.substring(1,50);
+							initialPost = initialPost.substring(0,50);
 						}
 						var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 						$(ticket).appendTo(".AccountDetailsTicketsContainer");
@@ -2254,6 +2300,7 @@ $(document).ready(function(){
 							var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
         					$(insertQueue).prependTo("#DashBoradQueues");					
 						}
+
 					},
 					complete:function(){
 					
@@ -2289,26 +2336,26 @@ $(document).ready(function(){
 					if(returnData.length > 7){activeLength = 7;}
 					for (var i = 0; i < activeLength; i++)
 					{
-						var openTickets = returnData[i].ticket_counts.open;
+						var openTickets = returnData[i].account_statistics.ticket_counts.open;
 						// if account has more than 100 open tickets then sub 99+
 						if(openTickets > 100)
 						{
 							if(returnData[i].name.length > 9){
 								openTickets = "99<sup>+</sup>";
-								var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].timelogs+"</li><li>"+returnData[i].invoices+"</li><li><div class='tks1 toManyTksSmall' >"+openTickets+"</div></li></ul>";
+								var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTksSmall' >"+openTickets+"</div></li></ul>";
 								$(activeAccount).appendTo("#activeList");
 							}else{
 						    openTickets = "99<sup>+</sup>";
-							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].timelogs+"</li><li>"+returnData[i].invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
+							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
 							$(activeAccount).appendTo("#activeList");
 							}
 						}
 						//if account name is longer than 9 chars then elipse the account name 
 						else if(returnData[i].name.length > 9) {
-							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].timelogs+"</li><li>"+returnData[i].invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
+							var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
 						$(activeAccount).appendTo("#activeList");
 						}else{
-							var activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].timelogs+"</li><li>"+returnData[i].invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
+							var activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
 						$(activeAccount).appendTo("#activeList");
 					}
 					}
