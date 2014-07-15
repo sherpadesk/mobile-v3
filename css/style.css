@@ -250,6 +250,11 @@ strong {
 
 .bodyContent {
   margin-top: 45px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.maxSize {
+  -webkit-overflow-scrolling: touch;
 }
 
 .loginButton {
@@ -504,7 +509,7 @@ nav i {
 header {
   background: #25B0E6;
   overflow: hidden;
-  height: 50px;
+  height: 53px;
   position: fixed;
   width: 102%;
   top: 0;
@@ -517,7 +522,7 @@ header {
 }
 
 .headerNavIcon {
-  margin-top: 15px;
+  margin-top: 19px;
   height: 16px;
 }
 
@@ -551,7 +556,7 @@ header {
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
-  line-height: 50px;
+  line-height: 53px;
   text-align: center;
   vertical-align: middle;
 }
@@ -595,7 +600,7 @@ header {
 
 .headerSearchIcon {
   height: 23px;
-  margin-top: 13px;
+  margin-top: 15px;
   float: right;
 }
 
