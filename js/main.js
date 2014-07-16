@@ -324,7 +324,16 @@ $(document).ready(function(){
     			       }, 
     			dataType: 'json',
     			success: function (d) {
-    			       location.reload(false);
+    			       //location.reload(false);
+    			       setTimeout(
+  						function() 
+  						{
+  							
+  							window.history.back();
+  				  			
+  						}, 1000);
+						localStorage.setItem("userMessage","Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
+						localStorage.setItem("isMessage","truePos");
     			},
     			error: function (e, textStatus, errorThrown) {
     			         alert(textStatus);
@@ -606,11 +615,11 @@ $(document).ready(function(){
 			$("#submitNewTicket").click(function(){
 				if($("#addTicketSubject").val() == "" || $("#addTicketTechs").val() == "" || $("#addTicketClass").val() == "" || $("#addTicketSubject").val() == "")
 				{
-					$(".errorMessage").fadeIn(100);
+					$(".errorMessageNeg").slideDown(100);
 					setTimeout(
   					function() 
   					{
-  						$(".errorMessage").fadeOut(100);
+  						$(".errorMessageNeg").slideUp(100);
   				  		
   					}, 1500);
   					
@@ -637,8 +646,25 @@ $(document).ready(function(){
 						   }, 
     				dataType: 'json',
     				success: function (d) {
+    				/*    $(".errorMessagePos").slideDown(100);
+					setTimeout(
+  					function() 
+  					{
+  						$(".errorMessagePos").slideUp(100);
+  						window.location = "dashboard.html";
+  				  		
+  					}, 1500);*/
+					setTimeout(
+  					function() 
+  					{
+  						
+  						window.location = "dashboard.html";
+  				  		
+  					}, 1000);
+					localStorage.setItem("userMessage","Ticket was Succesfully Created :)");
+					localStorage.setItem("isMessage","truePos");
+					
     				    
-    				    location.reload(false);
     				},
     				error: function (e, textStatus, errorThrown) {
     				         alert(textStatus);
@@ -1098,7 +1124,7 @@ $(document).ready(function(){
 						}
 
 						 // update page variables with correct ticket information 
-						 $("#ticketNumber").html("OPEN | "+returnData.number);
+						 $("#ticketNumber").html(returnData.status+" | "+returnData.number);
 						 $("#ticketSubject").html(returnData.subject);
 						 $("#ticketClass").html(returnData.class_name);
 						 $("#ticketTech").html(returnData.tech_firstname);
@@ -2664,6 +2690,47 @@ $(document).ready(function(){
 				localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
 				window.location = "account_details.html";
 			});
+			$(document).on("click",".responseBlock", function(){
+				localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list 
+				window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
+			});
+		}
+	};
+
+	var userMessage = {
+		init:function() {
+			this.showMessage();
+		},
+		showMessage:function() {
+				
+  				var isMessage = localStorage.getItem("isMessage");
+  				if(isMessage == "truePos")
+  				{
+  				var messageText = localStorage.getItem("userMessage");
+  				$(".errorMessagePos").html(messageText);
+  				$(".errorMessagePos").slideDown(100);
+  				setTimeout(
+  					function() 
+  					{	
+  						$(".errorMessagePos").slideUp(100);
+  						localStorage.setItem("isMessage","false");
+  				  		
+  					}, 3500);
+  				}
+  				if(isMessage == "trueNeg")
+  				{
+  				var messageText = localStorage.getItem("userMessage");
+  				$(".errorMessageNeg").html(messageText);
+  				$(".errorMessageNeg").slideDown(100);
+  				setTimeout(
+  					function() 
+  					{	
+  						$(".errorMessageNeg").slideUp(100);
+  						localStorage.setItem("isMessage","false");
+  				  		
+  					}, 3500);
+  				}
+			
 		}
 	};
 	
@@ -2671,6 +2738,7 @@ $(document).ready(function(){
 	//Main Method that calls all the functions for the app
 	(function () {
 		//always active api calls
+		userMessage.init();
 	    UserLogin.init();
 	    org.init();
 	    signout.init();
@@ -2687,6 +2755,7 @@ $(document).ready(function(){
 	    if (location.pathname.indexOf("account_details.html") >= 0)
 	    {
 	        accountDetailsPageSetup.init();
+	        detailedTicket.init();
 	        
 	    }
 	    if (location.pathname.indexOf("ticket_list.html") >= 0)
@@ -2734,11 +2803,15 @@ $(document).ready(function(){
 	    {
 	       detailedInvoice.init();
 	    }
+	    if (location.pathname.indexOf("closedTickets.html") >= 0)
+	    {
+	       detailedTicket.init();
+	    }
 	    //getTicketCount();
 	    //getQueueList();
 	    //getActiveAccounts();
 	    //reveal();
-	    //newTicket.init();
+	    newTicket.init();
 	    pickUpTicket.init();
 	    closedTickets.init();
 	    //getQueueTickets.init();
