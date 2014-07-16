@@ -2671,13 +2671,7 @@ $(document).ready(function(){
 	    org.init();
 	    signout.init();
 	    userInfo.init();
-	    //api call listening for clicks
-	    miscClicks.init();
-	    pickUpTicket.init();
-	    closeTicket.init();
-	    addTime.init();
-	    transferTicket.init();
-	    postComment.init();
+	    
 	    //conditional api calls determined by page 
 	    if (location.pathname.indexOf("dashboard.html") >= 0)
 	    {
@@ -2741,16 +2735,16 @@ $(document).ready(function(){
 	    //getActiveAccounts();
 	    //reveal();
 	    //newTicket.init();
-	    //pickUpTicket.init();
-	    //closedTickets.init();
+	    pickUpTicket.init();
+	    closedTickets.init();
 	    //getQueueTickets.init();
-	    //transferTicket.init();
-	    //closeTicket.init();
+	    transferTicket.init();
+	    closeTicket.init();
 	    //accountTimeLogs.init();
-	    //sendInvoince.init();
-	    //addRecip.init();
+	    sendInvoince.init();
+	    addRecip.init();
 	    // accountDetailsPageSetup.init();
-	    //search.init();
+	    search.init();
 		//detailedTicket.init();
 		//ticketList.init();
 		//getQueues.init();
@@ -2759,9 +2753,9 @@ $(document).ready(function(){
 		//accountList.init();
 		//invoiceList.init();
 		//detailedInvoice.init();
-		//addTime.init();
-		//postComment.init();
-		//updateInvoice.init();
+		addTime.init();
+		postComment.init();
+		updateInvoice.init();
 	}()); 
 	
 
