@@ -2552,7 +2552,13 @@ $(document).ready(function(){
 	    {
 	        getTicketCount();
 	        getQueueList();
-	        //reveal();
+	        reveal();
+	    }
+	    if (location.pathname.indexOf("dashboard.html") >= 0)
+	    {
+	        getTicketCount();
+	        getQueueList();
+	        reveal();
 	    }
 	    newTicket.init();
 	    pickUpTicket.init();
