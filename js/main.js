@@ -2660,6 +2660,10 @@ $(document).ready(function(){
 				localStorage.setItem('invoiceNumber',$(this).attr("data-id"));
 				window.location = "invoice.html";
 			});
+			$(document).on("click",'.tableRows, .listedAccount', function(){
+				localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
+				window.location = "account_details.html";
+			});
 		}
 	};
 	
