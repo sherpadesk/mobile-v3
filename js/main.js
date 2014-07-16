@@ -161,7 +161,7 @@ $(document).ready(function(){
 						// ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
 						if(initialPost.length > 50) 
 						{
-							initialPost = initialPost.substring(1,50);
+							initialPost = initialPost.substring(0,50);
 						}
 						var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 						$(ticket).appendTo("#closedTickets");
@@ -2193,7 +2193,12 @@ $(document).ready(function(){
 							{
 								text = text.substring(0,7)+"...";
 							}
-							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+returnData[i].user_name+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
+							var nameCheck = returnData[i].user_name;
+							if(nameCheck.length > 15)
+							{
+								nameCheck = nameCheck.substring(0,12)+"..."
+							}
+							var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
           					$(log).appendTo("#accountLogs");
 						}
 						
@@ -2633,6 +2638,30 @@ $(document).ready(function(){
 
 		}
 	};
+
+	var miscClicks = {
+		init:function() {
+			this.justClicked();
+		},
+
+		justClicked:function() {
+			$(document).on("click",".responseBlock", function(){
+				localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list 
+				window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
+			});
+			$("#invoiceOption").click(function(){
+				window.location = "Invoice_List.html";
+			});
+			// go to complete list of invoice on click
+			$("#allInvoice, #invoiceFooter").click(function(){
+				window.location = "allInvoice_List.html";
+			});
+			$(document).on("click",".invoiceRows", function(){
+				localStorage.setItem('invoiceNumber',$(this).attr("data-id"));
+				window.location = "invoice.html";
+			});
+		}
+	};
 	
 
 	//Main Method that calls all the functions for the app
@@ -2643,6 +2672,8 @@ $(document).ready(function(){
 	    signout.init();
 	    userInfo.init();
 	    //api call listening for clicks
+	    miscClicks.init();
+	    pickUpTicket.init();
 	    closeTicket.init();
 	    addTime.init();
 	    transferTicket.init();
@@ -2676,9 +2707,34 @@ $(document).ready(function(){
 	        accountTimeLogs.init();
 	        timeLogs.init();
 	    }
+	    if (location.pathname.indexOf("accountTimes.html") >= 0)
+	    {
+	        accountTimeLogs.init();
+	        timeLogs.init();
+	    }
 	    if (location.pathname.indexOf("ticket_detail.html") >= 0)
 	    {
 	        detailedTicket.init();
+	    }
+	    if (location.pathname.indexOf("Queues.html") >= 0)
+	    {
+	        getQueues.init();
+	    }
+	    if (location.pathname.indexOf("queueTickets.html") >= 0)
+	    {
+	        getQueueTickets.init();
+	    }
+	    if (location.pathname.indexOf("invoice_List.html") >= 0)
+	    {
+	       invoiceList.init();
+	    }
+	    if (location.pathname.indexOf("allInvoice_List.html") >= 0)
+	    {
+	       invoiceList.init();
+	    }
+	    if (location.pathname.indexOf("invoice.html") >= 0)
+	    {
+	       detailedInvoice.init();
 	    }
 	    //getTicketCount();
 	    //getQueueList();
