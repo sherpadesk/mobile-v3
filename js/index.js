@@ -384,6 +384,7 @@ fullscreen();
 	};
 
 
+
 	(function() {
 		openTickets.init();
 		largeScreenStlye.init();

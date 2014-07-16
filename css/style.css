@@ -113,7 +113,7 @@ strong {
 
 .plusIconHeader {
   height: 23px;
-  margin-top: 12px;
+  margin-top: 22px;
   float: right;
 }
 
@@ -522,7 +522,7 @@ header {
 }
 
 .headerNavIcon {
-  margin-top: 19px;
+  margin-top: 25px;
   height: 16px;
 }
 
@@ -556,7 +556,7 @@ header {
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
-  line-height: 53px;
+  line-height: 67px;
   text-align: center;
   vertical-align: middle;
 }
@@ -600,7 +600,7 @@ header {
 
 .headerSearchIcon {
   height: 23px;
-  margin-top: 15px;
+  margin-top: 23px;
   float: right;
 }
 
@@ -2053,8 +2053,8 @@ font-size: 16px !important;
 .TicketTabs > ul > li {
   width: 18%;
   text-align: center;
-  line-height: 35px;
-  height: 35px;
+  line-height: 50px;
+height: 45px;
   display: block;
   float: left;
   color: #ffffff;

@@ -1739,7 +1739,14 @@ $(document).ready(function(){
 			this.techTickets();
 			this.altTickets();
 			this.allTickets();
+			this.ticketClick();
 			
+		},
+		ticketClick:function() {
+			$(document).on("click",".responseBlock", function(){
+				localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list 
+				window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
+			});
 		},
 		//get tickets as tech
 		techTickets:function() {
@@ -1960,8 +1967,8 @@ $(document).ready(function(){
 						for(var i = 0; i < returnData.length; i++) 
 						{	
 							 name = returnData[i].name;
-							if(name.length > 10){
-								name = name.substring(0,7)+"...";
+							if(name.length > 16){
+								name = name.substring(0,14)+"...";
 							}
 							// check the number of open tickets for the account if the number of tickets is greater than 100 sub 99+
 							var openTks = returnData[i].account_statistics.ticket_counts.open;
@@ -2315,6 +2322,10 @@ $(document).ready(function(){
 
 	//get accounts that have open tickets and list them in active accounts container on the Dashboard
 	var getActiveAccounts = function() {
+		$(document).on("click",'.tableRows, .listedAccount', function(){
+				localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
+				window.location = "account_details.html";
+			});
 		$.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
@@ -2401,6 +2412,88 @@ $(document).ready(function(){
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
+	};
+
+	var userInfo = {
+		init:function() {
+			this.userData();
+		},
+		userData:function() {
+			//get user info 
+		$.ajax({
+			type: 'GET',
+			beforeSend: function (xhr) {
+				xhr.withCredentials = true;
+				xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+				},
+
+				url:"http://api.sherpadesk.com/users?query="+localStorage.getItem('userName'),
+				dataType:"json",
+				success: function(returnData) {
+					console.log(returnData);
+					//set the name of the nav side menu 
+					$(".navName").html(returnData[0].firstname+" "+returnData[0].lastname);
+					//get md5 value of users email for gravatar 
+					var email = $.md5(returnData[0].email);
+					//set user avatar picture in side menu
+					$(".navProfile").attr("src","http://www.gravatar.com/avatar/" + email + "?d=mm&s=80");
+					//set user id to local storage
+					localStorage.setItem("userId",returnData[0].id);
+					},
+					complete:function(){
+					function reveal(){
+					$(".loadScreen").hide();
+					$(".maxSize").fadeIn();
+				};
+				window.setTimeout(reveal,500);
+				},
+				error: function() {
+					console.log("fail @ accounts");
+					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+					}
+			});
+
+			//get instance config 
+	var getInstanceConfig = function (_userOrgKey, _userInstanceKey) {
+	    if (!_userOrgKey || !_userInstanceKey) {
+	        _userOrgKey = localStorage.getItem('userOrgKey');
+	        _userInstanceKey = localStorage.getItem('userInstanceKey');
+	    }
+	    if (!_userOrgKey || !_userInstanceKey) {
+	        return;
+	    }
+	    //get instance config 
+	    $.ajax({
+	        type: 'GET',
+	        beforeSend: function (xhr) {
+	            xhr.withCredentials = true;
+	            xhr.setRequestHeader('Authorization',
+                          'Basic ' + btoa(_userOrgKey + '-' + _userInstanceKey + ':' + localStorage.getItem("userKey")));
+	        },
+
+	        url: "http://api.sherpadesk.com/config",
+	        dataType: "json",
+	        success: function (returnData) {
+	            localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
+	            localStorage.setItem('projectTracking', returnData.is_project_tracking);
+	            localStorage.setItem('timeTracking', returnData.is_time_tracking);
+	            localStorage.setItem('freshbooks', returnData.is_freshbooks);
+	            if (localStorage.getItem('userRole') == "tech")
+	                window.location = "dashboard.html";
+	            else
+	                window.location = "ticket_list.html";
+	        },
+	        complete: function () {
+
+	        },
+	        error: function () {
+	            console.log("fail @ config");
+	        }
+	    });
+	};
+		}
+
 	};
 	
 	// organization Ajax call 
@@ -2544,43 +2637,74 @@ $(document).ready(function(){
 
 	//Main Method that calls all the functions for the app
 	(function () {
+		//always active api calls
 	    UserLogin.init();
 	    org.init();
 	    signout.init();
-	    getActiveAccounts();
-	    if (location.pathname.indexOf("dashboard.html") >= 0)
-	    {
-	        getTicketCount();
-	        getQueueList();
-	        reveal();
-	    }
-	    if (location.pathname.indexOf("dashboard.html") >= 0)
-	    {
-	        getTicketCount();
-	        getQueueList();
-	        reveal();
-	    }
-	    newTicket.init();
-	    pickUpTicket.init();
-	    closedTickets.init();
-	    getQueueTickets.init();
-	    transferTicket.init();
+	    userInfo.init();
+	    //api call listening for clicks
 	    closeTicket.init();
-	    accountTimeLogs.init();
-	    sendInvoince.init();
-	    addRecip.init();
-	    accountDetailsPageSetup.init();
-	    search.init();
-		detailedTicket.init();
-		ticketList.init();
-		getQueues.init();
-		accountDetailsPageSetup.init();
-		timeLogs.init();
-		accountList.init();
-		invoiceList.init();
-		detailedInvoice.init();
-		addTime.init();
-		postComment.init();
+	    addTime.init();
+	    transferTicket.init();
+	    postComment.init();
+	    //conditional api calls determined by page 
+	    if (location.pathname.indexOf("dashboard.html") >= 0)
+	    {
+	        getTicketCount();
+	        getQueueList();
+	        getActiveAccounts();
+	        reveal();
+	    }
+	    if (location.pathname.indexOf("account_details.html") >= 0)
+	    {
+	        accountDetailsPageSetup.init();
+	        
+	    }
+	    if (location.pathname.indexOf("ticket_list.html") >= 0)
+	    {
+	        ticketList.init();
+	        accountDetailsPageSetup.init();
+	        
+	    }
+	    if (location.pathname.indexOf("Account_List.html") >= 0)
+	    {
+	        accountList.init();
+	        
+	    }
+	    if (location.pathname.indexOf("timelog.html") >= 0)
+	    {
+	        accountTimeLogs.init();
+	        timeLogs.init();
+	    }
+	    if (location.pathname.indexOf("ticket_detail.html") >= 0)
+	    {
+	        detailedTicket.init();
+	    }
+	    //getTicketCount();
+	    //getQueueList();
+	    //getActiveAccounts();
+	    //reveal();
+	    //newTicket.init();
+	    //pickUpTicket.init();
+	    //closedTickets.init();
+	    //getQueueTickets.init();
+	    //transferTicket.init();
+	    //closeTicket.init();
+	    //accountTimeLogs.init();
+	    //sendInvoince.init();
+	    //addRecip.init();
+	    // accountDetailsPageSetup.init();
+	    //search.init();
+		//detailedTicket.init();
+		//ticketList.init();
+		//getQueues.init();
+		//accountDetailsPageSetup.init();
+		//timeLogs.init();
+		//accountList.init();
+		//invoiceList.init();
+		//detailedInvoice.init();
+		//addTime.init();
+		//postComment.init();
 		//updateInvoice.init();
 	}()); 
 	
