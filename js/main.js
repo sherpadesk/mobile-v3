@@ -2832,7 +2832,7 @@ $(document).ready(function(){
 		//detailedInvoice.init();
 		addTime.init();
 		postComment.init();
-		updateInvoice.init();
+		//updateInvoice.init();
 	}()); 
 	
 
