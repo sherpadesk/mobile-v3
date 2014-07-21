@@ -2184,7 +2184,10 @@ $(document).ready(function(){
 			this.getTimeLogs();
 		},
 
-		getTimeLogs:function(){
+		getTimeLogs: function () {
+		    var accountId = localStorage.getItem("DetailedAccount");
+		    if (!accountId)
+		        accountId = -1;
 			$.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
@@ -2193,7 +2196,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.sherpadesk.com/time?account="+localStorage.getItem("DetailedAccount"),
+			url: "http://api.sherpadesk.com/time?account=" + accountId,
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
