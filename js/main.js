@@ -30,7 +30,7 @@ $(document).ready(function(){
 	        userKey = localStorage.getItem("userKey");
 	        userOrgKey = localStorage.getItem('userOrgKey');
 	        userInstanceKey = localStorage.getItem('userInstanceKey');
-	        if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage) {
+	        if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage && location.pathname.indexOf("org.html")<0) {
 	          clearStorage();
 	          window.location = "index.html";
 	          return;
@@ -2679,8 +2679,8 @@ $(document).ready(function(){
 				},
 				error: function() {
 					console.log("fail @ getOrg");
-				  //clearStorage();
-				  //window.location = "index.html";
+				  clearStorage();
+				  window.location = "index.html";
 				}
 			}).promise();
 
