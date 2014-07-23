@@ -24,11 +24,19 @@ $(document).ready(function(){
 	// user login 
 	var UserLogin = {
 	    init: function () {
+	        var loginPage = true;
 	        if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/")
-	            return;
+	            loginPage = false;
 	        userKey = localStorage.getItem("userKey");
 	        userOrgKey = localStorage.getItem('userOrgKey');
 	        userInstanceKey = localStorage.getItem('userInstanceKey');
+	        if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage) {
+	          clearStorage();
+	          window.location = "index.html";
+	          return;
+	        }
+	        if (!loginPage)
+	          return;
 	        if (userKey && userOrgKey && userInstanceKey) {
 	            window.location = "dashboard.html";
 	            return;
@@ -420,6 +428,14 @@ $(document).ready(function(){
 			});
 		}
 	};
+	
+	function clearStorage()
+	{
+	  localStorage.removeItem('userOrgKey');
+		localStorage.removeItem('userOrg');
+		localStorage.removeItem('userInstanceKey');
+		localStorage.removeItem('userKey');
+	};
 	// when signout button is pressed all user data is whiped from local storage 
 	var signout = {
 		init:function(){
@@ -428,10 +444,7 @@ $(document).ready(function(){
 
 		logOut:function(){
 		    $("#signOut").click(function () {
-		        localStorage.removeItem('userOrgKey');
-		        localStorage.removeItem('userOrg');
-		        localStorage.removeItem('userInstanceKey');
-		        localStorage.removeItem('userKey');
+		        clearStorage();
 		        if (localStorage.is_google) {
 		            localStorage.removeItem('userName');
 		            localStorage.removeItem('is_google');
@@ -2662,6 +2675,8 @@ $(document).ready(function(){
 				},
 				error: function() {
 					console.log("fail @ getOrg");
+				  clearStorage();
+				  window.location = "index.html";
 				}
 			}).promise();
 
