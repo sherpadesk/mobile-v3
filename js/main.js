@@ -431,10 +431,14 @@ $(document).ready(function(){
 	
 	function clearStorage()
 	{
+	  var userName = localStorage.userName;
+	  localStorage.clear();
 	  localStorage.removeItem('userOrgKey');
 		localStorage.removeItem('userOrg');
 		localStorage.removeItem('userInstanceKey');
 		localStorage.removeItem('userKey');
+		localStorage.setItem("userName", userName);
+		
 	};
 	// when signout button is pressed all user data is whiped from local storage 
 	var signout = {
