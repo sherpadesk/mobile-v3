@@ -2679,8 +2679,8 @@ $(document).ready(function(){
 				},
 				error: function() {
 					console.log("fail @ getOrg");
-				  clearStorage();
-				  window.location = "index.html";
+				  //clearStorage();
+				  //window.location = "index.html";
 				}
 			}).promise();
 
