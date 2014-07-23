@@ -2305,6 +2305,7 @@ $(document).ready(function(){
 	        _userInstanceKey = localStorage.getItem('userInstanceKey');
 	    }
 	    if (!_userOrgKey || !_userInstanceKey) {
+	        window.location = "index.html";
 	        return;
 	    }
 	    //get instance config 
@@ -2333,6 +2334,8 @@ $(document).ready(function(){
 	        },
 	        error: function () {
 	            console.log("fail @ config");
+	            clearStorage();
+				      window.location = "index.html";
 	        }
 	    });
 	};
@@ -2760,7 +2763,7 @@ $(document).ready(function(){
 	//Main Method that calls all the functions for the app
 	(function () {
 		//always active api calls
-		userMessage.init();
+		  userMessage.init();
 	    UserLogin.init();
 	    org.init();
 	    signout.init();
