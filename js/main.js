@@ -38,7 +38,7 @@ $(document).ready(function(){
 	        if (!loginPage)
 	          return;
 	        if (userKey && userOrgKey && userInstanceKey) {
-	            window.location = "dashboard.html";
+	            getInstanceConfig(userOrgKey, userInstanceKey);
 	            return;
 	        }
 	        if (userKey) {
@@ -2300,12 +2300,12 @@ $(document).ready(function(){
 
     //get instance config 
 	var getInstanceConfig = function (_userOrgKey, _userInstanceKey) {
+	    
 	    if (!_userOrgKey || !_userInstanceKey) {
 	        _userOrgKey = localStorage.getItem('userOrgKey');
 	        _userInstanceKey = localStorage.getItem('userInstanceKey');
 	    }
 	    if (!_userOrgKey || !_userInstanceKey) {
-	        window.location = "index.html";
 	        return;
 	    }
 	    //get instance config 
@@ -2507,47 +2507,7 @@ $(document).ready(function(){
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
-
-			//get instance config 
-	var getInstanceConfig = function (_userOrgKey, _userInstanceKey) {
-	    if (!_userOrgKey || !_userInstanceKey) {
-	        _userOrgKey = localStorage.getItem('userOrgKey');
-	        _userInstanceKey = localStorage.getItem('userInstanceKey');
-	    }
-	    if (!_userOrgKey || !_userInstanceKey) {
-	        return;
-	    }
-	    //get instance config 
-	    $.ajax({
-	        type: 'GET',
-	        beforeSend: function (xhr) {
-	            xhr.withCredentials = true;
-	            xhr.setRequestHeader('Authorization',
-                          'Basic ' + btoa(_userOrgKey + '-' + _userInstanceKey + ':' + localStorage.getItem("userKey")));
-	        },
-
-	        url: "http://api.sherpadesk.com/config",
-	        dataType: "json",
-	        success: function (returnData) {
-	            localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
-	            localStorage.setItem('projectTracking', returnData.is_project_tracking);
-	            localStorage.setItem('timeTracking', returnData.is_time_tracking);
-	            localStorage.setItem('freshbooks', returnData.is_freshbooks);
-	            if (localStorage.getItem('userRole') == "tech")
-	                window.location = "dashboard.html";
-	            else
-	                window.location = "ticket_list.html";
-	        },
-	        complete: function () {
-
-	        },
-	        error: function () {
-	            console.log("fail @ config");
-	        }
-	    });
-	};
 		}
-
 	};
 	
 	// organization Ajax call 
@@ -2566,7 +2526,7 @@ $(document).ready(function(){
 	        userInstanceKey = localStorage.getItem('userInstanceKey');
 	        if (userOrgKey && userInstanceKey)
 	        {
-	            window.location = "dashboard.html";
+	            getInstanceConfig(userOrgKey, userInstanceKey)
 	            return;
 	        }
 	        this.getOrg();
@@ -2763,7 +2723,7 @@ $(document).ready(function(){
 	//Main Method that calls all the functions for the app
 	(function () {
 		//always active api calls
-		  userMessage.init();
+		userMessage.init();
 	    UserLogin.init();
 	    org.init();
 	    signout.init();
