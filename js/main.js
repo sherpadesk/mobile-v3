@@ -1042,6 +1042,14 @@ $(document).ready(function(){
 			// submit time to account 
 			$("#submitTime").click(function(){
 				var time = $("#addTimeTicket").val();
+				if(!isNaN(time))
+				{
+					$("errorMessageNeg").html("oops, lets try entering a valid time");
+					$("errorMessageNeg").slideDown(100);
+					setTimeout(function(){
+						$("errorMessageNeg").slideUp(100);
+					},3500);
+				}
 				var note = $("#noteTime").val();
 				var tech = localStorage.getItem('userId');
 				var accountId = $("#timeAccounts").val();
@@ -1076,7 +1084,7 @@ $(document).ready(function(){
     				         window.location = "dashboard.html";
     				},
     				error: function (e, textStatus, errorThrown) {
-    				         alert(textStatus);
+    				         console.log(textStatus);
     				}
  				});
 			});
@@ -1690,7 +1698,7 @@ $(document).ready(function(){
 							//check intial post length can be displayed correctly 
 							if(intialPost.length > 100) 
 							{
-								intialPost = intialPost.substring(1,100);
+								intialPost = intialPost.substring(0,100);
 							}
 							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 							
@@ -1854,7 +1862,7 @@ $(document).ready(function(){
 							//check initial post length
 							if(intialPost.length > 100) 
 							{
-								intialPost = intialPost.substring(1,100);
+								intialPost = intialPost.substring(0,100);
 							}
 							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 							$(ticket).appendTo("#allContainer");
@@ -1900,7 +1908,7 @@ $(document).ready(function(){
 							}
 							if(intialPost.length > 100) 
 							{
-								intialPost = intialPost.substring(1,100);
+								intialPost = intialPost.substring(0,100);
 							}
 							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 							
@@ -1946,7 +1954,7 @@ $(document).ready(function(){
 							}
 							if(intialPost.length > 100) 
 							{
-								intialPost = intialPost.substring(1,100);
+								intialPost = intialPost.substring(0,100);
 							}
 							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 							
@@ -2680,6 +2688,7 @@ $(document).ready(function(){
 			});
 			// go to complete list of invoice on click
 			$("#allInvoice, #invoiceFooter").click(function(){
+
 				window.location = "allInvoice_List.html";
 			});
 			$(document).on("click",".invoiceRows", function(){
@@ -2750,6 +2759,7 @@ $(document).ready(function(){
 	        getTicketCount();
 	        getQueueList();
 	        getActiveAccounts();
+	        invoiceList.init();
 	        reveal();
 	    }
 	    if (location.pathname.indexOf("account_details.html") >= 0)
@@ -2806,6 +2816,10 @@ $(document).ready(function(){
 	    if (location.pathname.indexOf("closedTickets.html") >= 0)
 	    {
 	       detailedTicket.init();
+	    }
+	    if (location.pathname.indexOf("queueTickets.html") >= 0)
+	    {
+	       getQueueTickets.init();
 	    }
 	    //getTicketCount();
 	    //getQueueList();
