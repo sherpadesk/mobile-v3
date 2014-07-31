@@ -24,13 +24,21 @@ $(document).ready(function(){
 	// user login 
 	var UserLogin = {
 	    init: function () {
+	        var loginPage = true;
 	        if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/")
-	            return;
+	            loginPage = false;
 	        userKey = localStorage.getItem("userKey");
 	        userOrgKey = localStorage.getItem('userOrgKey');
 	        userInstanceKey = localStorage.getItem('userInstanceKey');
+	        if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage && location.pathname.indexOf("org.html")<0) {
+	          clearStorage();
+	          window.location = "index.html";
+	          return;
+	        }
+	        if (!loginPage)
+	          return;
 	        if (userKey && userOrgKey && userInstanceKey) {
-	            window.location = "dashboard.html";
+	            getInstanceConfig(userOrgKey, userInstanceKey);
 	            return;
 	        }
 	        if (userKey) {
@@ -420,6 +428,18 @@ $(document).ready(function(){
 			});
 		}
 	};
+	
+	function clearStorage()
+	{
+	  var userName = localStorage.userName;
+	  localStorage.clear();
+	  localStorage.removeItem('userOrgKey');
+		localStorage.removeItem('userOrg');
+		localStorage.removeItem('userInstanceKey');
+		localStorage.removeItem('userKey');
+		localStorage.setItem("userName", userName);
+		
+	};
 	// when signout button is pressed all user data is whiped from local storage 
 	var signout = {
 		init:function(){
@@ -428,10 +448,7 @@ $(document).ready(function(){
 
 		logOut:function(){
 		    $("#signOut").click(function () {
-		        localStorage.removeItem('userOrgKey');
-		        localStorage.removeItem('userOrg');
-		        localStorage.removeItem('userInstanceKey');
-		        localStorage.removeItem('userKey');
+		        clearStorage();
 		        if (localStorage.is_google) {
 		            localStorage.removeItem('userName');
 		            localStorage.removeItem('is_google');
@@ -908,9 +925,9 @@ $(document).ready(function(){
     						"task_type_id": 1,
     						"hours": time,
     						"is_billable": isBillable,
-    						"date": date,
-    						"start_date": new Date().toJSON(),
-    						"stop_date": new Date().toJSON(),
+    						//"date": date,
+    						//"start_date": new Date().toJSON(),
+    						//"stop_date": new Date().toJSON(),
     						"tech_id": tech,
 						   }, 
     				dataType: 'json',
@@ -1042,14 +1059,6 @@ $(document).ready(function(){
 			// submit time to account 
 			$("#submitTime").click(function(){
 				var time = $("#addTimeTicket").val();
-				if(!isNaN(time))
-				{
-					$("errorMessageNeg").html("oops, lets try entering a valid time");
-					$("errorMessageNeg").slideDown(100);
-					setTimeout(function(){
-						$("errorMessageNeg").slideUp(100);
-					},3500);
-				}
 				var note = $("#noteTime").val();
 				var tech = localStorage.getItem('userId');
 				var accountId = $("#timeAccounts").val();
@@ -1075,16 +1084,16 @@ $(document).ready(function(){
     						"task_type_id":taskId,
     						"hours":time,
     						"is_billable": isBillable,
-    						"date": date,
-    						"start_date": new Date().toJSON(),
-    						"stop_date": new Date().toJSON(),
+    						//"date": date,
+    						//"start_date": new Date().toJSON(),
+    						//"stop_date": new Date().toJSON(),
 						   }, 
     				dataType: 'json',
     				success: function (d) {
     				         window.location = "dashboard.html";
     				},
     				error: function (e, textStatus, errorThrown) {
-    				         console.log(textStatus);
+    				         alert(textStatus);
     				}
  				});
 			});
@@ -1698,7 +1707,7 @@ $(document).ready(function(){
 							//check intial post length can be displayed correctly 
 							if(intialPost.length > 100) 
 							{
-								intialPost = intialPost.substring(0,100);
+								intialPost = intialPost.substring(1,100);
 							}
 							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 							
@@ -1862,7 +1871,7 @@ $(document).ready(function(){
 							//check initial post length
 							if(intialPost.length > 100) 
 							{
-								intialPost = intialPost.substring(0,100);
+								intialPost = intialPost.substring(1,100);
 							}
 							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 							$(ticket).appendTo("#allContainer");
@@ -1908,7 +1917,7 @@ $(document).ready(function(){
 							}
 							if(intialPost.length > 100) 
 							{
-								intialPost = intialPost.substring(0,100);
+								intialPost = intialPost.substring(1,100);
 							}
 							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 							
@@ -1954,7 +1963,7 @@ $(document).ready(function(){
 							}
 							if(intialPost.length > 100) 
 							{
-								intialPost = intialPost.substring(0,100);
+								intialPost = intialPost.substring(1,100);
 							}
 							var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 							
@@ -2192,7 +2201,10 @@ $(document).ready(function(){
 			this.getTimeLogs();
 		},
 
-		getTimeLogs:function(){
+		getTimeLogs: function () {
+		    var accountId = localStorage.getItem("DetailedAccount");
+		    if (!accountId)
+		        accountId = -1;
 			$.ajax({
 			type: 'GET',
 			beforeSend: function (xhr) {
@@ -2201,7 +2213,7 @@ $(document).ready(function(){
                           'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
 				},
 
-				url:"http://api.sherpadesk.com/time?account="+localStorage.getItem("DetailedAccount"),
+			url: "http://api.sherpadesk.com/time?account=" + accountId,
 				dataType:"json",
 				success: function(returnData) {
 						console.log(returnData);
@@ -2288,6 +2300,7 @@ $(document).ready(function(){
 
     //get instance config 
 	var getInstanceConfig = function (_userOrgKey, _userInstanceKey) {
+	    
 	    if (!_userOrgKey || !_userInstanceKey) {
 	        _userOrgKey = localStorage.getItem('userOrgKey');
 	        _userInstanceKey = localStorage.getItem('userInstanceKey');
@@ -2321,6 +2334,8 @@ $(document).ready(function(){
 	        },
 	        error: function () {
 	            console.log("fail @ config");
+	            clearStorage();
+				      window.location = "index.html";
 	        }
 	    });
 	};
@@ -2492,47 +2507,7 @@ $(document).ready(function(){
 					console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
 					}
 			});
-
-			//get instance config 
-	var getInstanceConfig = function (_userOrgKey, _userInstanceKey) {
-	    if (!_userOrgKey || !_userInstanceKey) {
-	        _userOrgKey = localStorage.getItem('userOrgKey');
-	        _userInstanceKey = localStorage.getItem('userInstanceKey');
-	    }
-	    if (!_userOrgKey || !_userInstanceKey) {
-	        return;
-	    }
-	    //get instance config 
-	    $.ajax({
-	        type: 'GET',
-	        beforeSend: function (xhr) {
-	            xhr.withCredentials = true;
-	            xhr.setRequestHeader('Authorization',
-                          'Basic ' + btoa(_userOrgKey + '-' + _userInstanceKey + ':' + localStorage.getItem("userKey")));
-	        },
-
-	        url: "http://api.sherpadesk.com/config",
-	        dataType: "json",
-	        success: function (returnData) {
-	            localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
-	            localStorage.setItem('projectTracking', returnData.is_project_tracking);
-	            localStorage.setItem('timeTracking', returnData.is_time_tracking);
-	            localStorage.setItem('freshbooks', returnData.is_freshbooks);
-	            if (localStorage.getItem('userRole') == "tech")
-	                window.location = "dashboard.html";
-	            else
-	                window.location = "ticket_list.html";
-	        },
-	        complete: function () {
-
-	        },
-	        error: function () {
-	            console.log("fail @ config");
-	        }
-	    });
-	};
 		}
-
 	};
 	
 	// organization Ajax call 
@@ -2551,7 +2526,7 @@ $(document).ready(function(){
 	        userInstanceKey = localStorage.getItem('userInstanceKey');
 	        if (userOrgKey && userInstanceKey)
 	        {
-	            window.location = "dashboard.html";
+	            getInstanceConfig(userOrgKey, userInstanceKey)
 	            return;
 	        }
 	        this.getOrg();
@@ -2667,6 +2642,8 @@ $(document).ready(function(){
 				},
 				error: function() {
 					console.log("fail @ getOrg");
+				  clearStorage();
+				  window.location = "index.html";
 				}
 			}).promise();
 
@@ -2688,7 +2665,6 @@ $(document).ready(function(){
 			});
 			// go to complete list of invoice on click
 			$("#allInvoice, #invoiceFooter").click(function(){
-
 				window.location = "allInvoice_List.html";
 			});
 			$(document).on("click",".invoiceRows", function(){
@@ -2759,7 +2735,6 @@ $(document).ready(function(){
 	        getTicketCount();
 	        getQueueList();
 	        getActiveAccounts();
-	        invoiceList.init();
 	        reveal();
 	    }
 	    if (location.pathname.indexOf("account_details.html") >= 0)
@@ -2817,10 +2792,6 @@ $(document).ready(function(){
 	    {
 	       detailedTicket.init();
 	    }
-	    if (location.pathname.indexOf("queueTickets.html") >= 0)
-	    {
-	       getQueueTickets.init();
-	    }
 	    //getTicketCount();
 	    //getQueueList();
 	    //getActiveAccounts();
@@ -2846,7 +2817,7 @@ $(document).ready(function(){
 		//detailedInvoice.init();
 		addTime.init();
 		postComment.init();
-		updateInvoice.init();
+		//updateInvoice.init();
 	}()); 
 	
 
