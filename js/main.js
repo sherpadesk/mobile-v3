@@ -1,3 +1,7 @@
+/*global jQuery, $ */
+
+var isPhonegap = false;
+
 $(document).ready(function(){
 	
 	var userOrgKey = "";
@@ -2720,6 +2724,15 @@ $(document).ready(function(){
 	};
 	
 
+    function fullapplink (){
+// Create link to specific org | instance
+		var urlString = "https://app.sherpadesk.com/" + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
+	  	if (isPhonegap)
+		 	{ $("#fullapplink").click(function(){ openURLsystem(urlString);});}
+	  	else
+			$("#fullapplink").attr("href", urlString).attr("target", "_system");
+		return urlString; 
+}
 	//Main Method that calls all the functions for the app
 	(function () {
 		//always active api calls
@@ -2735,6 +2748,7 @@ $(document).ready(function(){
 	        getTicketCount();
 	        getQueueList();
 	        getActiveAccounts();
+            fullapplink();
 	        reveal();
 	    }
 	    if (location.pathname.indexOf("account_details.html") >= 0)
@@ -2747,6 +2761,7 @@ $(document).ready(function(){
 	    {
 	        ticketList.init();
 	        accountDetailsPageSetup.init();
+            fullapplink();
 	        
 	    }
 	    if (location.pathname.indexOf("Account_List.html") >= 0)
