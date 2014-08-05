@@ -906,7 +906,7 @@ header {
 
 footer {
   position: relative;
-  bottom: 525px;
+  bottom: 425px;
   left: 106%;
   margin: 0 -50%;
   /* display: block; */
@@ -1420,5 +1420,8 @@ footer {
   width: 90%;
   margin: 0 auto
 }
-
+.maxSize {
+  max-width: 1100px;
+  margin: 0 auto;
+}
 }

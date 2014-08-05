@@ -95,3 +95,102 @@ strong {
   width: 15%;
   height: 50%;
 }
+
+.tasker {
+  float: left;
+  width: 62%;
+  height: 100%;
+  background: url(mountainBG.jpg);
+  background-size: cover;
+}
+
+.feedBacker {
+  float: left;
+  width: 38%;
+  height: 100%;
+  background: url(Default_Portrait.png);
+  background-size: cover;
+}
+
+.boredSections {
+  width: 100%;
+  height: 100%;
+  list-style-type: none;
+}
+
+.boredSections li {
+  float: left;
+  width: 33.33%;
+  height: 100%;
+  border-left: 5px solid #D3D3D3;
+}
+
+.boredSections h1 {
+  color: #fff;
+  text-align: center;
+  border-bottom: 1px solid #fff;
+  border-radius: 10px;
+  margin: 10px auto;
+  width: 70%;
+
+}
+
+.sectionList {
+  list-style-type: none;
+  margin-top: 20px;
+  margin-left: 10%; 
+  width: 80%;
+  overflow: auto;
+}
+
+.sectionList li {
+  width: 80%;
+  display: block;
+  text-align: left;
+  border-left: 0px;
+  margin: 0 auto 15px;
+  float: none;
+  color: #fff;
+}
+
+.feedBacker h1 {
+  color:#fff;
+  margin-left: 10px;
+}
+
+.feedBackList {
+  width: 80%;
+  margin: 40% auto;
+  list-style-type: none;
+  color: #fff;
+}
+
+.feedBackList li {
+  width: 80%;
+  float: left;
+  font-size: 25px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 40px;
+}
+
+.feedBackList strong {
+  font-size: 34px;
+  font-weight: 400;
+  background-color: rgba(0, 0, 0, 0.7);
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
