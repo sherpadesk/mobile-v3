@@ -215,12 +215,16 @@ var SherpaDesk = {
 				    }
 
 				    else {
-				        //SherpaDesk.getTickets(configPass);
-
-				        // -------------------------------------------------------
-				        // ----------  Set initial landing page	------------------
-				        // -------------------------------------------------------					
-				        SherpaDesk.getDashboard(configPass);
+				        if( localStorage.sd_tech_admin === "false" ){
+					    //Sidebar Setup
+			
+						SherpaDesk.getTickets(configPass);
+						}
+						// -------------------------------------------------------
+						// ----------  Set initial landing page	------------------
+						// -------------------------------------------------------					
+						else
+						SherpaDesk.getDashboard(configPass);
 				    }
 				}
 			);
@@ -416,7 +420,7 @@ var SherpaDesk = {
 		        status = 'allopen';
 		    if (localStorage.sd_user_role == "user")
 		        status = 'open,onhold';
-		    var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?status=' + status + '&limit=500&query=' + localStorage.sd_user_role);
+		    var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?status=' + status + '&limit=500&role=' + localStorage.sd_user_role);
 		}
 		
 		getTicketList.then(
@@ -1478,6 +1482,20 @@ function getParameterByName(name) {
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
+function fullapplink (){
+// Create link to specific org | instance
+		var full_app_link = "",
+		    urlString = AppSite + "?dept=" + localStorage.sd_inst_key + "&org=" + localStorage.sd_org_key;
+	  	if (isPhonegap)
+		 	full_app_link = "href=#  onclick=openURLsystem('" + urlString + "')";
+	  	else
+			full_app_link = "href=" + urlString + " target=_system";
+	  	//var organization = {"full_app_link" : full_app_link};
+		
+		return full_app_link; //Add link to object
+}
+
+
 // Login
 function checkLogin(configPass){	
 	$('form.form-signin button[type=submit]').on('click', function(e){
@@ -1928,11 +1946,22 @@ function queuesAndTicketHeader(configPass, tktType) {
 			});
 	} else {
 		//Set the home button
+		if( localStorage.sd_tech_admin === "true" ){
 		$('a.home_button').off().on('click', function(e){
 			e.preventDefault();
 			$('body').empty().addClass('spinner');	
 			SherpaDesk.init();
 		});
+		}
+		else
+		{
+		//Sidebar Setup
+		  $('body').prepend("<div class='side-menu' style='display:none;'><ul><li class='searchform'> <input type='text' placeholder='Jump to Ticket #' class='ticket-jump-menu'></li><li><p id='orgInst'><i class='icon-list-alt icon-white'></i> Change Org/Inst</p></li><li><p id='logout'><i class='icon-off icon-white'></i> Log out</p></li><li><a " + fullapplink() + "><p id='fullSite'><i class='icon-share-alt icon-white'></i> Switch to Full App</p></a></li></ul></div>");
+			$("#left-button").removeClass().addClass("menu_button header_left menu_icon ticket_list_menu");
+			ticket_list_menu(".side-menu", "left");
+			ticketListMenuActions(configPass);
+			ticketJump(configPass);
+		}
 	};
 	
 	//Init list.js only if more than 0
@@ -1998,9 +2027,6 @@ function logOut(){
 	localStorage.removeItem('sd_inst_key');
 	localStorage.removeItem('sd_org_key');
 	localStorage.removeItem('sd_from_queueid');
-	localStorage.removeItem('access_token');
-	localStorage.removeItem('refresh_token');
-	localStorage.removeItem('expires_at');
 	if (localStorage.is_google) {
 	    localStorage.removeItem('sd_user_email');
 	    localStorage.removeItem('is_google');
