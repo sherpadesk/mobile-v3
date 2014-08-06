@@ -1,5 +1,13 @@
 /*global jQuery, $ */
 
+//Root Names
+var Site = 'sherpadesk.com/';
+var MobileSite = 'http://m2.' + Site;
+var AppSite = 'https://app.' + Site;
+
+var ApiSite = 'http://api.' + Site; 
+
+//Phonegap specific
 var isPhonegap = false;
 
 function onDeviceReady() {
@@ -19,6 +27,28 @@ $(document).ready(function(){
 	var userInstanceKey = "";
 	var	userKey = "";
 	var accountDetailed = "";
+    
+    function getApi (method, data) {
+		    var userKey = localStorage.getItem("userKey");
+	        var userOrgKey = localStorage.getItem('userOrgKey');
+	        var userInstanceKey = localStorage.getItem('userInstanceKey');
+	        if (!userKey || !userOrgKey || !userInstanceKey) {
+	          alert("Invalid organization!")
+	          return;
+            }
+		    return $.ajax({
+		        type: 'GET',
+		        beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+				    xhr.setRequestHeader('Authorization', 
+                          'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
+		        },
+		        url: ApiSite + method,
+                cache: false,
+                data: data, 
+		        dataType: "json"
+		    }).promise();
+		};
 
 	function getParameterByName(name) {
 	    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
@@ -1169,7 +1199,7 @@ $(document).ready(function(){
 						 {
 						 	$("#ticketSLA").html("SLA: "+returnData.sla_complete_date.toString().substring(0,10));
 						 }
-
+$("ul").find("[data-id='info']").click(function(){
 						 $("#classOptions").empty();
 						 // add select options to class Option box 
 						 for(var a = 0; a < returnData.classes.length; a++)
@@ -1181,8 +1211,19 @@ $(document).ready(function(){
 						 }
 						 $("#ticketLevel").empty();
 						 // add select options to level Option box 
-						 var levelInsert = "<option value="+returnData.level+">Level "+returnData.level+" "+returnData.level_name+"</option>";
-						 $(levelInsert).appendTo("#ticketLevel");
+                         var levels = getApi('levels');
+                    levels.done(
+					function(levelResults){
+                        var levelInsert = "";
+                        console.log(levelResults);
+                        for(var b = 0; b < levelResults.length; b++)
+						 {
+							levelInsert += "<option value="+levelResults[b].id+">Level "+levelResults[b].name+"</option>";					
+						}
+                        $(levelInsert).appendTo("#ticketLevel");
+                        $("#ticketLevel").val(returnData.level);
+                    }
+				);
 						 $("#ticketPriority").empty();
 						 // add select options to priority option box 
 						 var priorityInsert = "<option value="+returnData.priority_id+">Priority "+returnData.priority+"</option>";
@@ -1212,7 +1253,7 @@ $(document).ready(function(){
 						 }
 						 var projectInsert = "<option value="+returnData.project_id+">"+returnData.project_name+"</option>";
 						 $(projectInsert).appendTo("#ticketProject");
-
+});
 						 //add comments (ticketLogs) to the page
 						 $("#comments").empty();
 						 for(var c = 1; c < returnData.ticketlogs.length; c++)
@@ -2669,7 +2710,7 @@ $(document).ready(function(){
 				  clearStorage();
 				  window.location = "index.html";
 				}
-			}).promise();
+			})
 
 		}
 	};
