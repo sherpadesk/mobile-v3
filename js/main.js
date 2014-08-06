@@ -2,8 +2,18 @@
 
 var isPhonegap = false;
 
+function onDeviceReady() {
+       isPhonegap = true;
+}
+
+//open link	in system
+function openURLsystem(urlString){
+    window.open(urlString, '_system');
+}
+
 $(document).ready(function(){
-	
+    
+	document.addEventListener("deviceready", onDeviceReady, false);
 	var userOrgKey = "";
 	var userOrg = "";
 	var userInstanceKey = "";
@@ -1244,9 +1254,19 @@ $(document).ready(function(){
 						 var orginalMessageEmail = $.md5(returnData.ticketlogs[0].user_email);
 						 var orginalMessageDate = returnData.ticketlogs[0].record_date.toString().substring(0,10);
 						 orginalMessageDate = formatDate(orginalMessageDate);
-						 var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul>"
-						 	$(orginalMessageinsert).appendTo(".orginalMessageContainer");
-
+                    var note = returnData.ticketlogs[0].note;
+                    var attachments;
+						 	//check to see if this comment has attachments 
+						 	if(returnData.attachments != null){
+						 	for(var e = 0; e < returnData.attachments.length; e++)
+						 	{
+						 		if(note.indexOf(returnData.attachments[e].name) >= 0) 
+						 		{
+						 	attachments += "<img class='attachment' src="+returnData.attachments[e].url+">";
+						 		}
+						 	}
+						 	}
+						 var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul>"+attachments+"<div class='attachmentBorder' style='float:left;'></div>";             						 	$(orginalMessageinsert).appendTo(".orginalMessageContainer");
 
 					},
 					complete:function(){
