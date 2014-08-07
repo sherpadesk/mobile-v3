@@ -62,6 +62,7 @@ fullscreen();
 			$(".sideNav").addClass("sideNavOut");
 			$("body,html").toggleClass("bodyLock");
 			$("a").toggleClass("disabled");
+			document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
 			slide = true;
 		},
 
@@ -71,6 +72,7 @@ fullscreen();
 			$(".sideNav").removeClass("sideNavOut");
 			$("body, html").toggleClass("bodyLock");
 			$("a").toggleClass("disabled");
+			document.body.removeEventListener('touchstart', function(e){ e.preventDefault(); });
 			slide = false;
 		}, 
 
