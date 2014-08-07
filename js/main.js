@@ -10,6 +10,8 @@ var ApiSite = 'http://api.' + Site;
 //Phonegap specific
 var isPhonegap = false;
 
+document.addEventListener("deviceready", onDeviceReady, false);
+
 function onDeviceReady() {
     isPhonegap = true;
 }
@@ -21,7 +23,6 @@ function openURLsystem(urlString){
 
 $(document).ready(function(){
 
-    document.addEventListener("deviceready", onDeviceReady, false);
     var userOrgKey = "";
     var userOrg = "";
     var userInstanceKey = "";
@@ -1199,60 +1200,142 @@ $(document).ready(function(){
                     {
                         $("#ticketSLA").html("SLA: "+returnData.sla_complete_date.toString().substring(0,10));
                     }
-                    $("ul").find("[data-id='info']").click(function(){
-                        $("#classOptions").empty();
-                        // add select options to class Option box 
-                        for(var a = 0; a < returnData.classes.length; a++)
-                        {
-                            var className = returnData.classes[a].name;
-                            var classId = returnData.classes[a].id;
-                            var insert = "<option value="+classId+">"+className+"</option>";
-                            $(insert).appendTo("#classOptions");
+                    //$("ul").find("[data-id='info']").click(function(){
+
+                    $("#ticketLevel").empty();
+                    // add select options to level Option box 
+                    var levels = getApi('levels');
+                    var classes = getApi('classes');
+                    var priorities = getApi('priorities');
+
+                    var selectedEditClass;
+
+                    levels.done(
+                        function(levelResults){
+                            var levelInsert = "";
+                            for(var b = 0; b < levelResults.length; b++)
+                            {
+                                levelInsert += "<option value="+levelResults[b].id+">Level "+levelResults[b].name+"</option>";					
+                            }
+                            $(levelInsert).appendTo("#ticketLevel");
+                            $("#ticketLevel").val(returnData.level);
                         }
-                        $("#ticketLevel").empty();
-                        // add select options to level Option box 
-                        var levels = getApi('levels');
-                        levels.done(
-                            function(levelResults){
-                                var levelInsert = "";
-                                for(var b = 0; b < levelResults.length; b++)
-                                {
-                                    levelInsert += "<option value="+levelResults[b].id+">Level "+levelResults[b].name+"</option>";					
+                    );
+
+                    $("#classOptions").empty();
+                    classes.done(
+                        function(classResults){
+
+                            var classInsert = "";
+                            for(var b = 0; b < classResults.length; b++)
+                            {
+                                classInsert += "<option data-classId="+classResults[b].id+" value="+classResults[b].id+">"+classResults[b].name+"</option>";					
+                            }
+                            $(classInsert).appendTo("#classOptions");
+
+                            //Init ticket class if not changed
+                            selectedEditClass = returnData.class_id;
+
+                            //Listen for class and detect sub-classes
+                            $('#classOptions').on('change', function(){
+
+                                if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').remove();};
+                                var classSelected0 = $('#classOptions option:selected').val();					
+                                var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
+
+
+                                //set class
+                                selectedEditClass = classSelected0;
+
+                                //If sub-class exist
+                                if(classSub[0].sub > 0 || classSub[0].sub !== null){										
+                                    //Show sub-class select
+                                    classInsert = "<option value=''>---</option>";
+                                    for(var b = 0; b < classSub[0].sub.length; b++)
+                                    {
+                                        classInsert += "<option data-classId="+classSub[0].sub[b].id+" value="+classSub[0].sub[b].id+">"+classSub[0].sub[b].name+"</option>";					
+                                    }
+                                    if(classInsert.length > 0)
+                                        $("<div class=sub_class1><label>>> Sub Class</label><div class=styledSelect><select id=sub_class1>" + classInsert + "</select></div></div>").appendTo(".add_class");
+
+                                    $("select#sub_class1").on('change', function(){
+                                        if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
+                                        var classSelected1 = $('select#sub_class1 option:selected').val();					
+                                        var classSub1 = $.grep(classSub[0].sub, function(a){ return a.id == classSelected1; });
+                                        //reset class
+                                        selectedEditClass = classSelected1;
+                                        //If sub-sub-class exist
+                                        if(classSub1[0].sub > 0 || classSub1[0].sub!== null){
+                                            //Show sub-class select
+
+                                            classInsert = "<option value=''>---</option>";
+                                            for(var b = 0; b < classSub1[0].sub.length; b++)
+                                            {
+                                                classInsert += "<option data-classId="+classSub1[0].sub[b].id+" value="+classSub1[0].sub[b].id+">"+classSub1[0].sub[b].name+"</option>";					
+                                            }
+                                            if(classInsert.length > 30)
+                                                $("<div class=sub_class2><label>>> >>Sub Sub Class</label><div class=styledSelect><select id=sub_class2>" + classInsert + "</select></div></div>").appendTo(".add_class");
+                                            $("select#sub_class2").on('change', function(){
+                                                var classSelected2 = $('select#sub_class2 option:selected').val();
+                                                //reset class
+                                                selectedEditClass = classSelected2;
+                                            });
+                                        }
+                                    });
                                 }
-                                $(levelInsert).appendTo("#ticketLevel");
-                                $("#ticketLevel").val(returnData.level);
+
+                            });
+                        });//end Sub-Class listener
+                    $("#ticketPriority").empty();
+                    // add select options to priority option box 
+                    priorities.done(
+                        function(prioritiesResults){
+                            var priorityInsert = "";
+                            for(var b = 0; b < prioritiesResults.length; b++)
+                            {
+                                priorityInsert += "<option value="+prioritiesResults[b].id+">Priority " + prioritiesResults[b].priority_level + " - " +prioritiesResults[b].name+"</option>";					
+                            }
+                            $(priorityInsert).appendTo("#ticketPriority");
+                            $("#ticketPriority").val(returnData.priority_id);
+                        }
+                    );
+                    $("#ticketTechs").empty();
+                    // add select options to tech Option box
+                    for(var b = 0; b < returnData.technicians.length; b++)
+                    {
+                        var techName = returnData.technicians[b].user_fullname;
+                        var techId = returnData.technicians[b].user_id;
+                        var insert = "<option value="+techId+">"+techName+"</option>";
+                        $(insert).appendTo("#ticketTechs");
+                    }
+
+
+                    $("#location").remove();
+
+
+                    // add select options to project option box                     
+                    var projects = getApi('projects');
+                    if(!localStorage.getItem("projectTracking"))
+                    {
+                        $("#project").remove();
+                    }
+                    else
+                    {
+                        $("#ticketProject").empty();
+                        var projects = getApi('projects');
+                        projects.done(
+                            function(projectResults){
+                                var projectInsert = "";
+                                for(var b = 0; b < projectResults.length; b++)
+                                {
+                                    projectInsert += "<option value="+projectResults[b].id+">Project: "+projectResults[b].name+"</option>";					
+                                }
+                                $(projectInsert).appendTo("#ticketProject");
+                                $("#ticketProject").val(returnData.project_id);
                             }
                         );
-                        $("#ticketPriority").empty();
-                        // add select options to priority option box 
-                        var priorityInsert = "<option value="+returnData.priority_id+">Priority "+returnData.priority+"</option>";
-                        $(priorityInsert).appendTo("#ticketPriority");
-                        $("#ticketTechs").empty();
-                        // add select options to tech Option box
-                        for(var b = 0; b < returnData.technicians.length; b++)
-                        {
-                            var techName = returnData.technicians[b].user_fullname;
-                            var techId = returnData.technicians[b].user_id;
-                            var insert = "<option value="+techId+">"+techName+"</option>";
-                            $(insert).appendTo("#ticketTechs");
-                        }
-                        $("#ticketLocation").empty();
-                        // add select options to location Option box 
-                        if(returnData.location_id == 0)
-                        {
-                            $("#location").remove();
-                        }
-                        var locationInsert = "<option value="+returnData.location_id+">"+returnData.location_name+"</option>";
-                        $(locationInsert).appendTo("#ticketLocation");
-                        $("#ticketProject").empty();
-                        // add select options to project option box 
-                        if(returnData.project_id == 0)
-                        {
-                            $("#project").remove();
-                        }
-                        var projectInsert = "<option value="+returnData.project_id+">"+returnData.project_name+"</option>";
-                        $(projectInsert).appendTo("#ticketProject");
-                    });
+                    }
+                    //});
                     //add comments (ticketLogs) to the page
                     $("#comments").empty();
                     for(var c = 1; c < returnData.ticketlogs.length; c++)
