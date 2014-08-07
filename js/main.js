@@ -1382,18 +1382,35 @@ $(document).ready(function(){
                     var orginalMessageDate = returnData.ticketlogs[0].record_date.toString().substring(0,10);
                     orginalMessageDate = formatDate(orginalMessageDate);
                     var note = returnData.ticketlogs[0].note;
-                    var attachments;
+                    var attachments = [];
                     //check to see if this comment has attachments 
                     if(returnData.attachments != null){
                         for(var e = 0; e < returnData.attachments.length; e++)
                         {
                             if(note.indexOf(returnData.attachments[e].name) >= 0) 
                             {
-                                attachments += "<img class='attachment' src="+returnData.attachments[e].url+">";
+                                attachments[e] = "<img class='attachment' src="+returnData.attachments[e].url+">";
+                                $(attachments[e]).error(function(){
+                            		attachments[e] = "0";
+                            		
+                            	});
+
                             }
                         }
                     }
-                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul>"+attachments+"<div class='attachmentBorder' style='float:left;'></div>";             						 	$(orginalMessageinsert).appendTo(".orginalMessageContainer");
+                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul></div>";             						 	
+                    	
+                    $(orginalMessageinsert).appendTo(".orginalMessageContainer");
+
+                    if(returnData.attachments != null)
+                    	{
+                    		for(var f = 0; f < attachments.length; f++)
+                    		{
+                    			var attach = attachments[f];
+                    			$(attach).appendTo(".orginalMessageContainer");
+                    		}
+                    		
+                    	}
 
                 },
                 complete:function(){
@@ -2897,6 +2914,7 @@ $(document).ready(function(){
         org.init();
         signout.init();
         userInfo.init();
+        miscClicks.init();
 
         //conditional api calls determined by page 
         if (location.pathname.indexOf("dashboard.html") >= 0)
