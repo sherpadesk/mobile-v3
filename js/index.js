@@ -60,7 +60,7 @@ fullscreen();
 			$(".sideNav").css("top",$(window).scrollTop()+"px");
 			$(".bodyContent, header").addClass("contentOut");
 			$(".sideNav").addClass("sideNavOut");
-			$("body").toggleClass("bodyLock");
+			$("body,html").toggleClass("bodyLock");
 			$("a").toggleClass("disabled");
 			slide = true;
 		},
@@ -69,7 +69,7 @@ fullscreen();
 			// e.preventDefault();
 			$(".bodyContent, .header").removeClass("contentOut");
 			$(".sideNav").removeClass("sideNavOut");
-			$("body").toggleClass("bodyLock");
+			$("body, html").toggleClass("bodyLock");
 			$("a").toggleClass("disabled");
 			slide = false;
 		}, 
