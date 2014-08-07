@@ -678,6 +678,9 @@ $(document).ready(function(){
                 if($("#addTicketSubject").val() == "" || $("#addTicketTechs").val() == "" || $("#addTicketClass").val() == "" || $("#addTicketSubject").val() == "")
                 {
                     $(".errorMessageNeg").slideDown(100);
+                    $('html,body').animate({
+                        		scrollTop: 0
+                        	}, 100);
                     setTimeout(
                         function() 
                         {
@@ -2414,6 +2417,7 @@ $(document).ready(function(){
 
     // get the counts for open tickets (as tech, alt tech, user) and updates the ticket banner on the dashboard
     var getTicketCount = function() {
+    	$('html,body').css('scrollTop','0');
         $.ajax({
             type: 'GET',
             beforeSend: function (xhr) {
@@ -2502,11 +2506,15 @@ $(document).ready(function(){
             success: function(returnData) {
                 console.log(returnData);
                 $("#DashBoradQueues").empty();
-
-                for( var i = 0; i < 3; i++)
+                 var dashQueues = 0;
+                for( var i = 0; i < returnData.length; i++)
                 {
-                    var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
-                    $(insertQueue).prependTo("#DashBoradQueues");					
+                	if(returnData[i].tickets_count > 0 && dashQueues < 3 )
+                	{
+                		var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
+                    	$(insertQueue).prependTo("#DashBoradQueues");	
+                    	dashQueues++;
+                	}				
                 }
 
             },
@@ -2826,6 +2834,10 @@ $(document).ready(function(){
                 localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list 
                 window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
             });
+            $(document).on("click","#queue", function(){
+                localStorage.setItem('currentQueue',$(this).attr("data-id"));
+                window.location = "queueTickets.html";
+            });
         }
     };
 
@@ -2890,6 +2902,7 @@ $(document).ready(function(){
         {
             getTicketCount();
             getQueueList();
+            getQueues.init();
             getActiveAccounts();
             fullapplink();
             reveal();
@@ -2963,7 +2976,7 @@ $(document).ready(function(){
         //accountTimeLogs.init();
         sendInvoince.init();
         addRecip.init();
-        // accountDetailsPageSetup.init();
+        //accountDetailsPageSetup.init();
         search.init();
         //detailedTicket.init();
         //ticketList.init();
