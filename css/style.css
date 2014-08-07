@@ -384,6 +384,7 @@ nav i {
 }
 
 .sideNavOut {
+  position: fixed;
   transform:translateX(0%);
   -webkit-transform: translateX(0%);
   -webkit-transform: translateX(0%);
