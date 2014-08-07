@@ -1161,7 +1161,7 @@ $(document).ready(function(){
                 localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list 
                 window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
             });
-
+            $('html,body').css('scrollTop','0');
 
             $.ajax({
                 type: 'GET',
@@ -1366,6 +1366,7 @@ $(document).ready(function(){
                         $(insert).appendTo("#comments");
                         for(var f = 0; f < attachments.length; f++)
                         {
+
                             var insert = "<img class='attachment' src="+attachments[f]+">";
                             $(insert).appendTo("#comments");
                         }
@@ -1857,7 +1858,7 @@ $(document).ready(function(){
                         //check intial post length can be displayed correctly 
                         if(intialPost.length > 100) 
                         {
-                            intialPost = intialPost.substring(1,100);
+                            intialPost = intialPost.substring(0,100);
                         }
                         var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
@@ -1972,7 +1973,7 @@ $(document).ready(function(){
                         //check intial post length can be displayed correctly 
                         if(intialPost.length > 100) 
                         {
-                            intialPost = intialPost.substring(1,100);
+                            intialPost = intialPost.substring(0,100);
                         }
                         var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
@@ -2021,7 +2022,7 @@ $(document).ready(function(){
                         //check initial post length
                         if(intialPost.length > 100) 
                         {
-                            intialPost = intialPost.substring(1,100);
+                            intialPost = intialPost.substring(0,100);
                         }
                         var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo("#allContainer");
@@ -2067,7 +2068,7 @@ $(document).ready(function(){
                         }
                         if(intialPost.length > 100) 
                         {
-                            intialPost = intialPost.substring(1,100);
+                            intialPost = intialPost.substring(0,100);
                         }
                         var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
@@ -2113,7 +2114,7 @@ $(document).ready(function(){
                         }
                         if(intialPost.length > 100) 
                         {
-                            intialPost = intialPost.substring(1,100);
+                            intialPost = intialPost.substring(0,100);
                         }
                         var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
@@ -2612,7 +2613,7 @@ $(document).ready(function(){
             complete:function(){
                 function reveal(){
                     $(".loadScreen").hide();
-                    $(".maxSize").fadeIn();
+                    $(".maxSize").show();
                 };
                 window.setTimeout(reveal,500);
             },

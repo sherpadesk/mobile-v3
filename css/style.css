@@ -1579,7 +1579,7 @@ footer {
   overflow: auto;
   border-bottom: 1px solid #cccccc;
   padding-bottom: 5px;
-  padding-top: 5px;
+  padding-top: 11px;
   z-index: 5;
 }
 
@@ -1613,7 +1613,7 @@ footer {
 }
 
 .commentBlock li:first-child {
-  width: 4.33%;
+  width: 12.33%;
   height: 25%;
   color: #cccccc;
   font-size: 12px;
@@ -1621,7 +1621,7 @@ footer {
 }
 
 .commentBlock li:nth-child(2) {
-  width: 54.33%;
+  width: 44.33%;
   height: 25%;
   color: #cccccc;
   font-size: 12px;
@@ -1639,6 +1639,7 @@ footer {
 
 .commentBlock li:nth-child(4) {
   width: 90%;
+  margin-top: 20px;
   margin-bottom: 22px;
   soverflow-x: hidden;
 }
