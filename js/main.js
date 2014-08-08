@@ -1335,7 +1335,7 @@ $(document).ready(function(){
                                 }
                                 for(var b = 0; b < projectResults.length; b++)
                                 {
-                                    projectInsert += "<option value="+projectResults[b].id+">Project: "+projectResults[b].name+"</option>";                 
+                                    projectInsert += "<option value="+projectResults[b].id+">"+projectResults[b].name+"</option>";                 
                                 }
                                 $(projectInsert).appendTo("#ticketProject");
                                 //$("#ticketProject").val(returnData.project_id);
