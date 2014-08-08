@@ -1162,7 +1162,6 @@ $(document).ready(function(){
                 window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
             });
             $('html,body').css('scrollTop','0');
-
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
@@ -1329,12 +1328,18 @@ $(document).ready(function(){
                         projects.done(
                             function(projectResults){
                                 var projectInsert = "";
+                                if(returnData.project_name == ""){
+                                	projectInsert += "<option value='null'>Project</option>";	
+                                }
                                 for(var b = 0; b < projectResults.length; b++)
                                 {
                                     projectInsert += "<option value="+projectResults[b].id+">Project: "+projectResults[b].name+"</option>";					
                                 }
-                                $(projectInsert).appendTo("#ticketProject");
-                                $("#ticketProject").val(returnData.project_id);
+                               	$(projectInsert).appendTo("#ticketProject");
+                                //$("#ticketProject").val(returnData.project_id);
+
+
+
                             }
                         );
                     }
@@ -1389,11 +1394,16 @@ $(document).ready(function(){
                         {
                             if(note.indexOf(returnData.attachments[e].name) >= 0) 
                             {
+                            	var tested = false;
                                 attachments[e] = "<img class='attachment' src="+returnData.attachments[e].url+">";
+
                                 $(attachments[e]).error(function(){
                             		attachments[e] = "0";
-                            		
+                            		tested = true;
                             	});
+                            	setTimeout(function(){
+
+                            	},2000);
 
                             }
                         }
