@@ -29,7 +29,7 @@ $(document).ready(function(){
     var	userKey = "";
     var accountDetailed = "";
 
-    function getApi (method, data) {
+    function getApi (method, data, type) {
         var userKey = localStorage.getItem("userKey");
         var userOrgKey = localStorage.getItem('userOrgKey');
         var userInstanceKey = localStorage.getItem('userInstanceKey');
@@ -37,8 +37,9 @@ $(document).ready(function(){
             alert("Invalid organization!")
             return;
         }
+        if( !type ) type = 'GET'; 
         return $.ajax({
-            type: 'GET',
+            type: type,
             beforeSend: function (xhr) {
                 xhr.withCredentials = true;
                 xhr.setRequestHeader('Authorization', 
@@ -1162,6 +1163,7 @@ $(document).ready(function(){
                 window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
             });
             $('html,body').css('scrollTop','0');
+            var selectedEditClass;
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
@@ -1210,8 +1212,6 @@ $(document).ready(function(){
                     var classes = getApi('classes');
                     var priorities = getApi('priorities');
 
-                    var selectedEditClass;
-
                     levels.done(
                         function(levelResults){
                             var levelInsert = "";
@@ -1228,10 +1228,10 @@ $(document).ready(function(){
                     classes.done(
                         function(classResults){
 
-                            var classInsert = "";
+                            var classInsert = "<option data-classId="+returnData.class_id+" value="+returnData.class_id+">Class: "+returnData.class_name+"</option>";
                             for(var b = 0; b < classResults.length; b++)
                             {
-                                classInsert += "<option data-classId="+classResults[b].id+" value="+classResults[b].id+">"+classResults[b].name+"</option>";					
+                                classInsert += "<option data-classId="+classResults[b].id+" value="+classResults[b].id+">Class: "+classResults[b].name+"</option>";					
                             }
                             $(classInsert).appendTo("#classOptions");
 
@@ -1245,20 +1245,19 @@ $(document).ready(function(){
                                 var classSelected0 = $('#classOptions option:selected').val();					
                                 var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
 
-
                                 //set class
                                 selectedEditClass = classSelected0;
 
                                 //If sub-class exist
-                                if(classSub[0].sub > 0 || classSub[0].sub !== null){										
+                                if((typeof classSub[0] !== "undefined") && (classSub[0].sub !== null || classSub[0].sub > 0)){										
                                     //Show sub-class select
-                                    classInsert = "<option value=''>---</option>";
-                                    for(var b = 0; b < classSub[0].sub.length; b++)
+                                    classInsert = "<option value=''>Sub Class: ---</option>";
+                                     for(var b = 0; b < classSub[0].sub.length; b++)
                                     {
-                                        classInsert += "<option data-classId="+classSub[0].sub[b].id+" value="+classSub[0].sub[b].id+">"+classSub[0].sub[b].name+"</option>";					
+                                        classInsert += "<option data-classId="+classSub[0].sub[b].id+" value="+classSub[0].sub[b].id+">Sub Class:  "+classSub[0].sub[b].name+"</option>";					
                                     }
                                     if(classInsert.length > 0)
-                                        $("<div class=sub_class1><label>>> Sub Class</label><div class=styledSelect><select id=sub_class1>" + classInsert + "</select></div></div>").appendTo(".add_class");
+                                        $("<div class=sub_class1><div class=styledSelect><select id=sub_class1>" + classInsert + "</select></div></div>").appendTo(".add_class");
 
                                     $("select#sub_class1").on('change', function(){
                                         if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
@@ -1267,16 +1266,16 @@ $(document).ready(function(){
                                         //reset class
                                         selectedEditClass = classSelected1;
                                         //If sub-sub-class exist
-                                        if(classSub1[0].sub > 0 || classSub1[0].sub!== null){
+                                        if((typeof classSub1[0] !== "undefined") && (classSub1[0].sub > 0 || classSub1[0].sub!== null)){
                                             //Show sub-class select
 
-                                            classInsert = "<option value=''>---</option>";
+                                            classInsert = "<option value=''>Sub Sub Class: ---</option>";
                                             for(var b = 0; b < classSub1[0].sub.length; b++)
                                             {
-                                                classInsert += "<option data-classId="+classSub1[0].sub[b].id+" value="+classSub1[0].sub[b].id+">"+classSub1[0].sub[b].name+"</option>";					
+                                                classInsert += "<option data-classId="+classSub1[0].sub[b].id+" value="+classSub1[0].sub[b].id+">Sub Class:  "+classSub1[0].sub[b].name+"</option>";					
                                             }
                                             if(classInsert.length > 30)
-                                                $("<div class=sub_class2><label>>> >>Sub Sub Class</label><div class=styledSelect><select id=sub_class2>" + classInsert + "</select></div></div>").appendTo(".add_class");
+                                                $("<div class=sub_class2><div class=styledSelect><select id=sub_class2>" + classInsert + "</select></div></div>").appendTo(".add_class");
                                             $("select#sub_class2").on('change', function(){
                                                 var classSelected2 = $('select#sub_class2 option:selected').val();
                                                 //reset class
@@ -1329,13 +1328,13 @@ $(document).ready(function(){
                             function(projectResults){
                                 var projectInsert = "";
                                 if(returnData.project_name == ""){
-                                	projectInsert += "<option value='null'>Project</option>";	
+                                    projectInsert += "<option value='null'>Project</option>";   
                                 }
                                 for(var b = 0; b < projectResults.length; b++)
                                 {
-                                    projectInsert += "<option value="+projectResults[b].id+">Project: "+projectResults[b].name+"</option>";					
+                                    projectInsert += "<option value="+projectResults[b].id+">Project: "+projectResults[b].name+"</option>";                 
                                 }
-                               	$(projectInsert).appendTo("#ticketProject");
+                                $(projectInsert).appendTo("#ticketProject");
                                 //$("#ticketProject").val(returnData.project_id);
 
 
@@ -1343,6 +1342,34 @@ $(document).ready(function(){
                             }
                         );
                     }
+                    $(".updateButton").click(function(){
+                       //var ticketAccount = $('form.update_ticket select#account').val(),
+									var	ticketClass = selectedEditClass,
+										ticketLevel = $("#ticketLevel").val(),
+										ticketPriority = $("#ticketPriority").val(),
+                                        ticketProject = $("#ticketProject").val();
+									
+									var response = {
+											//"account_id" : ticketAccount,
+											"class_id" : ticketClass,
+											"level_id" : ticketLevel,
+											"priority_id" : ticketPriority,
+                                            "project_id" : ticketProject
+										}
+										
+		var method = 'tickets/' + localStorage.getItem('ticketId');	
+		
+		var updateEditTicket = getApi(method, response, 'PUT');
+				
+		updateEditTicket.then(function(results){
+			
+			console.log('Then Complete');	
+            window.location = "ticket_detail.html";
+			 	//SherpaDesk.getTicketDetail(configPass, key);
+			 	//addAlert("success", "Ticket has been Updated");
+			  
+			});
+                    });
                     //});
                     //add comments (ticketLogs) to the page
                     $("#comments").empty();
@@ -1356,15 +1383,25 @@ $(document).ready(function(){
                         date = formatDate(date);
                         var attachments = [];
                         //check to see if this comment has attachments 
-                        if(returnData.attachments != null){
-                            for(var e = 0; e < returnData.attachments.length; e++)
+                    if(returnData.attachments != null){
+                        for(var e = 0; e < returnData.attachments.length; e++)
+                        {
+                            if(note.indexOf(returnData.attachments[e].name) >= 0) 
                             {
-                                if(note.indexOf(returnData.attachments[e].name) >= 0) 
-                                {
-                                    attachments.push(returnData.attachments[e].url);
-                                }
+                            	var tested = false;
+                                attachments[e] = "<img class='attachment' src="+returnData.attachments[e].url+">";
+
+                                $(attachments[e]).error(function(){
+                            		attachments[e] = "0";
+                            		tested = true;
+                            	});
+                            	setTimeout(function(){
+
+                            	},2000);
+
                             }
                         }
+                    }
 
                         // comment insert 
                         var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+note+"</p></li><li>"+type+"</li></ul>";
@@ -1394,16 +1431,11 @@ $(document).ready(function(){
                         {
                             if(note.indexOf(returnData.attachments[e].name) >= 0) 
                             {
-                            	var tested = false;
                                 attachments[e] = "<img class='attachment' src="+returnData.attachments[e].url+">";
-
                                 $(attachments[e]).error(function(){
                             		attachments[e] = "0";
-                            		tested = true;
+                            		
                             	});
-                            	setTimeout(function(){
-
-                            	},2000);
 
                             }
                         }
