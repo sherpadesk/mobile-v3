@@ -8,6 +8,19 @@ function fullscreen() {
         }
     });
 }
+
+var fastClicker = {
+	init:function() {
+		this.clickFast();
+	},
+
+	clickFast:function() {
+
+		window.addEventListener('load', function() {
+			FastClick.attach(document.body);
+		}, false);
+	}
+};
  
 
 fullscreen();
@@ -388,6 +401,7 @@ fullscreen();
 
 
 	(function() {
+		fastClicker.init();
 		openTickets.init();
 		largeScreenStlye.init();
 		backButton.init();

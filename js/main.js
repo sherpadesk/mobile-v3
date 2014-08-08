@@ -10,6 +10,9 @@ var ApiSite = 'http://api.' + Site;
 //Phonegap specific
 var isPhonegap = false;
 
+//gloabal var
+localStorage.setItem("accountListIntial",0);
+
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
@@ -1383,25 +1386,15 @@ $(document).ready(function(){
                         date = formatDate(date);
                         var attachments = [];
                         //check to see if this comment has attachments 
-                    if(returnData.attachments != null){
-                        for(var e = 0; e < returnData.attachments.length; e++)
-                        {
-                            if(note.indexOf(returnData.attachments[e].name) >= 0) 
+                        if(returnData.attachments != null){
+                            for(var e = 0; e < returnData.attachments.length; e++)
                             {
-                            	var tested = false;
-                                attachments[e] = "<img class='attachment' src="+returnData.attachments[e].url+">";
-
-                                $(attachments[e]).error(function(){
-                            		attachments[e] = "0";
-                            		tested = true;
-                            	});
-                            	setTimeout(function(){
-
-                            	},2000);
-
+                                if(note.indexOf(returnData.attachments[e].name) >= 0) 
+                                {
+                                    attachments.push(returnData.attachments[e].url);
+                                }
                             }
                         }
-                    }
 
                         // comment insert 
                         var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+note+"</p></li><li>"+type+"</li></ul>";
@@ -2214,7 +2207,9 @@ $(document).ready(function(){
                 dataType:"json",
                 success: function(returnData) {
                     console.log(returnData);
-                    $("#fullList").empty();
+                   	$("#fullList").empty();
+
+                    
                     //add accounts to accountList
                     var name = null;
                     for(var i = 0; i < returnData.length; i++) 
@@ -2241,8 +2236,8 @@ $(document).ready(function(){
                 },
                 complete:function(){
                     function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
+                        //$(".loadScreen").hide();
+                        //$(".maxSize").fadeIn();
                     };
                 },
                 error: function() {
