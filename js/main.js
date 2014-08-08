@@ -1245,7 +1245,6 @@ $(document).ready(function(){
                                 var classSelected0 = $('#classOptions option:selected').val();					
                                 var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
 
-console.log(classSub);
                                 //set class
                                 selectedEditClass = classSelected0;
 
