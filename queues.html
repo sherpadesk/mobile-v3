@@ -46,14 +46,14 @@
     <div>
   </header>
   <body onload="initFastButtons();">
-        <nav class="sideNav">
+            <nav class="sideNav">
       <div class="activeNav">
       <div class="fold"><i class="fa a-angle-double-left fa-2x"></i></div>
       <img class="navProfile" src="img/profile_3.png">
       <h2 class="navName">NO USER DATA</h2>
       <ul class="sideNavLinks">
         <a href="dashboard.html">
-          <li>
+          <li id="itemDash">
              <a href="dashboard.html">
             <div class="iconCircle">
               <i class="fa fa-tachometer "></i>
@@ -63,7 +63,7 @@
             </li>
           </a>
         <a href="timelog.html">
-          <li>
+          <li id="itemTimelog">
             <div class="iconCircle">
               <i class="fa fa-clock-o">
               </i>
@@ -72,7 +72,7 @@
           </li>
         </a>
         <a href="Account_List.html">
-          <li>
+          <li id="itemAccount">
             <div class="iconCircle">
               <i class="fa fa-users"></i>
             </div>
@@ -80,21 +80,21 @@
           </li>
         </a>
         <a href="ticket_list.html">
-          <li>
+          <li id="itemTickets">
             <div class="iconCircle">
               <i class="fa fa-ticket"></i>
             </div>
             <h3>Tickets</h3>
           </li>
         </a>
-        <li>
+        <li id="itemInvoice">
           <div class="iconCircle">
             <i class="fa fa-credit-card"></i>
              </div>
              <h3 id="allInvoice">Invoices</h3>
            </li>
         <a href="Queues.html">
-          <li>
+          <li id="itemQueues">
             <div class="iconCircle">
               <i class="fa fa-sort-amount-asc"></i>
             </div>
@@ -117,7 +117,7 @@
         </a>
       </ul>
       </div>
-    </nav> 
+    </nav>
     <div class="QueuesContainer"> 
       <ul class="OptionsList" id="queuesPage">
         <!--<li>

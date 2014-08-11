@@ -103,64 +103,46 @@ fullscreen();
 		if (location.pathname.indexOf("dashboard.html") >= 0)
         {
             $("#itemDash").addClass("activeLink");
-            //$("itemDash").find(".iconCircle").addClass("activeBorder");
-        }
-        if (location.pathname.indexOf("account_details.html") >= 0)
-        {
-            accountDetailsPageSetup.init();
-            detailedTicket.init();
-
+            $("#itemDash").find(".iconCircle").addClass("activeBorder");
         }
         if (location.pathname.indexOf("ticket_list.html") >= 0)
         {
-            ticketList.init();
-            accountDetailsPageSetup.init();
-            fullapplink();
+            $("#itemTickets").addClass("activeLink");
+            $("#itemTickets").find(".iconCircle").addClass("activeBorder");
 
         }
         if (location.pathname.indexOf("Account_List.html") >= 0)
         {
-            accountList.init();
+            $("#itemAccount").addClass("activeLink");
+            $("#itemAccount").find(".iconCircle").addClass("activeBorder");
 
         }
         if (location.pathname.indexOf("timelog.html") >= 0)
         {
-            accountTimeLogs.init();
-            timeLogs.init();
-        }
-        if (location.pathname.indexOf("accountTimes.html") >= 0)
-        {
-            accountTimeLogs.init();
-            timeLogs.init();
-        }
-        if (location.pathname.indexOf("ticket_detail.html") >= 0)
-        {
-            detailedTicket.init();
+            $("#itemTimelog").addClass("activeLink");
+            $("#itemTimelog").find(".iconCircle").addClass("activeBorder");
         }
         if (location.pathname.indexOf("Queues.html") >= 0)
         {
-            getQueues.init();
-        }
-        if (location.pathname.indexOf("queueTickets.html") >= 0)
-        {
-            getQueueTickets.init();
+            $("#itemQueues").addClass("activeLink");
+            $("#itemQueues").find(".iconCircle").addClass("activeBorder");
         }
         if (location.pathname.indexOf("invoice_List.html") >= 0)
         {
-            invoiceList.init();
+            $("#itemInvoice").addClass("activeLink");
+            $("#itemInovice").find(".iconCircle").addClass("activeBorder");
         }
         if (location.pathname.indexOf("allInvoice_List.html") >= 0)
         {
-            invoiceList.init();
+            $("#itemInvoice").addClass("activeLink");
+            $("#itemInovice").find(".iconCircle").addClass("activeBorder");
         }
         if (location.pathname.indexOf("invoice.html") >= 0)
         {
-            detailedInvoice.init();
+            $("#itemInvoice").addClass("activeLink");
+            $("#itemInovice").find(".iconCircle").addClass("activeBorder");
         }
-        if (location.pathname.indexOf("closedTickets.html") >= 0)
-        {
-            detailedTicket.init();
-        }
+
 		}
 	};
 
