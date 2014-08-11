@@ -404,6 +404,7 @@ margin-right: 8px;
 }
 
 .sideNav {
+  background-color: rgba(0,0,0,0.1);
   height: 131%;
   position: absolute;
   top: 0; left: 0;
@@ -435,7 +436,6 @@ margin-right: 8px;
   height: 100%;
   background: rgba(14, 14, 22, 0.91);
   float: left;
-  z-index: 4;
 }
 
 .unActive {
@@ -476,6 +476,7 @@ nav h3 {
   color: #ffffff;
   font-size: 19px;
   height: 65px;
+  width: 100%;
   padding: 0 20px;
 }
 
