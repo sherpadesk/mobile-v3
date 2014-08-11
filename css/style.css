@@ -59,6 +59,10 @@ strong {
   color: #fff;
 }
 
+.specialBack {
+  margin-left: 10px;
+}
+
 .blueButton {
   background: #0099CC;
   border: none;
@@ -981,6 +985,7 @@ header {
   float: right;
   font-size: 14px;
   margin-top: 4px;
+  margin-right: 5px;
 }
 
 .invoiceContainer {

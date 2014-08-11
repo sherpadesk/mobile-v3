@@ -1366,8 +1366,25 @@ $(document).ready(function(){
 				
 		updateEditTicket.then(function(results){
 			
-			console.log('Then Complete');	
+			console.log('Then Complete');
+			localStorage.setItem("isMessage","truePos");
+			localStorage.setItem("userMessage","Ticket was successfully updated <i class='fa fa-thumbs-o-up'></i>");
             window.location = "ticket_detail.html";
+            var isMessage = localStorage.getItem("isMessage");
+            if(isMessage == "truePos")
+            {
+                var messageText = localStorage.getItem("userMessage");
+                $(".errorMessagePos").html(messageText);
+                $(".errorMessagePos").slideDown(100);
+                setTimeout(
+                    function() 
+                    {	
+                        $(".errorMessagePos").slideUp(100);
+                        localStorage.setItem("isMessage","false");
+
+                    }, 3500);
+            }
+
 			 	//SherpaDesk.getTicketDetail(configPass, key);
 			 	//addAlert("success", "Ticket has been Updated");
 			  
