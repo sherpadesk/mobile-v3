@@ -340,7 +340,6 @@ strong {
 .bodyLock {
   overflow-x: hidden; 
   overflow-y: hidden;
-  z-index: 2;
 }
 
 .bodyContentCover {
@@ -410,7 +409,7 @@ margin-right: 8px;
   top: 0; left: 0;
   width: 100%;
   overflow-y:hidden; 
-  z-index: 3;
+
   transform:translateX(-100%);
   -webkit-transform: translateX(-100%);
   -webkit-transform: translateX(-100%);
@@ -436,7 +435,7 @@ margin-right: 8px;
   height: 100%;
   background: rgba(14, 14, 22, 0.91);
   float: left;
-  z-index: 4;
+
 }
 
 .unActive {
@@ -471,7 +470,7 @@ nav h3 {
   list-style-type: none;
   margin-top: 14%;
   width: 100%;
-  z-index: 7;
+
 }
 
 .sideNavLinks li {
@@ -480,7 +479,9 @@ nav h3 {
   height: 65px;
   width: 100%;
   padding: 0 20px;
-  z-index: 8;
+  z-index: 3;
+  background-color: #ccc;
+
 }
 
 .sideNavLinks li span {
