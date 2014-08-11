@@ -74,7 +74,7 @@ fullscreen();
 			$(".bodyContent, header").addClass("contentOut");
 			$(".sideNav").addClass("sideNavOut");
 			$("body,html").toggleClass("bodyLock");
-			$("a").toggleClass("disabled");
+			//$("a").toggleClass("disabled");
 			document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
 			slide = true;
 		},
@@ -85,7 +85,7 @@ fullscreen();
 			$(".sideNav").removeClass("sideNavOut");
 			$("body, html").toggleClass("bodyLock");
 			document.body.removeEventListener('touchstart', function(e){ e.preventDefault(); });
-			$("a").toggleClass("disabled");
+			//$("a").toggleClass("disabled");
 			slide = false;
 		}, 
 
