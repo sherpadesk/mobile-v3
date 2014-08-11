@@ -93,7 +93,7 @@ fullscreen();
 			$(".headerNavIcon").click(function() {
 				sideBar.slideOut();
 			});
-			$(".bodyContentCover, .fold").click(function() {
+			$(".sideNav").click(function() {
 				sideBar.slideIn();
 			});
 		}
