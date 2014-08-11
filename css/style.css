@@ -409,6 +409,7 @@ margin-right: 8px;
   top: 0; left: 0;
   width: 100%;
   overflow-y:hidden; 
+  z-index: 1;
 
   transform:translateX(-100%);
   -webkit-transform: translateX(-100%);
@@ -421,6 +422,7 @@ margin-right: 8px;
 
 .sideNavOut {
   position: fixed;
+  z-index: 1;
   transform:translateX(0%);
   -webkit-transform: translateX(0%);
   -webkit-transform: translateX(0%);
@@ -435,6 +437,7 @@ margin-right: 8px;
   height: 100%;
   background: rgba(14, 14, 22, 0.91);
   float: left;
+  z-index: 3;
 
 }
 
@@ -459,6 +462,7 @@ margin-right: 8px;
   border-radius: 100%;
   float: left;
   margin-right: 10px;
+  z-index: 10;
 }
 
 nav h3 {
