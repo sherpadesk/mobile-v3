@@ -340,7 +340,7 @@ strong {
 .bodyLock {
   overflow-x: hidden; 
   overflow-y: hidden;
-  z-index: 3;
+  z-index: 2;
 }
 
 .bodyContentCover {
@@ -436,6 +436,7 @@ margin-right: 8px;
   height: 100%;
   background: rgba(14, 14, 22, 0.91);
   float: left;
+  z-index: 4;
 }
 
 .unActive {
@@ -478,6 +479,7 @@ nav h3 {
   height: 65px;
   width: 100%;
   padding: 0 20px;
+  z-index: 5;
 }
 
 .sideNavLinks li span {
