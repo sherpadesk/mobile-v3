@@ -75,7 +75,7 @@ fullscreen();
 			$(".sideNav").addClass("sideNavOut");
 			$("body,html").toggleClass("bodyLock");
 			//$("a").toggleClass("disabled");
-			document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
+			//document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
 			slide = true;
 		},
 
@@ -84,7 +84,7 @@ fullscreen();
 			$(".bodyContent, .header").removeClass("contentOut");
 			$(".sideNav").removeClass("sideNavOut");
 			$("body, html").toggleClass("bodyLock");
-			document.body.removeEventListener('touchstart', function(e){ e.preventDefault(); });
+			//document.body.removeEventListener('touchstart', function(e){ e.preventDefault(); });
 			//$("a").toggleClass("disabled");
 			slide = false;
 		}, 
