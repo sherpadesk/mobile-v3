@@ -359,20 +359,6 @@ header, .bodyContent {
           transition: transform .2s ease-in;  
 }
 
-#panel {
-  transition: all 0.5s ease-in-out;
-   -webkit-transition: all 0.5s ease-in-out; /** Chrome & Safari **/
-   -moz-transition: all 0.5s ease-in-out; /** Firefox **/
-   -o-transition: all 0.5s ease-in-out; /** Opera **/
-}
-
-.bodySlide {
-   transform: translate(-175px,0);
-   -webkit-transform: translate(-175px,0); /** Chrome & Safari **/
-   -o-transform: translate(-175px,0); /** Opera **/
-   -moz-transform: translate(-175px,0); /** Firefox **/
-}
-
 .fold {
   width: 30px;
   float: right;
@@ -435,6 +421,8 @@ nav {
      -moz-transition: -moz-transform .2s ease-in;
        -o-transition: -o-transform .2s ease-in;
           transition: transform .2s ease-in;
+          transition:all .5s;
+          -webkit-transition:all .5s; /* For Safari */
 }
 
 .sideNavOut {
@@ -447,6 +435,8 @@ nav {
      -moz-transition: -moz-transform .2s ease-in;
        -o-transition: -o-transform .2s ease-in;
           transition: transform .2s ease-in;
+          transition:all .5s;
+          -webkit-transition:all .5s; /* For Safari */
 }
 
 .activeNav {

@@ -67,6 +67,7 @@ fullscreen();
 	var sideBar = {
 		init: function() {
 			this.slideController();
+			this.pageLocation();
 		}, 
 
 		slideOut: function() {
@@ -96,6 +97,70 @@ fullscreen();
 			$(".sideNav").click(function() {
 				sideBar.slideIn();
 			});
+		},
+
+		pageLocation:function() {
+		if (location.pathname.indexOf("dashboard.html") >= 0)
+        {
+            $("#itemDash").addClass("activeLink");
+            //$("itemDash").find(".iconCircle").addClass("activeBorder");
+        }
+        if (location.pathname.indexOf("account_details.html") >= 0)
+        {
+            accountDetailsPageSetup.init();
+            detailedTicket.init();
+
+        }
+        if (location.pathname.indexOf("ticket_list.html") >= 0)
+        {
+            ticketList.init();
+            accountDetailsPageSetup.init();
+            fullapplink();
+
+        }
+        if (location.pathname.indexOf("Account_List.html") >= 0)
+        {
+            accountList.init();
+
+        }
+        if (location.pathname.indexOf("timelog.html") >= 0)
+        {
+            accountTimeLogs.init();
+            timeLogs.init();
+        }
+        if (location.pathname.indexOf("accountTimes.html") >= 0)
+        {
+            accountTimeLogs.init();
+            timeLogs.init();
+        }
+        if (location.pathname.indexOf("ticket_detail.html") >= 0)
+        {
+            detailedTicket.init();
+        }
+        if (location.pathname.indexOf("Queues.html") >= 0)
+        {
+            getQueues.init();
+        }
+        if (location.pathname.indexOf("queueTickets.html") >= 0)
+        {
+            getQueueTickets.init();
+        }
+        if (location.pathname.indexOf("invoice_List.html") >= 0)
+        {
+            invoiceList.init();
+        }
+        if (location.pathname.indexOf("allInvoice_List.html") >= 0)
+        {
+            invoiceList.init();
+        }
+        if (location.pathname.indexOf("invoice.html") >= 0)
+        {
+            detailedInvoice.init();
+        }
+        if (location.pathname.indexOf("closedTickets.html") >= 0)
+        {
+            detailedTicket.init();
+        }
 		}
 	};
 
