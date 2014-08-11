@@ -340,7 +340,7 @@ strong {
 .bodyLock {
   overflow-x: hidden; 
   overflow-y: hidden;
-  z-index: 2;
+  z-index: 1;
 }
 
 .bodyContentCover {
@@ -357,6 +357,20 @@ header, .bodyContent {
      -moz-transition: -moz-transform .2s ease-in;
        -o-transition: -o-transform .2s ease-in;
           transition: transform .2s ease-in;  
+}
+
+#panel {
+  transition: all 0.5s ease-in-out;
+   -webkit-transition: all 0.5s ease-in-out; /** Chrome & Safari **/
+   -moz-transition: all 0.5s ease-in-out; /** Firefox **/
+   -o-transition: all 0.5s ease-in-out; /** Opera **/
+}
+
+.bodySlide {
+   transform: translate(-175px,0);
+   -webkit-transform: translate(-175px,0); /** Chrome & Safari **/
+   -o-transform: translate(-175px,0); /** Opera **/
+   -moz-transform: translate(-175px,0); /** Firefox **/
 }
 
 .fold {
@@ -403,6 +417,10 @@ margin-top: -2px;
 margin-right: 8px;
 }
 
+nav {
+  z-index: 4;
+}
+
 .sideNav {
   height: 131%;
   position: absolute;
@@ -421,6 +439,7 @@ margin-right: 8px;
 
 .sideNavOut {
   position: fixed;
+  z-index: 4;
   transform:translateX(0%);
   -webkit-transform: translateX(0%);
   -webkit-transform: translateX(0%);

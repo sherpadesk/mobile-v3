@@ -70,7 +70,7 @@ fullscreen();
 		}, 
 
 		slideOut: function() {
-			$(".sideNav").css("top",$(window).scrollTop()+"px");
+			$(".sideNav").css("top",$(window).scrollTop());
 			$(".bodyContent, header").addClass("contentOut");
 			$(".sideNav").addClass("sideNavOut");
 			$("body,html").toggleClass("bodyLock");
