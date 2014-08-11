@@ -551,8 +551,8 @@ $(document).ready(function(){
                     var chooseTech = "<option value=0 disabled selected>Tech</option>";
                     var chooseClass = "<option value=0 disabled selected>Class</option>";
                     var chooseSubClass = "<option value=0 disabled selected>Sub Class</option>";
-                    $("#addTicketTechs").empty();
-                    $("#addTicketClass").empty();
+                    //$("#addTicketTechs").empty();
+                    //$("#addTicketClass").empty();
                     $("#addTicketSubClass").empty();
                     $(chooseTech).appendTo("#addTicketTechs");
                     $(chooseClass).appendTo("#addTicketClass");
@@ -570,7 +570,7 @@ $(document).ready(function(){
                 }
             });
             // after an account is choosed it get a list of technicians 
-            $("#addTicketAccounts").on("change",function(){
+            
                 $.ajax({
                     type: 'GET',
                     beforeSend: function (xhr) {
@@ -603,9 +603,9 @@ $(document).ready(function(){
                         console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     }
                 });
-            });
+            
             // after techs are choosen then get a list of classes 
-            $("#addTicketTechs").on("change",function(){
+            
                 $.ajax({
                     type: 'GET',
                     beforeSend: function (xhr) {
@@ -638,7 +638,7 @@ $(document).ready(function(){
                         console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     }
                 });
-            });
+            
             $("#addTicketClass").on("change",function(){
                 $.ajax({
                     type: 'GET',

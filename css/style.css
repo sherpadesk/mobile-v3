@@ -404,13 +404,12 @@ margin-right: 8px;
 }
 
 .sideNav {
-  background-color: rgba(0,0,0,0.1);
   height: 131%;
   position: absolute;
   top: 0; left: 0;
   width: 100%;
   overflow-y:hidden; 
-  z-index: 3;
+  z-index: 4;
   transform:translateX(-100%);
   -webkit-transform: translateX(-100%);
   -webkit-transform: translateX(-100%);
