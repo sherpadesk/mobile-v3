@@ -648,10 +648,10 @@ $(document).ready(function(){
                                              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                     },
 
-                    url:"http://api.sherpadesk.com/classes/API/",
+                    url:"http://api.sherpadesk.com/classes",
                     dataType:"json",
                     data: {
-                        "class_id":"631"
+                        //"class_id":"631"
 
                     },
                     success: function(returnData) {
