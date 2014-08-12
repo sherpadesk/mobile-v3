@@ -2574,9 +2574,15 @@ $(document).ready(function(){
 
     // get queues for the organization and list a max of 3 to the dashboard 
     var getQueueList = function() {
-    	var localDashQueues = localStorage.getItem("dashQueues");
-    	if(localStorage.getItem("dashQueues") != null){
-    	$(localDashQueues).prependTo("#DashBoradQueues");
+    	var hasLocalData = false;
+    	var localDashQueues =[];
+    	var retrievedObject = localStorage.getItem("dashQueues");
+    	retrievedObject = JSON.parse(retrievedObject);
+    	for(var c = 0; c < retrievedObject.length; c++)
+    	{
+
+    		var localInsertQueue = retrievedObject[c];
+    		$(localInsertQueue).prependTo("#DashBoradQueues");
     	}
         $.ajax({
             type: 'GET',
@@ -2598,11 +2604,14 @@ $(document).ready(function(){
                 	{
                 		var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
                     	$(insertQueue).prependTo("#DashBoradQueues");
-                    	localDashQueues += insertQueue;	
+                    	localDashQueues.push(insertQueue);
                     	dashQueues++;
-                	}				
+                    	localStorage.setItem("dashQueues",JSON.stringify(localDashQueues));
+                	}
+
                 }
-                localStorage.setItem("dashQueues",localDashQueues);
+                
+                hasLocalData = true;
 
             },
             complete:function(){
@@ -2622,6 +2631,16 @@ $(document).ready(function(){
             localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
             window.location = "account_details.html";
         });
+        //propagate page with data from last Ajax Call
+        var dashAccounts =[];
+        var retrievedObjectTwo = localStorage.getItem("localDashAccounts");
+        retrievedObjectTwo = JSON.parse(retrievedObjectTwo);
+        var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expense</li><li>Tickets</li></ul>";
+                $(tableHeader).prependTo("#activeList");
+        for(var a = 0; a < retrievedObjectTwo.length; a++){
+        	localActiveAccount = retrievedObjectTwo[a];
+        	$(localActiveAccount).appendTo("#activeList");
+        }
         $.ajax({
             type: 'GET',
             beforeSend: function (xhr) {
@@ -2641,31 +2660,36 @@ $(document).ready(function(){
                 //add accounts to the active accounts list 
                 var activeLength = returnData.length;
                 if(returnData.length > 7){activeLength = 7;}
+                var activeAccount;
                 for (var i = 0; i < activeLength; i++)
                 {
                     var openTickets = returnData[i].account_statistics.ticket_counts.open;
+                    
                     // if account has more than 100 open tickets then sub 99+
                     if(openTickets > 100)
                     {
                         if(returnData[i].name.length > 9){
                             openTickets = "99<sup>+</sup>";
-                            var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTksSmall' >"+openTickets+"</div></li></ul>";
+                             activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTksSmall' >"+openTickets+"</div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
                         }else{
                             openTickets = "99<sup>+</sup>";
-                            var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
+                             activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
                         }
+                        //localDashAccounts.push(activeAccount);
                     }
                     //if account name is longer than 9 chars then elipse the account name 
                     else if(returnData[i].name.length > 9) {
-                        var activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
+                         activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
                         $(activeAccount).appendTo("#activeList");
                     }else{
-                        var activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
+                         activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
                         $(activeAccount).appendTo("#activeList");
                     }
+                     dashAccounts.push(activeAccount);
                 }
+                localStorage.setItem('localDashAccounts', JSON.stringify(dashAccounts));
 
             },
             error: function() {
