@@ -2578,11 +2578,17 @@ $(document).ready(function(){
     	var localDashQueues =[];
     	var retrievedObject = localStorage.getItem("dashQueues");
     	retrievedObject = JSON.parse(retrievedObject);
-    	for(var c = 0; c < retrievedObject.length; c++)
-    	{
 
-    		var localInsertQueue = retrievedObject[c];
-    		$(localInsertQueue).prependTo("#DashBoradQueues");
+    	if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
+    		console.log("could not load local data")
+		}
+		else 
+		{
+    		for(var c = 0; c < retrievedObject.length; c++)
+    		{
+	    	 	var localInsertQueue = retrievedObject[c];
+	    		$(localInsertQueue).prependTo("#DashBoradQueues");
+    		}
     	}
         $.ajax({
             type: 'GET',
@@ -2635,12 +2641,18 @@ $(document).ready(function(){
         var dashAccounts =[];
         var retrievedObjectTwo = localStorage.getItem("localDashAccounts");
         retrievedObjectTwo = JSON.parse(retrievedObjectTwo);
-        var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expense</li><li>Tickets</li></ul>";
-                $(tableHeader).prependTo("#activeList");
-        for(var a = 0; a < retrievedObjectTwo.length; a++){
-        	localActiveAccount = retrievedObjectTwo[a];
-        	$(localActiveAccount).appendTo("#activeList");
-        }
+        if (retrievedObjectTwo == undefined || retrievedObjectTwo == null || retrievedObjectTwo.length == 0){
+    		console.log("could not load local data")
+		}
+		else
+		{
+        	var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expense</li><li>Tickets</li></ul>";
+        	        $(tableHeader).prependTo("#activeList");
+        	for(var a = 0; a < retrievedObjectTwo.length; a++){
+        		localActiveAccount = retrievedObjectTwo[a];
+        		$(localActiveAccount).appendTo("#activeList");
+        	}
+		}
         $.ajax({
             type: 'GET',
             beforeSend: function (xhr) {
