@@ -974,7 +974,7 @@ $(document).ready(function(){
                     data: {
                         "ticket_key": ticketKey,
                         "note_text": note,
-                        "task_type_id": 1,
+                        //"task_type_id": 1,
                         "hours": time,
                         "is_billable": isBillable,
                         //"date": date,
