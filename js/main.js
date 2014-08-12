@@ -2211,7 +2211,23 @@ $(document).ready(function(){
         },
 
         listAccounts:function() {
-            $("maxSize").hide();
+        	var localAccountList = [];
+        	var retrievedObject = localStorage.getItem("storageAccountList");
+        	retrievedObject = JSON.parse(retrievedObject);
+        	if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+        	{
+    			console.log("could not load local data")
+			}
+			else 
+			{
+    			for(var a = 0; a < retrievedObject.length; a++)
+    			{
+    				localInsert = retrievedObject[a];
+    				$(localInsert).appendTo("#fullList");
+    			}
+    		}
+
+
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
@@ -2249,7 +2265,9 @@ $(document).ready(function(){
                             var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"</div></li></ul>";
                             $(insert).appendTo($("#fullList"));
                         }
+                        localAccountList.push(insert);
                     }
+                    localStorage.setItem("storageAccountList",JSON.stringify(localAccountList));
                 },
                 complete:function(){
                     function reveal(){

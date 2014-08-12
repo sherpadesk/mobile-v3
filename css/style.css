@@ -2238,6 +2238,7 @@ height: 45px;
   font-size: 20px;
   float: left;
   padding-right: 5px;
+  margin-left: -5px;
 }
 
 .tks {
