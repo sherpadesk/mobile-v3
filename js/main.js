@@ -2490,6 +2490,10 @@ $(document).ready(function(){
     // get the counts for open tickets (as tech, alt tech, user) and updates the ticket banner on the dashboard
     var getTicketCount = function() {
     	$('html,body').css('scrollTop','0');
+    	$("#all").html(localStorage.getItem("allTickets"));
+        $("#userStat").html(localStorage.getItem("userStat"));
+        $("#techStat").html(localStorage.getItem("techStat"));
+        $("#altStat").html(localStorage.getItem("altStat"));
         $.ajax({
             type: 'GET',
             beforeSend: function (xhr) {
@@ -2512,6 +2516,11 @@ $(document).ready(function(){
                 $("#userStat").html(returnData.open_as_user);
                 $("#techStat").html(returnData.open_as_tech);
                 $("#altStat").html(returnData.open_as_alttech);
+                localStorage.setItem("allTickets",allTickets);
+                localStorage.setItem("userStat",returnData.open_as_user);
+                localStorage.setItem("techStat",returnData.open_as_tech);
+                localStorage.setItem("altStat",returnData.open_as_alttech);
+
 
             },
             error: function() {
@@ -2565,6 +2574,10 @@ $(document).ready(function(){
 
     // get queues for the organization and list a max of 3 to the dashboard 
     var getQueueList = function() {
+    	var localDashQueues = localStorage.getItem("dashQueues");
+    	if(localStorage.getItem("dashQueues") != null){
+    	$(localDashQueues).prependTo("#DashBoradQueues");
+    	}
         $.ajax({
             type: 'GET',
             beforeSend: function (xhr) {
@@ -2584,10 +2597,12 @@ $(document).ready(function(){
                 	if(returnData[i].tickets_count > 0 && dashQueues < 3 )
                 	{
                 		var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
-                    	$(insertQueue).prependTo("#DashBoradQueues");	
+                    	$(insertQueue).prependTo("#DashBoradQueues");
+                    	localDashQueues += insertQueue;	
                     	dashQueues++;
                 	}				
                 }
+                localStorage.setItem("dashQueues",localDashQueues);
 
             },
             complete:function(){
