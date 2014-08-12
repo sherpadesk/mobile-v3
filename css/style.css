@@ -1475,6 +1475,7 @@ footer {
   margin-left: 20px;
   overflow: auto;
   z-index: 1;
+  padding-top: 20px;
 }
 
 .ActiveAccountsList {
@@ -2213,9 +2214,12 @@ height: 45px;
 .listedAccount {
   list-style-type: none;
   width: 100%;
-  height: 55px;
+  height: 65px;
   color: #fff;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 0px !important;
+  background-color: rgba(224, 224, 224, 0.29);
+  margin-bottom: 10px;
+  padding-left: 3px;
 }
 
 .listedAccount li:first-child {
