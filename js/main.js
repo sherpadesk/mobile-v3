@@ -2252,14 +2252,14 @@ reveal();
                         var openTks = returnData[i].account_statistics.ticket_counts.open;
                         if( openTks > 99)
                         {
-                            openTks = "99<sup>+</sup>";
-                            var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks toManyTks'>"+openTks+"</div></li></ul>";
+                            openTks = "99";
+                            var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"</div>><div class='overflowTickets'><p>+</p></div></li></ul>";
                             $(insert).appendTo($("#fullList"));
                         }
                         // else add account and number of tickets normally to the list 
                         else
                         {
-                            var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"</div></li></ul>";
+                            var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"</div>><div class='overflowTickets'><p>+</p></div></li></ul>";
                             $(insert).appendTo($("#fullList"));
                         }
                         localAccountList.push(insert);
@@ -2539,8 +2539,8 @@ reveal();
                 var allTickets = returnData.open_all;
                 //if ticket count is greater than 100 sub 99+
                 if(allTickets > 100){
-                    allTickets = "99<sup>+</sup>";
-                    $("all").addClass("toManyTks");
+                    allTickets = "99<div class='overflowTickets headerOverflowTickets'><p class='headerOverflowTicketsP'>+</p></div>";
+                    //$("all").addClass("toManyTks");
                 }
                 // update each notification ticker on the dashboard
                 $("#all").html(allTickets);
@@ -2712,12 +2712,12 @@ reveal();
                     if(openTickets > 100)
                     {
                         if(returnData[i].name.length > 9){
-                            openTickets = "99<sup>+</sup>";
-                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTksSmall' >"+openTickets+"</div></li></ul>";
+                            openTickets = "99";
+                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div><div class='overflowTickets'><p>+</p></div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
                         }else{
-                            openTickets = "99<sup>+</sup>";
-                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
+                            openTickets = "99";
+                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div><div class='overflowTickets'><p>+</p></div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
                         }
                         //localDashAccounts.push(activeAccount);

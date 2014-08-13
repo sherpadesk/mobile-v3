@@ -427,7 +427,7 @@ nav {
 
 .sideNavOut {
   position: fixed;
-  z-index: 4;
+  z-index: 6;
   transform:translateX(0%);
   -webkit-transform: translateX(0%);
   -webkit-transform: translateX(0%);
@@ -1294,6 +1294,7 @@ footer {
   margin: 0 -50%;
   /* display: block; */
   width: 100%;
+  z-index: 5;
 }
 
 .navIcon {
@@ -2069,6 +2070,7 @@ font-size: 16px !important;
 }
 
 .tableRows {
+  position: relative;
   list-style-type: none;
   color: #fff;
   width: 100%;
@@ -2100,6 +2102,31 @@ padding-right: 17px;
 .tableRows li:first-child {
   text-align: left;
   width: 30%;
+}
+
+.overflowTickets {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 14px;
+  height: 14px;
+  background-color: rgba(66, 189, 65, 0.9);
+  display: block;
+  border-radius: 100%;
+}
+
+.overflowTickets p {
+  margin-top: -18px;
+}
+
+.headerOverflowTickets {
+  top: 108px !important;
+  right: 15px !important;
+}
+
+.headerOverflowTicketsP {
+  font-size: 16px !important;
+  margin-top: -6px !important;
 }
 
 .invoiceRows {
