@@ -2253,13 +2253,13 @@ reveal();
                         if( openTks > 99)
                         {
                             openTks = "99";
-                            var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"</div>><div class='overflowTickets'><p>+</p></div></li></ul>";
+                            var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"</div><div class='overflowTickets'><p>+</p></div></li></ul>";
                             $(insert).appendTo($("#fullList"));
                         }
                         // else add account and number of tickets normally to the list 
                         else
                         {
-                            var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"</div>><div class='overflowTickets'><p>+</p></div></li></ul>";
+                            var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"</div><div class='overflowTickets'><p>+</p></div></li></ul>";
                             $(insert).appendTo($("#fullList"));
                         }
                         localAccountList.push(insert);
