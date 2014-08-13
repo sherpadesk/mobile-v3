@@ -2273,6 +2273,20 @@ reveal();
         },
 
         getLogs:function() {
+        	var localTimelogs = [];
+        	var retrievedObject = localStorage.getItem("storageTimeLogs");
+        	retrievedObject = JSON.parse(retrievedObject);
+        	if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
+    			console.log("could not load local data")
+			}
+			else 
+			{
+    			for(var c = 0; c < retrievedObject.length; c++)
+    			{
+	    	 	var localInsertlog = retrievedObject[c];
+	    		$(localInsertlog).appendTo("#timelogs");
+    			}
+    		}
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
@@ -2315,7 +2329,9 @@ reveal();
                         }
                         var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                         $(log).appendTo("#timelogs");
+                        localTimelogs.push(log);
                     }
+                    localStorage.setItem("storageTimeLogs",JSON.stringify(localTimelogs));
                 },
                 error: function() {
                     console.log("fail @ timelogs");
