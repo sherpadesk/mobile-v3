@@ -2116,16 +2116,17 @@ padding-right: 17px;
 }
 
 .overflowTickets p {
-  margin-top: -18.5px;
+  margin-top: -18px;
+  font-size: 12px;
 }
 
 .headerOverflowTickets {
   top: 108px !important;
-  right: 15px !important;
+  right: 19px !important;
 }
 
 .headerOverflowTicketsP {
-  font-size: 16px !important;
+  font-size: 12px !important;
   margin-top: -6px !important;
 }
 
