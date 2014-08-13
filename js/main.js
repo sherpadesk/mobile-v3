@@ -908,7 +908,21 @@ var selectedEditClass;
                 var note = $("#noteTimeTicket").val();
                 var tech = localStorage.getItem('techId');
                 var task_type = $("#ticketTaskTypes").val();
-                    
+                if (note.length < 1)
+                {
+                    $(".errorMessageNeg").html("Please enter note");
+                    $(".errorMessageNeg").slideDown(100);
+                    $('html,body').animate({
+                        scrollTop: 0
+                    }, 100);
+                    setTimeout(
+                        function() 
+                        {
+                            $(".errorMessageNeg").slideUp(100);
+
+                        }, 1500);
+                return;
+                }
                 // check to see if user check for time to be billable 
                 if($(".innerCircle").hasClass("billFill")){
                     isBillable = true;
