@@ -2074,6 +2074,9 @@ font-size: 16px !important;
   width: 100%;
   overflow: auto;
   z-index: 5;
+  background-color: rgba(224, 224, 224, 0.29);
+  margin-top: 10px;
+  padding-left: 7px;
 }
 
 .tableRows li {
@@ -2082,12 +2085,16 @@ font-size: 16px !important;
   height: 40px;
   text-align: center;
   margin-bottom: 10px;
-  border-bottom: 1px solid #ccc;
+  line-height: 50px;
+
 }
 
 .tableRows li:last-child {
   text-align: center;
-  
+}
+
+.tableRows li:nth-child(2) {
+padding-right: 17px;
 }
 
 .tableRows li:first-child {
@@ -2226,7 +2233,7 @@ height: 45px;
   float: left;
   width: 80%;
   text-align: left;
-  line-height: 55px;
+  line-height: 65px;
   padding-left: 5px;
   font-size: 18px;
 }
@@ -2260,7 +2267,7 @@ height: 45px;
   text-align: center;
   line-height: 35px;
   margin-left: 25px !important;
- 
+  margin-top: 7px;
   font-size: 21px;
 }
 

@@ -1803,6 +1803,24 @@ $(document).ready(function(){
         },
 
         listInvoices:function(){
+        	var localInvoiceList = [];
+        	var retrievedObject = localStorage.getItem("storageInvoices");
+        	retrievedObject = JSON.parse(retrievedObject);
+        	if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+        	{
+    			console.log("could not load local data")
+			}
+			else 
+			{
+    			for(var a = 0; a < retrievedObject.length; a++)
+    			{
+    				localInsert = retrievedObject[a];
+    				$(localInsert).appendTo("#allInvoiceList");
+    			}
+    		}
+
+
+
             // go to list of account invoice on click 
             $("#invoiceOption").click(function(){
                 window.location = "Invoice_List.html";
@@ -1838,12 +1856,14 @@ $(document).ready(function(){
                         }
                         var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows'><li>"+customer+"</li><li>"+date+"</li><li>$"+returnData[i].total_cost+"</li></ul>";
                         $(insert).appendTo("#invoiceList");
+                        
                     }
+                    
                 },
                 complete:function(){
                     function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
+                        //$(".loadScreen").hide();
+                        //$(".maxSize").fadeIn();
                     };
                 },
                 error: function() {
@@ -1876,12 +1896,14 @@ $(document).ready(function(){
                         }
                         var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows'><li>"+customer+"</li><li>"+date+"</li><li>$"+returnData[i].total_cost+"</li></ul>";
                         $(insert).appendTo("#allInvoiceList");
+                        localInvoiceList.push(insert);
                     }
+                    localStorage.setItem("storageInvoices",JSON.stringify(localInvoiceList));
                 },
                 complete:function(){
                     function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
+                        //$(".loadScreen").hide();
+                        //$(".maxSize").fadeIn();
                     };
                 },
                 error: function() {
@@ -1960,6 +1982,23 @@ $(document).ready(function(){
                 localStorage.setItem('currentQueue',$(this).attr("data-id"));
                 window.location = "queueTickets.html";
             });
+            var localQueues = [];
+            var retrievedObject = localStorage.getItem("storageQueues");
+            retrievedObject = JSON.parse(retrievedObject);
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+        	{
+    			console.log("could not load local data")
+			}
+			else 
+			{
+    			for(var a = 0; a < retrievedObject.length; a++)
+    			{
+    				localInsert = retrievedObject[a];
+    				$(localInsert).appendTo("#queuesPage");
+    			}
+    		}
+
+
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
@@ -1978,7 +2017,9 @@ $(document).ready(function(){
                     {
                         var insert = "<li><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
                         $(insert).appendTo("#queuesPage");
+                        localQueues.push(insert);
                     }
+                    localStorage.setItem("storageQueues",JSON.stringify(localQueues));
 
                 },
                 complete:function(){
@@ -2290,6 +2331,22 @@ $(document).ready(function(){
         },
 
         getLogs:function() {
+        	var localTimelogs = [];
+        	var retrievedObject = localStorage.getItem("storageTimeLogs");
+        	retrievedObject = JSON.parse(retrievedObject);
+        	if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
+    			console.log("could not load local data")
+			}
+			else 
+			{
+    			for(var c = 0; c < retrievedObject.length; c++)
+    			{
+	    	 	var localInsertlog = retrievedObject[c];
+	    		$(localInsertlog).appendTo("#timelogs");
+    			}
+    		}
+
+
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
@@ -2332,7 +2389,9 @@ $(document).ready(function(){
                         }
                         var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                         $(log).appendTo("#timelogs");
+                        localTimelogs.push(log);
                     }
+                    localStorage.setItem("storageTimeLogs",JSON.stringify(localTimelogs));
                 },
                 error: function() {
                     console.log("fail @ timelogs");
@@ -2379,8 +2438,8 @@ $(document).ready(function(){
                 },
                 complete:function(){
                     function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
+                        //$(".loadScreen").hide();
+                        //$(".maxSize").fadeIn();
                     };
                     window.setTimeout(reveal,500);
                 },
@@ -2699,12 +2758,12 @@ $(document).ready(function(){
                     if(openTickets > 100)
                     {
                         if(returnData[i].name.length > 9){
-                            openTickets = "99<sup>+</sup>";
-                             activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTksSmall' >"+openTickets+"</div></li></ul>";
+                            openTickets = "99";
+                             activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div><div>+</div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
                         }else{
-                            openTickets = "99<sup>+</sup>";
-                             activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1 toManyTks' >"+openTickets+"</div></li></ul>";
+                            openTickets = "99";
+                             activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
                         }
                         //localDashAccounts.push(activeAccount);
