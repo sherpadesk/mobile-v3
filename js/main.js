@@ -3063,6 +3063,7 @@ $(document).ready(function(){
         {
             accountTimeLogs.init();
             timeLogs.init();
+            addTime.init();
         }
         if (location.pathname.indexOf("accountTimes.html") >= 0)
         {
