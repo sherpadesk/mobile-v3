@@ -7,6 +7,8 @@ var AppSite = 'https://app.' + Site;
 
 var ApiSite = 'http://api.' + Site; 
 
+var isTech = false;
+
 //Phonegap specific
 var isPhonegap = false;
 
@@ -555,7 +557,12 @@ $(document).ready(function(){
         },
 
         addTicket:function() {
-
+            $("#addTicketAccounts").empty();
+            if(!isTech){
+                $("#addTicketAccounts").parent().hide();
+            }
+            else
+            {
             var accounts = getApi("accounts");
             accounts.then(function(returnData) {
                 console.log(returnData);
@@ -566,7 +573,7 @@ $(document).ready(function(){
             }, function() {
                 console.log("fail @ ticket accounts");  
             });
-
+            }
 
             // after an account is choosed it get a list of technicians 
             var technicians = getApi("technicians");
@@ -677,7 +684,7 @@ $(document).ready(function(){
                             function() 
                             {
 
-                                window.location = "dashboard.html";
+                                window.location =  isTech ? "dashboard.html" : "ticket_list.html";
 
                             }, 1000);
                         localStorage.setItem("userMessage","Ticket was Succesfully Created :)");
@@ -1117,6 +1124,9 @@ $(document).ready(function(){
     // needed methods to propogate a ticket detailed page 
     var detailedTicket = {
         init:function(){
+            if (!isTech){
+                $(".tabs").hide();
+            }
             this.showTicket();
         },
 
@@ -1999,11 +2009,16 @@ $(document).ready(function(){
     var ticketList = {
         init:function() {
             this.userTickets();
+            if (!isTech){
+                $(".TicketTabs").hide();
+            }
+            else
+            {
             this.techTickets();
             this.altTickets();
             this.allTickets();
+            }
             this.ticketClick();
-
         },
         ticketClick:function() {
             $(document).on("click",".responseBlock", function(){
@@ -2050,10 +2065,7 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
-                    };
+                    reveal();
                 },
                 error: function() {
                     console.log("fail @ ticket List");
@@ -2576,36 +2588,24 @@ $(document).ready(function(){
             return;
         }
         //get instance config 
-        $.ajax({
-            type: 'GET',
-            beforeSend: function (xhr) {
-                xhr.withCredentials = true;
-                xhr.setRequestHeader('Authorization',
-                                     'Basic ' + btoa(_userOrgKey + '-' + _userInstanceKey + ':' + localStorage.getItem("userKey")));
-            },
-
-            url: "http://api.sherpadesk.com/config",
-            dataType: "json",
-            success: function (returnData) {
+        getApi("config").then(function (returnData) {
                 localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
                 localStorage.setItem('projectTracking', returnData.is_project_tracking);
                 localStorage.setItem('timeTracking', returnData.is_time_tracking);
                 localStorage.setItem('freshbooks', returnData.is_freshbooks);
                 localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
+            localStorage.setItem('userId', returnData.user.user_id);
                 if (localStorage.getItem('userRole') == "tech")
                     window.location = "dashboard.html";
                 else
                     window.location = "ticket_list.html";
             },
-            complete: function () {
-
-            },
-            error: function () {
+            function () {
                 console.log("fail @ config");
                 clearStorage();
                 window.location = "index.html";
             }
-        });
+        );
     };
 
     // get queues for the organization and list a max of 3 to the dashboard 
@@ -3007,9 +3007,9 @@ $(document).ready(function(){
         // Create link to specific org | instance
         var urlString = "https://app.sherpadesk.com/" + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
         if (isPhonegap)
-        { $("#fullapplink").click(function(){ openURLsystem(urlString);});}
+        { $(".fullapplink").click(function(){ openURLsystem(urlString);});}
         else
-            $("#fullapplink").attr("href", urlString).attr("target", "_system");
+            $(".fullapplink").attr("href", urlString).attr("target", "_system");
         return urlString; 
     }
     //Main Method that calls all the functions for the app
@@ -3021,7 +3021,8 @@ $(document).ready(function(){
         signout.init();
         miscClicks.init();
         //userInfo.init();
-
+        if (localStorage.getItem('userRole') === "tech")
+            isTech = true;
         if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/" && location.pathname.indexOf("org.html")<0)
         {
             //set the name of the nav side menu 
@@ -3031,6 +3032,12 @@ $(document).ready(function(){
             $(".navName").show();
             $(".navProfile").show();
         }
+        //Disable for user
+        if (!isTech){
+            $(".sideNavLinks").children(":not('.user')").hide();
+        }
+        //Only for tech
+        else{
         //conditional api calls determined by page 
         if (location.pathname.indexOf("dashboard.html") >= 0)
         {
@@ -3038,7 +3045,6 @@ $(document).ready(function(){
             getQueueList();
             getQueues.init();
             getActiveAccounts();
-            fullapplink();
             reveal();
         }
         if (location.pathname.indexOf("account_details.html") >= 0)
@@ -3046,13 +3052,6 @@ $(document).ready(function(){
             accountDetailsPageSetup.init();
             detailedTicket.init();
             closedTickets.init();
-
-        }
-        if (location.pathname.indexOf("ticket_list.html") >= 0)
-        {
-            ticketList.init();
-            //accountDetailsPageSetup.init();
-            fullapplink();
 
         }
         if (location.pathname.indexOf("Account_List.html") >= 0)
@@ -3070,23 +3069,6 @@ $(document).ready(function(){
             accountTimeLogs.init();
             timeLogs.init();
         }
-        if (location.pathname.indexOf("ticket_detail.html") >= 0)
-        {
-            detailedTicket.init();
-            pickUpTicket.init();
-            transferTicket.init();
-            closeTicket.init();
-            addTime.init();
-            postComment.init();
-        }
-        if (location.pathname.indexOf("Queues.html") >= 0)
-        {
-            getQueues.init();
-        }
-        if (location.pathname.indexOf("queueTickets.html") >= 0)
-        {
-            getQueueTickets.init();
-        }
         if (location.pathname.indexOf("invoice_List.html") >= 0)
         {
             invoiceList.init();
@@ -3100,6 +3082,30 @@ $(document).ready(function(){
             detailedInvoice.init();
             sendInvoince.init();
             addRecip.init();
+        }
+            if (location.pathname.indexOf("Queues.html") >= 0)
+            {
+                getQueues.init();
+            }
+            if (location.pathname.indexOf("queueTickets.html") >= 0)
+            {
+                getQueueTickets.init();
+            }
+        }
+        if (location.pathname.indexOf("ticket_list.html") >= 0)
+        {
+            ticketList.init();
+            //accountDetailsPageSetup.init();
+
+        }
+        if (location.pathname.indexOf("ticket_detail.html") >= 0)
+        {
+            detailedTicket.init();
+            pickUpTicket.init();
+            transferTicket.init();
+            closeTicket.init();
+            addTime.init();
+            postComment.init();
         }
         if (location.pathname.indexOf("closedTickets.html") >= 0)
         {
@@ -3126,6 +3132,7 @@ $(document).ready(function(){
         //invoiceList.init();
         //detailedInvoice.init();
         //updateInvoice.init();
+        fullapplink();
     }()); 
 
 
