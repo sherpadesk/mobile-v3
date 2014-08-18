@@ -2804,14 +2804,14 @@ $(document).ready(function(){
             }
             userOrgKey = localStorage.getItem('userOrgKey');
             userInstanceKey = localStorage.getItem('userInstanceKey');
+            //sets user role to user in local storage 
+            localStorage.setItem('userRole', "user");
             if (userOrgKey && userInstanceKey)
             {
                 getInstanceConfig(userOrgKey, userInstanceKey)
                 return;
             }
             this.getOrg();
-            //sets user role to user in local storage 
-            localStorage.setItem('userRole', "user");
             //hide load screen
         },
 
