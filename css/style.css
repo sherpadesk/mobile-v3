@@ -572,35 +572,43 @@ nav h3 {
    ========================================================================== */
 
 .bottomHeader {
-  background: #0099CC;
+  background: transparent;
   height: 40px;
   list-style-type: none;
   width: 100%;
   z-index: -3;
   opacity: .9;
+  display: none;
 }
 
 .bottomHeaderContainer {
   margin: 0 auto;
-  width: 90%;
+  width: 103%;
 }
 
 .bottomHeader li {
   color: #ffffff;
   float: left;
   font-size: 14px;
-  width: 28%;
+  width: 32%;
   text-align: center;
   line-height: 35px;
   vertical-align: middle;
+  margin-top: 8px;
+}
+
+.bottomHeader li:nth-child(1) {
+  /*width: 8.5%;*/
+  border-right: 2px solid rgba(255, 255, 255, 0.46);
 }
 
 .bottomHeader li:nth-child(2) {
-  width: 8.5%;
+  /*width: 8.5%;*/
+  border-right: 2px solid rgba(255, 255, 255, 0.46);
 }
 
 .bottomHeader li:nth-child(4) {
-  width: 5.5%;
+  /*width: 5.5%;*/
 }
 
 
@@ -2116,9 +2124,10 @@ padding-right: 17px;
   right: -6px;
   width: 14px;
   height: 14px;
-  background-color: rgba(66, 189, 65, 0.9);
+  background-color: #304ffe;
   display: block;
   border-radius: 100%;
+  display: none;
 }
 
 .overflowTickets p {
@@ -2369,11 +2378,21 @@ br {
   padding-left: 10px;
 }
 
+.pageCover {
+  width: 100%;
+  height: 88%;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  display: none;
+  z-index: 7;
+}
+
 .createButton {
 width: 50px;
 height: 50px;
 color: #fff;
-background-color: #0099CC;
+background-color: rgba(66, 189, 65, 0.9);
 border-radius: 100%;
 z-index: 7;
 position: fixed;

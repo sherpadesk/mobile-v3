@@ -448,9 +448,44 @@ fullscreen();
 		}
 	};
 
+	var createButton = {
+		init:function() {
+			this.expandOptions();
+		},
+
+		expandOptions:function() {
+			$("#dashCreateButton").click(function(){
+				$('#dashCreateButton p').fadeOut('fast');
+				$("#dashCreateButton").animate({
+					'border-radius': 3,
+					width: '92%'
+				}, 200);
+				$(".bottomHeader").fadeIn();
+				$(".pageCover").show();
+			});
+			//hide options
+			$(document).on('click',".pageCover",function(){
+				$(".pageCover").hide();
+				$('.bottomHeader').fadeOut('fast');
+				$("#dashCreateButton").animate({
+					//'border-radius': "100%",
+					width: '50'
+				}, 200);
+				setTimeout(function(){
+						$("#dashCreateButton").animate({
+							'border-radius': "100%",
+							
+						}, 200);
+					});
+				$('#dashCreateButton p').fadeIn();
+			});
+		}
+	};
+
 
 
 	(function() {
+		createButton.init();
 		fastClicker.init();
 		openTickets.init();
 		largeScreenStlye.init();
