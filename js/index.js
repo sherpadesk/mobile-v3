@@ -455,12 +455,14 @@ fullscreen();
 
 		expandOptions:function() {
 			$("#dashCreateButton").click(function(){
+				var top = $(window).scrollTop();
 				$('#dashCreateButton p').fadeOut('fast');
 				$("#dashCreateButton").animate({
 					'border-radius': 3,
 					width: '92%'
 				}, 200);
 				$(".bottomHeader").fadeIn();
+				$(".pageCover").css('top',top);
 				$(".pageCover").show();
 			});
 			//hide options
