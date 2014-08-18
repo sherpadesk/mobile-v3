@@ -2033,6 +2033,30 @@ $(document).ready(function(){
         },
         //get tickets as tech
         techTickets:function() {
+        	var ticketView = localStorage.getItem("ticketPage");
+        		if(ticketView == "asAltTech")
+        		{
+        			$('#tabpage_reply, #tabpage_all, #tabpage_info').hide();
+        			$('#tabpage_options').fadeIn();
+        			localStorage.setItem('ticketPage',"asTech");
+        		}
+        		else if(ticketView == "asTech")
+        		{
+        			$('#tabpage_reply, #tabpage_all, #tabpage_options').hide();
+        			$('#tabpage_info').fadeIn();
+        		}
+        		else if(ticketView == "asUser")
+        		{
+        			$('#tabpage_info, #tabpage_all, #tabpage_options').hide();
+        			$('#tabpage_reply').fadeIn();
+        			localStorage.setItem('ticketPage',"asTech");
+        		}
+        		else if(ticketView == "allTickets")
+        		{
+        			$('#tabpage_info, #tabpage_reply, #tabpage_options').hide();
+        			$('#tabpage_all').fadeIn();
+        			localStorage.setItem('ticketPage',"asTech");
+        		}
             $("#techContainer, #optionsConainer, #allContainer, #userContainer").empty();
             $.ajax({
                 type: 'GET',
@@ -2966,6 +2990,22 @@ $(document).ready(function(){
             $(document).on("click","#queue", function(){
                 localStorage.setItem('currentQueue',$(this).attr("data-id"));
                 window.location = "queueTickets.html";
+            });
+            $(document).on('click','#asUserStat', function(){
+            	localStorage.setItem('ticketPage','asUser');
+            	window.location = "ticket_list.html";
+            });
+            $(document).on('click','#techStat', function(){
+            	localStorage.setItem('ticketPage','asTech');
+            	window.location = "ticket_list.html";
+            });
+            $(document).on('click','#asAltTechStat', function(){
+            	localStorage.setItem('ticketPage','asAltTech');
+            	window.location = "ticket_list.html";
+            });
+            $(document).on('click','#allTicketsStat', function(){
+            	localStorage.setItem('ticketPage','allTickets');
+            	window.location = "ticket_list.html";
             });
         }
     };

@@ -1874,6 +1874,11 @@ font-size: 16px !important;
 
 .user {
   color: #ffffff;
+  margin-top: 0px;
+}
+
+.userStat {
+  color: #ffffff;
   margin-top: 35px;
 }
 
@@ -2261,7 +2266,7 @@ height: 45px;
   float: left;
   width: 80%;
   text-align: left;
-  line-height: 65px;
+  line-height: 65px !important;
   padding-left: 5px;
   font-size: 18px;
 }
