@@ -1808,6 +1808,7 @@ footer {
   color: #cccccc;
   font-size: 12px;
   text-align: center;
+  max-width: 46px;
 
 }
 
@@ -1874,7 +1875,7 @@ font-size: 16px !important;
 
 .user {
   color: #ffffff;
-  margin-top: 0px;
+  margin-top: 0px !important;
 }
 
 .userStat {

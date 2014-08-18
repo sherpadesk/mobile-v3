@@ -94,7 +94,7 @@ fullscreen();
 		}, 
 
 		slideController: function() {
-			$(".headerNavIcon").click(function() {
+			$("#navBars").click(function() {
 				sideBar.slideOut();
 			});
 			$(".sideNav").click(function() {
