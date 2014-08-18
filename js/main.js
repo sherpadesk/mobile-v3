@@ -2297,13 +2297,13 @@ $(document).ready(function(){
                         if( openTks > 99)
                         {
                             openTks = "99";
-                            var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"</div><div class='overflowTickets'><p>+</p></div></li></ul>";
+                            var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
                             $(insert).appendTo($("#fullList"));
                         }
                         // else add account and number of tickets normally to the list 
                         else
                         {
-                            var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"</div><div class='overflowTickets'><p>+</p></div></li></ul>";
+                            var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
                             $(insert).appendTo($("#fullList"));
                         }
                         localAccountList.push(insert);
@@ -2747,11 +2747,11 @@ $(document).ready(function(){
                     {
                         if(returnData[i].name.length > 9){
                             openTickets = "99";
-                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div><div class='overflowTickets'><p>+</p></div></li></ul>";
+                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
                         }else{
                             openTickets = "99";
-                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div><div class='overflowTickets'><p>+</p></div></li></ul>";
+                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
                         }
                         //localDashAccounts.push(activeAccount);
