@@ -1126,6 +1126,7 @@ $(document).ready(function(){
         init:function(){
             if (!isTech){
                 $(".tabs").hide();
+                $("#closeIt").show();
             }
             this.showTicket();
         },
