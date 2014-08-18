@@ -454,7 +454,7 @@ fullscreen();
 		},
 
 		expandOptions:function() {
-			$("#dashCreateButton").click(function(){
+			$(document).on('click',"#dashCreateButton",function(){
 				var top = $(window).scrollTop();
 				$('#dashCreateButton p').fadeOut('fast');
 				$("#dashCreateButton").animate({
