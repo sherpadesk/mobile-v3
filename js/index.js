@@ -287,7 +287,25 @@ fullscreen();
 			});
 		},
 
-
+		scrollResponse: function() {
+			$(window).scroll(function(e) {
+				$("body").bind("touchmove", function(e) {
+					if ($(window).scrollTop() >= 196.5) {
+						$(".tabs").css({
+							position: "fixed",
+							top: "0",
+							margin: "45px 0 0 0"
+						});
+					} else {
+						$(".tabs").css({
+							position: "relative",
+							margin: "0"
+						}, 300);
+					}
+				});
+			});
+		}
+	};
 
 	var invoice = {
 		init: function() {
