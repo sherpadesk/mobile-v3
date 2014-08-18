@@ -1128,6 +1128,10 @@ $(document).ready(function(){
                 $(".tabs").hide();
                 $("#closeIt").show();
             }
+            else
+            {
+                $("#closeIt").remove();
+            }
             this.showTicket();
         },
 
