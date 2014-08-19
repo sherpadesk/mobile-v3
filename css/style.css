@@ -572,43 +572,38 @@ nav h3 {
    ========================================================================== */
 
 .bottomHeader {
-  background: transparent;
+  background: #0099CC;
   height: 40px;
   list-style-type: none;
   width: 100%;
   z-index: -3;
   opacity: .9;
-  display: none;
+
 }
 
 .bottomHeaderContainer {
   margin: 0 auto;
-  width: 103%;
+  width: 90%;
 }
 
 .bottomHeader li {
   color: #ffffff;
   float: left;
   font-size: 14px;
-  width: 32%;
+  width: 28%;
   text-align: center;
   line-height: 35px;
   vertical-align: middle;
-  margin-top: 8px;
 }
 
-.bottomHeader li:nth-child(1) {
-  /*width: 8.5%;*/
-  border-right: 2px solid rgba(255, 255, 255, 0.46);
-}
+
 
 .bottomHeader li:nth-child(2) {
-  /*width: 8.5%;*/
-  border-right: 2px solid rgba(255, 255, 255, 0.46);
+  width: 8.5%;
 }
 
 .bottomHeader li:nth-child(4) {
-  /*width: 5.5%;*/
+  width: 5.5%;
 }
 
 

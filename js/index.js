@@ -365,7 +365,7 @@ fullscreen();
 			});
 		}
 	};
-/*
+
 	var billEm = {
 		init: function() {
 			this.checkBillButton();
@@ -382,7 +382,7 @@ fullscreen();
 		}
 
 	};
-*/
+
 	var StickRecentTickets = {
 		init: function() {
 			this.stickTitle();
@@ -503,6 +503,8 @@ fullscreen();
 		ticketDetails.init();
 		invoice.init();
 		StickRecentTickets.init();
+		billEm.init();
+		footer.init();
 	}()); 
 
 }); 

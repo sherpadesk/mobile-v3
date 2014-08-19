@@ -3169,6 +3169,10 @@ $(document).ready(function(){
             newTicket.init();
             //accountTimeLogs.init();
         }
+        if (location.pathname.indexOf("add_time.html") >= 0)
+        {
+            addTime.init();
+        }
         //getQueueTickets.init();
         //accountDetailsPageSetup.init();
         search.init();
