@@ -3103,6 +3103,10 @@ $(document).ready(function(){
         {
             accountList.init();
         }
+            if (location.pathname.indexOf("addTicketTime.html") >= 0)
+            {
+                addTime.init();
+            }    
         if (location.pathname.indexOf("timelog.html") >= 0)
         {
             accountTimeLogs.init();
