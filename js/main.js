@@ -154,7 +154,11 @@ $(document).ready(function(){
                     alert('Please register in new window and reopen Sherpadesk extension again.');
                     window.open(url, '');
                 }
-                else {
+                else if (isPhonegap){
+                    window.open(url, '_system');
+                }
+                else
+                {
                     document.location.href = url;
                 }
             });
