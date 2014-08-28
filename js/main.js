@@ -587,7 +587,7 @@ $(document).ready(function(){
         $(''+element).on('change', function(){
 
             if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').remove();};
-            var classSelected0 = $('#classTicketOptions option:selected').val();					
+            var classSelected0 = $(element +' option:selected').val();					
             var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
 
             //set class
@@ -596,7 +596,7 @@ $(document).ready(function(){
             //If sub-class exist
             if((typeof classSub[0] !== "undefined") && (classSub[0].sub !== null || classSub[0].sub > 0)){										
                 //Show sub-class select
-                fillSelect(classSub[0].sub, ".add_ticket_class", "<option value="+selectedEditClass+">Sub Class: ---</option>", "Sub Class: ", "", "<div class=sub_class1><div class=styledSelect><select id=sub_class1>","</select></div></div>");
+                fillSelect(classSub[0].sub, ".add_class", "<option value="+selectedEditClass+">Sub Class: ---</option>", "Sub Class: ", "", "<div class=sub_class1><div class=styledSelect><select id=sub_class1>","</select></div></div>");
 
                 $("select#sub_class1").on('change', function(){
                     if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
@@ -607,7 +607,7 @@ $(document).ready(function(){
                     //If sub-sub-class exist
                     if((typeof classSub1[0] !== "undefined") && (classSub1[0].sub > 0 || classSub1[0].sub!== null)){
                         //Show sub-class select
-                        fillSelect(classSub1[0].sub, ".add_ticket_class", "<option value="+selectedEditClass+">Sub Sub Class: ---</option>", "Sub Sub Class: ", "", "<div class=sub_class2><div class=styledSelect><select id=sub_class2>","</select></div></div>");
+                        fillSelect(classSub1[0].sub, ".add_class", "<option value="+selectedEditClass+">Sub Sub Class: ---</option>", "Sub Sub Class: ", "", "<div class=sub_class2><div class=styledSelect><select id=sub_class2>","</select></div></div>");
 
                         $("select#sub_class2").on('change', function(){
                             var classSelected2 = $('select#sub_class2 option:selected').val();
