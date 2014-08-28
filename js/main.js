@@ -7,7 +7,15 @@ var AppSite = 'https://app.' + Site;
 
 var ApiSite = 'http://api.' + Site; 
 
-var isTech = false;
+//global config
+var isTech = false,
+    isProject = true,
+    isTime=true,
+    isAccount=true,
+    isLevel = true,
+    isClass=true, 
+    isLocation=true,
+    isFreshbook=true;
 
 //Phonegap specific
 var isPhonegap = false;
@@ -33,6 +41,7 @@ $(document).ready(function(){
     var userInstanceKey = "";
     var	userKey = "";
     var accountDetailed = "";
+    var selectedEditClass;
 
     function getApi (method, data, type) {
         var userKey = localStorage.getItem("userKey");
@@ -524,34 +533,89 @@ $(document).ready(function(){
             window.location = "index.html";
     }
 
-    function fillSelect(returnData, element, initialValue, prefix, customValues)
-    {   var names;
-     var isCustom = false;
-     if (typeof customValues !== "undefined" && customValues.length > 0){
-         names = customValues.split(',');
-         if (names.length > 0)
-             isCustom = true;
-     }
-     if (typeof prefix === "undefined")
-         prefix = "";
-     if (typeof initialValue === "undefined")
-         initialValue = "";
-     var insert = ""+initialValue;
-     for(var i = 0; i < returnData.length; i++)
-     { 
-         var value = returnData[i].id;
-         var name = "";
-         if (!isCustom)
-             name = returnData[i].name;
-         else
-         {
-             for(var j = 0; j < names.length; j++)
-                 name += " " + returnData[i][names[j]];
-         }
-         insert += "<option value="+value+">"+prefix+name+"</option>";
-     }
-     if (insert.length > 0)
-         $(insert).appendTo(""+element);
+    function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
+    {   
+        if (typeof returnData === "undefined" || returnData.length < 1)
+            return 0;
+        var names;
+        var isCustom = false;
+        if (typeof customValues !== "undefined" && customValues.length > 0){
+            names = customValues.split(',');
+            if (names.length > 0)
+                isCustom = true;
+        }
+        if (typeof prefix === "undefined")
+            prefix = "";
+        if (typeof initialValue === "undefined")
+            initialValue = "";
+        if (typeof envelope_start === "undefined")
+            envelope_start = "";
+        if (typeof envelope_end === "undefined")
+            envelope_end = "";  
+        var insert = ""+initialValue;
+        var i = 0;
+        for(i = 0; i < returnData.length; i++)
+        { 
+            var value = returnData[i].id;
+            var name = "";
+            if (!isCustom)
+                name = returnData[i].name;
+            else
+            {
+                for(var j = 0; j < names.length; j++)
+                    name += " " + returnData[i][names[j]];
+            }
+            insert += "<option value="+value+">"+prefix+name+"</option>";
+        }
+        // $(""+element).empty(); 
+        if (i > 0)
+            $(""+envelope_start + insert + envelope_end).appendTo(""+element);
+        else
+            $(""+element).parent().hide();
+        return i;
+    }
+
+    function fillClasses(classResults, element, initialValue)
+    {
+        if(!isClass) $(''+element).parent().parent().hide();
+        fillSelect(classResults, element, initialValue, "Class: ");
+
+        //Listen for class and detect sub-classes
+        $(''+element).on('change', function(){
+
+            if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').remove();};
+            var classSelected0 = $('#classTicketOptions option:selected').val();					
+            var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
+
+            //set class
+            selectedEditClass = classSelected0;
+
+            //If sub-class exist
+            if((typeof classSub[0] !== "undefined") && (classSub[0].sub !== null || classSub[0].sub > 0)){										
+                //Show sub-class select
+                fillSelect(classSub[0].sub, ".add_ticket_class", "<option value="+selectedEditClass+">Sub Class: ---</option>", "Sub Class: ", "", "<div class=sub_class1><div class=styledSelect><select id=sub_class1>","</select></div></div>");
+
+                $("select#sub_class1").on('change', function(){
+                    if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
+                    var classSelected1 = $('select#sub_class1 option:selected').val();					
+                    var classSub1 = $.grep(classSub[0].sub, function(a){ return a.id == classSelected1; });
+                    //reset class
+                    selectedEditClass = classSelected1;
+                    //If sub-sub-class exist
+                    if((typeof classSub1[0] !== "undefined") && (classSub1[0].sub > 0 || classSub1[0].sub!== null)){
+                        //Show sub-class select
+                        fillSelect(classSub1[0].sub, ".add_ticket_class", "<option value="+selectedEditClass+">Sub Sub Class: ---</option>", "Sub Sub Class: ", "", "<div class=sub_class2><div class=styledSelect><select id=sub_class2>","</select></div></div>");
+
+                        $("select#sub_class2").on('change', function(){
+                            var classSelected2 = $('select#sub_class2 option:selected').val();
+                            //reset class
+                            selectedEditClass = classSelected2;
+                        });
+                    }
+                });
+            }
+
+        });
     }
 
     // create a new ticket 
@@ -567,16 +631,17 @@ $(document).ready(function(){
             }
             else
             {
-            var accounts = getApi("accounts");
-            accounts.then(function(returnData) {
-                console.log(returnData);
-                // get list of accounts add them to option select list 
-                $("#addTicketAccounts").empty();
-                fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>Account</option>");
-                reveal();
-            }, function() {
-                console.log("fail @ ticket accounts");  
-            });
+                var accounts = getApi("accounts");               
+                if(!isAccount) $("#addTicketAccounts").parent().hide();
+                accounts.then(function(returnData) {
+                    console.log(returnData);
+                    // get list of accounts add them to option select list 
+                    $("#addTicketAccounts").empty();
+                    fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>Account</option>");
+                    reveal();
+                }, function() {
+                    console.log("fail @ ticket accounts");  
+                });
             }
 
             // after an account is choosed it get a list of technicians 
@@ -596,62 +661,11 @@ $(document).ready(function(){
                             );
 
             // after techs are choosen then get a list of classes 
-            var selectedEditClass;
             var classes = getApi('classes');
             classes.done(
                 function(classResults){
-                    $("#classTicketOptions").empty();
-                    fillSelect(classResults, "#classTicketOptions", "<option value=0 disabled selected>Class</option>", "Class: ");
-
-                    //Listen for class and detect sub-classes
-                    $('#classTicketOptions').on('change', function(){
-
-                        if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').remove();};
-                        var classSelected0 = $('#classTicketOptions option:selected').val();					
-                        var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
-
-                        //set class
-                        selectedEditClass = classSelected0;
-
-                        //If sub-class exist
-                        if((typeof classSub[0] !== "undefined") && (classSub[0].sub !== null || classSub[0].sub > 0)){										
-                            //Show sub-class select
-                            classInsert = "<option value="+selectedEditClass+">Sub Class: ---</option>";
-                            for(var b = 0; b < classSub[0].sub.length; b++)
-                            {
-                                classInsert += "<option data-classId="+classSub[0].sub[b].id+" value="+classSub[0].sub[b].id+">Sub Class:  "+classSub[0].sub[b].name+"</option>";					
-                            }
-                            if(classInsert.length > 0)
-                                $("<div class=sub_class1><div class=styledSelect><select id=sub_class1>" + classInsert + "</select></div></div>").appendTo(".add_ticket_class");
-
-                            $("select#sub_class1").on('change', function(){
-                                if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
-                                var classSelected1 = $('select#sub_class1 option:selected').val();					
-                                var classSub1 = $.grep(classSub[0].sub, function(a){ return a.id == classSelected1; });
-                                //reset class
-                                selectedEditClass = classSelected1;
-                                //If sub-sub-class exist
-                                if((typeof classSub1[0] !== "undefined") && (classSub1[0].sub > 0 || classSub1[0].sub!== null)){
-                                    //Show sub-class select
-
-                                    classInsert = "<option value="+selectedEditClass+">Sub Sub Class: ---</option>";
-                                    for(var b = 0; b < classSub1[0].sub.length; b++)
-                                    {
-                                        classInsert += "<option data-classId="+classSub1[0].sub[b].id+" value="+classSub1[0].sub[b].id+">Sub Class:  "+classSub1[0].sub[b].name+"</option>";					
-                                    }
-                                    if(classInsert.length > 30)
-                                        $("<div class=sub_class2><div class=styledSelect><select id=sub_class2>" + classInsert + "</select></div></div>").appendTo(".add_ticket_class");
-                                    $("select#sub_class2").on('change', function(){
-                                        var classSelected2 = $('select#sub_class2 option:selected').val();
-                                        //reset class
-                                        selectedEditClass = classSelected2;
-                                    });
-                                }
-                            });
-                        }
-
-                    });
-                });//end Sub-Class listener
+                    fillClasses(classResults, "#classTicketOptions", "<option value=0 disabled selected>Class</option>");
+                });
 
 
 
@@ -1146,19 +1160,9 @@ $(document).ready(function(){
                 window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
             });
             $('html,body').css('scrollTop','0');
-            var selectedEditClass;
-            $.ajax({
-                type: 'GET',
-                beforeSend: function (xhr) {
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
-                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                },
-
-                url:"http://api.sherpadesk.com/tickets/"+localStorage.getItem('ticketNumber'),
-                dataType:"json",
-                success: function(returnData) {
-                    console.log(returnData);
+            getApi("tickets/"+localStorage.getItem('ticketNumber')).then(
+                function(returnData) {
+                    //console.log(returnData);
                     // calculate the number of days since the ticket was created 
                     var daysOld = returnData.daysold_in_minutes / -60;
                     localStorage.setItem('techId', returnData.tech_id); // set the local storage variable with the tech id asscioted with this ticket  
@@ -1189,87 +1193,27 @@ $(document).ready(function(){
                     }
                     //$("ul").find("[data-id='info']").click(function(){
 
-                    $("#ticketLevel").empty();
                     // add select options to level Option box 
                     var levels = getApi('levels');
                     var classes = getApi('classes');
                     var priorities = getApi('priorities');
 
+                    $("#ticketLevel").empty();
+                    if (!isLevel) $("#ticketLevel").parent().hide(); 
                     levels.done(
                         function(levelResults){
-                            var levelInsert = "";
-                            for(var b = 0; b < levelResults.length; b++)
-                            {
-                                levelInsert += "<option value="+levelResults[b].id+">Level "+levelResults[b].name+"</option>";					
-                            }
-                            $(levelInsert).appendTo("#ticketLevel");
-                            $("#ticketLevel").val(returnData.level);
+                            if (fillSelect(levelResults, "#ticketLevel", "", "Level: ") > 0)
+                                $("#ticketLevel").val(returnData.level);
                         }
                     );
-
                     $("#classOptions").empty();
                     classes.done(
                         function(classResults){
-
-                            var classInsert = "<option data-classId="+returnData.class_id+" value="+returnData.class_id+">Class: "+returnData.class_name+"</option>";
-                            for(var b = 0; b < classResults.length; b++)
-                            {
-                                classInsert += "<option data-classId="+classResults[b].id+" value="+classResults[b].id+">Class: "+classResults[b].name+"</option>";					
-                            }
-                            $(classInsert).appendTo("#classOptions");
-
                             //Init ticket class if not changed
                             selectedEditClass = returnData.class_id;
+                            fillClasses(classResults, "#classOptions", "<option data-classId="+returnData.class_id+" value="+returnData.class_id+">Class: "+returnData.class_name+"</option>"); 
+                        });
 
-                            //Listen for class and detect sub-classes
-                            $('#classOptions').on('change', function(){
-
-                                if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').remove();};
-                                var classSelected0 = $('#classOptions option:selected').val();					
-                                var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
-
-                                //set class
-                                selectedEditClass = classSelected0;
-
-                                //If sub-class exist
-                                if((typeof classSub[0] !== "undefined") && (classSub[0].sub !== null || classSub[0].sub > 0)){										
-                                    //Show sub-class select
-                                    classInsert = "<option value="+selectedEditClass+">Sub Class: ---</option>";
-                                    for(var b = 0; b < classSub[0].sub.length; b++)
-                                    {
-                                        classInsert += "<option data-classId="+classSub[0].sub[b].id+" value="+classSub[0].sub[b].id+">Sub Class:  "+classSub[0].sub[b].name+"</option>";					
-                                    }
-                                    if(classInsert.length > 0)
-                                        $("<div class=sub_class1><div class=styledSelect><select id=sub_class1>" + classInsert + "</select></div></div>").appendTo(".add_class");
-
-                                    $("select#sub_class1").on('change', function(){
-                                        if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
-                                        var classSelected1 = $('select#sub_class1 option:selected').val();					
-                                        var classSub1 = $.grep(classSub[0].sub, function(a){ return a.id == classSelected1; });
-                                        //reset class
-                                        selectedEditClass = classSelected1;
-                                        //If sub-sub-class exist
-                                        if((typeof classSub1[0] !== "undefined") && (classSub1[0].sub > 0 || classSub1[0].sub!== null)){
-                                            //Show sub-class select
-
-                                            classInsert = "<option value="+selectedEditClass+">Sub Sub Class: ---</option>";
-                                            for(var b = 0; b < classSub1[0].sub.length; b++)
-                                            {
-                                                classInsert += "<option data-classId="+classSub1[0].sub[b].id+" value="+classSub1[0].sub[b].id+">Sub Class:  "+classSub1[0].sub[b].name+"</option>";					
-                                            }
-                                            if(classInsert.length > 30)
-                                                $("<div class=sub_class2><div class=styledSelect><select id=sub_class2>" + classInsert + "</select></div></div>").appendTo(".add_class");
-                                            $("select#sub_class2").on('change', function(){
-                                                var classSelected2 = $('select#sub_class2 option:selected').val();
-                                                //reset class
-                                                selectedEditClass = classSelected2;
-                                            });
-                                        }
-                                    });
-                                }
-
-                            });
-                        });//end Sub-Class listener
                     $("#ticketPriority").empty();
                     // add select options to priority option box 
                     priorities.done(
@@ -1299,32 +1243,15 @@ $(document).ready(function(){
 
                     // add select options to project option box                     
                     var projects = getApi('projects');
-                    if(!localStorage.getItem("projectTracking"))
-                    {
-                        $("#project").remove();
-                    }
-                    else
-                    {
-                        $("#ticketProject").empty();
-                        var projects = getApi('projects');
-                        projects.done(
-                            function(projectResults){
-                                var projectInsert = "";
-                                if(returnData.project_name == ""){
-                                    projectInsert += "<option value='null'>Project</option>";   
-                                }
-                                for(var b = 0; b < projectResults.length; b++)
-                                {
-                                    projectInsert += "<option value="+projectResults[b].id+">"+projectResults[b].name+"</option>";                 
-                                }
-                                $(projectInsert).appendTo("#ticketProject");
-                                //$("#ticketProject").val(returnData.project_id);
-
-
-
+                    if (!isProject)
+                        $("#project").hide();
+                    projects.done(
+                        function(projectResults){
+                            if (fillSelect(projectResults, "#ticketProject", returnData.project_name == "" ? "<option value='null' disabled selected>Project</option>" : "") >0){ 
+                                if (returnData.project_name != "") $("#ticketProject").val(returnData.project_id);
                             }
-                        );
-                    }
+                        }
+                    );
                     $(".updateButton").click(function(){
                         //var ticketAccount = $('form.update_ticket select#account').val(),
                         var	ticketClass = selectedEditClass,
@@ -1443,21 +1370,15 @@ $(document).ready(function(){
                         }
 
                     }
-
+                    reveal();
                 },
-                complete:function(){
-                    function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
-                    };
-                },
-                error: function() {
+                function() {
                     console.log("fail @ Ticket Detail");
                     console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     localStorage.setItem('ticketId', "");
                     window.location = "ticket_list.html";
                 }
-            });
+            );
 
         }
     };
@@ -2023,9 +1944,9 @@ $(document).ready(function(){
             }
             else
             {
-            this.techTickets();
-            this.altTickets();
-            this.allTickets();
+                this.techTickets();
+                this.altTickets();
+                this.allTickets();
             }
             this.ticketClick();
         },
@@ -2037,30 +1958,30 @@ $(document).ready(function(){
         },
         //get tickets as tech
         techTickets:function() {
-        	var ticketView = localStorage.getItem("ticketPage");
-        		if(ticketView == "asAltTech")
-        		{
-        			$('#tabpage_reply, #tabpage_all, #tabpage_info').hide();
-        			$('#tabpage_options').fadeIn();
-        			localStorage.setItem('ticketPage',"asTech");
-        		}
-        		else if(ticketView == "asTech")
-        		{
-        			$('#tabpage_reply, #tabpage_all, #tabpage_options').hide();
-        			$('#tabpage_info').fadeIn();
-        		}
-        		else if(ticketView == "asUser")
-        		{
-        			$('#tabpage_info, #tabpage_all, #tabpage_options').hide();
-        			$('#tabpage_reply').fadeIn();
-        			localStorage.setItem('ticketPage',"asTech");
-        		}
-        		else if(ticketView == "allTickets")
-        		{
-        			$('#tabpage_info, #tabpage_reply, #tabpage_options').hide();
-        			$('#tabpage_all').fadeIn();
-        			localStorage.setItem('ticketPage',"asTech");
-        		}
+            var ticketView = localStorage.getItem("ticketPage");
+            if(ticketView == "asAltTech")
+            {
+                $('#tabpage_reply, #tabpage_all, #tabpage_info').hide();
+                $('#tabpage_options').fadeIn();
+                localStorage.setItem('ticketPage',"asTech");
+            }
+            else if(ticketView == "asTech")
+            {
+                $('#tabpage_reply, #tabpage_all, #tabpage_options').hide();
+                $('#tabpage_info').fadeIn();
+            }
+            else if(ticketView == "asUser")
+            {
+                $('#tabpage_info, #tabpage_all, #tabpage_options').hide();
+                $('#tabpage_reply').fadeIn();
+                localStorage.setItem('ticketPage',"asTech");
+            }
+            else if(ticketView == "allTickets")
+            {
+                $('#tabpage_info, #tabpage_reply, #tabpage_options').hide();
+                $('#tabpage_all').fadeIn();
+                localStorage.setItem('ticketPage',"asTech");
+            }
             $("#techContainer, #optionsConainer, #allContainer, #userContainer").empty();
             $.ajax({
                 type: 'GET',
@@ -2622,23 +2543,28 @@ $(document).ready(function(){
         }
         //get instance config 
         getApi("config").then(function (returnData) {
-                localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
-                localStorage.setItem('projectTracking', returnData.is_project_tracking);
-                localStorage.setItem('timeTracking', returnData.is_time_tracking);
-                localStorage.setItem('freshbooks', returnData.is_freshbooks);
-                localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
+            localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
+            isTech = returnData.user.is_techoradmin;
+            localStorage.setItem('projectTracking', returnData.is_project_tracking);
+            localStorage.setItem('timeTracking', returnData.is_time_tracking);
+            localStorage.setItem('accountManager', returnData.is_account_manager);
+            localStorage.setItem('ticketLevels', returnData.is_ticket_levels);
+            localStorage.setItem('classTracking', returnData.is_class_tracking);
+            localStorage.setItem('locationTracking', returnData.is_location_tracking);
+            localStorage.setItem('freshbooks', returnData.is_freshbooks);
+            localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
             localStorage.setItem('userId', returnData.user.user_id);
-                if (localStorage.getItem('userRole') == "tech")
-                    window.location = "dashboard.html";
-                else
-                    window.location = "ticket_list.html";
-            },
-            function () {
-                console.log("fail @ config");
-                clearStorage();
-                window.location = "index.html";
-            }
-        );
+            if (isTech)
+                window.location = "dashboard.html";
+            else
+                window.location = "ticket_list.html";
+        },
+                              function () {
+                                  console.log("fail @ config");
+                                  clearStorage();
+                                  window.location = "index.html";
+                              }
+                             );
     };
 
     // get queues for the organization and list a max of 3 to the dashboard 
@@ -2996,20 +2922,20 @@ $(document).ready(function(){
                 window.location = "queueTickets.html";
             });
             $(document).on('click','#asUserStat', function(){
-            	localStorage.setItem('ticketPage','asUser');
-            	window.location = "ticket_list.html";
+                localStorage.setItem('ticketPage','asUser');
+                window.location = "ticket_list.html";
             });
             $(document).on('click','#techStat', function(){
-            	localStorage.setItem('ticketPage','asTech');
-            	window.location = "ticket_list.html";
+                localStorage.setItem('ticketPage','asTech');
+                window.location = "ticket_list.html";
             });
             $(document).on('click','#asAltTechStat', function(){
-            	localStorage.setItem('ticketPage','asAltTech');
-            	window.location = "ticket_list.html";
+                localStorage.setItem('ticketPage','asAltTech');
+                window.location = "ticket_list.html";
             });
             $(document).on('click','#allTicketsStat', function(){
-            	localStorage.setItem('ticketPage','allTickets');
-            	window.location = "ticket_list.html";
+                localStorage.setItem('ticketPage','allTickets');
+                window.location = "ticket_list.html";
             });
         }
     };
@@ -3070,8 +2996,25 @@ $(document).ready(function(){
         signout.init();
         miscClicks.init();
         //userInfo.init();
+
+        //init config
         if (localStorage.getItem('userRole') === "tech")
             isTech = true;
+        if (localStorage.getItem('projectTracking') === "false")
+            isProject = false;
+        if (localStorage.getItem('timeTracking') === "false")
+            isTime = false;
+        if (localStorage.getItem('accountManager') === "false")
+            isAccount = false;
+        if (localStorage.getItem('ticketLevels') === "false")
+            isLevel = false;
+        if (localStorage.getItem('classTracking') === "false")
+            isClass = false;
+        if (localStorage.getItem('locationTracking') === "false")
+            isLocation = false;
+        if (localStorage.getItem('freshbooks') === "false")
+            isFreshbook = false;
+
         if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/" && location.pathname.indexOf("org.html")<0)
         {
             //set the name of the nav side menu 
@@ -3087,55 +3030,68 @@ $(document).ready(function(){
         }
         //Only for tech
         else{
-        //conditional api calls determined by page 
-        if (location.pathname.indexOf("dashboard.html") >= 0)
-        {
-            getTicketCount();
-            getQueueList();
-            getQueues.init();
-            getActiveAccounts();
-            reveal();
-        }
-        if (location.pathname.indexOf("account_details.html") >= 0)
-        {
-            accountDetailsPageSetup.init();
-            detailedTicket.init();
-            closedTickets.init();
+            //conditional api calls determined by page 
+            if (location.pathname.indexOf("dashboard.html") >= 0)
+            {
+                getTicketCount();
+                getQueueList();
+                getQueues.init();
+                getActiveAccounts();
+                reveal();
+            }
+            if (location.pathname.indexOf("account_details.html") >= 0)
+            {
+                accountDetailsPageSetup.init();
+                detailedTicket.init();
+                closedTickets.init();
 
-        }
-        if (location.pathname.indexOf("Account_List.html") >= 0)
-        {
-            accountList.init();
-        }
+            }
+            if (location.pathname.indexOf("Account_List.html") >= 0)
+            {
+                accountList.init();
+            }
             if (location.pathname.indexOf("addTicketTime.html") >= 0)
             {
-                addTime.init();
+                if (isTime) addTime.init();
+                else window.location = "dashboard.html";
+
             }    
-        if (location.pathname.indexOf("timelog.html") >= 0)
-        {
-            accountTimeLogs.init();
-            timeLogs.init();
-            addTime.init();
-        }
-        if (location.pathname.indexOf("accountTimes.html") >= 0)
-        {
-            accountTimeLogs.init();
-            timeLogs.init();
-        }
-        if (location.pathname.indexOf("invoice_List.html") >= 0)
-        {
-            invoiceList.init();
-        }
-        if (location.pathname.indexOf("allInvoice_List.html") >= 0)
-        {
-            invoiceList.init();
-        }
-        if (location.pathname.indexOf("invoice.html") >= 0)
-        {
-            detailedInvoice.init();
-            sendInvoince.init();
-            addRecip.init();
-        }
+            if (location.pathname.indexOf("timelog.html") >= 0)
+            {if (!isTime) window.location = "dashboard.html";
+             else
+             {
+                 accountTimeLogs.init();
+                 timeLogs.init();
+                 addTime.init();
+             }
+            }
+            if (location.pathname.indexOf("accountTimes.html") >= 0)
+            {
+                if (!isTime) window.location = "dashboard.html";
+                else
+                {
+                    accountTimeLogs.init();
+                    timeLogs.init();
+                }
+            }
+            if (location.pathname.indexOf("invoice_List.html") >= 0 || location.pathname.indexOf("allInvoice_List.html") >= 0)
+            {
+                if (!isTime) window.location = "dashboard.html";
+                else
+                {
+                    invoiceList.init();
+                }
+            }
+            if (location.pathname.indexOf("invoice.html") >= 0)
+            {
+                if (!isTime) window.location = "dashboard.html";
+                else
+                {
+                    detailedInvoice.init();
+                    sendInvoince.init();
+                    addRecip.init();
+                }
+            }
             if (location.pathname.indexOf("Queues.html") >= 0)
             {
                 getQueues.init();
@@ -3157,7 +3113,7 @@ $(document).ready(function(){
             pickUpTicket.init();
             transferTicket.init();
             closeTicket.init();
-            addTime.init();
+            //addTime.init();
             postComment.init();
         }
         if (location.pathname.indexOf("closedTickets.html") >= 0)
@@ -3175,7 +3131,11 @@ $(document).ready(function(){
         }
         if (location.pathname.indexOf("add_time.html") >= 0)
         {
-            addTime.init();
+            if (!isTime) window.location = "dashboard.html";
+            else
+            {
+                addTime.init();
+            }
         }
         //getQueueTickets.init();
         //accountDetailsPageSetup.init();
@@ -3190,6 +3150,8 @@ $(document).ready(function(){
         //detailedInvoice.init();
         //updateInvoice.init();
         fullapplink();
+        if (!isTime)
+            $(".time").remove();
     }()); 
 
 
