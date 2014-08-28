@@ -20,9 +20,6 @@ var isTech = false,
 //Phonegap specific
 var isPhonegap = false;
 
-//gloabal var
-localStorage.setItem("accountListIntial",0);
-
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
@@ -34,6 +31,50 @@ function openURLsystem(urlString){
     window.open(urlString, '_system');
 }
 
+//global error handler
+$( document ).ajaxError(function( event, request, settings ) {
+    //console.log(event);
+    if (request.status == 403)
+    {
+        logout();
+    }
+    //console.log(settings);
+});
+
+//global helper functions
+function logout() {
+    clearStorage();
+    if (localStorage.is_google) {
+        localStorage.removeItem('userName');
+        localStorage.removeItem('is_google');
+        GooglelogOut();
+    }
+    else
+        window.location = "index.html";
+}
+
+function GooglelogOut () {
+    if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
+        var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
+        document.location.href = location.href.replace(/(.+\w\/)(.+)/, "$1") + "index.html";
+    }
+    else
+        window.location = "index.html";
+}
+
+function clearStorage()
+{
+    var userName = localStorage.userName;
+    localStorage.clear();
+    localStorage.removeItem('userOrgKey');
+    localStorage.removeItem('userOrg');
+    localStorage.removeItem('userInstanceKey');
+    localStorage.removeItem('userKey');
+    localStorage.setItem("userName", userName);
+
+};
+
+
 $(document).ready(function(){
 
     var userOrgKey = "";
@@ -42,7 +83,7 @@ $(document).ready(function(){
     var	userKey = "";
     var accountDetailed = "";
     var selectedEditClass;
-
+    
     function getApi (method, data, type) {
         var userKey = localStorage.getItem("userKey");
         var userOrgKey = localStorage.getItem('userOrgKey');
@@ -91,8 +132,7 @@ $(document).ready(function(){
             userOrgKey = localStorage.getItem('userOrgKey');
             userInstanceKey = localStorage.getItem('userInstanceKey');
             if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage && location.pathname.indexOf("org.html")<0) {
-                clearStorage();
-                window.location = "index.html";
+                logout();
                 return;
             }
             if (!loginPage)
@@ -495,18 +535,7 @@ $(document).ready(function(){
             });
         }
     };
-
-    function clearStorage()
-    {
-        var userName = localStorage.userName;
-        localStorage.clear();
-        localStorage.removeItem('userOrgKey');
-        localStorage.removeItem('userOrg');
-        localStorage.removeItem('userInstanceKey');
-        localStorage.removeItem('userKey');
-        localStorage.setItem("userName", userName);
-
-    };
+    
     // when signout button is pressed all user data is whiped from local storage 
     var signout = {
         init:function(){
@@ -514,27 +543,9 @@ $(document).ready(function(){
         },
 
         logOut:function(){
-            $("#signOut").click(function () {
-                clearStorage();
-                if (localStorage.is_google) {
-                    localStorage.removeItem('userName');
-                    localStorage.removeItem('is_google');
-                    GooglelogOut();
-                }
-                else
-                    window.location = "index.html";
-            });
+            $("#signOut").click(logout);
         }
     };
-
-    var GooglelogOut = function () {
-        if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
-            var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-            document.location.href = location.href.replace(/(.+\w\/)(.+)/, "$1") + "index.html";
-        }
-        else
-            window.location = "index.html";
-    }
 
     function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
     {   
@@ -2564,8 +2575,7 @@ $(document).ready(function(){
         },
                               function () {
                                   console.log("fail @ config");
-                                  clearStorage();
-                                  window.location = "index.html";
+                                  logout();
                               }
                              );
     };
@@ -2883,8 +2893,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ getOrg");
-                    clearStorage();
-                    window.location = "index.html";
+                    logout();
                 }
             })
 
