@@ -2690,21 +2690,21 @@ $(document).ready(function(){
                     {
                         if(returnData[i].name.length > 9){
                             openTickets = "99";
-                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.hours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
                         }else{
                             openTickets = "99";
-                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.hours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
                         }
                         //localDashAccounts.push(activeAccount);
                     }
                     //if account name is longer than 9 chars then elipse the account name 
                     else if(returnData[i].name.length > 9) {
-                        activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
+                        activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.hours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
                         $(activeAccount).appendTo("#activeList");
                     }else{
-                        activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.timelogs+"</li><li>"+returnData[i].account_statistics.invoices+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
+                        activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.hours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
                         $(activeAccount).appendTo("#activeList");
                     }
                     dashAccounts.push(activeAccount);
