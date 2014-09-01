@@ -58,7 +58,7 @@ $( document ).ajaxError(function( event, request, settings ) {
 											 isOnline = true; 
 											  location.reload(false);
          //document.location.href = MobileSite + "index.html"; 
-											 };
+											 }};
 
 function redirectToPage() {
         if (navigator.onLine)
