@@ -54,9 +54,9 @@ $( document ).ajaxError(function( event, request, settings ) {
          };
 
      function on1 (){ 
-         if (!isOnline){
+         if (!isOnline){ $(".catch-error").remove();
 											 isOnline = true; 
-											  location.reload(false);
+											  location.reload(true);
          //document.location.href = MobileSite + "index.html"; 
 											 }};
 
