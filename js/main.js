@@ -19,8 +19,11 @@ var isTech = false,
 
 //Phonegap specific
 var isPhonegap = false;
+var isOnline = true;
 
 document.addEventListener("deviceready", onDeviceReady, false);
+document.addEventListener("offline", off,false);
+document.addEventListener("online", on1 ,false);
 
 function onDeviceReady() {
     isPhonegap = true;
@@ -40,6 +43,44 @@ $( document ).ajaxError(function( event, request, settings ) {
     }
     //console.log(settings);
 });
+
+     //If User is Offline....................................
+     function off(){ 
+         if (!$(".catch-error").length) {
+				 $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
+				 
+				 isOnline = false;
+			 } 
+         };
+
+     function on1 (){ 
+         if (!isOnline){
+											 isOnline = true; 
+											  location.reload(false);
+         //document.location.href = MobileSite + "index.html"; 
+											 };
+
+function redirectToPage() {
+        if (navigator.onLine)
+            {  if (isPhonegap) on1();
+             else
+                {
+               var img = document.body.appendChild(document.createElement("img"));
+                img.style.display = 'none';
+                img.onload = function () {
+                    document.location.href = MobileSite + "index.html";
+                };
+                img.onerror = function () {
+                    off(); 
+                };
+                img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
+                }       
+            }             
+        else
+            { 
+                off(); 
+            }
+    };
 
 //global helper functions
 function logout() {
