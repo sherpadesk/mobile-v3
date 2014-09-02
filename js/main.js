@@ -58,6 +58,7 @@ $( document ).ajaxError(function( event, request, settings ) {
      alert(isOnline);
          if (!isOnline){
          alert("reload");
+         $(".catch-error").remove();
 											 isOnline = true; 
 											  location.reload(false);
          //document.location.href = MobileSite + "index.html"; 
