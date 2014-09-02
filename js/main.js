@@ -209,7 +209,17 @@ $(document).ready(function(){
             var userName = $("#userName").val();
             var password = $("#password").val();
             if (userName == '' || password == '') {
-                $("#errorMessage").html("Please enter a valid Email or Password");
+                $(".errorMessageNeg").html("Please enter a valid Email or Password");
+                $(".errorMessageNeg").slideDown(100);
+                $('html,body').animate({
+                     scrollTop: 0
+                }, 100);
+              setTimeout(
+                     function() 
+                     {
+                        $(".errorMessageNeg").slideUp(100);
+
+                     }, 1500);
                 return;
             }
             $.ajax({
@@ -233,11 +243,37 @@ $(document).ready(function(){
 
                 },
                 error: function () {
-                    if (userName && userName.indexOf("@gmail.com") != -1)
-                        $("#errorMessage").html("If you are attempting to login with a google account, please do not type your google password, click the 'Sign in with Google' button, it is more secure.");
-                    else
-                        $("#errorMessage").html("There was a problem with your login.  Please try again.");
-                    $("#password").val("");
+                    if(userName && userName.indexOf("@gmail.com") != -1){
+                        $(".errorMessageNeg").html("If you are attempting to login with a google account, please do not type your google password, click the 'Sign in with Google' button, it is more secure.");
+                        $(".errorMessageNeg").slideDown(100);
+                        $('html,body').animate({
+                            scrollTop: 0
+                        }, 100);
+                        setTimeout(
+                        function() 
+                        {
+                            $(".errorMessageNeg").slideUp(100);
+
+                        }, 1500);
+                    }else{
+                        $(".errorMessageNeg").html("There was a problem with your login.  Please try again.");
+                        $(".errorMessageNeg").slideDown(100);
+                        $('html,body').animate({
+                            scrollTop: 0
+                        }, 100);
+                        setTimeout(
+                            function() 
+                            {
+                                $(".errorMessageNeg").slideUp(100);
+
+                            }, 1500);
+                        $("#password").val("");
+                    }
+                    // if (userName && userName.indexOf("@gmail.com") != -1)
+                    //     $("#errorMessage").html("If you are attempting to login with a google account, please do not type your google password, click the 'Sign in with Google' button, it is more secure.");
+                    // else
+                    //     $("#errorMessage").html("There was a problem with your login.  Please try again.");
+                    // $("#password").val("");
                 }
             });
         },
