@@ -46,18 +46,15 @@ $( document ).ajaxError(function( event, request, settings ) {
 
      //If User is Offline....................................
      function off(){ 
-     alert(isOnline + " off");
          if (!$(".catch-error").length) {
-				 $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
+				 $('body').prepend('<div class="catch-error"><div class="catch-error-description"><br/><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
 				 
 				 isOnline = false;
 			 } 
          };
 
      function on1 (){ 
-     alert(isOnline);
          if (!isOnline){
-         alert("reload");
          $(".catch-error").remove();
 											 isOnline = true; 
 											  location.reload(false);
