@@ -985,7 +985,6 @@ $(document).ready(function(){
             var ticketKey = localStorage.getItem('ticketNumber');
             var isBillable = true;
             var date = new Date().toJSON().slice(0,10);
-
             // on submit click get the time and note typed by the user 
             $("#submitTicketTime").click(function(){
                 var time = $("#addTimeTicket").val();
@@ -995,7 +994,7 @@ $(document).ready(function(){
                 if (note.length < 1)
                 {
                     $(".errorMessageNeg").html("Please enter note");
-                    $(".errorMessageNeg").slideDown(100);
+                    $(".errorMessageNeg").slideDown(200);
                     $('html,body').animate({
                         scrollTop: 0
                     }, 100);
@@ -1166,6 +1165,33 @@ $(document).ready(function(){
                 }else{
                     isBillable = false;
                 }
+                if(time == 0){
+                    $(".errorMessageNeg").html("Oops not enough time");
+                    $(".errorMessageNeg").slideDown(200);
+                    $('html,body').animate({
+                        scrollTop: 0
+                    }, 100);
+                    setTimeout(
+                        function() 
+                        {
+                            $(".errorMessageNeg").slideUp(100);
+
+                        }, 1500);
+                    return;
+                } else if(accountId == '0'){
+                    $(".errorMessageNeg").html("choose an account");
+                    $(".errorMessageNeg").slideDown(200);
+                    $('html,body').animate({
+                        scrollTop: 0
+                    }, 100);
+                    setTimeout(
+                        function() 
+                        {
+                            $(".errorMessageNeg").slideUp(100);
+
+                        }, 1500);
+                    return;
+                }else{
                 $.ajax({
                     type: 'POST',
                     beforeSend: function (xhr) {
@@ -1192,7 +1218,8 @@ $(document).ready(function(){
                     error: function (e, textStatus, errorThrown) {
                         alert(textStatus);
                     }
-                });
+                });                      
+                }
             });
 
         }
