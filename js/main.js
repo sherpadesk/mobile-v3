@@ -1034,6 +1034,8 @@ $(document).ready(function(){
                     }, 
                     dataType: 'json',
                     success: function (d) {
+                        localStorage.setItem('isMessage','truePos');
+                        localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
                         window.location = "ticket_detail.html";
                     },
                     error: function (e, textStatus, errorThrown) {
@@ -1214,6 +1216,8 @@ $(document).ready(function(){
                     }, 
                     dataType: 'json',
                     success: function (d) {
+                        localStorage.setItem('isMessage','truePos');
+                        localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
                         window.location = "dashboard.html";
                     },
                     error: function (e, textStatus, errorThrown) {
@@ -1241,6 +1245,20 @@ $(document).ready(function(){
         },
 
         showTicket:function(){
+            var isMessage = localStorage.getItem("isMessage");
+                if(isMessage == "truePos")
+                {
+                    var messageText = localStorage.getItem("userMessage");
+                    $(".errorMessagePos").html(messageText);
+                    $(".errorMessagePos").slideDown(100);
+                    setTimeout(
+                        function() 
+                        {   
+                            $(".errorMessagePos").slideUp(100);
+                            localStorage.setItem("isMessage","false");
+
+                     }, 3500);
+                }
             // listen for a click of a ticket block from a ticket list page (account detail  ticket list or complete ticket list)
             $(document).on("click",".responseBlock", function(){
                 localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list 
@@ -1264,15 +1282,21 @@ $(document).ready(function(){
                     }
 
                     // update page variables with correct ticket information 
+                    var ticketHours = returnData.total_hours;
                     $("#ticketNumber").html(returnData.status+" | "+returnData.number);
                     $("#ticketSubject").html(returnData.subject);
                     $("#ticketClass").html(returnData.class_name);
                     $("#ticketTech").html(returnData.tech_firstname);
                     $("#lastUpdate").html(daysOld);
-                    $("#ticketHours").html(returnData.total_hours+" Hours");
+                    if(ticketHours != 0){
+                        alert(ticketHours);
+                        $("#ticketHours").html(ticketHours+" Hours");
+                    }else{
+                        $('#ticketHours').hide();
+                    }
                     if(returnData.sla_complete_date == null)
                     {
-                        //do nothing 
+                        $('#ticketSLA').hide(); 
                     }
                     else
                     {
@@ -2769,27 +2793,31 @@ $(document).ready(function(){
                 for (var i = 0; i < activeLength; i++)
                 {
                     var openTickets = returnData[i].account_statistics.ticket_counts.open;
+                    var openHours = returnData[i].account_statistics.hours;
+                    if(openHours > 999){
+                        openHours = 999;
+                    }
 
                     // if account has more than 100 open tickets then sub 99+
                     if(openTickets > 100)
                     {
                         if(returnData[i].name.length > 9){
                             openTickets = "99";
-                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.hours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
                         }else{
                             openTickets = "99";
-                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+returnData[i].account_statistics.hours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
                         }
                         //localDashAccounts.push(activeAccount);
                     }
                     //if account name is longer than 9 chars then elipse the account name 
                     else if(returnData[i].name.length > 9) {
-                        activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+returnData[i].account_statistics.hours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
+                        activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
                         $(activeAccount).appendTo("#activeList");
                     }else{
-                        activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+returnData[i].account_statistics.hours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
+                        activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
                         $(activeAccount).appendTo("#activeList");
                     }
                     dashAccounts.push(activeAccount);

@@ -1640,13 +1640,13 @@ footer {
   list-style-type: none;
   font-size: 10px;
   padding-bottom: 1px;
-  width: 60%;
-  margin: 0 auto;
+  width: 95%;
 }
 
 .slaInfo li {
-  float: left;
-  width: 50%;
+  text-align: right;
+  /*float: left;*/
+  width: 100%;
 }
 
 #tabpage_info, #tabpage_options,#tabpage_all {
@@ -2216,8 +2216,8 @@ padding-right: 17px;
 .TicketTabs > ul > li {
   width: 18%;
   text-align: center;
-  line-height: 50px;
-height: 45px;
+  line-height: 56px;
+  height: 50px;
   display: block;
   float: left;
   color: #ffffff;
