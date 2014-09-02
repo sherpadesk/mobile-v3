@@ -3244,6 +3244,7 @@ $(document).ready(function(){
         if (location.pathname.indexOf("closedTickets.html") >= 0)
         {
             detailedTicket.init();
+            closedTickets.init();
         }
         //getTicketCount();
         //getQueueList();
