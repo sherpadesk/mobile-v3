@@ -47,7 +47,7 @@ $( document ).ajaxError(function( event, request, settings ) {
      //If User is Offline....................................
      function off(){ 
          if (!$(".catch-error").length) {
-				 $('body').prepend('<div class="catch-error"><div class="catch-error-description"><br/><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
+				 $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
 				 
 				 isOnline = false;
 			 } 
@@ -119,6 +119,10 @@ function clearStorage()
 
 $(document).ready(function(){
 
+    //preload image
+    var img = new Image();
+    img.src = "img/error-background.png";
+    
     var userOrgKey = "";
     var userOrg = "";
     var userInstanceKey = "";
