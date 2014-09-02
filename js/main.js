@@ -2413,10 +2413,22 @@ $(document).ready(function(){
                 success: function(returnData) {
                     console.log(returnData);
                     //update numbers of notification tickers (open tickets / invoices / Times)
+                    var accountHours = returnData.account_statistics.hours;
+                    var accountTickets = returnData.account_statistics.ticket_counts.open;
+                    var accountInvoices = returnData.account_statistics.invoices;
+                    if(accountHours > 999){
+                        accountHours = '999';
+                    }
+                    if(accountTickets > 999){
+                        accountTickets = '999';
+                    }
+                    if(accountInvoices > 999){
+                        accountInvoices = '999';
+                    }
                     $("#AD").html(returnData.name);
-                    $("#ticketsOptionTicker").html(returnData.account_statistics.ticket_counts.open);
-                    $("#invoiceOptionTicker").html(returnData.invoices);
-                    $("#timesOptionTicker").html(returnData.timelogs);
+                    $("#ticketsOptionTicker").html(accountTickets);
+                    $("#invoiceOptionTicker").html(accountInvoices);
+                    $("#timesOptionTicker").html(accountHours);
                 },
                 complete:function(){
                     function reveal(){
