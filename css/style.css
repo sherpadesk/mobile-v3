@@ -238,12 +238,11 @@ strong {
   overflow: hidden;
 }
 .loginScreen {
-
+  background: url("../img/mountainBG.jpg");
   /*padding-top: 80px*/;
- /*background: url("../img/mountainBG.jpg");  
+  
   background-repeat: no-repeat;
-  background-position:center; */
-background: grey;
+  background-position:center; 
   overflow-y: hidden;
 
 }
