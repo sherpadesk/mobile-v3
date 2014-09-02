@@ -121,7 +121,7 @@ $(document).ready(function(){
 
     //preload image
     var img = new Image();
-    img.src = "img/error-background.png";
+    img.src = MobileSite + "img/error-background.png";
     
     var userOrgKey = "";
     var userOrg = "";
