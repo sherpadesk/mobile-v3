@@ -27,7 +27,6 @@ document.addEventListener("online", on1 ,false);
 
 function onDeviceReady() {
     isPhonegap = true;
-    alert(isPhonegap);
 }
 
 //open link	in blank
