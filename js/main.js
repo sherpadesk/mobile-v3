@@ -127,13 +127,17 @@ function clearStorage()
 function fullapplink (){
     // Create link to specific org | instance
     var urlString = AppSite + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
-    $(".fullapplink").on('click', function (e) {
-        e.preventDefault(); 
         if (isPhonegap) {
-            openURLsystem(urlString);}
+        $(".fullapplink").on('click', function (e) {
+        e.preventDefault(); 
+        openURLsystem(urlString);});
+        }
         else
-            window.open(urlString, "");
-    });
+        {
+                $(".fullapplink").attr("target", "_system");
+                $(".fullapplink").attr("href", urlString);
+        }
+    
     return urlString; 
 }
 
