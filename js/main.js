@@ -125,6 +125,19 @@ function clearStorage()
 
 };
 
+function fullapplink (){
+    // Create link to specific org | instance
+    var urlString = AppSite + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
+    $(".fullapplink").on('click', function (e) {
+        e.preventDefault(); 
+        if (isPhonegap) {
+            openURLsystem(urlString);}
+        else
+            window.open(urlString, "");
+    });
+    return urlString; 
+}
+
 
 $(document).ready(function(){
 
@@ -3146,20 +3159,6 @@ $(document).ready(function(){
         }
     };
 
-
-    function fullapplink (){
-        // Create link to specific org | instance
-        var urlString = AppSite + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
-        $(".fullapplink").click(function(){ 
-            e.preventDefault(); 
-            alert(isPhonegap);
-            if (isPhonegap) {
-            openURLsystem(urlString);}
-        else
-            window.open(urlString, "_blank");
-        });
-        return urlString; 
-    }
     //Main Method that calls all the functions for the app
     (function () {
         //always active api calls
