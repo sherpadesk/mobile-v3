@@ -42,9 +42,10 @@ function openURLsystem(urlString){
 //global error handler
 $( document ).ajaxError(function( event, request, settings ) {
     //console.log(event);
+    //console.log(request);
     if (request.status == 403)
     {
-        logout();
+        logout(settings.url !== ApiSite + "login" );
     }
     //console.log(settings);
 });
@@ -89,14 +90,16 @@ function redirectToPage() {
 };
 
 //global helper functions
-function logout() {
+function logout(isRedirect) {
+    if (typeof isRedirect === "undefined")
+        isRedirect = false;    
     clearStorage();
     if (localStorage.is_google) {
         localStorage.removeItem('userName');
         localStorage.removeItem('is_google');
         GooglelogOut();
     }
-    else
+    else if (isRedirect)
         window.location = "index.html";
 }
 
