@@ -292,8 +292,10 @@ $(document).ready(function(){
             $('#login_signup').on('click', function (e) {
                 e.preventDefault();
                 var url = 'https://app.sherpadesk.com/mc/signuporg.aspx';
+                alert(isPhonegap);
                 if (isPhonegap){
-                    openURL(url);
+                    //openURL(url);
+                    window.open(url, '_blank', 'location=no');
                 } else if (window.self !== window.top) {
                     alert('Please register in new window and reopen Sherpadesk extension again.');
                     window.open(url, '');
