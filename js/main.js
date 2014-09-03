@@ -291,11 +291,9 @@ $(document).ready(function(){
                 $("#userName").val(userName);
             $('#login_signup').on('click', function (e) {
                 e.preventDefault();
-                var url = 'https://app.sherpadesk.com/mc/signuporg.aspx';
-                alert(isPhonegap);
+                var url = AppSite + 'mc/signuporg.aspx';
                 if (isPhonegap){
-                    //openURL(url);
-                    window.open(url, '_blank', 'location=no');
+                    openURL(url);
                 } else if (window.self !== window.top) {
                     alert('Please register in new window and reopen Sherpadesk extension again.');
                     window.open(url, '');
@@ -3150,11 +3148,14 @@ $(document).ready(function(){
 
     function fullapplink (){
         // Create link to specific org | instance
-        var urlString = "https://app.sherpadesk.com/" + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
+        var urlString = AppSite + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
+        alert(isPhonegap);
         if (isPhonegap)
-        { $(".fullapplink").click(function(){ openURLsystem(urlString);});}
+        { $(".fullapplink").click(function(){ 
+            e.preventDefault(); 
+            openURLsystem(urlString);});}
         else
-            $(".fullapplink").attr("href", urlString).attr("target", "_system");
+            $(".fullapplink").attr("href", urlString).attr("target", "_blank");
         return urlString; 
     }
     //Main Method that calls all the functions for the app
