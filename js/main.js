@@ -29,6 +29,11 @@ function onDeviceReady() {
     isPhonegap = true;
 }
 
+//open link	in blank
+function openURL(urlString){
+    window.open(urlString, '_blank', 'location=no');
+}
+
 //open link	in system
 function openURLsystem(urlString){
     window.open(urlString, '_system');
@@ -44,44 +49,44 @@ $( document ).ajaxError(function( event, request, settings ) {
     //console.log(settings);
 });
 
-     //If User is Offline....................................
-     function off(){ 
-         if (!$(".catch-error").length) {
-				 $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
-				 
-				 isOnline = false;
-			 } 
-         };
+//If User is Offline....................................
+function off(){ 
+    if (!$(".catch-error").length) {
+        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
+    } 
+    isOnline = false;
+};
 
-     function on1 (){ 
-         if (!isOnline){
-         $(".catch-error").remove();
-											 isOnline = true; 
-											  location.reload(false);
-         //document.location.href = MobileSite + "index.html"; 
-											 }};
+function on1 (){ 
+    if (!isOnline){
+        $(".catch-error").remove();
+        location.reload(false);
+        //document.location.href = MobileSite + "index.html"; 
+    }
+    isOnline = false;
+};
 
 function redirectToPage() {
-        if (navigator.onLine)
-            {  if (isPhonegap) on1();
-             else
-                {
-               var img = document.body.appendChild(document.createElement("img"));
-                img.style.display = 'none';
-                img.onload = function () {
-                    document.location.href = MobileSite + "index.html";
-                };
-                img.onerror = function () {
-                    off(); 
-                };
-                img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
-                }       
-            }             
-        else
-            { 
-                off(); 
-            }
-    };
+    if (navigator.onLine)
+    {  if (isPhonegap) on1();
+     else
+     {
+         var img = document.body.appendChild(document.createElement("img"));
+         img.style.display = 'none';
+         img.onload = function () {
+             document.location.href = MobileSite + "index.html";
+         };
+         img.onerror = function () {
+             off(); 
+         };
+         img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
+     }       
+    }             
+    else
+    { 
+        off(); 
+    }
+};
 
 //global helper functions
 function logout() {
@@ -122,14 +127,14 @@ $(document).ready(function(){
     //preload image
     var img = new Image();
     img.src = MobileSite + "img/error-background.png";
-    
+
     var userOrgKey = "";
     var userOrg = "";
     var userInstanceKey = "";
     var	userKey = "";
     var accountDetailed = "";
     var selectedEditClass;
-    
+
     function getApi (method, data, type) {
         var userKey = localStorage.getItem("userKey");
         var userOrgKey = localStorage.getItem('userOrgKey');
@@ -212,14 +217,14 @@ $(document).ready(function(){
                 $(".errorMessageNeg").html("Please enter a valid Email or Password");
                 $(".errorMessageNeg").slideDown(100);
                 $('html,body').animate({
-                     scrollTop: 0
+                    scrollTop: 0
                 }, 100);
-              setTimeout(
-                     function() 
-                     {
+                setTimeout(
+                    function() 
+                    {
                         $(".errorMessageNeg").slideUp(100);
 
-                     }, 1500);
+                    }, 1500);
                 return;
             }
             $.ajax({
@@ -250,11 +255,11 @@ $(document).ready(function(){
                             scrollTop: 0
                         }, 100);
                         setTimeout(
-                        function() 
-                        {
-                            $(".errorMessageNeg").slideUp(100);
+                            function() 
+                            {
+                                $(".errorMessageNeg").slideUp(100);
 
-                        }, 1500);
+                            }, 1500);
                     }else{
                         $(".errorMessageNeg").html("There was a problem with your login.  Please try again.");
                         $(".errorMessageNeg").slideDown(100);
@@ -284,12 +289,11 @@ $(document).ready(function(){
             $('#login_signup').on('click', function (e) {
                 e.preventDefault();
                 var url = 'https://app.sherpadesk.com/mc/signuporg.aspx';
-                if (window.self !== window.top) {
+                if (isPhonegap){
+                    openURL(url);
+                } else if (window.self !== window.top) {
                     alert('Please register in new window and reopen Sherpadesk extension again.');
                     window.open(url, '');
-                }
-                else if (isPhonegap){
-                    window.open(url, '_system');
                 }
                 else
                 {
@@ -617,7 +621,7 @@ $(document).ready(function(){
             });
         }
     };
-    
+
     // when signout button is pressed all user data is whiped from local storage 
     var signout = {
         init:function(){
@@ -1231,35 +1235,35 @@ $(document).ready(function(){
                         }, 1500);
                     return;
                 }else{
-                $.ajax({
-                    type: 'POST',
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', 
-                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                    },
-                    url: ApiSite + 'time',
-                    data: {
-                        "tech_id" : tech,
-                        "project_id": projectId,
-                        "account_id" :accountId,
-                        "note_text": note,
-                        "task_type_id":taskId,
-                        "hours":time,
-                        "is_billable": isBillable,
-                        //"date": date,
-                        //"start_date": new Date().toJSON(),
-                        //"stop_date": new Date().toJSON(),
-                    }, 
-                    dataType: 'json',
-                    success: function (d) {
-                        localStorage.setItem('isMessage','truePos');
-                        localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
-                        window.location = "dashboard.html";
-                    },
-                    error: function (e, textStatus, errorThrown) {
-                        alert(textStatus);
-                    }
-                });                      
+                    $.ajax({
+                        type: 'POST',
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader('Authorization', 
+                                                 'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                        },
+                        url: ApiSite + 'time',
+                        data: {
+                            "tech_id" : tech,
+                            "project_id": projectId,
+                            "account_id" :accountId,
+                            "note_text": note,
+                            "task_type_id":taskId,
+                            "hours":time,
+                            "is_billable": isBillable,
+                            //"date": date,
+                            //"start_date": new Date().toJSON(),
+                            //"stop_date": new Date().toJSON(),
+                        }, 
+                        dataType: 'json',
+                        success: function (d) {
+                            localStorage.setItem('isMessage','truePos');
+                            localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
+                            window.location = "dashboard.html";
+                        },
+                        error: function (e, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });                      
                 }
             });
 
@@ -1282,19 +1286,19 @@ $(document).ready(function(){
 
         showTicket:function(){
             var isMessage = localStorage.getItem("isMessage");
-                if(isMessage == "truePos")
-                {
-                    var messageText = localStorage.getItem("userMessage");
-                    $(".errorMessagePos").html(messageText);
-                    $(".errorMessagePos").slideDown(100);
-                    setTimeout(
-                        function() 
-                        {   
-                            $(".errorMessagePos").slideUp(100);
-                            localStorage.setItem("isMessage","false");
+            if(isMessage == "truePos")
+            {
+                var messageText = localStorage.getItem("userMessage");
+                $(".errorMessagePos").html(messageText);
+                $(".errorMessagePos").slideDown(100);
+                setTimeout(
+                    function() 
+                    {   
+                        $(".errorMessagePos").slideUp(100);
+                        localStorage.setItem("isMessage","false");
 
-                     }, 3500);
-                }
+                    }, 3500);
+            }
             // listen for a click of a ticket block from a ticket list page (account detail  ticket list or complete ticket list)
             $(document).on("click",".responseBlock", function(){
                 localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list 
