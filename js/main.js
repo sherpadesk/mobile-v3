@@ -27,6 +27,7 @@ document.addEventListener("online", on1 ,false);
 
 function onDeviceReady() {
     isPhonegap = true;
+    alert(isPhonegap);
 }
 
 //open link	in blank
@@ -3151,6 +3152,7 @@ $(document).ready(function(){
         var urlString = AppSite + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
         $(".fullapplink").click(function(){ 
             e.preventDefault(); 
+            alert(isPhonegap);
             if (isPhonegap) {
             openURLsystem(urlString);}
         else
