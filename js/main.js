@@ -3325,7 +3325,7 @@ $(document).ready(function(){
         //invoiceList.init();
         //detailedInvoice.init();
         //updateInvoice.init();
-        fullapplink();
+        setTimeout(fullapplink, 3000);
         if (!isTime)
             $(".time").remove();
     }()); 
