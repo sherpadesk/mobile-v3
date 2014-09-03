@@ -3149,13 +3149,13 @@ $(document).ready(function(){
     function fullapplink (){
         // Create link to specific org | instance
         var urlString = AppSite + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
-        alert(isPhonegap);
-        if (isPhonegap)
-        { $(".fullapplink").click(function(){ 
+        $(".fullapplink").click(function(){ 
             e.preventDefault(); 
-            openURLsystem(urlString);});}
+            if (isPhonegap) {
+            openURLsystem(urlString);}
         else
-            $(".fullapplink").attr("href", urlString).attr("target", "_blank");
+            window.open(urlString, "_blank");
+        });
         return urlString; 
     }
     //Main Method that calls all the functions for the app
