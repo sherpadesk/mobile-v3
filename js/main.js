@@ -5,7 +5,7 @@ var Site = 'sherpadesk.com/';
 var MobileSite = 'http://m2.' + Site;
 var AppSite = 'https://app.' + Site;
 
-var ApiSite = 'http://api.' + Site; 
+var ApiSite = 'http://api.' + Site;
 
 //global config
 var isTech = false,
@@ -13,7 +13,7 @@ var isTech = false,
     isTime=true,
     isAccount=true,
     isLevel = true,
-    isClass=true, 
+    isClass=true,
     isLocation=true,
     isFreshbook=true;
 
@@ -51,18 +51,18 @@ $( document ).ajaxError(function( event, request, settings ) {
 });
 
 //If User is Offline....................................
-function off(){ 
+function off(){
     if (!$(".catch-error").length) {
         $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
-    } 
+    }
     isOnline = false;
 };
 
-function on1 (){ 
+function on1 (){
     if (!isOnline){
         $(".catch-error").remove();
         location.reload(false);
-        //document.location.href = MobileSite + "index.html"; 
+        //document.location.href = MobileSite + "index.html";
     }
     isOnline = false;
 };
@@ -78,21 +78,21 @@ function redirectToPage() {
              document.location.href = MobileSite + "index.html";
          };
          img.onerror = function () {
-             off(); 
+             off();
          };
          img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
-     }       
-    }             
+     }
+    }
     else
-    { 
-        off(); 
+    {
+        off();
     }
 };
 
 //global helper functions
 function logout(isRedirect) {
     if (typeof isRedirect === "undefined")
-        isRedirect = false;    
+        isRedirect = false;
     clearStorage();
     if (localStorage.is_google) {
         localStorage.removeItem('userName');
@@ -129,7 +129,7 @@ function fullapplink (){
     var urlString = AppSite + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
         if (isPhonegap) {
         $(".fullapplink").on('click', function (e) {
-        e.preventDefault(); 
+        e.preventDefault();
         openURLsystem(urlString);});
         }
         else
@@ -137,8 +137,8 @@ function fullapplink (){
                 $(".fullapplink").attr("target", "_system");
                 $(".fullapplink").attr("href", urlString);
         }
-    
-    return urlString; 
+
+    return urlString;
 }
 
 
@@ -163,17 +163,17 @@ $(document).ready(function(){
             console.log("Invalid organization!");
             return;
         }
-        if( !type ) type = 'GET'; 
+        if( !type ) type = 'GET';
         return $.ajax({
             type: type,
             beforeSend: function (xhr) {
                 xhr.withCredentials = true;
-                xhr.setRequestHeader('Authorization', 
+                xhr.setRequestHeader('Authorization',
                                      'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
             },
             url: ApiSite + method,
             cache: false,
-            data: data, 
+            data: data,
             dataType: "json"
         }).promise();
     };
@@ -193,7 +193,7 @@ $(document).ready(function(){
         $(".maxSize").fadeIn();
     };
 
-    // user login 
+    // user login
     var UserLogin = {
         init: function () {
             var loginPage = true;
@@ -240,7 +240,7 @@ $(document).ready(function(){
                     scrollTop: 0
                 }, 100);
                 setTimeout(
-                    function() 
+                    function()
                     {
                         $(".errorMessageNeg").slideUp(100);
 
@@ -269,17 +269,17 @@ $(document).ready(function(){
                 },
                 error: function () {
                     if(userName && userName.indexOf("@gmail.com") != -1){
-                        $(".errorMessageNeg").html("If you are attempting to login with a google account, please do not type your google password, click the 'Sign in with Google' button, it is more secure.");
+                        $(".errorMessageNeg").html("Wrong Password, Google sign password is not neeeded");
                         $(".errorMessageNeg").slideDown(100);
                         $('html,body').animate({
                             scrollTop: 0
                         }, 100);
                         setTimeout(
-                            function() 
+                            function()
                             {
                                 $(".errorMessageNeg").slideUp(100);
 
-                            }, 1500);
+                            }, 3000);
                     }else{
                         $(".errorMessageNeg").html("There was a problem with your login.  Please try again.");
                         $(".errorMessageNeg").slideDown(100);
@@ -287,11 +287,11 @@ $(document).ready(function(){
                             scrollTop: 0
                         }, 100);
                         setTimeout(
-                            function() 
+                            function()
                             {
                                 $(".errorMessageNeg").slideUp(100);
 
-                            }, 1500);
+                            }, 3000);
                         $("#password").val("");
                     }
                     // if (userName && userName.indexOf("@gmail.com") != -1)
@@ -339,7 +339,7 @@ $(document).ready(function(){
         }
     };
 
-    //show closed tickets 
+    //show closed tickets
     var closedTickets = {
         init:function() {
             this.showClosedTickets();
@@ -357,18 +357,18 @@ $(document).ready(function(){
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
                 url:ApiSite +"tickets?status=closed&account="+localStorage.getItem("DetailedAccount"),
                 dataType:"json",
                 success: function(returnData) {
-                    $("#closedTickets").empty(); 
+                    $("#closedTickets").empty();
                     //insert open tickets
-                    for(var i = 0; i < returnData.length; i++) 
-                    {	
-                        // get email value for gravatar 
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        // get email value for gravatar
                         var email = $.md5(returnData[i].user_email);
                         var initialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
@@ -380,7 +380,7 @@ $(document).ready(function(){
                             subject = subject.substring(0,16)+"...";
                         }
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
-                        if(initialPost.length > 50) 
+                        if(initialPost.length > 50)
                         {
                             initialPost = initialPost.substring(0,50);
                         }
@@ -398,7 +398,7 @@ $(document).ready(function(){
 
     };
 
-    // pick up current detailed ticket 
+    // pick up current detailed ticket
     var pickUpTicket = {
         init:function() {
             this.pick();
@@ -409,7 +409,7 @@ $(document).ready(function(){
                 $.ajax({
                     type: 'PUT',
                     beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', 
+                        xhr.setRequestHeader('Authorization',
                                              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                     },
                     url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
@@ -417,7 +417,7 @@ $(document).ready(function(){
                         "action" : "pickup",
                         "note_text": ""
 
-                    }, 
+                    },
                     dataType: 'json',
                     success: function (d) {
                         window.location = "ticket_list.html";
@@ -425,12 +425,12 @@ $(document).ready(function(){
                     error: function (e, textStatus, errorThrown) {
                         alert(textStatus);
                     }
-                }); 
+                });
             });
         }
     };
 
-    // transfer current detailed ticket 
+    // transfer current detailed ticket
     var transferTicket = {
         init:function() {
             this.transfer();
@@ -444,7 +444,7 @@ $(document).ready(function(){
                     type: 'GET',
                     beforeSend: function (xhr) {
                         xhr.withCredentials = true;
-                        xhr.setRequestHeader('Authorization', 
+                        xhr.setRequestHeader('Authorization',
                                              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                     },
 
@@ -452,11 +452,11 @@ $(document).ready(function(){
                     dataType:"json",
                     success: function(returnData) {
                         console.log(returnData);
-                        // add techs to option select list 
+                        // add techs to option select list
                         var insert = "<option value=0 disabled selected> Choose Tech</option>";
                         $(insert).appendTo("#transferTechs");
                         for(var i = 0; i < returnData.length; i++)
-                        { 
+                        {
                             var value = returnData[i].id;
                             var name = returnData[i].firstname+" "+returnData[i].lastname;
                             var insert = "<option value="+value+">"+name+"</option>";
@@ -471,13 +471,13 @@ $(document).ready(function(){
                         console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     }
                 });
-                // get value 
+                // get value
                 $("#transferTechs").on("change", function(){
                     var techId = $("#transferTechs").val();
                     $.ajax({
                         type: 'PUT',
                         beforeSend: function (xhr) {
-                            xhr.setRequestHeader('Authorization', 
+                            xhr.setRequestHeader('Authorization',
                                                  'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                         },
                         url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
@@ -487,7 +487,7 @@ $(document).ready(function(){
                             "tech_id": techId,
                             "keep_attached": false
 
-                        }, 
+                        },
                         dataType: 'json',
                         success: function (d) {
                             location.reload(false);
@@ -495,7 +495,7 @@ $(document).ready(function(){
                         error: function (e, textStatus, errorThrown) {
                             alert(textStatus);
                         }
-                    }); 
+                    });
                 });
             });
         }
@@ -519,7 +519,7 @@ $(document).ready(function(){
         }
     };
 
-    // close current detailed ticket 
+    // close current detailed ticket
     var closeTicket = {
         init:function() {
             this.closeIt();
@@ -530,7 +530,7 @@ $(document).ready(function(){
                 $.ajax({
                     type: 'PUT',
                     beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', 
+                        xhr.setRequestHeader('Authorization',
                                              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                     },
                     url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
@@ -542,12 +542,12 @@ $(document).ready(function(){
                         "confirmed": true,
                         "confirm_note": "confirmed by me"
 
-                    }, 
+                    },
                     dataType: 'json',
                     success: function (d) {
                         //location.reload(false);
                         setTimeout(
-                            function() 
+                            function()
                             {
 
                                 window.history.back();
@@ -559,11 +559,11 @@ $(document).ready(function(){
                     error: function (e, textStatus, errorThrown) {
                         alert(textStatus);
                     }
-                }); 
+                });
             });
         }
     };
-    //date formating function 
+    //date formating function
     var formatDate = function(date){
         var month = date.substring(5,7);
         var day = date.substring(8,10);
@@ -571,37 +571,37 @@ $(document).ready(function(){
             case "01":
                 month = "Jan";
                 break;
-            case "02": 
+            case "02":
                 month = "Feb";
                 break;
-            case "03": 
+            case "03":
                 month = "Mar";
                 break;
             case "04":
                 month = "Apr";
                 break;
-            case "05": 
+            case "05":
                 month = "May";
                 break;
-            case '06': 
+            case '06':
                 month = "Jun";
                 break;
             case '07':
                 month = "Jul";
                 break;
-            case '08': 
+            case '08':
                 month = "Aug";
                 break;
-            case '09': 
+            case '09':
                 month = "Sep";
                 break;
             case '10':
                 month = "Oct";
                 break;
-            case '11': 
+            case '11':
                 month = "Nov";
                 break;
-            case '12': 
+            case '12':
                 month = "Dec";
                 break;
             default:
@@ -610,7 +610,7 @@ $(document).ready(function(){
         }
         return month+" "+day;
     };
-    // send an invoice to recipents 
+    // send an invoice to recipents
     var sendInvoince = {
         init:function() {
             this.submitInvoice();
@@ -622,13 +622,13 @@ $(document).ready(function(){
                     type: 'PUT',
                     beforeSend: function (xhr) {
                         xhr.withCredentials = true;
-                        xhr.setRequestHeader('Authorization', 
+                        xhr.setRequestHeader('Authorization',
                                              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                     },
                     url: ApiSite + 'invoices/'+localStorage.getItem('invoiceNumber'),
                     data: {
                         "action": "sendEmail"
-                    }, 
+                    },
                     dataType: 'json',
                     success: function (d) {
                         window.history.back();
@@ -642,7 +642,7 @@ $(document).ready(function(){
         }
     };
 
-    // when signout button is pressed all user data is whiped from local storage 
+    // when signout button is pressed all user data is whiped from local storage
     var signout = {
         init:function(){
             this.logOut();
@@ -654,7 +654,7 @@ $(document).ready(function(){
     };
 
     function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
-    {   
+    {
         if (typeof returnData === "undefined" || returnData.length < 1)
             return 0;
         var names;
@@ -671,11 +671,11 @@ $(document).ready(function(){
         if (typeof envelope_start === "undefined")
             envelope_start = "";
         if (typeof envelope_end === "undefined")
-            envelope_end = "";  
+            envelope_end = "";
         var insert = ""+initialValue;
         var i = 0;
         for(i = 0; i < returnData.length; i++)
-        { 
+        {
             var value = returnData[i].id;
             var name = "";
             if (!isCustom)
@@ -687,7 +687,7 @@ $(document).ready(function(){
             }
             insert += "<option value="+value+">"+prefix+name+"</option>";
         }
-        // $(""+element).empty(); 
+        // $(""+element).empty();
         if (i > 0)
             $(""+envelope_start + insert + envelope_end).appendTo(""+element);
         else
@@ -704,20 +704,20 @@ $(document).ready(function(){
         $(''+element).on('change', function(){
 
             if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').remove();};
-            var classSelected0 = $(element +' option:selected').val();					
+            var classSelected0 = $(element +' option:selected').val();
             var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
 
             //set class
             selectedEditClass = classSelected0;
 
             //If sub-class exist
-            if((typeof classSub[0] !== "undefined") && (classSub[0].sub !== null || classSub[0].sub > 0)){										
+            if((typeof classSub[0] !== "undefined") && (classSub[0].sub !== null || classSub[0].sub > 0)){
                 //Show sub-class select
                 fillSelect(classSub[0].sub, ".add_class", "<option value="+selectedEditClass+">Sub Class: ---</option>", "Sub Class: ", "", "<div class=sub_class1><div class=styledSelect><select id=sub_class1>","</select></div></div>");
 
                 $("select#sub_class1").on('change', function(){
                     if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
-                    var classSelected1 = $('select#sub_class1 option:selected').val();					
+                    var classSelected1 = $('select#sub_class1 option:selected').val();
                     var classSub1 = $.grep(classSub[0].sub, function(a){ return a.id == classSelected1; });
                     //reset class
                     selectedEditClass = classSelected1;
@@ -738,7 +738,7 @@ $(document).ready(function(){
         });
     }
 
-    // create a new ticket 
+    // create a new ticket
     var newTicket = {
         init:function() {
             this.addTicket();
@@ -751,25 +751,25 @@ $(document).ready(function(){
             }
             else
             {
-                var accounts = getApi("accounts");               
+                var accounts = getApi("accounts");
                 if(!isAccount) $("#addTicketAccounts").parent().hide();
                 accounts.then(function(returnData) {
                     console.log(returnData);
-                    // get list of accounts add them to option select list 
+                    // get list of accounts add them to option select list
                     $("#addTicketAccounts").empty();
                     fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>Account</option>");
                     reveal();
                 }, function() {
-                    console.log("fail @ ticket accounts");  
+                    console.log("fail @ ticket accounts");
                 });
             }
 
-            // after an account is choosed it get a list of technicians 
+            // after an account is choosed it get a list of technicians
             var technicians = getApi("technicians");
             technicians.then(function(returnData){
                 console.log(returnData);
-                // add techs to option select list 
-                fillSelect(returnData, "#addTicketTechs", 
+                // add techs to option select list
+                fillSelect(returnData, "#addTicketTechs",
                            "<option value=0 disabled selected>Tech</option>", "",
                            "firstname,lastname");
                 reveal();
@@ -780,7 +780,7 @@ $(document).ready(function(){
                              }
                             );
 
-            // after techs are choosen then get a list of classes 
+            // after techs are choosen then get a list of classes
             var classes = getApi('classes');
             classes.done(
                 function(classResults){
@@ -789,7 +789,7 @@ $(document).ready(function(){
 
 
 
-            // make api post call when submit ticket button is clicked 
+            // make api post call when submit ticket button is clicked
             $("#submitNewTicket").click(function(){
                 if($("#addTicketSubject").val() == "" || $("#addTicketTechs").val() == "" || selectedEditClass < 1 || $("#addTicketSubject").val() == "")
                 {
@@ -798,7 +798,7 @@ $(document).ready(function(){
                         scrollTop: 0
                     }, 100);
                     setTimeout(
-                        function() 
+                        function()
                         {
                             $(".errorMessageNeg").slideUp(100);
 
@@ -806,12 +806,12 @@ $(document).ready(function(){
 
 
                 }
-                else 
+                else
                 {
                     var addTicket = getApi("tickets", {
                         "status" : "open",
                         "subject" : $("#addTicketSubject").val(),
-                        "initial_post" : $("#addTicketInitPost").val(), 
+                        "initial_post" : $("#addTicketInitPost").val(),
                         "class_id" : selectedEditClass,
                         "account_id" : $("#addTicketAccounts").val(),
                         "user_id" : localStorage.getItem('userId'),
@@ -819,7 +819,7 @@ $(document).ready(function(){
                     }, "POST");
                     addTicket.then(function (d) {
                         setTimeout(
-                            function() 
+                            function()
                             {
 
                                 window.location =  isTech ? "dashboard.html" : "ticket_list.html";
@@ -840,7 +840,7 @@ $(document).ready(function(){
         }
     };
 
-    // post a comment to a ticket on the ticket details page 
+    // post a comment to a ticket on the ticket details page
     var postComment = {
         init:function(){
             this.sendComment();
@@ -853,14 +853,14 @@ $(document).ready(function(){
                     type: 'POST',
                     beforeSend: function (xhr) {
                         xhr.withCredentials = true;
-                        xhr.setRequestHeader('Authorization', 
+                        xhr.setRequestHeader('Authorization',
                                              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                     },
                     url: ApiSite + 'tickets/'+localStorage.getItem('ticketNumber'),
                     data: {
                         "note_text": comment,
                         "action": "response"
-                    }, 
+                    },
                     dataType: 'json',
                     success: function (d) {
 
@@ -869,19 +869,19 @@ $(document).ready(function(){
                     error: function (e, textStatus, errorThrown) {
                         alert(textStatus);
                     }
-                }); 
+                });
             });
         }
     };
 
-    // Ajax calls for semi-universal search bar 
+    // Ajax calls for semi-universal search bar
     var search = {
         init:function(){
             this.universalSearch();
         },
 
         universalSearch:function(){
-            //get the search value when the enter key is pressed 
+            //get the search value when the enter key is pressed
             $(document).on("keypress","#searchThis",function(e){
                 if(e.which == 13) {
                     var searchItem  = $(".headerSearch").val().toLowerCase();
@@ -889,12 +889,12 @@ $(document).ready(function(){
                     var found = false;
                     var matchedTickets = [];
 
-                    // search for a account value that matches the search critera 	
+                    // search for a account value that matches the search critera
                     $.ajax({
                         type: 'GET',
                         beforeSend: function (xhr) {
                             xhr.withCredentials = true;
-                            xhr.setRequestHeader('Authorization', 
+                            xhr.setRequestHeader('Authorization',
                                                  'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                         },
 
@@ -926,12 +926,12 @@ $(document).ready(function(){
                             console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                         }
                     });
-                    // search for a ticket number that matches the search critera 
+                    // search for a ticket number that matches the search critera
                     $.ajax({
                         type: 'GET',
                         beforeSend: function (xhr) {
                             xhr.withCredentials = true;
-                            xhr.setRequestHeader('Authorization', 
+                            xhr.setRequestHeader('Authorization',
                                                  'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                         },
 
@@ -955,12 +955,12 @@ $(document).ready(function(){
                         }
                     });
 
-                    // search for tickets containing the search critera in the subject and return a list 
+                    // search for tickets containing the search critera in the subject and return a list
                     $.ajax({
                         type: 'GET',
                         beforeSend: function (xhr) {
                             xhr.withCredentials = true;
-                            xhr.setRequestHeader('Authorization', 
+                            xhr.setRequestHeader('Authorization',
                                                  'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                         },
 
@@ -983,7 +983,7 @@ $(document).ready(function(){
                                 var insert = "<li class='' data-id=null><span class='returnedItem'>Nothing matches that Search</span></li>";
                                 $(insert).appendTo(".searchReturn");
                             }
-                            // add list of tickets that match the search critera 
+                            // add list of tickets that match the search critera
                             for(var a = 0; a < matchedTickets.length; a++)
                             {
                                 $(".searchReturn").show();
@@ -1003,19 +1003,19 @@ $(document).ready(function(){
                             console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                         }
                     });
-                    // close the search when the "X" icon is pressed 
+                    // close the search when the "X" icon is pressed
                     $(document).on("click",".searchCloseExpanded", function(){
                         $("body").removeClass("bodyLock");
                         $(".searchReturn").hide();
                         $(".searchReturn").empty();
                     });
-                    // close the search when something outside of the search is pressed 
+                    // close the search when something outside of the search is pressed
                     $(document).on("click",".bodyLock", function(){
                         $("body").removeClass("bodyLock");
                         $(".searchReturn").hide();
                         $(".searchReturn").empty();
                     });
-                    // go to the ticket detail of the pressed returned search return 
+                    // go to the ticket detail of the pressed returned search return
                     $(document).on("click",".searched", function(){
                         $("body").removeClass("bodyLock");
                         localStorage.setItem('ticketNumber', $(this).attr("data-id"));
@@ -1029,7 +1029,7 @@ $(document).ready(function(){
         }
     };
 
-    // add time to an account 
+    // add time to an account
     var addTime = {
         init:function(){
             this.inputTime();
@@ -1046,7 +1046,7 @@ $(document).ready(function(){
             var ticketKey = localStorage.getItem('ticketNumber');
             var isBillable = true;
             var date = new Date().toJSON().slice(0,10);
-            // on submit click get the time and note typed by the user 
+            // on submit click get the time and note typed by the user
             $("#submitTicketTime").click(function(){
                 var time = $("#addTimeTicket").val();
                 var note = $("#noteTimeTicket").val();
@@ -1060,24 +1060,24 @@ $(document).ready(function(){
                         scrollTop: 0
                     }, 100);
                     setTimeout(
-                        function() 
+                        function()
                         {
                             $(".errorMessageNeg").slideUp(100);
 
                         }, 1500);
                     return;
                 }
-                // check to see if user check for time to be billable 
+                // check to see if user check for time to be billable
                 if($(".innerCircle").hasClass("billFill")){
                     isBillable = true;
                 }else{
                     isBillable = false;
                 }
-                // add time to the orginization 
+                // add time to the orginization
                 $.ajax({
                     type: 'POST',
                     beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', 
+                        xhr.setRequestHeader('Authorization',
                                              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                     },
                     url: ApiSite + 'time',
@@ -1091,7 +1091,7 @@ $(document).ready(function(){
                         //"start_date": new Date().toJSON(),
                         //"stop_date": new Date().toJSON(),
                         "tech_id": tech,
-                    }, 
+                    },
                     dataType: 'json',
                     success: function (d) {
                         localStorage.setItem('isMessage','truePos');
@@ -1101,15 +1101,15 @@ $(document).ready(function(){
                     error: function (e, textStatus, errorThrown) {
                         alert(textStatus);
                     }
-                });  
+                });
             });
-            //get task types 
+            //get task types
             var taskTypes = getApi("task_types");
             taskTypes.then(
                 function(returnData) {
                     console.log(returnData);
                     $("#taskTypes").empty();
-                    // add task types to list 
+                    // add task types to list
                     fillSelect(returnData, "#taskTypes");
                     reveal();
                 },
@@ -1120,12 +1120,12 @@ $(document).ready(function(){
             );
 
 
-            //get accounts 
+            //get accounts
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -1136,9 +1136,9 @@ $(document).ready(function(){
                     $("#timeAccounts").empty();
                     var chooseAccount = "<option value=0>Choose An Account</option>";
                     $(chooseAccount).appendTo("#timeAccounts");
-                    // accounts to add time 
+                    // accounts to add time
                     for(var i = 0; i < returnData.length; i++)
-                    { 
+                    {
                         var value = returnData[i].id;
                         var task = returnData[i].name;
                         var insert = "<option value="+value+">"+task+"</option>";
@@ -1159,13 +1159,13 @@ $(document).ready(function(){
                     console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
-            //get task types 
+            //get task types
             var taskTypes = getApi("task_types");
             taskTypes.then(
                 function(returnData) {
                     console.log(returnData);
                     $("#ticketTaskTypes").empty();
-                    // add task types to list 
+                    // add task types to list
                     fillSelect(returnData, "#ticketTaskTypes");
                     reveal();
                 },
@@ -1182,7 +1182,7 @@ $(document).ready(function(){
                     type: 'GET',
                     beforeSend: function (xhr) {
                         xhr.withCredentials = true;
-                        xhr.setRequestHeader('Authorization', 
+                        xhr.setRequestHeader('Authorization',
                                              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                     },
 
@@ -1191,7 +1191,7 @@ $(document).ready(function(){
                     success: function(returnData) {
                         console.log(returnData);
                         $("#timeProjects").empty();
-                        // add projects 
+                        // add projects
                         for(var i = 0; i < returnData.projects.length; i++)
                         {
                             var value = returnData.projects[i].id;
@@ -1215,7 +1215,7 @@ $(document).ready(function(){
                     }
                 });
             });
-            // submit time to account 
+            // submit time to account
             $("#submitTime").click(function(){
                 var time = $("#addTimeTicket").val();
                 var note = $("#noteTime").val();
@@ -1235,7 +1235,7 @@ $(document).ready(function(){
                         scrollTop: 0
                     }, 100);
                     setTimeout(
-                        function() 
+                        function()
                         {
                             $(".errorMessageNeg").slideUp(100);
 
@@ -1248,7 +1248,7 @@ $(document).ready(function(){
                         scrollTop: 0
                     }, 100);
                     setTimeout(
-                        function() 
+                        function()
                         {
                             $(".errorMessageNeg").slideUp(100);
 
@@ -1258,7 +1258,7 @@ $(document).ready(function(){
                     $.ajax({
                         type: 'POST',
                         beforeSend: function (xhr) {
-                            xhr.setRequestHeader('Authorization', 
+                            xhr.setRequestHeader('Authorization',
                                                  'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                         },
                         url: ApiSite + 'time',
@@ -1273,7 +1273,7 @@ $(document).ready(function(){
                             //"date": date,
                             //"start_date": new Date().toJSON(),
                             //"stop_date": new Date().toJSON(),
-                        }, 
+                        },
                         dataType: 'json',
                         success: function (d) {
                             localStorage.setItem('isMessage','truePos');
@@ -1283,14 +1283,14 @@ $(document).ready(function(){
                         error: function (e, textStatus, errorThrown) {
                             alert(textStatus);
                         }
-                    });                      
+                    });
                 }
             });
 
         }
     };
 
-    // needed methods to propogate a ticket detailed page 
+    // needed methods to propogate a ticket detailed page
     var detailedTicket = {
         init:function(){
             if (!isTech){
@@ -1312,8 +1312,8 @@ $(document).ready(function(){
                 $(".errorMessagePos").html(messageText);
                 $(".errorMessagePos").slideDown(100);
                 setTimeout(
-                    function() 
-                    {   
+                    function()
+                    {
                         $(".errorMessagePos").slideUp(100);
                         localStorage.setItem("isMessage","false");
 
@@ -1321,18 +1321,18 @@ $(document).ready(function(){
             }
             // listen for a click of a ticket block from a ticket list page (account detail  ticket list or complete ticket list)
             $(document).on("click",".responseBlock", function(){
-                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list 
-                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
+                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
+                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
             });
             $('html,body').css('scrollTop','0');
             getApi("tickets/"+localStorage.getItem('ticketNumber')).then(
                 function(returnData) {
                     //console.log(returnData);
-                    // calculate the number of days since the ticket was created 
+                    // calculate the number of days since the ticket was created
                     var daysOld = returnData.daysold_in_minutes / -60;
-                    localStorage.setItem('techId', returnData.tech_id); // set the local storage variable with the tech id asscioted with this ticket  
-                    localStorage.setItem('ticketId',returnData.id); // set the local storage variable with the ticket ID 
-                    // check to see if the ticket is less than a day old 
+                    localStorage.setItem('techId', returnData.tech_id); // set the local storage variable with the tech id asscioted with this ticket
+                    localStorage.setItem('ticketId',returnData.id); // set the local storage variable with the ticket ID
+                    // check to see if the ticket is less than a day old
                     if(daysOld > 24){
                         daysOld = daysOld/24;
                         daysOld = parseInt(daysOld);
@@ -1341,7 +1341,7 @@ $(document).ready(function(){
                         daysOld = parseInt(daysOld) +" hours ago";
                     }
 
-                    // update page variables with correct ticket information 
+                    // update page variables with correct ticket information
                     var ticketHours = returnData.total_hours;
                     $("#ticketNumber").html(returnData.status+" | "+returnData.number);
                     $("#ticketSubject").html(returnData.subject);
@@ -1356,7 +1356,7 @@ $(document).ready(function(){
                     }
                     if(returnData.sla_complete_date == null)
                     {
-                        $('#ticketSLA').hide(); 
+                        $('#ticketSLA').hide();
                     }
                     else
                     {
@@ -1364,13 +1364,13 @@ $(document).ready(function(){
                     }
                     //$("ul").find("[data-id='info']").click(function(){
 
-                    // add select options to level Option box 
+                    // add select options to level Option box
                     var levels = getApi('levels');
                     var classes = getApi('classes');
                     var priorities = getApi('priorities');
 
                     $("#ticketLevel").empty();
-                    if (!isLevel) $("#ticketLevel").parent().hide(); 
+                    if (!isLevel) $("#ticketLevel").parent().hide();
                     levels.done(
                         function(levelResults){
                             if (fillSelect(levelResults, "#ticketLevel", "", "Level: ") > 0)
@@ -1382,17 +1382,17 @@ $(document).ready(function(){
                         function(classResults){
                             //Init ticket class if not changed
                             selectedEditClass = returnData.class_id;
-                            fillClasses(classResults, "#classOptions", "<option data-classId="+returnData.class_id+" value="+returnData.class_id+">Class: "+returnData.class_name+"</option>"); 
+                            fillClasses(classResults, "#classOptions", "<option data-classId="+returnData.class_id+" value="+returnData.class_id+">Class: "+returnData.class_name+"</option>");
                         });
 
                     $("#ticketPriority").empty();
-                    // add select options to priority option box 
+                    // add select options to priority option box
                     priorities.done(
                         function(prioritiesResults){
                             var priorityInsert = "";
                             for(var b = 0; b < prioritiesResults.length; b++)
                             {
-                                priorityInsert += "<option value="+prioritiesResults[b].id+">Priority " + prioritiesResults[b].priority_level + " - " +prioritiesResults[b].name+"</option>";					
+                                priorityInsert += "<option value="+prioritiesResults[b].id+">Priority " + prioritiesResults[b].priority_level + " - " +prioritiesResults[b].name+"</option>";
                             }
                             $(priorityInsert).appendTo("#ticketPriority");
                             $("#ticketPriority").val(returnData.priority_id);
@@ -1412,13 +1412,13 @@ $(document).ready(function(){
                     $("#location").remove();
 
 
-                    // add select options to project option box                     
+                    // add select options to project option box
                     var projects = getApi('projects');
                     if (!isProject)
                         $("#project").hide();
                     projects.done(
                         function(projectResults){
-                            if (fillSelect(projectResults, "#ticketProject", returnData.project_name == "" ? "<option value='null' disabled selected>Project</option>" : "") >0){ 
+                            if (fillSelect(projectResults, "#ticketProject", returnData.project_name == "" ? "<option value='null' disabled selected>Project</option>" : "") >0){
                                 if (returnData.project_name != "") $("#ticketProject").val(returnData.project_id);
                             }
                         }
@@ -1438,7 +1438,7 @@ $(document).ready(function(){
                             "project_id" : ticketProject
                         }
 
-                        var method = 'tickets/' + localStorage.getItem('ticketId');	
+                        var method = 'tickets/' + localStorage.getItem('ticketId');
 
                         var updateEditTicket = getApi(method, response, 'PUT');
 
@@ -1455,8 +1455,8 @@ $(document).ready(function(){
                                 $(".errorMessagePos").html(messageText);
                                 $(".errorMessagePos").slideDown(100);
                                 setTimeout(
-                                    function() 
-                                    {	
+                                    function()
+                                    {
                                         $(".errorMessagePos").slideUp(100);
                                         localStorage.setItem("isMessage","false");
 
@@ -1480,18 +1480,18 @@ $(document).ready(function(){
                         var date = returnData.ticketlogs[c].record_date.toString().substring(0,10);
                         date = formatDate(date);
                         var attachments = [];
-                        //check to see if this comment has attachments 
+                        //check to see if this comment has attachments
                         if(returnData.attachments != null){
                             for(var e = 0; e < returnData.attachments.length; e++)
                             {
-                                if(note.indexOf(returnData.attachments[e].name) >= 0) 
+                                if(note.indexOf(returnData.attachments[e].name) >= 0)
                                 {
                                     attachments.push(returnData.attachments[e].url);
                                 }
                             }
                         }
 
-                        // comment insert 
+                        // comment insert
                         var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+note+"</p></li><li>"+type+"</li></ul>";
                         $(insert).appendTo("#comments");
                         for(var f = 0; f < attachments.length; f++)
@@ -1507,17 +1507,17 @@ $(document).ready(function(){
                         }
                     }
                     $(".orginalMessageContainer").empty();
-                    // add the lastest comment to the top of the comments list 
+                    // add the lastest comment to the top of the comments list
                     var orginalMessageEmail = $.md5(returnData.ticketlogs[0].user_email);
                     var orginalMessageDate = returnData.ticketlogs[0].record_date.toString().substring(0,10);
                     orginalMessageDate = formatDate(orginalMessageDate);
                     var note = returnData.ticketlogs[0].note;
                     var attachments = [];
-                    //check to see if this comment has attachments 
+                    //check to see if this comment has attachments
                     if(returnData.attachments != null){
                         for(var e = 0; e < returnData.attachments.length; e++)
                         {
-                            if(note.indexOf(returnData.attachments[e].name) >= 0) 
+                            if(note.indexOf(returnData.attachments[e].name) >= 0)
                             {
                                 attachments[e] = "<img class='attachment' src="+returnData.attachments[e].url+">";
                                 $(attachments[e]).error(function(){
@@ -1528,7 +1528,7 @@ $(document).ready(function(){
                             }
                         }
                     }
-                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul></div>";             						 	
+                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul></div>";
 
                     $(orginalMessageinsert).appendTo(".orginalMessageContainer");
 
@@ -1554,7 +1554,7 @@ $(document).ready(function(){
         }
     };
 
-    //get info for a specific invoice 
+    //get info for a specific invoice
     var detailedInvoice = {
         init:function(){
             this.specifics();
@@ -1570,7 +1570,7 @@ $(document).ready(function(){
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -1580,16 +1580,16 @@ $(document).ready(function(){
                     console.log(returnData);
                     localStorage.setItem("invoiceAccountId",returnData.account_id);
                     localStorage.setItem("invoiceProjectId",returnData.project_id);
-                    $("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number 
+                    $("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number
                     var custoName = returnData.customer;
                     if(custoName.length > 23){
                         custoName = custoName.substring(0,19)+"...";
-                    } 
-                    $("#customerName").html(custoName); // customer name 
+                    }
+                    $("#customerName").html(custoName); // customer name
                     var date = returnData.date.substring(0,10);
                     date = formatDate(date);
-                    $("#invoiceDate").html(date); 
-                    $("#invoiceHours").html(returnData.total_hours+"<span class='detail3Small'>hrs</span>"); // hours to invoice 
+                    $("#invoiceDate").html(date);
+                    $("#invoiceHours").html(returnData.total_hours+"<span class='detail3Small'>hrs</span>"); // hours to invoice
                     var amount = 0;
                     var change = ".00";
                     var length = returnData.amount.toString().length;
@@ -1606,8 +1606,8 @@ $(document).ready(function(){
                     {
                         amount = returnData.amount;
                     }
-                    $("#invoiceAmount").html("$"+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount 
-                    $("#invoiceTravel").html("$"+returnData.travel_cost+"<span class='detail3Small'>.00</span>"); // travel expenses amount 
+                    $("#invoiceAmount").html("$"+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount
+                    $("#invoiceTravel").html("$"+returnData.travel_cost+"<span class='detail3Small'>.00</span>"); // travel expenses amount
                     var expenses = 0;
                     if(returnData.expenses != null)
                     {
@@ -1616,14 +1616,14 @@ $(document).ready(function(){
                             expenses = expenses + returnData.expenses[i].total;
                         }
                     }
-                    $("#invoiceExpenses").html("$"+expenses+"<span class='detail3Small'>.00</span>"); // expenses amount 
-                    $("#invoiceAdjustments").html("$0<span class='detail3Small'>.00</span>"); // adjustments 
+                    $("#invoiceExpenses").html("$"+expenses+"<span class='detail3Small'>.00</span>"); // expenses amount
+                    $("#invoiceAdjustments").html("$0<span class='detail3Small'>.00</span>"); // adjustments
                     //$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
                     length = returnData.total_cost.toString().length;
                     if(returnData.total_cost.toString().indexOf(".") >= 0)
                     {
 
-                        amount = returnData.total_cost.toString().substring(0, length -3); 
+                        amount = returnData.total_cost.toString().substring(0, length -3);
                         change = "."+returnData.total_cost.toString().substring(length-2, length);
                         if(change.indexOf("..") >= 0)
                         {
@@ -1644,8 +1644,8 @@ $(document).ready(function(){
                             var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p><img class='closeIcon' src='img/close_icon.png'></div></li></ul></li>";
                             $(insert).appendTo("#recipientList");
                         }
-                    } 
-                    // adds timelogs asscoited with this invoice to the invoice timelogs list 
+                    }
+                    // adds timelogs asscoited with this invoice to the invoice timelogs list
                     $("#invoiceLogs").empty();
                     if(returnData.time_logs != null){
                         for(var u = 0; u < returnData.time_logs.length; u++)
@@ -1688,19 +1688,19 @@ $(document).ready(function(){
     };
 
     /*
-	//methods & Api calls that deal with changing time adding adjustments, expenses 
+	//methods & Api calls that deal with changing time adding adjustments, expenses
 	var updateInvoice ={
 		init:function(){
 			this.changeInvoice();
 		},
 
 		changeInvoice:function(){
-			//update timelog after being clicked 
+			//update timelog after being clicked
 			$(document).on("click","#invoiceTimelog, #billem",function(){
 				var timeId = $(this).attr("data-id");
 				var billable = false;
 				$(this).find(".innerCircle").toggleClass("billFill");
-				//change billable to oposite of its current state 
+				//change billable to oposite of its current state
 				if($(this).find(".innerCircle").hasClass("billFill"))
 				{
 					billable = false;
@@ -1709,14 +1709,14 @@ $(document).ready(function(){
     				type: 'PUT',
     				beforeSend: function (xhr) {
     				    xhr.withCredentials = true;
-    				    xhr.setRequestHeader('Authorization', 
+    				    xhr.setRequestHeader('Authorization',
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
     				url: ApiSite + 'time/'+timeId,
     				data: {
     				    	"is_billable" : billable,
 							"is_project_log": true
-						   }, 
+						   },
     				dataType: 'json',
     				success: function (d) {
     				    console.log("time log has been updated "+billable);
@@ -1728,7 +1728,7 @@ $(document).ready(function(){
  				});
 
 			});
-			//update expense after beign clicked 
+			//update expense after beign clicked
 			$(document).on("click","#invoiceExpense",function(){
 				var timeId = $(this).find(".timeLogAddButton").attr("data-id");
 				alert(timeId);
@@ -1738,13 +1738,13 @@ $(document).ready(function(){
     				type: 'DELETE',
     				beforeSend: function (xhr) {
     				    xhr.withCredentials = true;
-    				    xhr.setRequestHeader('Authorization', 
+    				    xhr.setRequestHeader('Authorization',
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
     				url: ApiSite + 'expenses'+timeId,
     				data: {
 
-						   }, 
+						   },
     				dataType: 'json',
     				success: function (d) {
     				    console.log("Deleted Expense");
@@ -1756,14 +1756,14 @@ $(document).ready(function(){
  				});
 			});
 
-			//add an expense 
+			//add an expense
 			$("#addexpenseButton").click(function(){
 
 				$.ajax({
     				type: 'POST',
     				beforeSend: function (xhr) {
     				    xhr.withCredentials = true;
-    				    xhr.setRequestHeader('Authorization', 
+    				    xhr.setRequestHeader('Authorization',
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
     				url: ApiSite + 'expenses',
@@ -1777,7 +1777,7 @@ $(document).ready(function(){
     						"is_billable": true,
     						"vendor": "vendor name",
     						"markup": 10
-						   }, 
+						   },
     				dataType: 'json',
     				success: function (d) {
     				    console.log("time log has been added");
@@ -1789,12 +1789,12 @@ $(document).ready(function(){
  				});
 			});
 
-			//add travel log 
+			//add travel log
 			$("#addTravelLog").click(function(){
 
 			});
 
-			//addTime to an invoice 
+			//addTime to an invoice
 			$("#submitInvoiceTime").click(function(){
 				var techId = localStorage.getItem("userId");
 				var projectId = localStorage.getItem("invoiceProjectId");
@@ -1810,7 +1810,7 @@ $(document).ready(function(){
     				type: 'POST',
     				beforeSend: function (xhr) {
     				    xhr.withCredentials = true;
-    				    xhr.setRequestHeader('Authorization', 
+    				    xhr.setRequestHeader('Authorization',
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
     				url: ApiSite + 'time',
@@ -1825,7 +1825,7 @@ $(document).ready(function(){
     						"date": new Date().toJSON(),
     						"start_date": new Date().toJSON(),
     						"stop_date": new Date().toJSON()
-						   }, 
+						   },
     				dataType: 'json',
     				success: function (d) {
     				    console.log("time log has been added");
@@ -1838,7 +1838,7 @@ $(document).ready(function(){
 
 			});
 
-			//add and adjustment to an invoice 
+			//add and adjustment to an invoice
 			$("#addAdjustment").click(function(){
 				var amount = $("#adjustVal").val();
 				var note= $("#adjustNote").val();
@@ -1848,13 +1848,13 @@ $(document).ready(function(){
     				type: 'POST',
     				beforeSend: function (xhr) {
     				    xhr.withCredentials = true;
-    				    xhr.setRequestHeader('Authorization', 
+    				    xhr.setRequestHeader('Authorization',
     				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
     				    },
     				url: ApiSite + 'invoices?status=unbilled&project=-1&account=-1&adjustments=-2.4&adjustments_note=my_note',
     				data: {
 
-						   }, 
+						   },
     				dataType: 'json',
     				success: function (d) {
     				    location.reload(false);
@@ -1870,7 +1870,7 @@ $(document).ready(function(){
 	};
 	*/
 
-    // get a list of invoices both for a specific account as well as a complete list of invoices 
+    // get a list of invoices both for a specific account as well as a complete list of invoices
     var invoiceList = {
         init:function(){
             this.listInvoices();
@@ -1884,7 +1884,7 @@ $(document).ready(function(){
             {
                 console.log("could not load local data")
             }
-            else 
+            else
             {
                 for(var a = 0; a < retrievedObject.length; a++)
                 {
@@ -1892,7 +1892,7 @@ $(document).ready(function(){
                     $(localInsert).appendTo("#allInvoiceList");
                 }
             }
-            // go to list of account invoice on click 
+            // go to list of account invoice on click
             $("#invoiceOption").click(function(){
                 window.location = "Invoice_List.html";
             });
@@ -1900,14 +1900,14 @@ $(document).ready(function(){
             $("#allInvoice, #invoiceFooter").click(function(){
                 window.location = "allInvoice_List.html";
             });
-            // get list of invoices for a specific account 
+            // get list of invoices for a specific account
             var accountid = localStorage.getItem("DetailedAccount");
             if (accountid > 0){
                 $.ajax({
                     type: 'GET',
                     beforeSend: function (xhr) {
                         xhr.withCredentials = true;
-                        xhr.setRequestHeader('Authorization', 
+                        xhr.setRequestHeader('Authorization',
                                              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                     },
 
@@ -1916,13 +1916,13 @@ $(document).ready(function(){
                     success: function(returnData) {
                         $("#invoiceList").empty();
                         console.log(returnData);
-                        // add invoice to list 
+                        // add invoice to list
                         for(var i = 0; i < returnData.length; i++)
                         {
-                            var customer = returnData[i].customer; //account name 
+                            var customer = returnData[i].customer; //account name
                             var date = returnData[i].date.substring(0,10);
                             date = formatDate(date);
-                            // check account name for display purposes 
+                            // check account name for display purposes
                             if(customer.length > 10)
                             {
                                 customer = customer.substring(0,7)+"...";
@@ -1943,12 +1943,12 @@ $(document).ready(function(){
                     }
                 });
             }
-            // get complete invoice list for the entire orginization 
+            // get complete invoice list for the entire orginization
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -1958,10 +1958,10 @@ $(document).ready(function(){
                     console.log(returnData);
                     $("#allInvoiceList").empty();
                     for(var i = 0; i < returnData.length; i++)
-                    {	
-                        var customer = returnData[i].customer; // account name 
+                    {
+                        var customer = returnData[i].customer; // account name
                         var date = returnData[i].date.substring(0,10);
-                        // check account name for display purposes 
+                        // check account name for display purposes
                         if(customer.length > 10)
                         {
                             customer = customer.substring(0,7)+"...";
@@ -1997,7 +1997,7 @@ $(document).ready(function(){
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -2006,20 +2006,20 @@ $(document).ready(function(){
                 success: function(returnData) {
                     console.log(returnData);
                     $("#queueTickets").empty();
-                    for(var i = 0; i < returnData.length; i++) 
-                    {	
-                        // get email for gravitar avitar 
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        // get email for gravitar avitar
                         var email = $.md5(returnData[i].user_email);
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        //check subject length can be displayed correctly 
+                        //check subject length can be displayed correctly
                         if(subject.length > 19)
                         {
                             subject = subject.substring(0,16)+"...";
                         }
-                        //check intial post length can be displayed correctly 
-                        if(intialPost.length > 100) 
+                        //check intial post length can be displayed correctly
+                        if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
@@ -2043,7 +2043,7 @@ $(document).ready(function(){
         }
     };
 
-    // get complete queue list for the orginization for the Queues list page 
+    // get complete queue list for the orginization for the Queues list page
     var getQueues = {
         init:function() {
             this.queues();
@@ -2061,7 +2061,7 @@ $(document).ready(function(){
             {
                 console.log("could not load local data")
             }
-            else 
+            else
             {
                 for(var a = 0; a < retrievedObject.length; a++)
                 {
@@ -2073,7 +2073,7 @@ $(document).ready(function(){
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -2082,7 +2082,7 @@ $(document).ready(function(){
                 success: function(returnData) {
                     console.log(returnData);
                     $("#queuesPage").empty();
-                    // add queues to the queues list 
+                    // add queues to the queues list
                     for(var i = 0; i < returnData.length; i++)
                     {
                         var insert = "<li><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
@@ -2123,8 +2123,8 @@ $(document).ready(function(){
         },
         ticketClick:function() {
             $(document).on("click",".responseBlock", function(){
-                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list 
-                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
+                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
+                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
             });
         },
         //get tickets as tech
@@ -2158,7 +2158,7 @@ $(document).ready(function(){
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -2166,21 +2166,21 @@ $(document).ready(function(){
                 dataType:"json",
                 success: function(returnData) {
                     console.log(returnData);
-                    //add tickets as tech to as tech list 
-                    for(var i = 0; i < returnData.length; i++) 
-                    {	
-                        // get email for gravitar avitar 
+                    //add tickets as tech to as tech list
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        // get email for gravitar avitar
                         var email = $.md5(returnData[i].user_email);
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        //check subject length can be displayed correctly 
+                        //check subject length can be displayed correctly
                         if(subject.length > 19)
                         {
                             subject = subject.substring(0,16)+"...";
                         }
-                        //check intial post length can be displayed correctly 
-                        if(intialPost.length > 100) 
+                        //check intial post length can be displayed correctly
+                        if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
@@ -2198,13 +2198,13 @@ $(document).ready(function(){
                 }
             });
         },
-        //get all tickets in this orginization 
+        //get all tickets in this orginization
         allTickets:function() {
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -2212,21 +2212,21 @@ $(document).ready(function(){
                 dataType:"json",
                 success: function(returnData) {
                     console.log(returnData);
-                    //add tickets to the all section 
-                    for(var i = 0; i < returnData.length; i++) 
-                    {	
-                        //get email for gravitar 
+                    //add tickets to the all section
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        //get email for gravitar
                         var email = $.md5(returnData[i].user_email);
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        //check subject length 
+                        //check subject length
                         if(subject.length > 19)
                         {
                             subject = subject.substring(0,16)+"...";
                         }
                         //check initial post length
-                        if(intialPost.length > 100) 
+                        if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
@@ -2247,13 +2247,13 @@ $(document).ready(function(){
             });
         },
 
-        // get alt tech tickets 
+        // get alt tech tickets
         altTickets:function() {
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -2262,8 +2262,8 @@ $(document).ready(function(){
                 success: function(returnData) {
                     console.log(returnData);
 
-                    for(var i = 0; i < returnData.length; i++) 
-                    {	
+                    for(var i = 0; i < returnData.length; i++)
+                    {
                         var email = $.md5(returnData[i].user_email);
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
@@ -2272,7 +2272,7 @@ $(document).ready(function(){
                         {
                             subject = subject.substring(0,16)+"...";
                         }
-                        if(intialPost.length > 100) 
+                        if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
@@ -2300,7 +2300,7 @@ $(document).ready(function(){
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -2308,8 +2308,8 @@ $(document).ready(function(){
                 dataType:"json",
                 success: function(returnData) {
                     console.log(returnData);
-                    for(var i = 0; i < returnData.length; i++) 
-                    {	
+                    for(var i = 0; i < returnData.length; i++)
+                    {
                         var email = $.md5(returnData[i].user_email);
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
@@ -2318,7 +2318,7 @@ $(document).ready(function(){
                         {
                             subject = subject.substring(0,11)+"...";
                         }
-                        if(intialPost.length > 100) 
+                        if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
@@ -2355,7 +2355,7 @@ $(document).ready(function(){
             {
                 console.log("could not load local data")
             }
-            else 
+            else
             {
                 for(var a = 0; a < retrievedObject.length; a++)
                 {
@@ -2369,7 +2369,7 @@ $(document).ready(function(){
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -2382,8 +2382,8 @@ $(document).ready(function(){
 
                     //add accounts to accountList
                     var name = null;
-                    for(var i = 0; i < returnData.length; i++) 
-                    {	
+                    for(var i = 0; i < returnData.length; i++)
+                    {
                         name = returnData[i].name;
                         if(name.length > 16){
                             name = name.substring(0,14)+"...";
@@ -2396,7 +2396,7 @@ $(document).ready(function(){
                             var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
                             $(insert).appendTo($("#fullList"));
                         }
-                        // else add account and number of tickets normally to the list 
+                        // else add account and number of tickets normally to the list
                         else
                         {
                             var insert = "<ul class='listedAccount' data-id="+returnData[i].id+"><li>"+name+"</li><li><div class='tks'>"+openTks+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
@@ -2420,7 +2420,7 @@ $(document).ready(function(){
         }
     };
 
-    // get complete list of timelogs for the orginization 
+    // get complete list of timelogs for the orginization
     var timeLogs = {
         init:function() {
             this.getLogs();
@@ -2433,7 +2433,7 @@ $(document).ready(function(){
             if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
                 console.log("could not load local data")
             }
-            else 
+            else
             {
                 for(var c = 0; c < retrievedObject.length; c++)
                 {
@@ -2445,7 +2445,7 @@ $(document).ready(function(){
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -2454,25 +2454,25 @@ $(document).ready(function(){
                 success: function(returnData) {
                     console.log(returnData);
                     $("#timelogs").empty();
-                    //add timelogs to list 
+                    //add timelogs to list
                     for(var i = 0; i < returnData.length; i++)
                     {
-                        //get users email for gravitar 
+                        //get users email for gravitar
                         var email = $.md5(returnData[i].user_email);
                         var text = returnData[i].note;
-                        //check to see if hours are has a decimal 
+                        //check to see if hours are has a decimal
                         var hours = returnData[i].hours;
                         hours =hours.toString();
                         if(hours.indexOf(".") >= 0)
                         {
-                            // do nothing 
+                            // do nothing
                         }
-                        else 
+                        else
                         {
                             hours = hours+".00";
                         }
-                        // check text length 
-                        if(text.length > 18) 
+                        // check text length
+                        if(text.length > 18)
                         {
                             text = text.substring(0,18)+"...";
                         }
@@ -2496,7 +2496,7 @@ $(document).ready(function(){
     };
 
 
-    // calls and methods to propagate the account details page 
+    // calls and methods to propagate the account details page
     var accountDetailsPageSetup = {
         init:function() {
             this.clickedAccount();
@@ -2516,7 +2516,7 @@ $(document).ready(function(){
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -2554,23 +2554,23 @@ $(document).ready(function(){
                     console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
-            // get the open tickets for the account and list them in the open tickets list 
+            // get the open tickets for the account and list them in the open tickets list
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
                 url:ApiSite +"tickets?status=open&account="+localStorage.getItem("DetailedAccount"),
                 dataType:"json",
                 success: function(returnData) {
-                    $(".AccountDetailsTicketsContainer").empty(); 
+                    $(".AccountDetailsTicketsContainer").empty();
                     //insert open tickets
-                    for(var i = 0; i < returnData.length; i++) 
-                    {	
-                        // get email value for gravatar 
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        // get email value for gravatar
                         var email = $.md5(returnData[i].user_email);
                         var initialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
@@ -2582,7 +2582,7 @@ $(document).ready(function(){
                             subject = subject.substring(0,16)+"...";
                         }
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
-                        if(initialPost.length > 50) 
+                        if(initialPost.length > 50)
                         {
                             initialPost = initialPost.substring(0,50);
                         }
@@ -2600,7 +2600,7 @@ $(document).ready(function(){
 
     };
 
-    // get timeLogs for a specific account 
+    // get timeLogs for a specific account
     var accountTimeLogs = {
         init:function(){
             this.getTimeLogs();
@@ -2614,7 +2614,7 @@ $(document).ready(function(){
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -2623,24 +2623,24 @@ $(document).ready(function(){
                 success: function(returnData) {
                     console.log(returnData);
                     $("#accountLogs").empty();
-                    //add timelogs to log list 
+                    //add timelogs to log list
                     for(var i = 0; i < returnData.length; i++)
                     {
                         var email = $.md5(returnData[i].user_email);
                         var text = returnData[i].note;
-                        // check for two decimals 
+                        // check for two decimals
                         var hours = returnData[i].hours;
                         hours =hours.toString();
                         if(hours.indexOf(".") >= 0)
                         {
-                            // do nothing 
+                            // do nothing
                         }
-                        else 
+                        else
                         {
                             hours = hours+".00";
                         }
-                        // ensure text attached to the time log is short enough to be displayed correctly 
-                        if(text.length > 15) 
+                        // ensure text attached to the time log is short enough to be displayed correctly
+                        if(text.length > 15)
                         {
                             text = text.substring(0,7)+"...";
                         }
@@ -2662,7 +2662,7 @@ $(document).ready(function(){
         }
     };
 
-    // store user variables into local storage 
+    // store user variables into local storage
     var storeLocalData = function() {
         localStorage.setItem('userOrgKey',userOrgKey);
         localStorage.setItem('userOrg',userOrg);
@@ -2681,7 +2681,7 @@ $(document).ready(function(){
             type: 'GET',
             beforeSend: function (xhr) {
                 xhr.withCredentials = true;
-                xhr.setRequestHeader('Authorization', 
+                xhr.setRequestHeader('Authorization',
                                      'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
             },
 
@@ -2714,7 +2714,7 @@ $(document).ready(function(){
         });
     };
 
-    //get instance config 
+    //get instance config
     var getInstanceConfig = function (_userOrgKey, _userInstanceKey) {
 
         if (!_userOrgKey || !_userInstanceKey) {
@@ -2724,7 +2724,7 @@ $(document).ready(function(){
         if (!_userOrgKey || !_userInstanceKey) {
             return;
         }
-        //get instance config 
+        //get instance config
         getApi("config").then(function (returnData) {
             localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
             isTech = returnData.user.is_techoradmin;
@@ -2749,7 +2749,7 @@ $(document).ready(function(){
                              );
     };
 
-    // get queues for the organization and list a max of 3 to the dashboard 
+    // get queues for the organization and list a max of 3 to the dashboard
     var getQueueList = function() {
         var hasLocalData = false;
         var localDashQueues =[];
@@ -2759,7 +2759,7 @@ $(document).ready(function(){
         if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
             console.log("could not load local data")
         }
-        else 
+        else
         {
             for(var c = 0; c < retrievedObject.length; c++)
             {
@@ -2771,7 +2771,7 @@ $(document).ready(function(){
             type: 'GET',
             beforeSend: function (xhr) {
                 xhr.withCredentials = true;
-                xhr.setRequestHeader('Authorization', 
+                xhr.setRequestHeader('Authorization',
                                      'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
             },
 
@@ -2834,7 +2834,7 @@ $(document).ready(function(){
             type: 'GET',
             beforeSend: function (xhr) {
                 xhr.withCredentials = true;
-                xhr.setRequestHeader('Authorization', 
+                xhr.setRequestHeader('Authorization',
                                      'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
             },
 
@@ -2842,11 +2842,11 @@ $(document).ready(function(){
             dataType:"json",
             success: function(returnData) {
                 $("#activeList").empty();
-                //insert for  the header of the active account table 
+                //insert for  the header of the active account table
                 var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expense</li><li>Tickets</li></ul>";
                 $(tableHeader).prependTo("#activeList");
                 console.log(returnData);
-                //add accounts to the active accounts list 
+                //add accounts to the active accounts list
                 var activeLength = returnData.length;
                 if(returnData.length > 7){activeLength = 7;}
                 var activeAccount;
@@ -2872,7 +2872,7 @@ $(document).ready(function(){
                         }
                         //localDashAccounts.push(activeAccount);
                     }
-                    //if account name is longer than 9 chars then elipse the account name 
+                    //if account name is longer than 9 chars then elipse the account name
                     else if(returnData[i].name.length > 9) {
                         activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
                         $(activeAccount).appendTo("#activeList");
@@ -2897,12 +2897,12 @@ $(document).ready(function(){
             this.userData();
         },
         userData:function() {
-            //get user info 
+            //get user info
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization', 
+                    xhr.setRequestHeader('Authorization',
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
@@ -2910,9 +2910,9 @@ $(document).ready(function(){
                 dataType:"json",
                 success: function(returnData) {
                     console.log(returnData);
-                    //set the name of the nav side menu 
+                    //set the name of the nav side menu
                     $(".navName").html(returnData[0].firstname+" "+returnData[0].lastname);
-                    //get md5 value of users email for gravatar 
+                    //get md5 value of users email for gravatar
                     var email = $.md5(returnData[0].email);
                     //set user avatar picture in side menu
                     $(".navProfile").attr("src","http://www.gravatar.com/avatar/" + email + "?d=mm&s=80");
@@ -2934,7 +2934,7 @@ $(document).ready(function(){
         }
     };
 
-    // organization Ajax call 
+    // organization Ajax call
     var org = {
         init: function () {
             if (location.pathname.indexOf("org.html") < 0)
@@ -2948,7 +2948,7 @@ $(document).ready(function(){
             }
             userOrgKey = localStorage.getItem('userOrgKey');
             userInstanceKey = localStorage.getItem('userInstanceKey');
-            //sets user role to user in local storage 
+            //sets user role to user in local storage
             localStorage.setItem('userRole', "user");
             if (userOrgKey && userInstanceKey)
             {
@@ -2970,7 +2970,7 @@ $(document).ready(function(){
                 url: ApiSite + 'organizations/',
                 async: true,
                 cache: false,
-                dataType: 'json',			
+                dataType: 'json',
                 success: function(results) {
                     console.log(results);
                     // If there are more than one org
@@ -2984,7 +2984,7 @@ $(document).ready(function(){
                                     .text(orglistitem[i].name));
                         }
                         $('#orgSelect')
-                        // listen for org selection	
+                        // listen for org selection
                         .change(function () {
                             var index_number = this.value;
                             userOrgKey = results[index_number].key;
@@ -2992,7 +2992,7 @@ $(document).ready(function(){
                             var instances = results[index_number].instances;
                             localStorage.setItem('userOrgKey', userOrgKey);
 
-                            // If there is only one instance on the selected org								
+                            // If there is only one instance on the selected org
                             if (instances.length == 1) {
                                 userInstanceKey = instances[0].key;
                                 localStorage.setItem('userInstanceKey', userInstanceKey);
@@ -3008,7 +3008,7 @@ $(document).ready(function(){
                                             .text(instances[i].name));
                                 }
                                 $('.instSelect').show();
-                                // listen for Instance selection	
+                                // listen for Instance selection
                                 $('#instSelect').change(function () {
                                     var userInstanceKey = instances[this.value].key;
                                     localStorage.setItem('userInstanceKey', userInstanceKey);
@@ -3017,7 +3017,7 @@ $(document).ready(function(){
                                 });
                             };
                         });
-                    };// End > 1 
+                    };// End > 1
 
                     // If there is ONLY ONE org and instance
                     if (results.length == 1) {
@@ -3027,7 +3027,7 @@ $(document).ready(function(){
                         localStorage.setItem('sd_is_MultipleOrgInst', 'false');
                         //location.reload(true);
                         var myinst = results[0].instances;
-                        // If there is only one instance on the selected org								
+                        // If there is only one instance on the selected org
                         if (myinst.length == 1) {
                             userInstanceKey = myinst[0].key;
                             localStorage.setItem('userInstanceKey', userInstanceKey);
@@ -3043,7 +3043,7 @@ $(document).ready(function(){
                                         .text(instances[i].name));
                             }
                             $('.instSelect').show();
-                            // listen for Instance selection	
+                            // listen for Instance selection
                             $('#instSelect').change(function () {
                                 userInstanceKey = instances[this.value].key;
                                 localStorage.setItem('userInstanceKey', userInstanceKey);
@@ -3080,8 +3080,8 @@ $(document).ready(function(){
 
         justClicked:function() {
             $(document).on("click",".responseBlock", function(){
-                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list 
-                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
+                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
+                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
             });
             $("#invoiceOption").click(function(){
                 window.location = "Invoice_List.html";
@@ -3099,8 +3099,8 @@ $(document).ready(function(){
                 window.location = "account_details.html";
             });
             $(document).on("click",".responseBlock", function(){
-                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list 
-                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list 
+                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
+                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
             });
             $(document).on("click","#queue", function(){
                 localStorage.setItem('currentQueue',$(this).attr("data-id"));
@@ -3138,8 +3138,8 @@ $(document).ready(function(){
                 $(".errorMessagePos").html(messageText);
                 $(".errorMessagePos").slideDown(100);
                 setTimeout(
-                    function() 
-                    {	
+                    function()
+                    {
                         $(".errorMessagePos").slideUp(100);
                         localStorage.setItem("isMessage","false");
 
@@ -3151,8 +3151,8 @@ $(document).ready(function(){
                 $(".errorMessageNeg").html(messageText);
                 $(".errorMessageNeg").slideDown(100);
                 setTimeout(
-                    function() 
-                    {	
+                    function()
+                    {
                         $(".errorMessageNeg").slideUp(100);
                         localStorage.setItem("isMessage","false");
 
@@ -3192,7 +3192,7 @@ $(document).ready(function(){
 
         if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/" && location.pathname.indexOf("org.html")<0)
         {
-            //set the name of the nav side menu 
+            //set the name of the nav side menu
             $(".navName").html(localStorage.getItem("userFullName"));
             //set user avatar picture in side menu
             $(".navProfile").attr("src","http://www.gravatar.com/avatar/" + $.md5(localStorage.getItem("userName")) + "?d=mm&s=80");
@@ -3205,7 +3205,7 @@ $(document).ready(function(){
         }
         //Only for tech
         else{
-            //conditional api calls determined by page 
+            //conditional api calls determined by page
             if (location.pathname.indexOf("dashboard.html") >= 0)
             {
                 getTicketCount();
@@ -3230,7 +3230,7 @@ $(document).ready(function(){
                 if (isTime) addTime.init();
                 else window.location = "dashboard.html";
 
-            }    
+            }
             if (location.pathname.indexOf("timelog.html") >= 0)
             {if (!isTime) window.location = "dashboard.html";
              else
@@ -3328,7 +3328,7 @@ $(document).ready(function(){
         setTimeout(fullapplink, 3000);
         if (!isTime)
             $(".time").remove();
-    }()); 
+    }());
 
 
 });

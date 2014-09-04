@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	
+
 function fullscreen() {
     $('a').click(function() {
         if(!$(this).hasClass('noeffect')) {
@@ -21,17 +21,17 @@ var fastClicker = {
 		}, false);
 	}
 };
- 
+
 
 fullscreen();
-	
+
 	var homePage = {
 		init: function() {
 			this.tabDashboard();
 		},
 
 		tabDashboard: function() {
-			// Default selected 
+			// Default selected
 			$(".navCircle:first").css("background","#ffffff");
 			// Newly selected
 			$(".navCircle").click(function() {
@@ -47,7 +47,7 @@ fullscreen();
 					$(".dashboardContainer").show("slide", { direction: "left"}, 300);
 				}
 			});
-			// Need to figure out next slide 
+			// Need to figure out next slide
 		}
 	};
 
@@ -68,7 +68,8 @@ fullscreen();
 		init: function() {
 			this.slideController();
 			this.pageLocation();
-		}, 
+			this.menuSize();
+		},
 
 		slideOut: function() {
 			if($(window).scrollTop() > 0) {
@@ -91,7 +92,7 @@ fullscreen();
 			//document.body.removeEventListener('touchstart', function(e){ e.preventDefault(); });
 			//$("a").toggleClass("disabled");
 			slide = false;
-		}, 
+		},
 
 		slideController: function() {
 			$("#navBars").click(function() {
@@ -146,14 +147,31 @@ fullscreen();
             $("#itemInovice").find(".iconCircle").addClass("activeBorder");
         }
 
+		},
+
+		menuSize:function() {
+			var windowHeight = $(window).height();
+			if(windowHeight < 500){
+				$('.sideNavLinks li').css('height','52');
+			}
+			$(window).on('resize',function(){
+				windowHeight = $(window).height();
+				if(windowHeight < 500){
+					$('.sideNavLinks li').css('height','52');
+				}else{
+					$('sideNavLinks li').css('height','65');
+				}
+			})
 		}
+
+
 	};
 
 	var addRecip = {
 		init: function() {
 			this.slideOut();
 			this.slideIn();
-			
+
 		},
 
 		slideOut: function() {
@@ -177,12 +195,12 @@ fullscreen();
 				}, 300);
 				var insert = "<li id='addRecipient' class='detail3Short'><img class='plusIcon' src='img/plus_icon.png'></li>";
 				setTimeout(
-  				function() 
+  				function()
   				{
   				  //do something special
   				  $(insert).appendTo("#recipHeader");
   				}, 310);
-								
+
 				});
 						}
 	};
@@ -242,7 +260,7 @@ fullscreen();
 	var ticketDetails = {
 		init: function() {
 			this.tab();
-			
+
 			//this.scrollResponse();
 			this.latestPost();
 		},
@@ -369,7 +387,7 @@ fullscreen();
 	var billEm = {
 		init: function() {
 			this.checkBillButton();
-		}, 
+		},
 
 		checkBillButton: function() {
 			$("#billem, #billem1").click(function(){
@@ -391,12 +409,12 @@ fullscreen();
 		stickTitle: function() {
 			$(window).scroll(function(){
 				var top = $(this).scrollTop();
-				
-				if(top > 225) 
+
+				if(top > 225)
 				{
 					 $(".AccountDetailsTicketsContainer").addClass("recentTicketsStick");
 				}
-				else 
+				else
 				{
 					$(".AccountDetailsTicketsContainer").removeClass("recentTicketsStick");
 				}
@@ -423,9 +441,9 @@ fullscreen();
 
 		changeStyle:function() {
 
-			if($(window).width() >=800) 
+			if($(window).width() >=800)
 				{
-					//add the large style sheet 
+					//add the large style sheet
 					var insert = '<link id="largeCss" rel="stylesheet" href="css/style_LargeScreen.css" />';
 					$(insert).appendTo('head');
 				}else {
@@ -433,9 +451,9 @@ fullscreen();
 					$(".plusIconHeader").show();
 				}
 			$(window).resize(function(){
-				if($(window).width() >=800) 
+				if($(window).width() >=800)
 				{
-					//add the large style sheet 
+					//add the large style sheet
 					var insert = '<link id="largeCss" rel="stylesheet" href="css/style_LargeScreen.css" />';
 					$(insert).appendTo('head');
 					$(".addTimePanel").show();
@@ -476,7 +494,7 @@ fullscreen();
 				setTimeout(function(){
 						$("#dashCreateButton").animate({
 							'border-radius': "100%",
-							
+
 						}, 200);
 					});
 				$('#dashCreateButton p').fadeIn();
@@ -505,6 +523,6 @@ fullscreen();
 		StickRecentTickets.init();
 		billEm.init();
 		footer.init();
-	}()); 
+	}());
 
-}); 
+});
