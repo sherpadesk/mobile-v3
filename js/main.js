@@ -3125,6 +3125,7 @@ $(document).ready(function(){
         },
 
         menuFunctions:function(){
+            //set ticket amount in menu 
         var techTicketStats = localStorage.getItem('techStat');
             if(techTicketStats > 100){
                 techTicketStats = 99;

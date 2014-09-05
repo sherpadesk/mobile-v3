@@ -461,7 +461,7 @@ nav {
   background: rgba(14, 14, 22, 0.91);
   float: left;
   z-index: 4;
-  overflow: scroll;
+/*  overflow: scroll;*/
 }
 
 .menuTicketsStat {

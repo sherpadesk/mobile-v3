@@ -153,15 +153,19 @@ fullscreen();
 			var windowHeight = $(window).height();
 			if(windowHeight < 500){
 				$('.sideNavLinks li').css('height','52');
+				$('.activeNav').css('overflow','scroll');
+				$('.menuTicketsStat').hide();
 			}
 			$(window).on('resize',function(){
 				windowHeight = $(window).height();
 				if(windowHeight < 500){
 					$('.sideNavLinks li').css('height','52');
+					$('.activeNav').css('overflow','scroll');
+					$('.menuTicketsStat').hide();
 				}else{
 					$('sideNavLinks li').css('height','65');
 				}
-			})
+			});
 		}
 
 
