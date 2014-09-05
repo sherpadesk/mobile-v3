@@ -1349,7 +1349,6 @@ $(document).ready(function(){
                     $("#ticketTech").html(returnData.tech_firstname);
                     $("#lastUpdate").html(daysOld);
                     if(ticketHours != 0){
-                        alert(ticketHours);
                         $("#ticketHours").html(ticketHours+" Hours");
                     }else{
                         $('#ticketHours').hide();
@@ -3217,7 +3216,7 @@ $(document).ready(function(){
             if (location.pathname.indexOf("account_details.html") >= 0)
             {
                 accountDetailsPageSetup.init();
-                detailedTicket.init();
+                //detailedTicket.init();
                 closedTickets.init();
 
             }
