@@ -464,6 +464,22 @@ nav {
   overflow: scroll;
 }
 
+.menuTicketsStat {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(109, 109, 109, 0.69);
+  position: absolute;
+  top: 105px;
+  left: 154px;
+  border-radius: 100%;
+}
+
+.menuTicketStatNumber {
+  color: #DBD8D8;
+  text-align: center;
+  line-height: 30px;
+}
+
 .unActive {
   width: 39%;
   height: 100%;

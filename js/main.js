@@ -3075,6 +3075,7 @@ $(document).ready(function(){
     var miscClicks = {
         init:function() {
             this.justClicked();
+            this.menuFunctions();
         },
 
         justClicked:function() {
@@ -3121,6 +3122,14 @@ $(document).ready(function(){
                 localStorage.setItem('ticketPage','allTickets');
                 window.location = "ticket_list.html";
             });
+        },
+
+        menuFunctions:function(){
+        var techTicketStats = localStorage.getItem('techStat');
+            if(techTicketStats > 100){
+                techTicketStats = 99;
+            }
+            $(".menuTicketStatNumber").html(techTicketStats);
         }
     };
 
