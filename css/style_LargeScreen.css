@@ -1,12 +1,12 @@
 @media screen and (min-width: 775px)  {
-.activeNav {
+/*.activeNav {
   background: rgba(14, 14, 22, 0.91);
   float: left;
   height: 100%;
-  max-width: 17%;
-  width: 15%;
+  max-width: 300px;
+  width: 30%;
   z-index: 4;
-}
+}*/
 
 .topHeader {
   list-style-type: none;
@@ -48,19 +48,20 @@
 }
 
 .QueuesTickerContainer {
-  width: 45%;
+  width: 60%;
   margin: 0 auto 25px;
   overflow: auto;
   max-width: 650px;
 }
 
 .ActiveAccountsContainer {
-  width: 45%;
+  width: 60%;
   margin-left: 20px;
   overflow: auto;
   z-index: 1;
   padding-top: 20px;
   margin: 0 auto;
+  max-width: 650px;
 }
 
 .tableHeader li {

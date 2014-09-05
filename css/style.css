@@ -456,11 +456,12 @@ nav {
 }
 
 .activeNav {
-  width: 70%;
+  width: 250px;
   height: 100%;
   background: rgba(14, 14, 22, 0.91);
   float: left;
   z-index: 4;
+  overflow: scroll;
 }
 
 .unActive {
@@ -1683,6 +1684,7 @@ footer {
   display: block;
   margin-left: 55%;
   margin-top: 10px;
+  max-width: 180px;
 }
 
 
@@ -1778,6 +1780,7 @@ footer {
 
 #commentText {
   width: 90%;
+  resize:none;
 }
 
 .responseBlock {
