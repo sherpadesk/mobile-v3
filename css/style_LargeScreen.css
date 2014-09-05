@@ -156,4 +156,26 @@
   max-width: 650px;
 }
 
+.QueuesContainer {
+  width: 90%;
+  overflow: auto;
+  margin: 0 auto;
+  max-width: 650px;
+}
+
+.tabpage {
+  max-width: 650px;
+  display: block;
+  margin: 0 auto;
+}
+
+.TDSListWrapper {
+  width: 90%;
+  height: 60px;
+  margin: 10px auto;
+  padding-top: 10px;
+  color: #ffffff;
+  max-width: 600px;
+}
+
 }
