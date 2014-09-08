@@ -611,7 +611,7 @@ $(document).ready(function(){
         return month+" "+day;
     };
     // send an invoice to recipents
-    var sendInvoince = {
+    var sendInvoice = {
         init:function() {
             this.submitInvoice();
         },
@@ -3276,7 +3276,7 @@ $(document).ready(function(){
                 else
                 {
                     detailedInvoice.init();
-                    sendInvoince.init();
+                    sendInvoice.init();
                     addRecip.init();
                 }
             }
