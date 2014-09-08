@@ -375,9 +375,9 @@ $(document).ready(function(){
                         //the key for this specific ticket
                         var data = returnData[i].key;
                         // ensure ticket subject length is not to long to be displayed (subject is elipsed if it is)
-                        if(subject.length > 19)
+                        if(subject.length > 25)
                         {
-                            subject = subject.substring(0,16)+"...";
+                            subject = subject.substring(0,23)+"...";
                         }
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                         if(initialPost.length > 50)
@@ -611,7 +611,7 @@ $(document).ready(function(){
         return month+" "+day;
     };
     // send an invoice to recipents
-    var sendInvoince = {
+    var sendInvoice = {
         init:function() {
             this.submitInvoice();
         },
@@ -698,7 +698,7 @@ $(document).ready(function(){
     function fillClasses(classResults, element, initialValue)
     {
         if(!isClass) $(''+element).parent().parent().hide();
-        fillSelect(classResults, element, initialValue, "Class: ");
+        fillSelect(classResults, element, initialValue, "");
 
         //Listen for class and detect sub-classes
         $(''+element).on('change', function(){
@@ -757,7 +757,7 @@ $(document).ready(function(){
                     console.log(returnData);
                     // get list of accounts add them to option select list
                     $("#addTicketAccounts").empty();
-                    fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>Account</option>");
+                    fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
                     reveal();
                 }, function() {
                     console.log("fail @ ticket accounts");
@@ -770,7 +770,7 @@ $(document).ready(function(){
                 console.log(returnData);
                 // add techs to option select list
                 fillSelect(returnData, "#addTicketTechs",
-                           "<option value=0 disabled selected>Tech</option>", "",
+                           "<option value=0 disabled selected>choose a tech</option>", "",
                            "firstname,lastname");
                 reveal();
             },
@@ -784,7 +784,7 @@ $(document).ready(function(){
             var classes = getApi('classes');
             classes.done(
                 function(classResults){
-                    fillClasses(classResults, "#classTicketOptions", "<option value=0 disabled selected>Class</option>");
+                    fillClasses(classResults, "#classTicketOptions", "<option value=0 disabled selected>choose a class</option>");
                 });
 
 
@@ -1111,6 +1111,8 @@ $(document).ready(function(){
                     $("#taskTypes").empty();
                     // add task types to list
                     fillSelect(returnData, "#taskTypes");
+                    var chooseTask = '<option value=0>choose a project</option>';
+                    $(chooseTask).prependTo('#taskTypes');
                     reveal();
                 },
                 function() {
@@ -1134,7 +1136,7 @@ $(document).ready(function(){
                 success: function(returnData) {
                     console.log(returnData);
                     $("#timeAccounts").empty();
-                    var chooseAccount = "<option value=0>Choose An Account</option>";
+                    var chooseAccount = "<option value=0>choose an account</option>";
                     $(chooseAccount).appendTo("#timeAccounts");
                     // accounts to add time
                     for(var i = 0; i < returnData.length; i++)
@@ -1144,8 +1146,9 @@ $(document).ready(function(){
                         var insert = "<option value="+value+">"+task+"</option>";
                         $(insert).appendTo("#timeAccounts");
                     }
-                    var chooseProject = "<option value=0>Choose a Project</option>";
+                    var chooseProject = "<option value=0>choose a project</option>";
                     $(chooseProject).appendTo("#timeProjects");
+
 
                 },
                 complete:function(){
@@ -1915,6 +1918,9 @@ $(document).ready(function(){
                     success: function(returnData) {
                         $("#invoiceList").empty();
                         console.log(returnData);
+                            if(returnData.length == 0){
+                                $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
+                            }
                         // add invoice to list
                         for(var i = 0; i < returnData.length; i++)
                         {
@@ -2013,9 +2019,9 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         //check subject length can be displayed correctly
-                        if(subject.length > 19)
+                        if(subject.length > 25)
                         {
-                            subject = subject.substring(0,16)+"...";
+                            subject = subject.substring(0,23)+"...";
                         }
                         //check intial post length can be displayed correctly
                         if(intialPost.length > 100)
@@ -2174,9 +2180,9 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         //check subject length can be displayed correctly
-                        if(subject.length > 19)
+                        if(subject.length > 25)
                         {
-                            subject = subject.substring(0,16)+"...";
+                            subject = subject.substring(0,23)+"...";
                         }
                         //check intial post length can be displayed correctly
                         if(intialPost.length > 100)
@@ -2220,9 +2226,9 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         //check subject length
-                        if(subject.length > 19)
+                        if(subject.length > 25)
                         {
-                            subject = subject.substring(0,16)+"...";
+                            subject = subject.substring(0,23)+"...";
                         }
                         //check initial post length
                         if(intialPost.length > 100)
@@ -2267,9 +2273,9 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        if(subject.length > 19)
+                        if(subject.length > 25)
                         {
-                            subject = subject.substring(0,16)+"...";
+                            subject = subject.substring(0,23)+"...";
                         }
                         if(intialPost.length > 100)
                         {
@@ -2313,9 +2319,9 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        if(subject.length > 14)
+                        if(subject.length > 25)
                         {
-                            subject = subject.substring(0,11)+"...";
+                            subject = subject.substring(0,23)+"...";
                         }
                         if(intialPost.length > 100)
                         {
@@ -2384,8 +2390,8 @@ $(document).ready(function(){
                     for(var i = 0; i < returnData.length; i++)
                     {
                         name = returnData[i].name;
-                        if(name.length > 16){
-                            name = name.substring(0,14)+"...";
+                        if(name.length > 24){
+                            name = name.substring(0,21)+"...";
                         }
                         // check the number of open tickets for the account if the number of tickets is greater than 100 sub 99+
                         var openTks = returnData[i].account_statistics.ticket_counts.open;
@@ -2471,9 +2477,9 @@ $(document).ready(function(){
                             hours = hours+".00";
                         }
                         // check text length
-                        if(text.length > 18)
+                        if(text.length > 24)
                         {
-                            text = text.substring(0,18)+"...";
+                            text = text.substring(0,21)+"...";
                         }
                         var nameCheck = returnData[i].user_name;
                         if(nameCheck.length > 15)
@@ -2576,9 +2582,9 @@ $(document).ready(function(){
                         //the key for this specific ticket
                         var data = returnData[i].key;
                         // ensure ticket subject length is not to long to be displayed (subject is elipsed if it is)
-                        if(subject.length > 19)
+                        if(subject.length > 25)
                         {
-                            subject = subject.substring(0,16)+"...";
+                            subject = subject.substring(0,23)+"...";
                         }
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                         if(initialPost.length > 50)
@@ -3262,7 +3268,7 @@ $(document).ready(function(){
                     timeLogs.init();
                 }
             }
-            if (location.pathname.indexOf("invoice_List.html") >= 0 || location.pathname.indexOf("allInvoice_List.html") >= 0)
+            if (location.pathname.indexOf("Invoice_List.html") >= 0 || location.pathname.indexOf("allInvoice_List.html") >= 0)
             {
                 if (!isTime) window.location = "dashboard.html";
                 else
@@ -3270,13 +3276,18 @@ $(document).ready(function(){
                     invoiceList.init();
                 }
             }
+            if (location.pathname.indexOf("Invoice_List.html") >= 0)
+            {
+                    invoiceList.init();
+                
+            }
             if (location.pathname.indexOf("invoice.html") >= 0)
             {
                 if (!isTime) window.location = "dashboard.html";
                 else
                 {
                     detailedInvoice.init();
-                    sendInvoince.init();
+                    sendInvoice.init();
                     addRecip.init();
                 }
             }
@@ -3326,6 +3337,7 @@ $(document).ready(function(){
                 addTime.init();
             }
         }
+
         //getQueueTickets.init();
         //accountDetailsPageSetup.init();
         search.init();
