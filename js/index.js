@@ -507,8 +507,26 @@ fullscreen();
 	};
 
 
+	var splashScreen ={
+		init:function(){
+			this.Splash();
+		},
+
+		Splash:function(){
+			if (location.pathname.indexOf("index.html") >= 0){
+               $('.splashScreenLogo').animate({
+               		'opacity':1,
+               },2000);
+               setTimeout(function(){
+               	$('.splashScreen').fadeOut(250);
+               },2000)
+            }
+		}
+	};
+
 
 	(function() {
+		splashScreen.init();
 		createButton.init();
 		fastClicker.init();
 		openTickets.init();

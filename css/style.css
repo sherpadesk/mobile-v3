@@ -47,6 +47,33 @@ strong {
   font-weight: 650;
 }
 
+.splashScreen {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  position: absolute;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  margin-left: 5px;
+}
+
+.splashScreenLogo {
+  display: block;
+  margin: 0px auto;
+  opacity: 0;
+}
+
+.splashScreenSherpa {
+  margin-left: 60px;
+}
+
+.splashImgContainer {
+  display: block;
+  width: 400px;
+  height: 265px;
+  margin: 100px auto;
+}
+
 .backIcon {
   top: 0;
   right: 0;
@@ -242,7 +269,7 @@ strong {
 }
 
 .loginLogo {
-  width: 90%;
+  width: 80%;
   margin: 0 auto -160px;
   display: block;
   max-width: 390px;
