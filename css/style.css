@@ -64,14 +64,14 @@ strong {
 }
 
 .splashScreenSherpa {
-  margin-left: 60px;
+  margin-left: 50px;
 }
 
 .splashImgContainer {
   display: block;
   width: 400px;
   height: 265px;
-  margin: 100px auto;
+  margin: 25px auto 100px;
 }
 
 .backIcon {
