@@ -1950,6 +1950,10 @@ font-size: 16px !important;
   color: #ffffff;
   margin-top: 35px;
 }
+.noDataMessage{
+  color: #fff;
+  text-align: center;
+}
 
 .updateButton {
   border: none;

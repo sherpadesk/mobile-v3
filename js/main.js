@@ -1918,6 +1918,9 @@ $(document).ready(function(){
                     success: function(returnData) {
                         $("#invoiceList").empty();
                         console.log(returnData);
+                            if(returnData.length == 0){
+                                $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
+                            }
                         // add invoice to list
                         for(var i = 0; i < returnData.length; i++)
                         {
@@ -3265,13 +3268,18 @@ $(document).ready(function(){
                     timeLogs.init();
                 }
             }
-            if (location.pathname.indexOf("invoice_List.html") >= 0 || location.pathname.indexOf("allInvoice_List.html") >= 0)
+            if (location.pathname.indexOf("Invoice_List.html") >= 0 || location.pathname.indexOf("allInvoice_List.html") >= 0)
             {
                 if (!isTime) window.location = "dashboard.html";
                 else
                 {
                     invoiceList.init();
                 }
+            }
+            if (location.pathname.indexOf("Invoice_List.html") >= 0)
+            {
+                    invoiceList.init();
+                
             }
             if (location.pathname.indexOf("invoice.html") >= 0)
             {
@@ -3329,6 +3337,7 @@ $(document).ready(function(){
                 addTime.init();
             }
         }
+
         //getQueueTickets.init();
         //accountDetailsPageSetup.init();
         search.init();
