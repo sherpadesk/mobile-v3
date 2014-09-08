@@ -50,18 +50,17 @@ strong {
 .splashScreen {
   width: 100%;
   height: 100%;
-  background-color: #4660B1;
+  background: url("../img/mountainBG.jpg") center center no-repeat fixed;
   position: absolute;
   overflow-x: hidden;
   overflow-y: hidden;
-  margin-left: 5px;
+  margin-left: 2px;
 }
 
 .splashScreenLogo {
   display: block;
   margin: 0px auto;
-  opacity: 0;
-  width: 95%;
+  width: 80%;
 }
 
 .splashScreenSherpa {
@@ -71,7 +70,7 @@ strong {
 .splashImgContainer {
   display: block;
   width: 400px;
-  height: 265px;
+  height: 325px;
   margin: 25px auto 100px;
 }
 

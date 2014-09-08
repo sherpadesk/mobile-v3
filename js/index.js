@@ -514,12 +514,19 @@ fullscreen();
 
 		Splash:function(){
 			if (location.pathname.indexOf("index.html") >= 0){
-               $('.splashScreenLogo').animate({
-               		'opacity':1,
-               },2000);
+				setTimeout(function(){
+				 $('.splashScreenSherpa').animate({
+               		'opacity':0,
+               	  },1000);
+				 },500);
                setTimeout(function(){
-               	$('.splashScreen').fadeOut(250);
-               },2000)
+               	$('.splashScreenLogo').animate({
+               		'margin-top':'-404.5px'
+               	},1000);
+               },500);
+               setTimeout(function(){
+               	$('.splashScreen').fadeOut();
+               },1500)
             }
 		}
 	};
