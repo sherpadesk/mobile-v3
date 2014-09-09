@@ -935,7 +935,7 @@ $(document).ready(function(){
                                                  'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                         },
 
-                        url:ApiSite +"tickets/"+searchItem,
+                        url:ApiSite +"tickets/?status=open"+searchItem,
                         dataType:"json",
                         success: function(returnData) {
                             localStorage.setItem("ticketNumber",searchItem);
