@@ -776,16 +776,18 @@ $(document).ready(function(){
 
             // make api post call when submit ticket button is clicked
             $("#submitNewTicket").click(function(){
-                if($("#addTicketSubject").val() == "" || $("#addTicketTechs").val() == "" || selectedEditClass < 1 || $("#addTicketSubject").val() == "")
+                var subject = htmlEscape($("#addTicketSubject").val().trim());
+                var post = htmlEscape($("#addTicketInitPost").val().trim());
+                if(subject == "" || $("#addTicketTechs").val() == "" || selectedEditClass < 1)
                 {
-                    userMessage.showMessage(false);
+                    userMessage.showMessage(false, "Please enter subject");
                 }
                 else
                 {
                     var addTicket = getApi("tickets", {
                         "status" : "open",
-                        "subject" : $("#addTicketSubject").val(),
-                        "initial_post" : $("#addTicketInitPost").val(),
+                        "subject" : subject,
+                        "initial_post" : post,
                         "class_id" : selectedEditClass,
                         "account_id" : $("#addTicketAccounts").val(),
                         "user_id" : localStorage.getItem('userId'),
@@ -1026,7 +1028,7 @@ $(document).ready(function(){
             // on submit click get the time and note typed by the user
             $("#submitTicketTime").click(function(){
                 var time = $("#addTimeTicket").val();
-                var note = $("#noteTimeTicket").val();
+                var note = htmlEscape($("#noteTimeTicket").val().trim());
                 var tech = localStorage.getItem('techId');
                 var task_type = $("#ticketTaskTypes").val();
                 if (note.length < 1)
@@ -1136,7 +1138,7 @@ $(document).ready(function(){
                 // submit time to account
                 $("#submitTime").click(function(){
                     var time = $("#addTimeTicket").val();
-                    var note = $("#noteTime").val();
+                    var note = htmlEscape($("#noteTime").val().trim());
                     var tech = localStorage.getItem('userId');
                     var accountId = $("#timeAccounts").val();
                     var projectId = $("#timeProjects").val();
