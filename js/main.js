@@ -92,7 +92,7 @@ function redirectToPage() {
 //global helper functions
 function logout(isRedirect) {
     if (typeof isRedirect === "undefined")
-        isRedirect = false;
+        isRedirect = true;
     clearStorage();
     if (localStorage.is_google) {
         localStorage.removeItem('userName');
