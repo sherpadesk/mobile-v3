@@ -234,17 +234,7 @@ $(document).ready(function(){
             var userName = $("#userName").val();
             var password = $("#password").val();
             if (userName == '' || password == '') {
-                $(".errorMessageNeg").html("Please enter a valid Email or Password");
-                $(".errorMessageNeg").slideDown(100);
-                $('html,body').animate({
-                    scrollTop: 0
-                }, 100);
-                setTimeout(
-                    function()
-                    {
-                        $(".errorMessageNeg").slideUp(100);
-
-                    }, 1500);
+                userMessage.showMessage(false, "Please enter a valid Email or Password");
                 return;
             }
             $.ajax({
@@ -269,29 +259,9 @@ $(document).ready(function(){
                 },
                 error: function () {
                     if(userName && userName.indexOf("@gmail.com") != -1){
-                        $(".errorMessageNeg").html("Wrong Password, Google sign password is not neeeded");
-                        $(".errorMessageNeg").slideDown(100);
-                        $('html,body').animate({
-                            scrollTop: 0
-                        }, 100);
-                        setTimeout(
-                            function()
-                            {
-                                $(".errorMessageNeg").slideUp(100);
-
-                            }, 3000);
+                        userMessage.showMessage(false, "Wrong Password, Google sign password is not neeeded");
                     }else{
-                        $(".errorMessageNeg").html("There was a problem with your login.  Please try again.");
-                        $(".errorMessageNeg").slideDown(100);
-                        $('html,body').animate({
-                            scrollTop: 0
-                        }, 100);
-                        setTimeout(
-                            function()
-                            {
-                                $(".errorMessageNeg").slideUp(100);
-
-                            }, 3000);
+                        userMessage.showMessage(false, "There was a problem with your login.  Please try again.");
                         $("#password").val("");
                     }
                     // if (userName && userName.indexOf("@gmail.com") != -1)
@@ -539,11 +509,11 @@ $(document).ready(function(){
                         "note_text": "",
                         "is_send_notifications": true,
                         "resolved": true,
+                    dataType: 'json',
                         "confirmed": true,
                         "confirm_note": "confirmed by me"
 
                     },
-                    dataType: 'json',
                     success: function (d) {
                         //location.reload(false);
                         setTimeout(
@@ -797,18 +767,7 @@ $(document).ready(function(){
             $("#submitNewTicket").click(function(){
                 if($("#addTicketSubject").val() == "" || $("#addTicketTechs").val() == "" || selectedEditClass < 1 || $("#addTicketSubject").val() == "")
                 {
-                    $(".errorMessageNeg").slideDown(100);
-                    $('html,body').animate({
-                        scrollTop: 0
-                    }, 100);
-                    setTimeout(
-                        function()
-                        {
-                            $(".errorMessageNeg").slideUp(100);
-
-                        }, 1500);
-
-
+                    userMessage.showMessage(false);
                 }
                 else
                 {
@@ -1061,17 +1020,7 @@ $(document).ready(function(){
                 var task_type = $("#ticketTaskTypes").val();
                 if (note.length < 1)
                 {
-                    $(".errorMessageNeg").html("Please enter note");
-                    $(".errorMessageNeg").slideDown(200);
-                    $('html,body').animate({
-                        scrollTop: 0
-                    }, 100);
-                    setTimeout(
-                        function()
-                        {
-                            $(".errorMessageNeg").slideUp(100);
-
-                        }, 1500);
+                    userMessage.showMessage(false, "Please enter note");
                     return;
                 }
                 // check to see if user check for time to be billable
@@ -1187,30 +1136,10 @@ $(document).ready(function(){
                         isBillable = false;
                     }
                     if(time == 0){
-                        $(".errorMessageNeg").html("Oops not enough time");
-                        $(".errorMessageNeg").slideDown(200);
-                        $('html,body').animate({
-                            scrollTop: 0
-                        }, 100);
-                        setTimeout(
-                            function()
-                            {
-                                $(".errorMessageNeg").slideUp(100);
-
-                            }, 1500);
+                        userMessage.showMessage(false, "Oops not enough time");
                         return;
                     } else if(accountId == '0'){
-                        $(".errorMessageNeg").html("choose an account");
-                        $(".errorMessageNeg").slideDown(200);
-                        $('html,body').animate({
-                            scrollTop: 0
-                        }, 100);
-                        setTimeout(
-                            function()
-                            {
-                                $(".errorMessageNeg").slideUp(100);
-
-                            }, 1500);
+                        userMessage.showMessage(false, "choose an account");
                         return;
                     }else{
                         $.ajax({
