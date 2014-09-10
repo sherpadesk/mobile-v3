@@ -127,16 +127,16 @@ function clearStorage()
 function fullapplink (){
     // Create link to specific org | instance
     var urlString = AppSite + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
-        if (isPhonegap) {
+    if (isPhonegap) {
         $(".fullapplink").on('click', function (e) {
-        e.preventDefault();
-        openURLsystem(urlString);});
-        }
-        else
-        {
-                $(".fullapplink").attr("target", "_system");
-                $(".fullapplink").attr("href", urlString);
-        }
+            e.preventDefault();
+            openURLsystem(urlString);});
+    }
+    else
+    {
+        $(".fullapplink").attr("target", "_system");
+        $(".fullapplink").attr("href", urlString);
+    }
 
     return urlString;
 }
@@ -553,8 +553,7 @@ $(document).ready(function(){
                                 window.history.back();
 
                             }, 1000);
-                        localStorage.setItem("userMessage","Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
-                        localStorage.setItem("isMessage","truePos");
+                        userMessage.setMessage(true, "Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
                     },
                     error: function (e, textStatus, errorThrown) {
                         alert(textStatus);
@@ -656,7 +655,10 @@ $(document).ready(function(){
     function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
     {
         if (typeof returnData === "undefined" || returnData.length < 1)
+        { 
+            $(""+element).parent().hide();
             return 0;
+        }
         var names;
         var isCustom = false;
         if (typeof customValues !== "undefined" && customValues.length > 0){
@@ -688,8 +690,10 @@ $(document).ready(function(){
             insert += "<option value="+value+">"+prefix+name+"</option>";
         }
         // $(""+element).empty();
-        if (i > 0)
+        if (i > 0){
             $(""+envelope_start + insert + envelope_end).appendTo(""+element);
+            $(""+element).parent().show();
+        }
         else
             $(""+element).parent().hide();
         return i;
@@ -775,9 +779,9 @@ $(document).ready(function(){
                 reveal();
             },
                              function() {
-                                 console.log("fail @ ticket accounts");
+                console.log("fail @ ticket accounts");
 
-                             }
+            }
                             );
 
             // after techs are choosen then get a list of classes
@@ -825,14 +829,13 @@ $(document).ready(function(){
                                 window.location =  isTech ? "dashboard.html" : "ticket_list.html";
 
                             }, 1000);
-                        localStorage.setItem("userMessage","Ticket was Succesfully Created :)");
-                        localStorage.setItem("isMessage","truePos");
+                        userMessage.setMessage(true, "Ticket was Succesfully Created :)");
 
 
                     },
                                    function (e, textStatus, errorThrown) {
-                                       alert(textStatus);
-                                   }
+                        alert(textStatus);
+                    }
                                   );
 
                 }
@@ -849,6 +852,10 @@ $(document).ready(function(){
         sendComment:function(){
             $("#reply").click(function(){
                 var comment = $("#commentText").val();
+                if (!comment) {
+                    userMessage.showMessage(false, "Please enter note");
+                    return;
+                }
                 $.ajax({
                     type: 'POST',
                     beforeSend: function (xhr) {
@@ -1074,35 +1081,29 @@ $(document).ready(function(){
                     isBillable = false;
                 }
                 // add time to the orginization
-                $.ajax({
-                    type: 'POST',
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization',
-                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                    },
-                    url: ApiSite + 'time',
-                    data: {
-                        "ticket_key": ticketKey,
-                        "note_text": note,
-                        "task_type_id": task_type,
-                        "hours": time,
-                        "is_billable": isBillable,
-                        //"date": date,
-                        //"start_date": new Date().toJSON(),
-                        //"stop_date": new Date().toJSON(),
-                        "tech_id": tech,
-                    },
-                    dataType: 'json',
-                    success: function (d) {
-                        localStorage.setItem('isMessage','truePos');
-                        localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
-                        window.location = "ticket_detail.html";
-                    },
-                    error: function (e, textStatus, errorThrown) {
-                        alert(textStatus);
-                    }
-                });
+                getApi('time',
+                       {
+                    "ticket_key": ticketKey,
+                    "note_text": note,
+                    "task_type_id": task_type,
+                    "hours": time,
+                    "is_billable": isBillable,
+                    //"date": date,
+                    //"start_date": new Date().toJSON(),
+                    //"stop_date": new Date().toJSON(),
+                    "tech_id": tech,
+                },
+                       'POST').then(function (d) {
+                    localStorage.setItem('isMessage','truePos');
+                    localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
+                    window.location = "ticket_detail.html";
+                },
+                                    function (e, textStatus, errorThrown) {
+                    alert(textStatus);
+                }
+                                   );
             });
+
             //get task types
             var taskTypes = getApi("task_types");
             taskTypes.then(
@@ -1111,7 +1112,7 @@ $(document).ready(function(){
                     $("#taskTypes").empty();
                     // add task types to list
                     fillSelect(returnData, "#taskTypes");
-                    var chooseTask = '<option value=0>choose a project</option>';
+                    var chooseTask = '<option value=0>choose a tasktype</option>';
                     $(chooseTask).prependTo('#taskTypes');
                     reveal();
                 },
@@ -1121,20 +1122,11 @@ $(document).ready(function(){
                 }
             );
 
-
-            //get accounts
-            $.ajax({
-                type: 'GET',
-                beforeSend: function (xhr) {
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization',
-                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                },
-
-                url:ApiSite +"accounts",
-                dataType:"json",
-                success: function(returnData) {
-                    console.log(returnData);
+            if (!$("#submitTicketTime").length)
+            {
+                //get accounts
+                getApi("accounts").then(function(returnData) {
+                    //console.log(returnData);
                     $("#timeAccounts").empty();
                     var chooseAccount = "<option value=0>choose an account</option>";
                     $(chooseAccount).appendTo("#timeAccounts");
@@ -1148,148 +1140,111 @@ $(document).ready(function(){
                     }
                     var chooseProject = "<option value=0>choose a project</option>";
                     $(chooseProject).appendTo("#timeProjects");
-
+                    reveal();
 
                 },
-                complete:function(){
-                    function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
-                    };
-                },
-                error: function() {
+                                        function() {
                     console.log("fail @ time accounts");
                     console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
-            });
-            //get task types
-            var taskTypes = getApi("task_types");
-            taskTypes.then(
-                function(returnData) {
-                    console.log(returnData);
-                    $("#ticketTaskTypes").empty();
-                    // add task types to list
-                    fillSelect(returnData, "#ticketTaskTypes");
-                    reveal();
-                },
-                function() {
-                    console.log("fail @ task types");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
-                }
-            );
-            $("#timeProjects").empty();
-            $("#timeAccounts").on("change", function(){
+                                       );
 
-                //get projects
-                $.ajax({
-                    type: 'GET',
-                    beforeSend: function (xhr) {
-                        xhr.withCredentials = true;
-                        xhr.setRequestHeader('Authorization',
-                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                    },
+                $("#timeAccounts").on("change", function(){
+                    var account = $("#timeAccounts").val();
+                    $("#timeProjects").empty();
+                    $("<option value=0>choose a project</option>").appendTo("#timeProjects");
+                    if (account !== "0"){
+                        //get projects
+                        getApi("accounts/"+account).then(
+                            function(returnData) {
+                                //console.log(returnData);
+                                // add projects
+                                fillSelect(returnData.projects, "#timeProjects");
+                                reveal();
 
-                    url:ApiSite +"accounts/"+$("#timeAccounts").val(),
-                    dataType:"json",
-                    success: function(returnData) {
-                        console.log(returnData);
-                        $("#timeProjects").empty();
-                        // add projects
-                        for(var i = 0; i < returnData.projects.length; i++)
-                        {
-                            var value = returnData.projects[i].id;
-                            var task = returnData.projects[i].name;
-                            var insert = "<option value="+value+">"+task+"</option>";
-                            console.log(insert);
-                            $(insert).appendTo("#timeProjects");
-                        }
+                            },
+                            function() {
+                                console.log("fail @ time accounts");
+                                console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                            }
+                        );
+                    }
+                    else
+                        $("#timeProjects").parent().show();
+                });
 
+                // submit time to account
+                $("#submitTime").click(function(){
+                    var time = $("#addTimeTicket").val();
+                    var note = $("#noteTime").val();
+                    var tech = localStorage.getItem('userId');
+                    var accountId = $("#timeAccounts").val();
+                    var projectId = $("#timeProjects").val();
+                    var taskId = $("#taskTypes").val();
+                    if($(".innerCircle").hasClass("billFill")){
+                        isBillable = true;
+                    }else{
+                        isBillable = false;
+                    }
+                    if(time == 0){
+                        $(".errorMessageNeg").html("Oops not enough time");
+                        $(".errorMessageNeg").slideDown(200);
+                        $('html,body').animate({
+                            scrollTop: 0
+                        }, 100);
+                        setTimeout(
+                            function()
+                            {
+                                $(".errorMessageNeg").slideUp(100);
 
-                    },
-                    complete:function(){
-                        function reveal(){
-                            $(".loadScreen").hide();
-                            $(".maxSize").fadeIn();
-                        };
-                    },
-                    error: function() {
-                        console.log("fail @ time accounts");
-                        console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                            }, 1500);
+                        return;
+                    } else if(accountId == '0'){
+                        $(".errorMessageNeg").html("choose an account");
+                        $(".errorMessageNeg").slideDown(200);
+                        $('html,body').animate({
+                            scrollTop: 0
+                        }, 100);
+                        setTimeout(
+                            function()
+                            {
+                                $(".errorMessageNeg").slideUp(100);
+
+                            }, 1500);
+                        return;
+                    }else{
+                        $.ajax({
+                            type: 'POST',
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader('Authorization',
+                                                     'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                            },
+                            url: ApiSite + 'time',
+                            data: {
+                                "tech_id" : tech,
+                                "project_id": projectId,
+                                "account_id" :accountId,
+                                "note_text": note,
+                                "task_type_id":taskId,
+                                "hours":time,
+                                "is_billable": isBillable,
+                                //"date": date,
+                                //"start_date": new Date().toJSON(),
+                                //"stop_date": new Date().toJSON(),
+                            },
+                            dataType: 'json',
+                            success: function (d) {
+                                localStorage.setItem('isMessage','truePos');
+                                localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
+                                window.location = "dashboard.html";
+                            },
+                            error: function (e, textStatus, errorThrown) {
+                                alert(textStatus);
+                            }
+                        });
                     }
                 });
-            });
-            // submit time to account
-            $("#submitTime").click(function(){
-                var time = $("#addTimeTicket").val();
-                var note = $("#noteTime").val();
-                var tech = localStorage.getItem('userId');
-                var accountId = $("#timeAccounts").val();
-                var projectId = $("#timeProjects").val();
-                var taskId = $("#taskTypes").val();
-                if($(".innerCircle").hasClass("billFill")){
-                    isBillable = true;
-                }else{
-                    isBillable = false;
-                }
-                if(time == 0){
-                    $(".errorMessageNeg").html("Oops not enough time");
-                    $(".errorMessageNeg").slideDown(200);
-                    $('html,body').animate({
-                        scrollTop: 0
-                    }, 100);
-                    setTimeout(
-                        function()
-                        {
-                            $(".errorMessageNeg").slideUp(100);
-
-                        }, 1500);
-                    return;
-                } else if(accountId == '0'){
-                    $(".errorMessageNeg").html("choose an account");
-                    $(".errorMessageNeg").slideDown(200);
-                    $('html,body').animate({
-                        scrollTop: 0
-                    }, 100);
-                    setTimeout(
-                        function()
-                        {
-                            $(".errorMessageNeg").slideUp(100);
-
-                        }, 1500);
-                    return;
-                }else{
-                    $.ajax({
-                        type: 'POST',
-                        beforeSend: function (xhr) {
-                            xhr.setRequestHeader('Authorization',
-                                                 'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                        },
-                        url: ApiSite + 'time',
-                        data: {
-                            "tech_id" : tech,
-                            "project_id": projectId,
-                            "account_id" :accountId,
-                            "note_text": note,
-                            "task_type_id":taskId,
-                            "hours":time,
-                            "is_billable": isBillable,
-                            //"date": date,
-                            //"start_date": new Date().toJSON(),
-                            //"stop_date": new Date().toJSON(),
-                        },
-                        dataType: 'json',
-                        success: function (d) {
-                            localStorage.setItem('isMessage','truePos');
-                            localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
-                            window.location = "dashboard.html";
-                        },
-                        error: function (e, textStatus, errorThrown) {
-                            alert(textStatus);
-                        }
-                    });
-                }
-            });
-
+            }
         }
     };
 
@@ -1308,19 +1263,9 @@ $(document).ready(function(){
         },
 
         showTicket:function(){
-            var isMessage = localStorage.getItem("isMessage");
-            if(isMessage == "truePos")
+            if(localStorage.getItem("isMessage") == "truePos")
             {
-                var messageText = localStorage.getItem("userMessage");
-                $(".errorMessagePos").html(messageText);
-                $(".errorMessagePos").slideDown(100);
-                setTimeout(
-                    function()
-                    {
-                        $(".errorMessagePos").slideUp(100);
-                        localStorage.setItem("isMessage","false");
-
-                    }, 3500);
+                userMessage.showMessage(true);
             }
             // listen for a click of a ticket block from a ticket list page (account detail  ticket list or complete ticket list)
             $(document).on("click",".responseBlock", function(){
@@ -1447,23 +1392,9 @@ $(document).ready(function(){
                         updateEditTicket.then(function(results){
 
                             console.log('Then Complete');
-                            localStorage.setItem("isMessage","truePos");
-                            localStorage.setItem("userMessage","Ticket was successfully updated <i class='fa fa-thumbs-o-up'></i>");
+                            userMessage.setMessage(true, "Ticket was successfully updated <i class='fa fa-thumbs-o-up'></i>");
                             window.location = "ticket_detail.html";
-                            var isMessage = localStorage.getItem("isMessage");
-                            if(isMessage == "truePos")
-                            {
-                                var messageText = localStorage.getItem("userMessage");
-                                $(".errorMessagePos").html(messageText);
-                                $(".errorMessagePos").slideDown(100);
-                                setTimeout(
-                                    function()
-                                    {
-                                        $(".errorMessagePos").slideUp(100);
-                                        localStorage.setItem("isMessage","false");
-
-                                    }, 3500);
-                            }
+                            userMessage.showMessage(true);
 
                             //SherpaDesk.getTicketDetail(configPass, key);
                             //addAlert("success", "Ticket has been Updated");
@@ -1918,9 +1849,9 @@ $(document).ready(function(){
                     success: function(returnData) {
                         $("#invoiceList").empty();
                         console.log(returnData);
-                            if(returnData.length == 0){
-                                $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
-                            }
+                        if(returnData.length == 0){
+                            $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
+                        }
                         // add invoice to list
                         for(var i = 0; i < returnData.length; i++)
                         {
@@ -2748,9 +2679,9 @@ $(document).ready(function(){
                 window.location = "ticket_list.html";
         },
                               function () {
-                                  console.log("fail @ config");
-                                  logout();
-                              }
+            console.log("fail @ config");
+            logout();
+        }
                              );
     };
 
@@ -3132,15 +3063,15 @@ $(document).ready(function(){
 
         menuFunctions:function(){
             //set ticket amount in menu 
-        var techTicketStats = localStorage.getItem('techStat');
-        if(techTicketStats == null){
-            $('.menuTicketsStat').hide();
-        }else{
-            if(techTicketStats > 100){
-                techTicketStats = 99;
+            var techTicketStats = localStorage.getItem('techStat');
+            if(techTicketStats == null){
+                $('.menuTicketsStat').hide();
+            }else{
+                if(techTicketStats > 100){
+                    techTicketStats = 99;
+                }
+                $(".menuTicketStatNumber").html(techTicketStats);
             }
-            $(".menuTicketStatNumber").html(techTicketStats);
-        }
         }
     };
 
@@ -3148,36 +3079,38 @@ $(document).ready(function(){
         init:function() {
             this.showMessage();
         },
-        showMessage:function() {
+        setMessage:function(isPos, messageText) {
+            localStorage.setItem("userMessage", messageText);
+            localStorage.setItem("isMessage", isPos ? "truePos" : "trueNeg");
+        },
+        showMessage:function(isPos, messageText) {
 
-            var isMessage = localStorage.getItem("isMessage");
-            if(isMessage == "truePos")
+            if (typeof isPos === "undefined")
             {
-                var messageText = localStorage.getItem("userMessage");
-                $(".errorMessagePos").html(messageText);
-                $(".errorMessagePos").slideDown(100);
-                setTimeout(
-                    function()
-                    {
-                        $(".errorMessagePos").slideUp(100);
-                        localStorage.setItem("isMessage","false");
-
-                    }, 3500);
-            }
-            if(isMessage == "trueNeg")
-            {
-                var messageText = localStorage.getItem("userMessage");
-                $(".errorMessageNeg").html(messageText);
-                $(".errorMessageNeg").slideDown(100);
-                setTimeout(
-                    function()
-                    {
-                        $(".errorMessageNeg").slideUp(100);
-                        localStorage.setItem("isMessage","false");
-
-                    }, 3500);
+                var isMessage = localStorage.getItem("isMessage");
+                if(isMessage == "truePos")
+                {isPos = true;localStorage.setItem("isMessage","false");}
+                else if(isMessage == "trueNeg")
+                {isPos = false;localStorage.setItem("isMessage","false");}
+                else
+                    return;
             }
 
+            if (typeof messageText === "undefined")
+            {
+                messageText = localStorage.getItem("userMessage");
+            }
+
+            var messageEl = isPos ? ".errorMessagePos" : ".errorMessageNeg";
+
+            $(messageEl).html(messageText);
+            $(messageEl).slideDown(100);
+            setTimeout(
+                function()
+                {
+                    $(messageEl).slideUp(100);
+
+                }, 3500);
         }
     };
 
@@ -3278,8 +3211,8 @@ $(document).ready(function(){
             }
             if (location.pathname.indexOf("Invoice_List.html") >= 0)
             {
-                    invoiceList.init();
-                
+                invoiceList.init();
+
             }
             if (location.pathname.indexOf("invoice.html") >= 0)
             {
