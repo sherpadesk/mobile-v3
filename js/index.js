@@ -514,7 +514,9 @@ fullscreen();
 
 		Splash:function(){
 			if (location.pathname.indexOf("index.html") >= 0){
+				$('.bodyContent').hide();
 				setTimeout(function(){
+					$('.bodyContent').show();
 				 $('.splashScreenSherpa').animate({
                		'opacity':0,
                	  },1000);

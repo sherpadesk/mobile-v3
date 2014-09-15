@@ -2409,6 +2409,10 @@ $(document).ready(function(){
                     if(accountHours > 999){
                         accountHours = '999';
                     }
+                    accountHours = accountHours.toString();
+                    if(accountHours.length > 3){
+                       accountHours = accountHours.substring(0,3);
+                    }
                     if(accountTickets > 999){
                         accountTickets = '999';
                     }

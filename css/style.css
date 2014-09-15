@@ -786,6 +786,9 @@ header {
   height: 170px;
   position: relative;
   width: 100%;
+  max-width: 650px;
+  display: block;
+  margin: 0 auto;
 }
 
 .dashboardContainer {
