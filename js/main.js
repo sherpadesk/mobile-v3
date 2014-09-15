@@ -521,8 +521,8 @@ $(document).ready(function(){
                         "is_send_notifications": true,
                         "resolved": true,
                     dataType: 'json',
-                        "confirmed": true,
-                        "confirm_note": "confirmed by me"
+                        "confirmed": false,
+                        "confirm_note": ""
 
                     },
                     success: function (d) {
