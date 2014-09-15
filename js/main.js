@@ -1367,7 +1367,7 @@ $(document).ready(function(){
                         }
 
                         // comment insert
-                        var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+note.replace(/(?:\r\n|\r|\n)/g, '<p></p>').replace("<br>", "<p></p>")+"</p></li><li>"+type+"</li></ul>";
+                        var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+note.replace(/\n/g, '<p></p>').replace("<br>", "<p></p>")+"</p></li><li>"+type+"</li></ul>";
                         $(insert).appendTo("#comments");
                         for(var f = 0; f < attachments.length; f++)
                         {
@@ -1403,7 +1403,7 @@ $(document).ready(function(){
                             }
                         }
                     }
-                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note.replace(/(?:\r\n|\r|\n)/g, '<p></p>').replace("<br>", "<p></p>")+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul></div>";
+                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note.replace(/\n/g, '<p></p>').replace("<br>", "<p></p>")+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul></div>";
 
                     $(orginalMessageinsert).appendTo(".orginalMessageContainer");
 
