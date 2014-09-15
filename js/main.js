@@ -334,6 +334,10 @@ $(document).ready(function(){
         },
 
         showClosedTickets:function() {
+            if(localStorage.getItem("isMessage") == "truePos")
+            {
+                userMessage.showMessage(true);
+            }
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
@@ -401,6 +405,8 @@ $(document).ready(function(){
                     },
                     dataType: 'json',
                     success: function (d) {
+                        localStorage.setItem('isMessage','truePos');
+                        localStorage.setItem('userMessage','Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
                         window.location = "ticket_list.html";
                     },
                     error: function (e, textStatus, errorThrown) {
@@ -504,6 +510,37 @@ $(document).ready(function(){
     var closeTicket = {
         init:function() {
             this.closeIt();
+            this.reopenIt();
+        },
+        reopenIt:function() {
+            $('#openIt').click(function(){
+                $.ajax({
+                    type: 'PUT',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization',
+                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                    },
+                    url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
+                    data: {
+                            "status" : "open",
+                            "note_text": ""
+                        },
+                    success: function (d) {
+                        //location.reload(false);
+                        setTimeout(
+                            function()
+                            {
+                                localStorage.setItem('isMessage','truePos');
+                                localStorage.setItem('userMessage','Ticket has been Reopened <i class="fa fa-thumbs-o-up"></i>');
+                                window.history.back();
+
+                            }, 1000);
+                    },
+                    error: function (e, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            });
         },
 
         closeIt:function() {
@@ -530,7 +567,8 @@ $(document).ready(function(){
                         setTimeout(
                             function()
                             {
-
+                                localStorage.setItem('isMessage','truePos');
+                                localStorage.setItem('userMessage','Ticket has been closed <i class="fa fa-thumbs-o-up"></i>');
                                 window.history.back();
 
                             }, 1000);
@@ -1230,7 +1268,12 @@ $(document).ready(function(){
                     } else {
                         daysOld = parseInt(daysOld) +" hours ago";
                     }
-
+                    //check to see if a ticket is closed or open. If a ticket is closed the offer the reopen option
+                    if(returnData.status == 'Closed'){
+                        $('#closeIt').hide();
+                    }else{
+                        $('#openIt').hide();
+                    }
                     // update page variables with correct ticket information
                     var ticketHours = returnData.total_hours;
                     $("#ticketNumber").html(returnData.status+" | "+returnData.number);
@@ -2738,6 +2781,10 @@ $(document).ready(function(){
                     var openHours = returnData[i].account_statistics.hours;
                     if(openHours > 999){
                         openHours = 999;
+                    }
+                    openHours = openHours.toString();
+                    if(openHours.length > 3){
+                        openHours = openHours.substring(0,3);
                     }
 
                     // if account has more than 100 open tickets then sub 99+
