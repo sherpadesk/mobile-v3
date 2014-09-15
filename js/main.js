@@ -697,7 +697,7 @@ var SherpaDesk = {
 				    "status" : "closed",
 				    "note_text": details,
 				    "is_send_notifications": notify,
-				    "resolved": false,
+				    "resolved": true,
 				    "confirmed": false
 				},
 			method = 'tickets/' + key ,
