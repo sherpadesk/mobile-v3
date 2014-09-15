@@ -170,7 +170,10 @@ strong {
   width: 100%;
   margin: 0 auto 10px;
   display: block;
+  resize:none;
 }
+
+
 
 .glow{
   background-color: rgba(168, 195, 207, 0.5) !important;
@@ -2083,6 +2086,15 @@ font-size: 16px !important;
 .textInputContainer {
   width: 90%;
   margin: 0 auto
+}
+
+#closingMessage {
+  display: none;
+}
+#closeMessageButton {
+  display: none;
+  margin-left: 0px;
+  float: right;
 }
 
 /* Add Tickets Update  */

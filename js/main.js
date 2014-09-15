@@ -545,6 +545,13 @@ $(document).ready(function(){
 
         closeIt:function() {
             $("#closeIt").click(function(){
+                $('#closingMessage').slideDown(400, function(){
+                    $('#closeMessageButton').fadeIn();
+                });
+
+            });
+            $('#closeMessageButton').on('click',function(){
+                var closeTicketMessage = $('#closingMessage').val();
                 $.ajax({
                     type: 'PUT',
                     beforeSend: function (xhr) {
@@ -554,7 +561,7 @@ $(document).ready(function(){
                     url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
                     data: {
                         "status" : "closed",
-                        "note_text": "",
+                        "note_text": closeTicketMessage,
                         "is_send_notifications": true,
                         "resolved": true,
                     dataType: 'json',
@@ -736,7 +743,7 @@ $(document).ready(function(){
             //If sub-class exist
             if((typeof classSub[0] !== "undefined") && (classSub[0].sub !== null || classSub[0].sub > 0)){
                 //Show sub-class select
-                fillSelect(classSub[0].sub, ".add_class", "<option value="+selectedEditClass+">Sub Class: ---</option>", "Sub Class: ", "", "<div class=sub_class1><div class=styledSelect><select id=sub_class1>","</select></div></div>");
+                fillSelect(classSub[0].sub, ".add_class", "<option value="+selectedEditClass+">choose a sub class</option>", "", "", "<div class=sub_class1><div class=styledSelect><select id=sub_class1>","</select></div></div>");
 
                 $("select#sub_class1").on('change', function(){
                     if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
