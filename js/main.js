@@ -31,7 +31,7 @@ function onDeviceReady() {
 
 //open link	in blank
 function openURL(urlString){
-    window.open(urlString, '_blank', 'location=no');
+    window.open(urlString, '_blank', 'location=no,EnableViewPortScale=yes');
 }
 
 //open link	in system
