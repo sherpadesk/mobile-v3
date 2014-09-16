@@ -535,7 +535,7 @@ fullscreen();
 
 
 	(function() {
-		splashScreen.init();
+		//splashScreen.init();
 		createButton.init();
 		fastClicker.init();
 		openTickets.init();
