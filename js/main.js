@@ -405,9 +405,8 @@ $(document).ready(function(){
                     },
                     dataType: 'json',
                     success: function (d) {
-                        localStorage.setItem('isMessage','truePos');
-                        localStorage.setItem('userMessage','Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
-                        window.location = "ticket_list.html";
+                        userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
+                        window.location = "ticket_detail.html";
                     },
                     error: function (e, textStatus, errorThrown) {
                         alert(textStatus);
@@ -530,8 +529,7 @@ $(document).ready(function(){
                         setTimeout(
                             function()
                             {
-                                localStorage.setItem('isMessage','truePos');
-                                localStorage.setItem('userMessage','Ticket has been Reopened <i class="fa fa-thumbs-o-up"></i>');
+                                userMessage.showMessage(true, 'Ticket has been Reopened <i class="fa fa-thumbs-o-up"></i>');
                                 window.history.back();
 
                             }, 1000);
@@ -551,7 +549,11 @@ $(document).ready(function(){
 
             });
             $('#closeMessageButton').on('click',function(){
-                var closeTicketMessage = $('#closingMessage').val();
+                var closeTicketMessage = htmlEscape($('#closingMessage').val()).trim();
+                if (closeTicketMessage.length > 500){
+                    userMessage.showMessage(false,  "Note cannot be more than 500 chars!");	
+                    return;
+                }
                 $.ajax({
                     type: 'PUT',
                     beforeSend: function (xhr) {
@@ -564,7 +566,7 @@ $(document).ready(function(){
                         "note_text": closeTicketMessage,
                         "is_send_notifications": true,
                         "resolved": true,
-                    dataType: 'json',
+                        dataType: 'json',
                         "confirmed": false,
                         "confirm_note": ""
 
@@ -574,8 +576,7 @@ $(document).ready(function(){
                         setTimeout(
                             function()
                             {
-                                localStorage.setItem('isMessage','truePos');
-                                localStorage.setItem('userMessage','Ticket has been closed <i class="fa fa-thumbs-o-up"></i>');
+                                userMessage.showMessage(true, 'Ticket has been closed <i class="fa fa-thumbs-o-up"></i>');
                                 window.history.back();
 
                             }, 1000);
@@ -827,6 +828,12 @@ $(document).ready(function(){
                 {
                     userMessage.showMessage(false, "Please enter subject");
                 }
+                else if (subject.length > 100){
+                    userMessage.showMessage(false, "Subject should be less 100 chars!");	
+                } 
+                else if (post.length > 5000) {
+                    userMessage.showMessage(false, "Details cannot be more than 5000 chars!");
+                }
                 else
                 {
                     var addTicket = getApi("tickets", {
@@ -871,6 +878,10 @@ $(document).ready(function(){
                 var comment = htmlEscape($("#commentText").val().trim());
                 if (!comment) {
                     userMessage.showMessage(false, "Please enter note");
+                    return;
+                }
+                if (comment.length > 500) {
+                    userMessage.showMessage(false, "Note cannot be more than 500 chars!");
                     return;
                 }
                 $.ajax({
@@ -1079,6 +1090,11 @@ $(document).ready(function(){
                 if (note.length < 1)
                 {
                     userMessage.showMessage(false, "Please enter note");
+                    return;
+                }
+                if (note.length > 500)
+                {
+                    userMessage.showMessage(false, "Note cannot be more than 500 chars!");
                     return;
                 }
                 // check to see if user check for time to be billable
@@ -1421,8 +1437,11 @@ $(document).ready(function(){
                         $(insert).appendTo("#comments");
                         for(var f = 0; f < attachments.length; f++)
                         {
-
-                            var insert = "<img class='attachment' src="+attachments[f]+">";
+                            var insert = "";
+                            if (isPhonegap)
+                                 insert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +attachments[f] + "\")'><img class=\"attachment\" src=\"" +attachments[f] + "\"></a>";
+                            else
+                                 insert = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +attachments[f] + "\"><img class=\"attachment\" src=\""  +attachments[f]+  "\"></a>";
                             $(insert).appendTo("#comments");
                         }
                         if(attachments.length > 0)
@@ -1444,7 +1463,10 @@ $(document).ready(function(){
                         {
                             if(note.indexOf(returnData.attachments[e].name) >= 0)
                             {
-                                attachments[e] = "<img class='attachment' src="+returnData.attachments[e].url+">";
+                                if (isPhonegap)
+                                    attachments[e] = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +returnData.attachments[e].url + "\")'><img class=\"attachment\" src=\"" +returnData.attachments[e].url+ "\"></a>";
+                                else
+                                    insert = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +returnData.attachments[e].url + "\"><img class=\"attachment\" src=\""  +returnData.attachments[e].url+  "\"></a>";
                                 $(attachments[e]).error(function(){
                                     attachments[e] = "0";
 
@@ -3120,37 +3142,38 @@ $(document).ready(function(){
         userMessage.init();
         UserLogin.init();
         org.init();
-        signout.init();
-        miscClicks.init();
         //userInfo.init();
 
-        //init config
-        if (localStorage.getItem('userRole') === "tech")
-            isTech = true;
-        if (localStorage.getItem('projectTracking') === "false")
-            isProject = false;
-        if (localStorage.getItem('timeTracking') === "false")
-            isTime = false;
-        if (localStorage.getItem('accountManager') === "false")
-            isAccount = false;
-        if (localStorage.getItem('ticketLevels') === "false")
-            isLevel = false;
-        if (localStorage.getItem('classTracking') === "false")
-            isClass = false;
-        if (localStorage.getItem('locationTracking') === "false")
-            isLocation = false;
-        if (localStorage.getItem('freshbooks') === "false")
-            isFreshbook = false;
-
+        //when user logged in
         if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/" && location.pathname.indexOf("org.html")<0)
         {
             //set the name of the nav side menu
-            $(".navName").html(localStorage.getItem("userFullName"));
+            //$(".navName").html(localStorage.getItem("userFullName"));
             //set user avatar picture in side menu
-            $(".navProfile").attr("src","http://www.gravatar.com/avatar/" + $.md5(localStorage.getItem("userName")) + "?d=mm&s=80");
-            $(".navName").show();
-            $(".navProfile").show();
-        }
+            //$(".navProfile").attr("src","http://www.gravatar.com/avatar/" + $.md5(localStorage.getItem("userName")) + "?d=mm&s=80");
+            //$(".navName").show();
+            //$(".navProfile").show();
+            
+            signout.init();
+            miscClicks.init();
+            //init config
+            if (localStorage.getItem('userRole') === "tech")
+                isTech = true;
+            if (localStorage.getItem('projectTracking') === "false")
+                isProject = false;
+            if (localStorage.getItem('timeTracking') === "false")
+                isTime = false;
+            if (localStorage.getItem('accountManager') === "false")
+                isAccount = false;
+            if (localStorage.getItem('ticketLevels') === "false")
+                isLevel = false;
+            if (localStorage.getItem('classTracking') === "false")
+                isClass = false;
+            if (localStorage.getItem('locationTracking') === "false")
+                isLocation = false;
+            if (localStorage.getItem('freshbooks') === "false")
+                isFreshbook = false;
+        
         //Disable for user
         if (!isTech){
             $(".sideNavLinks").children(":not('.user')").hide();
@@ -3270,10 +3293,14 @@ $(document).ready(function(){
                 addTime.init();
             }
         }
+            search.init();
+            setTimeout(fullapplink, 3000);
+            if (!isTime)
+                $(".time").remove();
+        }
 
         //getQueueTickets.init();
         //accountDetailsPageSetup.init();
-        search.init();
         //detailedTicket.init();
         //ticketList.init();
         //getQueues.init();
@@ -3283,9 +3310,6 @@ $(document).ready(function(){
         //invoiceList.init();
         //detailedInvoice.init();
         //updateInvoice.init();
-        setTimeout(fullapplink, 3000);
-        if (!isTime)
-            $(".time").remove();
     }());
 
 
