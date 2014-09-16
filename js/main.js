@@ -530,7 +530,7 @@ $(document).ready(function(){
                             function()
                             {
                                 userMessage.showMessage(true, 'Ticket has been Reopened <i class="fa fa-thumbs-o-up"></i>');
-                                window.history.back();
+                                window.location = "ticket_detail.html";
 
                             }, 1000);
                     },
@@ -545,8 +545,10 @@ $(document).ready(function(){
             $("#closeIt").click(function(){
                 $('#closingMessage').slideDown(400, function(){
                     $('#closeMessageButton').fadeIn();
+                    $('html,body').animate({
+                    scrollTop: $('#closeMessageButton').offset().top
+                },400);
                 });
-
             });
             $('#closeMessageButton').on('click',function(){
                 var closeTicketMessage = htmlEscape($('#closingMessage').val()).trim();
@@ -1824,21 +1826,21 @@ $(document).ready(function(){
         },
 
         listInvoices:function(){
-            var localInvoiceList = [];
-            var retrievedObject = localStorage.getItem("storageInvoices");
-            retrievedObject = JSON.parse(retrievedObject);
-            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
-            {
-                console.log("could not load local data")
-            }
-            else
-            {
-                for(var a = 0; a < retrievedObject.length; a++)
-                {
-                    localInsert = retrievedObject[a];
-                    $(localInsert).appendTo("#allInvoiceList");
-                }
-            }
+            // var localInvoiceList = [];
+            // var retrievedObject = localStorage.getItem("storageInvoices");
+            // retrievedObject = JSON.parse(retrievedObject);
+            // if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            // {
+            //     console.log("could not load local data")
+            // }
+            // else
+            // {
+            //     for(var a = 0; a < retrievedObject.length; a++)
+            //     {
+            //         localInsert = retrievedObject[a];
+            //         $(localInsert).appendTo("#allInvoiceList");
+            //     }
+            // }
             // go to list of account invoice on click
             $("#invoiceOption").click(function(){
                 window.location = "Invoice_List.html";
