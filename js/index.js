@@ -180,7 +180,7 @@ fullscreen();
 
 		slideOut: function() {
 			$(document).on("click","#addRecipient", function(){
-				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer addRecipColor'><input class='headerSearch'><img class='searchCloseExpanded addRecipX' src='img/close_search.png'></div></li>";
+				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer addRecipColor'><input class='headerSearch'><img class='searchCloseExpandedR addRecipX' src='img/close_search.png'></div></li>";
 				var parent = $(this).parent();
 				var label = '<li>Recipients</li>';
 				$(parent).empty();
@@ -193,7 +193,7 @@ fullscreen();
 		},
 
 		slideIn: function() {
-			$(document).on("click",".searchCloseExpanded", function(){
+			$(document).on("click",".searchCloseExpandedR", function(){
 				$(".headerSearchContainer").animate({
 					width: "0px"
 				}, 300);
@@ -216,27 +216,37 @@ fullscreen();
 		},
 
 		slideOut: function() {
-			$(".topHeader li:last-child ").on("click", ".headerSearchIcon", function() {
-				var parent = $(this).parent();
-                var insert = "<div id='searchThis' class='headerSearchContainer'><img class='searchIconExpanded' src='img/search_icon.png'><input class='headerSearch' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><img class='searchCloseExpanded' src='img/close_search.png'></div>"
+			//$(".topHeader li:last-child ").on("click", ".headerSearchIcon", function() {
+            if ($(".headerSearchIcon")){
+                var parent = $(".headerSearchIcon").parent();
+                //console.log(parent);
+                var insert = "<div id='searchThis' class='headerSearchContainer'><img class='searchIconExpanded' src='img/search_icon.png'><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><img class='searchCloseExpanded' src='img/close_search.png'></div>"
 				$(parent).empty();
 				$(insert).appendTo( $( parent ) );
 				$(".headerSearchContainer").animate({
 					width: "235px"
 				}, 300);
-			});
+            }
+			//});
 		},
 
 		slideIn: function() {
 			var parent = ".topHeader li:last-child";
-			var insert = "<img class='headerSearchIcon' src='img/search_icon.png'>"
+			//var insert = "<img class='headerSearchIcon' src='img/search_icon.png'>"
 			$(parent).on("click", ".searchCloseExpanded", function() {
-				$(".headerSearchContainer").animate({
-					width: "5px"
-				}, 300, function() {
-					$(parent).empty();
-					$(insert).appendTo( $( parent ) );
-				});
+                if ($(".search").val())
+                {
+                    $(".search").val("");
+                    if (location.pathname.indexOf("ticket_list.html") >= 0)
+                    location.reload(false);
+                    else
+                        if (location.pathname.indexOf("dashboard.html") < 0) featureList.search();
+                }//$(".headerSearchContainer").animate({
+				//	width: "5px"
+				//}, 300, function() {
+				//	$(parent).empty();
+				//	$(insert).appendTo( $( parent ) );
+				//});
 			});
 		}
 	};

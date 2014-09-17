@@ -55,7 +55,7 @@ $( document ).ajaxError(function( event, request, settings ) {
 //If User is Offline....................................
 function off(){
     if (!$(".catch-error").length) {
-        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="redirectToPage()" class="btn btn-large btn-block btn-success">Refresh</button></center></div></div>');
+        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="redirectToPage()">Refresh</button></center></div></div>');
     }
     isOnline = false;
 };
@@ -153,6 +153,41 @@ function htmlEscape(str) {
     //.replace(/\n/g, "<br />")
     ;
 };
+
+var featureList;
+
+function filterList(listClass, init_value){
+    $('body').attr('id', 'search_wrap');
+    window.setTimeout(function(){
+        var options = {
+            listClass: listClass,
+            item: "responseBlock",
+            valueNames: [ 'blockNumber', 'responseText', 'TicketBlockNumber', 'user_name']			
+        };
+        featureList = new List('search_wrap', options);
+        if (typeof init_value !== "undefined" && init_value)
+        {
+            featureList.search(init_value);
+            $(".search").val(init_value);
+            localStorage.setItem("searchItem","");
+        }
+        featureList.on('updated',function(){
+            //console.log(featureList);
+            if (featureList.matchingItems.length > 1) 
+            {
+                var itemMessage = 'There are ' + featureList.matchingItems.length + ' matching tickets.';
+                console.log( itemMessage);
+            } else if (featureList.matchingItems.length == 1) {
+                ;
+            } else if (featureList.matchingItems.length == 0) {
+                console.log( 'Bummer...  0 items found');
+            }
+        });
+        //console.log("loaded list");
+
+    },100);
+};
+
 
 
 $(document).ready(function(){
@@ -371,8 +406,9 @@ $(document).ready(function(){
                         {
                             initialPost = initialPost.substring(0,50);
                         }
-                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span  class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo("#closedTickets");
+                        filterList("closedTickets");
                     }
 
                 },
@@ -925,6 +961,9 @@ $(document).ready(function(){
                 if(e.which == 13) {
                     var searchItem  = $(".headerSearch").val().toLowerCase();
                     localStorage.setItem("searchItem",searchItem);
+                    localStorage.setItem("ticketPage", "asTech");
+                    window.location = "ticket_list.html";
+                    return;
                     var found = false;
                     var matchedTickets = [];
 
@@ -1977,17 +2016,15 @@ $(document).ready(function(){
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initafilPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#queueTickets");
                     }
 
                 },
                 complete:function(){
-                    function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
-                    };
+                    reveal();
+                    filterList("queueTickets");
                 },
                 error: function() {
                     console.log("fail @ Queues List");
@@ -2064,6 +2101,7 @@ $(document).ready(function(){
     var ticketList = {
         init:function() {
             this.userTickets();
+            var page = "";
             if (!isTech){
                 $(".TicketTabs").hide();
             }
@@ -2086,26 +2124,19 @@ $(document).ready(function(){
             var ticketView = localStorage.getItem("ticketPage");
             if(ticketView == "asAltTech")
             {
-                $('#tabpage_reply, #tabpage_all, #tabpage_info').hide();
-                $('#tabpage_options').fadeIn();
-                localStorage.setItem('ticketPage',"asTech");
+                page ="altContainer";
             }
             else if(ticketView == "asTech")
             {
-                $('#tabpage_reply, #tabpage_all, #tabpage_options').hide();
-                $('#tabpage_info').fadeIn();
+                page = "techContainer";
             }
             else if(ticketView == "asUser")
             {
-                $('#tabpage_info, #tabpage_all, #tabpage_options').hide();
-                $('#tabpage_reply').fadeIn();
-                localStorage.setItem('ticketPage',"asTech");
+                page ="userContainer";
             }
             else if(ticketView == "allTickets")
             {
-                $('#tabpage_info, #tabpage_reply, #tabpage_options').hide();
-                $('#tabpage_all').fadeIn();
-                localStorage.setItem('ticketPage',"asTech");
+                page ="allContainer";
             }
             $("#techContainer, #optionsConainer, #allContainer, #userContainer").empty();
             $.ajax({
@@ -2138,13 +2169,14 @@ $(document).ready(function(){
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#techContainer");
                     }
                 },
                 complete:function(){
-                    reveal();
+                    //reveal();
+                    filterList("techContainer");
                 },
                 error: function() {
                     console.log("fail @ ticket List");
@@ -2184,15 +2216,39 @@ $(document).ready(function(){
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo("#allContainer");
                     }
                 },
                 complete:function(){
-                    function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
-                    };
+                    //reveal();
+                    filterList("allContainer");
+                    filterList(page, localStorage.getItem("searchItem"));
+                    var ticketView = localStorage.getItem("ticketPage");
+                    if(ticketView == "asAltTech")
+                    {
+                        $('#tabpage_reply, #tabpage_all, #tabpage_info').hide();
+                        $('#tabpage_options').fadeIn();
+                        localStorage.setItem('ticketPage',"asTech");
+                    }
+                    else if(ticketView == "asTech")
+                    {
+                        $('#tabpage_reply, #tabpage_all, #tabpage_options').hide();
+                        $('#tabpage_info').fadeIn();
+                    }
+                    else if(ticketView == "asUser")
+                    {
+                        $('#tabpage_info, #tabpage_all, #tabpage_options').hide();
+                        $('#tabpage_reply').fadeIn();
+                        localStorage.setItem('ticketPage',"asTech");
+                    }
+                    else if(ticketView == "allTickets")
+                    {
+                        $('#tabpage_info, #tabpage_reply, #tabpage_options').hide();
+                        $('#tabpage_all').fadeIn();
+                        localStorage.setItem('ticketPage',"asTech");
+                    }
+
                 },
                 error: function() {
                     console.log("fail @ ticket List");
@@ -2230,16 +2286,14 @@ $(document).ready(function(){
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#altContainer");
                     }
                 },
                 complete:function(){
-                    function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
-                    };
+                    //reveal();
+                    filterList("altContainer");
                 },
                 error: function() {
                     console.log("fail @ ticket List");
@@ -2276,16 +2330,16 @@ $(document).ready(function(){
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#userContainer");
                     }
                 },
                 complete:function(){
-                    function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
-                    };
+                    if (!isTech) {reveal();
+                    $('#tabpage_reply').fadeIn();}
+                    if(isTech)
+                    filterList("userContainer");
                 },
                 error: function() {
                     console.log("fail @ ticket List");
@@ -2546,6 +2600,7 @@ $(document).ready(function(){
                         }
                         var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo(".AccountDetailsTicketsContainer");
+                        filterList("AccountDetailsTicketsContainer");
                     }
 
                 },
@@ -3191,13 +3246,14 @@ $(document).ready(function(){
                 getQueueList();
                 getQueues.init();
                 getActiveAccounts();
+                search.init();
                 reveal();
             }
             if (location.pathname.indexOf("account_details.html") >= 0)
             {
                 accountDetailsPageSetup.init();
                 //detailedTicket.init();
-                closedTickets.init();
+                closedTickets.pageChange();
 
             }
             if (location.pathname.indexOf("Account_List.html") >= 0)
@@ -3297,7 +3353,6 @@ $(document).ready(function(){
                 addTime.init();
             }
         }
-            search.init();
             setTimeout(fullapplink, 3000);
             if (!isTime)
                 $(".time").remove();
