@@ -43,17 +43,19 @@ function openURLsystem(urlString){
 $( document ).ajaxError(function( event, request, settings ) {
     //console.log(event);
     //console.log(request);
+    //console.log(settings);
     if (request.status == 403)
     {
         logout(settings.url !== ApiSite + "login" );
     }
-    //console.log(settings);
+    else if (request.readyState == 0 && request.status == 0)
+         off();
 });
 
 //If User is Offline....................................
 function off(){
     if (!$(".catch-error").length) {
-        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
+        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="redirectToPage()" class="btn btn-large btn-block btn-success">Refresh</button></center></div></div>');
     }
     isOnline = false;
 };
@@ -64,7 +66,7 @@ function on1 (){
         location.reload(false);
         //document.location.href = MobileSite + "index.html";
     }
-    isOnline = false;
+    isOnline = true;
 };
 
 function redirectToPage() {
@@ -75,7 +77,7 @@ function redirectToPage() {
          var img = document.body.appendChild(document.createElement("img"));
          img.style.display = 'none';
          img.onload = function () {
-             document.location.href = MobileSite + "index.html";
+             on1();
          };
          img.onerror = function () {
              off();

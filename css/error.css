@@ -16,7 +16,7 @@
   border-bottom: 1px solid #000; }    
 
     .catch-error {
-        min-height: 430px;
+        min-height: 575px;
         margin: 0 auto;
         background: url('../img/error-background.png') no-repeat 0 250px;
     }
@@ -30,6 +30,7 @@
         margin: 0 auto;
         padding: 0;
         min-height: 300px;
+        text-shadow: 0 0 1em white;
     }
 
         .catch-error-description .return-button {
