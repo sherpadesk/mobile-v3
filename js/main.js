@@ -1517,7 +1517,7 @@ $(document).ready(function(){
                                 if (isPhonegap)
                                     attachments[e] = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +returnData.attachments[e].url + "\")'><img class=\"attachment\" src=\"" +returnData.attachments[e].url+ "\"></a>";
                                 else
-                                    insert = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +returnData.attachments[e].url + "\"><img class=\"attachment\" src=\""  +returnData.attachments[e].url+  "\"></a>";
+                                    attachments[e] = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +returnData.attachments[e].url + "\"><img class=\"attachment\" src=\""  +returnData.attachments[e].url+  "\"></a>";
                                 $(attachments[e]).error(function(){
                                     attachments[e] = "0";
 
