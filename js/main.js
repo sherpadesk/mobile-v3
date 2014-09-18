@@ -156,13 +156,21 @@ function htmlEscape(str) {
 
 var featureList;
 
-function filterList(listClass, init_value){
+function filterList(listClass, value_names, init_value){
     $('body').attr('id', 'search_wrap');
     window.setTimeout(function(){
+        if (typeof value_names === "undefined" || !value_names)
+        {
+            value_names = [ 'blockNumber', 'responseText', 'TicketBlockNumber', 'user_name'];
+        }
+        else if (value_names)
+        {
+            value_names = value_names.split(',');
+        }
         var options = {
             listClass: listClass,
             item: "responseBlock",
-            valueNames: [ 'blockNumber', 'responseText', 'TicketBlockNumber', 'user_name']			
+            valueNames: value_names			
         };
         featureList = new List('search_wrap', options);
         if (typeof init_value !== "undefined" && init_value)
@@ -2016,15 +2024,15 @@ $(document).ready(function(){
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initafilPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initafilPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#queueTickets");
                     }
 
                 },
                 complete:function(){
-                    reveal();
                     filterList("queueTickets");
+                    reveal();
                 },
                 error: function() {
                     console.log("fail @ Queues List");
@@ -2223,7 +2231,7 @@ $(document).ready(function(){
                 complete:function(){
                     //reveal();
                     filterList("allContainer");
-                    filterList(page, localStorage.getItem("searchItem"));
+                    filterList(page, "", localStorage.getItem("searchItem"));
                     var ticketView = localStorage.getItem("ticketPage");
                     if(ticketView == "asAltTech")
                     {
@@ -2598,7 +2606,7 @@ $(document).ready(function(){
                         {
                             initialPost = initialPost.substring(0,50);
                         }
-                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo(".AccountDetailsTicketsContainer");
                         filterList("AccountDetailsTicketsContainer");
                     }
