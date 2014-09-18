@@ -224,7 +224,7 @@ fullscreen();
 				$(parent).empty();
 				$(insert).appendTo( $( parent ) );
 				$(".headerSearchContainer").animate({
-					width: "175px"
+					width: "155px"
 				}, 300);
             }
 			//});
