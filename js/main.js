@@ -729,7 +729,7 @@ $(document).ready(function(){
 
     function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
     {
-        if (typeof returnData === "undefined" || returnData.length < 1)
+        if (typeof returnData === "undefined" || !returnData || !returnData.length)
         { 
             $(""+element).parent().hide();
             return 0;
@@ -776,7 +776,8 @@ $(document).ready(function(){
 
     function fillClasses(classResults, element, initialValue)
     {
-        if(!isClass) $(''+element).parent().parent().hide();
+        if(!isClass) {$(''+element).parent().parent().hide();
+                      return;}
         fillSelect(classResults, element, initialValue, "");
 
         //Listen for class and detect sub-classes
@@ -830,8 +831,10 @@ $(document).ready(function(){
             }
             else
             {
-                var accounts = getApi("accounts");
+               
                 if(!isAccount) $("#addTicketAccounts").parent().hide();
+                else
+                { var accounts = getApi("accounts");
                 accounts.then(function(returnData) {
                     console.log(returnData);
                     // get list of accounts add them to option select list
@@ -841,6 +844,7 @@ $(document).ready(function(){
                 }, function() {
                     console.log("fail @ ticket accounts");
                 });
+                }
             }
 
             // after an account is choosed it get a list of technicians
@@ -1198,6 +1202,17 @@ $(document).ready(function(){
 
             if (!$("#submitTicketTime").length)
             {
+                if(!isProject)
+                    $("#timeProjects").parent().hide();
+                else
+                {
+                    var chooseProject = "<option value=0>choose a project</option>";
+                    $(chooseProject).appendTo("#timeProjects");
+                }
+                if(!isAccount)
+                    $("#timeAccounts").parent().hide();
+                    else
+                {
                 //get accounts
                 getApi("accounts").then(function(returnData) {
                     //console.log(returnData);
@@ -1212,8 +1227,6 @@ $(document).ready(function(){
                         var insert = "<option value="+value+">"+task+"</option>";
                         $(insert).appendTo("#timeAccounts");
                     }
-                    var chooseProject = "<option value=0>choose a project</option>";
-                    $(chooseProject).appendTo("#timeProjects");
                     reveal();
 
                 },
@@ -1222,7 +1235,9 @@ $(document).ready(function(){
                     console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
                                        );
+                }
 
+                if (isProject){
                 $("#timeAccounts").on("change", function(){
                     var account = $("#timeAccounts").val();
                     $("#timeProjects").empty();
@@ -1246,6 +1261,7 @@ $(document).ready(function(){
                     else
                         $("#timeProjects").parent().show();
                 });
+                }
 
                 // submit time to account
                 $("#submitTime").click(function(){
@@ -1370,19 +1386,21 @@ $(document).ready(function(){
                     }
                     //$("ul").find("[data-id='info']").click(function(){
 
-                    // add select options to level Option box
-                    var levels = getApi('levels');
                     var classes = getApi('classes');
                     var priorities = getApi('priorities');
 
                     $("#ticketLevel").empty();
                     if (!isLevel) $("#ticketLevel").parent().hide();
+                    else{
+                        // add select options to level Option box
+                        var levels = getApi('levels');
                     levels.done(
                         function(levelResults){
                             if (fillSelect(levelResults, "#ticketLevel", "", "Level: ") > 0)
                                 $("#ticketLevel").val(returnData.level);
                         }
                     );
+                    }
                     $("#classOptions").empty();
                     classes.done(
                         function(classResults){
@@ -1418,10 +1436,12 @@ $(document).ready(function(){
                     $("#location").remove();
 
 
-                    // add select options to project option box
-                    var projects = getApi('projects');
                     if (!isProject)
                         $("#project").hide();
+                    else
+                    {
+                    // add select options to project option box
+                    var projects = getApi('projects');
                     projects.done(
                         function(projectResults){
                             if (fillSelect(projectResults, "#ticketProject", returnData.project_name == "" ? "<option value='null' disabled selected>Project</option>" : "") >0){
@@ -1429,6 +1449,7 @@ $(document).ready(function(){
                             }
                         }
                     );
+                    }
                     $(".updateButton").click(function(){
                         //var ticketAccount = $('form.update_ticket select#account').val(),
                         var	ticketClass = selectedEditClass,
@@ -2091,7 +2112,7 @@ $(document).ready(function(){
                 },
                 complete:function(){
                     reveal();
-                    filterList("OptionsList");
+                    //filterList("OptionsList");
                 },
                 error: function() {
                     console.log("fail @ Queues List");
@@ -3242,12 +3263,15 @@ $(document).ready(function(){
             }
             //Only for tech
             else{
+                if(!isAccount)
+                    $("#itemAccount").parent().hide();
                 //conditional api calls determined by page
                 if (location.pathname.indexOf("dashboard.html") >= 0)
                 {
                     getTicketCount();
                     getQueueList();
                     getQueues.init();
+                    if(isAccount)
                     getActiveAccounts();
                     search.init();
                     reveal();
