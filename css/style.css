@@ -750,7 +750,8 @@ header {
   height: 30px;
   margin-top: 18px;
   float: right;
-  background: #0099CC;
+  /*background: #0099CC;*/
+  background-color: #25B0E6;
   width: 0px;
 }
 
