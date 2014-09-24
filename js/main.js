@@ -44,7 +44,7 @@ $( document ).ajaxError(function( event, request, settings ) {
     //console.log(event);
     //console.log(request);
     //console.log(settings);
-    if (request.status == 403)
+    if (request.status == 403 || request.status == 404)
     {
         logout(settings.url !== ApiSite + "login" );
     }
