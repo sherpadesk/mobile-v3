@@ -224,7 +224,7 @@ fullscreen();
 				$(parent).empty();
 				$(insert).appendTo( $( parent ) );
 				$(".headerSearchContainer").animate({
-					width: "155px"
+					width: "45px"
 				}, 300);
             }
 			//});
@@ -241,12 +241,25 @@ fullscreen();
                     location.reload(false);
                     else
                         if (location.pathname.indexOf("dashboard.html") < 0) featureList.search();
-                }//$(".headerSearchContainer").animate({
-				//	width: "5px"
-				//}, 300, function() {
-				//	$(parent).empty();
-				//	$(insert).appendTo( $( parent ) );
-				//});
+                }
+			});
+			$('.searchIconExpanded').click(function(){
+				$('.SherpaDesk').animate({
+					'opacity':'0.2'
+				},200);
+				$('.headerSearchContainer').animate({
+					'backgroundColor':'#0099CC',
+					width:'155px'
+				},300);
+			});
+			$('.searchCloseExpanded').click(function(){
+				$('.SherpaDesk').animate({
+					'opacity':'1'
+				},200);
+				$('.headerSearchContainer').animate({
+					'backgroundColor':'#25B0E6',
+					width:'45px'
+				},300);
 			});
 		}
 	};
