@@ -693,6 +693,7 @@ $(document).ready(function(){
 
         submitInvoice:function(){
             $("#sendInvoiceButton").click(function(){
+                alert(localStorage.getItem('invoiceNumber'));
                 $.ajax({
                     type: 'PUT',
                     beforeSend: function (xhr) {
@@ -1191,7 +1192,7 @@ $(document).ready(function(){
                     $("#taskTypes").empty();
                     // add task types to list
                     fillSelect(returnData, "#taskTypes");
-                    var chooseTask = '<option value=0>choose a tasktype</option>';
+                    var chooseTask = '<option value=0>choose a task type</option>';
                     $(chooseTask).prependTo('#taskTypes');
                     reveal();
                 },
@@ -2027,6 +2028,10 @@ $(document).ready(function(){
                 success: function(returnData) {
                     console.log(returnData);
                     $("#queueTickets").empty();
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#queueTickets");
+                    }
                     for(var i = 0; i < returnData.length; i++)
                     {
                         // get email for gravitar avitar
@@ -2199,6 +2204,10 @@ $(document).ready(function(){
 
                         $(ticket).appendTo("#techContainer");
                     }
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#techContainer");
+                    }
                 },
                 complete:function(){
                     //reveal();
@@ -2244,6 +2253,10 @@ $(document).ready(function(){
                         }
                         var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo("#allContainer");
+                    }
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#allContainer");
                     }
                 },
                 complete:function(){
@@ -2317,6 +2330,10 @@ $(document).ready(function(){
 
                         $(ticket).appendTo("#altContainer");
                     }
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#altContainer");
+                    }
                 },
                 complete:function(){
                     //reveal();
@@ -2360,6 +2377,10 @@ $(document).ready(function(){
                         var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#userContainer");
+                    }
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#userContainer");
                     }
                 },
                 complete:function(){
@@ -2437,6 +2458,10 @@ $(document).ready(function(){
                             $(insert).appendTo($("#fullList"));
                         }
                         localAccountList.push(insert);
+                    }
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#fullList");
                     }
                     localStorage.setItem("storageAccountList",JSON.stringify(localAccountList));
                 },
@@ -2544,7 +2569,26 @@ $(document).ready(function(){
         },
 
         pageSetup: function() {
-            $(".maxSize").hide();
+            var currentDetailedAccount = localStorage.getItem('DetailedAccount');
+            var accountHours;
+            var accountTickets;
+            var accountInvoices;
+            var accountName;
+            var retrievedObject = localStorage.getItem(currentDetailedAccount);
+            retrievedObject = JSON.parse(retrievedObject);
+    
+               if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
+                   console.log("could not load local data")
+               }
+               else
+               {
+                console.log(retrievedObject);
+                $("#AD").html(retrievedObject.name);
+                $("#ticketsOptionTicker").html(retrievedObject.tickets);
+                $("#invoiceOptionTicker").html(retrievedObject.invoices);
+                $("#timesOptionTicker").html(retrievedObject.hours);
+                   
+            }
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
@@ -2558,9 +2602,10 @@ $(document).ready(function(){
                 success: function(returnData) {
                     console.log(returnData);
                     //update numbers of notification tickers (open tickets / invoices / Times)
-                    var accountHours = returnData.account_statistics.hours;
-                    var accountTickets = returnData.account_statistics.ticket_counts.open;
-                    var accountInvoices = returnData.account_statistics.invoices;
+                     accountHours = returnData.account_statistics.hours;
+                     accountTickets = returnData.account_statistics.ticket_counts.open;
+                     accountInvoices = returnData.account_statistics.invoices;
+                     accountName = returnData.name;
                     if(accountHours > 999){
                         accountHours = '999';
                     }
@@ -2574,10 +2619,18 @@ $(document).ready(function(){
                     if(accountInvoices > 999){
                         accountInvoices = '999';
                     }
-                    $("#AD").html(returnData.name);
+                    $("#AD").html(accountName);
                     $("#ticketsOptionTicker").html(accountTickets);
                     $("#invoiceOptionTicker").html(accountInvoices);
                     $("#timesOptionTicker").html(accountHours);
+                    //store account detail on local storage 
+                     var localAccountData = {
+                       'name': accountName,
+                       'tickets': accountTickets,
+                       'hours': accountHours,
+                       'invoices': accountInvoices
+                     };
+                     localStorage.setItem(currentDetailedAccount,JSON.stringify(localAccountData));
                 },
                 complete:function(){
                     function reveal(){
