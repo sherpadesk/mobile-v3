@@ -2,7 +2,7 @@
 
 //Root Names
 var Site = 'sherpadesk.com/';
-var MobileSite = 'http://m2.' + Site;
+var MobileSite = 'http://m.' + Site;
 var AppSite = 'https://app.' + Site;
 
 var ApiSite = 'http://api.' + Site;
@@ -2752,8 +2752,10 @@ $(document).ready(function(){
     };
 
     //get instance config
-    var getInstanceConfig = function (_userOrgKey, _userInstanceKey) {
+    var getInstanceConfig = function (_userOrgKey, _userInstanceKey, is_redirect, paramFunc) {
 
+        if (typeof is_redirect === "undefined")
+            is_redirect = true;        
         if (!_userOrgKey || !_userInstanceKey) {
             _userOrgKey = localStorage.getItem('userOrgKey');
             _userInstanceKey = localStorage.getItem('userInstanceKey');
@@ -2774,10 +2776,15 @@ $(document).ready(function(){
             localStorage.setItem('freshbooks', returnData.is_freshbooks);
             localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
             localStorage.setItem('userId', returnData.user.user_id);
+            if (paramFunc && (typeof paramFunc == "function"))
+                paramFunc(); 
+            if (is_redirect)
+            {
             if (isTech)
                 window.location = "dashboard.html";
             else
                 window.location = "ticket_list.html";
+            }
         },
                               function () {
             console.log("fail @ config");
@@ -3236,10 +3243,10 @@ $(document).ready(function(){
             //$(".navProfile").attr("src","http://www.gravatar.com/avatar/" + $.md5(localStorage.getItem("userName")) + "?d=mm&s=80");
             //$(".navName").show();
             //$(".navProfile").show();
-
             signout.init();
             miscClicks.init();
             //init config
+            getInstanceConfig("","",false, function(){
             if (localStorage.getItem('userRole') === "tech")
                 isTech = true;
             if (localStorage.getItem('projectTracking') === "false")
@@ -3383,7 +3390,9 @@ $(document).ready(function(){
             setTimeout(fullapplink, 3000);
             if (!isTime)
                 $(".time").remove();
+            });
         }
+                              
 
         //getQueueTickets.init();
         //accountDetailsPageSetup.init();
