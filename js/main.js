@@ -2634,8 +2634,8 @@ $(document).ready(function(){
                 },
                 complete:function(){
                     function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
+                        // $(".loadScreen").hide();
+                        // $(".maxSize").fadeIn();
                     };
                     window.setTimeout(reveal,500);
                 },
