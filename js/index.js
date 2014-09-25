@@ -226,17 +226,6 @@ fullscreen();
 				$(".headerSearchContainer").animate({
 					width: "45px"
 				}, 300);
-                if (localStorage.getItem("searchItem"))
-                {
-                    $('.SherpaDesk').animate({
-                        'opacity':'0.2'
-                    },200);
-                    $('.headerSearchContainer').animate({
-                        'backgroundColor':'#0099CC',
-                        width:'200px'
-                    },300);
-                    $('.search').focus();
-                }
             }
 			//});
 		},
@@ -249,13 +238,7 @@ fullscreen();
                 {
                     $(".search").val("");
                     if (location.pathname.indexOf("ticket_list.html") >= 0)
-                    {
-                        featureList2.search();
-                        featureList3.search();
-                        featureList4.search();
-                        featureList5.search();
-                        //location.reload(false);
-                    }
+                    location.reload(false);
                     else
                         if (location.pathname.indexOf("dashboard.html") < 0) featureList.search();
                 }
@@ -268,7 +251,6 @@ fullscreen();
 					'backgroundColor':'#0099CC',
 					width:'200px'
 				},300);
-                $('.search').focus();
 			});
 			$('.searchCloseExpanded').click(function(){
 				$('.SherpaDesk').animate({

@@ -2575,6 +2575,9 @@ $(document).ready(function(){
             var accountInvoices;
             var accountName;
             var retrievedObject = localStorage.getItem(currentDetailedAccount);
+            var retrievedObjectTickets = localStorage.getItem(currentDetailedAccount+'tickets');
+            var accountTicketsList = [];
+            retrievedObjectTickets = JSON.parse(retrievedObjectTickets);
             retrievedObject = JSON.parse(retrievedObject);
     
                if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
@@ -2587,7 +2590,10 @@ $(document).ready(function(){
                 $("#ticketsOptionTicker").html(retrievedObject.tickets);
                 $("#invoiceOptionTicker").html(retrievedObject.invoices);
                 $("#timesOptionTicker").html(retrievedObject.hours);
-                   
+                for(var d = 0; d < retrievedObjectTickets.length; d++){
+                    var localInsert = retrievedObjectTickets[d];
+                    $(localInsert).appendTo(".AccountDetailsTicketsContainer");
+                }   
             }
             $.ajax({
                 type: 'GET',
@@ -2634,8 +2640,8 @@ $(document).ready(function(){
                 },
                 complete:function(){
                     function reveal(){
-                        // $(".loadScreen").hide();
-                        // $(".maxSize").fadeIn();
+                        $(".loadScreen").hide();
+                        $(".maxSize").fadeIn();
                     };
                     window.setTimeout(reveal,500);
                 },
@@ -2678,8 +2684,10 @@ $(document).ready(function(){
                         }
                         var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo(".AccountDetailsTicketsContainer");
+                        accountTicketsList.push(ticket);
                         filterList("AccountDetailsTicketsContainer");
                     }
+                    localStorage.setItem(currentDetailedAccount+'tickets',JSON.stringify(accountTicketsList));
 
                 },
                 error: function() {
