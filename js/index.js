@@ -238,7 +238,13 @@ fullscreen();
                 {
                     $(".search").val("");
                     if (location.pathname.indexOf("ticket_list.html") >= 0)
-                    location.reload(false);
+                    {
+                        featureList2.search();
+                        featureList3.search();
+                        featureList4.search();
+                        featureList5.search();
+                        //location.reload(false);
+                    }
                     else
                         if (location.pathname.indexOf("dashboard.html") < 0) featureList.search();
                 }
@@ -251,6 +257,7 @@ fullscreen();
 					'backgroundColor':'#0099CC',
 					width:'200px'
 				},300);
+                $('.search').focus();
 			});
 			$('.searchCloseExpanded').click(function(){
 				$('.SherpaDesk').animate({

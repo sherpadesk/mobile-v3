@@ -155,10 +155,13 @@ function htmlEscape(str) {
 };
 
 var featureList;
+var featureList2;
+var featureList3;
+var featureList4;
+var featureList5;
 
 function filterList(listClass, value_names, init_value){
     $('body').attr('id', 'search_wrap');
-    window.setTimeout(function(){
         if (typeof value_names === "undefined" || !value_names)
         {
             value_names = [ 'blockNumber', 'responseText', 'TicketBlockNumber', 'user_name'];
@@ -192,8 +195,7 @@ function filterList(listClass, value_names, init_value){
             }
         });
         //console.log("loaded list");
-
-    },100);
+    return featureList;
 };
 
 
@@ -2123,10 +2125,10 @@ $(document).ready(function(){
     };
 
     // Ajax calls to get open tickets for the app user, tickets include (as tech, as user, as alt tech, all tickets)
+    var page = "";
     var ticketList = {
         init:function() {
             this.userTickets();
-            var page = "";
             if (!isTech){
                 $(".TicketTabs").hide();
             }
@@ -2201,7 +2203,7 @@ $(document).ready(function(){
                 },
                 complete:function(){
                     //reveal();
-                    filterList("techContainer");
+                    featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
                 },
                 error: function() {
                     console.log("fail @ ticket List");
@@ -2247,8 +2249,8 @@ $(document).ready(function(){
                 },
                 complete:function(){
                     //reveal();
-                    filterList("allContainer");
-                    filterList(page, "", localStorage.getItem("searchItem"));
+                    featureList3 = filterList("allContainer", "", localStorage.getItem("searchItem"));
+                    //filterList(page, "", localStorage.getItem("searchItem"));
                     var ticketView = localStorage.getItem("ticketPage");
                     if(ticketView == "asAltTech")
                     {
@@ -2318,7 +2320,7 @@ $(document).ready(function(){
                 },
                 complete:function(){
                     //reveal();
-                    filterList("altContainer");
+                    featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
                 },
                 error: function() {
                     console.log("fail @ ticket List");
@@ -2363,8 +2365,7 @@ $(document).ready(function(){
                 complete:function(){
                     if (!isTech) {reveal();
                                   $('#tabpage_reply').fadeIn();}
-                    if(isTech)
-                        filterList("userContainer");
+                    featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
                 },
                 error: function() {
                     console.log("fail @ ticket List");
