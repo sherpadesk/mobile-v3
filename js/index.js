@@ -226,6 +226,17 @@ fullscreen();
 				$(".headerSearchContainer").animate({
 					width: "45px"
 				}, 300);
+                if (localStorage.getItem("searchItem"))
+                {
+                    $('.SherpaDesk').animate({
+                        'opacity':'0.2'
+                    },200);
+                    $('.headerSearchContainer').animate({
+                        'backgroundColor':'#0099CC',
+                        width:'200px'
+                    },300);
+                    $('.search').focus();
+                }
             }
 			//});
 		},

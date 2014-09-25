@@ -180,7 +180,6 @@ function filterList(listClass, value_names, init_value){
         {
             featureList.search(init_value);
             $(".search").val(init_value);
-            localStorage.setItem("searchItem","");
         }
         featureList.on('updated',function(){
             //console.log(featureList);
@@ -2275,6 +2274,7 @@ $(document).ready(function(){
                         $('#tabpage_all').fadeIn();
                         localStorage.setItem('ticketPage',"asTech");
                     }
+                    localStorage.setItem("searchItem","");
 
                 },
                 error: function() {
