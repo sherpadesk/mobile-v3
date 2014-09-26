@@ -196,11 +196,28 @@ function filterList(listClass, value_names, init_value){
         //console.log("loaded list");
     return featureList;
 };
+function float2int (value) {
+    return value | 0;
+}
+
+function createElipse(text, containerWidth, fontSize){
+  var windowWidth = $(window).width();
+  if(windowWidth > 650){
+    windowWidth = 650;
+  }
+  var characterSpace;
+  containerWidth = containerWidth * windowWidth;
+  characterSpace = containerWidth / fontSize;
+  characterSpace = float2int(characterSpace);
+  if(text.length > characterSpace){
+    text = text.substring(0,characterSpace)+'...';
+  } 
+  return text;
+};
 
 
 
 $(document).ready(function(){
-
     //preload image
     var img = new Image();
     img.src = MobileSite + "img/error-background.png";
@@ -405,11 +422,7 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         //the key for this specific ticket
                         var data = returnData[i].key;
-                        // ensure ticket subject length is not to long to be displayed (subject is elipsed if it is)
-                        if(subject.length > 25)
-                        {
-                            subject = subject.substring(0,23)+"...";
-                        }
+                        subject = createElipse(subject, .75, 12);
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                         if(initialPost.length > 50)
                         {
@@ -1602,11 +1615,9 @@ $(document).ready(function(){
                     localStorage.setItem("invoiceAccountId",returnData.account_id);
                     localStorage.setItem("invoiceProjectId",returnData.project_id);
                     $("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number
-                    var custoName = returnData.customer;
-                    if(custoName.length > 23){
-                        custoName = custoName.substring(0,19)+"...";
-                    }
-                    $("#customerName").html(custoName); // customer name
+                    var nameCheck = returnData.customer;
+                    nameCheck = createElipse(nameCheck, .70, 12);
+                    $("#customerName").html(nameCheck); // customer name
                     var date = returnData.date.substring(0,10);
                     date = formatDate(date);
                     $("#invoiceDate").html(date);
@@ -1946,11 +1957,7 @@ $(document).ready(function(){
                             var customer = returnData[i].customer; //account name
                             var date = returnData[i].date.substring(0,10);
                             date = formatDate(date);
-                            // check account name for display purposes
-                            if(customer.length > 10)
-                            {
-                                customer = customer.substring(0,7)+"...";
-                            }
+                            customer = createElipse(customer, .33, 12);
                             var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows'><li>"+customer+"</li><li>"+date+"</li><li>$"+returnData[i].total_cost+"</li></ul>";
                             $(insert).appendTo("#invoiceList");
                         }
@@ -1986,10 +1993,7 @@ $(document).ready(function(){
                         var customer = returnData[i].customer; // account name
                         var date = returnData[i].date.substring(0,10);
                         // check account name for display purposes
-                        if(customer.length > 10)
-                        {
-                            customer = customer.substring(0,7)+"...";
-                        }
+                        customer = createElipse(customer, .33, 12);
                         var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+returnData[i].total_cost+"</li></ul>";
                         $(insert).appendTo("#allInvoiceList");
                         localInvoiceList.push(insert);
@@ -2039,12 +2043,7 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        //check subject length can be displayed correctly
-                        if(subject.length > 25)
-                        {
-                            subject = subject.substring(0,23)+"...";
-                        }
-                        //check intial post length can be displayed correctly
+                        subject = createElipse(subject, .75, 12);
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
@@ -2190,11 +2189,7 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        //check subject length can be displayed correctly
-                        if(subject.length > 25)
-                        {
-                            subject = subject.substring(0,23)+"...";
-                        }
+                        subject = createElipse(subject, .75, 12);
                         //check intial post length can be displayed correctly
                         if(intialPost.length > 100)
                         {
@@ -2241,11 +2236,7 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        //check subject length
-                        if(subject.length > 25)
-                        {
-                            subject = subject.substring(0,23)+"...";
-                        }
+                        subject = createElipse(subject, .75, 12);
                         //check initial post length
                         if(intialPost.length > 100)
                         {
@@ -2318,10 +2309,7 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        if(subject.length > 25)
-                        {
-                            subject = subject.substring(0,23)+"...";
-                        }
+                        subject = createElipse(subject, .80, 12);
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
@@ -2366,10 +2354,7 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        if(subject.length > 25)
-                        {
-                            subject = subject.substring(0,23)+"...";
-                        }
+                        subject = createElipse(subject, .80, 12);
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
@@ -2440,9 +2425,7 @@ $(document).ready(function(){
                     for(var i = 0; i < returnData.length; i++)
                     {
                         name = returnData[i].name;
-                        if(name.length > 24){
-                            name = name.substring(0,21)+"...";
-                        }
+                        name = createElipse(name, .80, 12);
                         // check the number of open tickets for the account if the number of tickets is greater than 100 sub 99+
                         var openTks = returnData[i].account_statistics.ticket_counts.open;
                         if( openTks > 99)
@@ -2509,7 +2492,6 @@ $(document).ready(function(){
                 url:ApiSite +"time?limit=200",
                 dataType:"json",
                 success: function(returnData) {
-                    console.log(returnData);
                     $("#timelogs").empty();
                     //add timelogs to list
                     for(var i = 0; i < returnData.length; i++)
@@ -2520,6 +2502,8 @@ $(document).ready(function(){
                         //check to see if hours are has a decimal
                         var hours = returnData[i].hours;
                         hours =hours.toString();
+                        var nameCheck = returnData[i].user_name;
+                        text = createElipse(text,.50, 8);
                         if(hours.indexOf(".") >= 0)
                         {
                             // do nothing
@@ -2528,16 +2512,7 @@ $(document).ready(function(){
                         {
                             hours = hours+".00";
                         }
-                        // check text length
-                        if(text.length > 24)
-                        {
-                            text = text.substring(0,21)+"...";
-                        }
-                        var nameCheck = returnData[i].user_name;
-                        if(nameCheck.length > 15)
-                        {
-                            nameCheck = nameCheck.substring(0,12)+"..."
-                        }
+                       nameCheck = createElipse(nameCheck,.50, 12);
                         var log = "<li class=item><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName user_name'>"+nameCheck+"</h2><p class='taskDescription responseText'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                         $(log).appendTo("#timelogs");
                         localTimelogs.push(log);
@@ -2672,11 +2647,7 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         //the key for this specific ticket
                         var data = returnData[i].key;
-                        // ensure ticket subject length is not to long to be displayed (subject is elipsed if it is)
-                        if(subject.length > 25)
-                        {
-                            subject = subject.substring(0,23)+"...";
-                        }
+                        subject = createElipse(subject, .80, 12);
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                         if(initialPost.length > 50)
                         {
@@ -2738,16 +2709,9 @@ $(document).ready(function(){
                         {
                             hours = hours+".00";
                         }
-                        // ensure text attached to the time log is short enough to be displayed correctly
-                        if(text.length > 15)
-                        {
-                            text = text.substring(0,7)+"...";
-                        }
+                        text = createElipse(text, .50, 8);
                         var nameCheck = returnData[i].user_name;
-                        if(nameCheck.length > 15)
-                        {
-                            nameCheck = nameCheck.substring(0,12)+"..."
-                        }
+                        nameCheck = createElipse(nameCheck, .50, 12);
                         var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                         $(log).appendTo("#accountLogs");
                     }
@@ -2960,6 +2924,8 @@ $(document).ready(function(){
                 {
                     var openTickets = returnData[i].account_statistics.ticket_counts.open;
                     var openHours = returnData[i].account_statistics.hours;
+                    var nameCheck = returnData[i].name;
+                    nameCheck = createElipse(nameCheck, .30, 12);
                     if(openHours > 999){
                         openHours = 999;
                     }
@@ -2971,23 +2937,12 @@ $(document).ready(function(){
                     // if account has more than 100 open tickets then sub 99+
                     if(openTickets > 100)
                     {
-                        if(returnData[i].name.length > 9){
                             openTickets = "99";
-                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+nameCheck+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
                             $(activeAccount).appendTo("#activeList");
-                        }else{
-                            openTickets = "99";
-                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name+"..."+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
-                            $(activeAccount).appendTo("#activeList");
-                        }
                         //localDashAccounts.push(activeAccount);
-                    }
-                    //if account name is longer than 9 chars then elipse the account name
-                    else if(returnData[i].name.length > 9) {
-                        activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+returnData[i].name.substring(0,8)+"..."+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
-                        $(activeAccount).appendTo("#activeList");
                     }else{
-                        activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+returnData[i].name+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
+                        activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+nameCheck+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
                         $(activeAccount).appendTo("#activeList");
                     }
                     dashAccounts.push(activeAccount);
@@ -3429,8 +3384,8 @@ $(document).ready(function(){
             }
             if (location.pathname.indexOf("closedTickets.html") >= 0)
             {
-                detailedTicket.init();
-                closedTickets.init();
+                // detailedTicket.init();
+                 closedTickets.init();
             }
             //getTicketCount();
             //getQueueList();

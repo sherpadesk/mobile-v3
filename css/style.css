@@ -986,6 +986,7 @@ header {
 .taskDescription {
   color: #ffffff;
   font-size: 12px;
+  width: 100% !important;
 }
 /* account
    ========================================================================== */
@@ -1295,7 +1296,7 @@ header {
 
 .timelog li {
   float: left;
-  width: 42%;
+  width: 50%;
 }
 
 .timelog > li:first-child {
@@ -1304,7 +1305,7 @@ header {
 
 .timelog > li:last-child {
   margin-top: 12px;
-  width: 30%;
+  width: 20%;
   text-align: center;
 }
 
@@ -1880,7 +1881,7 @@ footer {
   margin-top: 10px !important;
   margin-left: 10px;
   margin-bottom: 10px;
-  width: 70%;
+  width: 75%;
   z-index: 2;
 }
 
