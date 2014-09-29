@@ -15,7 +15,11 @@ var isTech = false,
     isLevel = true,
     isClass=true,
     isLocation=true,
-    isFreshbook=true;
+    isFreshbook=true,
+    isExpenses = true,
+    isTravelCosts = true,
+    isInvoice = true;
+
 
 //Phonegap specific
 var isPhonegap = false;
@@ -162,38 +166,38 @@ var featureList5;
 
 function filterList(listClass, value_names, init_value){
     $('body').attr('id', 'search_wrap');
-        if (typeof value_names === "undefined" || !value_names)
+    if (typeof value_names === "undefined" || !value_names)
+    {
+        value_names = [ 'blockNumber', 'responseText', 'TicketBlockNumber', 'user_name'];
+    }
+    else if (value_names)
+    {
+        value_names = value_names.split(',');
+    }
+    var options = {
+        listClass: listClass,
+        item: "item",
+        valueNames: value_names			
+    };
+    featureList = new List('search_wrap', options);
+    if (typeof init_value !== "undefined" && init_value)
+    {
+        featureList.search(init_value);
+        $(".search").val(init_value);
+    }
+    featureList.on('updated',function(){
+        //console.log(featureList);
+        if (featureList.matchingItems.length > 1) 
         {
-            value_names = [ 'blockNumber', 'responseText', 'TicketBlockNumber', 'user_name'];
+            var itemMessage = 'There are ' + featureList.matchingItems.length + ' matching tickets.';
+            console.log( itemMessage);
+        } else if (featureList.matchingItems.length == 1) {
+            ;
+        } else if (featureList.matchingItems.length == 0) {
+            console.log( 'Bummer...  0 items found');
         }
-        else if (value_names)
-        {
-            value_names = value_names.split(',');
-        }
-        var options = {
-            listClass: listClass,
-            item: "item",
-            valueNames: value_names			
-        };
-        featureList = new List('search_wrap', options);
-        if (typeof init_value !== "undefined" && init_value)
-        {
-            featureList.search(init_value);
-            $(".search").val(init_value);
-        }
-        featureList.on('updated',function(){
-            //console.log(featureList);
-            if (featureList.matchingItems.length > 1) 
-            {
-                var itemMessage = 'There are ' + featureList.matchingItems.length + ' matching tickets.';
-                console.log( itemMessage);
-            } else if (featureList.matchingItems.length == 1) {
-                ;
-            } else if (featureList.matchingItems.length == 0) {
-                console.log( 'Bummer...  0 items found');
-            }
-        });
-        //console.log("loaded list");
+    });
+    //console.log("loaded list");
     return featureList;
 };
 function float2int (value) {
@@ -201,18 +205,18 @@ function float2int (value) {
 }
 
 function createElipse(text, containerWidth, fontSize){
-  var windowWidth = $(window).width();
-  if(windowWidth > 650){
-    windowWidth = 650;
-  }
-  var characterSpace;
-  containerWidth = containerWidth * windowWidth;
-  characterSpace = containerWidth / fontSize;
-  characterSpace = float2int(characterSpace);
-  if(text.length > characterSpace){
-    text = text.substring(0,characterSpace)+'...';
-  } 
-  return text;
+    var windowWidth = $(window).width();
+    if(windowWidth > 650){
+        windowWidth = 650;
+    }
+    var characterSpace;
+    containerWidth = containerWidth * windowWidth;
+    characterSpace = containerWidth / fontSize;
+    characterSpace = float2int(characterSpace);
+    if(text.length > characterSpace){
+        text = text.substring(0,characterSpace)+'...';
+    } 
+    return text;
 };
 
 
@@ -846,19 +850,19 @@ $(document).ready(function(){
             }
             else
             {
-               
+
                 if(!isAccount) $("#addTicketAccounts").parent().hide();
                 else
                 { var accounts = getApi("accounts");
-                accounts.then(function(returnData) {
-                    console.log(returnData);
-                    // get list of accounts add them to option select list
-                    $("#addTicketAccounts").empty();
-                    fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
-                    reveal();
-                }, function() {
-                    console.log("fail @ ticket accounts");
-                });
+                 accounts.then(function(returnData) {
+                     console.log(returnData);
+                     // get list of accounts add them to option select list
+                     $("#addTicketAccounts").empty();
+                     fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
+                     reveal();
+                 }, function() {
+                     console.log("fail @ ticket accounts");
+                 });
                 }
             }
 
@@ -1226,56 +1230,56 @@ $(document).ready(function(){
                 }
                 if(!isAccount)
                     $("#timeAccounts").parent().hide();
-                    else
+                else
                 {
-                //get accounts
-                getApi("accounts").then(function(returnData) {
-                    //console.log(returnData);
-                    $("#timeAccounts").empty();
-                    var chooseAccount = "<option value=0>choose an account</option>";
-                    $(chooseAccount).appendTo("#timeAccounts");
-                    // accounts to add time
-                    for(var i = 0; i < returnData.length; i++)
-                    {
-                        var value = returnData[i].id;
-                        var task = returnData[i].name;
-                        var insert = "<option value="+value+">"+task+"</option>";
-                        $(insert).appendTo("#timeAccounts");
-                    }
-                    reveal();
+                    //get accounts
+                    getApi("accounts").then(function(returnData) {
+                        //console.log(returnData);
+                        $("#timeAccounts").empty();
+                        var chooseAccount = "<option value=0>choose an account</option>";
+                        $(chooseAccount).appendTo("#timeAccounts");
+                        // accounts to add time
+                        for(var i = 0; i < returnData.length; i++)
+                        {
+                            var value = returnData[i].id;
+                            var task = returnData[i].name;
+                            var insert = "<option value="+value+">"+task+"</option>";
+                            $(insert).appendTo("#timeAccounts");
+                        }
+                        reveal();
 
-                },
-                                        function() {
-                    console.log("fail @ time accounts");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
-                }
-                                       );
+                    },
+                                            function() {
+                        console.log("fail @ time accounts");
+                        console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    }
+                                           );
                 }
 
                 if (isProject){
-                $("#timeAccounts").on("change", function(){
-                    var account = $("#timeAccounts").val();
-                    $("#timeProjects").empty();
-                    $("<option value=0>choose a project</option>").appendTo("#timeProjects");
-                    if (account !== "0"){
-                        //get projects
-                        getApi("accounts/"+account).then(
-                            function(returnData) {
-                                //console.log(returnData);
-                                // add projects
-                                fillSelect(returnData.projects, "#timeProjects");
-                                reveal();
+                    $("#timeAccounts").on("change", function(){
+                        var account = $("#timeAccounts").val();
+                        $("#timeProjects").empty();
+                        $("<option value=0>choose a project</option>").appendTo("#timeProjects");
+                        if (account !== "0"){
+                            //get projects
+                            getApi("accounts/"+account).then(
+                                function(returnData) {
+                                    //console.log(returnData);
+                                    // add projects
+                                    fillSelect(returnData.projects, "#timeProjects");
+                                    reveal();
 
-                            },
-                            function() {
-                                console.log("fail @ time accounts");
-                                console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
-                            }
-                        );
-                    }
-                    else
-                        $("#timeProjects").parent().show();
-                });
+                                },
+                                function() {
+                                    console.log("fail @ time accounts");
+                                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                                }
+                            );
+                        }
+                        else
+                            $("#timeProjects").parent().show();
+                    });
                 }
 
                 // submit time to account
@@ -1409,12 +1413,12 @@ $(document).ready(function(){
                     else{
                         // add select options to level Option box
                         var levels = getApi('levels');
-                    levels.done(
-                        function(levelResults){
-                            if (fillSelect(levelResults, "#ticketLevel", "", "Level: ") > 0)
-                                $("#ticketLevel").val(returnData.level);
-                        }
-                    );
+                        levels.done(
+                            function(levelResults){
+                                if (fillSelect(levelResults, "#ticketLevel", "", "Level: ") > 0)
+                                    $("#ticketLevel").val(returnData.level);
+                            }
+                        );
                     }
                     $("#classOptions").empty();
                     classes.done(
@@ -1455,15 +1459,15 @@ $(document).ready(function(){
                         $("#project").hide();
                     else
                     {
-                    // add select options to project option box
-                    var projects = getApi('projects');
-                    projects.done(
-                        function(projectResults){
-                            if (fillSelect(projectResults, "#ticketProject", returnData.project_name == "" ? "<option value='null' disabled selected>Project</option>" : "") >0){
-                                if (returnData.project_name != "") $("#ticketProject").val(returnData.project_id);
+                        // add select options to project option box
+                        var projects = getApi('projects');
+                        projects.done(
+                            function(projectResults){
+                                if (fillSelect(projectResults, "#ticketProject", returnData.project_name == "" ? "<option value='null' disabled selected>Project</option>" : "") >0){
+                                    if (returnData.project_name != "") $("#ticketProject").val(returnData.project_id);
+                                }
                             }
-                        }
-                    );
+                        );
                     }
                     $(".updateButton").click(function(){
                         //var ticketAccount = $('form.update_ticket select#account').val(),
@@ -1639,6 +1643,12 @@ $(document).ready(function(){
                         amount = returnData.amount;
                     }
                     $("#invoiceAmount").html("$"+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount
+                    if(!isTravelCosts)
+                    {
+                        $("#invoiceTravel").parent().parent.hide();
+                    }
+                    else
+                    {
                     $("#invoiceTravel").html("$"+returnData.travel_cost+"<span class='detail3Small'>.00</span>"); // travel expenses amount
                     var expenses = 0;
                     if(returnData.expenses != null)
@@ -1648,8 +1658,15 @@ $(document).ready(function(){
                             expenses = expenses + returnData.expenses[i].total;
                         }
                     }
+                    }
+                    if(!isExpenses)
+                        $("#invoiceExpenses").parent().parent.hide();
+                    else
+                    {
                     $("#invoiceExpenses").html("$"+expenses+"<span class='detail3Small'>.00</span>"); // expenses amount
-                    $("#invoiceAdjustments").html("$0<span class='detail3Small'>.00</span>"); // adjustments
+                    $("#invoiceAdjustments").html("$0<span class='detail3Small'>.00</span>");
+                    }
+                    // adjustments
                     //$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
                     length = returnData.total_cost.toString().length;
                     if(returnData.total_cost.toString().indexOf(".") >= 0)
@@ -2512,7 +2529,7 @@ $(document).ready(function(){
                         {
                             hours = hours+".00";
                         }
-                       nameCheck = createElipse(nameCheck,.50, 12);
+                        nameCheck = createElipse(nameCheck,.50, 12);
                         var log = "<li class=item><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName user_name'>"+nameCheck+"</h2><p class='taskDescription responseText'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                         $(log).appendTo("#timelogs");
                         localTimelogs.push(log);
@@ -2554,12 +2571,12 @@ $(document).ready(function(){
             var accountTicketsList = [];
             retrievedObjectTickets = JSON.parse(retrievedObjectTickets);
             retrievedObject = JSON.parse(retrievedObject);
-    
-               if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
-                   console.log("could not load local data")
-               }
-               else
-               {
+
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
+                console.log("could not load local data")
+            }
+            else
+            {
                 console.log(retrievedObject);
                 $("#AD").html(retrievedObject.name);
                 $("#ticketsOptionTicker").html(retrievedObject.tickets);
@@ -2583,10 +2600,10 @@ $(document).ready(function(){
                 success: function(returnData) {
                     console.log(returnData);
                     //update numbers of notification tickers (open tickets / invoices / Times)
-                     accountHours = returnData.account_statistics.hours;
-                     accountTickets = returnData.account_statistics.ticket_counts.open;
-                     accountInvoices = returnData.account_statistics.invoices;
-                     accountName = returnData.name;
+                    accountHours = returnData.account_statistics.hours;
+                    accountTickets = returnData.account_statistics.ticket_counts.open;
+                    accountInvoices = returnData.account_statistics.invoices;
+                    accountName = returnData.name;
                     if(accountHours > 999){
                         accountHours = '999';
                     }
@@ -2605,13 +2622,13 @@ $(document).ready(function(){
                     $("#invoiceOptionTicker").html(accountInvoices);
                     $("#timesOptionTicker").html(accountHours);
                     //store account detail on local storage 
-                     var localAccountData = {
-                       'name': accountName,
-                       'tickets': accountTickets,
-                       'hours': accountHours,
-                       'invoices': accountInvoices
-                     };
-                     localStorage.setItem(currentDetailedAccount,JSON.stringify(localAccountData));
+                    var localAccountData = {
+                        'name': accountName,
+                        'tickets': accountTickets,
+                        'hours': accountHours,
+                        'invoices': accountInvoices
+                    };
+                    localStorage.setItem(currentDetailedAccount,JSON.stringify(localAccountData));
                 },
                 complete:function(){
                     function reveal(){
@@ -2800,16 +2817,19 @@ $(document).ready(function(){
             localStorage.setItem('classTracking', returnData.is_class_tracking);
             localStorage.setItem('locationTracking', returnData.is_location_tracking);
             localStorage.setItem('freshbooks', returnData.is_freshbooks);
+            localStorage.setItem('is_invoice', returnData.is_invoice);
+            localStorage.setItem('is_expenses', returnData.is_expenses);
+            localStorage.setItem('is_travel_costs', returnData.is_travel_costs);
             localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
             localStorage.setItem('userId', returnData.user.user_id);
             if (paramFunc && (typeof paramFunc == "function"))
                 paramFunc(); 
             if (is_redirect)
             {
-            if (isTech)
-                window.location = "dashboard.html";
-            else
-                window.location = "ticket_list.html";
+                if (isTech)
+                    window.location = "dashboard.html";
+                else
+                    window.location = "ticket_list.html";
             }
         },
                               function () {
@@ -2937,9 +2957,9 @@ $(document).ready(function(){
                     // if account has more than 100 open tickets then sub 99+
                     if(openTickets > 100)
                     {
-                            openTickets = "99";
-                            activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+nameCheck+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
-                            $(activeAccount).appendTo("#activeList");
+                        openTickets = "99";
+                        activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+nameCheck+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                        $(activeAccount).appendTo("#activeList");
                         //localDashAccounts.push(activeAccount);
                     }else{
                         activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+nameCheck+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
@@ -3264,152 +3284,160 @@ $(document).ready(function(){
             miscClicks.init();
             //init config
             getInstanceConfig("","",false, function(){
-            if (localStorage.getItem('userRole') === "tech")
-                isTech = true;
-            if (localStorage.getItem('projectTracking') === "false")
-                isProject = false;
-            if (localStorage.getItem('timeTracking') === "false")
-                isTime = false;
-            if (localStorage.getItem('accountManager') === "false")
-                isAccount = false;
-            if (localStorage.getItem('ticketLevels') === "false")
-                isLevel = false;
-            if (localStorage.getItem('classTracking') === "false")
-                isClass = false;
-            if (localStorage.getItem('locationTracking') === "false")
-                isLocation = false;
-            if (localStorage.getItem('freshbooks') === "false")
-                isFreshbook = false;
+                if (localStorage.getItem('userRole') === "tech")
+                    isTech = true;
+                if (localStorage.getItem('projectTracking') === "false")
+                    isProject = false;
+                if (localStorage.getItem('timeTracking') === "false")
+                    isTime = false;
+                if (localStorage.getItem('accountManager') === "false")
+                    isAccount = false;
+                if (localStorage.getItem('ticketLevels') === "false")
+                    isLevel = false;
+                if (localStorage.getItem('classTracking') === "false")
+                    isClass = false;
+                if (localStorage.getItem('locationTracking') === "false")
+                    isLocation = false;
+                if (localStorage.getItem('freshbooks') === "false")
+                    isFreshbook = false;
+                if (localStorage.getItem('is_invoice') === "false")
+                    isInvoice = false;
+                if (localStorage.getItem('is_expenses') === "false")
+                    isExpenses = false;
+                if (localStorage.getItem('is_travel_costs') === "false")
+                    isTravelCosts = false;
 
-            //Disable for user
-            if (!isTech){
-                $(".sideNavLinks").children(":not('.user')").hide();
-            }
-            //Only for tech
-            else{
-                if(!isAccount)
-                    $("#itemAccount").parent().hide();
-                //conditional api calls determined by page
-                if (location.pathname.indexOf("dashboard.html") >= 0)
-                {
-                    getTicketCount();
-                    getQueueList();
-                    getQueues.init();
-                    if(isAccount)
-                    getActiveAccounts();
-                    search.init();
-                    reveal();
+                //Disable for user
+                if (!isTech){
+                    $(".sideNavLinks").children(":not('.user')").hide();
                 }
-                if (location.pathname.indexOf("account_details.html") >= 0)
-                {
-                    accountDetailsPageSetup.init();
-                    //detailedTicket.init();
-                    closedTickets.pageChange();
-
-                }
-                if (location.pathname.indexOf("Account_List.html") >= 0)
-                {
-                    accountList.init();
-                }
-                if (location.pathname.indexOf("addTicketTime.html") >= 0)
-                {
-                    if (isTime) addTime.init();
-                    else window.location = "dashboard.html";
-
-                }
-                if (location.pathname.indexOf("timelog.html") >= 0)
-                {if (!isTime) window.location = "dashboard.html";
-                 else
-                 {
-                     accountTimeLogs.init();
-                     timeLogs.init();
-                     addTime.init();
-                 }
-                }
-                if (location.pathname.indexOf("accountTimes.html") >= 0)
-                {
-                    if (!isTime) window.location = "dashboard.html";
-                    else
+                //Only for tech
+                else{
+                    if(!isAccount)
+                        $("#itemAccount").parent().hide();
+                    if(!isInvoice)
+                        $("#itemInvoice").hide();
+                    //conditional api calls determined by page
+                    if (location.pathname.indexOf("dashboard.html") >= 0)
                     {
-                        accountTimeLogs.init();
-                        timeLogs.init();
+                        getTicketCount();
+                        getQueueList();
+                        getQueues.init();
+                        if(isAccount)
+                            getActiveAccounts();
+                        search.init();
+                        reveal();
                     }
-                }
-                if (location.pathname.indexOf("Invoice_List.html") >= 0 || location.pathname.indexOf("allInvoice_List.html") >= 0)
-                {
-                    if (!isTime) window.location = "dashboard.html";
-                    else
+                    if (location.pathname.indexOf("account_details.html") >= 0)
+                    {
+                        accountDetailsPageSetup.init();
+                        //detailedTicket.init();
+                        closedTickets.pageChange();
+
+                    }
+                    if (location.pathname.indexOf("Account_List.html") >= 0)
+                    {
+                        accountList.init();
+                    }
+                    if (location.pathname.indexOf("addTicketTime.html") >= 0)
+                    {
+                        if (isTime) addTime.init();
+                        else window.location = "dashboard.html";
+
+                    }
+                    if (location.pathname.indexOf("timelog.html") >= 0)
+                    {if (!isTime) window.location = "dashboard.html";
+                     else
+                     {
+                         accountTimeLogs.init();
+                         timeLogs.init();
+                         addTime.init();
+                     }
+                    }
+                    if (location.pathname.indexOf("accountTimes.html") >= 0)
+                    {
+                        if (!isTime) window.location = "dashboard.html";
+                        else
+                        {
+                            accountTimeLogs.init();
+                            timeLogs.init();
+                        }
+                    }
+                    if (location.pathname.indexOf("Invoice_List.html") >= 0 || location.pathname.indexOf("allInvoice_List.html") >= 0)
+                    {
+                        if (!isTime) window.location = "dashboard.html";
+                        else
+                        {
+                            invoiceList.init();
+                        }
+                    }
+                    if (location.pathname.indexOf("Invoice_List.html") >= 0)
                     {
                         invoiceList.init();
+
+                    }
+                    if (location.pathname.indexOf("invoice.html") >= 0)
+                    {
+                        if (!isTime) window.location = "dashboard.html";
+                        else
+                        {
+                            detailedInvoice.init();
+                            sendInvoice.init();
+                            addRecip.init();
+                        }
+                    }
+                    if (location.pathname.indexOf("Queues.html") >= 0)
+                    {
+                        getQueues.init();
+                    }
+                    if (location.pathname.indexOf("queueTickets.html") >= 0)
+                    {
+                        getQueueTickets.init();
                     }
                 }
-                if (location.pathname.indexOf("Invoice_List.html") >= 0)
+                if (location.pathname.indexOf("ticket_list.html") >= 0)
                 {
-                    invoiceList.init();
+                    ticketList.init();
+                    //accountDetailsPageSetup.init();
 
                 }
-                if (location.pathname.indexOf("invoice.html") >= 0)
+                if (location.pathname.indexOf("ticket_detail.html") >= 0)
+                {
+                    detailedTicket.init();
+                    pickUpTicket.init();
+                    transferTicket.init();
+                    closeTicket.init();
+                    //addTime.init();
+                    postComment.init();
+                }
+                if (location.pathname.indexOf("closedTickets.html") >= 0)
+                {
+                    // detailedTicket.init();
+                    closedTickets.init();
+                }
+                //getTicketCount();
+                //getQueueList();
+                //getActiveAccounts();
+                //reveal();
+                if (location.pathname.indexOf("add_tickets.html") >= 0)
+                {
+                    newTicket.init();
+                    //accountTimeLogs.init();
+                }
+                if (location.pathname.indexOf("add_time.html") >= 0)
                 {
                     if (!isTime) window.location = "dashboard.html";
                     else
                     {
-                        detailedInvoice.init();
-                        sendInvoice.init();
-                        addRecip.init();
+                        addTime.init();
                     }
                 }
-                if (location.pathname.indexOf("Queues.html") >= 0)
-                {
-                    getQueues.init();
-                }
-                if (location.pathname.indexOf("queueTickets.html") >= 0)
-                {
-                    getQueueTickets.init();
-                }
-            }
-            if (location.pathname.indexOf("ticket_list.html") >= 0)
-            {
-                ticketList.init();
-                //accountDetailsPageSetup.init();
-
-            }
-            if (location.pathname.indexOf("ticket_detail.html") >= 0)
-            {
-                detailedTicket.init();
-                pickUpTicket.init();
-                transferTicket.init();
-                closeTicket.init();
-                //addTime.init();
-                postComment.init();
-            }
-            if (location.pathname.indexOf("closedTickets.html") >= 0)
-            {
-                // detailedTicket.init();
-                 closedTickets.init();
-            }
-            //getTicketCount();
-            //getQueueList();
-            //getActiveAccounts();
-            //reveal();
-            if (location.pathname.indexOf("add_tickets.html") >= 0)
-            {
-                newTicket.init();
-                //accountTimeLogs.init();
-            }
-            if (location.pathname.indexOf("add_time.html") >= 0)
-            {
-                if (!isTime) window.location = "dashboard.html";
-                else
-                {
-                    addTime.init();
-                }
-            }
-            setTimeout(fullapplink, 3000);
-            if (!isTime)
-                $(".time").remove();
+                setTimeout(fullapplink, 3000);
+                if (!isTime)
+                    $(".time").remove();
             });
         }
-                              
+
 
         //getQueueTickets.init();
         //accountDetailsPageSetup.init();
