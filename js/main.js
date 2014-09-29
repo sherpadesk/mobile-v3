@@ -1645,7 +1645,7 @@ $(document).ready(function(){
                     $("#invoiceAmount").html("$"+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount
                     if(!isTravelCosts)
                     {
-                        $("#invoiceTravel").parent().parent.hide();
+                        $("#invoiceTravel").parent().parent().hide();
                     }
                     else
                     {
@@ -1660,7 +1660,7 @@ $(document).ready(function(){
                     }
                     }
                     if(!isExpenses)
-                        $("#invoiceExpenses").parent().parent.hide();
+                        $("#invoiceExpenses").parent().parent().hide();
                     else
                     {
                     $("#invoiceExpenses").html("$"+expenses+"<span class='detail3Small'>.00</span>"); // expenses amount
