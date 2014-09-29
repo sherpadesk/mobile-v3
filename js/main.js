@@ -10,12 +10,12 @@ var ApiSite = 'http://api.' + Site;
 //global config
 var isTech = false,
     isProject = true,
-    isTime=true,
-    isAccount=true,
+    isTime = true,
+    isAccount = true,
     isLevel = true,
-    isClass=true,
-    isLocation=true,
-    isFreshbook=true,
+    isClass = true,
+    isLocation = true,
+    isFreshbook = true,
     isExpenses = true,
     isTravelCosts = true,
     isInvoice = true;
@@ -1642,14 +1642,14 @@ $(document).ready(function(){
                     {
                         amount = returnData.amount;
                     }
-                    $("#invoiceAmount").html("$"+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount
+                    $("#invoiceAmount").html(localStorage.getItem('currency')+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount
                     if(!isTravelCosts)
                     {
                         $("#invoiceTravel").parent().parent().hide();
                     }
                     else
                     {
-                    $("#invoiceTravel").html("$"+returnData.travel_cost+"<span class='detail3Small'>.00</span>"); // travel expenses amount
+                        $("#invoiceTravel").html(localStorage.getItem('currency') + returnData.travel_cost + "<span class='detail3Small'>.00</span>"); // travel expenses amount
                     var expenses = 0;
                     if(returnData.expenses != null)
                     {
@@ -1663,8 +1663,8 @@ $(document).ready(function(){
                         $("#invoiceExpenses").parent().parent().hide();
                     else
                     {
-                    $("#invoiceExpenses").html("$"+expenses+"<span class='detail3Small'>.00</span>"); // expenses amount
-                    $("#invoiceAdjustments").html("$0<span class='detail3Small'>.00</span>");
+                        $("#invoiceExpenses").html(localStorage.getItem('currency') + expenses + "<span class='detail3Small'>.00</span>"); // expenses amount
+                        $("#invoiceAdjustments").html(localStorage.getItem('currency')+"0<span class='detail3Small'>.00</span>");
                     }
                     // adjustments
                     //$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
@@ -1683,7 +1683,7 @@ $(document).ready(function(){
                     {
                         amount = returnData.total_cost;
                     }
-                    $(".invoiceTotal").html("$"+amount+"<span class='detail3Small'>"+change+"</span>");
+                    $(".invoiceTotal").html(localStorage.getItem('currency') + amount + "<span class='detail3Small'>" + change + "</span>");
                     $("#recipientList").empty();
                     // add recipients to recipients list
                     if(returnData.recipients != null){
@@ -2820,6 +2820,7 @@ $(document).ready(function(){
             localStorage.setItem('is_invoice', returnData.is_invoice);
             localStorage.setItem('is_expenses', returnData.is_expenses);
             localStorage.setItem('is_travel_costs', returnData.is_travel_costs);
+            localStorage.setItem('currency', returnData.currency);
             localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
             localStorage.setItem('userId', returnData.user.user_id);
             if (paramFunc && (typeof paramFunc == "function"))
@@ -2958,11 +2959,11 @@ $(document).ready(function(){
                     if(openTickets > 100)
                     {
                         openTickets = "99";
-                        activeAccount = "<ul class='tableRows clickme' data-id="+returnData[i].id+"><li>"+nameCheck+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                        activeAccount = "<ul class='tableRows clickme' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1' >" + openTickets + "<div class='overflowTickets'><p>+</p></div></div></li></ul>";
                         $(activeAccount).appendTo("#activeList");
                         //localDashAccounts.push(activeAccount);
                     }else{
-                        activeAccount = "<ul class='tableRows' data-id="+returnData[i].id+"><li>"+nameCheck+"</li><li>"+openHours+"</li><li>"+returnData[i].account_statistics.expenses+"</li><li><div class='tks1' >"+openTickets+"</div></li></ul>";
+                        activeAccount = "<ul class='tableRows' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1' >" + openTickets + "</div></li></ul>";
                         $(activeAccount).appendTo("#activeList");
                     }
                     dashAccounts.push(activeAccount);
