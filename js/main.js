@@ -1643,28 +1643,24 @@ $(document).ready(function(){
                         amount = returnData.amount;
                     }
                     $("#invoiceAmount").html(localStorage.getItem('currency')+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount
-                    if(!isTravelCosts)
-                    {
+                    if (!isTravelCosts) {
                         $("#invoiceTravel").parent().parent().hide();
                     }
-                    else
-                    {
-                        $("#invoiceTravel").html(localStorage.getItem('currency') + returnData.travel_cost + "<span class='detail3Small'>.00</span>"); // travel expenses amount
-                    var expenses = 0;
-                    if(returnData.expenses != null)
-                    {
-                        for(var i = 0; i < returnData.expenses.length; i++)
-                        {
-                            expenses = expenses + returnData.expenses[i].total;
-                        }
+                    else {
+                        $("#invoiceTravel").html(localStorage.getItem('currency') + returnData.travel_cost + "<span class='detail3Small'>.00</span>");
                     }
-                    }
-                    if(!isExpenses)
+                    // travel expenses amount
+                    if (!isExpenses)
                         $("#invoiceExpenses").parent().parent().hide();
-                    else
-                    {
+                    else {
+                        var expenses = 0;
+                        if (returnData.expenses != null) {
+                            for (var i = 0; i < returnData.expenses.length; i++) {
+                                expenses = expenses + returnData.expenses[i].total;
+                            }
+                        }
                         $("#invoiceExpenses").html(localStorage.getItem('currency') + expenses + "<span class='detail3Small'>.00</span>"); // expenses amount
-                        $("#invoiceAdjustments").html(localStorage.getItem('currency')+"0<span class='detail3Small'>.00</span>");
+                        $("#invoiceAdjustments").html(localStorage.getItem('currency') + "0<span class='detail3Small'>.00</span>");
                     }
                     // adjustments
                     //$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
