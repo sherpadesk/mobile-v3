@@ -1660,9 +1660,9 @@ $(document).ready(function(){
                             }
                         }
                         $("#invoiceExpenses").html(localStorage.getItem('currency') + expenses + "<span class='detail3Small'>.00</span>"); // expenses amount
-                        $("#invoiceAdjustments").html(localStorage.getItem('currency') + "0<span class='detail3Small'>.00</span>");
                     }
                     // adjustments
+                    $("#invoiceAdjustments").html(localStorage.getItem('currency') + "0<span class='detail3Small'>.00</span>");
                     //$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
                     length = returnData.total_cost.toString().length;
                     if(returnData.total_cost.toString().indexOf(".") >= 0)
