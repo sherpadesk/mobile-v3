@@ -249,7 +249,7 @@ fullscreen();
 				},200);
 				$('.headerSearchContainer').animate({
 					'backgroundColor':'#0099CC',
-					width:'200px'
+					width:'300px'
 				},300);
 			});
 			$('.searchCloseExpanded').click(function(){
