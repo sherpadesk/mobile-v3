@@ -1687,7 +1687,7 @@ $(document).ready(function(){
                     // add recipients to recipients list
                     var y=0;
                     if(returnData.recipients != null){
-                        for(x = 0; x < returnData.recipients.length; x++)
+                        for(var x = 0; x < returnData.recipients.length; x++)
                         {
                             if (returnData.recipients[x].is_accounting_contact)
                             {
