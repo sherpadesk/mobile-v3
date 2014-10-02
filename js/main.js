@@ -713,7 +713,7 @@ $(document).ready(function(){
 
         submitInvoice:function(){
             $("#sendInvoiceButton").click(function(){
-                alert(localStorage.getItem('invoiceNumber'));
+                //alert(localStorage.getItem('invoiceNumber'));
                 $.ajax({
                     type: 'PUT',
                     beforeSend: function (xhr) {
@@ -1685,14 +1685,26 @@ $(document).ready(function(){
                     $(".invoiceTotal").html(localStorage.getItem('currency') + amount + "<span class='detail3Small'>" + change + "</span>");
                     $("#recipientList").empty();
                     // add recipients to recipients list
+                    var y=0;
                     if(returnData.recipients != null){
-                        for(var x = 0; x < returnData.recipients.length; x++)
+                        for(x = 0; x < returnData.recipients.length; x++)
                         {
+                            if (returnData.recipients[x].is_accounting_contact)
+                            {
                             var email = $.md5(returnData.recipients[x].email);
                             var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p><img class='closeIcon' src='img/close_icon.png'></div></li></ul></li>";
                             $(insert).appendTo("#recipientList");
+                                y++;
+                            }
                         }
                     }
+                    if (y<1)
+                    {
+                       var insert = "<li><h3 class=noDataMessage>No accounting contacts found.</h3></li>";
+                            $(insert).appendTo("#recipientList"); 
+                        $("#sendInvoiceButton").remove();
+                    }
+                    
                     // adds timelogs asscoited with this invoice to the invoice timelogs list
                     $("#invoiceLogs").empty();
                     if(returnData.time_logs != null){
