@@ -51,9 +51,9 @@ $( document ).ajaxError(function( event, request, settings ) {
     //        alert(request.statusText);
     //    alert(request.responseText);
     //    alert(settings.url);
-    if (request.status == 403 || request.status == 404)
+    if (request.status == 403 || (request.status == 404 && settings.url === ApiSite + "config"))
     {
-        logout(settings.url !== ApiSite + "login" );
+        logout(settings.url !== ApiSite + "login");
     }
     else if (request.readyState == 0 && request.status == 0)
         off();
