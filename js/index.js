@@ -359,7 +359,13 @@ fullscreen();
 
 		removeRecipients: function() {
 			$(document).on("click",".closeIcon",function(){
-				$(this).parent().parent().parent().slideUp();
+				$(this).parent().parent().parent().parent().remove();
+                if ($("#recipientList").children().length<1)
+                    {
+                       var insert = "<li><h3 class=noDataMessage>No accounting contacts found.</h3></li>";
+                            $(insert).appendTo("#recipientList"); 
+                        $("#sendInvoiceButton").remove();
+                    }
 			});
 		}
 	};
