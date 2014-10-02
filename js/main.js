@@ -2950,9 +2950,9 @@ $(document).ready(function(){
                         openHours = 999;
                     }
                     openHours = openHours.toString();
-                    if(openHours.length > 3){
-                        openHours = openHours.substring(0,3);
-                    }
+                    //if(openHours.length > 3){
+                    //    openHours = openHours.substring(0,3);
+                    //}
 
                     // if account has more than 100 open tickets then sub 99+
                     if(openTickets > 100)
