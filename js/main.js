@@ -48,14 +48,14 @@ $( document ).ajaxError(function( event, request, settings ) {
     //console.log(event);
     //console.log(request);
     //console.log(settings);
-            alert(request.statusText);
-        alert(request.responseText);
-        alert(settings.url);
+    //        alert(request.statusText);
+    //    alert(request.responseText);
+    //    alert(settings.url);
     if (request.status == 403 || request.status == 404)
     {
         logout(settings.url !== ApiSite + "login" );
     }
-    else if (request.readyState == 0 && request.status == 0 && !navigator.onLine)
+    else if (request.readyState == 0 && request.status == 0)
         off();
 });
 
