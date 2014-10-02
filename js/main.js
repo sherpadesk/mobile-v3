@@ -52,7 +52,7 @@ $( document ).ajaxError(function( event, request, settings ) {
     {
         logout(settings.url !== ApiSite + "login" );
     }
-    else if (request.readyState == 0 && request.status == 0)
+    else if (request.readyState == 0 && request.status == 0 && !navigator.onLine)
         off();
 });
 
