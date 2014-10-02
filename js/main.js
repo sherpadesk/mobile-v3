@@ -50,6 +50,9 @@ $( document ).ajaxError(function( event, request, settings ) {
     //console.log(settings);
     if (request.status == 403 || request.status == 404)
     {
+        alert(request.statusText);
+        alert(request.responseText);
+        alert(settings.url);
         logout(settings.url !== ApiSite + "login" );
     }
     else if (request.readyState == 0 && request.status == 0 && !navigator.onLine)

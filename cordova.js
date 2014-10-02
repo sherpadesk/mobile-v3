@@ -1039,7 +1039,7 @@ function pokeNativeViaIframe() {
         if (!execIframe.contentWindow) {
             execIframe = createExecIframe();
         }
-        execIframe.src = "gap://ready";
+        //execIframe.src = "gap://ready";
     }
 }
 
