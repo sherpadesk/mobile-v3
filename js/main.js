@@ -714,6 +714,14 @@ $(document).ready(function(){
         submitInvoice:function(){
             $("#sendInvoiceButton").click(function(){
                 //alert(localStorage.getItem('invoiceNumber'));
+                if ($(".recipient").children(".closeIcon").length < 1)
+                {
+                    userMessage.showMessage(false, "No accounting contacts added");
+                    return;
+                }
+                var emails = ""; 
+                $.each($(".recipient").children(".closeIcon"), function(){emails+=$(this).attr("id") + ",";}); 
+                console.log(emails);
                 $.ajax({
                     type: 'PUT',
                     beforeSend: function (xhr) {
@@ -723,7 +731,8 @@ $(document).ready(function(){
                     },
                     url: ApiSite + 'invoices/'+localStorage.getItem('invoiceNumber'),
                     data: {
-                        "action": "sendEmail"
+                        "action": "sendEmail",
+                        "recipients": emails
                     },
                     dataType: 'json',
                     success: function (d) {
@@ -1618,7 +1627,7 @@ $(document).ready(function(){
                 url:ApiSite +"invoices/"+localStorage.getItem("invoiceNumber"),
                 dataType:"json",
                 success: function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     localStorage.setItem("invoiceAccountId",returnData.account_id);
                     localStorage.setItem("invoiceProjectId",returnData.project_id);
                     $("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number
@@ -1685,20 +1694,17 @@ $(document).ready(function(){
                     $(".invoiceTotal").html(localStorage.getItem('currency') + amount + "<span class='detail3Small'>" + change + "</span>");
                     $("#recipientList").empty();
                     // add recipients to recipients list
-                    var y=0;
-                    if(returnData.recipients != null){
+                    if(returnData.recipients != null && returnData.recipients.length > 0){
                         for(var x = 0; x < returnData.recipients.length; x++)
                         {
-                            if (returnData.recipients[x].is_accounting_contact)
-                            {
                             var email = $.md5(returnData.recipients[x].email);
-                            var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p><img class='closeIcon' src='img/close_icon.png'></div></li></ul></li>";
+                            var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p>" +
+                                (returnData.recipients[x].is_accounting_contact ? "<img class='closeIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/close_icon.png'>" : "<img class=plusIcon id=\""+ returnData.recipients[x].email +"\" src='img/plus_icon.png'>") +
+                                "</div></li></ul></li>";
                             $(insert).appendTo("#recipientList");
-                                y++;
-                            }
                         }
                     }
-                    if (y<1)
+                    else
                     {
                        var insert = "<li><h3 class=noDataMessage>No accounting contacts found.</h3></li>";
                             $(insert).appendTo("#recipientList"); 

@@ -179,6 +179,11 @@ fullscreen();
 		},
 
 		slideOut: function() {
+            $(document).on("click",".plusIcon",function(){
+                var email = $(this).attr("id");
+				$(this).attr("src", 'img/close_icon.png');
+                $(this).removeClass().addClass("closeIcon");
+			});
 			$(document).on("click","#addRecipient", function(){
 				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer addRecipColor'><input class='headerSearch'><img class='searchCloseExpandedR addRecipX' src='img/close_search.png'></div></li>";
 				var parent = $(this).parent();

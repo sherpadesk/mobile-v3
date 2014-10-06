@@ -1,68 +1,68 @@
 <html>
-<head><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
-    <!--link rel="stylesheet" type="text/css" href="css/bootstrap.css"-->
-    <!--link rel="stylesheet" type="text/css" href="css/styles.css"-->
-    <link rel="stylesheet" type="text/css" href="css/error.css">
-<script type="text/javascript">
+    <head><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
+        <!--link rel="stylesheet" type="text/css" href="css/bootstrap.css"-->
+        <!--link rel="stylesheet" type="text/css" href="css/styles.css"-->
+        <link rel="stylesheet" type="text/css" href="css/error.css">
+        <script type="text/javascript">
 
-    var Site = 'sherpadesk.com/';
-    var MobileSite = 'http://m.'+Site;
-    var isPhonegap = false;
-    var isOnline = false;
-    var interval;
-    
-    function onLoad() {
-        document.addEventListener("offline", off,false);
-        document.addEventListener("online", on1 ,false);
-        document.addEventListener("deviceready", onDeviceReady, false);
-    }
-    
-    
-     //If User is Offline....................................
-     function off(){ 
-         if (!$(".catch-error").length) {
-				 $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2><br/>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
-			 } 
-			          				 isOnline = false;
-         };
-     function on1 (){ 
-     if (!isOnline){
-         $(".catch-error").remove();
-         document.location.href = MobileSite + "index.html"; 
-											 }
-											 											 isOnline = true; };
-    
+            var Site = 'sherpadesk.com/';
+            var MobileSite = 'http://m.'+Site;
+            var isPhonegap = false;
+            var isOnline = false;
+            var interval;
 
-    
-    function onDeviceReady() {
-        isPhonegap = true;
-        redirectToPage();
-    };
-           
-    function redirectToPage() {
-        if (navigator.onLine)
-            {  if (isPhonegap) on1();
-             else
-                {
-               var img = document.body.appendChild(document.createElement("img"));
-                img.style.display = 'none';
-                img.onload = function () {
-                    document.location.href = MobileSite + "index.html";
-                };
-                img.onerror = function () {
-                    off(); 
-                };
-                img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
-                }       
-            }             
-        else
-            { 
-                off(); 
+            function onLoad() {
+                document.addEventListener("offline", off,false);
+                document.addEventListener("online", on1 ,false);
+                document.addEventListener("deviceready", onDeviceReady, false);
             }
-    };
-</script>
-</head>
-<body onload="onLoad()">
-<div></div>
-</body>
+
+
+            //If User is Offline....................................
+            function off(){ 
+                if (!$(".catch-error").length) {
+                    $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2><br/>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
+                } 
+                isOnline = false;
+            };
+            function on1 (){ 
+                if (!isOnline){
+                    $(".catch-error").remove();
+                    document.location.href = MobileSite + "index.html"; 
+                }
+                isOnline = true; };
+
+
+
+            function onDeviceReady() {
+                isPhonegap = true;
+                redirectToPage();
+            };
+
+            function redirectToPage() {
+                if (navigator.onLine)
+                {  if (isPhonegap) on1();
+                 else
+                 {
+                     var img = document.body.appendChild(document.createElement("img"));
+                     img.style.display = 'none';
+                     img.onload = function () {
+                         document.location.href = MobileSite + "index.html";
+                     };
+                     img.onerror = function () {
+                         off(); 
+                     };
+                     img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
+                 }       
+                }             
+                else
+                { 
+                    off(); 
+                }
+            };
+        </script>
+    </head>
+    <body onload="onLoad()">
+        <div></div>
+    </body>
 </html>
