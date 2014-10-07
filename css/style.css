@@ -793,6 +793,7 @@ header {
   max-width: 650px;
   display: block;
   margin: 0 auto;
+  padding-top: 7px;
 }
 
 .dashboardContainer {
@@ -821,13 +822,14 @@ header {
   font-size: 84px;
   font-weight: 400;
   text-align: center;
+  margin-top: 12px;
 }
 
 .mainStatTitle {
   color: #ffffff;
   font-size: 18px;
   text-align: center;
-  margin-top: 10px;
+  margin-top: -10px;
 }
 
 .navCircle {
@@ -1449,7 +1451,7 @@ footer {
 
 .QueuesTickerContainer {
   width: 90%;
-  margin: 0 auto 25px;
+  margin: 0 auto 0;
   overflow: auto;
 
 }
@@ -1466,7 +1468,7 @@ footer {
   float: left;
   line-height: 45px;
   text-align: center;
-  padding-left: 10px;
+  padding-left: 17px;
 }
 
 .OptionsListAccountDetail {
@@ -1554,6 +1556,7 @@ footer {
   overflow: auto;
   z-index: 1;
   padding-top: 20px;
+  margin-bottom: 50px;
 }
 
 .ActiveAccountsList {
@@ -2150,24 +2153,30 @@ font-size: 16px !important;
   opacity: .7;
   width: 100%;
   overflow: auto;
+  margin-bottom: -15px;
 }
 
 .tableHeader li {
   float: left;
-  width: 25%;
-  text-align: right;
+  width: 23%;
+  text-align: center;
   margin-bottom: 10px;
 }
 
+.tableHeader li:nth-child(1){
+  width: 31%;
+}
+
 .tableHeader li:nth-child(2){
-  padding-left: 24px;
+  /*padding-left: 24px;*/
 }
 
 .tableHeader li:nth-child(3){
-  padding-left: 10px;
+  padding-left: 8px;
 }
 .tableHeader li:nth-child(4){
-  padding-left: 10px;
+  text-align: right !important;
+  padding-right: 12px;
 }
 
 .tableRows li:first-child {
@@ -2183,7 +2192,7 @@ font-size: 16px !important;
   z-index: 5;
   background-color: rgba(224, 224, 224, 0.29);
   margin-top: 10px;
-  padding-left: 7px;
+  padding-left: 17px;
 }
 
 .tableRows li {
@@ -2400,10 +2409,11 @@ padding-right: 17px;
   background: #0099CC;
   text-align: center;
   line-height: 35px;
-  margin-left: 25px !important;
   margin-top: 7px;
   font-size: 21px;
   position: relative;
+  float: right;
+  margin-right: 17px;
 }
 
 
