@@ -744,7 +744,7 @@ $(document).ready(function(){
                         userMessage.setMessage(true, "Hurray! Invoice sent");
                     },
                     error: function (e, textStatus, errorThrown) {
-                        alert(textStatus);
+                        //alert(textStatus);
                     }
                 });
             });
