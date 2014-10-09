@@ -1380,7 +1380,7 @@ $(document).ready(function(){
             $('html,body').css('scrollTop','0');
             getApi("tickets/"+localStorage.getItem('ticketNumber')).then(
                 function(returnData) {
-                    //console.log(returnData);
+                    console.log(returnData);
                     // calculate the number of days since the ticket was created
                     var daysOld = returnData.daysold_in_minutes / -60;
                     localStorage.setItem('techId', returnData.tech_id); // set the local storage variable with the tech id asscioted with this ticket
@@ -1419,6 +1419,11 @@ $(document).ready(function(){
                     {
                         $("#ticketSLA").html("SLA: "+returnData.sla_complete_date.toString().substring(0,10));
                     }
+                    var ticketTech = returnData.tech_email;
+                    console.log(ticketTech);
+                    if(ticketTech == localStorage.getItem('userName')){
+                        $('#pickUp').hide();
+                    } 
                     //$("ul").find("[data-id='info']").click(function(){
 
                     var classes = getApi('classes');
