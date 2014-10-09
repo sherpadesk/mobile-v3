@@ -55,8 +55,6 @@ $( document ).ajaxError(function( event, request, settings ) {
     {
         logout(settings.url !== ApiSite + "login");
     }
-    else if (request.readyState == 0 && request.status == 0)
-        off();
 });
 
 //If User is Offline....................................
@@ -736,8 +734,14 @@ $(document).ready(function(){
                     },
                     dataType: 'json',
                     success: function (d) {
-                        window.history.back();
+                        setTimeout(
+                            function()
+                            {
 
+                              window.history.back();
+
+                            }, 1000);
+                        userMessage.setMessage(true, "Hurray! Invoice sent");
                     },
                     error: function (e, textStatus, errorThrown) {
                         alert(textStatus);
