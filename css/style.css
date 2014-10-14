@@ -2188,7 +2188,7 @@ font-size: 16px !important;
   list-style-type: none;
   color: #fff;
   width: 100%;
-  overflow: auto;
+  overflow: hidden;
   z-index: 5;
   background-color: rgba(224, 224, 224, 0.29);
   margin-top: 10px;
