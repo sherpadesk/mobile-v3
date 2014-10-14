@@ -3344,6 +3344,8 @@ $(document).ready(function(){
                         $("#itemAccount").parent().hide();
                     if(!isInvoice)
                         $("#itemInvoice").hide();
+                        $("#invoiceFooter").hide();
+                        $("#invoiceFooter").next().hide();
                     //conditional api calls determined by page
                     if (location.pathname.indexOf("dashboard.html") >= 0)
                     {
