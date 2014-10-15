@@ -1456,7 +1456,7 @@ $(document).ready(function(){
                             var priorityInsert = "";
                             for(var b = 0; b < prioritiesResults.length; b++)
                             {
-                                priorityInsert += "<option value="+prioritiesResults[b].id+">Priority " + prioritiesResults[b].priority_level + " - " +prioritiesResults[b].name+"</option>";
+                                priorityInsert += "<option value="+prioritiesResults[b].id+">Priority: " + prioritiesResults[b].priority_level + " - " +prioritiesResults[b].name+"</option>";
                             }
                             $(priorityInsert).appendTo("#ticketPriority");
                             $("#ticketPriority").val(returnData.priority_id);
