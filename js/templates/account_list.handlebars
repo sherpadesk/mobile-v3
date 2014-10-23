@@ -13,10 +13,10 @@
 		<ul class="accounts">
 			{{#each this}}
 			<li class="account">			
-				<a class="get_account_list" data-accountid="{{id}}" data-open="{{ticket_counts.open}}" data-name="{{name}}">
+				<a class="get_account_list" data-accountid="{{id}}" data-open="{{account_statistics.ticket_counts.open}}" data-name="{{name}}">
 					<div class="account_main">						
 						<p class="account_title">{{name}}</p>												
-						<p class="account_tkt_cnt">{{ticket_counts.open}}</p>                                     
+						<p class="account_tkt_cnt">{{account_statistics.ticket_counts.open}}</p>                                     
 					</div>
 				</a>				
 			</li>

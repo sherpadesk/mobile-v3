@@ -2,17 +2,17 @@
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.sherpadesk.mobile"
-        version   = "1.0.1">
+        version   = "1.1.0">
 
 	    <access origin="*" />
 	
      <gap:platform name="ios"/>
      <gap:platform name="android" />
 	
-	    <name>Sherpadesk Tote</name>
+	     <name>Sherpadesk Tote</name>
 	
 	    <description>
-	        SherpaDesk Tote for iPhone allows you to provide awesome customer support away from your desk while you are in the field. The mobile application is an extension of the online version allowing you flexibility to create new tickets, assign time, and close out tickets all in real time. It’s a little bit of support love in your pocket. More on http://m.sherpadesk.com 
+	        SherpaDesk Tote for iPhone allows you to provide awesome customer support away from your desk while you are in the field. The mobile application is an extension of the online version allowing you flexibility to create new tickets, assign time, and close out tickets all in real time. Its a little bit of support love in your pocket. More on http://m.sherpadesk.com 
 	    </description>
 	
 	    <author href="http://m.sherpadesk.com" email="support@sherpadesk.com">
@@ -21,7 +21,16 @@
       
       <content src="start_ios.html" />
 		
-<!-- Customize your app and platform with the preference element. -->
+    <feature name="http://api.phonegap.com/1.0/device" />
+    <feature name="http://api.phonegap.com/1.0/network"/>
+		<feature name="http://api.phonegap.com/1.0/notification"/>	
+		<feature name="NetworkStatus">
+    <param name="android-package" value="org.apache.cordova.NetworkManager" />
+</feature>
+<gap:plugin name="org.apache.cordova.network-information"/>
+<gap:plugin name="org.apache.cordova.inappbrowser" />
+		
+		<!-- Customize your app and platform with the preference element. -->
     <!-- <preference name="phonegap-version"      value="3.4.0" /> -->      <!-- all: current version of PhoneGap -->
     <preference name="orientation"                value="default" />        <!-- all: default means both landscape and portrait are enabled -->
     <preference name="target-device"              value="universal" />      <!-- all: possible values handset, tablet, or universal -->
@@ -39,15 +48,6 @@
     <preference name="android-minSdkVersion"      value="7" />              <!-- android: MIN SDK version supported on the target device. MAX version is blank by default. -->
     <preference name="android-installLocation"    value="auto" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
 
-<feature name="http://api.phonegap.com/1.0/device" />
-    <feature name="http://api.phonegap.com/1.0/network"/>
-		<feature name="http://api.phonegap.com/1.0/notification"/>
-	<feature name="NetworkStatus">
-    <param name="android-package" value="org.apache.cordova.NetworkManager" />
-</feature>
-    <gap:plugin name="org.apache.cordova.network-information"/>
-    <gap:plugin name="org.apache.cordova.inappbrowser" />
-
 		<!-- IOS only icons -->
 		<icon src="img/icons/ios/icon.png" gap:platform="ios" width="57" height="57" />
 		<icon src="img/icons/ios/icon-72.png" gap:platform="ios" width="72" height="72" />
@@ -60,7 +60,5 @@
                 <gap:splash src="img/splash/ios/Default_iphone5.png" gap:platform="ios" width="640" height="1136" />
                 <gap:splash src="img/splash/ios/Default-Portrait.png" gap:platform="ios" width="768" height="1004" />
 		
-     
-    
-
+		
 	</widget>
