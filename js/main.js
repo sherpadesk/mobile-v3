@@ -744,7 +744,7 @@ $(document).ready(function(){
                             function()
                             {
 
-                              window.history.back();
+                                window.history.back();
 
                             }, 1000);
                         userMessage.setMessage(true, "Hurray! Invoice sent");
@@ -1721,11 +1721,11 @@ $(document).ready(function(){
                     }
                     else
                     {
-                       var insert = "<li><h3 class=noDataMessage>No accounting contacts found.</h3></li>";
-                            $(insert).appendTo("#recipientList"); 
+                        var insert = "<li><h3 class=noDataMessage>No accounting contacts found.</h3></li>";
+                        $(insert).appendTo("#recipientList"); 
                         $("#sendInvoiceButton").remove();
                     }
-                    
+
                     // adds timelogs asscoited with this invoice to the invoice timelogs list
                     $("#invoiceLogs").empty();
                     if(returnData.time_logs != null){
@@ -1973,8 +1973,8 @@ $(document).ready(function(){
                     //console.log(returnData);
                     $("#invoiceList").empty();
                     if(returnData.length == 0){
-                            $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
-                        }
+                        $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
+                    }
                     if (accountid)
                         returnData = [returnData];
                     for(var i = 0; i < returnData.length; i++)
@@ -1992,12 +1992,12 @@ $(document).ready(function(){
                     reveal();
                     //filterList("tabpageContainer");
                 },
-                    function() {
-                        console.log("fail @ Invoice List");
-                        console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
-                    }
-                );
-            }
+                function() {
+                    console.log("fail @ Invoice List");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            );
+        }
     };
 
     // list tickets of the queue
@@ -2579,9 +2579,7 @@ $(document).ready(function(){
                         accountHours = '999';
                     }
                     accountHours = accountHours.toString();
-                    if(accountHours.length > 3){
-                        accountHours = accountHours.substring(0,3);
-                    }
+
                     if(accountTickets > 999){
                         accountTickets = '999';
                     }
@@ -3289,8 +3287,8 @@ $(document).ready(function(){
                         $("#itemAccount").parent().hide();
                     if(!isInvoice)
                         $("#itemInvoice").hide();
-                        $("#invoiceFooter").hide();
-                        $("#invoiceFooter").next().hide();
+                    $("#invoiceFooter").hide();
+                    $("#invoiceFooter").next().hide();
                     //conditional api calls determined by page
                     if (location.pathname.endsWith("dashboard.html"))
                     {
@@ -3307,9 +3305,10 @@ $(document).ready(function(){
                         if (!isAccount) window.location = "dashboard.html";
                         else
                         {
-                        accountDetailsPageSetup.init();
-                        //detailedTicket.init();
-                        closedTickets.pageChange();
+                            if(!isInvoice) $("#invoiceOption").parent().remove();
+                            accountDetailsPageSetup.init();
+                            //detailedTicket.init();
+                            closedTickets.pageChange();
                         }
                     }
                     if (location.pathname.endsWith("Account_List.html"))
@@ -3317,7 +3316,7 @@ $(document).ready(function(){
                         if (!isAccount) window.location = "dashboard.html";
                         else
                         {
-                        accountList.init();
+                            accountList.init();
                         }
                     }
                     if (location.pathname.endsWith("addTicketTime.html"))
@@ -3357,7 +3356,7 @@ $(document).ready(function(){
                         if (!isTime || !isInvoice) window.location = "dashboard.html";
                         else
                         {
-                        invoiceList.init(localStorage.getItem("DetailedAccount"));
+                            invoiceList.init(localStorage.getItem("DetailedAccount"));
                         }
 
                     }
