@@ -913,7 +913,7 @@ header {
   height: 46px;
   display: block;
   float: left;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.55);
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
@@ -2326,7 +2326,7 @@ padding-right: 17px;
   height: 50px;
   display: block;
   float: left;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.55);
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
@@ -2523,7 +2523,7 @@ box-shadow: 0px 0px 3px #88888D;
 .createActions {
   width: 100%;
   height: 100%;
-  background-color: rgba(66, 189, 65, 0.9);
+  background-color: rgba(37, 176, 230, 0.9);
   padding-top: 100px;
   position: fixed;
   top: 0;
@@ -2543,7 +2543,7 @@ box-shadow: 0px 0px 3px #88888D;
   width: 125px;
   height: 125px;
   float: left;
-  border: 6px solid rgba(255, 255, 255, 0.68);
+  border: 6px solid rgba(255, 255, 255, 0.87);
   border-radius: 2px;
   margin-left: 36px;
   margin-bottom: 20px;
@@ -2555,12 +2555,12 @@ box-shadow: 0px 0px 3px #88888D;
   text-align: center;
   line-height: 50px;
   font-size: 20px;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.87);
 }
 
 
 .createActions i {
-  color: rgba(255, 255, 255, 0.68);
+  color: rgba(255, 255, 255, 0.87);
   font-size: 120px;
   text-align: center;
   /* display: block; */

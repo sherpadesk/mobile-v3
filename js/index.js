@@ -302,20 +302,26 @@ fullscreen();
 		},
 
 		tab: function() {
+			$('#replyTab, #ticketReply').css('color','#fff');
 			$(".tabHeader").click(function() {
-				$(".tabpage").fadeOut(300);
+				$('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
+				$(".tabpage").hide();
 				switch( $(this).attr("data-id") ) {
 					case "reply":
-						$("#tabpage_reply").fadeIn(300);
+						$(this).css('color','#ffffff');
+						$("#tabpage_reply").show();
 						break;
 					case "info":
-						$("#tabpage_info").fadeIn(300);
+						$(this).css('color','#ffffff');
+						$("#tabpage_info").show();
 						break;
 					case "all":
-						$("#tabpage_all").fadeIn(300);
+						$(this).css('color','#ffffff');
+						$("#tabpage_all").show();
 						break;
 					case "options":
-						$("#tabpage_options").fadeIn(300);
+						$(this).css('color','#ffffff');
+						$("#tabpage_options").show();
 						default:
 						break;
 				}
