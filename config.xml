@@ -75,6 +75,9 @@
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="de.appplant.cordova.plugin.local-notification" />
     <gap:plugin name="org.apache.cordova.network-information"/>
+    <gap:plugin name="nl.x-services.plugins.launchmyapp">
+      <param name="URL_SCHEME" value="sherpadesk" />
+    </gap:plugin>
 
    
     <!-- Define app icon for each platform. -->

@@ -110,6 +110,12 @@ function logout(isRedirect) {
         window.location = "index.html";
 }
 
+if (typeof String.prototype.endsWith !== 'function') {
+    String.prototype.endsWith = function(suffix) {
+        return this.indexOf(suffix, this.length - suffix.length) !== -1;
+    };
+}
+
 function GooglelogOut () {
     if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
@@ -1947,26 +1953,12 @@ $(document).ready(function(){
 
     // get a list of invoices both for a specific account as well as a complete list of invoices
     var invoiceList = {
-        init:function(){
-            this.listInvoices();
+        init:function(accountid){
+            this.listInvoices(accountid);
         },
 
-        listInvoices:function(){
+        listInvoices:function(accountid){
             var localInvoiceList = [];
-            // var retrievedObject = localStorage.getItem("storageInvoices");
-            // retrievedObject = JSON.parse(retrievedObject);
-            // if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
-            // {
-            //     console.log("could not load local data")
-            // }
-            // else
-            // {
-            //     for(var a = 0; a < retrievedObject.length; a++)
-            //     {
-            //         localInsert = retrievedObject[a];
-            //         $(localInsert).appendTo("#allInvoiceList");
-            //     }
-            // }
             // go to list of account invoice on click
             $("#invoiceOption").click(function(){
                 window.location = "Invoice_List.html";
@@ -1976,83 +1968,36 @@ $(document).ready(function(){
                 window.location = "allInvoice_List.html";
             });
             // get list of invoices for a specific account
-            var accountid = localStorage.getItem("DetailedAccount");
-            if (accountid > 0){
-                $.ajax({
-                    type: 'GET',
-                    beforeSend: function (xhr) {
-                        xhr.withCredentials = true;
-                        xhr.setRequestHeader('Authorization',
-                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                    },
-
-                    url:ApiSite +"invoices?account="+accountid,
-                    dataType:"json",
-                    success: function(returnData) {
-                        $("#invoiceList").empty();
-                        console.log(returnData);
-                        if(returnData.length == 0){
+            getApi("invoices", {"account" : accountid}).then(
+                function(returnData) {
+                    //console.log(returnData);
+                    $("#invoiceList").empty();
+                    if(returnData.length == 0){
                             $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
                         }
-                        // add invoice to list
-                        for(var i = 0; i < returnData.length; i++)
-                        {
-                            var customer = returnData[i].customer; //account name
-                            var date = returnData[i].date.substring(0,10);
-                            date = formatDate(date);
-                            customer = createElipse(customer, .33, 12);
-                            var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows'><li>"+customer+"</li><li>"+date+"</li><li>$"+returnData[i].total_cost+"</li></ul>";
-                            $(insert).appendTo("#invoiceList");
-                        }
-                    },
-                    complete:function(){
-                        function reveal(){
-                            $(".loadScreen").hide();
-                            $(".maxSize").fadeIn();
-                        };
-                    },
-                    error: function() {
-                        console.log("fail @ Invoice List");
-                        console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
-                    }
-                });
-            }
-            // get complete invoice list for the entire orginization
-            $.ajax({
-                type: 'GET',
-                beforeSend: function (xhr) {
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization',
-                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                },
-
-                url:ApiSite +"invoices",
-                dataType:"json",
-                success: function(returnData) {
-                    console.log(returnData);
-                    $("#allInvoiceList").empty();
+                    if (accountid)
+                        returnData = [returnData];
                     for(var i = 0; i < returnData.length; i++)
                     {
                         var customer = returnData[i].customer; // account name
                         var date = returnData[i].date.substring(0,10);
                         // check account name for display purposes
+                        date = formatDate(date);
                         customer = createElipse(customer, .33, 12);
                         var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+returnData[i].total_cost+"</li></ul>";
-                        $(insert).appendTo("#allInvoiceList");
-                        localInvoiceList.push(insert);
+                        $(insert).appendTo("#invoiceList");
+                        if (!accountid) localInvoiceList.push(insert);
                     }
-                    localStorage.setItem("storageInvoices",JSON.stringify(localInvoiceList));
-                },
-                complete:function(){
+                    if (!accountid) localStorage.setItem("storageInvoices",JSON.stringify(localInvoiceList));
                     reveal();
-                    filterList("tabpageContainer");
+                    //filterList("tabpageContainer");
                 },
-                error: function() {
-                    console.log("fail @ Invoice List");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
-                }
-            });
-        }
+                    function() {
+                        console.log("fail @ Invoice List");
+                        console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    }
+                );
+            }
     };
 
     // list tickets of the queue
@@ -3347,7 +3292,7 @@ $(document).ready(function(){
                         $("#invoiceFooter").hide();
                         $("#invoiceFooter").next().hide();
                     //conditional api calls determined by page
-                    if (location.pathname.indexOf("dashboard.html") >= 0)
+                    if (location.pathname.endsWith("dashboard.html"))
                     {
                         getTicketCount();
                         getQueueList();
@@ -3357,24 +3302,31 @@ $(document).ready(function(){
                         search.init();
                         reveal();
                     }
-                    if (location.pathname.indexOf("account_details.html") >= 0)
+                    if (location.pathname.endsWith("account_details.html"))
                     {
+                        if (!isAccount) window.location = "dashboard.html";
+                        else
+                        {
                         accountDetailsPageSetup.init();
                         //detailedTicket.init();
                         closedTickets.pageChange();
-
+                        }
                     }
-                    if (location.pathname.indexOf("Account_List.html") >= 0)
+                    if (location.pathname.endsWith("Account_List.html"))
                     {
+                        if (!isAccount) window.location = "dashboard.html";
+                        else
+                        {
                         accountList.init();
+                        }
                     }
-                    if (location.pathname.indexOf("addTicketTime.html") >= 0)
+                    if (location.pathname.endsWith("addTicketTime.html"))
                     {
                         if (isTime) addTime.init();
                         else window.location = "dashboard.html";
 
                     }
-                    if (location.pathname.indexOf("timelog.html") >= 0)
+                    if (location.pathname.endsWith("timelog.html"))
                     {if (!isTime) window.location = "dashboard.html";
                      else
                      {
@@ -3383,31 +3335,35 @@ $(document).ready(function(){
                          addTime.init();
                      }
                     }
-                    if (location.pathname.indexOf("accountTimes.html") >= 0)
+                    if (location.pathname.endsWith("accountTimes.html"))
                     {
-                        if (!isTime) window.location = "dashboard.html";
+                        if (!isTime || !isAccount) window.location = "dashboard.html";
                         else
                         {
                             accountTimeLogs.init();
                             timeLogs.init();
                         }
                     }
-                    if (location.pathname.indexOf("Invoice_List.html") >= 0 || location.pathname.indexOf("allInvoice_List.html") >= 0)
+                    if (location.pathname.endsWith("allInvoice_List.html"))
                     {
-                        if (!isTime) window.location = "dashboard.html";
+                        if (!isTime || !isInvoice) window.location = "dashboard.html";
                         else
                         {
                             invoiceList.init();
                         }
                     }
-                    if (location.pathname.indexOf("Invoice_List.html") >= 0)
+                    else if (location.pathname.endsWith("Invoice_List.html"))
                     {
-                        invoiceList.init();
+                        if (!isTime || !isInvoice) window.location = "dashboard.html";
+                        else
+                        {
+                        invoiceList.init(localStorage.getItem("DetailedAccount"));
+                        }
 
                     }
-                    if (location.pathname.indexOf("invoice.html") >= 0)
+                    if (location.pathname.endsWith("invoice.html"))
                     {
-                        if (!isTime) window.location = "dashboard.html";
+                        if (!isTime || !isInvoice) window.location = "dashboard.html";
                         else
                         {
                             detailedInvoice.init();
@@ -3415,22 +3371,22 @@ $(document).ready(function(){
                             addRecip.init();
                         }
                     }
-                    if (location.pathname.indexOf("Queues.html") >= 0)
+                    if (location.pathname.endsWith("Queues.html"))
                     {
                         getQueues.init();
                     }
-                    if (location.pathname.indexOf("queueTickets.html") >= 0)
+                    if (location.pathname.endsWith("queueTickets.html"))
                     {
                         getQueueTickets.init();
                     }
                 }
-                if (location.pathname.indexOf("ticket_list.html") >= 0)
+                if (location.pathname.endsWith("ticket_list.html"))
                 {
                     ticketList.init();
                     //accountDetailsPageSetup.init();
 
                 }
-                if (location.pathname.indexOf("ticket_detail.html") >= 0)
+                if (location.pathname.endsWith("ticket_detail.html"))
                 {
                     detailedTicket.init();
                     pickUpTicket.init();
@@ -3439,21 +3395,17 @@ $(document).ready(function(){
                     //addTime.init();
                     postComment.init();
                 }
-                if (location.pathname.indexOf("closedTickets.html") >= 0)
+                if (location.pathname.endsWith("closedTickets.html"))
                 {
                     // detailedTicket.init();
                     closedTickets.init();
                 }
-                //getTicketCount();
-                //getQueueList();
-                //getActiveAccounts();
-                //reveal();
-                if (location.pathname.indexOf("add_tickets.html") >= 0)
+                if (location.pathname.endsWith("add_tickets.html"))
                 {
                     newTicket.init();
                     //accountTimeLogs.init();
                 }
-                if (location.pathname.indexOf("add_time.html") >= 0)
+                if (location.pathname.endsWith("add_time.html"))
                 {
                     if (!isTime) window.location = "dashboard.html";
                     else
@@ -3466,19 +3418,6 @@ $(document).ready(function(){
                     $(".time").remove();
             });
         }
-
-
-        //getQueueTickets.init();
-        //accountDetailsPageSetup.init();
-        //detailedTicket.init();
-        //ticketList.init();
-        //getQueues.init();
-        //accountDetailsPageSetup.init();
-        //timeLogs.init();
-        //accountList.init();
-        //invoiceList.init();
-        //detailedInvoice.init();
-        //updateInvoice.init();
     }());
 
 
