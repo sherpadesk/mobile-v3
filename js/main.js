@@ -1691,21 +1691,10 @@ $(document).ready(function(){
                     // adjustments
                     $("#invoiceAdjustments").html(localStorage.getItem('currency') + "0<span class='detail3Small'>.00</span>");
                     //$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
-                    length = returnData.total_cost.toString().length;
-                    if(returnData.total_cost.toString().indexOf(".") >= 0)
-                    {
-
-                        amount = returnData.total_cost.toString().substring(0, length -3);
-                        change = "."+returnData.total_cost.toString().substring(length-2, length);
-                        if(change.indexOf("..") >= 0)
-                        {
-                            change = "."+returnData.total_cost.toString().substring(length-1, length)+"0";
-                        }
-                    }
-                    else
-                    {
-                        amount = returnData.total_cost;
-                    }
+                    console.log(Number(returnData.total_cost).toFixed(2).toString());
+                    amount = Number(returnData.total_cost).toFixed(2).toString();
+                    change = amount.substring(amount.length-3, amount.length);
+                    amount = amount.substring(0, amount.length -3);
                     $(".invoiceTotal").html(localStorage.getItem('currency') + amount + "<span class='detail3Small'>" + change + "</span>");
                     $("#recipientList").empty();
                     // add recipients to recipients list
@@ -1984,7 +1973,7 @@ $(document).ready(function(){
                         // check account name for display purposes
                         date = formatDate(date);
                         customer = createElipse(customer, .33, 12);
-                        var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+returnData[i].total_cost+"</li></ul>";
+                        var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
                         $(insert).appendTo("#invoiceList");
                         if (!accountid) localInvoiceList.push(insert);
                     }
@@ -3047,6 +3036,11 @@ $(document).ready(function(){
                             var instances = results[index_number].instances;
                             localStorage.setItem('userOrgKey', userOrgKey);
 
+                            if (instances.length == 0) {
+                                userMessage.showMessage(false, "You are not associated with any Instance in the Organization or your account is inactivated in the Instances.");
+                                return;
+                            }
+
                             // If there is only one instance on the selected org
                             if (instances.length == 1) {
                                 userInstanceKey = instances[0].key;
@@ -3286,9 +3280,11 @@ $(document).ready(function(){
                     if(!isAccount)
                         $("#itemAccount").parent().hide();
                     if(!isInvoice)
+                    { 
                         $("#itemInvoice").hide();
-                    $("#invoiceFooter").hide();
-                    $("#invoiceFooter").next().hide();
+                        $("#invoiceFooter").hide();
+                        $("#invoiceFooter").next().hide();
+                    }
                     //conditional api calls determined by page
                     if (location.pathname.endsWith("dashboard.html"))
                     {
