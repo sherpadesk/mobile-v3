@@ -809,6 +809,7 @@ $(document).ready(function(){
         if (i > 0){
             $(""+envelope_start + insert + envelope_end).appendTo(""+element);
             $(""+element).parent().show();
+            $(""+element).parent().parent().show();
         }
         else
             $(""+element).parent().hide();
@@ -819,12 +820,12 @@ $(document).ready(function(){
     {
         if(!isClass) {$(''+element).parent().parent().hide();
                       return;}
-        fillSelect(classResults, element, initialValue, "");
+        fillSelect(classResults, element, initialValue, "Class: ");
 
         //Listen for class and detect sub-classes
         $(''+element).on('change', function(){
 
-            if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').remove();};
+            if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').hide();$('#sub_class1, #sub_class2').empty();};
             var classSelected0 = $(element +' option:selected').val();
             var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
 
@@ -834,10 +835,10 @@ $(document).ready(function(){
             //If sub-class exist
             if((typeof classSub[0] !== "undefined") && (classSub[0].sub !== null || classSub[0].sub > 0)){
                 //Show sub-class select
-                fillSelect(classSub[0].sub, ".add_class", "<option value="+selectedEditClass+">choose a sub class</option>", "", "", "<div class=sub_class1><div class=styledSelect><select id=sub_class1>","</select></div></div>");
+                fillSelect(classSub[0].sub, "#sub_class1", "<option value="+selectedEditClass+">choose a sub class</option>", "Sub class: ");
 
                 $("select#sub_class1").on('change', function(){
-                    if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
+                    if($('.sub_class2').is(":visible")){$('.sub_class2').hide();$('#sub_class2').empty();};
                     var classSelected1 = $('select#sub_class1 option:selected').val();
                     var classSub1 = $.grep(classSub[0].sub, function(a){ return a.id == classSelected1; });
                     //reset class
@@ -845,7 +846,7 @@ $(document).ready(function(){
                     //If sub-sub-class exist
                     if((typeof classSub1[0] !== "undefined") && (classSub1[0].sub > 0 || classSub1[0].sub!== null)){
                         //Show sub-class select
-                        fillSelect(classSub1[0].sub, ".add_class", "<option value="+selectedEditClass+">Sub Sub Class: ---</option>", "Sub Sub Class: ", "", "<div class=sub_class2><div class=styledSelect><select id=sub_class2>","</select></div></div>");
+                        fillSelect(classSub1[0].sub, "#sub_class2", "<option value="+selectedEditClass+">Sub Sub Class: ---</option>", "Sub Sub Class: ");
 
                         $("select#sub_class2").on('change', function(){
                             var classSelected2 = $('select#sub_class2 option:selected').val();
