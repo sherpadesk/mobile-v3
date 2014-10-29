@@ -4,13 +4,13 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.sherpadesk.mobile"
-        versionCode="300"
-        version   = "3.0.0">
+        versionCode="301"
+        version   = "3.0.1">
         
         <gap:platform name="ios"/>
      <gap:platform name="android" />
 
-    <name>Sherpadesk Tote</name>
+    <name>Sherpadesk</name>
 	
 	    <description>
 	        SherpaDesk Tote for iPhone allows you to provide awesome customer support away from your desk while you are in the field. The mobile application is an extension of the online version allowing you flexibility to create new tickets, assign time, and close out tickets all in real time. It’s a little bit of support love in your pocket. More on http://m.sherpadesk.com 
@@ -20,11 +20,15 @@
 	        SherpaDesk
 	    </author>
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-        <string>3.0.0</string>
+        <string>3.0.1</string>
     </gap:config-file>
     
     <gap:config-file platform="ios" parent="CFBundleVersion">
-        <string>3.0.0</string>
+        <string>3.0.1</string>
+    </gap:config-file>
+    
+    <gap:config-file platform="ios" parent="CFBundleName">
+        <string>Sherpadesk</string>
     </gap:config-file>
     
       <content src="start_ios.html" />
@@ -39,6 +43,10 @@
 		<feature name="NetworkStatus">
     <param name="ios-package" value="CDVConnection" />
 </feature>
+    <feature name="SplashScreen">
+        <param name="ios-package" value="CDVSplashScreen" />
+    </feature>
+
 
     <!--
         If you do not want any permissions to be added to your app, add the
@@ -60,11 +68,12 @@
     <preference name="detect-data-types"          value="true" />           <!-- ios: controls whether data types (such as phone no. and dates) are automatically turned into links by the system -->
     <preference name="exit-on-suspend"            value="false" />          <!-- ios: if set to true, app will terminate when home button is pressed -->
     <preference name="show-splash-screen-spinner" value="true" />           <!-- ios: if set to false, the spinner won't appear on the splash screen during app loading -->
-    <preference name="auto-hide-splash-screen"    value="true" />           <!-- ios: if set to false, the splash screen must be hidden using a JavaScript API -->
+    <preference name="auto-hide-splash-screen"    value="false" />           <!-- ios: if set to false, the splash screen must be hidden using a JavaScript API -->
     <preference name="disable-cursor"             value="false" />          <!-- blackberry: prevents a mouse-icon/cursor from being displayed on the app -->
     <preference name="android-minSdkVersion"      value="7" />              <!-- android: MIN SDK version supported on the target device. MAX version is blank by default. -->
     <preference name="android-installLocation"    value="auto" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
-
+    <preference name="SplashScreen" value="splash" />
+    <preference name="SplashScreenDelay" value="10000" />
     <!-- Plugins can also be added here. -->
     <!--
         <gap:plugin name="Example" />
