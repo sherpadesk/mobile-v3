@@ -30,6 +30,7 @@ document.addEventListener("offline", off,false);
 document.addEventListener("online", on1 ,false);
 
 function onDeviceReady() {
+    alert("gap init");
     isPhonegap = true;
 }
 
