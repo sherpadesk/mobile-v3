@@ -30,7 +30,7 @@ document.addEventListener("offline", off,false);
 document.addEventListener("online", on1 ,false);
 
 function onDeviceReady() {
-    alert("gap init");
+    //alert("gap init");
     isPhonegap = true;
 }
 
@@ -142,7 +142,7 @@ function fullapplink (){
     // Create link to specific org | instance
     var urlString = AppSite + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
     if (isPhonegap) {
-        alert("gap!");
+        //alert("gap!");
         $(".fullapplink").on('click', function (e) {
             e.preventDefault();
             openURLsystem(urlString);});
