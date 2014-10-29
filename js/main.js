@@ -30,6 +30,7 @@ document.addEventListener("offline", off,false);
 document.addEventListener("online", on1 ,false);
 
 function onDeviceReady() {
+    //alert("gap init");
     isPhonegap = true;
 }
 
@@ -141,6 +142,7 @@ function fullapplink (){
     // Create link to specific org | instance
     var urlString = AppSite + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
     if (isPhonegap) {
+        //alert("gap!");
         $(".fullapplink").on('click', function (e) {
             e.preventDefault();
             openURLsystem(urlString);});
@@ -3409,7 +3411,7 @@ $(document).ready(function(){
                         addTime.init();
                     }
                 }
-                setTimeout(fullapplink, 3000);
+                fullapplink();
                 if (!isTime)
                     $(".time").remove();
             });
