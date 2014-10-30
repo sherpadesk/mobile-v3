@@ -32,7 +32,6 @@ document.addEventListener("online", on1 ,false);
 function onDeviceReady() {
     //alert("gap init");
     isPhonegap = true;
-    navigator.splashscreen.hide();
 }
 
 //open link	in blank
@@ -3413,6 +3412,7 @@ $(document).ready(function(){
                     }
                 }
                 fullapplink();
+                navigator.splashscreen.hide();
                 if (!isTime)
                     $(".time").remove();
             });
