@@ -86,14 +86,14 @@ function redirectToPage() {
              on1();
          };
          img.onerror = function () {
-             off();
+             // off();
          };
          img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
      }
     }
     else
     {
-        off();
+        // off();
     }
 };
 
