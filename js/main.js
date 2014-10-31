@@ -377,7 +377,7 @@ $(document).ready(function(){
                 if (isPhonegap){
                     openURL(url);
                 } else if (window.self !== window.top) {
-                    alert('Please register in new window and reopen Sherpadesk extension again.');
+                    //alert('Please register in new window and reopen Sherpadesk extension again.');
                     window.open(url, '');
                 }
                 else
