@@ -146,6 +146,10 @@ function fullapplink (){
         $(".fullapplink").on('click', function (e) {
             e.preventDefault();
             openURLsystem(urlString);});
+    } else if (window.self !== window.top) {
+                    //alert('Please register in new window and reopen Sherpadesk extension again.');
+                    var origOpenFunc = window.__proto__.open;
+                    origOpenFunc.apply(window, [urlString, "_blank"]); 
     }
     else
     {
@@ -3421,6 +3425,7 @@ $(document).ready(function(){
                     }
                 }
                 fullapplink();
+                if (typeof navigator.splashscreen !== 'undefined') 
                 navigator.splashscreen.hide();
                 if (!isTime)
                     $(".time").remove();
