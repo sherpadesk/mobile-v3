@@ -20,6 +20,8 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
     function onDeviceReady() {
        isPhonegap = true;
+        navigator.splashscreen.hide();
+        alert("gap!");
        //If User is Offline....................................
       /* document.addEventListener("offline",function(){ 
 	   if (!$("#offline").length) {
