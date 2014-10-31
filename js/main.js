@@ -378,6 +378,7 @@ $(document).ready(function(){
                     openURL(url);
                 } else if (window.self !== window.top) {
                     //alert('Please register in new window and reopen Sherpadesk extension again.');
+                    delete Window.prototype.open;
                     window.open(url, '');
                 }
                 else
