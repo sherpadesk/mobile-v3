@@ -147,9 +147,13 @@ function fullapplink (){
             e.preventDefault();
             openURLsystem(urlString);});
     } else if (window.self !== window.top) {
+    
+    $(".fullapplink").on('click', function (e) {
+            e.preventDefault();
                     //alert('Please register in new window and reopen Sherpadesk extension again.');
                     var origOpenFunc = window.__proto__.open;
                     origOpenFunc.apply(window, [urlString, "_blank"]); 
+                    });
     }
     else
     {
