@@ -149,7 +149,7 @@ function fullapplink (){
     }
     else
     {
-        $(".fullapplink").attr("target", "_system");
+        $(".fullapplink").attr("target", "_blank");
         $(".fullapplink").attr("href", urlString);
     }
 
