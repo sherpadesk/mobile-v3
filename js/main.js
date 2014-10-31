@@ -314,6 +314,14 @@ $(document).ready(function(){
                     window.location = "org.html";
                     return;
                 }
+                else
+                {
+                    var error = getParameterByName('f');
+		            if (error) {
+		                cleanQuerystring();
+		                userMessage.showMessage(false, error);
+		                }
+		                }
             }
             this.login();
         },
