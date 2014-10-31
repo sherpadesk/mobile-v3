@@ -389,7 +389,7 @@ $(document).ready(function(){
             $('#sign_in_with_google').on('click', function (e) {
                 e.preventDefault();
                 if (window.self !== window.top) {
-                    alert('Please go Google login in new window and reopen Sherpadesk extension again.');
+                    alert('Please goto Google login in new window and reopen Sherpadesk extension again.');
                     $('form.google_openid').get(0).setAttribute('target', '_blank');
                 }
                 $('form.google_openid').get(0).submit();
