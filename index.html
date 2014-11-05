@@ -1,51 +1,70 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <title>SherpaDesk Mobile</title>
-    <meta charset="UTF-8">
-    <meta content="True" name="HandheldFriendly">
-    <meta name="viewport" content="width=320.1, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <!-- Bootstrap -->
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" href="img/icon.png"/>
+    <link rel="apple-touch-startup-image" href="img/profile_2.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <title>SherpaDesk</title>
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/idangerous.swiper.css">
+    <!-- Media query for tablets -->
+    <link rel="stylesheet" href="css/tablet.css" />
+
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <!-- Jquery -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/md5.js"></script>
+    <!-- Jquery UI -->
+    <link rel="stylesheet" href="js/jquery-ui.css" />
+
     <link rel="stylesheet" type="text/css" href="css/error.css">
-    
-    <!-- iOS icon images -->
-    <link rel="apple-touch-icon-precomposed" sizes="50x50" href="Icon-Small-50.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="touch-icon-iphone1.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="touch-icon-ipad1.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="100x100" href="Icon-Small-50@x2.png" /> 
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="touch-icon-iphone-retina1.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="touch-icon-ipad-retina1.png" />
+    <script src="cordova.js"></script>
 
-    <!-- iPhone splash -->
-    <link href="apple-touch-startup-image-320x460.png" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image">
-    <!-- iPhone (Retina) splash -->
-    <link href="apple-touch-startup-image-640x920.png" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-    <!-- iPhone 5 splash -->
-    <link href="apple-touch-startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">
-    <!-- iPad Portrait -->
-    <link rel="apple-touch-startup-image" sizes="768x1004" href="Default_Portrait.png" media="screen and (min-device-width : 481px) and (max-device-width : 1024px) and (orientation : portrait)">
-
-
-    
-  </head>
-  <body class="spinner">
-  	<div class="wrappr">
-  	    
-  	</div>
-    
-    <script src="js/jquery.js"></script>
-    <script src="js/phonegap.js"></script>
-    <script src="js/handlebars.js"></script>
-    <script src="js/bootstrap.min.js"></script>    
-    <script src="js/md5.js"></script>    
-    <script src="js/jpanelmenu.js"></script>
-    <script src="js/jquery.uniform.js"></script>
-    <script src="js/list.js"></script>
-    <script src="js/moment.js"></script>
-    <script src="js/templates/templates.js"></script> 	
+		<script src="js/jquery-ui.min.js"></script>
+    <!-- Main.js -->
+    <script src="js/index.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/Chart.js"></script>
+    <script src="js/jquery.md5.js"></script>
+    <script src="js/fastclick.js"></script>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+  </head>
+    <div class="overflow">
+      <!-- <div class="splashScreen">
+        <div class="splashImgContainer">
+          <img class="splashScreenSherpa" src="img/sherpaDesk-logo-final.png">
+        </div>
+        <img class="splashScreenLogo" src="img/logo.png">
+      </div> -->
+  <body class="loginScreen" onload="initFastButtons();">
+    <div class="bodyContentCoverLogin">
+    <div class="bodyContent">
+      <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
+    <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
+      <img class="loginLogo" src="img/logo.png">
+      <div class="loginContent">
+        <p id="errorMessage"></p>
+      <textarea id="userName"class="textInputSmall" type="email"  wrap="off" placeholder="email"></textarea>
+      <input id="password"class="textInputSmall" type="password" wrap="off" placeholder="password"></input>
+      <div id="loginButton" class="loginButton">Login</div>
+      <ul class="googleStripes">
+        <li></li><li></li><li></li><li></li>
+      </ul>
+          <div class="googleButton" id="sign_in_with_google">Sign in with <strong>Google</strong></div>
+          <div class="loginButton" id="login_signup">Setup New Organization</div>
+      </div>
+      <form class="google_openid" method="POST">  </form>
+    </div>
+    </div>
   </body>
+  </div>
+  </div>
 </html>

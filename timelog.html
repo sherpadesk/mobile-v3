@@ -1,53 +1,153 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" href="img/icon.png"/>
+    <link rel="apple-touch-startup-image" href="img/profile_2.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>    
+    <title>SherpaDesk</title>
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/idangerous.swiper.css">
+    <!-- Media query for tablets -->
+    <link rel="stylesheet" href="css/tablet.css" />
+    <!-- Media query for large Screen -->
+    <link rel="stylesheet" href="css/style_LargeScreen.css" />
+    <!-- Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+    <!-- Jquery -->
+    <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
+    <script src="js/md5.js"></script>
+    <!-- Jquery UI -->
+    <link rel="stylesheet" href="js/jquery-ui.css" />
+    <script src="js/jquery-ui.min.js"></script>
+    <!-- Main.js -->
+    <script src="js/list.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/Chart.js"></script>
+    <script src="js/jquery.md5.js"></script>
+    <script src="js/fastclick.js"></script>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+  </head>
 
-<title>Mobile Mock</title>
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="css/styles.css">
-
-</head>
-
-<body>
-
-<header>
-	<div class="navbar">
-		<div class="navbar-inner">
-			<a href="#" id="left-button" class="menu_button header_left home_icon home_button"></a>
-            <a href="#" id="right-button" class="menu_button header_right add_icon add_ticket_button"></a>
-			<p class="header_label">Time Logs</p>                
-		</div> 		        
-	</div>
-</header>
-
-<div class="content">
-	<div class="showalert"></div>
-	<div class="timelog"> 
-		<ul class="timelogs">	        
-	        <li class="log_entry">	        	
-	            <div class="log_data">
-	            	<div class="log_data_top">
-                    	<div class="log_time_amount">
-	                    	<p>2.25 <span>hrs</span></p>
-	                        <p class="date">12 JAN 2013</p>
-	                    </div>
-	                    <p class="log_type"><strong>Great Big Account Name Company</strong></p>
-                        <p class="log_type smaller"><strong>Task type goes here</strong></p>
-	                    <p class="log_type smaller">Ticket <strong>1234</strong></p>
-                        	                    
-	                </div>
-                    <div class="log_data_bottom">	                	
-	                    <p class="log_note">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla justo est, suscipit in nisl ut, dictum posuere risus. Etiam non feugiat lacus. Pellentesque gravida arcu nisi, ut dignissim magna accumsan mattis. Fusce mollis, nisl et ultricies pharetra, quam mauris dignissim libero, vel ornare ante massa non dolor. Fusce pretium libero vel tellus tempor eleifend. Nulla ultricies adipiscing nisi, scelerisque molestie eros luctus at.</p>                    
-	                </div>	                
-	            </div>
-	        </li>
-	    </ul>     	
-        	
-    </div><!-- End Time Log -->
-    
-</div>
-
-</body>
+  <div class="maxSize">
+    <span id="fastclick">
+  <header>
+    <ul class="topHeader">
+      <li id="navBars"><img class="headerNavIcon " src="img/navicon.png"></li>
+        <li><h1 class="SherpaDesk" >Timelog</h1></li>
+      <li><img class="headerSearchIcon" src="img/search_icon.png"></li>
+    </ul>
+  </header>
+  <body onload="initFastButtons();">
+            <nav class="sideNav">
+      <div class="activeNav">
+      <div class="fold"><i class="fa a-angle-double-left fa-2x"></i></div>
+      <img class="navProfile" src="img/profile_3.png">
+      <h2 class="navName">NO USER DATA</h2>
+      <ul class="sideNavLinks">
+        <a href="dashboard.html">
+          <li id="itemDash">
+             <a href="dashboard.html">
+            <div class="iconCircle">
+              <i class="fa fa-tachometer "></i>
+            </div>
+              <h3>Dashboard</h3>
+              </a>
+            </li>
+          </a>
+          <a class="user" href="ticket_list.html">
+          <li id="itemTickets">
+            <div class="iconCircle">
+              <i class="fa fa-ticket"></i>
+            </div>
+            <h3>Tickets</h3>
+            <div class="menuTicketsStat">
+                <p class="menuTicketStatNumber"></p>
+              </div>
+          </li>
+        </a>
+        <a class="time" href="timelog.html">
+          <li id="itemTimelog">
+            <div class="iconCircle">
+              <i class="fa fa-clock-o">
+              </i>
+            </div>
+            <h3>Timelogs</h3>
+          </li>
+        </a>
+        <a href="Account_List.html">
+          <li id="itemAccount">
+            <div class="iconCircle">
+              <i class="fa fa-users"></i>
+            </div>
+            <h3>Accounts</h3>
+          </li>
+        </a>
+        <li class="time" id="itemInvoice">
+          <div class="iconCircle">
+            <i class="fa fa-credit-card"></i>
+             </div>
+             <h3 id="allInvoice">Invoices</h3>
+           </li>
+        <a href="Queues.html">
+          <li id="itemQueues">
+            <div class="iconCircle">
+              <i class="fa fa-sort-amount-asc"></i>
+            </div>
+            <h3>Queues</h3>
+          </li>
+        </a>
+        <li class=user id="signOut" >
+          <div class="iconCircle">
+            <i class="fa fa-sign-in"></i>
+          </div>
+          <h3>Signout</h3>
+        </li>
+        <a class="fullapplink user" href="#">
+          <li>
+            <div class="iconCircle">
+              <i class="fa fa-external-link"></i>
+            </div>
+            <h3>Full App</h3>
+          </li>
+        </a>
+      </ul>
+      </div>
+    </nav>
+    <section class="bodyContent">
+      <div class="timelogContainer">
+        <ul id="timelogs" class="timelogs">
+          <!--<li>
+            <ul class='timelog'>
+             <li>
+              <img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=30'>
+            </li>
+            <li>
+              <h2 class='feedName'>"+returnData[i].user_name+"</h2>
+              <p class='taskDescription'>"+text+"</p>
+            </li>
+            <li>
+              <img class='feedClock'src='img/clock_icon_small.png'>
+              <h3 class='feedTime'>
+                <span>"+returnData[i].hours+"</span>
+              </h3>
+            </li>
+          </ul>
+        </li>-->
+        </ul>
+      </div>
+    </section>
+    <a href="add_time.html">
+        <div class="createButton"><p>+</p></div>
+        </a>
+  </body>
+</span>
+  </div>
 </html>

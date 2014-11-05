@@ -1,2073 +1,3510 @@
-//var iPad = /iPad/i.test(navigator.userAgent);
-//var android = /android/i.test(navigator.userAgent);
-
-//Disable all animation on iPhone less iPhone5
-$.fx.off = /iPhone/i.test(navigator.userAgent) && !(window.screen.height == (1136 / 2));
+/*global jQuery, $ */
 
 //Root Names
 var Site = 'sherpadesk.com/';
 var MobileSite = 'http://m.' + Site;
-var AppSite = 'http://app.' + Site;
+var AppSite = 'https://app.' + Site;
 
-var ApiSite = 'http://api.' + Site; 
+var ApiSite = 'http://api.' + Site;
+
+//global config
+var isTech = false,
+    isProject = true,
+    isTime = true,
+    isAccount = true,
+    isLevel = true,
+    isClass = true,
+    isLocation = true,
+    isFreshbook = true,
+    isExpenses = true,
+    isTravelCosts = true,
+    isInvoice = true;
+
 
 //Phonegap specific
 var isPhonegap = false;
 var isOnline = true;
 
-
 document.addEventListener("deviceready", onDeviceReady, false);
+document.addEventListener("offline", off,false);
+document.addEventListener("online", on1 ,false);
 
-    function onDeviceReady() {
-       isPhonegap = true;
-        navigator.splashscreen.hide();
-        alert("gap!");
-       //If User is Offline....................................
-      /* document.addEventListener("offline",function(){ 
-	   if (!$("#offline").length) {
-				 $('body').prepend('<div id=offline>offline</div><div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
-				 $("#offline").show();
-				 isOnline = false;
-			 } 
-         },false);
-       document.addEventListener("online",function(){ $("#offline").hide(); isOnline = true; window.open(MobileSite + "index.html", "_self"); },false);
-    */};
-   
-
-
-	function onOffline() {
-/*		 if (isPhonegap) 
-			window.open("error.html", "_self"); 
-		 else
-			document.location.href= 'error.html'; 
-	*/	}
-    
-//End Phonegap specific
-
-function cleanQuerystring() {
-var clean_uri = location.protocol + "//" + location.host + location.pathname;
-window.history.replaceState({}, document.title, clean_uri);
+function onDeviceReady() {
+    //alert("gap init");
+    isPhonegap = true;
 }
-
-// ---- SHERPADESK OBJECT LEGEND -----
-// 01 - init - Initialization
-// 02 - getSherpaDesk - Global ajax request
-// 03 - getConfig - Global config options / Set init landing page
-// 04 - getLogin
-// 05 - getOrgs - Retrieves orgs and instances
-// 06 - getOrgInst - Parses org inst selection
-// 07 - getComments - Get comments for a single ticket
-// 08 - postComments - Post a comment
-// 09 - getTickets - Get list of tickets
-// 10 - getTicketQueues - Get ticket ques and counts
-// 11 - getAccounts - Get a list of accounts
-// 12 - getTicketDetail - Get ticket Detail
-// 13 - getTicketDetailTransfer - Transfer ticket inside of ticket detail
-// 14 - postTicketDetailTransfer - Post transfer
-// 15 - postTicketDetailPickup - Post pickup ticket
-// 16 - getTicketDetailClose - Get close ticket in ticket detail
-// 17 - postTicketDetailClose - Post ticket close
-// 18 - getTicketDetailResponse - Get ticket detail response
-// 19 - postTicketDetailResponse - Post ticket detial response
-// 20 - getTicketDetailEdit - Get ticket detail edit - account/class/level/priority
-// 21 - updateTicketDetailEdit - update Edit from Ticket Detail
-// 22 - getTicketDetailAddTime - Add time in ticket deail- not in responses
-// 23 - postTicketDetailAddTime - Post ticket detail time - not in responses
-// 24 - getTimeRollRecent - Time Roll
-// 25 - getTimeRollAddTime - Get add time from time roll
-// 26 - postTimeRollAddTime - Post time from time roll
-// 27 - addTicket - Add ticket from dash/ticket list
-// 28 - postNewTicket - Post new ticket
-// 29 - getDashboard - Get the dashboard
-////////////////////////////////////////////////////////////////////////////
-// Show Medthods -- handlebars maps ---- note need to consolidate some
-////////////////////////////////////////////////////////////////////////////
-// 30 - showLogin
-// 31 - showOrg
-// 32 - showInst
-// 33 - showDashboard
-// 34 - showAccounts
-// 35 - showProjects
-// 36 - showTechs
-// 37 - showLevels
-// 38 - showPriorities
-// 39 - showClasses
-// 40 - showSubClass1
-// 41 - showSubClass2
-// 42 - showTaskTypes
-// 43 - showTicketHeader
-// 44 - showTicketList
-// 45 - showTicketListAppend
-// 46 - showQueueList
-// 47 - showQueueTicketList
-// 48 - showResponses
-// 49 - showTicketDetHeader
-// 50 - showTicketDetContent
-// 51 - showTicketInfo
-// 52 - showTimeLogs
-// 53 - showAddTicket
-// 54 - showTicketDetResponse
-// 55 - showTicketDetAddTime
-// 56 - showTimeRollAddTime
-// 57 - showTicketDetEdit
-// 58 - showTransfer
-// 59 - showTicketClose
-// 60 - showAccountsList
-// --------------------------------------------------------------------------------
-// --------------------------------------------------------------------------------
-
-var SherpaDesk = {
-    
-	init: function(){
-		//cache config	
-		var configPass = {			
-			apiKey: localStorage.sd_api_key,
-			org: localStorage.sd_org_key,
-			inst: localStorage.sd_inst_key,
-			role: localStorage.sd_user_role,
-			url: ApiSite
-			}; 
-
-		//If !api_key then show login 
-		if (configPass.apiKey == '' || configPass.apiKey == null) {
-		    var key = getParameterByName('t');
-		    var email = getParameterByName('e');
-		        if (key) {
-		            cleanQuerystring();
-		            localStorage.setItem('is_google', true);
-		            localStorage.setItem('sd_api_key', key);
-		            localStorage.setItem('sd_user_email', email);
-		            configPass.pass = '';
-		            configPass.apiKey = key;
-		            SherpaDesk.getOrgInst(configPass);
-		        }
-		        else {
-		            SherpaDesk.showLogin();
-		            checkLogin(configPass);
-		            var error = getParameterByName('f');
-		            if (error) {
-		                cleanQuerystring();
-		                addAlert("danger", error);
-		            }
-		        }
-			} else
-		if (configPass.org == '' || configPass.inst == '' || configPass.org == null || configPass.inst == null){				
-				SherpaDesk.getOrgInst(configPass);				
-			} else {
-				//$("body").empty().removeClass("login").addClass('spinner');
-				$("body").removeClass("login");
-				SherpaDesk.getConfig(configPass);				
-			};       			
-		}, //End init
-		
-	//Global AJAX request
-	getSherpaDesk: function(config, method, apimethod, data){	
-    /*if (!isOnline)	{if (!$("#offline").length) $('body').prepend('<div id=offline>offline</div><div class="catch-error"><div class="catch-error-description"><h2>Check your internet connection!</h2><div class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
-         $("#offline").show();}*/
-		if(config.user && config.pass)	{var header = config.user + ':' + config.pass;} 
-										else 
-										{var header = config.org + '-' + config.inst + ':' + config.apiKey;};		
-		var url = config.url;
-		var limit = ""; 
-		if( apimethod ){var methodType = apimethod;} 
-    	else {var methodType = 'GET'; 
-          if (method.indexOf("limit") < 0) 
-          {
-           	if (method.indexOf("?") != -1) limit = "&"; else limit = "?"; 
-           	limit += "limit=200";
-          }
-        };  
-        return $.ajax({
-            type: methodType,
-            beforeSend: function (xhr) {
-                xhr.withCredentials = true;
-                xhr.setRequestHeader('Authorization', 'Basic ' + btoa(header));
-                },
-            url: url + method + limit,
-            cache: false,
-            data: data, 
-            dataType: 'json'   
-		}).promise();
-		
-		},
-		
-	//Set Config Options
-	getConfig: function(configPass){
-		SherpaDesk.getSherpaDesk(configPass, 'config')
-			.then(
-				function(results){
-					localStorage.setItem('sd_currentUser_id', results.user.user_id);
-					localStorage.setItem('sd_tech_admin', results.user.is_techoradmin);
-					localStorage.setItem('sd_is_project_tracking', results.is_project_tracking);
-					localStorage.setItem('sd_is_time_tracking', results.is_time_tracking);
-					localStorage.setItem('sd_is_freshbooks', results.is_freshbooks);				
-				},
-				function(results){
-					console.log("There was a problem retrieving config options.");
-					localStorage.clear();
-					console.log("We have cleared the local storage and re-initialized the app.");
-					SherpaDesk.init();
-				}
-			).done(
-				function (results) {
-				    var key = getParameterByName('ticket');
-				    if (key) {
-				        cleanQuerystring();
-				        SherpaDesk.getTicketDetail(configPass, key);
-				    }
-
-				    else {
-				        if( localStorage.sd_tech_admin === "false" ){
-					    //Sidebar Setup
-			
-						SherpaDesk.getTickets(configPass);
-						}
-						// -------------------------------------------------------
-						// ----------  Set initial landing page	------------------
-						// -------------------------------------------------------					
-						else
-						SherpaDesk.getDashboard(configPass);
-				    }
-				}
-			);
-		},
-		
-	getLogin: function(config, user, pass){
-		
-		var method = 'login';
-			config.user = user;
-			config.pass = pass;
-		var apimethod = 'POST';
-		var login = SherpaDesk.getSherpaDesk(config, method, apimethod);
-		login.then(
-			//success
-			function(results){
-				localStorage.setItem('sd_api_key', results.api_token);	
-				localStorage.setItem('sd_user_email', config.user);	
-				config.pass = '';
-				config.apiKey = results.api_token;
-				SherpaDesk.getOrgInst(config);
-			},
-			//failed	
-			function (results) {
-			    console.log(user);
-			    if (user && user.indexOf("@gmail.com") != -1)
-			        addAlert("error", "If you are attempting to login with a google account, please do not type your google password, click the 'Login as Google' button, it is more secure.");
-			    else
-			        addAlert("error", "There was a problem with your login.  Please try again.");
-			}
-			);
-		},
-	//AJAX request for just ORGS -- need to refactor this into global	
-	getOrgs: function(url, apikey){
-		return $.ajax({
-				type: 'GET',
-				beforeSend: function (xhr) {
-					xhr.withCredentials = true;
-					xhr.setRequestHeader('Authorization', 'Basic ' + btoa('x:' + apikey));
-					},
-				url: url,
-				async: true,
-				cache: false,
-				dataType: 'json',			
-			}).promise();
-		},	
-	
-	getOrgInst: function(config){
-		// Remove error notice if there is one.
-		$('div.showalert').empty();
-		
-		var orgSetup = SherpaDesk.getOrgs(config.url + 'organizations', config.apiKey);
-		
-		orgSetup.then(function(results){
-					
-				//initialize user state
-				localStorage.setItem('sd_user_role', 'user');
-								
-				// If there are more than one org
-				if (results.length > 1) {
-					localStorage.setItem('sd_is_MultipleOrgInst', 'true');
-					var orglistitem = results;
-					SherpaDesk.showOrg(orglistitem);							
-					$('select#orgs')					
-					// listen for org selection	
-						.change(function(){
-							var index_number = this.value;
-							var orgkey = results[index_number].key;
-							var instances = results[index_number].instances;
-							localStorage.setItem('sd_org_key', orgkey);	
-							
-							// If there is only one instance on the selected org								
-							if (instances.length == 1){
-									instkey = instances[0].key;
-									localStorage.setItem('sd_inst_key', instkey);
-									$("body").empty().addClass('spinner');
-									SherpaDesk.init();
-									//location.reload(true);
-								} 
-							else {
-							// If there is MORE than one instance on the selected org
-									SherpaDesk.showInst(instances);
-									// listen for Instance selection	
-				  					$('select#inst').change(function(){
-										var instkey = instances[this.value].key;
-				  						localStorage.setItem('sd_inst_key', instkey);
-				  						localStorage.setItem('sd_is_MultipleOrgInst', 'true');
-				  						$("body").empty().addClass('spinner');
-				  						SherpaDesk.init();
-				  						//location.reload(true);
-				  						});
-								};
-						});
-					};// End > 1 
-					
-				// If there is ONLY ONE org and instance
-				if (results.length == 1){
-					var myorg = results[0].key;
-					localStorage.setItem('sd_org_key', myorg);
-					localStorage.setItem('sd_is_MultipleOrgInst', 'false');
-					//location.reload(true);
-					var myinst = results[0].instances;
-					// If there is only one instance on the selected org								
-							if (myinst.length == 1){
-									instkey = myinst[0].key;
-									localStorage.setItem('sd_inst_key', instkey);
-									$("body").empty().addClass('spinner');
-									SherpaDesk.init();
-									//location.reload(true);
-								} 
-							else {
-							// If there is MORE than one instance on the selected org
-									SherpaDesk.showInst(myinst);
-									// listen for Instance selection	
-				  					$('select#inst').change(function(){
-										var instkey = myinst[this.value].key;
-				  						localStorage.setItem('sd_inst_key', instkey);
-				  						localStorage.setItem('sd_is_MultipleOrgInst', 'true');
-				  						$("body").empty().addClass('spinner');
-				  						SherpaDesk.init();
-				  						//location.reload(true);
-				  						});
-								};					
-				};	
-			},//End orgSetup Success
-			function () {
-			    console.log("There was a problem retrieving organizations.");
-			    localStorage.clear();
-			    console.log("We have cleared the local storage and re-initialized the app.");
-			    SherpaDesk.init();
-				//addAlert("error", "Great Merciful Crap!!  Something has gone horribly wrong.");
-			}//End orgSetup Error
-			);//End orgSetup	
-		},	
-		
-		
-	getComments : function(config, key){				
-		var method = 'tickets/' + key;
-		var comments = SherpaDesk.getSherpaDesk(config, method);
-		
-		comments.then(function(results){
-				SherpaDesk.showResponses(results, key);
-			});
-		comments.done(function(results){				
-				$('p.res_gravatar').each(function(){
-					var email = $.MD5($(this).data('email'));
-					if ( $(this).is(':empty') ){
-						$(this).append('<img src="http://www.gravatar.com/avatar/' + email + '?d=mm&s=30" />');
-					};
-				});
-				fromDate("p.note_time");
-				
-				if (results.attachments !== null && results.attachments.length > 0 ){
-					getCommentImages(results.attachments);
-					};
-											
-			});
-		},
-	postComments: function(config, key, response){	
-		$('.tkt_actions .tkt_add_response button.add_response').text('').addClass('buttonSpinner');
-		var method = 'tickets/' + key + '/posts',
-		data = {
-				"note_text":response
-				},
-		sendResponse = SherpaDesk.getSherpaDesk(config, method, 'post', data);		
-		sendResponse.then(
-			//success
-			function(results){
-				$('.tkt_actions .tkt_add_response textarea#response').val('');
-				$('.tkt_actions .tkt_add_response button.add_response').text('Add').removeClass('buttonSpinner');
-				SherpaDesk.getComments(config, key);
-				addAlert("success", "Roger that. Message received.");				
-			},
-			//failed
-			function(results){
-				$('.tkt_actions .tkt_add_response button.add_response').text('Add').removeClass('buttonSpinner');
-				addAlert("error", "Whoops! There was a problem posting your response.</p>");
-			}
-		);					
-	},
-	getTickets: function(configPass,tktType){	
-		// Get Tickets
-		if(!tktType){var tktType={};}
-		tktType.type = localStorage.getItem('sd_is_from');
-		tktType.Id = localStorage.getItem('sd_is_from_id');
-		
-		if (tktType && tktType.type == "accounts") {
-		    var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?account=' + tktType.Id + '&status=open&limit=500');
-		} else if (tktType && tktType.type == "queues") {
-		    var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'queues/' + tktType.Id);
-		} else {
-		    var status = "open";
-		    if (localStorage.sd_user_role == "all")
-		        status = 'allopen';
-		    if (localStorage.sd_user_role == "user")
-		        status = 'open,onhold';
-		    var getTicketList = SherpaDesk.getSherpaDesk(configPass, 'tickets?status=' + status + '&limit=500&role=' + localStorage.sd_user_role);
-		}
-		
-		getTicketList.then(
-			//sucess
-			function(results){     	
-				SherpaDesk.showTicketHeader();
-				SherpaDesk.showTicketList(results);
-			},
-			//failed
-			function(results){			
-				addAlert("error", "There was a problem fetching your tickets.");
-				}
-			);
-		getTicketList.done (
-			function(){
-					queuesAndTicketHeader(configPass, tktType);														
-				}
-			);	
-		},
-	getTicketsQueues: function(configPass){
-			$('.body').empty(); 			
-			
-			var getQueues = SherpaDesk.getSherpaDesk(configPass, 'queues');
-			
-			getQueues.then(
-				function(results){
-					SherpaDesk.showTicketHeader();
-					SherpaDesk.showQueueList(results);
-				},
-				//failed
-				function(results){				
-					addAlert("error", "There was a problem fetching your Queues.");
-				}
-			);			
-			getQueues.done(function(){
-				//localStorage.removeItem('sd_user_role');
-				queuesAndTicketHeader(configPass);
-				$('ul.filter li').removeClass('active');
-				$('a.get_queue_list').on('click',function(e){
-					e.preventDefault();
-					$('body').empty().addClass('spinner'); 			
-					var queueinfo = {
-								"type" : "queues",
-								"Id" : $(this).data("queid")
-							};
-					localStorage.setItem('sd_is_from', queueinfo.type);
-					localStorage.setItem('sd_is_from_id', queueinfo.Id);
-					SherpaDesk.getTickets(configPass, queueinfo);
-				});
-			});
-		},
-		
-	getAccounts: function(configPass){
-			$('.body').empty();						
-			
-			var accounts = SherpaDesk.getSherpaDesk(configPass, 'accounts');
-			
-			accounts.then(
-			function(results){
-				SherpaDesk.showAccountsList(results);
-			},
-			//failed
-			function(results){			
-				addAlert("error", "There was a problem finding your accounts.");
-				}
-			);
-			
-			accounts.done(function(){
-				//Set the home button
-				$('a.home_button').off().on('click', function(e){
-					e.preventDefault();
-					$('body').empty().addClass('spinner');	
-					SherpaDesk.init();			
-					});
-				
-				$('a.get_account_list').off().on('click', function(e){
-					  	e.preventDefault();
-						e.stopPropagation();
-						console.log('test')
-						$('body').empty().addClass('spinner'); 	
-						var accountinfo = {
-								"type" : "accounts",
-								"Id" : $(this).data('accountid'),
-								"accountname": $(this).data('name'),
-								"tktcnt" : $(this).data('open')
-							}
-						
-						localStorage.setItem('sd_is_from', accountinfo.type);
-						localStorage.setItem('sd_is_from_id', accountinfo.Id);						
-						SherpaDesk.getTickets(configPass, accountinfo);
-					});
-				
-				
-				});
-		},
-				
-	getTicketDetail: function(configPass, ticketKey){
-		$('body').empty().addClass('spinner');
-		//get ticket
-		
-			var getTicket = SherpaDesk.getSherpaDesk(configPass, 'tickets/' + ticketKey);
-			getTicket.then(
-				function(results){
-					SherpaDesk.showTicketDetHeader(results);
-					SherpaDesk.showTicketDetContent(results);
-					SherpaDesk.showResponses(results, results.key);				
-				},
-				//failed
-				function(results){					
-					SherpaDesk.getTickets(configPass);				
-					addAlert("error", "Sorry. There was a problem fetching that ticket.");
-					}
-				);
-				
-			getTicket.done (
-					function(results){
-						SherpaDesk.showTicketInfo(results);
-						fromDate("div.tkt_det_head_date");
-						ticketDetMenuActions(configPass);
-						getGravatar("p.cir_gravatar", 80);//main gravatar					
-						getGravatar("p.res_gravatar", 30);//responses gravatar
-						fromDate("div.tkt_ini_res_date"); //note: put this in a helper function								
-						fromDate("p.note_time"); //note: put this in a helper function	
-						ticketActions(configPass); //activate ticket action menu
-						addResponse(configPass); // activate inline response listener
-						addTime(configPass); // activate inline time listener
-						ticket_list_menu(".right-menu","right"); //slide menu right side
-						ticketListMenuActions(configPass, results.key); //add click listners for menu
-						ticketJump(configPass);// add listener for ticket jump
-						showTicketInfoPanel(); //show | hide info panel
-						fixedDate("span.time");	//note: put this in a helper function	
-						ticket_menu_rev(results); // Show hide menu items based on ticket | user type
-						
-						// Hide Account if user type = user and account = sherpadesk
-						var userType = SherpaDesk.getSherpaDesk(configPass, 'users?id=' + results.user_id),
-							accountID = results.account_id;
-						userType.done(function(user){
-								if (user.type == "user" && accountID < 0){
-										$('p.tkt_user_account').hide();
-									};
-							});
-						
-						if (results.attachments !== null && results.attachments.length > 0 ){
-							getCommentImages(results.attachments);
-							};
-							
-						//Add custom fields to info area
-						if (results.customfields_xml !== null && results.customfields_xml.length > 0 ){
-							getCustomFields(results.customfields_xml);
-							};															
-					}
-				);
-		},
-	
-	getTicketDetailTransfer: function(configPass, key){	
-			
-		$('div.ticket_detail_main').empty().addClass('spinner').trigger('click');
-		$('a#ticketList').unbind('click').on('click', function(e){e.preventDefault(); SherpaDesk.getTicketDetail(configPass, key);});		
-		
-				
-		var method = "technicians";
-		var getTechs = SherpaDesk.getSherpaDesk(configPass, method);
-	
-		getTechs.then(
-			//success
-			function(results){
-				SherpaDesk.showTransfer();
-				SherpaDesk.showTechs(results);
-				$('div.ticket_detail_main').removeClass('spinner');												
-				},
-			//failed
-			function(results){
-				SherpaDesk.getTicketDetail(configPass, key);
-				addAlert("error", "Could not retrieve Technicians for Transfer");
-				}
-			);
-		getTechs.done(
-			function(results){			
-				$('form.transfer_ticket button[type=submit]').on('click', function(e){
-					e.preventDefault();					
-					var techs = $('form select#tech option:selected').val(),
-						details = htmlEscape($('textarea#details').val().trim());
-					if (techs == ""){addAlert("error", "Please select a Technician"); scrollToAnchor("top"); return;};
-					if (details.length > 5000) {
-						addAlert("error", "Details cannot be more than 5000 chars!");
-						scrollToAnchor("top");
-						return;	
-						};
-					SherpaDesk.postTicketDetailTransfer(configPass, key, techs, details)					
-					});
-				}
-			);
-		},
-	postTicketDetailTransfer: function(configPass, key, techs, details){
-		$('div.ticket_detail_main').empty().addClass('spinner');
-		var data = {
-			    "note_text": details,
-			    "keep_attached": false
-			},
-			method = 'tickets/' + key + '/technicians/' + techs,
-			postTransfer = SherpaDesk.getSherpaDesk(configPass, method, "put", data);
-			postTransfer.then(
-				//success
-				function(){
-					SherpaDesk.getTicketDetail(configPass, key);
-					addAlert("success", "Great! Now it's in capable hands.");
-					},
-				//error
-				function(){
-					$('div.ticket_detail_main').removeClass('spinner');
-					SherpaDesk.getTicketDetailTransfer(configPass, key);
-					addAlert("error", "There was a problem transfering this ticket.");
-					}
-			);
-		},
-		
-	postTicketDetailPickup: function(configPass, key){
-			$('body').empty().addClass('spinner');
-			var tech = localStorage.sd_currentUser_id;
-			var data = {
-			    "action" : "pickup"
-			},
-			method = 'tickets/' + key,
-			pickupTicket = SherpaDesk.getSherpaDesk(configPass, method, "put", data);
-			
-			pickupTicket.then(
-			//Success
-			  function(results){				  				  
-				  SherpaDesk.getTicketDetail(configPass, key);
-				  addAlert("success", "I'm sure you'll be great at this!");
-				  },
-			//Fail fail fail	   
-			  function(results){
-				  $('body').empty();
-				  SherpaDesk.getTicketDetail(configPass, key);
-				  addAlert("error", "There was a problem picking up this ticket.");
-				  }
-			 );
-			
-		},	
-		
-	//Close Ticket	
-	getTicketDetailClose: function(configPass, key){		
-		$('div.ticket_detail_main').empty().addClass('spinner').trigger('click');
-		$('a#ticketList').unbind('click').on('click', function(e){e.preventDefault(); SherpaDesk.getTicketDetail(configPass, key);});
-				
-		SherpaDesk.showTicketClose();
-		
-		$('form.close_ticket button[type=submit]').on('click', function(e){
-			e.preventDefault();					
-			
-			var notify = $('label div.checker span').attr('class'),
-				details = htmlEscape($('textarea#details').val().trim());
-			
-			if (!notify || notify == "" || notify == null){
-					notify = false;
-				} else {
-					notify = true;
-					};
-			
-			SherpaDesk.postTicketDetailClose(configPass, key, notify, details)					
-			});
-		
-	
-		//UniformJS fix for checkbox listner
-		$("#closeNotice").on("click", function() {
-			  $.uniform.update(this);
-		  });	
-		},
-	
-	postTicketDetailClose: function(configPass, key, notify, details){
-		$('div.ticket_detail_main').hide().addClass('spinner');
-		var data = {
-				    "status" : "closed",
-				    "note_text": details,
-				    "is_send_notifications": notify,
-				    "resolved": true,
-				    "confirmed": false
-				},
-			method = 'tickets/' + key ,
-			postClose = SherpaDesk.getSherpaDesk(configPass, method, "put", data); //PUT /tickets/h8s2f2/
-			postClose.then(
-				//success
-				function(){
-					SherpaDesk.getTicketDetail(configPass, key);
-					addAlert("success", "Awesome! This ticket is now closed.");
-					},
-				//error
-				function(){
-					$('div.ticket_detail_main').show().removeClass('spinner');
-					addAlert("error", "There was a problem closing this ticket.");					
-					}
-			);
-			
-		},
-	
-	//Add Response from Ticket Detail	
-	getTicketDetailResponse: function(configPass, key){
-		$('div.ticket_detail_main').empty().addClass('spinner').trigger('click');
-		$('a#ticketList').unbind('click').on('click', function(e){e.preventDefault(); SherpaDesk.getTicketDetail(configPass, key);});	
-		
-		SherpaDesk.showTicketDetResponse();
-		
-		$('form.create_response button[type=submit]').on('click', function(e){
-			e.preventDefault();					
-			
-			var response = htmlEscape($('textarea#details').val().trim());
-			
-			if(response == "" || response == null){
-					addAlert("error", "Please add a response.");
-				} else {
-					SherpaDesk.postTicketDetailResponse(configPass, key, response);		
-				};					
-			});
-		},
-	
-	//Post Response from Ticket Detail	
-	postTicketDetailResponse: function(configPass, key, response){		
-		var method = 'tickets/' + key + '/posts',
-		data = {
-				"note_text":response
-				},
-		sendResponse = SherpaDesk.getSherpaDesk(configPass, method, 'post', data);		
-		sendResponse.then(
-			//success
-			function(results){
-				SherpaDesk.getTicketDetail(configPass, key);
-				addAlert("success", "Success! Your response has been logged.");
-			},
-			//failed
-			function(results){
-				SherpaDesk.getTicketDetailResponse(configPass, key);
-				addAlert("error", "There was an problem posting your response.");	
-			}
-		);
-		
-		},
-		
-	//Add Edit Ticket Details from Ticket Detail	
-	getTicketDetailEdit: function(configPass, key){
-		$('div.ticket_detail_main').empty().addClass('spinner').trigger('click');
-		$('a#ticketList').unbind('click').on('click', function(e){e.preventDefault(); SherpaDesk.getTicketDetail(configPass, key);});	
-		
-		
-		
-		var getTicket = SherpaDesk.getSherpaDesk(configPass, 'tickets/' + key);
-		var classes = SherpaDesk.getSherpaDesk(configPass, 'classes');
-		var levels = SherpaDesk.getSherpaDesk(configPass, 'levels');
-		var priorities = SherpaDesk.getSherpaDesk(configPass, 'priorities');
-		var accounts = SherpaDesk.getSherpaDesk(configPass, 'accounts');
-		var selectedEditClass;
-		
-		getTicket.done(
-			function(results){
-								
-				//place Edit Page
-				SherpaDesk.showTicketDetEdit(results);
-				
-				var ticketAccount = results.account_id,
-					ticketClass = results.class_id,
-					ticketLevel = results.level,
-					ticketPriority = results.priority_id;
-				
-				//get Accounts
-				accounts.done(
-					function(accountResults){
-							SherpaDesk.showAccounts(accountResults);
-							$("form.update_ticket select#account").val(ticketAccount).uniform();					
-						}
-				);	
-				
-				//get Classes
-				classes.done(
-					function(classResults){
-													
-							SherpaDesk.showClasses(classResults);
-							$("#class").uniform();	
-							
-							//Init ticket class if not changed
-							selectedEditClass = ticketClass;
-							
-							//Listen for class and detect sub-classes
-							$('form.update_ticket select#class').on('change', function(){
-								
-								if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').remove();};
-								var classSelected0 = $('form.update_ticket select#class option:selected').val();					
-								var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
-								
-								
-								//set class
-								selectedEditClass = classSelected0;
-								
-								//If sub-class exist
-								if(classSub[0].sub > 0 || classSub[0].sub !== null){										
-										//Show sub-class select
-										SherpaDesk.showSubClass1(classSub[0].sub);
-										$("form.update_ticket select#sub_class1").uniform().on('change', function(){
-												if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
-												var classSelected1 = $('form.update_ticket select#sub_class1 option:selected').val();					
-												var classSub1 = $.grep(classSub[0].sub, function(a){ return a.id == classSelected1; });
-												
-												//reset class
-												selectedEditClass = classSelected1;
-												//If sub-sub-class exist
-												if(classSub1[0].sub > 0 || classSub1[0].sub!== null){
-														//Show sub-class select
-														SherpaDesk.showSubClass2(classSub1[0].sub);
-														$("form.update_ticket select#sub_class2").uniform().on('change', function(){
-															var classSelected2 = $('form.update_ticket select#sub_class2 option:selected').val();
-															//reset class
-															selectedEditClass = classSelected2;
-														});
-													}
-											});
-									}
-										
-								}); //end Sub-Class listener
-								
-								$('form.update_ticket button[type=submit]').on('click', function(e){
-									e.preventDefault();		
-									
-									var ticketAccount = $('form.update_ticket select#account').val(),
-										ticketClass = selectedEditClass,
-										ticketLevel = $('form.update_ticket select#level').val(),
-										ticketPriority = $('form.update_ticket select#priority').val();
-									
-									var response = {
-											"account_id" : ticketAccount,
-											"class_id" : ticketClass,
-											"level_id" : ticketLevel,
-											"priority_id" : ticketPriority
-										}
-									SherpaDesk.updateTicketDetailEdit(configPass, key, response);	
-														
-									});
-												
-						}//End done function
-				); // End classes.done
-				
-				//get Levels
-				levels.done(
-					function(levelResults){
-							SherpaDesk.showLevels(levelResults);
-							$("form.update_ticket select#level").val(ticketLevel).uniform();					
-						}
-				);
-				
-				//get Priorities
-				priorities.done(
-					function(priorityResults){
-							SherpaDesk.showPriorities(priorityResults);
-							$("form.update_ticket select#priority").val(ticketPriority).uniform();						
-						}
-				);
-				$(".update").show(); // Show Ticket Edit view							
-			}
-		);
-		
-		
-		},
-	
-	//Post or update Edit from Ticket Detail	
-	updateTicketDetailEdit: function(configPass, key, response){		
-		method = 'tickets/' + key;	
-		
-		updateEditTicket = SherpaDesk.getSherpaDesk(configPass, method, 'PUT', response);
-				
-		updateEditTicket.then(function(results){
-			
-			console.log('Then Complete');		
-			 	SherpaDesk.getTicketDetail(configPass, key);
-			 	addAlert("success", "Ticket has been Updated");
-			  
-			}); 
-		},
-		
-	//Add Time in Ticket Detail		
-	getTicketDetailAddTime: function(configPass, key){
-		$('div.ticket_detail_main').empty().addClass('spinner').trigger('click');
-		$('a#ticketList').unbind('click').on('click', function(e){e.preventDefault(); SherpaDesk.getTicketDetail(configPass, key);});
-		
-		var tasktypes = SherpaDesk.getSherpaDesk(configPass, 'task_types');	
-		
-		SherpaDesk.showTicketDetAddTime();
-		
-		$("select").uniform();
-		
-		tasktypes.then(
-			//success
-			function(results){
-				SherpaDesk.showTaskTypes(results);
-				
-				$('div.ticket_detail_main').removeClass('spinner');
-				
-				//Setup the plus and minus buttons
-				$(".plus_time").on('touchstart click', function(e){
-					e.preventDefault();	
-					var add_time = $(this).parent().find('p input.add_time').val();	
-					$(this).parent().find('p input.add_time').val(  Number(add_time) + .25)	
-				});
-				$(".minus_time").on('touchstart click', function(e){
-					e.preventDefault();
-					if ($(this).parent().find('p input.add_time').val() >= .25){
-						var sub_time = $(this).parent().find('p input.add_time').val();
-						$(this).parent().find('p input.add_time').val( Number(sub_time) - .25 );
-					}		  
-				});
-				
-				$('form.add_time button[type=submit]').off().on('click', function(e){
-					e.preventDefault();					
-					
-					var time = $('input.add_time').val().trim(),
-						tasktype = $('form select#task_type option:selected').val(),
-						details = htmlEscape($('textarea#details').val().trim());
-					
-					if (time == 0 || time == null){addAlert("error", "Your time needs to be greater than 0."); return false;}
-					if (tasktype == 0 || tasktype == null){addAlert("error", "Please enter a task type."); return false;}
-					if (details == "" || details == null){addAlert("error", "Please enter a description in the note field."); return false;}
-					
-					$('div.ticket_detail_main').empty().addClass('spinner');
-					SherpaDesk.postTicketDetailAddTime(configPass, key, time, tasktype, details);					
-					});
-					
-			},
-			//failed
-			function(results){
-				addAlert("error", "Could Not Retrieve Task Types");
-				}				
-			);
-			
-			tasktypes.done( 
-				function(){
-					$.uniform.update("select#task_type");
-					}									
-			);
-		},
-		
-	postTicketDetailAddTime: function(configPass, key, time, tasktype, details){
-			var method = 'time',
-			data = {
-					    "ticket_key": key,
-					    "note_text": details,
-					    "task_type_id": tasktype,
-					    "hours": time
-					},
-			sendTime = SherpaDesk.getSherpaDesk(configPass, method, 'post', data);		
-			sendTime.then(
-				//success
-				function(results){
-					SherpaDesk.getTicketDetail(configPass, key);
-					addAlert("success", "Your time has been recorded.");
-				},
-				//failed
-				function(results){
-					SherpaDesk.getTicketDetailAddTime(configPass, key);
-					addAlert("error", "Sorry, there was a problem posting your time.");	
-				}
-			);
-		},
-		
-	getTimeRollRecent: function(configPass){
-		$('body').empty().addClass('spinner');
-
-		var timeEntries = SherpaDesk.getSherpaDesk(configPass, 'time');
-		timeEntries.done(function(results){			
-			SherpaDesk.showTimeLogs(results);
-			fixedDate("p.date");
-
-			//Set the home button
-			$('a.home_button').on('click', function(e){
-				e.preventDefault();
-				$('body').empty().addClass('spinner');	
-				SherpaDesk.init();			
-				});
-			
-			$('a.add_time_button').on('click', function(e){
-				e.preventDefault();
-				$('body').empty().addClass('spinner');		
-				SherpaDesk.getTimeRollAddTime(configPass);	
-				});
-				
-			});// End timeEntries.done
-		},
-
-	//Add Time from Time Roll		
-	getTimeRollAddTime: function(configPass){
-		$('body').empty().addClass('spinner');					
-		
-		var tasktypes = SherpaDesk.getSherpaDesk(configPass, 'task_types'),
-			accounts = SherpaDesk.getSherpaDesk(configPass, 'accounts');
-			
-		SherpaDesk.showTimeRollAddTime();
-		$("select, :checkbox").uniform();
-		
-		
-		// If we are tracking projects, then add them in.
-		if (localStorage.sd_is_project_tracking == 'true' ){
-			$('div.projects').show();
-			var projects = SherpaDesk.getSherpaDesk(configPass, 'projects');
-				projects.then(
-					function(results){SherpaDesk.showProjects(results);},
-					function(results){addAlert("error", "Could Not Retrieve Projects");}
-				);			
-			}
-		
-		accounts.then(
-			function(accounts){SherpaDesk.showAccounts(accounts);},
-			function(results){addAlert("error", "Could Not Retrieve Accounts");}
-			);		
-		
-		tasktypes.then(
-			//success
-			function(results){
-				SherpaDesk.showTaskTypes(results);	
-				
-					
-			},
-			//failed
-			function(results){
-				addAlert("error", "Could Not Retrieve Task Types");
-				}				
-			);
-			
-			tasktypes.done( 
-				function(){					
-					//$.uniform.update("select#task_type");
-					}									
-			);
-			
-			$(document).ajaxStop(function() {
-			  // place code to be executed on completion of last outstanding ajax call here
-			  $('a#timeroll').unbind('click').on('click', function(e){e.preventDefault(); SherpaDesk.getTimeRollRecent(configPass);});
-			  
-			  //Setup the plus and minus buttons
-				$(".plus_time").on('touchstart click', function(e){
-					e.preventDefault();	
-					var add_time = $(this).parent().find('p input.add_time').val();	
-					$(this).parent().find('p input.add_time').val(  Number(add_time) + .25)	
-				});
-				$(".minus_time").on('touchstart click', function(e){
-					e.preventDefault();
-					if ($(this).parent().find('p input.add_time').val() >= .25){
-						var sub_time = $(this).parent().find('p input.add_time').val();
-						$(this).parent().find('p input.add_time').val( Number(sub_time) - .25 );
-					}		  
-				});
-				
-				if( localStorage.sd_is_time_tracking == "true" ){$('.billable').show();}
-				
-				$('form.roll_time button[type=submit]').off().on('click', function(e){
-					e.preventDefault();	
-									
-					//Empty existing alerts
-					$('div.showalert').empty();
-					
-					var time = $('input.add_time').val().trim(),
-						account = $('form select#account option:selected').val(),
-						project = $('form select#project option:selected').val(),
-						tasktype = $('form select#task_type option:selected').val(),
-						details = htmlEscape($('textarea#details').val().trim()),
-						isBillable;
-												
-		  			
-					
-					if ($('#isBillable').is(":checked")){
-		  					isBillable = true;
-		  				} else {
-		  					isBillable = false;
-		  					};
-					
-					if (time == 0 || time == null){addAlert("error", "Your time needs to be greater than 0."); return false;}
-					if (tasktype == 0 || tasktype == null){addAlert("error", "Please enter a task type."); return false;}
-					if (details == "" || details == null){addAlert("error", "Please enter a description in the note field."); return false;}					
-								
-					var data = {
-						"hours" : time,
-						"account_id" : account,
-						"project_id" : project,
-						"task_type_id" : tasktype,
-						"note_text" : details,
-						"is_billable" : isBillable
-						};
-										
-					SherpaDesk.postTimeRollAddTime(configPass, data);					
-					}); //End form capture
-					
-					//UniformJS fix for checkbox listner
-					$("#isBillable").on("click", function() {
-						  $.uniform.update(this);
-					  });
-				});
-			
-		},
-		
-	postTimeRollAddTime: function(configPass, data){
-			var method = 'time',
-			
-			sendTime = SherpaDesk.getSherpaDesk(configPass, method, 'post', data);		
-			sendTime.then(
-				//success
-				function(results){
-					SherpaDesk.getTimeRollRecent(configPass);
-					addAlert("success", "Your time has been recorded.");
-				},
-				//failed
-				function(results){
-					addAlert("error", "Sorry, there was a problem posting your time.");	
-					return false;
-				}
-			);
-		},	
-	
-	//Add New Ticket
-	addTicket: function(configPass){		
-		var classes = SherpaDesk.getSherpaDesk(configPass, 'classes');
-		var accounts = SherpaDesk.getSherpaDesk(configPass, 'accounts');
-		var techs = SherpaDesk.getSherpaDesk(configPass, 'technicians');
-		var user = SherpaDesk.getSherpaDesk(configPass, 'users?email=' + localStorage.sd_user_email);
-		
-		//init class to null
-		var selectedClass = '';
-		
-		SherpaDesk.showAddTicket();		
-		
-		accounts.then(
-			function(results){SherpaDesk.showAccounts(results);},
-			function(results){addAlert("error", "Could Not Retrieve Accounts");}			
-			);
-		techs.then(
-			function(results){SherpaDesk.showTechs(results);},
-			function(results){addAlert("error", "Could Not Retrieve Technicians");}	
-			);
-		classes.then(
-			//Class success
-			function(results){
-				SherpaDesk.showClasses(results);
-				//Listen for class and detect sub-classes
-				$('form select#class').on('change', function(){
-					if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').remove();};
-					var classSelected0 = $('form select#class option:selected').val();					
-					var classSub = $.grep(results, function(a){ return a.id == classSelected0; });
-					
-					//set class
-					selectedClass = classSelected0;
-					
-					//If sub-class exist
-					if(classSub[0].sub > 0 || classSub[0].sub!== null){
-							//Show sub-class select
-							SherpaDesk.showSubClass1(classSub[0].sub);
-							$("select#sub_class1").uniform().on('change', function(){
-									if($('.sub_class2').is(":visible")){$('.sub_class2').remove();};
-									var classSelected1 = $('form select#sub_class1 option:selected').val();					
-									var classSub1 = $.grep(classSub[0].sub, function(a){ return a.id == classSelected1; });
-									
-									//reset class
-									selectedClass = classSelected1;
-									//If sub-sub-class exist
-									if(classSub1[0].sub > 0 || classSub1[0].sub!== null){
-											//Show sub-class select
-											SherpaDesk.showSubClass2(classSub1[0].sub);
-											$("select#sub_class2").uniform().on('change', function(){
-												var classSelected2 = $('form select#sub_class2 option:selected').val();
-												//reset class
-												selectedClass = classSelected2;
-											});
-										}
-								});
-						}
-							
-					});
-				},
-			//Class failed
-			function(results){addAlert("error", "Could Not Retieve Classes");}	
-			);
-		
-		$("select").uniform();
-		$('body').removeClass('spinner');
-		$('div.content.ticket_add').show();
-		
-		ticketDetMenuActions(configPass);	
-		
-		user.done(function(results){ 
-			$('form.create_ticket button[type=submit]').on('click', function(e){
-					e.preventDefault();			
-					var classSelected = selectedClass, //$('form select#class option:selected').val(),
-					    techs = $('form select#tech option:selected').val(),
-						accounts = $('form select#account option:selected').val(),
-						subject = htmlEscape($('input[type=text]#subject').val().trim()),
-						details = htmlEscape($('textarea#details').val().trim()),
-						user = results[0].id;
-					if (account == ""){addAlert("error", "Please select an Account"); scrollToAnchor("top"); return;} else
-					if (techs == ""){addAlert("error", "Please select a Technician"); scrollToAnchor("top"); return;} else
-					if (classSelected == ""){addAlert("error", "Please select a Ticket Class"); scrollToAnchor("top"); return;};
-					
-					if (!subject){
-						addAlert("error", "Please add a Ticket Subject!");
-						scrollToAnchor("top");
-						return;
-						} else 
-					if (subject.length > 100){
-						addAlert("error", "Subject should be less 100 chars!");	
-						scrollToAnchor("top");
-						return;
-						} else
-					if (details.length > 5000) {
-						addAlert("error", "Details cannot be more than 5000 chars!");
-						scrollToAnchor("top");
-						return;	
-						};
-					
-					SherpaDesk.postNewTicket(configPass, classSelected, techs, accounts, subject, details, user);
-					
-				});
-			});
-		},
-		
-	postNewTicket: function(configPass, classSelected, techs, accounts, subject, details, user){
-		var data = {
-			    "status" : "open",
-			    "subject" : subject,
-			    "initial_post" : details,
-			    "class_id" : classSelected,
-			    "account_id" : accounts,
-			    "user_id" : user,
-			    "tech_id" : techs
-			},
-			postTicket = SherpaDesk.getSherpaDesk(configPass, "tickets", "post", data);
-			postTicket.then(
-				//success
-				function(results){
-					$('body').empty().addClass('spinner');
-					SherpaDesk.getTickets(configPass);
-					addAlert("success", "Awesome Job! Your ticket was created.");
-					},
-				//failed
-				function(){
-					addAlert("error", "There was a problem submitting your ticket. Please try again.");
-					}
-			);
-		},
-	
-	//--------------------------- Dashboard ------------------------------
-	
-	getDashboard: function(configPass){
-		$('body').addClass('spinner');
-		var ticketCounts = SherpaDesk.getSherpaDesk(configPass, "tickets/counts");
-		
-		ticketCounts.done(function(results){
-			SherpaDesk.showDashboard(results);
-			$('body').removeClass('spinner');			
-			//Set ticket clicks
-			$(".dash-tkts .get-tickets").on('click', function(e){	
-				e.preventDefault();	
-				$('body').empty().addClass('spinner');	
-				var asRole = $(this).data('asrole');
-				localStorage.setItem('sd_user_role', asRole);
-				localStorage.setItem('sd_is_from', 'tickets');
-				localStorage.setItem('sd_is_from_id', '');
-				SherpaDesk.getTickets(configPass);
-				});
-			//Set Time Clicks
-			$("#option_time").on('click', function(e){
-				e.preventDefault();	
-				$('body').empty().addClass('spinner');	
-				SherpaDesk.getTimeRollRecent(configPass);
-				});
-			//Set Account Click
-			$("#option_accounts").on('click', function(e){
-				e.preventDefault();	
-				$('body').empty().addClass('spinner');	
-				SherpaDesk.getAccounts(configPass);
-				});
-			//Set Add Ticket Click 
-			$('#option_add_ticket, a.add_ticket_button').off().on('click', function(e){
-				e.preventDefault();
-				$('body').empty().addClass('spinner');
-					localStorage.setItem('sd_is_from', 'dash');
-					localStorage.setItem('sd_is_from_id', '');		
-					SherpaDesk.addTicket(configPass);	
-				});		
-					
-			//Sidebar Setup
-			ticket_list_menu(".side-menu", "left");
-			ticketListMenuActions(configPass);
-			ticketJump(configPass);
-			
-			// Hide change org select
-			if( localStorage.sd_is_MultipleOrgInst === "false" ){
-				$('li p#orgInst').parent().hide();
-				};
-											
-			//Limit all open to 999
-			if(results.open_all > 999) {
-					$('div[data-asrole=all] p.dash-number-sm').text("999+").addClass('over99');
-				};				
-			});	//End ticketCounts.done
-		},	
-		
-	//------------------------- Show  Methods ----------------------------	
-	showLogin: function(){
-		$('body').empty().addClass('login');
-		var template = Handlebars.templates['login']; 							
-		$('body').append( template() ).show();
-	  		if (localStorage['sd_user_email']){
-	  			$('input#email').val(localStorage['sd_user_email']);
-			};
-		},
-	showOrg: function(orgs){
-		$('body').empty().addClass('login');
-		var template = Handlebars.templates['orgs']; 							
-		$('body').append( template(orgs) );
-		$("select").uniform();
-		},
-	showInst: function(inst){
-		$('body').empty().addClass('login');
-		var template = Handlebars.templates['inst']; 							
-		$('body').append( template(inst) );
-		$("select").uniform();
-		},
-	showDashboard: function(numbers){
-		$('body').empty();
-		
-		// Create link to specific org | instance
-		var full_app_link = "",
-		    urlString = AppSite + "?dept=" + localStorage.sd_inst_key + "&org=" + localStorage.sd_org_key;
-	  	if (isPhonegap)
-		 	full_app_link = "href=#  onclick=openURLsystem('" + urlString + "')";
-	  	else
-			full_app_link = "href=" + urlString + " target=_system";
-	  	//var organization = {"full_app_link" : full_app_link};
-		
-		numbers["full_app_link"] = full_app_link; //Add link to object
-		
-		var template = Handlebars.templates['dashboard']; 							
-		$('body').append( template(numbers) );
-		},
-	showAccounts: function(accounts){
-		var template = Handlebars.templates['accounts']; 							
-		$('form select#account').append( template(accounts) );
-		},
-	showProjects: function(projects){
-		var template = Handlebars.templates['projects']; 							
-		$('form select#project').append( template(projects) );
-		},
-	showTechs: function(techs){
-		var template = Handlebars.templates['techs']; 							
-		$('form select#tech').append( template(techs) );
-		},
-	showLevels: function(levels){
-		var template = Handlebars.templates['levels']; 							
-		$('form select#level').append( template(levels) );
-		},	
-	showPriorities: function(priorities){
-		var template = Handlebars.templates['priorities']; 							
-		$('form select#priority').append( template(priorities) );
-		},
-	showClasses: function(classes){
-		var template = Handlebars.templates['classes']; 							
-		$('form select#class').append( template(classes) );
-		},
-	showSubClass1: function(subclass1){
-		var template = Handlebars.templates['addTicket_subClass1']; 							
-		$('.add_class').append( template(subclass1) );
-		},
-	showSubClass2: function(subclass2){
-		var template = Handlebars.templates['addTicket_subClass2']; 							
-		$('.add_class').append( template(subclass2) );
-		},
-	showTaskTypes: function(tasktypes){
-		var template = Handlebars.templates['taskTypes']; 							
-		$('form select#task_type').append( template(tasktypes) );
-		},
-	showTicketHeader: function(){
-		$('body').empty();	      
-		var template = Handlebars.templates['ticket_header']; 							
-		$('body').prepend( template() );		
-		},
-	showTicketList: function(list){
-		var template = Handlebars.templates['ticket_list'];									
-		$('body').append( template(list) ).slideDown().removeClass('spinner');
-		},
-	showTicketListAppend: function(list){
-		var template = Handlebars.templates['ticket_list_append']; 							
-		$('ul.tickets').append( template(list) );
-		},
-	showQueueList: function(que){
-		var template = Handlebars.templates['queue_list']; 							
-		$('body').append( template(que) ).slideDown().removeClass('spinner');
-		},
-	showQueueTicketList: function(queues){
-		var template = Handlebars.templates['ticket_list']; 										
-		$('.content').empty().append( template(queues) ).slideDown().removeClass('spinner');		
-		},
-	showResponses: function(results, key) {
-		var responses = results.ticketlogs,
-		    template = Handlebars.templates['ticket_response']; 
-		$('*[data-reskey="' + key + '"]').find('ul.responses').empty().append( template(responses) );
-		},
-	showTicketDetHeader: function(detail){	
-		var template = Handlebars.templates['ticketDetail_header']; 							
-		$('body').prepend( template(detail) );
-		},
-	showTicketDetContent: function(detail){			
-		var template = Handlebars.templates['ticketDetail_content']; 							
-		$('body').append( template(detail) ).removeClass('spinner');
-		},
-	showTicketInfo: function(info){			
-		var template = Handlebars.templates['ticketDetail_info']; 							
-		$('div.ticket_info ul').empty().append( template(info) );
-		},
-	showTimeLogs: function(time){			
-		var template = Handlebars.templates['time_list']; 							
-		$('body').empty().append( template(time) ).removeClass('spinner');
-		},	
-	showAddTicket: function(){
-		$('body').empty();			
-		var template = Handlebars.templates['addTicket']; 							
-		$('body').append( template() );
-		},
-	showTicketDetResponse: function(){
-		var template = Handlebars.templates['ticketDet_response']; 							
-		$('div.ticket_detail_main').append( template() ).removeClass('spinner');
-		},
-	showTicketDetAddTime: function(){
-		var template = Handlebars.templates['ticketDet_AddTime']; 							
-		$('div.ticket_detail_main').append( template() ).removeClass('spinner');
-		},
-	showTimeRollAddTime: function(){
-		var template = Handlebars.templates['time_AddTime']; 							
-		$('body').append( template() ).removeClass('spinner');
-		},
-	showTicketDetEdit: function(editDetail){
-		var template = Handlebars.templates['ticketDet_Edit']; 							
-		$('div.ticket_detail_main').append( template(editDetail) ).removeClass('spinner');
-		},
-	showTransfer: function(techs){			
-		var template = Handlebars.templates['transfer']; 							
-		$('div.ticket_detail_main').append( template(techs) );
-		$("select").uniform();
-		},
-	showTicketClose: function(){			
-		var template = Handlebars.templates['closeTicket']; 							
-		$('div.ticket_detail_main').append( template() ).removeClass('spinner');
-		$("input[type=checkbox]").uniform();
-		},
-	showAccountsList: function(accountlist){
-		var template = Handlebars.templates['account_list']; 							
-		$('body').append( template(accountlist) ).removeClass('spinner');
-		}
-};
-
-SherpaDesk.init(); // Initialize the entire app here <- kinda important
-
-	
-// add listeners and global helper functions --------------------------------------------
-
-function getParameterByName(name) {
-    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-}
-
-function fullapplink (){
-// Create link to specific org | instance
-		var full_app_link = "",
-		    urlString = AppSite + "?dept=" + localStorage.sd_inst_key + "&org=" + localStorage.sd_org_key;
-	  	if (isPhonegap)
-		 	full_app_link = "href=#  onclick=openURLsystem('" + urlString + "')";
-	  	else
-			full_app_link = "href=" + urlString + " target=_system";
-	  	//var organization = {"full_app_link" : full_app_link};
-		
-		return full_app_link; //Add link to object
-}
-
-
-// Login
-function checkLogin(configPass){	
-	$('form.form-signin button[type=submit]').on('click', function(e){
-		e.preventDefault();
-		var email = $('form.form-signin input#email').val();
-		var pass = $('form.form-signin input#password').val();			
-		if (email == '' || pass == ''){
-				addAlert("danger", "Please enter a valid Email or Password");
-			} else {						
-				SherpaDesk.getLogin(configPass, email, pass);				
-			};
-	});
-	$('form.google_openid').get(0).setAttribute('action', ApiSite + 'api/auth/googleopenid');
-    $('a.sign-in-with-google').on('click', function(e){
-        e.preventDefault();
-        if (window.self !== window.top) {
-            alert('Please go Google login in new window and reopen Sherpadesk extension again.');
-            $('form.google_openid').get(0).setAttribute('target', '_blank'); 
-        }
-        $('form.google_openid').get(0).submit();
-    });
-    $('a.login_signup').on('click', function (e) {
-        e.preventDefault();
-        var url = AppSite + 'mc/signuporg.aspx';
-        if (window.self !== window.top) {
-            $('form.login_signup').get(0).setAttribute('action', url);
-            alert('Please register in new window and reopen Sherpadesk extension again.');
-            $('form.login_signup').get(0).setAttribute('target', '_blank');
-            $('form.login_signup').get(0).submit();
-        }
-        else {
-            if (isPhonegap)
-                openURL(url);
-            else
-                document.location.href = url;
-        }
-    });
-	};	
-			
-// Set the current Role in header filter
-function setCurrentRole(){
-	$("ul.filter li").each(function(){
-			if( $(this).data("asrole") == localStorage.sd_user_role){
-				$(this).addClass("active");
-			};
-		});
-	};
-// On Click - Change Roles
-function changeRoles(configPass){
-	$("ul.filter li").on('touchstart click', function(e){	
-		e.preventDefault();	
-		$("ul.filter li").removeClass("active");
-		$(this).addClass("active");
-		$('div.content').empty().addClass('spinner');	
-		var asRole = $(this).data('asrole');
-		localStorage.setItem('sd_user_role', asRole);
-		//localStorage.removeItem('sd_from_queueid');			
-		//SherpaDesk.init();
-		localStorage.setItem('sd_is_from', 'tickets');
-		localStorage.setItem('sd_is_from_id', '');
-		SherpaDesk.getTickets(configPass);
-		});
-	};
-	
-// Set Dates as Time from now -> after loaded
-function fromDate(somediv, format){
-	$(somediv).each(function(){
-		var d = new Date();
-		// Get local machine timezone offset
-		var offset = d.getTimezoneOffset() / 60;  
-		var date = moment( $(this).text() ).subtract('hours', offset).fromNow();
-		$(this).empty().text(date);
-		});
-	};
-
-// Format Fixed Dates -> after loaded
-function fixedDate(somediv, format){
-	$(somediv).each(function(){
-		var d = new Date();
-		// Get local machine timezone offset
-		var offset = d.getTimezoneOffset() / 60;
-		var date = moment( $(this).text() ).subtract('hours', offset).format('LLL');
-		$(this).empty().text(date);
-		});
-	};
-
-//Loads Add Ticket listener when showing a ticket list
-function add_ticket_button(configPass){
-	$('a.add_ticket_button').on('touchstart click', function(e){
-		e.preventDefault();
-		$('body').empty().addClass('spinner');		
-			SherpaDesk.addTicket(configPass);	
-		});
-		
-	};
-//Loads when showing a ticket list
-function ticketActions(configPass){
-		
-		$("div.see_more").on('click',function(e){
-			e.preventDefault();
-			var isHidden = $(this).next(".tkt_actions").is(":hidden");//cache div state
-			$(".tkt_actions").slideUp("slow"); // Hide other Comments 			
-			if (isHidden){
-					//if hidden the show	
-					var ticketKey = $(this).data('key');										
-					$(this).next(".tkt_actions").slideDown("slow");					
-					SherpaDesk.getComments(configPass, ticketKey);						
-				} else {
-					//if showing then hide
-					$(this).next(".tkt_actions").slideUp("slow");	
-				};
-			  			
-			});
-		
-		$("div.tkt_actions_menu ul li").on('click',function(e){
-			e.preventDefault();
-			var ticketId = $(this).data('respkey');			
-			$(this).siblings().removeClass("active"); // Hide other Comments      	
-			$(this).addClass('active');	
-				if ($(this).hasClass("responses")){
-					$(this).parent().parent().siblings("div.tkt_add_time").slideUp();
-					$('div[data-reskey=' + ticketId + '] div.tkt_actions_menu_type').text('Responses');
-					$(this).parent().parent().siblings("div.tkt_add_response").slideToggle("slow");
-				} 
-				else if ($(this).hasClass("time")) {
-					
-					$(this).parent().parent().siblings("div.tkt_add_response").slideUp();
-						var tasktypes = SherpaDesk.getSherpaDesk(configPass, 'task_types');
-						var tasksCount = $('div[data-reskey=' + ticketId + '] div.tkt_add_time_input select option').length;
-							tasktypes.done(function(tasks){
-								var template = Handlebars.templates['taskTypes']; 
-								if( tasksCount <= 1 ){																
-									$('div[data-reskey=' + ticketId + '] div.tkt_add_time_input select').append( template(tasks) ).uniform();									
-								};												
-								});		
-					$('div[data-reskey=' + ticketId + '] div.tkt_actions_menu_type').text('Time');							
-					$(this).parent().parent().siblings("div.tkt_add_time").slideToggle("slow");
-								
-				};		
-			});
-		
-		$(".plus_time").on('touchstart click', function(e){	
-			e.preventDefault();
-			var add_time = $(this).parent().find('p input.add_time').val();	
-			$(this).parent().find('p input.add_time').val(  Number(add_time) + .25)	
-		});
-		$(".minus_time").on('touchstart click', function(e){
-			e.preventDefault();
-			if ($(this).parent().find('p input.add_time').val() >= .25){
-				var sub_time = $(this).parent().find('p input.add_time').val();
-				$(this).parent().find('p input.add_time').val( Number(sub_time) - .25 );
-			}		  
-		});				
-	};
-
-//Add Response at ticket list level
-function addResponse(configPass){
-	//On Click - Submit Response
-	$('button.add_response').unbind('click').on('click', function(e){
-		e.preventDefault();
-		var response = htmlEscape( $(this).next().children('textarea#response').val().trim() );
-		if(response === ''){
-				$('div.alert.alert-error').remove();
-				var alertmessage = {
-							"message_type" : "error",
-							"message" : "Nothing is there... hmmmm"
-							};
-						var template = Handlebars.templates['alert']; 
-						$(this).parent().prepend( template(alertmessage) ).fadeIn();				
-				return false;
-			} 
-			else if (response.length > 5000){
-				$('div.alert.alert-error').remove();
-				var alertmessage = {
-							"message_type" : "error",
-							"message" : "That's way too much. < 5000 chrs pls :)"
-							};
-						var template = Handlebars.templates['alert']; 
-						$(this).parent().prepend( template(alertmessage) ).fadeIn();				
-				return false;
-			}			
-			else {
-				$('div.alert.alert-error').remove();
-				var ticket_key = $(this).data('reskey');
-				SherpaDesk.postComments(configPass, ticket_key, response.toString());
-			};			
-		});	
-	};
-
-//Add Time to ticket at ticket list level
-function addTime(configPass){
-	
-	//On Click - Submit Response
-	$('button.add_tkt_time').unbind('click').on('click', function(e){
-		e.preventDefault();
-		
-		var hours = $(this).siblings('div.tkt_add_time_input').children().next('p').children('input.add_time').val().trim();
-		var taskType = $(this).siblings('div.tkt_add_time_input')
-						.children().eq(3).children('div.selector')
-						.children('select#task_type')
-						.children('option:selected').val();
-			
-		if(hours == '' || hours == 0 ){
-				$(this).siblings('div.tkt_add_time_input')
-					   .children().next('p')
-					   .children('input.add_time')
-					   .css("background-color", "#f2dede");
-				return;
-			} else 
-		if (taskType == '' || taskType == 0){
-				$(this).siblings('div.tkt_add_time_input')
-						.children().eq(3).children('div.selector')
-						.children('option:selected')
-						.css("background-color", "#f2dede");
-				return;
-			} else {
-				$('input.add_time').css("background-color", "#ffffff").val(0);
-				var ticket_key = $(this).data('reskey'),
-				    hours = htmlEscape( hours ),
-					that = $(this);
-				
-				var method = 'time',
-				data = {
-							"ticket_key": ticket_key,
-							"note_text": "Time entered via mobile app",
-							"task_type_id": taskType,
-							"hours": hours
-						},
-				sendTime = SherpaDesk.getSherpaDesk(configPass, method, 'post', data);		
-				sendTime.then(
-					//success
-					function(results){
-						SherpaDesk.getComments(configPass, ticket_key);
-						var alertmessage = {
-							"message_type" : "success",
-							"message" : "Good job! Your time is logged."
-							};
-						var template = Handlebars.templates['alert']; 
-						$(that).parent().prepend( template(alertmessage) ).fadeIn();
-					},
-					//failed
-					function(results){
-						var alertmessage = {
-							"message_type" : "error",
-							"message" : "Sorry that did not post."
-							};
-						var template = Handlebars.templates['alert']; 
-						$(that).parent().prepend( template(alertmessage) ).fadeIn();							
-					}
-				);
-			};			
-		});	
-	};
-
-//Create sidebar menu
-function ticket_list_menu(selector, direction){
-		var sideMenu = $.jPanelMenu({
-		    menu: selector,
-		    trigger: '.ticket_list_menu',
-			duration: 100,
-			openPosition: "225px",
-			animated: false,
-			direction: direction			
-		});
-		sideMenu.off();
-		sideMenu.on();	
-		$("div.content").css("min-height", $(window).height() - 50);
-		$(window).on("resize", function(){
-			$("div.content").css("min-height", $(window).height());
-			});			
-	};
-//initialize the sidebar menu items	
-function ticketListMenuActions(configPass, key){
-	$('#jPanelMenu-menu li p#logout').on('click', function(){ logOut(); });
-	$('#jPanelMenu-menu li p#orgInst').on('click', function(){ changeOrgs(); });
-	$('#jPanelMenu-menu li p#queues').on('click', function(){ SherpaDesk.getTicketsQueues(configPass) });
-	//Ticket Detail view
-	$('#jPanelMenu-menu li p#transfer').on('click', function(){ SherpaDesk.getTicketDetailTransfer(configPass, key) });
-	$('#jPanelMenu-menu li p#pickup').on('click', function(){ SherpaDesk.postTicketDetailPickup(configPass, key) });
-	$('#jPanelMenu-menu li p#edit').on('click', function(){ SherpaDesk.getTicketDetailEdit(configPass, key) });	
-	$('#jPanelMenu-menu li p#close').on('click', function(){ SherpaDesk.getTicketDetailClose(configPass, key) });
-	$('#jPanelMenu-menu li p#response').on('click', function(){ SherpaDesk.getTicketDetailResponse(configPass, key) });	
-	$('#jPanelMenu-menu li p#time').on('click', function(){ SherpaDesk.getTicketDetailAddTime(configPass, key) });		
-	};
 
 //open link	in blank
 function openURL(urlString){
-    window.open(urlString, '_blank', 'location=no');
+    window.open(urlString, '_blank', 'location=no,EnableViewPortScale=yes');
 }
 
 //open link	in system
 function openURLsystem(urlString){
     window.open(urlString, '_system');
 }
- 
-//insert images in comments
-function getCommentImages(attachments){	
-	$.each(attachments, function(key, value){
-    var file = value.name,
-			url = value.url,
-			ext = file.substr( (file.lastIndexOf('.') +1) ).toLowerCase(); // lowercase the extension
-      
-    var imageInsert = "";
-    if (isPhonegap)
-       imageInsert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" + url + "\")'><img class=\"comment_image\" src=\"" + url + "\" alt=\"" + file + "\"></a>";
-    else
-       imageInsert = "<a class=\"comment_image_link\" target=\"_system\" href=\"" + url + "\"><img class=\"comment_image\" src=\"" + url + "\" alt=\"" + file + "\"></a>";
-          
-		if(ext === "jpg" || ext === "png" || ext === "gif" ){
-			$('div.tkt_ini_response:contains(' + file + '), div.comment_main:contains(' + file + ')').append(imageInsert);
-			};		 
-		});		
-	};
 
-function getCustomFields(fieldsXml){
-		var xmlDoc = $.parseXML(fieldsXml),
-			$xml = $( xmlDoc ),
-			$field = $xml.find( "field" ),
-			infoFields = $('div.ticket_info ul');
-			$.each($field, function(i,item) {
-				var caption = $(this).find('caption'),
-					value = $(this).find('value');				
-				infoFields.append("<li><p>" + caption[0].textContent +": <strong>" + value[0].textContent + "</strong></p></li>");
-			});
-	};
+//global error handler
+$( document ).ajaxError(function( event, request, settings ) {
+    //console.log(event);
+    //console.log(request);
+    //console.log(settings);
+    //        alert(request.statusText);
+    //    alert(request.responseText);
+    //    alert(settings.url);
+    if ((request.status == 403 && settings.url !== ApiSite + "organizations") || (request.status == 404 && settings.url === ApiSite + "config"))
+    {
+        logout(settings.url !== ApiSite + "login");
+    }
+});
 
-function get_single_ticket(configPass){	
-	$("a.get_single").on('click', function(){
-		var key = $(this).data("reskey");
-		SherpaDesk.getTicketDetail(configPass, key);
-		});
-	};
-
-function ticketDetMenuActions(configPass){
-	var last = localStorage.getItem('sd_is_from');
-	$('a#ticketList').on('click', function(e){
-		e.preventDefault(); 
-		$('body').empty();
-		if (last == "dash"){
-				SherpaDesk.init();
-			} else {
-				SherpaDesk.getTickets(configPass);
-			}		
-		});
-	};
-
-function getGravatar(gravDiv, size) {
-		$(gravDiv).each(function(){
-			var email = $.MD5($(this).data('email'));
-			if ( $(this).is(':empty') ){
-				$(this).append('<img src="http://www.gravatar.com/avatar/' + email + '?d=mm&s=' + size + '" />');
-			};
-		});
-	};
-function showTicketInfoPanel(){
-	$('.menu_button.header_right.info_icon').on('click', function(){
-		$('div.content.ticket_detail div.ticket_info').slideToggle();
-		});
-	};
-
-function filterList(){
-	$('body').attr('id', 'search_wrap');
-	window.setTimeout(function(){
-		var options = {
-			listClass: 'tickets',
-		    valueNames: [ 'tkt_number', 'tkt_subject', 'tkt_account', 'user_name' ]			
-	    };
-	    var featureList = new List('search_wrap', options);
-
-	    featureList.on('updated',function(){
-	    	if (featureList.matchingItems.length > 1) 
-	    	{
-		    	var itemMessage = 'There are ' + featureList.matchingItems.length + ' matching tickets.';
-		    	addAlert('success', itemMessage);
-	    	} else if (featureList.matchingItems.length == 1) {
-	    		$('.showalert').empty();
-	    	} else if (featureList.matchingItems.length == 0) {
-	    		addAlert('info', 'Bummer...  0 items found');
-	    	}
-	    });
-
-		},500);
-	};
-
-function ticketJump(configPass){
-	$('input.ticket-jump-menu').keypress(function (e) {
-		  if (e.which == 13) {
-		    var ticketNum = $(this).val();
-			SherpaDesk.getTicketDetail(configPass, ticketNum);
-		  }
-		});	
-	};
-
-function ticket_menu_rev(results){
-		//check to show time and close
-	  	if (results.status === "Closed"){$('li p#close, li p#time, li p#transfer').parent().hide();}
-		
-		//check to pickup
-		var tech_type = localStorage.sd_tech_admin;	
-		var tech_id = localStorage.sd_currentUser_id;		
-		var tech = $.grep(results.technicians, function(a){ return a.user_id == tech_id; });
-		if(tech.length > 0 || tech_type == "false"){$('li p#pickup').parent().hide()};
-		
-		//check tech on ticket		
-		if(tech_type == "false"){
-			$('li p#transfer').parent().hide();
-			};		
-		if(tech.length == 0){
-			$('li p#close, li p#time, li p#edit').parent().hide();
-			$('li.time').hide();			
-			};	
-		
-	};	
-
-//Bind header actions for queues and tickets
-function queuesAndTicketHeader(configPass, tktType) {
-	setCurrentRole();
-	fromDate(".fromDate");
-	changeRoles(configPass);				
-	ticketActions(configPass);
-	add_ticket_button(configPass);
-	get_single_ticket(configPass);
-	addResponse(configPass);
-	addTime(configPass);
-	getGravatar("p.cir_gravatar", 40); // This should be in a helper
-	
-	if(tktType && tktType.type=="accounts"){
-		$('ul.filter li').removeClass('active');
-		$('li.time').hide();
-		//Set the home button
-		$('a.home_button').off()
-			.removeClass('home_icon').addClass('back_icon')
-			.on('click', function(e){
-				e.preventDefault();
-				$('body').empty().addClass('spinner');	
-				SherpaDesk.getAccounts(configPass);
-			});
-	} else if (tktType && tktType.type=="queues") {
-		$('ul.filter li').removeClass('active');
-		$('li.time').hide();
-		//Set the home button
-		$('a.home_button').off()
-			.removeClass('home_icon').addClass('back_icon')
-			.on('click', function(e){
-				e.preventDefault();
-				$('body').empty().addClass('spinner');	
-				SherpaDesk.getTicketsQueues(configPass);
-			});
-	} else {
-		//Set the home button
-		if( localStorage.sd_tech_admin === "true" ){
-		$('a.home_button').off().on('click', function(e){
-			e.preventDefault();
-			$('body').empty().addClass('spinner');	
-			SherpaDesk.init();
-		});
-		}
-		else
-		{
-		//Sidebar Setup
-		  $('body').prepend("<div class='side-menu' style='display:none;'><ul><li class='searchform'> <input type='text' placeholder='Jump to Ticket #' class='ticket-jump-menu'></li><li><p id='orgInst'><i class='icon-list-alt icon-white'></i> Change Org/Inst</p></li><li><p id='logout'><i class='icon-off icon-white'></i> Log out</p></li><li><a " + fullapplink() + "><p id='fullSite'><i class='icon-share-alt icon-white'></i> Switch to Full App</p></a></li></ul></div>");
-			$("#left-button").removeClass().addClass("menu_button header_left menu_icon ticket_list_menu");
-			ticket_list_menu(".side-menu", "left");
-			ticketListMenuActions(configPass);
-			ticketJump(configPass);
-		}
-	};
-	
-	//Init list.js only if more than 0
-	if ( ($("ul.tickets li.ticket").size()) > 0){
-			filterList(); // if more than 0 tickets, enable filter
-		};		
-	
-	// Hide time if ticket as_user			  
-	if(localStorage.sd_user_role == "user" || localStorage.sd_user_role == "all"){
-		$('li.time').hide();
-		};
-	
-	// Hide if just a user and not tech
-	if( localStorage.sd_tech_admin === "false" ){
-		$('li.open_tickets, li[data-asrole="tech"], li[data-asrole="alt_tech"]').hide();
-		};
-	};
-
-
-/*
- * Helpers
- */
-function htmlEscape(str) {
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&apos;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        //.replace(/\n/g, "<br />")
-        ;
-		};
-		
-function clearComments(){
-	$("ul.responses").empty();
-	};
-function clearContent(){
-	$("div.content").empty();
-	};
-
-function scrollToAnchor(aid){
-    var aTag = $("a[name='"+ aid +"']");
-    $('html,body').animate({scrollTop: aTag.offset().top},'slow');
-}
-	
-// Global Alert Action
-function addAlert(type, message) {
-	//success danger error info block
-	var alertmessage = {
-		"message_type" : type,
-		"message" : message
-		};
-	var template = Handlebars.templates['alert']; 
-	window.setTimeout(function(){							
-	$('div.showalert').empty().append( template(alertmessage) ).fadeIn();
-	},500);
-	};
-
-// Logout
-function logOut(){
-    $('body').empty().addClass('login');
-	localStorage.removeItem('sd_api_key');
-	localStorage.removeItem('sd_inst_key');
-	localStorage.removeItem('sd_org_key');
-	localStorage.removeItem('sd_from_queueid');
-	if (localStorage.is_google) {
-	    localStorage.removeItem('sd_user_email');
-	    localStorage.removeItem('is_google');
-	    GooglelogOut();
-	}
-	else
-	    location.reload(true);
+//If User is Offline....................................
+function off(){
+    if (!$(".catch-error").length) {
+        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="redirectToPage()">Refresh</button></center></div></div>');
+    }
+    isOnline = false;
 };
 
-var GooglelogOut = function () {
-    if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
-        var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-        document.location.href = logoutUrl;
+function on1 (){
+    if (!isOnline){
+        $(".catch-error").remove();
+        location.reload(false);
+        //document.location.href = MobileSite + "index.html";
+    }
+    isOnline = true;
+};
+
+function redirectToPage() {
+    if (navigator.onLine)
+    {  if (isPhonegap) on1();
+     else
+     {
+         var img = document.body.appendChild(document.createElement("img"));
+         img.style.display = 'none';
+         img.onload = function () {
+             on1();
+         };
+         img.onerror = function () {
+             // off();
+         };
+         img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
+     }
     }
     else
-        location.reload(true);
+    {
+        // off();
+    }
+};
+
+//global helper functions
+function logout(isRedirect) {
+    if (typeof isRedirect === "undefined")
+        isRedirect = true;
+    clearStorage();
+    if (localStorage.is_google) {
+        localStorage.removeItem('userName');
+        localStorage.removeItem('is_google');
+        GooglelogOut();
+    }
+    else if (isRedirect)
+        window.location = "index.html";
 }
 
-// Change Orgs / Inst
-function changeOrgs(){
-	$('body').empty().addClass('login');
-	localStorage.removeItem('sd_inst_key');
-	localStorage.removeItem('sd_org_key');
-	localStorage.removeItem('sd_from_queueid');	
-	SherpaDesk.init();
+if (typeof String.prototype.endsWith !== 'function') {
+    String.prototype.endsWith = function(suffix) {
+        return this.indexOf(suffix, this.length - suffix.length) !== -1;
+    };
+}
+
+function GooglelogOut () {
+    if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
+        var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
+        document.location.href = location.href.replace(/(.+\w\/)(.+)/, "$1") + "index.html";
+    }
+    else
+        window.location = "index.html";
+}
+
+function clearStorage()
+{
+    var userName = localStorage.userName;
+    localStorage.clear();
+    localStorage.removeItem('userOrgKey');
+    localStorage.removeItem('userOrg');
+    localStorage.removeItem('userInstanceKey');
+    localStorage.removeItem('userKey');
+    localStorage.setItem("userName", userName);
+
+};
+
+function fullapplink (){
+    // Create link to specific org | instance
+    var urlString = AppSite + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
+    if (isPhonegap) {
+        //alert("gap!");
+        $(".fullapplink").on('click', function (e) {
+            e.preventDefault();
+            openURLsystem(urlString);});
+    } else if (window.self !== window.top) {
+
+        $(".fullapplink").on('click', function (e) {
+            e.preventDefault();
+            //alert('Please register in new window and reopen Sherpadesk extension again.');
+            var origOpenFunc = window.__proto__.open;
+            origOpenFunc.apply(window, [urlString, "_blank"]); 
+        });
+    }
+    else
+    {
+        $(".fullapplink").attr("target", "_blank");
+        $(".fullapplink").attr("href", urlString);
+    }
+
+    return urlString;
+}
+
+function htmlEscape(str) {
+    return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    //.replace(/\n/g, "<br />")
+    ;
+};
+
+var featureList;
+var featureList2;
+var featureList3;
+var featureList4;
+var featureList5;
+
+function filterList(listClass, value_names, init_value){
+    $('body').attr('id', 'search_wrap');
+    if (typeof value_names === "undefined" || !value_names)
+    {
+        value_names = [ 'blockNumber', 'responseText', 'TicketBlockNumber', 'user_name'];
+    }
+    else if (value_names)
+    {
+        value_names = value_names.split(',');
+    }
+    var options = {
+        listClass: listClass,
+        item: "item",
+        valueNames: value_names			
+    };
+    featureList = new List('search_wrap', options);
+    if (typeof init_value !== "undefined" && init_value)
+    {
+        featureList.search(init_value);
+        $(".search").val(init_value);
+    }
+    featureList.on('updated',function(){
+        //console.log(featureList);
+        if (featureList.matchingItems.length > 1) 
+        {
+            var itemMessage = 'There are ' + featureList.matchingItems.length + ' matching tickets.';
+            console.log( itemMessage);
+        } else if (featureList.matchingItems.length == 1) {
+            ;
+        } else if (featureList.matchingItems.length == 0) {
+            console.log( 'Bummer...  0 items found');
+        }
+    });
+    //console.log("loaded list");
+    return featureList;
+};
+function float2int (value) {
+    return value | 0;
+}
+
+function createElipse(text, containerWidth, fontSize){
+    var windowWidth = $(window).width();
+    if(windowWidth > 650){
+        windowWidth = 650;
+    }
+    var characterSpace;
+    containerWidth = containerWidth * windowWidth;
+    characterSpace = containerWidth / fontSize;
+    characterSpace = float2int(characterSpace);
+    if(text.length > characterSpace){
+        text = text.substring(0,characterSpace)+'...';
+    } 
+    return text;
+};
+
+
+
+$(document).ready(function(){
+    //preload image
+    var img = new Image();
+    img.src = MobileSite + "img/error-background.png";
+
+    var userOrgKey = "";
+    var userOrg = "";
+    var userInstanceKey = "";
+    var	userKey = "";
+    var accountDetailed = "";
+    var selectedEditClass;
+
+    function getApi (method, data, type) {
+        var userKey = localStorage.getItem("userKey");
+        var userOrgKey = localStorage.getItem('userOrgKey');
+        var userInstanceKey = localStorage.getItem('userInstanceKey');
+        if (!userKey || !userOrgKey || !userInstanceKey) {
+            console.log("Invalid organization!");
+            return;
+        }
+        if( !type ) type = 'GET';
+        return $.ajax({
+            type: type,
+            beforeSend: function (xhr) {
+                xhr.withCredentials = true;
+                xhr.setRequestHeader('Authorization',
+                                     'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
+            },
+            url: ApiSite + method,
+            cache: false,
+            data: data,
+            dataType: "json"
+        }).promise();
+    };
+
+    function getParameterByName(name) {
+        var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+
+    function cleanQuerystring() {
+        var clean_uri = location.protocol + "//" + location.host + location.pathname;
+        window.history.replaceState({}, document.title, clean_uri);
+    }
+
+    function reveal() {
+        $(".loadScreen").hide();
+        $(".maxSize").fadeIn();
+    };
+
+    // user login
+    var UserLogin = {
+        init: function () {
+            var loginPage = true;
+            if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/")
+                loginPage = false;
+            userKey = localStorage.getItem("userKey");
+            userOrgKey = localStorage.getItem('userOrgKey');
+            userInstanceKey = localStorage.getItem('userInstanceKey');
+            if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage && location.pathname.indexOf("org.html")<0 && location.pathname.indexOf("signup.html")<0) {
+                logout();
+                return;
+            }
+            if (!loginPage)
+                return;
+            if (userKey && userOrgKey && userInstanceKey) {
+                getInstanceConfig(userOrgKey, userInstanceKey);
+                return;
+            }
+            if (userKey) {
+                window.location = "org.html";
+                return;
+            }
+            else {
+                var key = getParameterByName('t');
+                var email = getParameterByName('e');
+                if (key) {
+                    cleanQuerystring();
+                    localStorage.setItem('is_google', true);
+                    localStorage.setItem("userKey", key)
+                    localStorage.setItem('userName', email);
+                    window.location = "org.html";
+                    return;
+                }
+                else
+                {
+                    var error = getParameterByName('f');
+                    if (error) {
+                        cleanQuerystring();
+                        userMessage.showMessage(false, error);
+                    }
+                }
+            }
+            this.login();
+        },
+        do_login: function () {
+            var userName = $("#userName").val();
+            var password = $("#password").val();
+            if (userName == '' || password == '') {
+                userMessage.showMessage(false, "Please enter a valid Email or Password");
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(userName + ':' + password));
+                },
+                url: ApiSite +"login",
+                dataType: "json",
+                success: function (returnData) {
+                    console.log(returnData);
+
+                    localStorage.setItem("userKey", returnData.api_token)
+                    localStorage.setItem('userName', userName);
+                    window.location = "org.html";
+
+                },
+                complete: function () {
+
+                },
+                error: function () {
+                    if(userName && userName.indexOf("@gmail.com") != -1){
+                        userMessage.showMessage(false, "Wrong Password, Google sign password is not neeeded");
+                    }else{
+                        userMessage.showMessage(false, "There was a problem with your login.  Please try again.");
+                        $("#password").val("");
+                    }
+                    // if (userName && userName.indexOf("@gmail.com") != -1)
+                    //     $("#errorMessage").html("If you are attempting to login with a google account, please do not type your google password, click the 'Sign in with Google' button, it is more secure.");
+                    // else
+                    //     $("#errorMessage").html("There was a problem with your login.  Please try again.");
+                    // $("#password").val("");
+                }
+            });
+        },
+        login:function() {
+            var userName = localStorage.getItem('userName');
+            if (userName !== null && userName.length > 0)
+                $("#userName").val(userName);
+            $('#login_signup').on('click', function (e) {
+                e.preventDefault();
+                document.location.href = "signup.html";
+            });
+            $('form.google_openid').get(0).setAttribute('action', ApiSite + 'api/auth/googleopenid');
+            $('#sign_in_with_google').on('click', function (e) {
+                e.preventDefault();
+                if (window.self !== window.top) {
+                    //alert('Please goto Google login in new window and reopen Sherpadesk extension again.');
+                    //$('form.google_openid').get(0).setAttribute('target', '_blank');
+                }
+                $('form.google_openid').get(0).submit();
+            });
+            $("#loginButton").click(function () { UserLogin.do_login(); });
+            $(document).on("keypress", "#password, #userName", function (e) {
+                if (e.which == 13) {
+                    UserLogin.do_login();
+                }
+            });
+            reveal();
+        }
+    };
+
+    // org signup
+    var OrgSignup = {
+        init: function () {
+            if (location.pathname.indexOf("signup.html") < 0)
+                return;
+            var userName = localStorage.getItem('userName');
+            if (userName !== null && userName.length > 0)
+                $("#email").val(userName);
+            $("#signupButton").click(function () { OrgSignup.add(); });
+            $(document).on("keypress", "#name, #email, #url", function (e) {
+                if (e.which == 13) {
+                    OrgSignup.add();
+                }
+            });
+            $("#is_force_registration").prop("checked", false);
+            reveal();   
+        },
+        add: function () {
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var url = $("#url").val();
+            if (name == '' || email == '' || url == '') {
+                userMessage.showMessage(false, "Please enter a valid Email, Name, Url");
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: ApiSite +"organizations",
+                dataType: "json",
+                data: {"name": name, "email":email, "url":url, "is_force_registration": $("#is_force_registration").is(':checked')},
+                success: function (returnData) {
+                    if (!returnData.api_token)
+                    {
+                        window.location = "index.html";
+                        return;
+                    }
+                    if (!returnData.organization || !returnData.instance)
+                    {
+                        window.location = "org.html";
+                        return;
+                    }        
+                    localStorage.setItem("userKey", returnData.api_token)
+                    localStorage.setItem('userName', email);
+                    localStorage.setItem('userOrgKey', returnData.organization);
+                    localStorage.setItem('userInstanceKey', returnData.instance);
+
+                    //sets user role to user in local storage
+                    localStorage.setItem('userRole', "user");
+                    getInstanceConfig(returnData.organization, returnData.instance)
+                },
+                error: function ( event ) {
+                    //"User already have one registered organization. Please set is_force_registration=true to continue."
+                    if (event.status == 409)
+                    {
+                        userMessage.showMessage(false, "This email is already in use. Please choose action below");
+                        localStorage.setItem('userName', $("#email").val());
+                        $("#is_force_registration").prop("checked", true);
+                        $("#signupButton").before("<center><h3 style='padding-top: 10px;'>This email is already in use. Would you like to</h3>"
+                                                  +" <div class=loginButton onclick='window.location = \"index.html\"'>Login</div>"
+                                                  +"<h3>or</h3></center>");
+                        $("#signupButton").text("Create New Organization");
+                        return;
+                    }
+                    userMessage.showMessage(false, event.statusText);
+                }
+            });
+        }
+    };
+
+    //show closed tickets
+    var closedTickets = {
+        init:function() {
+            this.showClosedTickets();
+            this.pageChange();
+        },
+
+        pageChange:function() {
+            $(".buttonShowClosedTickets").click(function(){
+                window.location = "closedTickets.html";
+            });
+        },
+
+        showClosedTickets:function() {
+            if(localStorage.getItem("isMessage") == "truePos")
+            {
+                userMessage.showMessage(true);
+            }
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"tickets?status=closed&account="+localStorage.getItem("DetailedAccount"),
+                dataType:"json",
+                success: function(returnData) {
+                    $("#closedTickets").empty();
+                    //insert open tickets
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        // get email value for gravatar
+                        var email = $.md5(returnData[i].user_email);
+                        var initialPost = returnData[i].initial_post;
+                        var subject = returnData[i].subject;
+                        //the key for this specific ticket
+                        var data = returnData[i].key;
+                        subject = createElipse(subject, .75, 12);
+                        // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
+                        if(initialPost.length > 50)
+                        {
+                            initialPost = initialPost.substring(0,50);
+                        }
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span  class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        $(ticket).appendTo("#closedTickets");
+                        filterList("closedTickets");
+                    }
+
+                },
+                error: function() {
+                    console.log("fail @ accounts");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+        }
+
+    };
+
+    // pick up current detailed ticket
+    var pickUpTicket = {
+        init:function() {
+            this.pick();
+        },
+
+        pick:function() {
+            $("#pickUp").click(function(){
+                $.ajax({
+                    type: 'PUT',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization',
+                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                    },
+                    url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
+                    data: {
+                        "action" : "pickup",
+                        "note_text": ""
+
+                    },
+                    dataType: 'json',
+                    success: function (d) {
+                        userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
+                        window.location = "ticket_detail.html";
+                    },
+                    error: function (e, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            });
+        }
+    };
+
+    // transfer current detailed ticket
+    var transferTicket = {
+        init:function() {
+            this.transfer();
+        },
+
+        transfer:function() {
+            $("#transfer").click(function(){
+                $("#transfer").hide();
+                $("#transferSelect").show();
+                $.ajax({
+                    type: 'GET',
+                    beforeSend: function (xhr) {
+                        xhr.withCredentials = true;
+                        xhr.setRequestHeader('Authorization',
+                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                    },
+
+                    url:ApiSite +"technicians",
+                    dataType:"json",
+                    success: function(returnData) {
+                        console.log(returnData);
+                        // add techs to option select list
+                        var insert = "<option value=0 disabled selected> Choose Tech</option>";
+                        $(insert).appendTo("#transferTechs");
+                        for(var i = 0; i < returnData.length; i++)
+                        {
+                            var value = returnData[i].id;
+                            var name = returnData[i].firstname+" "+returnData[i].lastname;
+                            var insert = "<option value="+value+">"+name+"</option>";
+                            $(insert).appendTo("#transferTechs");
+                        }
+                    },
+                    complete: function () {
+                        reveal();
+                    },
+                    error: function() {
+                        console.log("fail @ time accounts");
+                        console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    }
+                });
+                // get value
+                $("#transferTechs").on("change", function(){
+                    var techId = $("#transferTechs").val();
+                    $.ajax({
+                        type: 'PUT',
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader('Authorization',
+                                                 'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                        },
+                        url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
+                        data: {
+                            "action": "transfer",
+                            "note_text": " ",
+                            "tech_id": techId,
+                            "keep_attached": false
+
+                        },
+                        dataType: 'json',
+                        success: function (d) {
+                            location.reload(false);
+                        },
+                        error: function (e, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                });
+            });
+        }
+    };
+
+    var addRecip = {
+        init:function() {
+            this.addEm();
+        },
+
+        addEm:function() {
+            $(document).on("keypress","#addEm",function(e){
+                if(e.which == 13) {
+                    var searchItem  = $(".headerSearch").val().toLowerCase();
+                    localStorage.setItem("searchItem",searchItem);
+                    var found = false;
+
+                    var email = $("headerSearch").val();
+                }
+            });
+        }
+    };
+
+    // close current detailed ticket
+    var closeTicket = {
+        init:function() {
+            this.closeIt();
+            this.reopenIt();
+        },
+        reopenIt:function() {
+            $('#openIt').click(function(){
+                $.ajax({
+                    type: 'PUT',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization',
+                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                    },
+                    url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
+                    data: {
+                        "status" : "open",
+                        "note_text": ""
+                    },
+                    success: function (d) {
+                        //location.reload(false);
+                        setTimeout(
+                            function()
+                            {
+                                userMessage.showMessage(true, 'Ticket has been Reopened <i class="fa fa-thumbs-o-up"></i>');
+                                window.location = "ticket_detail.html";
+
+                            }, 1000);
+                    },
+                    error: function (e, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            });
+        },
+
+        closeIt:function() {
+            $("#closeIt").click(function(){
+                $('#closingMessage').slideDown(400, function(){
+                    $('#closeMessageButton').fadeIn();
+                    $('html,body').animate({
+                        scrollTop: $('#closeMessageButton').offset().top
+                    },400);
+                });
+            });
+            $('#closeMessageButton').on('click',function(){
+                var closeTicketMessage = htmlEscape($('#closingMessage').val()).trim();
+                if (closeTicketMessage.length > 500){
+                    userMessage.showMessage(false,  "Note cannot be more than 500 chars!");	
+                    return;
+                }
+                $.ajax({
+                    type: 'PUT',
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization',
+                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                    },
+                    url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
+                    data: {
+                        "status" : "closed",
+                        "note_text": closeTicketMessage,
+                        "is_send_notifications": true,
+                        "resolved": true,
+                        dataType: 'json',
+                        "confirmed": false,
+                        "confirm_note": ""
+
+                    },
+                    success: function (d) {
+                        //location.reload(false);
+                        setTimeout(
+                            function()
+                            {
+                                userMessage.showMessage(true, 'Ticket has been closed <i class="fa fa-thumbs-o-up"></i>');
+                                window.history.back();
+
+                            }, 1000);
+                        userMessage.setMessage(true, "Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
+                    },
+                    error: function (e, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            });
+        }
+    };
+    //date formating function
+    var formatDate = function(date){
+        var month = date.substring(5,7);
+        var day = date.substring(8,10);
+        switch(month){
+            case "01":
+                month = "Jan";
+                break;
+            case "02":
+                month = "Feb";
+                break;
+            case "03":
+                month = "Mar";
+                break;
+            case "04":
+                month = "Apr";
+                break;
+            case "05":
+                month = "May";
+                break;
+            case '06':
+                month = "Jun";
+                break;
+            case '07':
+                month = "Jul";
+                break;
+            case '08':
+                month = "Aug";
+                break;
+            case '09':
+                month = "Sep";
+                break;
+            case '10':
+                month = "Oct";
+                break;
+            case '11':
+                month = "Nov";
+                break;
+            case '12':
+                month = "Dec";
+                break;
+            default:
+                month = "nul";
+                break
+        }
+        return month+" "+day;
+    };
+    // send an invoice to recipents
+    var sendInvoice = {
+        init:function() {
+            this.submitInvoice();
+        },
+
+        submitInvoice:function(){
+            $("#sendInvoiceButton").click(function(){
+                //alert(localStorage.getItem('invoiceNumber'));
+                if ($(".recipient").children(".closeIcon").length < 1)
+                {
+                    userMessage.showMessage(false, "No accounting contacts added");
+                    return;
+                }
+                var emails = ""; 
+                $.each($(".recipient").children(".closeIcon"), function(){emails+=$(this).attr("id") + ",";}); 
+                console.log(emails);
+                $.ajax({
+                    type: 'PUT',
+                    beforeSend: function (xhr) {
+                        xhr.withCredentials = true;
+                        xhr.setRequestHeader('Authorization',
+                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                    },
+                    url: ApiSite + 'invoices/'+localStorage.getItem('invoiceNumber'),
+                    data: {
+                        "action": "sendEmail",
+                        "recipients": emails
+                    },
+                    dataType: 'json',
+                    success: function (d) {
+                        setTimeout(
+                            function()
+                            {
+
+                                window.history.back();
+
+                            }, 1000);
+                        userMessage.setMessage(true, "Hurray! Invoice sent");
+                    },
+                    error: function (e, textStatus, errorThrown) {
+                        //alert(textStatus);
+                    }
+                });
+            });
+        }
+    };
+
+    // when signout button is pressed all user data is whiped from local storage
+    var signout = {
+        init:function(){
+            this.logOut();
+        },
+
+        logOut:function(){
+            $("#signOut").click(logout);
+        }
+    };
+
+    function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
+    {
+        if (typeof returnData === "undefined" || !returnData || !returnData.length)
+        { 
+            $(""+element).parent().hide();
+            return 0;
+        }
+        var names;
+        var isCustom = false;
+        if (typeof customValues !== "undefined" && customValues.length > 0){
+            names = customValues.split(',');
+            if (names.length > 0)
+                isCustom = true;
+        }
+        if (typeof prefix === "undefined")
+            prefix = "";
+        if (typeof initialValue === "undefined")
+            initialValue = "";
+        if (typeof envelope_start === "undefined")
+            envelope_start = "";
+        if (typeof envelope_end === "undefined")
+            envelope_end = "";
+        var insert = ""+initialValue;
+        var i = 0;
+        for(i = 0; i < returnData.length; i++)
+        {
+            var value = returnData[i].id;
+            var name = "";
+            if (!isCustom)
+                name = returnData[i].name;
+            else
+            {
+                for(var j = 0; j < names.length; j++)
+                    name += " " + returnData[i][names[j]];
+            }
+            insert += "<option value="+value+">"+prefix+name+"</option>";
+        }
+        // $(""+element).empty();
+        if (i > 0){
+            $(""+envelope_start + insert + envelope_end).appendTo(""+element);
+            $(""+element).parent().show();
+            $(""+element).parent().parent().show();
+        }
+        else
+            $(""+element).parent().hide();
+        return i;
+    }
+
+    function fillClasses(classResults, element, initialValue)
+    {
+        if(!isClass) {$(''+element).parent().parent().hide();
+                      return;}
+        fillSelect(classResults, element, initialValue, "Class: ");
+
+        //Listen for class and detect sub-classes
+        $(''+element).on('change', function(){
+
+            if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').hide();$('#sub_class1, #sub_class2').empty();};
+            var classSelected0 = $(element +' option:selected').val();
+            var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
+
+            //set class
+            selectedEditClass = classSelected0;
+
+            //If sub-class exist
+            if((typeof classSub[0] !== "undefined") && (classSub[0].sub !== null || classSub[0].sub > 0)){
+                //Show sub-class select
+                fillSelect(classSub[0].sub, "#sub_class1", "<option value="+selectedEditClass+">choose a sub class</option>", "Sub class: ");
+
+                $("select#sub_class1").on('change', function(){
+                    if($('.sub_class2').is(":visible")){$('.sub_class2').hide();$('#sub_class2').empty();};
+                    var classSelected1 = $('select#sub_class1 option:selected').val();
+                    var classSub1 = $.grep(classSub[0].sub, function(a){ return a.id == classSelected1; });
+                    //reset class
+                    selectedEditClass = classSelected1;
+                    //If sub-sub-class exist
+                    if((typeof classSub1[0] !== "undefined") && (classSub1[0].sub > 0 || classSub1[0].sub!== null)){
+                        //Show sub-class select
+                        fillSelect(classSub1[0].sub, "#sub_class2", "<option value="+selectedEditClass+">Sub Sub Class: ---</option>", "Sub Sub Class: ");
+
+                        $("select#sub_class2").on('change', function(){
+                            var classSelected2 = $('select#sub_class2 option:selected').val();
+                            //reset class
+                            selectedEditClass = classSelected2;
+                        });
+                    }
+                });
+            }
+
+        });
+    }
+
+    // create a new ticket
+    var newTicket = {
+        init:function() {
+            this.addTicket();
+        },
+
+        addTicket:function() {
+            $("#addTicketAccounts").empty();
+            var accountset = localStorage.getItem('addAccountTicket');
+            if(!isTech){
+                $("#addTicketAccounts").parent().hide();
+            }
+            else
+            {
+
+                if(!isAccount) $("#addTicketAccounts").parent().hide();
+                else
+                { var accounts = getApi("accounts");
+                 accounts.then(function(returnData) {
+                     console.log(returnData);
+                     // get list of accounts add them to option select list
+                     $("#addTicketAccounts").empty();
+                     fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
+                     if (accountset)
+                         $("#addTicketAccounts").val(accountset);
+                     reveal();
+                 }, function() {
+                     console.log("fail @ ticket accounts");
+                 });
+                }
+            }
+
+            // after an account is choosed it get a list of technicians
+            var technicians = getApi("technicians");
+            technicians.then(function(returnData){
+                console.log(returnData);
+                // add techs to option select list
+                fillSelect(returnData, "#addTicketTechs",
+                           "<option value=0 disabled selected>choose a tech</option>", "",
+                           "firstname,lastname");
+                reveal();
+            },
+                             function() {
+                console.log("fail @ ticket accounts");
+
+            }
+                            );
+
+            // after techs are choosen then get a list of classes
+            var classes = getApi('classes');
+            classes.done(
+                function(classResults){
+                    fillClasses(classResults, "#classTicketOptions", "<option value=0 disabled selected>choose a class</option>");
+                });
+
+
+
+            // make api post call when submit ticket button is clicked
+            $("#submitNewTicket").click(function(){
+                var subject = htmlEscape($("#addTicketSubject").val().trim());
+                var post = htmlEscape($("#addTicketInitPost").val().trim());
+                if(subject == "" || $("#addTicketTechs").val() == "" || selectedEditClass < 1)
+                {
+                    userMessage.showMessage(false, "Please enter subject");
+                }
+                else if (subject.length > 100){
+                    userMessage.showMessage(false, "Subject should be less 100 chars!");	
+                } 
+                else if (post.length > 5000) {
+                    userMessage.showMessage(false, "Details cannot be more than 5000 chars!");
+                }
+                else
+                {
+                    var addTicket = getApi("tickets", {
+                        "status" : "open",
+                        "subject" : subject,
+                        "initial_post" : post,
+                        "class_id" : selectedEditClass,
+                        "account_id" : $("#addTicketAccounts").val(),
+                        "user_id" : localStorage.getItem('userId'),
+                        "tech_id" : $("#addTicketTechs").val()
+                    }, "POST");
+                    addTicket.then(function (d) {
+                        localStorage.setItem('addAccountTicket', '');
+                        setTimeout(
+                            function()
+                            {
+
+                                window.location =  isTech ? "dashboard.html" : "ticket_list.html";
+
+                            }, 1000);
+                        userMessage.setMessage(true, "Ticket was Succesfully Created :)");
+
+
+                    },
+                                   function (e, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                                  );
+
+                }
+            });
+        }
+    };
+
+    // post a comment to a ticket on the ticket details page
+    var postComment = {
+        init:function(){
+            this.sendComment();
+        },
+
+        sendComment:function(){
+            $("#reply").click(function(){
+                var comment = htmlEscape($("#commentText").val().trim());
+                if (!comment) {
+                    userMessage.showMessage(false, "Please enter note");
+                    return;
+                }
+                if (comment.length > 500) {
+                    userMessage.showMessage(false, "Note cannot be more than 500 chars!");
+                    return;
+                }
+                $.ajax({
+                    type: 'POST',
+                    beforeSend: function (xhr) {
+                        xhr.withCredentials = true;
+                        xhr.setRequestHeader('Authorization',
+                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                    },
+                    url: ApiSite + 'tickets/'+localStorage.getItem('ticketNumber'),
+                    data: {
+                        "note_text": comment,
+                        "action": "response"
+                    },
+                    dataType: 'json',
+                    success: function (d) {
+
+                        location.reload(false);
+                    },
+                    error: function (e, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            });
+        }
+    };
+
+    // Ajax calls for semi-universal search bar
+    var search = {
+        init:function(){
+            this.universalSearch();
+        },
+
+        universalSearch:function(){
+            //get the search value when the enter key is pressed
+            $(document).on("keypress","#searchThis",function(e){
+                if(e.which == 13) {
+                    var searchItem  = $(".headerSearch").val().toLowerCase();
+                    localStorage.setItem("searchItem",searchItem);
+                    localStorage.setItem("ticketPage", "asTech");
+                    window.location = "ticket_list.html";
+                    return;
+                    var found = false;
+                    var matchedTickets = [];
+
+                    // search for a account value that matches the search critera
+                    $.ajax({
+                        type: 'GET',
+                        beforeSend: function (xhr) {
+                            xhr.withCredentials = true;
+                            xhr.setRequestHeader('Authorization',
+                                                 'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                        },
+
+                        url:ApiSite +"accounts",
+                        dataType:"json",
+                        success: function(returnData) {
+                            for(var i = 0; i < returnData.length; i++)
+                            {
+                                if(returnData[i].name.toLowerCase() == searchItem)
+                                {
+                                    found = true;
+                                    localStorage.setItem("DetailedAccount", returnData[i].id);
+                                }
+                                if (found == true)
+                                {
+                                    window.location = "account_details.html";
+                                }
+                            }
+
+
+                        },
+                        complete:function(){
+                            function reveal(){
+                                $(".loadScreen").hide();
+                                $(".maxSize").fadeIn();
+                            };
+                        },
+                        error: function() {
+                            console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                        }
+                    });
+                    // search for a ticket number that matches the search critera
+                    $.ajax({
+                        type: 'GET',
+                        beforeSend: function (xhr) {
+                            xhr.withCredentials = true;
+                            xhr.setRequestHeader('Authorization',
+                                                 'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                        },
+
+                        url:ApiSite +"tickets/?status=open"+searchItem,
+                        dataType:"json",
+                        success: function(returnData) {
+                            localStorage.setItem("ticketNumber",searchItem);
+                            window.location = "ticket_detail.html";
+
+
+                        },
+                        complete:function(){
+                            function reveal(){
+                                $(".loadScreen").hide();
+                                $(".maxSize").fadeIn();
+                            };
+                        },
+                        error: function() {
+
+                            console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                        }
+                    });
+
+                    // search for tickets containing the search critera in the subject and return a list
+                    $.ajax({
+                        type: 'GET',
+                        beforeSend: function (xhr) {
+                            xhr.withCredentials = true;
+                            xhr.setRequestHeader('Authorization',
+                                                 'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                        },
+
+                        url:ApiSite +"tickets",
+                        dataType:"json",
+                        success: function(returnData) {
+                            console.log(returnData);
+                            for(var i = 0; i < returnData.length; i++)
+                            {
+                                if(returnData[i].subject.toLowerCase().indexOf(searchItem) >= 0)
+                                {
+                                    matchedTickets.push(returnData[i]);
+                                    found = true;
+
+                                }
+                            }
+                            if(found == false){
+                                $(".searchReturn").show();
+                                $("body").addClass("bodyLock");
+                                var insert = "<li class='' data-id=null><span class='returnedItem'>Nothing matches that Search</span></li>";
+                                $(insert).appendTo(".searchReturn");
+                            }
+                            // add list of tickets that match the search critera
+                            for(var a = 0; a < matchedTickets.length; a++)
+                            {
+                                $(".searchReturn").show();
+                                $("body").addClass("bodyLock");
+                                var insert = "<li class='searched' data-id="+matchedTickets[a].key+"><span class='returnedItem'> #"+matchedTickets[a].number+" "+matchedTickets[a].subject +"</span></li>";
+                                $(insert).appendTo(".searchReturn");
+                            }
+                        },
+                        complete:function(){
+                            function reveal(){
+                                $(".loadScreen").hide();
+                                $(".maxSize").fadeIn();
+                            };
+                        },
+                        error: function() {
+
+                            console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                        }
+                    });
+                    // close the search when the "X" icon is pressed
+                    $(document).on("click",".searchCloseExpanded", function(){
+                        $("body").removeClass("bodyLock");
+                        $(".searchReturn").hide();
+                        $(".searchReturn").empty();
+                    });
+                    // close the search when something outside of the search is pressed
+                    $(document).on("click",".bodyLock", function(){
+                        $("body").removeClass("bodyLock");
+                        $(".searchReturn").hide();
+                        $(".searchReturn").empty();
+                    });
+                    // go to the ticket detail of the pressed returned search return
+                    $(document).on("click",".searched", function(){
+                        $("body").removeClass("bodyLock");
+                        localStorage.setItem('ticketNumber', $(this).attr("data-id"));
+                        window.location = "ticket_detail.html";
+                    });
+                }
+
+
+            });
+
+        }
+    };
+
+    // add time to an account
+    var addTime = {
+        init:function(){
+            this.inputTime();
+            this.accountTime();
+        },
+
+        accountTime:function() {
+            $("#addTimeAccount").click(function(){
+                window.location = "add_time.html";
+            });
+        },
+
+        inputTime:function(){
+            var ticketKey = localStorage.getItem('ticketNumber');
+            var isBillable = true;
+            var date = new Date().toJSON().slice(0,10);
+            // on submit click get the time and note typed by the user
+            $("#submitTicketTime").click(function(){
+                var time = $("#addTimeTicket").val();
+                var note = htmlEscape($("#noteTimeTicket").val().trim());
+                var tech = localStorage.getItem('techId');
+                var task_type = $("#ticketTaskTypes").val();
+                if (note.length < 1)
+                {
+                    userMessage.showMessage(false, "Please enter note");
+                    return;
+                }
+                if (note.length > 500)
+                {
+                    userMessage.showMessage(false, "Note cannot be more than 500 chars!");
+                    return;
+                }
+                // check to see if user check for time to be billable
+                if($(".innerCircle").hasClass("billFill")){
+                    isBillable = true;
+                }else{
+                    isBillable = false;
+                }
+                // add time to the orginization
+                getApi('time',
+                       {
+                    "ticket_key": ticketKey,
+                    "note_text": note,
+                    "task_type_id": task_type,
+                    "hours": time,
+                    "is_billable": isBillable,
+                    //"date": date,
+                    //"start_date": new Date().toJSON(),
+                    //"stop_date": new Date().toJSON(),
+                    "tech_id": tech,
+                },
+                       'POST').then(function (d) {
+                    localStorage.setItem('isMessage','truePos');
+                    localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
+                    window.location = "ticket_detail.html";
+                },
+                                    function (e, textStatus, errorThrown) {
+                    alert(textStatus);
+                }
+                                   );
+            });
+
+            //get task types
+            var taskTypes = getApi("task_types");
+            taskTypes.then(
+                function(returnData) {
+                    console.log(returnData);
+                    $("#taskTypes").empty();
+                    // add task types to list
+                    fillSelect(returnData, "#taskTypes");
+                    var chooseTask = '<option value=0>choose a task type</option>';
+                    $(chooseTask).prependTo('#taskTypes');
+                    reveal();
+                },
+                function() {
+                    console.log("fail @ task types");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            );
+
+            if (!$("#submitTicketTime").length)
+            {
+                if(!isProject)
+                    $("#timeProjects").parent().hide();
+                else
+                {
+                    var chooseProject = "<option value=0>choose a project</option>";
+                    $(chooseProject).appendTo("#timeProjects");
+                }
+                if(!isAccount)
+                    $("#timeAccounts").parent().hide();
+                else
+                {
+                    //get accounts
+                    getApi("accounts").then(function(returnData) {
+                        //console.log(returnData);
+                        $("#timeAccounts").empty();
+                        var chooseAccount = "<option value=0>choose an account</option>";
+                        $(chooseAccount).appendTo("#timeAccounts");
+                        // accounts to add time
+                        for(var i = 0; i < returnData.length; i++)
+                        {
+                            var value = returnData[i].id;
+                            var task = returnData[i].name;
+                            var insert = "<option value="+value+">"+task+"</option>";
+                            $(insert).appendTo("#timeAccounts");
+                        }
+                        reveal();
+
+                    },
+                                            function() {
+                        console.log("fail @ time accounts");
+                        console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    }
+                                           );
+                }
+
+                if (isProject){
+                    $("#timeAccounts").on("change", function(){
+                        var account = $("#timeAccounts").val();
+                        $("#timeProjects").empty();
+                        $("<option value=0>choose a project</option>").appendTo("#timeProjects");
+                        if (account !== "0"){
+                            //get projects
+                            getApi("accounts/"+account).then(
+                                function(returnData) {
+                                    //console.log(returnData);
+                                    // add projects
+                                    fillSelect(returnData.projects, "#timeProjects");
+                                    reveal();
+
+                                },
+                                function() {
+                                    console.log("fail @ time accounts");
+                                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                                }
+                            );
+                        }
+                        else
+                            $("#timeProjects").parent().show();
+                    });
+                }
+
+                // submit time to account
+                $("#submitTime").click(function(){
+                    var time = $("#addTimeTicket").val();
+                    var note = htmlEscape($("#noteTime").val().trim());
+                    var tech = localStorage.getItem('userId');
+                    var accountId = $("#timeAccounts").val();
+                    var projectId = $("#timeProjects").val();
+                    var taskId = $("#taskTypes").val();
+                    if($(".innerCircle").hasClass("billFill")){
+                        isBillable = true;
+                    }else{
+                        isBillable = false;
+                    }
+                    if(time == 0){
+                        userMessage.showMessage(false, "Oops not enough time");
+                        return;
+                    } else if(accountId == '0'){
+                        userMessage.showMessage(false, "choose an account");
+                        return;
+                    }else{
+                        $.ajax({
+                            type: 'POST',
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader('Authorization',
+                                                     'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                            },
+                            url: ApiSite + 'time',
+                            data: {
+                                "tech_id" : tech,
+                                "project_id": projectId,
+                                "account_id" :accountId,
+                                "note_text": note,
+                                "task_type_id":taskId,
+                                "hours":time,
+                                "is_billable": isBillable,
+                                //"date": date,
+                                //"start_date": new Date().toJSON(),
+                                //"stop_date": new Date().toJSON(),
+                            },
+                            dataType: 'json',
+                            success: function (d) {
+                                localStorage.setItem('isMessage','truePos');
+                                localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
+                                window.location = "dashboard.html";
+                            },
+                            error: function (e, textStatus, errorThrown) {
+                                alert(textStatus);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    };
+
+    // needed methods to propogate a ticket detailed page
+    var detailedTicket = {
+        init:function(){
+            if (!isTech){
+                $(".tabs").hide();
+                $("#closeIt").show();
+            }
+            else
+            {
+                $("#closeIt").remove();
+            }
+            this.showTicket();
+        },
+
+        showTicket:function(){
+            if(localStorage.getItem("isMessage") == "truePos")
+            {
+                userMessage.showMessage(true);
+            }
+            // listen for a click of a ticket block from a ticket list page (account detail  ticket list or complete ticket list)
+            $(document).on("click",".responseBlock", function(){
+                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
+                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
+            });
+            $('html,body').css('scrollTop','0');
+            getApi("tickets/"+localStorage.getItem('ticketNumber')).then(
+                function(returnData) {
+                    console.log(returnData);
+                    // calculate the number of days since the ticket was created
+                    var daysOld = returnData.daysold_in_minutes / -60;
+                    localStorage.setItem('techId', returnData.tech_id); // set the local storage variable with the tech id asscioted with this ticket
+                    localStorage.setItem('ticketId',returnData.id); // set the local storage variable with the ticket ID
+                    // check to see if the ticket is less than a day old
+                    if(daysOld > 24){
+                        daysOld = daysOld/24;
+                        daysOld = parseInt(daysOld);
+                        daysOld = daysOld +" days ago";
+                    } else {
+                        daysOld = parseInt(daysOld) +" hours ago";
+                    }
+                    //check to see if a ticket is closed or open. If a ticket is closed the offer the reopen option
+                    if(returnData.status == 'Closed'){
+                        $('#closeIt').hide();
+                    }else{
+                        $('#openIt').hide();
+                    }
+                    // update page variables with correct ticket information
+                    var ticketHours = returnData.total_hours;
+                    $("#ticketNumber").html(returnData.status+" | "+returnData.number);
+                    $("#ticketSubject").html(returnData.subject);
+                    $("#ticketClass").html(returnData.class_name);
+                    $("#ticketTech").html(returnData.tech_firstname);
+                    $("#lastUpdate").html(daysOld);
+                    if(ticketHours != 0){
+                        $("#ticketHours").html(ticketHours+" Hours");
+                    }else{
+                        $('#ticketHours').hide();
+                    }
+                    if(returnData.sla_complete_date == null)
+                    {
+                        $('#ticketSLA').hide();
+                    }
+                    else
+                    {
+                        $("#ticketSLA").html("SLA: "+returnData.sla_complete_date.toString().substring(0,10));
+                    }
+                    var ticketTech = returnData.tech_email;
+                    console.log(ticketTech);
+                    if(ticketTech == localStorage.getItem('userName')){
+                        $('#pickUp').hide();
+                    } 
+                    //$("ul").find("[data-id='info']").click(function(){
+
+                    var classes = getApi('classes');
+                    var priorities = getApi('priorities');
+
+                    $("#ticketLevel").empty();
+                    if (!isLevel) $("#ticketLevel").parent().hide();
+                    else{
+                        // add select options to level Option box
+                        var levels = getApi('levels');
+                        levels.done(
+                            function(levelResults){
+                                if (fillSelect(levelResults, "#ticketLevel", "", "Level: ") > 0)
+                                    $("#ticketLevel").val(returnData.level);
+                            }
+                        );
+                    }
+                    $("#classOptions").empty();
+                    classes.done(
+                        function(classResults){
+                            //Init ticket class if not changed
+                            selectedEditClass = returnData.class_id;
+                            fillClasses(classResults, "#classOptions", "<option data-classId="+returnData.class_id+" value="+returnData.class_id+">Class: "+returnData.class_name+"</option>");
+                        });
+
+                    $("#ticketPriority").empty();
+                    // add select options to priority option box
+                    priorities.done(
+                        function(prioritiesResults){
+                            var priorityInsert = "";
+                            for(var b = 0; b < prioritiesResults.length; b++)
+                            {
+                                priorityInsert += "<option value="+prioritiesResults[b].id+">Priority: " + prioritiesResults[b].priority_level + " - " +prioritiesResults[b].name+"</option>";
+                            }
+                            $(priorityInsert).appendTo("#ticketPriority");
+                            $("#ticketPriority").val(returnData.priority_id);
+                        }
+                    );
+                    $("#ticketTechs").empty();
+                    // add select options to tech Option box
+                    for(var b = 0; b < returnData.technicians.length; b++)
+                    {
+                        var techName = returnData.technicians[b].user_fullname;
+                        var techId = returnData.technicians[b].user_id;
+                        var insert = "<option value="+techId+">"+techName+"</option>";
+                        $(insert).appendTo("#ticketTechs");
+                    }
+
+
+                    $("#location").remove();
+
+
+                    if (!isProject)
+                        $("#project").hide();
+                    else
+                    {
+                        // add select options to project option box
+                        var projects = getApi('projects');
+                        projects.done(
+                            function(projectResults){
+                                if (fillSelect(projectResults, "#ticketProject", returnData.project_name == "" ? "<option value='null' disabled selected>Project</option>" : "") >0){
+                                    if (returnData.project_name != "") $("#ticketProject").val(returnData.project_id);
+                                }
+                            }
+                        );
+                    }
+                    $(".updateButton").click(function(){
+                        //var ticketAccount = $('form.update_ticket select#account').val(),
+                        var	ticketClass = selectedEditClass,
+                            ticketLevel = $("#ticketLevel").val(),
+                            ticketPriority = $("#ticketPriority").val(),
+                            ticketProject = $("#ticketProject").val();
+
+                        var response = {
+                            //"account_id" : ticketAccount,
+                            "class_id" : ticketClass,
+                            "level_id" : ticketLevel,
+                            "priority_id" : ticketPriority,
+                            "project_id" : ticketProject
+                        }
+
+                        var method = 'tickets/' + localStorage.getItem('ticketId');
+
+                        var updateEditTicket = getApi(method, response, 'PUT');
+
+                        updateEditTicket.then(function(results){
+
+                            console.log('Then Complete');
+                            userMessage.setMessage(true, "Ticket was successfully updated <i class='fa fa-thumbs-o-up'></i>");
+                            window.location = "ticket_detail.html";
+                            userMessage.showMessage(true);
+
+                            //SherpaDesk.getTicketDetail(configPass, key);
+                            //addAlert("success", "Ticket has been Updated");
+
+                        });
+                    });
+                    //});
+                    //add comments (ticketLogs) to the page
+                    $("#comments").empty();
+                    for(var c = 1; c < returnData.ticketlogs.length; c++)
+                    {
+                        var email = $.md5(returnData.ticketlogs[c].user_email);
+                        var type = returnData.ticketlogs[c].log_type;
+                        var userName = returnData.ticketlogs[c].user_firstname+" "+returnData.ticketlogs[c].user_lastname;
+                        var note = returnData.ticketlogs[c].note;
+                        var date = returnData.ticketlogs[c].record_date.toString().substring(0,10);
+                        date = formatDate(date);
+                        var attachments = [];
+                        //check to see if this comment has attachments
+                        if(returnData.attachments != null){
+                            for(var e = 0; e < returnData.attachments.length; e++)
+                            {
+                                if(note.indexOf(returnData.attachments[e].name) >= 0)
+                                {
+                                    attachments.push(returnData.attachments[e].url);
+                                }
+                            }
+                        }
+
+                        // comment insert
+                        var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+note.replace(/\n/g, '<p></p>').replace("<br>", "<p></p>")+"</p></li><li>"+type+"</li></ul>";
+                        $(insert).appendTo("#comments");
+                        for(var f = 0; f < attachments.length; f++)
+                        {
+                            var insert = "";
+                            if (isPhonegap)
+                                insert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +attachments[f] + "\")'><img class=\"attachment\" src=\"" +attachments[f] + "\"></a>";
+                            else
+                                insert = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +attachments[f] + "\"><img class=\"attachment\" src=\""  +attachments[f]+  "\"></a>";
+                            $(insert).appendTo("#comments");
+                        }
+                        if(attachments.length > 0)
+                        {
+                            borderInsert = "<div class='attachmentBorder'></div>";
+                            $(borderInsert).appendTo("#comments");
+                        }
+                    }
+                    $(".orginalMessageContainer").empty();
+                    // add the lastest comment to the top of the comments list
+                    var orginalMessageEmail = $.md5(returnData.ticketlogs[0].user_email);
+                    var orginalMessageDate = returnData.ticketlogs[0].record_date.toString().substring(0,10);
+                    orginalMessageDate = formatDate(orginalMessageDate);
+                    var note = returnData.ticketlogs[0].note;
+                    var attachments = [];
+                    //check to see if this comment has attachments
+                    if(returnData.attachments != null){
+                        for(var e = 0; e < returnData.attachments.length; e++)
+                        {
+                            if(note.indexOf(returnData.attachments[e].name) >= 0)
+                            {
+                                if (isPhonegap)
+                                    attachments[e] = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +returnData.attachments[e].url + "\")'><img class=\"attachment\" src=\"" +returnData.attachments[e].url+ "\"></a>";
+                                else
+                                    attachments[e] = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +returnData.attachments[e].url + "\"><img class=\"attachment\" src=\""  +returnData.attachments[e].url+  "\"></a>";
+                                $(attachments[e]).error(function(){
+                                    attachments[e] = "0";
+
+                                });
+
+                            }
+                        }
+                    }
+                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note.replace(/\n/g, '<p></p>').replace("<br>", "<p></p>")+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul></div>";
+
+                    $(orginalMessageinsert).appendTo(".orginalMessageContainer");
+
+                    if(returnData.attachments != null)
+                    {
+                        for(var f = 0; f < attachments.length; f++)
+                        {
+                            var attach = attachments[f];
+                            $(attach).appendTo(".orginalMessageContainer");
+                        }
+
+                    }
+                    reveal();
+                },
+                function() {
+                    console.log("fail @ Ticket Detail");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    localStorage.setItem('ticketId', "");
+                    window.location = "ticket_list.html";
+                }
+            );
+
+        }
+    };
+
+    //get info for a specific invoice
+    var detailedInvoice = {
+        init:function(){
+            this.specifics();
+        },
+
+        specifics:function(){
+            $(document).on("click",".invoiceRows", function(){
+                localStorage.setItem('invoiceNumber',$(this).attr("data-id"));
+                window.location = "invoice.html";
+            });
+
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"invoices/"+localStorage.getItem("invoiceNumber"),
+                dataType:"json",
+                success: function(returnData) {
+                    //console.log(returnData);
+                    localStorage.setItem("invoiceAccountId",returnData.account_id);
+                    localStorage.setItem("invoiceProjectId",returnData.project_id);
+                    $("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number
+                    var nameCheck = returnData.customer;
+                    nameCheck = createElipse(nameCheck, .70, 12);
+                    $("#customerName").html(nameCheck); // customer name
+                    var date = returnData.date.substring(0,10);
+                    date = formatDate(date);
+                    $("#invoiceDate").html(date);
+                    $("#invoiceHours").html(returnData.total_hours+"<span class='detail3Small'>hrs</span>"); // hours to invoice
+                    var amount = 0;
+                    var change = ".00";
+                    var length = returnData.amount.toString().length;
+                    if(returnData.amount.toString().indexOf(".") >= 0)
+                    {
+                        amount = returnData.amount.toString().substring(0, length -3);
+                        change = "."+returnData.amount.toString().substring(length-2, length);
+                        if(change.indexOf("..") >= 0)
+                        {
+                            change = "."+returnData.total_cost.toString().substring(length-1, length)+"0";
+                        }
+                    }
+                    else
+                    {
+                        amount = returnData.amount;
+                    }
+                    $("#invoiceAmount").html(localStorage.getItem('currency')+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount
+                    if (!isTravelCosts) {
+                        $("#invoiceTravel").parent().parent().hide();
+                    }
+                    else {
+                        $("#invoiceTravel").html(localStorage.getItem('currency') + returnData.travel_cost + "<span class='detail3Small'>.00</span>");
+                    }
+                    // travel expenses amount
+                    if (!isExpenses)
+                        $("#invoiceExpenses").parent().parent().hide();
+                    else {
+                        var expenses = 0;
+                        if (returnData.expenses != null) {
+                            for (var i = 0; i < returnData.expenses.length; i++) {
+                                expenses = expenses + returnData.expenses[i].total;
+                            }
+                        }
+                        $("#invoiceExpenses").html(localStorage.getItem('currency') + expenses + "<span class='detail3Small'>.00</span>"); // expenses amount
+                    }
+                    // adjustments
+                    $("#invoiceAdjustments").html(localStorage.getItem('currency') + "0<span class='detail3Small'>.00</span>");
+                    //$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
+                    console.log(Number(returnData.total_cost).toFixed(2).toString());
+                    amount = Number(returnData.total_cost).toFixed(2).toString();
+                    change = amount.substring(amount.length-3, amount.length);
+                    amount = amount.substring(0, amount.length -3);
+                    $(".invoiceTotal").html(localStorage.getItem('currency') + amount + "<span class='detail3Small'>" + change + "</span>");
+                    $("#recipientList").empty();
+                    // add recipients to recipients list
+                    if(returnData.recipients != null && returnData.recipients.length > 0){
+                        for(var x = 0; x < returnData.recipients.length; x++)
+                        {
+                            var email = $.md5(returnData.recipients[x].email);
+                            var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p>" +
+                                (returnData.recipients[x].is_accounting_contact ? "<img class='closeIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/close_icon.png'>" : "<img class=plusIcon id=\""+ returnData.recipients[x].email +"\" src='img/plus_icon.png'>") +
+                                "</div></li></ul></li>";
+                            $(insert).appendTo("#recipientList");
+                        }
+                    }
+                    else
+                    {
+                        var insert = "<li><h3 class=noDataMessage>No accounting contacts found.</h3></li>";
+                        $(insert).appendTo("#recipientList"); 
+                        $("#sendInvoiceButton").remove();
+                    }
+
+                    // adds timelogs asscoited with this invoice to the invoice timelogs list
+                    $("#invoiceLogs").empty();
+                    if(returnData.time_logs != null){
+                        for(var u = 0; u < returnData.time_logs.length; u++)
+                        {
+                            var name = returnData.time_logs[u].name;
+                            var log = returnData.time_logs[u].total;
+                            var date = formatDate(returnData.time_logs[u].date.substring(0,10));
+                            var logID = returnData.time_logs[u].id;
+                            var insert = "<li><ul id='invoiceTimelog' data-id='"+logID+"'  class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span></h3></li></ul></li>";
+                            $(insert).appendTo("#invoiceLogs");
+                        }
+                    }
+                    if(returnData.recipients != null){
+                        $("#expensesList").empty();
+                        for(var c = 0; c < returnData.expenses.length; c++)
+                        {
+                            var name = returnData.expenses[c].name;
+                            var log = returnData.expenses[c].total;
+                            var date = formatDate(returnData.expenses[c].date.substring(0,10));
+                            var logID = returnData.expenses[c].id;
+                            var insert = "<li><ul id='invoiceExpense' class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
+                            $(insert).appendTo("#expensesList");
+                        }
+                    }
+
+                },
+                complete:function(){
+                    function reveal(){
+                        $(".loadScreen").hide();
+                        $(".maxSize").fadeIn();
+                    };
+                },
+                error: function() {
+                    console.log("fail @ Invoice details");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+
+        }
+    };
+
+    /*
+	//methods & Api calls that deal with changing time adding adjustments, expenses
+	var updateInvoice ={
+		init:function(){
+			this.changeInvoice();
+		},
+
+		changeInvoice:function(){
+			//update timelog after being clicked
+			$(document).on("click","#invoiceTimelog, #billem",function(){
+				var timeId = $(this).attr("data-id");
+				var billable = false;
+				$(this).find(".innerCircle").toggleClass("billFill");
+				//change billable to oposite of its current state
+				if($(this).find(".innerCircle").hasClass("billFill"))
+				{
+					billable = false;
+				}
+				$.ajax({
+    				type: 'PUT',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization',
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: ApiSite + 'time/'+timeId,
+    				data: {
+    				    	"is_billable" : billable,
+							"is_project_log": true
+						   },
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("time log has been updated "+billable);
+
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+
+			});
+			//update expense after beign clicked
+			$(document).on("click","#invoiceExpense",function(){
+				var timeId = $(this).find(".timeLogAddButton").attr("data-id");
+				alert(timeId);
+				$(this).find(".innerCircle").toggleClass("billFill");
+
+				$.ajax({
+    				type: 'DELETE',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization',
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: ApiSite + 'expenses'+timeId,
+    				data: {
+
+						   },
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("Deleted Expense");
+
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+			});
+
+			//add an expense
+			$("#addexpenseButton").click(function(){
+
+				$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization',
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: ApiSite + 'expenses',
+    				data: {
+    				    	"account_id": localStorage.getItem("invoiceAccountId"),
+    						"project_id": localStorage.getItem("invoiceProjectId"),
+    						"tech_id": localStorage.getItem("user_id"),
+    						"note": $("#expensesNote").val(),
+    						"note_internal": $("#expensesInternal").val(),
+    						"amount": $("#expenseAmount").val(),
+    						"is_billable": true,
+    						"vendor": "vendor name",
+    						"markup": 10
+						   },
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("time log has been added");
+
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+			});
+
+			//add travel log
+			$("#addTravelLog").click(function(){
+
+			});
+
+			//addTime to an invoice
+			$("#submitInvoiceTime").click(function(){
+				var techId = localStorage.getItem("userId");
+				var projectId = localStorage.getItem("invoiceProjectId");
+				var accountId = localStorage.getItem("invoiceAccountId");
+				var note = $("#noteTimeTicket").val();
+				var hours = $("#addTimeTicket").val();
+				console.log(techId);
+				console.log(projectId);
+				console.log(accountId);
+				console.log(note);
+				console.log(hours);
+				$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization',
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: ApiSite + 'time',
+    				data: {
+    				    	"tech_id" : techId,
+    						"project_id": projectId,
+    						"account_id" :accountId,
+    						"note_text": note,
+    						"task_type_id": 1,
+    						"hours":hours,
+    						"is_billable": true,
+    						"date": new Date().toJSON(),
+    						"start_date": new Date().toJSON(),
+    						"stop_date": new Date().toJSON()
+						   },
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("time log has been added");
+
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+
+			});
+
+			//add and adjustment to an invoice
+			$("#addAdjustment").click(function(){
+				var amount = $("#adjustVal").val();
+				var note= $("#adjustNote").val();
+				var projectId = localStorage.getItem("invoiceProjectId");
+				var accountId = localStorage.getItem("invoiceAccountId");
+				$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization',
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: ApiSite + 'invoices?status=unbilled&project=-1&account=-1&adjustments=-2.4&adjustments_note=my_note',
+    				data: {
+
+						   },
+    				dataType: 'json',
+    				success: function (d) {
+    				    location.reload(false);
+
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+			});
+
+		}
 	};
-	
-// handlebars helpers
+	*/
 
-Handlebars.registerHelper('linebreaks', function(context) {
-    return context.replace(/\n/g, "<br />");
-});	
+    // get a list of invoices both for a specific account as well as a complete list of invoices
+    var invoiceList = {
+        init:function(accountid){
+            this.listInvoices(accountid);
+        },
 
-Handlebars.registerHelper('htmlEscape', function(context) {
-    return context
-        .replace(/&amp;/g, "&" )
-        .replace(/&quot;/, '/"')
-        .replace(/&apos;/g, "'" )
-        .replace(/&lt;/g, "<" )
-        .replace(/&gt;/g, ">");
-});	
+        listInvoices:function(accountid){
+            var localInvoiceList = [];
+            // go to list of account invoice on click
+            $("#invoiceOption").click(function(){
+                window.location = "Invoice_List.html";
+            });
+            // go to complete list of invoice on click
+            $("#allInvoice, #invoiceFooter").click(function(){
+                window.location = "allInvoice_List.html";
+            });
+            // get list of invoices for a specific account
+            getApi("invoices", {"account" : accountid}).then(
+                function(returnData) {
+                    //console.log(returnData);
+                    $("#invoiceList").empty();
+                    if(returnData.length == 0){
+                        $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
+                    }
+                    if (accountid)
+                        returnData = [returnData];
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        var customer = returnData[i].customer; // account name
+                        var date = returnData[i].date.substring(0,10);
+                        // check account name for display purposes
+                        date = formatDate(date);
+                        customer = createElipse(customer, .33, 12);
+                        var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
+                        $(insert).appendTo("#invoiceList");
+                        if (!accountid) localInvoiceList.push(insert);
+                    }
+                    if (!accountid) localStorage.setItem("storageInvoices",JSON.stringify(localInvoiceList));
+                    reveal();
+                    //filterList("tabpageContainer");
+                },
+                function() {
+                    console.log("fail @ Invoice List");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            );
+        }
+    };
 
+    // list tickets of the queue
+    var getQueueTickets = {
+        init:function() {
+            this.queueTickets();
+        },
+
+        queueTickets:function() {
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"queues/"+localStorage.getItem("currentQueue"),
+                dataType:"json",
+                success: function(returnData) {
+                    console.log(returnData);
+                    $("#queueTickets").empty();
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#queueTickets");
+                    }
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        // get email for gravitar avitar
+                        var email = $.md5(returnData[i].user_email);
+                        var intialPost = returnData[i].initial_post;
+                        var subject = returnData[i].subject;
+                        var data = returnData[i].key;
+                        subject = createElipse(subject, .75, 12);
+                        if(intialPost.length > 100)
+                        {
+                            intialPost = intialPost.substring(0,100);
+                        }
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initafilPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+
+                        $(ticket).appendTo("#queueTickets");
+                    }
+
+                },
+                complete:function(){
+                    filterList("queueTickets");
+                    reveal();
+                },
+                error: function() {
+                    console.log("fail @ Queues List");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+        }
+    };
+
+    // get complete queue list for the orginization for the Queues list page
+    var getQueues = {
+        init:function() {
+            this.queues();
+        },
+
+        queues:function() {
+            $(document).on("click","#queue", function(){
+                localStorage.setItem('currentQueue',$(this).attr("data-id"));
+                window.location = "queueTickets.html";
+            });
+            var localQueues = [];
+            var retrievedObject = localStorage.getItem("storageQueues");
+            retrievedObject = JSON.parse(retrievedObject);
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            {
+                console.log("could not load local data")
+            }
+            else
+            {
+                for(var a = 0; a < retrievedObject.length; a++)
+                {
+                    localInsert = retrievedObject[a];
+                    $(localInsert).appendTo("#queuesPage");
+                }
+            }
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"queues",
+                dataType:"json",
+                success: function(returnData) {
+                    console.log(returnData);
+                    $("#queuesPage").empty();
+                    // add queues to the queues list
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        var insert = "<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
+                        $(insert).appendTo("#queuesPage");
+                        localQueues.push(insert);
+                    }
+                    localStorage.setItem("storageQueues",JSON.stringify(localQueues));
+
+                },
+                complete:function(){
+                    reveal();
+                    //filterList("OptionsList");
+                },
+                error: function() {
+                    console.log("fail @ Queues List");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+        }
+    };
+
+    // Ajax calls to get open tickets for the app user, tickets include (as tech, as user, as alt tech, all tickets)
+    var page = "";
+    var ticketList = {
+        init:function() {
+            this.userTickets();
+            if (!isTech){
+                $(".TicketTabs").hide();
+            }
+            else
+            {
+                this.techTickets();
+                this.altTickets();
+                this.allTickets();
+            }
+            this.ticketClick();
+        },
+        ticketClick:function() {
+            $(document).on("click",".responseBlock", function(){
+                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
+                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
+            });
+        },
+        //get tickets as tech
+        techTickets:function() {
+            var ticketView = localStorage.getItem("ticketPage");
+            if(ticketView == "asAltTech")
+            {
+                page ="altContainer";
+            }
+            else if(ticketView == "asTech")
+            {
+                page = "techContainer";
+            }
+            else if(ticketView == "asUser")
+            {
+                page ="userContainer";
+            }
+            else if(ticketView == "allTickets")
+            {
+                page ="allContainer";
+            }
+            $("#techContainer, #optionsConainer, #allContainer, #userContainer").empty();
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"tickets?status=open&limit=500&role=tech",
+                dataType:"json",
+                success: function(returnData) {
+                    console.log(returnData);
+                    //add tickets as tech to as tech list
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        // get email for gravitar avitar
+                        var email = $.md5(returnData[i].user_email);
+                        var intialPost = returnData[i].initial_post;
+                        var subject = returnData[i].subject;
+                        var data = returnData[i].key;
+                        subject = createElipse(subject, .75, 12);
+                        //check intial post length can be displayed correctly
+                        if(intialPost.length > 100)
+                        {
+                            intialPost = intialPost.substring(0,100);
+                        }
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+
+                        $(ticket).appendTo("#techContainer");
+                    }
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#techContainer");
+                    }
+                },
+                complete:function(){
+                    //reveal();
+                    featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
+                },
+                error: function() {
+                    console.log("fail @ ticket List");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+        },
+        //get all tickets in this orginization
+        allTickets:function() {
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"tickets?status=allopen&limit=500&query=all",
+                dataType:"json",
+                success: function(returnData) {
+                    console.log(returnData);
+                    //add tickets to the all section
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        //get email for gravitar
+                        var email = $.md5(returnData[i].user_email);
+                        var intialPost = returnData[i].initial_post;
+                        var subject = returnData[i].subject;
+                        var data = returnData[i].key;
+                        subject = createElipse(subject, .75, 12);
+                        //check initial post length
+                        if(intialPost.length > 100)
+                        {
+                            intialPost = intialPost.substring(0,100);
+                        }
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        $(ticket).appendTo("#allContainer");
+                    }
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#allContainer");
+                    }
+                },
+                complete:function(){
+                    //reveal();
+                    featureList3 = filterList("allContainer", "", localStorage.getItem("searchItem"));
+                    //filterList(page, "", localStorage.getItem("searchItem"));
+                    var ticketView = localStorage.getItem("ticketPage");
+                    if(ticketView == "asAltTech")
+                    {
+                        $('#tabpage_reply, #tabpage_all, #tabpage_info').hide();
+                        $('#tabpage_options').fadeIn();
+                        localStorage.setItem('ticketPage',"asTech");
+                    }
+                    else if(ticketView == "asTech")
+                    {
+                        $('#tabpage_reply, #tabpage_all, #tabpage_options').hide();
+                        $('#tabpage_info').fadeIn();
+                    }
+                    else if(ticketView == "asUser")
+                    {
+                        $('#tabpage_info, #tabpage_all, #tabpage_options').hide();
+                        $('#tabpage_reply').fadeIn();
+                        localStorage.setItem('ticketPage',"asTech");
+                    }
+                    else if(ticketView == "allTickets")
+                    {
+                        $('#tabpage_info, #tabpage_reply, #tabpage_options').hide();
+                        $('#tabpage_all').fadeIn();
+                        localStorage.setItem('ticketPage',"asTech");
+                    }
+                    localStorage.setItem("searchItem","");
+
+                },
+                error: function() {
+                    console.log("fail @ ticket List");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+        },
+
+        // get alt tech tickets
+        altTickets:function() {
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"tickets?status=open&limit=500&role=alt_tech",
+                dataType:"json",
+                success: function(returnData) {
+                    console.log(returnData);
+
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        var email = $.md5(returnData[i].user_email);
+                        var intialPost = returnData[i].initial_post;
+                        var subject = returnData[i].subject;
+                        var data = returnData[i].key;
+                        subject = createElipse(subject, .80, 12);
+                        if(intialPost.length > 100)
+                        {
+                            intialPost = intialPost.substring(0,100);
+                        }
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+
+                        $(ticket).appendTo("#altContainer");
+                    }
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#altContainer");
+                    }
+                },
+                complete:function(){
+                    //reveal();
+                    featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
+                },
+                error: function() {
+                    console.log("fail @ ticket List");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+        },
+        // get as user tickets
+        userTickets:function() {
+            $("maxSize").hide();
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"tickets?status=open,onhold&limit=500&role=user",
+                dataType:"json",
+                success: function(returnData) {
+                    console.log(returnData);
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        var email = $.md5(returnData[i].user_email);
+                        var intialPost = returnData[i].initial_post;
+                        var subject = returnData[i].subject;
+                        var data = returnData[i].key;
+                        subject = createElipse(subject, .80, 12);
+                        if(intialPost.length > 100)
+                        {
+                            intialPost = intialPost.substring(0,100);
+                        }
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+
+                        $(ticket).appendTo("#userContainer");
+                    }
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#userContainer");
+                    }
+                },
+                complete:function(){
+                    if (!isTech) {reveal();
+                                  $('#tabpage_reply').fadeIn();}
+                    featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
+                },
+                error: function() {
+                    console.log("fail @ ticket List");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+        }
+    };
+
+    //get a complete list of accounts attached to the orginizations
+    var accountList = {
+        init:function() {
+            this.listAccounts();
+        },
+
+        listAccounts:function() {
+            var localAccountList = [];
+            var retrievedObject = localStorage.getItem("storageAccountList");
+            retrievedObject = JSON.parse(retrievedObject);
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            {
+                console.log("could not load local data")
+            }
+            else
+            {
+                for(var a = 0; a < retrievedObject.length; a++)
+                {
+                    localInsert = retrievedObject[a];
+                    $(localInsert).appendTo("#fullList");
+                }
+            }
+
+
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"accounts",
+                dataType:"json",
+                success: function(returnData) {
+                    console.log(returnData);
+                    $("#fullList").empty();
+
+
+                    //add accounts to accountList
+                    var name = null;
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        name = returnData[i].name;
+                        name = createElipse(name, .80, 12);
+                        // check the number of open tickets for the account if the number of tickets is greater than 100 sub 99+
+                        var openTks = returnData[i].account_statistics.ticket_counts.open;
+                        if( openTks > 99)
+                        {
+                            openTks = "99";
+                            var insert = "<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+name+"</li><li><div class='tks'>"+openTks+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                            $(insert).appendTo($("#fullList"));
+                        }
+                        // else add account and number of tickets normally to the list
+                        else
+                        {
+                            var insert = "<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+name+"</li><li><div class='tks'>"+openTks+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                            $(insert).appendTo($("#fullList"));
+                        }
+                        localAccountList.push(insert);
+                    }
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#fullList");
+                    }
+                    localStorage.setItem("storageAccountList",JSON.stringify(localAccountList));
+                },
+                complete:function(){
+                    reveal();
+                    filterList("ActiveAccountsContainer");
+                },
+                error: function() {
+                    console.log("fail @ listAccounts");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+        }
+    };
+
+    // get complete list of timelogs for the orginization
+    var timeLogs = {
+        init:function() {
+            this.getLogs();
+        },
+
+        getLogs:function() {
+            var localTimelogs = [];
+            var retrievedObject = localStorage.getItem("storageTimeLogs");
+            retrievedObject = JSON.parse(retrievedObject);
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
+                console.log("could not load local data")
+            }
+            else
+            {
+                for(var c = 0; c < retrievedObject.length; c++)
+                {
+                    var localInsertlog = retrievedObject[c];
+                    $(localInsertlog).appendTo("#timelogs");
+                }
+            }
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"time?limit=200",
+                dataType:"json",
+                success: function(returnData) {
+                    $("#timelogs").empty();
+                    //add timelogs to list
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        //get users email for gravitar
+                        var email = $.md5(returnData[i].user_email);
+                        var text = returnData[i].note;
+                        //check to see if hours are has a decimal
+                        var hours = returnData[i].hours;
+                        hours =hours.toString();
+                        var nameCheck = returnData[i].user_name;
+                        text = createElipse(text,.50, 8);
+                        if(hours.indexOf(".") >= 0)
+                        {
+                            // do nothing
+                        }
+                        else
+                        {
+                            hours = hours+".00";
+                        }
+                        nameCheck = createElipse(nameCheck,.50, 12);
+                        var log = "<li class=item><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName user_name'>"+nameCheck+"</h2><p class='taskDescription responseText'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
+                        $(log).appendTo("#timelogs");
+                        localTimelogs.push(log);
+                    }
+                    localStorage.setItem("storageTimeLogs",JSON.stringify(localTimelogs));
+                    filterList("timelogs");
+                },
+                error: function() {
+                    console.log("fail @ timelogs");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+        }
+    };
+
+
+    // calls and methods to propagate the account details page
+    var accountDetailsPageSetup = {
+        init:function() {
+            this.clickedAccount();
+            this.pageSetup();
+        },
+        // when an account is clicked from the active accounts list & account list page, save the account id & set window location to account_details.html
+        clickedAccount: function() {
+            $(document).on("click",'.tableRows, .listedAccount', function(){
+                localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
+                window.location = "account_details.html";
+            });
+        },
+
+        pageSetup: function() {
+            var currentDetailedAccount = localStorage.getItem('DetailedAccount');
+            var accountHours;
+            var accountTickets;
+            var accountInvoices;
+            var accountName;
+            var retrievedObject = localStorage.getItem(currentDetailedAccount);
+            var retrievedObjectTickets = localStorage.getItem(currentDetailedAccount+'tickets');
+            var accountTicketsList = [];
+            retrievedObjectTickets = JSON.parse(retrievedObjectTickets);
+            retrievedObject = JSON.parse(retrievedObject);
+
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
+                console.log("could not load local data")
+            }
+            else
+            {
+                console.log(retrievedObject);
+                $("#AD").html(retrievedObject.name);
+                $("#ticketsOptionTicker").html(retrievedObject.tickets);
+                $("#invoiceOptionTicker").html(retrievedObject.invoices);
+                $("#timesOptionTicker").html(retrievedObject.hours);
+                for(var d = 0; d < retrievedObjectTickets.length; d++){
+                    var localInsert = retrievedObjectTickets[d];
+                    $(localInsert).appendTo(".AccountDetailsTicketsContainer");
+                }   
+            }
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"accounts/"+localStorage.getItem("DetailedAccount"),
+                dataType:"json",
+                success: function(returnData) {
+                    console.log(returnData);
+                    //update numbers of notification tickers (open tickets / invoices / Times)
+                    accountHours = returnData.account_statistics.hours;
+                    accountTickets = returnData.account_statistics.ticket_counts.open;
+                    accountInvoices = returnData.account_statistics.invoices;
+                    accountName = returnData.name;
+                    if(accountHours > 999){
+                        accountHours = '999';
+                    }
+                    accountHours = accountHours.toString();
+
+                    if(accountTickets > 999){
+                        accountTickets = '999';
+                    }
+                    if(accountInvoices > 999){
+                        accountInvoices = '999';
+                    }
+                    $("#AD").html(accountName);
+                    $("#ticketsOptionTicker").html(accountTickets);
+                    $("#invoiceOptionTicker").html(accountInvoices);
+                    $("#timesOptionTicker").html(accountHours);
+                    //store account detail on local storage 
+                    var localAccountData = {
+                        'name': accountName,
+                        'tickets': accountTickets,
+                        'hours': accountHours,
+                        'invoices': accountInvoices
+                    };
+                    localStorage.setItem(currentDetailedAccount,JSON.stringify(localAccountData));
+                },
+                complete:function(){
+                    function reveal(){
+                        $(".loadScreen").hide();
+                        $(".maxSize").fadeIn();
+                    };
+                    window.setTimeout(reveal,500);
+                },
+                error: function() {
+                    console.log("fail @ accounts");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+            // get the open tickets for the account and list them in the open tickets list
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"tickets?status=open&account="+localStorage.getItem("DetailedAccount"),
+                dataType:"json",
+                success: function(returnData) {
+                    $(".AccountDetailsTicketsContainer").empty();
+                    //insert open tickets
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        // get email value for gravatar
+                        var email = $.md5(returnData[i].user_email);
+                        var initialPost = returnData[i].initial_post;
+                        var subject = returnData[i].subject;
+                        //the key for this specific ticket
+                        var data = returnData[i].key;
+                        subject = createElipse(subject, .80, 12);
+                        // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
+                        if(initialPost.length > 50)
+                        {
+                            initialPost = initialPost.substring(0,50);
+                        }
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        $(ticket).appendTo(".AccountDetailsTicketsContainer");
+                        accountTicketsList.push(ticket);
+                        filterList("AccountDetailsTicketsContainer");
+                    }
+                    localStorage.setItem(currentDetailedAccount+'tickets',JSON.stringify(accountTicketsList));
+
+                },
+                error: function() {
+                    console.log("fail @ accounts");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+        }
+
+    };
+
+    // get timeLogs for a specific account
+    var accountTimeLogs = {
+        init:function(){
+            this.getTimeLogs();
+        },
+
+        getTimeLogs: function () {
+            var accountId = localStorage.getItem("DetailedAccount");
+            if (!accountId)
+                accountId = -1;
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url: ApiSite +"time?account=" + accountId,
+                dataType:"json",
+                success: function(returnData) {
+                    console.log(returnData);
+                    $("#accountLogs").empty();
+                    //add timelogs to log list
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        var email = $.md5(returnData[i].user_email);
+                        var text = returnData[i].note;
+                        // check for two decimals
+                        var hours = returnData[i].hours;
+                        hours =hours.toString();
+                        if(hours.indexOf(".") >= 0)
+                        {
+                            // do nothing
+                        }
+                        else
+                        {
+                            hours = hours+".00";
+                        }
+                        text = createElipse(text, .50, 8);
+                        var nameCheck = returnData[i].user_name;
+                        nameCheck = createElipse(nameCheck, .50, 12);
+                        var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
+                        $(log).appendTo("#accountLogs");
+                    }
+
+                },
+                error: function() {
+                    console.log("fail @ timelogs");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+        }
+    };
+
+    // store user variables into local storage
+    var storeLocalData = function() {
+        localStorage.setItem('userOrgKey',userOrgKey);
+        localStorage.setItem('userOrg',userOrg);
+        localStorage.setItem('userInstanceKey',userInstanceKey);
+        localStorage.setItem('userKey',userKey);
+    };
+
+    // get the counts for open tickets (as tech, alt tech, user) and updates the ticket banner on the dashboard
+    var getTicketCount = function() {
+        $('html,body').css('scrollTop','0');
+        $("#all").html(localStorage.getItem("allTickets"));
+        $("#userStat").html(localStorage.getItem("userStat"));
+        $("#techStat").html(localStorage.getItem("techStat"));
+        $("#altStat").html(localStorage.getItem("altStat"));
+        $.ajax({
+            type: 'GET',
+            beforeSend: function (xhr) {
+                xhr.withCredentials = true;
+                xhr.setRequestHeader('Authorization',
+                                     'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+            },
+
+            url:ApiSite +"tickets/counts",
+            dataType:"json",
+            success: function(returnData) {
+                console.log(returnData);
+                var allTickets = returnData.open_all;
+                //if ticket count is greater than 100 sub 99+
+                if(allTickets > 100){
+                    allTickets = "99<div class='overflowTickets headerOverflowTickets'><p class='headerOverflowTicketsP'>+</p></div>";
+                    //$("all").addClass("toManyTks");
+                }
+                // update each notification ticker on the dashboard
+                $("#all").html(allTickets);
+                $("#UserStat").html(returnData.open_as_user);
+                $("#techStat").html(returnData.open_as_tech);
+                $("#altStat").html(returnData.open_as_alttech);
+                localStorage.setItem("allTickets",allTickets);
+                localStorage.setItem("userStat",returnData.open_as_user);
+                localStorage.setItem("techStat",returnData.open_as_tech);
+                localStorage.setItem("altStat",returnData.open_as_alttech);
+
+
+            },
+            error: function() {
+                console.log("fail @ get getTicketCount");
+                console.log(userOrgKey + '-' + userInstanceKey +':'+userKey);(userOrg);
+            }
+        });
+    };
+
+    //get instance config
+    var getInstanceConfig = function (_userOrgKey, _userInstanceKey, is_redirect, paramFunc) {
+
+        if (typeof is_redirect === "undefined")
+            is_redirect = true;        
+        if (!_userOrgKey || !_userInstanceKey) {
+            _userOrgKey = localStorage.getItem('userOrgKey');
+            _userInstanceKey = localStorage.getItem('userInstanceKey');
+        }
+        if (!_userOrgKey || !_userInstanceKey) {
+            return;
+        }
+        //get instance config
+        getApi("config").then(function (returnData) {
+            localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
+            isTech = returnData.user.is_techoradmin;
+            localStorage.setItem('projectTracking', returnData.is_project_tracking);
+            localStorage.setItem('timeTracking', returnData.is_time_tracking);
+            localStorage.setItem('accountManager', returnData.is_account_manager);
+            localStorage.setItem('ticketLevels', returnData.is_ticket_levels);
+            localStorage.setItem('classTracking', returnData.is_class_tracking);
+            localStorage.setItem('locationTracking', returnData.is_location_tracking);
+            localStorage.setItem('freshbooks', returnData.is_freshbooks);
+            localStorage.setItem('is_invoice', returnData.is_invoice);
+            localStorage.setItem('is_expenses', returnData.is_expenses);
+            localStorage.setItem('is_travel_costs', returnData.is_travel_costs);
+            localStorage.setItem('currency', returnData.currency);
+            localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
+            localStorage.setItem('userId', returnData.user.user_id);
+            if (paramFunc && (typeof paramFunc == "function"))
+                paramFunc(); 
+            if (is_redirect)
+            {
+                if (isTech)
+                    window.location = "dashboard.html";
+                else
+                    window.location = "ticket_list.html";
+            }
+        },
+                              function () {
+            console.log("fail @ config");
+            logout();
+        }
+                             );
+    };
+
+    // get queues for the organization and list a max of 3 to the dashboard
+    var getQueueList = function() {
+        var hasLocalData = false;
+        var localDashQueues =[];
+        var retrievedObject = localStorage.getItem("dashQueues");
+        retrievedObject = JSON.parse(retrievedObject);
+
+        if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
+            console.log("could not load local data")
+        }
+        else
+        {
+            for(var c = 0; c < retrievedObject.length; c++)
+            {
+                var localInsertQueue = retrievedObject[c];
+                $(localInsertQueue).prependTo("#DashBoradQueues");
+            }
+        }
+        $.ajax({
+            type: 'GET',
+            beforeSend: function (xhr) {
+                xhr.withCredentials = true;
+                xhr.setRequestHeader('Authorization',
+                                     'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+            },
+
+            url:ApiSite +"queues?sort_by=tickets_count",
+            dataType:"json",
+            success: function(returnData) {
+                console.log(returnData);
+                $("#DashBoradQueues").empty();
+                var dashQueues = 0;
+                for( var i = 0; i < returnData.length; i++)
+                {
+                    if(returnData[i].tickets_count > 0 && dashQueues < 3 )
+                    {
+                        var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
+                        $(insertQueue).prependTo("#DashBoradQueues");
+                        localDashQueues.push(insertQueue);
+                        dashQueues++;
+                        localStorage.setItem("dashQueues",JSON.stringify(localDashQueues));
+                    }
+
+                }
+
+                hasLocalData = true;
+
+            },
+            complete:function(){
+
+            },
+            error: function() {
+                console.log("fail");
+                console.log(userOrgKey + '-' + userInstanceKey +':'+userKey);(userOrg);
+            }
+
+        });
+    };
+
+    //get accounts that have open tickets and list them in active accounts container on the Dashboard
+    var getActiveAccounts = function() {
+        $(document).on("click",'.tableRows, .listedAccount', function(){
+            localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
+            window.location = "account_details.html";
+        });
+        //propagate page with data from last Ajax Call
+        var dashAccounts =[];
+        var retrievedObjectTwo = localStorage.getItem("localDashAccounts");
+        retrievedObjectTwo = JSON.parse(retrievedObjectTwo);
+        if (retrievedObjectTwo == undefined || retrievedObjectTwo == null || retrievedObjectTwo.length == 0){
+            console.log("could not load local data")
+        }
+        else
+        {
+            var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expense</li><li>Tickets</li></ul>";
+            $(tableHeader).prependTo("#activeList");
+            for(var a = 0; a < retrievedObjectTwo.length; a++){
+                localActiveAccount = retrievedObjectTwo[a];
+                $(localActiveAccount).appendTo("#activeList");
+            }
+        }
+        $.ajax({
+            type: 'GET',
+            beforeSend: function (xhr) {
+                xhr.withCredentials = true;
+                xhr.setRequestHeader('Authorization',
+                                     'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+            },
+
+            url:ApiSite +"accounts?query=account_statistics.ticket_counts.open>0",
+            dataType:"json",
+            success: function(returnData) {
+                $("#activeList").empty();
+                //insert for  the header of the active account table
+                var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expense</li><li>Tickets</li></ul>";
+                $(tableHeader).prependTo("#activeList");
+                console.log(returnData);
+                //add accounts to the active accounts list
+                var activeLength = returnData.length;
+                //if(returnData.length > 7){activeLength = 7;}
+                var activeAccount;
+                for (var i = 0; i < activeLength; i++)
+                {
+                    var openTickets = returnData[i].account_statistics.ticket_counts.open;
+                    var openHours = returnData[i].account_statistics.hours;
+                    var nameCheck = returnData[i].name;
+                    nameCheck = createElipse(nameCheck, .30, 12);
+                    if(openHours > 999){
+                        openHours = 999;
+                    }
+                    openHours = openHours.toString();
+                    //if(openHours.length > 3){
+                    //    openHours = openHours.substring(0,3);
+                    //}
+
+                    // if account has more than 100 open tickets then sub 99+
+                    if(openTickets > 100)
+                    {
+                        openTickets = "99";
+                        activeAccount = "<ul class='tableRows clickme' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1' >" + openTickets + "<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                        $(activeAccount).appendTo("#activeList");
+                        //localDashAccounts.push(activeAccount);
+                    }else{
+                        activeAccount = "<ul class='tableRows' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1' >" + openTickets + "</div></li></ul>";
+                        $(activeAccount).appendTo("#activeList");
+                    }
+                    dashAccounts.push(activeAccount);
+                }
+                localStorage.setItem('localDashAccounts', JSON.stringify(dashAccounts));
+
+            },
+            error: function() {
+                console.log("fail @ get getTicketCount");
+                console.log(userOrgKey + '-' + userInstanceKey +':'+userKey);(userOrg);
+            }
+        });
+    };
+
+    var userInfo = {
+        init:function() {
+            this.userData();
+        },
+        userData:function() {
+            //get user info
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+
+                url:ApiSite +"users?query="+localStorage.getItem('userName'),
+                dataType:"json",
+                success: function(returnData) {
+                    console.log(returnData);
+                    //set the name of the nav side menu
+                    $(".navName").html(returnData[0].firstname+" "+returnData[0].lastname);
+                    //get md5 value of users email for gravatar
+                    var email = $.md5(returnData[0].email);
+                    //set user avatar picture in side menu
+                    $(".navProfile").attr("src","http://www.gravatar.com/avatar/" + email + "?d=mm&s=80");
+                    //set user id to local storage
+                    localStorage.setItem("userId",returnData[0].id);
+                },
+                complete:function(){
+                    function reveal(){
+                        $(".loadScreen").hide();
+                        $(".maxSize").fadeIn();
+                    };
+                    window.setTimeout(reveal,500);
+                },
+                error: function() {
+                    console.log("fail @ accounts");
+                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            });
+        }
+    };
+
+    // organization Ajax call
+    var org = {
+        init: function () {
+            if (location.pathname.indexOf("org.html") < 0)
+                return;
+            $('.instSelect').hide();
+            userKey = localStorage.getItem("userKey");
+            if (!userKey)
+            {
+                window.location = "index.html";
+                return;
+            }
+            userOrgKey = localStorage.getItem('userOrgKey');
+            userInstanceKey = localStorage.getItem('userInstanceKey');
+            //sets user role to user in local storage
+            localStorage.setItem('userRole', "user");
+            if (userOrgKey && userInstanceKey)
+            {
+                getInstanceConfig(userOrgKey, userInstanceKey)
+                return;
+            }
+            this.getOrg();
+            //hide load screen
+        },
+
+        getOrg: function() {
+            userKey = localStorage.getItem("userKey");
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization', 'Basic ' + btoa('x:' + userKey));
+                },
+                url: ApiSite + 'organizations/',
+                async: true,
+                cache: false,
+                dataType: 'json',
+                success: function(results) {
+                    console.log(results);
+                    // If there are more than one org
+                    if (results.length > 1) {
+                        localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+                        var orglistitem = results;
+                        for (var i = 0; i < orglistitem.length; i++) {
+                            $('#orgSelect')
+                            .append($("<option></option>")
+                                    .attr("value", i)
+                                    .text(orglistitem[i].name));
+                        }
+                        $('#orgSelect')
+                        // listen for org selection
+                        .change(function () {
+                            var index_number = this.value;
+                            userOrgKey = results[index_number].key;
+                            userOrg = results[index_number].name;
+                            var instances = results[index_number].instances;
+                            localStorage.setItem('userOrgKey', userOrgKey);
+
+                            if (instances.length == 0) {
+                                userMessage.showMessage(false, "You are not associated with any Instance in the Organization or your account is inactivated in the Instances.");
+                                return;
+                            }
+
+                            // If there is only one instance on the selected org
+                            if (instances.length == 1) {
+                                userInstanceKey = instances[0].key;
+                                localStorage.setItem('userInstanceKey', userInstanceKey);
+                                getInstanceConfig(userOrgKey, userInstanceKey);
+                            }
+                            else {
+                                // If there is MORE than one instance on the selected org
+                                $('#instSelect').find('option:gt(0)').remove();
+                                for (var i = 0; i < instances.length; i++) {
+                                    $('#instSelect')
+                                    .append($("<option></option>")
+                                            .attr("value", i)
+                                            .text(instances[i].name));
+                                }
+                                $('.instSelect').show();
+                                // listen for Instance selection
+                                $('#instSelect').change(function () {
+                                    var userInstanceKey = instances[this.value].key;
+                                    localStorage.setItem('userInstanceKey', userInstanceKey);
+                                    localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+                                    getInstanceConfig(userOrgKey, userInstanceKey);
+                                });
+                            };
+                        });
+                    };// End > 1
+
+                    // If there is ONLY ONE org and instance
+                    if (results.length == 1) {
+                        userOrgKey = results[0].key;
+                        userOrg =  results[0].name;
+                        localStorage.setItem('userOrgKey', userOrgKey);
+                        localStorage.setItem('sd_is_MultipleOrgInst', 'false');
+                        //location.reload(true);
+                        var myinst = results[0].instances;
+                        // If there is only one instance on the selected org
+                        if (myinst.length == 1) {
+                            userInstanceKey = myinst[0].key;
+                            localStorage.setItem('userInstanceKey', userInstanceKey);
+                            getInstanceConfig(userOrgKey, userInstanceKey);
+                        }
+                        else {
+                            // If there is MORE than one instance on the selected org
+                            $('#instSelect').find('option:gt(0)').remove();
+                            for (var i = 0; i < instances.length; i++) {
+                                $('#instSelect')
+                                .append($("<option></option>")
+                                        .attr("value", i)
+                                        .text(instances[i].name));
+                            }
+                            $('.instSelect').show();
+                            // listen for Instance selection
+                            $('#instSelect').change(function () {
+                                userInstanceKey = instances[this.value].key;
+                                localStorage.setItem('userInstanceKey', userInstanceKey);
+                                localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+                                getInstanceConfig(userOrgKey, userInstanceKey);
+                            });
+                        };
+                    };
+
+                    $("#indexTitle").html(userOrg);
+                    //storeLocalData();
+                    //window.location = "index.html";
+                },
+                complete: function () {
+                    userOrgKey = localStorage.getItem('userOrgKey');
+                    userInstanceKey = localStorage.getItem('userInstanceKey');
+                    if (!userOrgKey || !userInstanceKey) {
+                        reveal();
+                    }
+                },
+                error: function() {
+                    console.log("fail @ getOrg");
+                    logout();
+                }
+            })
+
+        }
+    };
+
+    var miscClicks = {
+        init:function() {
+            this.justClicked();
+            this.menuFunctions();
+        },
+
+        justClicked:function() {
+            $(document).on("click",".responseBlock", function(){
+                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
+                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
+            });
+            $("#invoiceOption").click(function(){
+                window.location = "Invoice_List.html";
+            });
+            // go to complete list of invoice on click
+            $("#allInvoice, #invoiceFooter").click(function(){
+                window.location = "allInvoice_List.html";
+            });
+            $(document).on("click",".invoiceRows", function(){
+                localStorage.setItem('invoiceNumber',$(this).attr("data-id"));
+                window.location = "invoice.html";
+            });
+            $(document).on("click",'.tableRows, .listedAccount', function(){
+                localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
+                window.location = "account_details.html";
+            });
+            $(document).on("click",".responseBlock", function(){
+                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
+                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
+            });
+            $(document).on("click","#queue", function(){
+                localStorage.setItem('currentQueue',$(this).attr("data-id"));
+                window.location = "queueTickets.html";
+            });
+            $(document).on('click','#asUserStat', function(){
+                localStorage.setItem('ticketPage','asUser');
+                window.location = "ticket_list.html";
+            });
+            $(document).on('click','#techStat', function(){
+                localStorage.setItem('ticketPage','asTech');
+                window.location = "ticket_list.html";
+            });
+            $(document).on('click','#asAltTechStat', function(){
+                localStorage.setItem('ticketPage','asAltTech');
+                window.location = "ticket_list.html";
+            });
+            $(document).on('click','#allTicketsStat', function(){
+                localStorage.setItem('ticketPage','allTickets');
+                window.location = "ticket_list.html";
+            });
+            $(document).on('click', '#addAccountTicket', function() {
+                var ticketAccount = localStorage.getItem('DetailedAccount');
+                console.log(ticketAccount);
+                localStorage.setItem('addAccountTicket', ticketAccount);
+                window.location = 'add_tickets.html';
+            });
+        },
+
+        menuFunctions:function(){
+            //set ticket amount in menu 
+            var techTicketStats = localStorage.getItem('techStat');
+            if(techTicketStats == null){
+                $('.menuTicketsStat').hide();
+            }else{
+                if(techTicketStats > 100){
+                    techTicketStats = 99;
+                }
+                $(".menuTicketStatNumber").html(techTicketStats);
+            }
+        }
+    };
+
+    var userMessage = {
+        init:function() {
+            this.showMessage();
+        },
+        setMessage:function(isPos, messageText) {
+            localStorage.setItem("userMessage", messageText);
+            localStorage.setItem("isMessage", isPos ? "truePos" : "trueNeg");
+        },
+        showMessage:function(isPos, messageText) {
+
+            if (typeof isPos === "undefined")
+            {
+                var isMessage = localStorage.getItem("isMessage");
+                if(isMessage == "truePos")
+                {isPos = true;localStorage.setItem("isMessage","false");}
+                else if(isMessage == "trueNeg")
+                {isPos = false;localStorage.setItem("isMessage","false");}
+                else
+                    return;
+            }
+
+            if (typeof messageText === "undefined")
+            {
+                messageText = localStorage.getItem("userMessage");
+            }
+
+            var messageEl = isPos ? ".errorMessagePos" : ".errorMessageNeg";
+
+            $(messageEl).html(messageText);
+            $(messageEl).slideDown(100);
+            setTimeout(
+                function()
+                {
+                    $(messageEl).slideUp(100);
+
+                }, 3500);
+        }
+    };
+
+    //Main Method that calls all the functions for the app
+    (function () {
+        //always active api calls
+        userMessage.init();
+        UserLogin.init();
+        org.init();
+        OrgSignup.init();
+        //userInfo.init();
+
+        //when user logged in
+        if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/" && location.pathname.indexOf("org.html")<0)
+        {
+            //set the name of the nav side menu
+            //$(".navName").html(localStorage.getItem("userFullName"));
+            //set user avatar picture in side menu
+            //$(".navProfile").attr("src","http://www.gravatar.com/avatar/" + $.md5(localStorage.getItem("userName")) + "?d=mm&s=80");
+            //$(".navName").show();
+            //$(".navProfile").show();
+            signout.init();
+            miscClicks.init();
+            //init config
+            getInstanceConfig("","",false, function(){
+                if (localStorage.getItem('userRole') === "tech")
+                    isTech = true;
+                if (localStorage.getItem('projectTracking') === "false")
+                    isProject = false;
+                if (localStorage.getItem('timeTracking') === "false")
+                    isTime = false;
+                if (localStorage.getItem('accountManager') === "false")
+                    isAccount = false;
+                if (localStorage.getItem('ticketLevels') === "false")
+                    isLevel = false;
+                if (localStorage.getItem('classTracking') === "false")
+                    isClass = false;
+                if (localStorage.getItem('locationTracking') === "false")
+                    isLocation = false;
+                if (localStorage.getItem('freshbooks') === "false")
+                    isFreshbook = false;
+                if (localStorage.getItem('is_invoice') === "false")
+                    isInvoice = false;
+                if (localStorage.getItem('is_expenses') === "false")
+                    isExpenses = false;
+                if (localStorage.getItem('is_travel_costs') === "false")
+                    isTravelCosts = false;
+
+                //Disable for user
+                if (!isTech){
+                    $(".sideNavLinks").children(":not('.user')").hide();
+                }
+                //Only for tech
+                else{
+                    if(!isAccount)
+                        $("#itemAccount").parent().hide();
+                    if(!isInvoice)
+                    { 
+                        $("#itemInvoice").hide();
+                        $("#invoiceFooter").hide();
+                        $("#invoiceFooter").next().hide();
+                    }
+                    //conditional api calls determined by page
+                    if (location.pathname.endsWith("dashboard.html"))
+                    {
+                        getTicketCount();
+                        getQueueList();
+                        getQueues.init();
+                        if(isAccount)
+                            getActiveAccounts();
+                        search.init();
+                        reveal();
+                    }
+                    if (location.pathname.endsWith("account_details.html"))
+                    {
+                        if (!isAccount) window.location = "dashboard.html";
+                        else
+                        {
+                            if(!isInvoice) $("#invoiceOption").parent().remove();
+                            accountDetailsPageSetup.init();
+                            //detailedTicket.init();
+                            closedTickets.pageChange();
+                        }
+                    }
+                    if (location.pathname.endsWith("Account_List.html"))
+                    {
+                        if (!isAccount) window.location = "dashboard.html";
+                        else
+                        {
+                            accountList.init();
+                        }
+                    }
+                    if (location.pathname.endsWith("addTicketTime.html"))
+                    {
+                        if (isTime) addTime.init();
+                        else window.location = "dashboard.html";
+
+                    }
+                    if (location.pathname.endsWith("timelog.html"))
+                    {if (!isTime) window.location = "dashboard.html";
+                     else
+                     {
+                         accountTimeLogs.init();
+                         timeLogs.init();
+                         addTime.init();
+                     }
+                    }
+                    if (location.pathname.endsWith("accountTimes.html"))
+                    {
+                        if (!isTime || !isAccount) window.location = "dashboard.html";
+                        else
+                        {
+                            accountTimeLogs.init();
+                            timeLogs.init();
+                        }
+                    }
+                    if (location.pathname.endsWith("allInvoice_List.html"))
+                    {
+                        if (!isTime || !isInvoice) window.location = "dashboard.html";
+                        else
+                        {
+                            invoiceList.init();
+                        }
+                    }
+                    else if (location.pathname.endsWith("Invoice_List.html"))
+                    {
+                        if (!isTime || !isInvoice) window.location = "dashboard.html";
+                        else
+                        {
+                            invoiceList.init(localStorage.getItem("DetailedAccount"));
+                        }
+
+                    }
+                    if (location.pathname.endsWith("invoice.html"))
+                    {
+                        if (!isTime || !isInvoice) window.location = "dashboard.html";
+                        else
+                        {
+                            detailedInvoice.init();
+                            sendInvoice.init();
+                            addRecip.init();
+                        }
+                    }
+                    if (location.pathname.endsWith("Queues.html"))
+                    {
+                        getQueues.init();
+                    }
+                    if (location.pathname.endsWith("queueTickets.html"))
+                    {
+                        getQueueTickets.init();
+                    }
+                }
+                if (location.pathname.endsWith("ticket_list.html"))
+                {
+                    ticketList.init();
+                    //accountDetailsPageSetup.init();
+
+                }
+                if (location.pathname.endsWith("ticket_detail.html"))
+                {
+                    detailedTicket.init();
+                    pickUpTicket.init();
+                    transferTicket.init();
+                    closeTicket.init();
+                    //addTime.init();
+                    postComment.init();
+                }
+                if (location.pathname.endsWith("closedTickets.html"))
+                {
+                    // detailedTicket.init();
+                    closedTickets.init();
+                }
+                if (location.pathname.endsWith("add_tickets.html"))
+                {
+                    newTicket.init();
+                    //accountTimeLogs.init();
+                }
+                if (location.pathname.endsWith("add_time.html"))
+                {
+                    if (!isTime) window.location = "dashboard.html";
+                    else
+                    {
+                        addTime.init();
+                    }
+                }
+                fullapplink();
+                if (typeof navigator.splashscreen !== 'undefined') 
+                    navigator.splashscreen.hide();
+                if (!isTime)
+                    $(".time").remove();
+            });
+        }
+    }());
+
+
+});
