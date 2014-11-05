@@ -1020,6 +1020,7 @@ $(document).ready(function(){
                         "tech_id" : $("#addTicketTechs").val()
                     }, "POST");
                     addTicket.then(function (d) {
+                        localStorage.setItem('addAccountTicket', '');
                         setTimeout(
                             function()
                             {
