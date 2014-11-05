@@ -52,7 +52,7 @@ $( document ).ajaxError(function( event, request, settings ) {
     //        alert(request.statusText);
     //    alert(request.responseText);
     //    alert(settings.url);
-    if (request.status == 403 || (request.status == 404 && settings.url === ApiSite + "config"))
+    if ((request.status == 403 && settings.url !== ApiSite + "organizations") || (request.status == 404 && settings.url === ApiSite + "config"))
     {
         logout(settings.url !== ApiSite + "login");
     }
@@ -86,14 +86,14 @@ function redirectToPage() {
              on1();
          };
          img.onerror = function () {
-             off();
+             // off();
          };
          img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
      }
     }
     else
     {
-        off();
+        // off();
     }
 };
 
@@ -146,10 +146,18 @@ function fullapplink (){
         $(".fullapplink").on('click', function (e) {
             e.preventDefault();
             openURLsystem(urlString);});
+    } else if (window.self !== window.top) {
+
+        $(".fullapplink").on('click', function (e) {
+            e.preventDefault();
+            //alert('Please register in new window and reopen Sherpadesk extension again.');
+            var origOpenFunc = window.__proto__.open;
+            origOpenFunc.apply(window, [urlString, "_blank"]); 
+        });
     }
     else
     {
-        $(".fullapplink").attr("target", "_system");
+        $(".fullapplink").attr("target", "_blank");
         $(".fullapplink").attr("href", urlString);
     }
 
@@ -289,7 +297,7 @@ $(document).ready(function(){
             userKey = localStorage.getItem("userKey");
             userOrgKey = localStorage.getItem('userOrgKey');
             userInstanceKey = localStorage.getItem('userInstanceKey');
-            if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage && location.pathname.indexOf("org.html")<0) {
+            if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage && location.pathname.indexOf("org.html")<0 && location.pathname.indexOf("signup.html")<0) {
                 logout();
                 return;
             }
@@ -313,6 +321,14 @@ $(document).ready(function(){
                     localStorage.setItem('userName', email);
                     window.location = "org.html";
                     return;
+                }
+                else
+                {
+                    var error = getParameterByName('f');
+                    if (error) {
+                        cleanQuerystring();
+                        userMessage.showMessage(false, error);
+                    }
                 }
             }
             this.login();
@@ -369,8 +385,9 @@ $(document).ready(function(){
                 if (isPhonegap){
                     openURL(url);
                 } else if (window.self !== window.top) {
-                    alert('Please register in new window and reopen Sherpadesk extension again.');
-                    window.open(url, '');
+                    //alert('Please register in new window and reopen Sherpadesk extension again.');
+                    var origOpenFunc = window.__proto__.open;
+                    origOpenFunc.apply(window, [url, "_blank"]); 
                 }
                 else
                 {
@@ -381,8 +398,8 @@ $(document).ready(function(){
             $('#sign_in_with_google').on('click', function (e) {
                 e.preventDefault();
                 if (window.self !== window.top) {
-                    alert('Please go Google login in new window and reopen Sherpadesk extension again.');
-                    $('form.google_openid').get(0).setAttribute('target', '_blank');
+                    //alert('Please goto Google login in new window and reopen Sherpadesk extension again.');
+                    //$('form.google_openid').get(0).setAttribute('target', '_blank');
                 }
                 $('form.google_openid').get(0).submit();
             });
@@ -393,6 +410,75 @@ $(document).ready(function(){
                 }
             });
             reveal();
+        }
+    };
+
+    // org signup
+    var OrgSignup = {
+        init: function () {
+            if (location.pathname.indexOf("signup.html") < 0)
+                return;
+            var userName = localStorage.getItem('userName');
+            if (userName !== null && userName.length > 0)
+                $("#email").val(userName);
+            $("#signupButton").click(function () { OrgSignup.add(); });
+            $(document).on("keypress", "#name, #email, #url", function (e) {
+                if (e.which == 13) {
+                    OrgSignup.add();
+                }
+            });
+            $("#is_force_registration").prop("checked", false);
+            reveal();   
+        },
+        add: function () {
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var url = $("#url").val();
+            if (name == '' || email == '' || url == '') {
+                userMessage.showMessage(false, "Please enter a valid Email, Name, Url");
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: ApiSite +"organizations",
+                dataType: "json",
+                data: {"name": name, "email":email, "url":url, "is_force_registration": $("#is_force_registration").is(':checked')},
+                success: function (returnData) {
+                    if (!returnData.api_token)
+                    {
+                        window.location = "index.html";
+                        return;
+                    }
+                    if (!returnData.organization || !returnData.instance)
+                    {
+                        window.location = "org.html";
+                        return;
+                    }        
+                    localStorage.setItem("userKey", returnData.api_token)
+                    localStorage.setItem('userName', email);
+                    localStorage.setItem('userOrgKey', returnData.organization);
+                    localStorage.setItem('userInstanceKey', returnData.instance);
+
+                    //sets user role to user in local storage
+                    localStorage.setItem('userRole', "user");
+                    getInstanceConfig(returnData.organization, returnData.instance)
+                },
+                error: function ( event ) {
+                    //"User already have one registered organization. Please set is_force_registration=true to continue."
+                    if (event.status == 409)
+                    {
+                        userMessage.showMessage(false, "This email is already in use. Please choose action below");
+                        localStorage.setItem('userName', $("#email").val());
+                        $("#is_force_registration").prop("checked", true);
+                        $("#signupButton").before("<center><h3 style='padding-top: 10px;'>This email is already in use. Would you like to</h3>"
+                                                  +" <div class=loginButton onclick='window.location = \"index.html\"'>Login</div>"
+                                                  +"<h3>or</h3></center>");
+                        $("#signupButton").text("Create New Organization");
+                        return;
+                    }
+                    userMessage.showMessage(false, event.statusText);
+                }
+            });
         }
     };
 
@@ -2900,7 +2986,7 @@ $(document).ready(function(){
                 console.log(returnData);
                 //add accounts to the active accounts list
                 var activeLength = returnData.length;
-                if(returnData.length > 7){activeLength = 7;}
+                //if(returnData.length > 7){activeLength = 7;}
                 var activeAccount;
                 for (var i = 0; i < activeLength; i++)
                 {
@@ -3236,6 +3322,7 @@ $(document).ready(function(){
         userMessage.init();
         UserLogin.init();
         org.init();
+        OrgSignup.init();
         //userInfo.init();
 
         //when user logged in
@@ -3412,7 +3499,8 @@ $(document).ready(function(){
                     }
                 }
                 fullapplink();
-                navigator.splashscreen.hide();
+                if (typeof navigator.splashscreen !== 'undefined') 
+                    navigator.splashscreen.hide();
                 if (!isTime)
                     $(".time").remove();
             });

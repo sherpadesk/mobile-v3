@@ -686,7 +686,7 @@ header {
 }
 
 .headerNavIcon {
-  margin-top: 25px;
+  margin-top: 18px;
   margin-left: 15px;
   height: 16px;
 }
@@ -721,7 +721,7 @@ header {
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
-  line-height: 67px;
+  line-height: 55px;
   text-align: center;
   vertical-align: middle;
 }
@@ -738,7 +738,7 @@ header {
   color: #ffffff;
   height: 30px;
   float: left;
-  padding: 0 5px 0 10px;
+  padding: 5px 5px 0 10px;
   width: 236px;
 }
 
@@ -749,7 +749,7 @@ header {
   box-sizing:border-box;
     -moz-box-sizing:border-box;
   height: 30px;
-  margin-top: 18px;
+  margin-top: 13px;
   float: right;
   /*background: #0099CC;*/
   background-color: #25B0E6;

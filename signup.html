@@ -50,18 +50,15 @@
       <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
     <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
       <img class="loginLogo" src="img/logo.png">
-      <div class="loginContent">
+      <div class="loginContent" style="color:white">
         <p id="errorMessage"></p>
-      <textarea id="userName"class="textInputSmall" type="email"  wrap="off" placeholder="email"></textarea>
-      <input id="password"class="textInputSmall" type="password" wrap="off" placeholder="password"></input>
-      <div id="loginButton" class="loginButton">Login</div>
-      <ul class="googleStripes">
-        <li></li><li></li><li></li><li></li>
-      </ul>
-          <div class="googleButton" id="sign_in_with_google">Sign in with <strong>Google</strong></div>
-          <div class="loginButton" id="login_signup">Setup New Organization</div>
-      </div>
-      <form class="google_openid" method="POST">  </form>
+      <textarea id="name"class="textInputSmall"  wrap="off" placeholder="Company name"></textarea>
+        <textarea id="email"class="textInputSmall" type="email"  wrap="off" placeholder="Email"></textarea>
+         <br/> <div valign=center>
+          https://<textarea id="url"class="textInputSmall" style="width:50%" wrap="off" placeholder="Company url"></textarea>.sherpadesk.com</div><br/> 
+      <div id="signupButton" class="loginButton">Create My Account</div>
+          By clicking the button above I agree to <u>Terms of Use and Privacy Policy</u>.
+          <input type=checkbox id="is_force_registration" style="display:none"/>
     </div>
     </div>
   </body>
