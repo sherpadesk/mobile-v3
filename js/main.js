@@ -381,18 +381,7 @@ $(document).ready(function(){
                 $("#userName").val(userName);
             $('#login_signup').on('click', function (e) {
                 e.preventDefault();
-                var url = AppSite + 'mc/signuporg.aspx';
-                if (isPhonegap){
-                    openURL(url);
-                } else if (window.self !== window.top) {
-                    //alert('Please register in new window and reopen Sherpadesk extension again.');
-                    var origOpenFunc = window.__proto__.open;
-                    origOpenFunc.apply(window, [url, "_blank"]); 
-                }
-                else
-                {
-                    document.location.href = url;
-                }
+                document.location.href = "signup.html";
             });
             $('form.google_openid').get(0).setAttribute('action', ApiSite + 'api/auth/googleopenid');
             $('#sign_in_with_google').on('click', function (e) {
