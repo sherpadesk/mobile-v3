@@ -1,0 +1,32 @@
+<a name="top"/>
+<div class="update" style="display: none;"> 
+	<form class="update_ticket" action="#">
+		<div class="showalert"></div>	
+		
+		<label>Account</label>
+		<select name="account" id="account">
+			<option value=""></option>
+		</select>
+		
+		<div class="add_class">
+				<label>Class</label>
+				<select name="class" id="class">
+					<option data-classId="{{class_id}}" value="{{class_id}}">{{class_name}}</option>			
+				</select>
+		</div>	
+		
+		<label>Level</label>
+		<select name="level" id="level">
+			<option value=""></option>			
+		</select>	
+		
+		<label>Priority</label>
+		<select name="priority" id="priority">
+			<option value=""></option>		
+		</select>	
+		<br/>
+		<br/>
+		<button class="btn btn-large btn-block btn-success ticket-update" type="submit">Update Ticket</button>
+	  
+	</form>  
+</div>

@@ -1,0 +1,15 @@
+{{#each this}}
+<!-- Single Response START -->  
+<li class="response">
+	<div class="res_user">
+		<p class="res_gravatar" data-email="{{user_email}}"></p>
+		<p class="tech-name">{{user_firstname}} {{user_lastname}}</p>
+		<p class="post_type">{{log_type}}</p>
+	</div>
+	<div class="comment_main">
+		<p class="note_time fromDate">{{record_date}}</p>
+		<p>{{{linebreaks note}}}</p>			
+	</div>
+</li>
+<!-- Single Response END -->
+{{/each}}

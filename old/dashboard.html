@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Mobile Mock</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="css/styles.css">
+
+</head>
+
+<body>
+<div class="side-menu" style="display:none;">
+	<ul>
+		<li class="searchform">
+			<input type="text" placeholder="Jump to Ticket #" class="ticket-jump-menu">
+		</li>
+		<li><p id="queues"><i class="icon-folder-open icon-white"></i> Queues</p></li>
+		<li><p id="orgInst"><i class="icon-list-alt icon-white"></i> Change Org/Inst</p></li>
+		<li><p id="logout"><i class="icon-off icon-white"></i> Log out</p></li>
+		<li><a {{full_app_link}}><p id="fullSite"><i class="icon-share-alt icon-white"></i> Switch to Full App</p></a></li>
+	</ul>    
+</div>
+<header>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a href="#" id="left-button" class="menu_button header_left menu_icon ticket_list_menu"></a>
+			<p class="header_label">SherpaDesk</p>                
+		</div> 		        
+	</div>
+</header>
+
+<div class="content">
+	<div class="showalert"></div>
+	<div class="dashboard">
+    	<div class="dash-tkts">        	
+        	<a href="#">
+                <div class="dash-astech blue-fade">
+                    <p class="dash-number-large">12</p>
+                    <p class="dash-desc-large">Tickets As Tech</p>
+                </div>
+            </a>
+            <a href="#">
+                <div class="blue tkt-right">
+                    <p class="dash-number-sm left-num blue-fade">6</p>
+                    <p class="dash-desc">As<br/>User</p>
+                </div>
+            </a>
+            <a href="#">
+                <div class="blue tkt-right">
+                    <p class="dash-number-sm left-num blue-fade">12</p>
+                    <p class="dash-desc">Alt<br/>Tech</p>
+                </div>
+            </a>
+            <a href="#">
+                <div class="blue tkt-right last">
+                    <p class="dash-number-sm left-num blue-fade over99">99+</p>
+                    <p class="dash-desc">All<br/>Open</p>
+                </div>
+            </a>
+        </div><!-- End Dash Tickets -->
+        <div class="dash-options">
+            <div class="option-left">
+	            <a href="#">
+	                <div class="option-single blue">
+	                    <p class="dash-icon"><img src="img/dash-clock.png" width="55" alt="Add"></p>
+	                    <p class="dash-desc-md">Time</p>
+	                </div>
+	            </a>
+	            <a href="#">
+	                <div class="option-single blue">
+	                    <p class="dash-icon"><img src="img/dash-invoice.png" width="55" alt="Add"></p>
+	                    <p class="dash-desc-md">Invoice</p>
+	                </div>
+	            </a>
+            </div><!-- End Left -->
+            <div class="option-right">
+	            <a href="#">
+	                <div class="option-single blue">
+	                    <p class="dash-icon"><img src="img/dash-accounts.png" width="55" alt="Add"></p>
+	                    <p class="dash-desc-md">Accounts</p>
+	                </div>
+	            </a>
+	            <a href="#">
+	                <div class="option-single green">
+	                    <p class="dash-icon"><img src="img/dash-plus-gr.png" width="55" alt="Add"></p>
+	                    <p class="dash-desc-md">Ticket</p>
+	                </div>
+	            </a>
+            </div><!-- End Right -->
+        </div><!-- End Dash Options -->
+    </div><!-- End Dashboard -->
+    
+</div>
+
+</body>
+</html>

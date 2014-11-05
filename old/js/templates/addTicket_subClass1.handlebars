@@ -1,0 +1,10 @@
+
+<div class="sub_class1">
+	<label>>> Sub Class</label>
+	<select name="sub_class1" id="sub_class1">
+		<option value="">---</option>
+		{{#each this}}
+			<option data-classId="{{id}}" value="{{id}}">{{name}}</option>
+		{{/each}}			
+	</select>
+</div>

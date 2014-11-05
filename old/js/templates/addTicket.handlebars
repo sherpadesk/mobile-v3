@@ -1,0 +1,39 @@
+<a name="top"/>
+<div class="navbar navbar-static-top">
+	<div class="navbar-inner">
+		<a class="menu_button header_left back_icon" id="ticketList"></a>
+		<p class="header_label">Create New Ticket</p>
+	</div>  
+</div>
+
+<div class="content ticket_add" style="display:none;"> 
+	<form class="create_ticket">
+		<div class="showalert"></div>	
+			
+		<label>Account</label>
+		<select name="account" id="account">
+			<option value="">---</option>
+		</select>
+		<label>Technician</label>
+		<select name="tech" id="tech">
+			<option value="">---</option>
+		</select>
+		<div class="add_class">
+			<div class="main_class">
+				<label>Class</label>
+				<select name="class" id="class">
+					<option value="">---</option>			
+				</select>
+			</div>
+		</div>
+		
+		<label>Subject</label>
+		<input name="subject" id="subject" type="text">
+		
+		<label>Details</label>
+		<textarea name="details" id="details" wrap="soft" cols="50" rows="10" ></textarea>
+		
+		<button class="btn btn-large btn-block btn-success" type="submit">Create Ticket</button>
+	  
+	</form>  
+</div>

@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1250">
+    <meta name="generator" content="PSPad editor, www.pspad.com">
+    <title>Error</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/error.css">
+
+    <script src="js/phonegap.js"></script>
+
+    <script type="text/javascript">
+
+        var Site = 'sherpadesk.com/';
+        var MobileSite = 'http://m.'+Site;
+        var isPhonegap = false;
+
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        function onDeviceReady() {
+            isPhonegap = true;
+            document.addEventListener("offline", check_connection, false);
+            document.addEventListener("online", check_connection, false);
+        };
+
+    function openMobileSite(page) {
+        inAppBrowserRef =  window.open(page, "_blank", 'location=no,toolbar=no');
+inAppBrowserRef.addEventListener('loadstop', function (event)
+{
+var loc = event.url;
+    console.log("location = " + loc);
+    if (loc != page) {
+        inAppBrowserRef.close();
+    }
+});
+    }
+
+        function openUrl() {
+            if (isPhonegap)
+                window.open(MobileSite + "index.html", "_self");
+                //openMobileSite(MobileSite + "index.html");
+            else
+                document.location.href = MobileSite + "index.html";
+        };
+
+        // Global Alert Action
+        function addAlert(message) {
+            window.setTimeout(function () {
+                var alertMessage = document.getElementById("showalert");
+                alertMessage.innerHTML = '<button type="button" onclick=\"var alertMessage = document.getElementById(\'showalert\'); toggle(alertMessage);\" class="close" data-dismiss="alert">&times;</button>' + message;
+                alertMessage.style.display = 'block';
+            }, 800);
+            document.getElementById("offline").style.display = 'block';
+        };
+
+        function toggle(el) {
+            el.style.display = (el.style.display == 'none') ? 'block' : 'none';
+            el.innerHTML = "";
+        }
+
+        function check_connection(showalert) {
+            document.getElementById("showalert").style.display = 'none';
+            if (navigator.onLine) {
+                var img = document.body.appendChild(document.createElement("img"));
+                img.style.display = 'none';
+                img.onload = function () {
+                    openUrl();
+                    document.getElementById("offline").style.display = 'none';
+                    
+                    //ifOnline && ifOnline.constructor == Function && ifOnline();
+                };
+                img.onerror = function () {
+                    if (showalert) addAlert('Not yet! Try again.');
+                    document.getElementById("offline").style.display = 'block';
+                    //ifOffline && ifOffline.constructor == Function && ifOffline();
+                };
+                img.src = MobileSite + "img/head-menu2x.png?rand=" + Math.random();
+                return true;
+            }
+            if (showalert) addAlert('Not yet! Try again.');
+            return false;
+        }
+    </script>
+</head>
+<body>
+    <div id="offline">offline</div>
+    <div class="catch-error">
+        <div class="catch-error-description">
+            <h2>Check your internet connection!
+            </h2>
+            <div id="ctl00_PageBody_StackTrace" class="return-button">
+                <div id="showalert" class="alert alert-error" style="display: none;"></div>
+                <center>
+                    <button style="width: 200px;" onclick="check_connection(true)" class="btn btn-large btn-block btn-success">Refresh</button></center>
+            </div>
+            <p />
+            <h4>P.S.  Uh... a Yeti just attacked your  camp!</h4>
+        </div>
+    </div>
+</body>
+</html>
