@@ -945,6 +945,7 @@ $(document).ready(function(){
 
         addTicket:function() {
             $("#addTicketAccounts").empty();
+            var accountset = localStorage.getItem('addAccountTicket');
             if(!isTech){
                 $("#addTicketAccounts").parent().hide();
             }
@@ -959,6 +960,8 @@ $(document).ready(function(){
                      // get list of accounts add them to option select list
                      $("#addTicketAccounts").empty();
                      fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
+                     if (accountset)
+                         $("#addTicketAccounts").val(accountset);
                      reveal();
                  }, function() {
                      console.log("fail @ ticket accounts");
@@ -3249,6 +3252,12 @@ $(document).ready(function(){
             $(document).on('click','#allTicketsStat', function(){
                 localStorage.setItem('ticketPage','allTickets');
                 window.location = "ticket_list.html";
+            });
+            $(document).on('click', '#addAccountTicket', function() {
+                var ticketAccount = localStorage.getItem('DetailedAccount');
+                console.log(ticketAccount);
+                localStorage.setItem('addAccountTicket', ticketAccount);
+                window.location = 'add_tickets.html';
             });
         },
 
