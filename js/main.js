@@ -2954,7 +2954,7 @@ $(document).ready(function(){
         }
         else
         {
-            var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expense</li><li>Tickets</li></ul>";
+            var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tickets</li></ul>";
             $(tableHeader).prependTo("#activeList");
             for(var a = 0; a < retrievedObjectTwo.length; a++){
                 localActiveAccount = retrievedObjectTwo[a];
@@ -2974,7 +2974,7 @@ $(document).ready(function(){
             success: function(returnData) {
                 $("#activeList").empty();
                 //insert for  the header of the active account table
-                var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expense</li><li>Tickets</li></ul>";
+                var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tickets</li></ul>";
                 $(tableHeader).prependTo("#activeList");
                 console.log(returnData);
                 //add accounts to the active accounts list
