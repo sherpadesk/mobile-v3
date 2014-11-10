@@ -677,7 +677,7 @@ header {
   position: fixed;
   width: 102%;
   top: 0;
-  z-index: 2;
+  z-index: 6;
 }
 
 .headerContainer {
