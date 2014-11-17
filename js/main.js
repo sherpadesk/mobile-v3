@@ -135,7 +135,21 @@ function clearStorage()
     localStorage.removeItem('userInstanceKey');
     localStorage.removeItem('userKey');
     localStorage.setItem("userName", userName);
+    //clear also chrome ext if needed
+    if (window.self !== window.top)
+        window.top.postMessage("logout", "*");
 
+};
+
+function getInfo4Extension()
+{
+    if (window.self !== window.top)
+    {
+        var loginStr = "login?t=" + localStorage.getItem("userKey") +
+            "&o=" + localStorage.getItem('userOrgKey') +
+            "&i=" + localStorage.getItem('userInstanceKey'); 
+        window.top.postMessage(loginStr,"*");
+    }
 };
 
 function fullapplink (){
@@ -340,6 +354,12 @@ $(document).ready(function(){
                 userMessage.showMessage(false, "Please enter a valid Email or Password");
                 return;
             }
+            //test
+            //localStorage.setItem("userKey",1)
+            //localStorage.setItem('userOrgKey',2);
+            //localStorage.setItem('userInstanceKey',3);
+            //getInfo4Extension();
+            //return;
             $.ajax({
                 type: 'POST',
                 beforeSend: function (xhr) {
@@ -2847,7 +2867,7 @@ $(document).ready(function(){
             return;
         }
         //get instance config
-        getApi("config").then(function (returnData) {
+        getApi("config").then(function (returnData) {            
             localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
             isTech = returnData.user.is_techoradmin;
             localStorage.setItem('projectTracking', returnData.is_project_tracking);
@@ -2865,6 +2885,9 @@ $(document).ready(function(){
             localStorage.setItem('userId', returnData.user.user_id);
             if (paramFunc && (typeof paramFunc == "function"))
                 paramFunc(); 
+            //success login only
+            else
+                getInfo4Extension();
             if (is_redirect)
             {
                 if (isTech)
