@@ -1337,11 +1337,11 @@ header {
 }
 
 .detailedTimelogClock {
- 
+  height: 24px;
 }
 
 .detailedTimeAmount {
-
+  font-size: 35px !important;
 }
 
 .detailedTimelogNote {
