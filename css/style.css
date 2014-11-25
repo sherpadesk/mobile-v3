@@ -50,7 +50,7 @@ strong {
 .splashScreen {
   width: 100%;
   height: 100%;
-  background: url("../img/mountainBG.jpg") center center no-repeat fixed;
+  /*background: url("../img/mountainBG.jpg") center center no-repeat fixed;*/
   position: absolute;
   overflow-x: hidden;
   overflow-y: hidden;
@@ -278,8 +278,8 @@ strong {
   max-width: 390px;
 }
 .loginScreen {
-  background: url("../img/mountainBG.jpg") center center no-repeat fixed;
-  /*padding-top: 80px*/;
+  /*background: url("../img/mountainBG.jpg") center center no-repeat fixed;
+  padding-top: 80px*/;
 
   background-repeat: no-repeat;
   background-position:center;
