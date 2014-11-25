@@ -58,6 +58,11 @@ $( document ).ajaxError(function( event, request, settings ) {
     }
 });
 
+function reveal() {
+    $("#loading").fadeOut();
+};
+
+
 //If User is Offline....................................
 function off(){
     if (!$(".catch-error").length) {
@@ -297,10 +302,6 @@ $(document).ready(function(){
         window.history.replaceState({}, document.title, clean_uri);
     }
 
-    function reveal() {
-        $(".loadScreen").hide();
-        $(".maxSize").fadeIn();
-    };
 
     // user login
     var UserLogin = {
@@ -396,6 +397,8 @@ $(document).ready(function(){
             });
         },
         login:function() {
+            $(".page").show();
+            userKey = localStorage.getItem("userKey");
             var userName = localStorage.getItem('userName');
             if (userName !== null && userName.length > 0)
                 $("#userName").val(userName);
@@ -1150,10 +1153,7 @@ $(document).ready(function(){
 
                         },
                         complete:function(){
-                            function reveal(){
-                                $(".loadScreen").hide();
-                                $(".maxSize").fadeIn();
-                            };
+                            reveal();
                         },
                         error: function() {
                             console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
@@ -1177,10 +1177,7 @@ $(document).ready(function(){
 
                         },
                         complete:function(){
-                            function reveal(){
-                                $(".loadScreen").hide();
-                                $(".maxSize").fadeIn();
-                            };
+                            reveal();
                         },
                         error: function() {
 
@@ -1226,10 +1223,7 @@ $(document).ready(function(){
                             }
                         },
                         complete:function(){
-                            function reveal(){
-                                $(".loadScreen").hide();
-                                $(".maxSize").fadeIn();
-                            };
+                            reveal();
                         },
                         error: function() {
 
@@ -1845,10 +1839,7 @@ $(document).ready(function(){
 
                 },
                 complete:function(){
-                    function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
-                    };
+                    reveal();
                 },
                 error: function() {
                     console.log("fail @ Invoice details");
@@ -2691,10 +2682,7 @@ $(document).ready(function(){
                     localStorage.setItem(currentDetailedAccount,JSON.stringify(localAccountData));
                 },
                 complete:function(){
-                    function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
-                    };
+                    reveal();
                     window.setTimeout(reveal,500);
                 },
                 error: function() {
@@ -3069,10 +3057,7 @@ $(document).ready(function(){
                     localStorage.setItem("userId",returnData[0].id);
                 },
                 complete:function(){
-                    function reveal(){
-                        $(".loadScreen").hide();
-                        $(".maxSize").fadeIn();
-                    };
+                    reveal();
                     window.setTimeout(reveal,500);
                 },
                 error: function() {
@@ -3109,6 +3094,8 @@ $(document).ready(function(){
         },
 
         getOrg: function() {
+            $(".page").show();
+            $("#loading").fadeIn();
             userKey = localStorage.getItem("userKey");
             $.ajax({
                 type: 'GET',
