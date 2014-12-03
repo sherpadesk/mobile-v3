@@ -975,7 +975,7 @@ $(document).ready(function(){
             else
             {
 
-                if(!isAccount) $("#addTicketAccounts").parent().hide();
+                if(!isAccount) {$("#addTicketAccounts").parent().hide();reveal();}
                 else
                 { var accounts = getApi("accounts");
                  accounts.then(function(returnData) {
@@ -1000,7 +1000,7 @@ $(document).ready(function(){
                 fillSelect(returnData, "#addTicketTechs",
                            "<option value=0 disabled selected>choose a tech</option>", "",
                            "firstname,lastname");
-                reveal();
+                //reveal();
             },
                              function() {
                 console.log("fail @ ticket accounts");
@@ -1329,7 +1329,7 @@ $(document).ready(function(){
                     fillSelect(returnData, "#taskTypes");
                     var chooseTask = '<option value=0>choose a task type</option>';
                     $(chooseTask).prependTo('#taskTypes');
-                    reveal();
+                    //reveal();
                 },
                 function() {
                     console.log("fail @ task types");
@@ -1347,7 +1347,10 @@ $(document).ready(function(){
                     $(chooseProject).appendTo("#timeProjects");
                 }
                 if(!isAccount)
+                {
                     $("#timeAccounts").parent().hide();
+                    reveal();
+                }
                 else
                 {
                     //get accounts
@@ -1386,7 +1389,7 @@ $(document).ready(function(){
                                     //console.log(returnData);
                                     // add projects
                                     fillSelect(returnData.projects, "#timeProjects");
-                                    reveal();
+                                    //reveal();
 
                                 },
                                 function() {
@@ -2275,7 +2278,7 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    //reveal();
+                    reveal();
                     featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
                 },
                 error: function() {
@@ -2321,7 +2324,7 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    //reveal();
+                    reveal();
                     featureList3 = filterList("allContainer", "", localStorage.getItem("searchItem"));
                     //filterList(page, "", localStorage.getItem("searchItem"));
                     var ticketView = localStorage.getItem("ticketPage");
@@ -2394,7 +2397,7 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    //reveal();
+                    reveal();
                     featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
                 },
                 error: function() {
@@ -2439,7 +2442,8 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    if (!isTech) {reveal();
+                    reveal();
+                    if (!isTech) {
                                   $('#tabpage_reply').fadeIn();}
                     featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
                 },
@@ -3384,6 +3388,7 @@ $(document).ready(function(){
                         $("#invoiceFooter").hide();
                         $("#invoiceFooter").next().hide();
                     }
+                    $("#loading").fadeIn();
                     //conditional api calls determined by page
                     if (location.pathname.endsWith("dashboard.html"))
                     {
