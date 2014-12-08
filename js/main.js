@@ -977,7 +977,7 @@ $(document).ready(function(){
 
                 if(!isAccount) {$("#addTicketAccounts").parent().hide();reveal();}
                 else
-                { var accounts = getApi("accounts");
+                { var accounts = getApi("accounts", {"is_with_statistics":false});
                  accounts.then(function(returnData) {
                      console.log(returnData);
                      // get list of accounts add them to option select list
@@ -1354,7 +1354,7 @@ $(document).ready(function(){
                 else
                 {
                     //get accounts
-                    getApi("accounts").then(function(returnData) {
+                    getApi("accounts", {"is_with_statistics":false}).then(function(returnData) {
                         //console.log(returnData);
                         $("#timeAccounts").empty();
                         var chooseAccount = "<option value=0>choose an account</option>";
