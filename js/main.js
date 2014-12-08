@@ -1384,16 +1384,18 @@ $(document).ready(function(){
                         $("<option value=0>choose a project</option>").appendTo("#timeProjects");
                         if (account !== "0"){
                             //get projects
-                            getApi("accounts/"+account).then(
+                            $("#loading").fadeIn();
+                            getApi("accounts/"+account, {"is_with_statistics":false}).then(
                                 function(returnData) {
                                     //console.log(returnData);
                                     // add projects
                                     fillSelect(returnData.projects, "#timeProjects");
-                                    //reveal();
+                                    reveal();
 
                                 },
                                 function() {
                                     console.log("fail @ time accounts");
+                                    reveal();
                                     console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                                 }
                             );
