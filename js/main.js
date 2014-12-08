@@ -3394,7 +3394,7 @@ $(document).ready(function(){
                     {
                         getTicketCount();
                         getQueueList();
-                        getQueues.init();
+                        //getQueues.init();
                         if(isAccount)
                             getActiveAccounts();
                         search.init();
