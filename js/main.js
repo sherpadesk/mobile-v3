@@ -434,10 +434,9 @@ $(document).ready(function(){
             if (userName !== null && userName.length > 0)
                 $("#email").val(userName);
             $("#signupButton").click(function () { OrgSignup.add(); });
-            $(document).on("keypress", "#name, #email, #url", function (e) {
-                if (e.which == 13) {
-                    OrgSignup.add();
-                }
+            $(document).on("change", "#name", function (e) {
+                if ($("#url").val() == "")
+                    $("#url").val($("#name").val());
             });
             $("#is_force_registration").prop("checked", false);
             reveal();   
@@ -446,15 +445,34 @@ $(document).ready(function(){
             var name = $("#name").val();
             var email = $("#email").val();
             var url = $("#url").val();
-            if (name == '' || email == '' || url == '') {
-                userMessage.showMessage(false, "Please enter a valid Email, Name, Url");
+            var firstname = $("#firstname").val();
+            var lastname = $("#lastname").val();
+            var password = $("#password").val();
+            var password_confirm = $("#password_confirm").val();
+            var how = $("#how").val();
+            if (name == '' || email == '' || url == '' || firstname == '' || lastname == '' || password == '' || password_confirm  == '') {
+                userMessage.showMessage(false, "Please enter all fields!");
                 return;
+            }
+            if (password != password_confirm) {
+                    userMessage.showMessage(false, "Passwords do not match!");
+                    return;
             }
             $.ajax({
                 type: 'POST',
                 url: ApiSite +"organizations",
                 dataType: "json",
-                data: {"name": name, "email":email, "url":url, "is_force_registration": $("#is_force_registration").is(':checked')},
+                data: {"name": name, 
+                       "email":email, 
+                       "url":url, 
+                       "is_force_registration": $("#is_force_registration").is(':checked'),
+                       "firstname": firstname,
+                       "lastname":lastname,
+                       "password":password,
+                       "password_confirm": password_confirm,
+                       "how_did_you_hear_about_us": how,
+                       "note": isPhonegap ? "registered by iPhone" : "registered from mobile site"
+                      },
                 success: function (returnData) {
                     if (!returnData.api_token)
                     {
