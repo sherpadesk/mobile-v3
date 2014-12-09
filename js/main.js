@@ -54,7 +54,7 @@ $( document ).ajaxError(function( event, request, settings ) {
     //    alert(settings.url);
     if ((request.status == 403 && settings.url !== ApiSite + "organizations") || (request.status == 404 && settings.url === ApiSite + "config"))
     {
-        logout(settings.url !== ApiSite + "login");
+        logout(settings.url !== ApiSite + "login", request.statusText);
     }
 });
 
@@ -103,7 +103,7 @@ function redirectToPage() {
 };
 
 //global helper functions
-function logout(isRedirect) {
+function logout(isRedirect, mess) {
     if (typeof isRedirect === "undefined")
         isRedirect = true;
     clearStorage();
@@ -113,7 +113,7 @@ function logout(isRedirect) {
         GooglelogOut();
     }
     else if (isRedirect)
-        window.location = "index.html";
+        window.location = "index.html" + ((typeof mess === "undefined") ? "" : "?f="+mess);
 }
 
 if (typeof String.prototype.endsWith !== 'function') {
@@ -122,13 +122,13 @@ if (typeof String.prototype.endsWith !== 'function') {
     };
 }
 
-function GooglelogOut () {
+function GooglelogOut(mess) {
     if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-        document.location.href = location.href.replace(/(.+\w\/)(.+)/, "$1") + "index.html";
+        document.location.href = location.href.replace(/(.+\w\/)(.+)/, "$1") + "index.html" + ((typeof mess === "undefined") ? "" : "?f="+mess);
     }
     else
-        window.location = "index.html";
+        window.location = "index.html" + ((typeof isRedirect === "undefined") ? "" : "?f="+mess);
 }
 
 function clearStorage()
@@ -2908,9 +2908,9 @@ $(document).ready(function(){
                     window.location = "ticket_list.html";
             }
         },
-                              function () {
+                              function (j,t,e) {
             console.log("fail @ config");
-            logout();
+            logout(j.url !== ApiSite + "login", e);
         }
                              );
     };
