@@ -54,7 +54,7 @@ $( document ).ajaxError(function( event, request, settings ) {
     //    alert(settings.url);
     if ((request.status == 403 && settings.url !== ApiSite + "organizations") || (request.status == 404 && settings.url === ApiSite + "config"))
     {
-        logout(settings.url !== ApiSite + "login");
+        logout(settings.url !== ApiSite + "login", request.statusText);
     }
 });
 
@@ -103,7 +103,7 @@ function redirectToPage() {
 };
 
 //global helper functions
-function logout(isRedirect) {
+function logout(isRedirect, mess) {
     if (typeof isRedirect === "undefined")
         isRedirect = true;
     clearStorage();
@@ -113,7 +113,7 @@ function logout(isRedirect) {
         GooglelogOut();
     }
     else if (isRedirect)
-        window.location = "index.html";
+        window.location = "index.html" + ((typeof mess === "undefined") ? "" : "?f="+mess);
 }
 
 if (typeof String.prototype.endsWith !== 'function') {
@@ -122,13 +122,13 @@ if (typeof String.prototype.endsWith !== 'function') {
     };
 }
 
-function GooglelogOut () {
+function GooglelogOut(mess) {
     if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-        document.location.href = location.href.replace(/(.+\w\/)(.+)/, "$1") + "index.html";
+        document.location.href = location.href.replace(/(.+\w\/)(.+)/, "$1") + "index.html" + ((typeof mess === "undefined") ? "" : "?f="+mess);
     }
     else
-        window.location = "index.html";
+        window.location = "index.html" + ((typeof isRedirect === "undefined") ? "" : "?f="+mess);
 }
 
 function clearStorage()
@@ -434,10 +434,9 @@ $(document).ready(function(){
             if (userName !== null && userName.length > 0)
                 $("#email").val(userName);
             $("#signupButton").click(function () { OrgSignup.add(); });
-            $(document).on("keypress", "#name, #email, #url", function (e) {
-                if (e.which == 13) {
-                    OrgSignup.add();
-                }
+            $(document).on("change", "#name", function (e) {
+                if ($("#url").val() == "")
+                    $("#url").val($("#name").val());
             });
             $("#is_force_registration").prop("checked", false);
             reveal();   
@@ -446,15 +445,34 @@ $(document).ready(function(){
             var name = $("#name").val();
             var email = $("#email").val();
             var url = $("#url").val();
-            if (name == '' || email == '' || url == '') {
-                userMessage.showMessage(false, "Please enter a valid Email, Name, Url");
+            var firstname = $("#firstname").val();
+            var lastname = $("#lastname").val();
+            var password = $("#password").val();
+            var password_confirm = $("#password_confirm").val();
+            var how = $("#how").val();
+            if (name == '' || email == '' || url == '' || firstname == '' || lastname == '' || password == '' || password_confirm  == '') {
+                userMessage.showMessage(false, "Please enter all fields!");
                 return;
+            }
+            if (password != password_confirm) {
+                    userMessage.showMessage(false, "Passwords do not match!");
+                    return;
             }
             $.ajax({
                 type: 'POST',
                 url: ApiSite +"organizations",
                 dataType: "json",
-                data: {"name": name, "email":email, "url":url, "is_force_registration": $("#is_force_registration").is(':checked')},
+                data: {"name": name, 
+                       "email":email, 
+                       "url":url, 
+                       "is_force_registration": $("#is_force_registration").is(':checked'),
+                       "firstname": firstname,
+                       "lastname":lastname,
+                       "password":password,
+                       "password_confirm": password_confirm,
+                       "how_did_you_hear_about_us": how,
+                       "note": isPhonegap ? "registered by iPhone" : "registered from mobile site"
+                      },
                 success: function (returnData) {
                     if (!returnData.api_token)
                     {
@@ -975,9 +993,9 @@ $(document).ready(function(){
             else
             {
 
-                if(!isAccount) $("#addTicketAccounts").parent().hide();
+                if(!isAccount) {$("#addTicketAccounts").parent().hide();reveal();}
                 else
-                { var accounts = getApi("accounts");
+                { var accounts = getApi("accounts", {"is_with_statistics":false});
                  accounts.then(function(returnData) {
                      console.log(returnData);
                      // get list of accounts add them to option select list
@@ -1000,7 +1018,7 @@ $(document).ready(function(){
                 fillSelect(returnData, "#addTicketTechs",
                            "<option value=0 disabled selected>choose a tech</option>", "",
                            "firstname,lastname");
-                reveal();
+                //reveal();
             },
                              function() {
                 console.log("fail @ ticket accounts");
@@ -1329,7 +1347,7 @@ $(document).ready(function(){
                     fillSelect(returnData, "#taskTypes");
                     var chooseTask = '<option value=0>choose a task type</option>';
                     $(chooseTask).prependTo('#taskTypes');
-                    reveal();
+                    //reveal();
                 },
                 function() {
                     console.log("fail @ task types");
@@ -1347,11 +1365,14 @@ $(document).ready(function(){
                     $(chooseProject).appendTo("#timeProjects");
                 }
                 if(!isAccount)
+                {
                     $("#timeAccounts").parent().hide();
+                    reveal();
+                }
                 else
                 {
                     //get accounts
-                    getApi("accounts").then(function(returnData) {
+                    getApi("accounts", {"is_with_statistics":false}).then(function(returnData) {
                         //console.log(returnData);
                         $("#timeAccounts").empty();
                         var chooseAccount = "<option value=0>choose an account</option>";
@@ -1381,7 +1402,8 @@ $(document).ready(function(){
                         $("<option value=0>choose a project</option>").appendTo("#timeProjects");
                         if (account !== "0"){
                             //get projects
-                            getApi("accounts/"+account).then(
+                            $("#loading").fadeIn();
+                            getApi("accounts/"+account, {"is_with_statistics":false}).then(
                                 function(returnData) {
                                     //console.log(returnData);
                                     // add projects
@@ -1391,6 +1413,7 @@ $(document).ready(function(){
                                 },
                                 function() {
                                     console.log("fail @ time accounts");
+                                    reveal();
                                     console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                                 }
                             );
@@ -2275,7 +2298,7 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    //reveal();
+                    reveal();
                     featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
                 },
                 error: function() {
@@ -2321,7 +2344,7 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    //reveal();
+                    reveal();
                     featureList3 = filterList("allContainer", "", localStorage.getItem("searchItem"));
                     //filterList(page, "", localStorage.getItem("searchItem"));
                     var ticketView = localStorage.getItem("ticketPage");
@@ -2394,7 +2417,7 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    //reveal();
+                    reveal();
                     featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
                 },
                 error: function() {
@@ -2439,7 +2462,8 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    if (!isTech) {reveal();
+                    reveal();
+                    if (!isTech) {
                                   $('#tabpage_reply').fadeIn();}
                     featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
                 },
@@ -2884,9 +2908,9 @@ $(document).ready(function(){
                     window.location = "ticket_list.html";
             }
         },
-                              function () {
+                              function (j,t,e) {
             console.log("fail @ config");
-            logout();
+            logout(j.url !== ApiSite + "login", e);
         }
                              );
     };
@@ -3384,12 +3408,13 @@ $(document).ready(function(){
                         $("#invoiceFooter").hide();
                         $("#invoiceFooter").next().hide();
                     }
+                    $("#loading").fadeIn();
                     //conditional api calls determined by page
                     if (location.pathname.endsWith("dashboard.html"))
                     {
                         getTicketCount();
                         getQueueList();
-                        getQueues.init();
+                        //getQueues.init();
                         if(isAccount)
                             getActiveAccounts();
                         search.init();

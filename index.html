@@ -7,32 +7,19 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
     <title>SherpaDesk</title>
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/idangerous.swiper.css">
     <!-- Media query for tablets -->
     <link rel="stylesheet" href="css/tablet.css" />
-
-    <!-- Fonts -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
     <script src="js/jquery.min.js"></script>
-    <script src="js/md5.js"></script>
-    <!-- Jquery UI -->
-    <link rel="stylesheet" href="js/jquery-ui.css" />
-
     <link rel="stylesheet" type="text/css" href="css/error.css">
     <script src="cordova.js"></script>
-
-		<script src="js/jquery-ui.min.js"></script>
     <!-- Main.js -->
     <script src="js/index.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/Chart.js"></script>
-    <script src="js/jquery.md5.js"></script>
     <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
@@ -44,15 +31,15 @@
         </div>
         <img class="splashScreenLogo" src="img/logo.png">
       </div> -->
-  <body class="loginScreen page" onload="initFastButtons();">
+  <body class="loginScreen page">
+      <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
+      <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
     <div class="bodyContentCoverLogin">
     <div class="bodyContent">
-      <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
-    <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
       <img class="loginLogo" src="img/logo.png">
       <div class="loginContent">
         <p id="errorMessage"></p>
-      <textarea id="userName"class="textInputSmall" type="email"  wrap="off" placeholder="email"></textarea>
+      <input id="userName"class="textInputSmall" type="email"  wrap="off" placeholder="email"></input>
       <input id="password"class="textInputSmall" type="password" wrap="off" placeholder="password"></input>
       <div id="loginButton" class="loginButton">Login</div>
       <ul class="googleStripes">
