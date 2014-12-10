@@ -241,6 +241,7 @@ strong {
   padding: 10px;
   width: 100%;
   resize:none;
+  margin-bottom: 4px;
 }
 
 .textInputSmallLight {
@@ -255,6 +256,7 @@ strong {
   padding: 10px;
   width: 100%;
   resize:none;
+  margin-bottom: 4px;
 }
 
 .greenButton {
