@@ -1,0 +1,146 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>  
+    <head>  
+        <meta http-equiv="content-type" content="text/html; charset=windows-1250">  
+        <meta name="generator" content="PSPad editor, www.pspad.com">  
+        <title>
+        </title>  
+        <script src="js/jquery1.min.js"></script>
+        <script>
+            function sendForm(form) {
+                if (!form.checkValidity()) {
+                     return;
+                }
+                var formData = new FormData(form);
+
+                // Append extra data before send.
+                formData.append('is_force_registration', 'true'); 
+                formData.append('is_force_redirect', 'true');
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', form.action, true);
+                xhr.onload = function(e) { 
+                    if (e.target.status == 403)
+                    {
+                        var error = e.target.statusText;
+                        if (error.indexOf("Url") > -1)
+                            document.getElementById("url").focus();
+                        alert(error);
+                    }
+                    else
+                    console.log(e);
+                };
+                xhr.send(formData);
+                return false; // Prevent page from submitting.
+            }
+        </script>
+    </head>  
+    <body>
+        <style>
+            .sherpadesk-contactus-text-input, .sherpadesk-contactus-textarea {width: 340px; max-width: 340px;}
+        </style>
+        <form id="form" name="form" action="http://api.sherpadesk.com/organizations">
+            <div class="" style="     padding-top: 20px;     box-sizing: border-box;     margin-left: auto;     margin-right: auto;     width: 380px; ">
+                <div id="sherpadesk_ContactusForm" class="sherpadesk-contactus-form">
+                    <div class="sherpadesk-contactus-content">
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>Company Name 
+                                </label><br>
+                                <small>Acme Inc. or Your Name</small>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" onchange="var t=''; if (this.validity.patternMismatch) {t='Name should be 3 or more chars';} else {t=''; if (form.url.value == '') form.url.value = this.value;} this.setCustomValidity(t);"  pattern="\w{3,}" type="text" id="name" name="name" required placeholder="Company Name...">
+                            </dd>
+                        </dl>
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>Email
+                                </label>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" type="email" id="email" name="email" required placeholder="Email...">
+                            </dd>
+                        </dl>
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>Company URL
+                                </label>
+                            </dt>
+                            <dd style="
+                                       box-sizing: border-box;  background-color: #e9eff5;  
+                                       padding: 5px 5px 5px 5px !important;  border-radius: 10px;
+                                       ">
+                                <div style="float: left;
+                                            line-height: 40px;
+                                            width: 16%;
+                                            font-size: 14px;font-weight: bold;    ">https://</div><div style="float: right;
+                                    line-height: 40px;font-size: 14px;  font-weight: bold;">.sherpadesk.com</div>
+                                <div><input onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Url should be 3 or more chars': '');" pattern="\w{3,}" class="sherpadesk-contactus-text-input" id=url type="text" style="width: 48%;" name="url" required maxlength="254" placeholder="Url..."></div>
+                            </dd>
+                        </dl>
+                        <dl style="display: inline-block;" class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>First Name
+                                </label>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" type="text" id="firstname" name="firstname" required maxlength="50" placeholder="First Name...">
+                            </dd>
+                        </dl>
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>Last Name
+                                </label>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" type="text" id="lastname" name="lastname" required maxlength="50" placeholder="Last Name...">
+                            </dd>
+                        </dl>
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>Password
+                                </label>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9_]{5,20})" type="password" id="password" name="password" 
+                                       onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Password must be alphanumeric with at least 5 characters' : ''); if(this.checkValidity()) form.password_confirm.pattern = this.value;" required maxlength="20" placeholder="">
+                            </dd>
+                        </dl>
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>Confirm Password
+                                </label>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" type="password"  pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9_]{5,20})" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Passwords do not match' : '');" id="password_confirm" name="password_confirm" required maxlength="20" placeholder="">
+                            </dd>
+                        </dl>
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>How'd You Hear About Us
+                                </label>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" type="text" id="how_did_you_hear_about_us" name="how_did_you_hear_about_us" title="Goggle, Appstore etc." maxlength="255" placeholder="">
+                            </dd>
+                        </dl>
+                        <div style="display: none; visibility: hidden;">
+                            <input type="text" id="sherpadesk_cu_hpc" class="sherpadesk-contactus-text-input">
+                        </div>
+                        <div id="sherpadesk_cu_formsubmit" class="sherpadesk-contactus-formsubmit" style="width: 100%;">
+                            <div style="width: 100%;">
+                                <button class="sherpadesk-contactus-sendmessage sherpadesk-button" id="sherpadesk_cu_submit" type="submit" data-afterclick="Processing…" style="width: 100%;" onclick="return sendForm(this.form);">Create My Account</button>
+                            </div>
+                            <div class="Agree" style="padding-top: 10px;">
+                                By clicking the button above I agree to <a target="_blank" href="http://sherpadesk.com/privacy-policy/">Terms of Use</a> and <a target="_blank" href="http://sherpadesk.com/privacy-policy/">Privacy Policy</a>.
+                            </div>
+                            <div id="sherpadesk_send_error" class="sherpadesk-contactus-error">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </form>
+    </body>
+</html>
