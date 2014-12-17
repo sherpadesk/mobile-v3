@@ -9,10 +9,22 @@
     </head>  
     <body>
         <script>
+            
+            function hasHtml5Validation () {
+ return typeof document.createElement('input').checkValidity === 'function';
+}
+            
+            var isSafary = (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1);
+            
             function sendForm(form) {
+                
+                if (hasHtml5Validation() && !isSafary){
                 if (!form.checkValidity()) {
                     return;
                 }
+                }
+                else
+                {
 
                 var name = form.name.value;
                 var email = form.email.value;
@@ -28,6 +40,7 @@
                 if (password != password_confirm) {
                     alert("Passwords do not match!");
                     return false;
+                }
                 }
 
                 var formData = new FormData(form);
