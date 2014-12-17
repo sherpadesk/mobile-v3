@@ -9,40 +9,39 @@
     </head>  
     <body>
         <script>
-            
+
             function hasHtml5Validation () {
- return typeof document.createElement('input').checkValidity === 'function';
-}
-            
+                return typeof document.createElement('input').checkValidity === 'function';
+            }
+
             var isSafary = (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1);
-            
+
             function sendForm(form) {
-                
                 if (hasHtml5Validation() && !isSafary){
-                if (!form.checkValidity()) {
-                    return;
-                }
+                    if (!form.checkValidity()) {
+                        return;
+                    }
                 }
                 else
                 {
 
-                var name = form.name.value;
-                var email = form.email.value;
-                var url = form.url.value;
-                var firstname = form.firstname.value;
-                var lastname = form.lastname.value;
-                var password = form.password.value;
-                var password_confirm = form.password_confirm.value;
-                if (name == '' || email == '' || url == '' || firstname == '' || lastname == '' || password == '' || password_confirm  == '') {
-                    alert("Please enter all fields!");
-                    return false;
+                    var name = form.name.value;
+                    var email = form.email.value;
+                    var url = form.url.value;
+                    var firstname = form.firstname.value;
+                    var lastname = form.lastname.value;
+                    var password = form.password.value;
+                    var password_confirm = form.password_confirm.value;
+                    if (name == '' || email == '' || url == '' || firstname == '' || lastname == '' || password == '' || password_confirm  == '') {
+                        alert("Please enter all fields!");
+                        return false;
+                    }
+                    if (password != password_confirm) {
+                        alert("Passwords do not match!");
+                        return false;
+                    }
                 }
-                if (password != password_confirm) {
-                    alert("Passwords do not match!");
-                    return false;
-                }
-                }
-
+                form.sherpadesk_cu_submit.disabled = true;
                 var formData = new FormData(form);
 
                 // Append extra data before send.
@@ -52,22 +51,27 @@
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', form.action, true);
                 xhr.onload = function(e) { 
-                    console.log(e);
-                    if (e.target.status == 403)
+                    if (e.target.status == 200)
                     {
-                        var error = e.target.statusText;
-                        if (error.indexOf("Url") > -1)
-                            document.getElementById("url").focus();
-                        alert(error);
-                    }
-                    else if (e.target.status == 200)
-                    {
+                        form.sherpadesk_cu_submit.firstChild.data = "Processing…";
                         //var data = JSON.parse(this.response);
                         //alert(data);
                         window.location = e.target.response;
                     }
+                    else if (e.target.status == 403)
+                    {
+                        form.sherpadesk_cu_submit.disabled = false;
+                        var error = e.target.response;
+                        if (error.indexOf("Url") > -1)
+                            document.getElementById("url").focus();
+                        alert(error);
+                    }
                     else
+                    {
+                        form.sherpadesk_cu_submit.disabled = false;
+                        alert(e.target.response);
                         console.log(e);
+                    }
                 };
                 xhr.send(formData);
                 return false; // Prevent page from submitting.
