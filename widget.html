@@ -1,15 +1,17 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>  
     <head>  
         <meta http-equiv="content-type" content="text/html; charset=windows-1250">  
         <meta name="generator" content="PSPad editor, www.pspad.com">  
         <title>
         </title>  
-        <script src="js/jquery1.min.js"></script>
+        <!--script src="js/jquery.min.js"></script-->
+    </head>  
+    <body>
         <script>
             function sendForm(form) {
                 if (!form.checkValidity()) {
-                     return;
+                    return;
                 }
                 var formData = new FormData(form);
 
@@ -27,20 +29,210 @@
                             document.getElementById("url").focus();
                         alert(error);
                     }
+                    else if (e.target.status == 200)
+                    {
+                        //var data = JSON.parse(this.response);
+                        //alert(data);
+                        window.location = e.target.response;
+                    }
                     else
-                    console.log(e);
+                        console.log(e);
                 };
                 xhr.send(formData);
                 return false; // Prevent page from submitting.
             }
         </script>
-    </head>  
-    <body>
         <style>
             .sherpadesk-contactus-text-input, .sherpadesk-contactus-textarea {width: 340px; max-width: 340px;}
+            .signup_form {padding-top: 20px;     box-sizing: border-box;     margin-left: auto;     margin-right: auto;     width: 380px;}
+            .url_dd {box-sizing: border-box;  background-color: #e9eff5;  padding: 5px 5px 5px 5px !important;  border-radius: 10px;}
+            .url {line-height: 40px; font-size: 14px;font-weight: bold;}
+            .url1 {float: left; width: 16%; }
+            .url2 {float: right;}
+            .sherpadesk-contactus {
+                display: none;
+                background-color: #ffffff;
+                padding: 20px;
+                -webkit-border-radius: 8px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .sherpadesk-contactus label {
+                font-size: 17px;
+                font-family: Arial, Sans-Serif;
+            }
+
+            .sherpadesk-contactus-form 
+            {
+                min-width: 350px;
+                overflow: hidden;
+                padding: 5px;
+            }
+
+            dl.sherpadesk-contactus-field dt {
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 3px;
+            }
+
+            .sherpadesk-contactus-content
+            {
+                margin: 0 15px;
+                color: #333333;
+                font-size: 12px;
+                width: 340px;
+            }
+
+            .sherpadesk-contactus-content dd
+            {
+                padding: 0;
+                margin: 0;
+            }
+
+            .sherpadesk-contactus-text-input, .sherpadesk-contactus-textarea
+            {
+                padding: .75em;  
+                border: solid 1px #CCC; 
+                -webkit-appearance: none;
+                border-radius: 5px;
+                -moz-border-radius: 5px;  
+                -webkit-border-radius: 5px; 
+                outline: 0;  
+                font: normal 13px/100% Verdana, Tahoma, sans-serif; 
+                background-color: #ffffff; 
+                width: 320px;
+                max-width: 320px;
+                margin: 0 0 5px;
+            }
+
+            .sherpadesk-contactus-textarea
+            {    
+                height: 250px;
+                max-height: 250px;
+            }
+
+            .sherpadesk-contactus-text-input:hover, .sherpadesk-contactus-textarea:hover
+            {
+                border-color: #80BFFF;
+            }  
+
+            .sherpadesk-contactus-textarea:focus, sherpadesk-contactus-text-input:focus
+            {
+                border-color: #0053A6;
+            }
+
+            .sherpadesk-contactus-formsubmit 
+            {
+                margin-top:5px;
+                text-align: left;
+            }
+
+            .sherpadesk-contactus-sendmessage
+            {
+                margin: 0;
+            }
+
+            .sherpadesk-button
+            {
+                border: 1px solid #D4D4D4;
+                border-radius: 0.2em 0.2em 0.2em 0.2em;
+                cursor: pointer;
+                display: inline-block;
+                padding: 0.5em 1em;
+                outline: medium none;
+                overflow: visible;
+                position: relative;
+                white-space: nowrap;
+                background-color: #76CA43;
+                background-image: linear-gradient(#76CA43, #569D2B);
+                border-color: #76CA43 #76CA43 #569D2B;
+                color: #FFFFFF;
+                text-decoration: none;
+                font-size: 21px;
+                font-weight: bold;
+            }
+
+            .sherpadesk-contactus-close_window
+            {
+                margin-left: 60px;
+                margin-top: 40px;
+            }
+
+            .sherpadesk-contactus-sendmessage:hover
+            {
+                background-color: #69C034;
+                background-image: linear-gradient(#69C034, #4A8825);
+                border-color: #91D16A #91D16A #3E721F;
+                color: #FFFFFF;
+                text-decoration: none;
+            }
+
+            .sherpadesk-contactus-formsubmit span
+            {
+                font-size: 20px;
+                padding: 0 24px;
+            }
+
+            .sherpadesk-contactus-cancel
+            {
+                font-size: 180%;
+                font-family: Arial;
+            }
+
+            .sherpadesk-contactus-error
+            {
+                color: Maroon;
+                font-size: 120%;
+                margin-top: 20px;
+                text-align: center;
+            }
+
+            .sherpadesk-contactus-sending
+            {
+                position: relative;
+                text-align: center;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .sherpadesk-contactus-sending span
+            {
+                background-color: #F9EDBE;
+                padding: 6px 15px;
+                font-weight: bolder;
+                border-color: #F0C36D;
+                border-width: 2px;
+                border-style:solid;
+            }
+
+            .sherpadesk-site-link
+            {
+                width: 100%;
+                text-align: center;
+                font-size: 12px;
+            }
+
+            .sherpadesk-site-link a
+            {
+                color: #A3A3A3;
+                font-family: Arial;
+            } 
+
+            .sherpadesk-contactus-success
+            {
+                color: #595959;
+                font-size: 22px;
+                font-weight: bold;
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 70px;
+                min-height: 250px;
+                min-width: 300px;
+            }
         </style>
         <form id="form" name="form" action="http://api.sherpadesk.com/organizations">
-            <div class="" style="     padding-top: 20px;     box-sizing: border-box;     margin-left: auto;     margin-right: auto;     width: 380px; ">
+            <div class="signup_form">
                 <div id="sherpadesk_ContactusForm" class="sherpadesk-contactus-form">
                     <div class="sherpadesk-contactus-content">
                         <dl class="sherpadesk-contactus-field">
@@ -67,16 +259,9 @@
                                 <label>Company URL
                                 </label>
                             </dt>
-                            <dd style="
-                                       box-sizing: border-box;  background-color: #e9eff5;  
-                                       padding: 5px 5px 5px 5px !important;  border-radius: 10px;
-                                       ">
-                                <div style="float: left;
-                                            line-height: 40px;
-                                            width: 16%;
-                                            font-size: 14px;font-weight: bold;    ">https://</div><div style="float: right;
-                                    line-height: 40px;font-size: 14px;  font-weight: bold;">.sherpadesk.com</div>
-                                <div><input onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Url should be 3 or more chars': '');" pattern="\w{3,}" class="sherpadesk-contactus-text-input" id=url type="text" style="width: 48%;" name="url" required maxlength="254" placeholder="Url..."></div>
+                            <dd class="url_dd">
+                                <div class="url1 url">https://</div><div class="url url2">.sherpadesk.com</div>
+                                <div><input onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Url should be 3 or more chars': '');" pattern="\w{3,}" class="sherpadesk-contactus-text-input" id=url type="text" style="width: 47%;" name="url" required maxlength="254" placeholder="Url..."></div>
                             </dd>
                         </dl>
                         <dl style="display: inline-block;" class="sherpadesk-contactus-field">
@@ -125,9 +310,6 @@
                                 <input class="sherpadesk-contactus-text-input" type="text" id="how_did_you_hear_about_us" name="how_did_you_hear_about_us" title="Goggle, Appstore etc." maxlength="255" placeholder="">
                             </dd>
                         </dl>
-                        <div style="display: none; visibility: hidden;">
-                            <input type="text" id="sherpadesk_cu_hpc" class="sherpadesk-contactus-text-input">
-                        </div>
                         <div id="sherpadesk_cu_formsubmit" class="sherpadesk-contactus-formsubmit" style="width: 100%;">
                             <div style="width: 100%;">
                                 <button class="sherpadesk-contactus-sendmessage sherpadesk-button" id="sherpadesk_cu_submit" type="submit" data-afterclick="Processing…" style="width: 100%;" onclick="return sendForm(this.form);">Create My Account</button>
