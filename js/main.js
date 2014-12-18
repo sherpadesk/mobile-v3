@@ -1337,7 +1337,9 @@ $(document).ready(function(){
                                    );
             });
 
-            //get task types
+            if (!$("#submitTicketTime").length)
+            {
+                            //get task types
             var taskTypes = getApi("task_types");
             taskTypes.then(
                 function(returnData) {
@@ -1354,9 +1356,7 @@ $(document).ready(function(){
                     console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             );
-
-            if (!$("#submitTicketTime").length)
-            {
+                
                 if(!isProject)
                     $("#timeProjects").parent().hide();
                 else

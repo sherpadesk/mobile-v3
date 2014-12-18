@@ -8,6 +8,12 @@
         <!--script src="js/jquery.min.js"></script-->
     </head>  
     <body>
+<![if lte IE 8]>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/combo?pure/0.5.0/base-min.css&pure/0.5.0/grids-min.css&pure/0.5.0/grids-responsive-old-ie-min.css">
+<![endif]>
+<![if gt IE 8]>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/combo?pure/0.5.0/base-min.css&pure/0.5.0/grids-min.css&pure/0.5.0/grids-responsive-min.css">
+<![endif]>
         <script>
 
             function hasHtml5Validation () {
@@ -78,6 +84,8 @@
             }
         </script>
         <style>
+            h3 {font-size: 24px;}
+            .l-box {padding-right: 0.5em;}
             .sherpadesk-contactus-text-input, .sherpadesk-contactus-textarea {width: 340px; max-width: 340px;}
             .signup_form {padding-top: 20px;     box-sizing: border-box;     margin-left: auto;     margin-right: auto;     width: 380px;}
             .url_dd {box-sizing: border-box;  background-color: #e9eff5;  padding: 5px 5px 5px 5px !important;  border-radius: 10px;}
@@ -364,5 +372,42 @@
                 </div>
             </div>  
         </form>
+
+        <h2 class='faqTitle'>Frequently Asked Questions</h2>
+        <div class="pure-g signUpQuestions"> 
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>Which options should I choose?</h3>
+                <p>All plans start with the free trial and offer access to the full stack of tools available. Once you’re in, you’ll be able to select the features you need.</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>What does utility based pricing mean?</h3>
+                <p>In essence it means you only pay for what you use. Rather than make you pay for features and tools you don’t need, we let you choose. So as your company and needs grows, you can scale your SherpaDesk as you grow.</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>Can I change what I use at anytime?</h3>
+                <p>100% yes. Upgrade or downgrade your account at anytime right from your SherpaDesk account.</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>How long is the free trial?</h3>
+                <p>You’ll get access to every feature for FREE for 15 days. After that your account will be FREE FOREVER, just with a few less features. See our complete feature list to see what’s included in the free account.</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>What happens after I create my account</h3>
+                <p>You go right into the application, and then an email will be sent to you with your account information.</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>Do you offer enterprise plans?</h3>
+                <p>Yep. Just contact us: support@sherpadesk.com and one of our reps will assist in getting you set up.</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>Are you guys really sherpas?</h3>
+                <p>No… no we are not. However, we do love helping our members achieve customer support awesomeness!</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>How and when will I be billed?</h3>
+                <p>All payments are made through our credit card processor. If you have chosen any paid features, billing will start 30 days after you input your credit card info. Invoicing is available for enterprise customers.</p>
+                </div></div>
+        </div>
+
     </body>
 </html>
