@@ -455,8 +455,8 @@ $(document).ready(function(){
                 return;
             }
             if (password != password_confirm) {
-                    userMessage.showMessage(false, "Passwords do not match!");
-                    return;
+                userMessage.showMessage(false, "Passwords do not match!");
+                return;
             }
             $.ajax({
                 type: 'POST',
@@ -1278,19 +1278,33 @@ $(document).ready(function(){
     var addTime = {
         init:function(){
             this.inputTime();
-            this.accountTime();
         },
-
-        accountTime:function() {
-            $("#addTimeAccount").click(function(){
-                window.location = "add_time.html";
-            });
+        getTaskTypes: function (data){
+            $("#loading").show();
+            $("#taskTypes").empty();
+                    $("<option value=0>choose a task type</option>").appendTo("#taskTypes");
+                    //get task types
+                    var taskTypes = getApi("task_types", data);
+                    taskTypes.then(
+                        function(returnData) {
+                            //console.log(returnData);
+                            $("#taskTypes").empty();
+                            // add task types to list
+                            fillSelect(returnData, "#taskTypes", "<option value=0>choose a task type</option>");
+                            reveal();
+                        },
+                        function() {
+                            reveal();
+                            console.log("fail @ task types");
+                            console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                        }
+                    );
         },
-
         inputTime:function(){
             var ticketKey = localStorage.getItem('ticketNumber');
             var isBillable = true;
             var date = new Date().toJSON().slice(0,10);
+
             // on submit click get the time and note typed by the user
             $("#submitTicketTime").click(function(){
                 var time = $("#addTimeTicket").val();
@@ -1337,26 +1351,13 @@ $(document).ready(function(){
                                    );
             });
 
-            if (!$("#submitTicketTime").length)
+            if ($("#submitTicketTime").length)
             {
-                            //get task types
-            var taskTypes = getApi("task_types");
-            taskTypes.then(
-                function(returnData) {
-                    console.log(returnData);
-                    $("#taskTypes").empty();
-                    // add task types to list
-                    fillSelect(returnData, "#taskTypes");
-                    var chooseTask = '<option value=0>choose a task type</option>';
-                    $(chooseTask).prependTo('#taskTypes');
-                    //reveal();
-                },
-                function() {
-                    console.log("fail @ task types");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
-                }
-            );
-                
+                //get task types
+                addTime.getTaskTypes({"ticket" : ticketKey});
+            }
+            else
+            {
                 if(!isProject)
                     $("#timeProjects").parent().hide();
                 else
@@ -1364,6 +1365,8 @@ $(document).ready(function(){
                     var chooseProject = "<option value=0>choose a project</option>";
                     $(chooseProject).appendTo("#timeProjects");
                 }
+                $("#taskTypes").empty();
+                $("<option value=0>choose a task type</option>").appendTo("#taskTypes");
                 if(!isAccount)
                 {
                     $("#timeAccounts").parent().hide();
@@ -1388,16 +1391,21 @@ $(document).ready(function(){
                         reveal();
 
                     },
-                                            function() {
+                                                                          function() {
                         console.log("fail @ time accounts");
                         console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     }
-                                           );
+                                                                         );
                 }
 
-                if (isProject){
-                    $("#timeAccounts").on("change", function(){
-                        var account = $("#timeAccounts").val();
+                $("#timeAccounts").on("change", function(){
+                    var account = $("#timeAccounts").val();
+                    addTime.getTaskTypes({"account" : account});
+                    if (isProject){
+                        $("#timeProjects").on("change", function(){
+                            var project = $("#timeProjects").val();
+                            addTime.getTaskTypes({"account" : account, "project": project});
+                        });
                         $("#timeProjects").empty();
                         $("<option value=0>choose a project</option>").appendTo("#timeProjects");
                         if (account !== "0"){
@@ -1420,8 +1428,8 @@ $(document).ready(function(){
                         }
                         else
                             $("#timeProjects").parent().show();
-                    });
-                }
+                    }
+                });
 
                 // submit time to account
                 $("#submitTime").click(function(){
@@ -2464,7 +2472,7 @@ $(document).ready(function(){
                 complete:function(){
                     reveal();
                     if (!isTech) {
-                                  $('#tabpage_reply').fadeIn();}
+                        $('#tabpage_reply').fadeIn();}
                     featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
                 },
                 error: function() {
@@ -2762,6 +2770,9 @@ $(document).ready(function(){
     // get timeLogs for a specific account
     var accountTimeLogs = {
         init:function(){
+            $("#addTimeAccount").click(function(){
+                window.location = "add_time.html";
+            });
             this.getTimeLogs();
         },
 
@@ -3449,9 +3460,9 @@ $(document).ready(function(){
                     {if (!isTime) window.location = "dashboard.html";
                      else
                      {
-                         accountTimeLogs.init();
+                         //accountTimeLogs.init();
                          timeLogs.init();
-                         addTime.init();
+                         //addTime.init();
                      }
                     }
                     if (location.pathname.endsWith("accountTimes.html"))
@@ -3460,7 +3471,7 @@ $(document).ready(function(){
                         else
                         {
                             accountTimeLogs.init();
-                            timeLogs.init();
+                            //timeLogs.init();
                         }
                     }
                     if (location.pathname.endsWith("allInvoice_List.html"))
