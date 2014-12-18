@@ -18,7 +18,8 @@ var isTech = false,
     isFreshbook = true,
     isExpenses = true,
     isTravelCosts = true,
-    isInvoice = true;
+    isInvoice = true,
+    is_MultipleOrgInst = true;
 
 
 //Phonegap specific
@@ -883,6 +884,20 @@ $(document).ready(function(){
 
         logOut:function(){
             $("#signOut").click(logout);
+        }
+    };
+    
+    // when signout button is pressed all user data is whiped from local storage
+    var switchOrg = {
+        init:function(){
+            this.changeOrg();
+        },
+
+        changeOrg:function(){
+            $("#switchOrg").click(function(){
+                localStorage.setItem("userInstanceKey", "");
+                window.location = "org.html";
+            });
         }
     };
 
@@ -3367,6 +3382,7 @@ $(document).ready(function(){
         UserLogin.init();
         org.init();
         OrgSignup.init();
+        switchOrg.init();
         //userInfo.init();
 
         //when user logged in
@@ -3404,6 +3420,13 @@ $(document).ready(function(){
                     isExpenses = false;
                 if (localStorage.getItem('is_travel_costs') === "false")
                     isTravelCosts = false;
+                if (localStorage.getItem('sd_is_MultipleOrgInst') === "false")
+                {
+                    is_MultipleOrgInst = false;
+                    $("#switchOrg").hide();
+                }
+                else
+                    $("#switchOrg").show();
 
                 //Disable for user
                 if (!isTech){
