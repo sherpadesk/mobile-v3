@@ -290,7 +290,7 @@
                                 <small>Acme Inc. or Your Name</small>
                             </dt>
                             <dd>
-                                <input class="sherpadesk-contactus-text-input" onchange="var t=''; if (this.validity.patternMismatch) {t='Name should be 3 or more chars';} else {t=''; if (form.url.value == '') form.url.value = this.value;} this.setCustomValidity(t);"  pattern="\w{3,}" type="text" id="name" name="name" required placeholder="Company Name...">
+                                <input class="sherpadesk-contactus-text-input" onchange="var t=''; if (this.validity.patternMismatch) {t='Name should be 3 or more chars';} else {t=''; if (form.url.value == ''){ form.url.value = this.value.replace(/[^a-zA-Z 0-9]+|[\s]+/g, '').toLowerCase(); this.setCustomValidity(t);}"  pattern="\w{3,}" type="text" id="name" name="name" required placeholder="Company Name...">
                             </dd>
                         </dl>
                         <dl class="sherpadesk-contactus-field">

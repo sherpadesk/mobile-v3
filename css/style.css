@@ -576,7 +576,7 @@ nav h3 {
 
 .sideNavLinks {
   list-style-type: none;
-  margin-top: 14%;
+  margin-top: 9%;
   width: 100%;
   z-index: 7;
 }
@@ -2212,7 +2212,7 @@ font-size: 16px !important;
 }
 .tableHeader li:nth-child(4){
   text-align: right !important;
-  padding-right: 12px;
+  padding-right: 20px;
 }
 
 .tableRows li:first-child {

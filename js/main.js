@@ -250,7 +250,7 @@ function createElipse(text, containerWidth, fontSize){
     containerWidth = containerWidth * windowWidth;
     characterSpace = containerWidth / fontSize;
     characterSpace = float2int(characterSpace);
-    if(text.length > characterSpace){
+    if(text.length -2 > characterSpace){
         text = text.substring(0,characterSpace)+'...';
     } 
     return text;
@@ -566,7 +566,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ accounts");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    // console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         }
@@ -640,7 +640,7 @@ $(document).ready(function(){
                         }
                     },
                     complete: function () {
-                        reveal();
+                        //reveal();
                     },
                     error: function() {
                         console.log("fail @ time accounts");
@@ -1408,7 +1408,7 @@ $(document).ready(function(){
                     },
                                                                           function() {
                         console.log("fail @ time accounts");
-                        console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                        //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     }
                                                                          );
                 }
@@ -1437,7 +1437,7 @@ $(document).ready(function(){
                                 function() {
                                     console.log("fail @ time accounts");
                                     reveal();
-                                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                                 }
                             );
                         }
@@ -1528,7 +1528,7 @@ $(document).ready(function(){
             $('html,body').css('scrollTop','0');
             getApi("tickets/"+localStorage.getItem('ticketNumber')).then(
                 function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     // calculate the number of days since the ticket was created
                     var daysOld = returnData.daysold_in_minutes / -60;
                     localStorage.setItem('techId', returnData.tech_id); // set the local storage variable with the tech id asscioted with this ticket
@@ -2542,7 +2542,7 @@ $(document).ready(function(){
                     for(var i = 0; i < returnData.length; i++)
                     {
                         name = returnData[i].name;
-                        name = createElipse(name, .80, 12);
+                        name = createElipse(name, .75, 12);
                         // check the number of open tickets for the account if the number of tickets is greater than 100 sub 99+
                         var openTks = returnData[i].account_statistics.ticket_counts.open;
                         if( openTks > 99)
@@ -3015,7 +3015,7 @@ $(document).ready(function(){
         }
         else
         {
-            var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tickets</li></ul>";
+            var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tkts</li></ul>";
             $(tableHeader).prependTo("#activeList");
             for(var a = 0; a < retrievedObjectTwo.length; a++){
                 localActiveAccount = retrievedObjectTwo[a];
@@ -3035,7 +3035,7 @@ $(document).ready(function(){
             success: function(returnData) {
                 $("#activeList").empty();
                 //insert for  the header of the active account table
-                var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tickets</li></ul>";
+                var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tkts</li></ul>";
                 $(tableHeader).prependTo("#activeList");
                 console.log(returnData);
                 //add accounts to the active accounts list
