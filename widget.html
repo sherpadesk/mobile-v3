@@ -8,12 +8,12 @@
         <!--script src="js/jquery.min.js"></script-->
     </head>  
     <body>
-<![if lte IE 8]>
+<!--[if lte IE 8]>
   <link rel="stylesheet" href="http://yui.yahooapis.com/combo?pure/0.5.0/base-min.css&pure/0.5.0/grids-min.css&pure/0.5.0/grids-responsive-old-ie-min.css">
 <![endif]>
 <![if gt IE 8]>
   <link rel="stylesheet" href="http://yui.yahooapis.com/combo?pure/0.5.0/base-min.css&pure/0.5.0/grids-min.css&pure/0.5.0/grids-responsive-min.css">
-<![endif]>
+<![endif]-->
         <script>
 
             function hasHtml5Validation () {
@@ -48,6 +48,15 @@
                     }
                 }
                 form.sherpadesk_cu_submit.disabled = true;
+                return postOrg(form);
+            }
+            
+            function postOrg(form, onlyUrl)
+            {
+                if (typeof onlyUrl === "undefined")
+                    onlyUrl = false;
+                
+                form.url.classList.remove("error");
                 var formData = new FormData(form);
 
                 // Append extra data before send.
@@ -69,8 +78,14 @@
                         form.sherpadesk_cu_submit.disabled = false;
                         var error = e.target.response;
                         if (error.indexOf("Url") > -1)
+                        {
+                            form.url.classList.add('error');
                             document.getElementById("url").focus();
-                        alert(error);
+                            if (onlyUrl)
+                                alert(error);
+                        }
+                        if (!onlyUrl)
+                            alert(error);
                     }
                     else
                     {
@@ -82,6 +97,7 @@
                 xhr.send(formData);
                 return false; // Prevent page from submitting.
             }
+            
         </script>
         <style>
             h3 {font-size: 24px;}
@@ -290,7 +306,7 @@
                                 <small>Acme Inc. or Your Name</small>
                             </dt>
                             <dd>
-                                <input class="sherpadesk-contactus-text-input" onchange="var t=''; if (this.validity.patternMismatch) {t='Name should be 3 or more chars';} else {t=''; if (form.url.value == ''){ form.url.value = this.value.replace(/[^a-zA-Z 0-9]+|[\s]+/g, '').toLowerCase(); this.setCustomValidity(t);}"  pattern="\w{3,}" type="text" id="name" name="name" required placeholder="Company Name...">
+                                <input class="sherpadesk-contactus-text-input" title="Name should be 3 or more chars" onchange="var t=''; if (this.validity.patternMismatch) {t=this.title; alert(t);} else {t=''; if (this.value) form.url.value = this.value.replace(/[^a-zA-Z 0-9]+|[\s]+/g, '').toLowerCase(); postOrg(form, true);} this.setCustomValidity(t);"  pattern=".{3,}" type="text" id="name" name="name" required placeholder="Company Name...">
                             </dd>
                         </dl>
                         <dl class="sherpadesk-contactus-field">
@@ -309,7 +325,7 @@
                             </dt>
                             <dd class="url_dd">
                                 <div class="url1 url">https://</div><div class="url url2">.sherpadesk.com</div>
-                                <div><input onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Url should be 3 or more chars': '');" pattern="\w{3,}" class="sherpadesk-contactus-text-input" id=url type="text" style="width: 47%;" name="url" required maxlength="254" placeholder="Url..."></div>
+                                <div><input title="Url should be 3 or more chars" onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : ''); postOrg(form, true);" pattern=".{3,}" class="sherpadesk-contactus-text-input" id=url type="text" style="width: 47%;" name="url" required maxlength="254" placeholder="Url..."></div>
                             </dd>
                         </dl>
                         <dl style="display: inline-block;" class="sherpadesk-contactus-field">

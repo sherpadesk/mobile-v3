@@ -372,7 +372,7 @@ $(document).ready(function(){
                 url: ApiSite +"login",
                 dataType: "json",
                 success: function (returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
 
                     localStorage.setItem("userKey", returnData.api_token)
                     localStorage.setItem('userName', userName);
@@ -436,8 +436,9 @@ $(document).ready(function(){
                 $("#email").val(userName);
             $("#signupButton").click(function () { OrgSignup.add(); });
             $(document).on("change", "#name", function (e) {
-                if ($("#url").val() == "")
-                    $("#url").val($("#name").val());
+                var t=$("#name").val();
+                if (t)
+                    $("#url").val(t.replace(/[^a-zA-Z 0-9]+|[\s]+/g, '').toLowerCase());
             });
             $("#is_force_registration").prop("checked", false);
             reveal();   
@@ -566,7 +567,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ accounts");
-                    // console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    // //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         }
@@ -627,7 +628,7 @@ $(document).ready(function(){
                     url:ApiSite +"technicians",
                     dataType:"json",
                     success: function(returnData) {
-                        console.log(returnData);
+                        //console.log(returnData);
                         // add techs to option select list
                         var insert = "<option value=0 disabled selected> Choose Tech</option>";
                         $(insert).appendTo("#transferTechs");
@@ -644,7 +645,7 @@ $(document).ready(function(){
                     },
                     error: function() {
                         console.log("fail @ time accounts");
-                        console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                        //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     }
                 });
                 // get value
@@ -1012,7 +1013,7 @@ $(document).ready(function(){
                 else
                 { var accounts = getApi("accounts", {"is_with_statistics":false});
                  accounts.then(function(returnData) {
-                     console.log(returnData);
+                     //console.log(returnData);
                      // get list of accounts add them to option select list
                      $("#addTicketAccounts").empty();
                      fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
@@ -1028,7 +1029,7 @@ $(document).ready(function(){
             // after an account is choosed it get a list of technicians
             var technicians = getApi("technicians");
             technicians.then(function(returnData){
-                console.log(returnData);
+                //console.log(returnData);
                 // add techs to option select list
                 fillSelect(returnData, "#addTicketTechs",
                            "<option value=0 disabled selected>choose a tech</option>", "",
@@ -1189,7 +1190,7 @@ $(document).ready(function(){
                             reveal();
                         },
                         error: function() {
-                            console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                            //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                         }
                     });
                     // search for a ticket number that matches the search critera
@@ -1214,7 +1215,7 @@ $(document).ready(function(){
                         },
                         error: function() {
 
-                            console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                            //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                         }
                     });
 
@@ -1230,7 +1231,7 @@ $(document).ready(function(){
                         url:ApiSite +"tickets",
                         dataType:"json",
                         success: function(returnData) {
-                            console.log(returnData);
+                            //console.log(returnData);
                             for(var i = 0; i < returnData.length; i++)
                             {
                                 if(returnData[i].subject.toLowerCase().indexOf(searchItem) >= 0)
@@ -1260,7 +1261,7 @@ $(document).ready(function(){
                         },
                         error: function() {
 
-                            console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                            //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                         }
                     });
                     // close the search when the "X" icon is pressed
@@ -1302,7 +1303,7 @@ $(document).ready(function(){
                     var taskTypes = getApi("task_types", data);
                     taskTypes.then(
                         function(returnData) {
-                            //console.log(returnData);
+                            ////console.log(returnData);
                             $("#taskTypes").empty();
                             // add task types to list
                             fillSelect(returnData, "#taskTypes", "<option value=0>choose a task type</option>");
@@ -1311,7 +1312,7 @@ $(document).ready(function(){
                         function() {
                             reveal();
                             console.log("fail @ task types");
-                            console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                            //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                         }
                     );
         },
@@ -1391,7 +1392,7 @@ $(document).ready(function(){
                 {
                     //get accounts
                     getApi("accounts", {"is_with_statistics":false}).then(function(returnData) {
-                        //console.log(returnData);
+                        ////console.log(returnData);
                         $("#timeAccounts").empty();
                         var chooseAccount = "<option value=0>choose an account</option>";
                         $(chooseAccount).appendTo("#timeAccounts");
@@ -1408,7 +1409,7 @@ $(document).ready(function(){
                     },
                                                                           function() {
                         console.log("fail @ time accounts");
-                        //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                        ////console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     }
                                                                          );
                 }
@@ -1428,7 +1429,7 @@ $(document).ready(function(){
                             $("#loading").fadeIn();
                             getApi("accounts/"+account, {"is_with_statistics":false}).then(
                                 function(returnData) {
-                                    //console.log(returnData);
+                                    ////console.log(returnData);
                                     // add projects
                                     fillSelect(returnData.projects, "#timeProjects");
                                     reveal();
@@ -1437,7 +1438,7 @@ $(document).ready(function(){
                                 function() {
                                     console.log("fail @ time accounts");
                                     reveal();
-                                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                                    ////console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                                 }
                             );
                         }
@@ -1528,7 +1529,7 @@ $(document).ready(function(){
             $('html,body').css('scrollTop','0');
             getApi("tickets/"+localStorage.getItem('ticketNumber')).then(
                 function(returnData) {
-                    //console.log(returnData);
+                    ////console.log(returnData);
                     // calculate the number of days since the ticket was created
                     var daysOld = returnData.daysold_in_minutes / -60;
                     localStorage.setItem('techId', returnData.tech_id); // set the local storage variable with the tech id asscioted with this ticket
@@ -1752,7 +1753,7 @@ $(document).ready(function(){
                 },
                 function() {
                     console.log("fail @ Ticket Detail");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     localStorage.setItem('ticketId', "");
                     window.location = "ticket_list.html";
                 }
@@ -1784,7 +1785,7 @@ $(document).ready(function(){
                 url:ApiSite +"invoices/"+localStorage.getItem("invoiceNumber"),
                 dataType:"json",
                 success: function(returnData) {
-                    //console.log(returnData);
+                    ////console.log(returnData);
                     localStorage.setItem("invoiceAccountId",returnData.account_id);
                     localStorage.setItem("invoiceProjectId",returnData.project_id);
                     $("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number
@@ -1889,7 +1890,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ Invoice details");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
 
@@ -2098,7 +2099,7 @@ $(document).ready(function(){
             // get list of invoices for a specific account
             getApi("invoices", {"account" : accountid}).then(
                 function(returnData) {
-                    //console.log(returnData);
+                    ////console.log(returnData);
                     $("#invoiceList").empty();
                     if(returnData.length == 0){
                         $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
@@ -2122,7 +2123,7 @@ $(document).ready(function(){
                 },
                 function() {
                     console.log("fail @ Invoice List");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             );
         }
@@ -2146,7 +2147,7 @@ $(document).ready(function(){
                 url:ApiSite +"queues/"+localStorage.getItem("currentQueue"),
                 dataType:"json",
                 success: function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     $("#queueTickets").empty();
                     if(returnData.length < 1){
                         var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
@@ -2176,7 +2177,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ Queues List");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         }
@@ -2219,7 +2220,7 @@ $(document).ready(function(){
                 url:ApiSite +"queues",
                 dataType:"json",
                 success: function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     $("#queuesPage").empty();
                     // add queues to the queues list
                     for(var i = 0; i < returnData.length; i++)
@@ -2237,7 +2238,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ Queues List");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         }
@@ -2296,7 +2297,7 @@ $(document).ready(function(){
                 url:ApiSite +"tickets?status=open&limit=500&role=tech",
                 dataType:"json",
                 success: function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     //add tickets as tech to as tech list
                     for(var i = 0; i < returnData.length; i++)
                     {
@@ -2326,7 +2327,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ ticket List");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         },
@@ -2343,7 +2344,7 @@ $(document).ready(function(){
                 url:ApiSite +"tickets?status=allopen&limit=500&query=all",
                 dataType:"json",
                 success: function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     //add tickets to the all section
                     for(var i = 0; i < returnData.length; i++)
                     {
@@ -2399,7 +2400,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ ticket List");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         },
@@ -2417,7 +2418,7 @@ $(document).ready(function(){
                 url:ApiSite +"tickets?status=open&limit=500&role=alt_tech",
                 dataType:"json",
                 success: function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
 
                     for(var i = 0; i < returnData.length; i++)
                     {
@@ -2445,7 +2446,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ ticket List");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         },
@@ -2463,7 +2464,7 @@ $(document).ready(function(){
                 url:ApiSite +"tickets?status=open,onhold&limit=500&role=user",
                 dataType:"json",
                 success: function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     for(var i = 0; i < returnData.length; i++)
                     {
                         var email = $.md5(returnData[i].user_email);
@@ -2492,7 +2493,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ ticket List");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         }
@@ -2533,7 +2534,7 @@ $(document).ready(function(){
                 url:ApiSite +"accounts",
                 dataType:"json",
                 success: function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     $("#fullList").empty();
 
 
@@ -2571,7 +2572,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ listAccounts");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         }
@@ -2639,7 +2640,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ timelogs");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         }
@@ -2698,7 +2699,7 @@ $(document).ready(function(){
                 url:ApiSite +"accounts/"+localStorage.getItem("DetailedAccount"),
                 dataType:"json",
                 success: function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     //update numbers of notification tickers (open tickets / invoices / Times)
                     accountHours = returnData.account_statistics.hours;
                     accountTickets = returnData.account_statistics.ticket_counts.open;
@@ -2734,7 +2735,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ accounts");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
             // get the open tickets for the account and list them in the open tickets list
@@ -2775,7 +2776,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ accounts");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         }
@@ -2806,7 +2807,7 @@ $(document).ready(function(){
                 url: ApiSite +"time?account=" + accountId,
                 dataType:"json",
                 success: function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     $("#accountLogs").empty();
                     //add timelogs to log list
                     for(var i = 0; i < returnData.length; i++)
@@ -2834,7 +2835,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ timelogs");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         }
@@ -2866,7 +2867,7 @@ $(document).ready(function(){
             url:ApiSite +"tickets/counts",
             dataType:"json",
             success: function(returnData) {
-                console.log(returnData);
+                //console.log(returnData);
                 var allTickets = returnData.open_all;
                 //if ticket count is greater than 100 sub 99+
                 if(allTickets > 100){
@@ -2970,7 +2971,7 @@ $(document).ready(function(){
             url:ApiSite +"queues?sort_by=tickets_count",
             dataType:"json",
             success: function(returnData) {
-                console.log(returnData);
+                //console.log(returnData);
                 $("#DashBoradQueues").empty();
                 var dashQueues = 0;
                 for( var i = 0; i < returnData.length; i++)
@@ -3037,7 +3038,7 @@ $(document).ready(function(){
                 //insert for  the header of the active account table
                 var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tkts</li></ul>";
                 $(tableHeader).prependTo("#activeList");
-                console.log(returnData);
+                //console.log(returnData);
                 //add accounts to the active accounts list
                 var activeLength = returnData.length;
                 //if(returnData.length > 7){activeLength = 7;}
@@ -3096,7 +3097,7 @@ $(document).ready(function(){
                 url:ApiSite +"users?query="+localStorage.getItem('userName'),
                 dataType:"json",
                 success: function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     //set the name of the nav side menu
                     $(".navName").html(returnData[0].firstname+" "+returnData[0].lastname);
                     //get md5 value of users email for gravatar
@@ -3112,7 +3113,7 @@ $(document).ready(function(){
                 },
                 error: function() {
                     console.log("fail @ accounts");
-                    console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
             });
         }
