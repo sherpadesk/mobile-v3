@@ -15,7 +15,46 @@
   <link rel="stylesheet" href="http://yui.yahooapis.com/combo?pure/0.5.0/base-min.css&pure/0.5.0/grids-min.css&pure/0.5.0/grids-responsive-min.css">
 <![endif]-->
         <script>
+            
+            function serror(name, error)
+            {
+                if(name){
+                var el = document.getElementById(name);
+                if (el)
+                {
+                    el.classList.remove('success');
+                    el.classList.add('error');
+                    var t = el.value;
+                    if (t.length > 0)
+                    {
+                        el.placeholder = t.replace(new RegExp('_', 'g'), " ") + error.substring(name.length);
+                        el.value = "";
+                    }
+                    else
+                    {
+                        el.placeholder = error;
+                    }
+                }
+                }
+            }
+            
 
+            function ssuccess(name)
+            {
+                if (name){
+                var el = document.getElementById(name);
+                if (el)
+                {
+                    el.classList.remove('error');
+                    
+                if (el.value.length > 0)
+                    el.classList.add('success');
+                else
+                    el.placeholder = el.name.replace(new RegExp('_', 'g'), " ") + " ..."
+                }
+                }
+            }
+            
             function hasHtml5Validation () {
                 return typeof document.createElement('input').checkValidity === 'function';
             }
@@ -30,20 +69,21 @@
                 }
                 else
                 {
-
                     var name = form.name.value;
                     var email = form.email.value;
                     var url = form.url.value;
                     var firstname = form.firstname.value;
                     var lastname = form.lastname.value;
                     var password = form.password.value;
-                    var password_confirm = form.password_confirm.value;
-                    if (name == '' || email == '' || url == '' || firstname == '' || lastname == '' || password == '' || password_confirm  == '') {
-                        alert("Please enter all fields!");
+                    var passwords = form.passwords.value;
+                    if (name == '' || email == '' || url == '' || firstname == '' || lastname == '' || password == '' || passwords  == '') {
+                        var el = document.getElementById("sherpadesk_cu_formsubmit");
+                        if (el.innerHTML.indexOf("Please enter all fields")< 0)
+                        el.innerHTML =  "<h3 style='color:red;'>Please enter all fields!</h3>" + el.innerHTML;
                         return false;
                     }
-                    if (password != password_confirm) {
-                        alert("Passwords do not match!");
+                    if (password != passwords) {
+                        serror("passwords","Passwords do not match!");
                         return false;
                     }
                 }
@@ -59,10 +99,14 @@
                 form.url.classList.remove("error");
                 var formData = new FormData(form);
 
+                for (i=0; i <form.elements.length; i++) {
+                    ssuccess(form.elements[i].id);
+                }
+                
                 // Append extra data before send.
                 formData.append('is_force_registration', 'true'); 
                 formData.append('is_force_redirect', 'true');
-
+                
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', form.action, true);
                 xhr.onload = function(e) { 
@@ -77,15 +121,12 @@
                     {
                         form.sherpadesk_cu_submit.disabled = false;
                         var error = e.target.response;
-                        if (error.indexOf("Url") > -1)
-                        {
-                            form.url.classList.add('error');
-                            document.getElementById("url").focus();
-                            if (onlyUrl)
-                                alert(error);
-                        }
-                        if (!onlyUrl)
-                            alert(error);
+                        var name = error.split(' ')[0].toLowerCase();
+                        if(name)
+                            document.getElementById(name).focus();
+                        if (onlyUrl && name=='url') serror(name, error);
+                        else if (!onlyUrl)
+                            serror(name, error);
                     }
                     else
                     {
@@ -111,6 +152,11 @@
             input.error
             {
                 background-color: pink; 
+                outline: none; 
+            }
+            input.success
+            {
+                background-color: palegreen; 
                 outline: none; 
             }
             .sherpadesk-contactus {
@@ -306,7 +352,7 @@
                                 <small>Acme Inc. or Your Name</small>
                             </dt>
                             <dd>
-                                <input class="sherpadesk-contactus-text-input" title="Name should be 3 or more chars" onchange="var t=''; if (this.validity.patternMismatch) {t=this.title; alert(t);} else {t=''; if (this.value) form.url.value = this.value.replace(/[^a-zA-Z 0-9]+|[\s]+/g, '').toLowerCase(); postOrg(form, true);} this.setCustomValidity(t);"  pattern=".{3,}" type="text" id="name" name="name" required placeholder="Company Name...">
+                                <input class="sherpadesk-contactus-text-input" title="Name should be 3 or more chars" onchange="var t=''; if (this.validity.patternMismatch) {t=this.title; serror(this.id, t);} else {t=''; if (this.value) form.url.value = this.value.replace(/[^a-zA-Z 0-9]+|[\s]+/g, '').toLowerCase(); postOrg(form, true); ssuccess(this.id);} this.setCustomValidity(t);"  pattern=".{3,}" type="text" id="name" name="name" required placeholder="Company Name...">
                             </dd>
                         </dl>
                         <dl class="sherpadesk-contactus-field">
@@ -325,7 +371,7 @@
                             </dt>
                             <dd class="url_dd">
                                 <div class="url1 url">https://</div><div class="url url2">.sherpadesk.com</div>
-                                <div><input title="Url should be 3 or more chars" onchange="this.setCustomValidity(this.validity.patternMismatch ? this.title : ''); postOrg(form, true);" pattern=".{3,}" class="sherpadesk-contactus-text-input" id=url type="text" style="width: 47%;" name="url" required maxlength="254" placeholder="Url..."></div>
+                                <div><input title="Url should be 3 or more chars" onchange="var t=this.title; if (this.validity.patternMismatch)  {serror(this.id, t);} else {t=''; postOrg(form, true); ssuccess(this.id);} this.setCustomValidity(t);" pattern=".{3,}" class="sherpadesk-contactus-text-input" id=url type="text" style="width: 47%;" name="url" required maxlength="254" placeholder="Url..."></div>
                             </dd>
                         </dl>
                         <dl style="display: inline-block;" class="sherpadesk-contactus-field">
@@ -353,7 +399,7 @@
                             </dt>
                             <dd>
                                 <input class="sherpadesk-contactus-text-input" pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9_]{5,20})" type="password" id="password" name="password" 
-                                       onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Password must be alphanumeric with at least 5 characters' : ''); if(this.checkValidity()) form.password_confirm.pattern = this.value;" required maxlength="20" placeholder="">
+                                       onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Password must be alphanumeric with at least 5 characters' : ''); if(this.checkValidity()) form.passwords.pattern = this.value;" required maxlength="20" placeholder="">
                             </dd>
                         </dl>
                         <dl class="sherpadesk-contactus-field">
@@ -362,7 +408,7 @@
                                 </label>
                             </dt>
                             <dd>
-                                <input class="sherpadesk-contactus-text-input" type="password"  pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9_]{5,20})" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Passwords do not match' : '');" id="password_confirm" name="password_confirm" required maxlength="20" placeholder="">
+                                <input class="sherpadesk-contactus-text-input" type="password"  pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9_]{5,20})" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Passwords do not match' : '');" id="passwords" name="password_confirm" required maxlength="20" placeholder="">
                             </dd>
                         </dl>
                         <dl class="sherpadesk-contactus-field">
