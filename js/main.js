@@ -1293,7 +1293,38 @@ $(document).ready(function(){
     // add time to an account
     var addTime = {
         init:function(){
+            this.addpicker();
             this.inputTime();
+        },
+        addpicker: function(){
+                jQuery('#date_start').datetimepicker({
+                    mask: false,
+                    onShow:function( ct ){
+                        var dat1 = jQuery('#date_end').val();
+                        var dat;
+                        if (dat1){
+                            dat = new Date(dat1);
+                            dat.setDate(dat.getDate());
+                        }
+                        this.setOptions({
+                            maxDate:dat1?dat:false
+                        })
+                    }
+                });
+                jQuery('#date_end').datetimepicker({
+                    mask: false,
+                    onShow:function( ct ){
+                        var dat1 = jQuery('#date_start').val();
+                        var dat;
+                        if (dat1){
+                            dat = new Date(dat1);
+                            dat.setDate(dat.getDate());
+                        }
+                        this.setOptions({
+                            minDate:dat1?dat:false
+                        })
+                    }
+            });
         },
         getTaskTypes: function (data){
             $("#loading").show();
@@ -1343,6 +1374,17 @@ $(document).ready(function(){
                 }else{
                     isBillable = false;
                 }
+                //date
+                var dat1 = jQuery('#date_start').val();
+                var sdat;
+                if (dat1){
+                    sdat = JSON.stringify(new Date(dat1));
+                }
+                var dat2 = jQuery('#date_end').val();
+                var edat;
+                if (dat2){
+                    edat = JSON.stringify(new Date(dat2));
+                }
                 // add time to the orginization
                 getApi('time',
                        {
@@ -1351,9 +1393,9 @@ $(document).ready(function(){
                     "task_type_id": task_type,
                     "hours": time,
                     "is_billable": isBillable,
-                    //"date": date,
-                    //"start_date": new Date().toJSON(),
-                    //"stop_date": new Date().toJSON(),
+                    "date": dat1 ? sdat : "",
+                    "start_date": dat1 ? sdat : "",
+                    "stop_date": dat2 ? edat : "",
                     "tech_id": tech,
                 },
                        'POST').then(function (d) {
@@ -1460,6 +1502,17 @@ $(document).ready(function(){
                     }else{
                         isBillable = false;
                     }
+                    //date
+                    var dat1 = jQuery('#date_start').val();
+                    var sdat;
+                    if (dat1){
+                        sdat = JSON.stringify(new Date(dat1));
+                    }
+                    var dat2 = jQuery('#date_end').val();
+                    var edat;
+                    if (dat2){
+                        edat = JSON.stringify(new Date(dat2));
+                    }
                     if(time == 0){
                         userMessage.showMessage(false, "Oops not enough time");
                         return;
@@ -1482,9 +1535,9 @@ $(document).ready(function(){
                                 "task_type_id":taskId,
                                 "hours":time,
                                 "is_billable": isBillable,
-                                //"date": date,
-                                //"start_date": new Date().toJSON(),
-                                //"stop_date": new Date().toJSON(),
+                                "date": dat1 ? sdat: "",
+                                "start_date": dat1 ? sdat : "",
+                                "stop_date": dat2 ? edat : ""
                             },
                             dataType: 'json',
                             success: function (d) {
