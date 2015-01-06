@@ -276,16 +276,16 @@ fullscreen();
 		},
 
 		changeTime: function() {
-			var counter = 0;
-
+            var counter = 0;
 			$("#addTimeTicket").val(counter);
 			$(".buttonList li:nth-child(3), .buttonListSymbols").click(function() {
-				counter += .25;
-				$("#addTimeTicket").val(counter);
+                val = $("#addTimeTicket").val() ? parseFloat($("#addTimeTicket").val()) : 0;
+				//counter = val + 0.25;
+                $("#addTimeTicket").val(val + 0.25);
 			});
 			$(".buttonList li:nth-child(1), .buttonListSymbols").click(function() {
-				counter -= .25;
-				$("#addTimeTicker").val(counter);
+                val = $("#addTimeTicket").val() ? parseFloat($("#addTimeTicket").val()) : 0;
+                $("#addTimeTicket").val(val - 0.25);
 			});
 		}
 	};

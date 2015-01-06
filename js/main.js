@@ -887,7 +887,7 @@ $(document).ready(function(){
             $("#signOut").click(logout);
         }
     };
-    
+
     // when signout button is pressed all user data is whiped from local storage
     var switchOrg = {
         init:function(){
@@ -1292,62 +1292,105 @@ $(document).ready(function(){
 
     // add time to an account
     var addTime = {
-        init:function(){
+        init:function(isEdit){
             this.addpicker();
-            this.inputTime();
+            this.inputTime(isEdit);
         },
         addpicker: function(){
-                jQuery('#date_start').datetimepicker({
-                    mask: false,
-                    onShow:function( ct ){
-                        var dat1 = jQuery('#date_end').val();
-                        var dat;
-                        if (dat1){
-                            dat = new Date(dat1);
-                            dat.setDate(dat.getDate());
-                        }
-                        this.setOptions({
-                            maxDate:dat1?dat:false
-                        })
+            jQuery('#date_start').datetimepicker({
+                mask: false,
+                onShow:function( ct ){
+                    var dat1 = jQuery('#date_end').val();
+                    var dat;
+                    if (dat1){
+                        dat = new Date(dat1);
+                        dat.setDate(dat.getDate());
                     }
-                });
-                jQuery('#date_end').datetimepicker({
-                    mask: false,
-                    onShow:function( ct ){
-                        var dat1 = jQuery('#date_start').val();
-                        var dat;
-                        if (dat1){
-                            dat = new Date(dat1);
-                            dat.setDate(dat.getDate());
-                        }
-                        this.setOptions({
-                            minDate:dat1?dat:false
-                        })
+                    this.setOptions({
+                        maxDate:dat1?dat:false
+                    })
+                }
+            });
+            jQuery('#date_end').datetimepicker({
+                mask: false,
+                onShow:function( ct ){
+                    var dat1 = jQuery('#date_start').val();
+                    var dat;
+                    if (dat1){
+                        dat = new Date(dat1);
+                        dat.setDate(dat.getDate());
                     }
+                    this.setOptions({
+                        minDate:dat1?dat:false
+                    })
+                }
             });
         },
-        getTaskTypes: function (data){
+        getTaskTypes: function (data, task_type_id){
+            if (typeof task_type_id === "undefined")
+                task_type_id = 0; 
             $("#loading").show();
             $("#taskTypes").empty();
-                    $("<option value=0>choose a task type</option>").appendTo("#taskTypes");
-                    //get task types
-                    var taskTypes = getApi("task_types", data);
-                    taskTypes.then(
+            $("<option value=0>choose a task type</option>").appendTo("#taskTypes");
+            //get task types
+            var taskTypes = getApi("task_types", data);
+            taskTypes.then(
+                function(returnData) {
+                    ////console.log(returnData);
+                    $("#taskTypes").empty();
+                    // add task types to list
+                    fillSelect(returnData, "#taskTypes", "<option value=0>choose a task type</option>");
+                    if (task_type_id > 0)
+                        $("#taskTypes").val(task_type_id);
+                    reveal();
+                },
+                function() {
+                    reveal();
+                    console.log("fail @ task types");
+                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+            );
+        },
+        chooseProjects : function (project_id, task_type_id){
+            if (typeof project_id === "undefined")
+                project_id = 0; 
+            if (typeof task_type_id === "undefined")
+                task_type_id = 0; 
+            var account = $("#timeAccounts").val();
+            if (isProject){
+                $("#timeProjects").on("change", function(){
+                    var project = $("#timeProjects").val();
+                    addTime.getTaskTypes({"account" : account, "project": project}, task_type_id);
+                });
+                $("#timeProjects").empty();
+                $("<option value=0>choose a project</option>").appendTo("#timeProjects");
+                if (account !== "0"){
+                    //get projects
+                    $("#loading").fadeIn();
+                    getApi("accounts/"+account, {"is_with_statistics":false}).then(
                         function(returnData) {
                             ////console.log(returnData);
-                            $("#taskTypes").empty();
-                            // add task types to list
-                            fillSelect(returnData, "#taskTypes", "<option value=0>choose a task type</option>");
+                            // add projects
+                            fillSelect(returnData.projects, "#timeProjects");
+                            $("#timeProjects").val(project_id);
+                            addTime.getTaskTypes({"account" : account, "project": project_id}, task_type_id);
                             reveal();
+
                         },
                         function() {
+                            console.log("fail @ time accounts");
                             reveal();
-                            console.log("fail @ task types");
-                            //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                            ////console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                         }
                     );
+                }
+                else
+                    $("#timeProjects").parent().show();
+            }
+            else
+                addTime.getTaskTypes({"account" : account}, task_type_id);
         },
-        inputTime:function(){
+        inputTime:function(isEdit){
             var ticketKey = localStorage.getItem('ticketNumber');
             var isBillable = true;
             var date = new Date().toJSON().slice(0,10);
@@ -1412,10 +1455,24 @@ $(document).ready(function(){
             if ($("#submitTicketTime").length)
             {
                 //get task types
-                addTime.getTaskTypes({"ticket" : ticketKey});
+                addTime.getTaskTypes({"ticket" : ticketKey}, 0);
             }
             else
             {
+                var timeLog, timeEntry = localStorage.getItem("timeNumber");
+                if (isEdit && timeEntry)
+                {
+                    timeLog = JSON.parse(timeEntry);
+                    if (!timeLog.billable)
+                        $(".innerCircle").removeClass("billFill");
+                    $("#noteTime").val(timeLog.note);
+                    $("#addTimeTicket").val(timeLog.hours);
+                    $(".title").html("Time #"+ timeLog.time_id + " by " + timeLog.user_name + " @ " + new Date(timeLog.date).dateFormat("Y/\m/\d H:i"));
+                    if (timeLog.start_time)
+                        $("#date_start").val(new Date(timeLog.start_time).dateFormat("Y/\m/\d H:i"));
+                    if (timeLog.stop_time)
+                        $("#date_end").val(new Date(timeLog.stop_time).dateFormat("Y/\m/\d H:i"));
+                }
                 if(!isProject)
                     $("#timeProjects").parent().hide();
                 else
@@ -1446,10 +1503,15 @@ $(document).ready(function(){
                             var insert = "<option value="+value+">"+task+"</option>";
                             $(insert).appendTo("#timeAccounts");
                         }
+                        if (timeLog)
+                        {
+                            $("#timeAccounts").val(timeLog.account_id);
+                            addTime.chooseProjects(timeLog.project_id, timeLog.task_type_id);
+                        }
                         reveal();
 
                     },
-                                                                          function() {
+                    function() {
                         console.log("fail @ time accounts");
                         ////console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     }
@@ -1457,36 +1519,8 @@ $(document).ready(function(){
                 }
 
                 $("#timeAccounts").on("change", function(){
-                    var account = $("#timeAccounts").val();
-                    addTime.getTaskTypes({"account" : account});
-                    if (isProject){
-                        $("#timeProjects").on("change", function(){
-                            var project = $("#timeProjects").val();
-                            addTime.getTaskTypes({"account" : account, "project": project});
-                        });
-                        $("#timeProjects").empty();
-                        $("<option value=0>choose a project</option>").appendTo("#timeProjects");
-                        if (account !== "0"){
-                            //get projects
-                            $("#loading").fadeIn();
-                            getApi("accounts/"+account, {"is_with_statistics":false}).then(
-                                function(returnData) {
-                                    ////console.log(returnData);
-                                    // add projects
-                                    fillSelect(returnData.projects, "#timeProjects");
-                                    reveal();
-
-                                },
-                                function() {
-                                    console.log("fail @ time accounts");
-                                    reveal();
-                                    ////console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
-                                }
-                            );
-                        }
-                        else
-                            $("#timeProjects").parent().show();
-                    }
+                    console.log(timeLog.task_type_id);
+                    addTime.chooseProjects(0, timeLog ? timeLog.task_type_id : 0);
                 });
 
                 // submit time to account
@@ -1521,14 +1555,14 @@ $(document).ready(function(){
                         return;
                     }else{
                         $.ajax({
-                            type: 'POST',
+                            type: isEdit ? 'PUT' : 'POST',
                             beforeSend: function (xhr) {
                                 xhr.setRequestHeader('Authorization',
                                                      'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                             },
-                            url: ApiSite + 'time',
+                            url: ApiSite + 'time' + (isEdit ? "/" + timeLog.time_id : ""),
                             data: {
-                                "tech_id" : tech,
+                                "tech_id" : isEdit ? timeLog.user_id : tech,
                                 "project_id": projectId,
                                 "account_id" :accountId,
                                 "note_text": note,
@@ -2638,6 +2672,10 @@ $(document).ready(function(){
         },
 
         getLogs:function() {
+            $(document).on("click",".timelog", function(){
+                localStorage.setItem('timeNumber', $(this).attr("data-info")); //set local storage variable to the ticket id of the ticket block from the ticket list
+                window.location = "edit_time.html"; // change page location from ticket list to ticket detail list
+            });
             var localTimelogs = [];
             var retrievedObject = localStorage.getItem("storageTimeLogs");
             retrievedObject = JSON.parse(retrievedObject);
@@ -2670,6 +2708,7 @@ $(document).ready(function(){
                         //get users email for gravitar
                         var email = $.md5(returnData[i].user_email);
                         var text = returnData[i].note;
+                        var id = returnData[i].time_id;
                         //check to see if hours are has a decimal
                         var hours = returnData[i].hours;
                         hours =hours.toString();
@@ -2684,7 +2723,7 @@ $(document).ready(function(){
                             hours = hours+".00";
                         }
                         nameCheck = createElipse(nameCheck,.50, 12);
-                        var log = "<li class=item><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName user_name'>"+nameCheck+"</h2><p class='taskDescription responseText'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
+                        var log = "<li class=item><ul class='timelog' data-id="+id+" data-info='"+JSON.stringify(returnData[i])+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName user_name'>"+nameCheck+"</h2><p class='taskDescription responseText'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                         $(log).appendTo("#timelogs");
                         localTimelogs.push(log);
                     }
@@ -3618,6 +3657,14 @@ $(document).ready(function(){
                     else
                     {
                         addTime.init();
+                    }
+                }
+                if (location.pathname.endsWith("edit_time.html"))
+                {
+                    if (!isTime) window.location = "dashboard.html";
+                    else
+                    {
+                        addTime.init(true);
                     }
                 }
                 fullapplink();
