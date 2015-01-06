@@ -1506,6 +1506,8 @@ $(document).ready(function(){
                         if (timeLog)
                         {
                             $("#timeAccounts").val(timeLog.account_id);
+                            if ($("#timeAccounts").val() !== timeLog.account_id)
+                                $("#timeAccounts").val(-1);
                             addTime.chooseProjects(timeLog.project_id, timeLog.task_type_id);
                         }
                         reveal();
@@ -1656,7 +1658,7 @@ $(document).ready(function(){
                         $("#ticketSLA").html("SLA: "+returnData.sla_complete_date.toString().substring(0,10));
                     }
                     var ticketTech = returnData.tech_email;
-                    console.log(ticketTech);
+                    //console.log(ticketTech);
                     if(ticketTech == localStorage.getItem('userName')){
                         $('#pickUp').hide();
                     } 
@@ -2723,7 +2725,7 @@ $(document).ready(function(){
                             hours = hours+".00";
                         }
                         nameCheck = createElipse(nameCheck,.50, 12);
-                        var log = "<li class=item><ul class='timelog' data-id="+id+" data-info='"+JSON.stringify(returnData[i])+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName user_name'>"+nameCheck+"</h2><p class='taskDescription responseText'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
+                        var log = "<li class=item><ul class='timelog' data-id="+id+" data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName user_name'>"+nameCheck+"</h2><p class='taskDescription responseText'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                         $(log).appendTo("#timelogs");
                         localTimelogs.push(log);
                     }
