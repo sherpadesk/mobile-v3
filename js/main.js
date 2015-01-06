@@ -1519,7 +1519,7 @@ $(document).ready(function(){
                 }
 
                 $("#timeAccounts").on("change", function(){
-                    console.log(timeLog.task_type_id);
+                    //console.log(timeLog.task_type_id);
                     addTime.chooseProjects(0, timeLog ? timeLog.task_type_id : 0);
                 });
 
