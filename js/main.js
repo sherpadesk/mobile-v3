@@ -51,7 +51,7 @@ $( document ).ajaxError(function( event, request, settings ) {
     //console.log(request);
     //console.log(settings);
     //        alert(request.statusText);
-    alert(request.responseText);
+    //alert(request.responseText);
     //    alert(settings.url);
     if ((request.status == 403 && settings.url !== ApiSite + "organizations") || (request.status == 404 && settings.url === ApiSite + "config"))
     {
@@ -3311,11 +3311,15 @@ $(document).ready(function(){
                         userOrg =  results[0].name;
                         localStorage.setItem('userOrgKey', userOrgKey);
                         localStorage.setItem('sd_is_MultipleOrgInst', 'false');
+                        $('#orgSelect').append($("<option></option>")
+                                .attr("value", 0)
+                                .text(results[0].name));
+                        $('#orgSelect').val(0);
                         //location.reload(true);
-                        var myinst = results[0].instances;
+                        var instances = results[0].instances;
                         // If there is only one instance on the selected org
-                        if (myinst.length == 1) {
-                            userInstanceKey = myinst[0].key;
+                        if (instances.length == 1) {
+                            userInstanceKey = instances[0].key;
                             localStorage.setItem('userInstanceKey', userInstanceKey);
                             getInstanceConfig(userOrgKey, userInstanceKey);
                         }
