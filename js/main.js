@@ -51,7 +51,7 @@ $( document ).ajaxError(function( event, request, settings ) {
     //console.log(request);
     //console.log(settings);
     //        alert(request.statusText);
-    //    alert(request.responseText);
+    alert(request.responseText);
     //    alert(settings.url);
     if ((request.status == 403 && settings.url !== ApiSite + "organizations") || (request.status == 404 && settings.url === ApiSite + "config"))
     {
@@ -3253,7 +3253,7 @@ $(document).ready(function(){
                 cache: false,
                 dataType: 'json',
                 success: function(results) {
-                    console.log(results);
+                    //console.log(results);
                     // If there are more than one org
                     if (results.length > 1) {
                         localStorage.setItem('sd_is_MultipleOrgInst', 'true');
