@@ -3085,7 +3085,7 @@ $(document).ready(function(){
 
             },
             complete:function(){
-
+                $(".page").show();
             },
             error: function() {
                 console.log("fail");
