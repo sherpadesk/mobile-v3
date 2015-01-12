@@ -1329,7 +1329,7 @@ $(document).ready(function(){
         getTaskTypes: function (data, task_type_id){
             if (typeof task_type_id === "undefined")
                 task_type_id = 0; 
-            $("#loading").show();
+            //$("#loading").show();
             $("#taskTypes").empty();
             $("<option value=0>choose a task type</option>").appendTo("#taskTypes");
             //get task types
@@ -1345,7 +1345,7 @@ $(document).ready(function(){
                     reveal();
                 },
                 function() {
-                    reveal();
+                    //reveal();
                     console.log("fail @ task types");
                     //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
@@ -2221,6 +2221,7 @@ $(document).ready(function(){
     // list tickets of the queue
     var getQueueTickets = {
         init:function() {
+            $(".SherpaDesk").html("Tickets @ " + localStorage.getItem("currentQueueName") + " Queue");
             this.queueTickets();
         },
 
@@ -2281,6 +2282,7 @@ $(document).ready(function(){
         queues:function() {
             $(document).on("click","#queue", function(){
                 localStorage.setItem('currentQueue',$(this).attr("data-id"));
+                localStorage.setItem('currentQueueName',$(this).find(".OptionTitle").text());
                 window.location = "queueTickets.html";
             });
             var localQueues = [];
@@ -2411,7 +2413,7 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    reveal();
+                    //reveal();
                     featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
                 },
                 error: function() {
@@ -2457,7 +2459,7 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    reveal();
+                    $('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
                     featureList3 = filterList("allContainer", "", localStorage.getItem("searchItem"));
                     //filterList(page, "", localStorage.getItem("searchItem"));
                     var ticketView = localStorage.getItem("ticketPage");
@@ -2465,26 +2467,34 @@ $(document).ready(function(){
                     {
                         $('#tabpage_reply, #tabpage_all, #tabpage_info').hide();
                         $('#tabpage_options').fadeIn();
+                        $('#altTab').css('color','#ffffff');
                         localStorage.setItem('ticketPage',"asTech");
                     }
                     else if(ticketView == "asTech")
                     {
                         $('#tabpage_reply, #tabpage_all, #tabpage_options').hide();
                         $('#tabpage_info').fadeIn();
+                        $('#userTab').css('color','#ffffff');
                     }
                     else if(ticketView == "asUser")
                     {
                         $('#tabpage_info, #tabpage_all, #tabpage_options').hide();
                         $('#tabpage_reply').fadeIn();
                         localStorage.setItem('ticketPage',"asTech");
+                        $('#replyTab').css('color','#ffffff');
                     }
                     else if(ticketView == "allTickets")
                     {
                         $('#tabpage_info, #tabpage_reply, #tabpage_options').hide();
                         $('#tabpage_all').fadeIn();
                         localStorage.setItem('ticketPage',"asTech");
+                        $('#openTab').css('color','#ffffff');
                     }
+                    else
+                        $('#replyTab').css('color','#ffffff');
+                    
                     localStorage.setItem("searchItem","");
+                    reveal();
 
                 },
                 error: function() {
@@ -2530,7 +2540,7 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    reveal();
+                    //reveal();
                     featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
                 },
                 error: function() {
@@ -2575,9 +2585,8 @@ $(document).ready(function(){
                     }
                 },
                 complete:function(){
-                    reveal();
                     if (!isTech) {
-                        $('#tabpage_reply').fadeIn();}
+                        $('#tabpage_reply').fadeIn(); reveal();}
                     featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
                 },
                 error: function() {
@@ -2656,8 +2665,8 @@ $(document).ready(function(){
                     localStorage.setItem("storageAccountList",JSON.stringify(localAccountList));
                 },
                 complete:function(){
-                    reveal();
                     filterList("ActiveAccountsContainer");
+                    reveal();
                 },
                 error: function() {
                     console.log("fail @ listAccounts");
@@ -2960,6 +2969,7 @@ $(document).ready(function(){
 
             url:ApiSite +"tickets/counts",
             dataType:"json",
+            cache: true,
             success: function(returnData) {
                 //console.log(returnData);
                 var allTickets = returnData.open_all;
@@ -2973,12 +2983,11 @@ $(document).ready(function(){
                 $("#UserStat").html(returnData.open_as_user);
                 $("#techStat").html(returnData.open_as_tech);
                 $("#altStat").html(returnData.open_as_alttech);
+                reveal();
                 localStorage.setItem("allTickets",allTickets);
                 localStorage.setItem("userStat",returnData.open_as_user);
                 localStorage.setItem("techStat",returnData.open_as_tech);
                 localStorage.setItem("altStat",returnData.open_as_alttech);
-
-
             },
             error: function() {
                 console.log("fail @ get getTicketCount");
@@ -3064,6 +3073,7 @@ $(document).ready(function(){
 
             url:ApiSite +"queues?sort_by=tickets_count",
             dataType:"json",
+            cache: true,
             success: function(returnData) {
                 //console.log(returnData);
                 $("#DashBoradQueues").empty();
@@ -3085,7 +3095,7 @@ $(document).ready(function(){
 
             },
             complete:function(){
-                $(".page").show();
+                reveal();
             },
             error: function() {
                 console.log("fail");
@@ -3127,6 +3137,7 @@ $(document).ready(function(){
 
             url:ApiSite +"accounts?query=account_statistics.ticket_counts.open>0",
             dataType:"json",
+            cache: true,
             success: function(returnData) {
                 $("#activeList").empty();
                 //insert for  the header of the active account table
@@ -3240,7 +3251,7 @@ $(document).ready(function(){
 
         getOrg: function() {
             $(".page").show();
-            $("#loading").fadeIn();
+            $("#loading").show();
             userKey = localStorage.getItem("userKey");
             $.ajax({
                 type: 'GET',
@@ -3395,6 +3406,7 @@ $(document).ready(function(){
             });
             $(document).on("click","#queue", function(){
                 localStorage.setItem('currentQueue',$(this).attr("data-id"));
+                localStorage.setItem('currentQueueName',$(this).find(".OptionTitle").text());
                 window.location = "queueTickets.html";
             });
             $(document).on('click','#asUserStat', function(){
@@ -3541,7 +3553,6 @@ $(document).ready(function(){
                         $("#invoiceFooter").hide();
                         $("#invoiceFooter").next().hide();
                     }
-                    $("#loading").fadeIn();
                     //conditional api calls determined by page
                     if (location.pathname.endsWith("dashboard.html"))
                     {
@@ -3553,6 +3564,7 @@ $(document).ready(function(){
                         search.init();
                         reveal();
                     }
+                    $("#loading").show();
                     if (location.pathname.endsWith("account_details.html"))
                     {
                         if (!isAccount) window.location = "dashboard.html";

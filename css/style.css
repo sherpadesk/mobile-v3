@@ -58,7 +58,7 @@ body, html {
     left: 0;
     z-index: 100;
     width: 100vw;
-    height: 100vh;
+    height: 110vh;
     background-color: rgba(192, 192, 192, 0.5)/*#ffffff*/;
     /*background-image: url(../img/loader.gif);*/
     background-repeat: no-repeat;
@@ -2537,6 +2537,12 @@ br {
   z-index: 7;
 }
 
+#reload {
+    bottom: 80px;
+    background-color: #25B0E6;
+    padding-left: 13px;
+}
+
 .createButton {
 width: 50px;
 height: 50px;
@@ -2545,7 +2551,7 @@ background-color: rgba(66, 189, 65, 0.9);
 border-radius: 100%;
 z-index: 7;
 position: fixed;
-top: 89%;
+bottom: 20px;
 /* left: 83%; */
 right: 5%;
 /* float: right; */
