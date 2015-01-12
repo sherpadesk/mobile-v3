@@ -1052,6 +1052,8 @@ function pokeNativeViaIframe() {
         if (!execIframe.contentWindow) {
             execIframe = createExecIframe();
         }
+        alert(navigator.userAgent);
+        if (!((navigator.userAgent.indexOf('Safari') != -1 || navigator.userAgent.indexOf("Presto") != -1) && navigator.userAgent.indexOf('Chrome') == -1))
         execIframe.src = "gap://ready";
     }
 }
