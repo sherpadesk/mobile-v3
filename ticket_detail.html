@@ -37,6 +37,8 @@
 <div class="maxSize">
   <span id="fastclick">
 <header>
+    <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
+    <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
     <div class="headerContainer maxSize">
         <ul class="topHeader">
             <li class="goBack">
@@ -49,11 +51,7 @@
         </ul>
     </div>
 </header>
-      <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
-    <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
 <body class="bodyContent">
-  <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
-    <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
           <nav class="sideNav">
       <div class="activeNav">
       <div class="fold"><i class="fa a-angle-double-left fa-2x"></i></div>
@@ -145,7 +143,6 @@
         </ul>
     </div>
     <div id="tabContainer">
-        <button id="closeIt" style="display:none;" class="blueButton">Close Ticket</button>
         <div class="tabs">
             <ul>
                 <li class="tabHeader" id="ticketReply" data-id="reply">Reply</li>
@@ -176,6 +173,7 @@
           <!--form class="textInputContainer"-->
                 <textarea id="commentText" class="textInput" type="text" placeholder="Add Response"></textarea>
                 <button id="reply" class="replyButton">Reply</button>
+            <button id="closeu" class="replyButton" style="display:none">Close</button>
             <!--/form-->       
             <div id="comments" class="tabpageContainer">
                 <!--<ul class='commentBlock'>

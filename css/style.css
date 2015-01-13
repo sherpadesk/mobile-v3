@@ -1791,6 +1791,7 @@ footer {
 }
 
 .replyButton {
+  float: right;
   border: none;
   width: 40%;
   height: 35px;
@@ -1799,11 +1800,10 @@ footer {
   font-size: 14px;
   text-align: center;
   display: block;
-  margin-left: 55%;
+  margin-right: 35px;
   margin-top: 10px;
   max-width: 180px;
 }
-
 
 .commentBlock {
   list-style: none;

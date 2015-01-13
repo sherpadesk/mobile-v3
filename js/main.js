@@ -731,6 +731,50 @@ $(document).ready(function(){
                 });
             });
         },
+        
+        close: function(closeTicketMessage){
+            closeTicketMessage = htmlEscape(closeTicketMessage).trim();
+            if (closeTicketMessage.length < 2){
+                userMessage.showMessage(false,  "Note cannot be empty!");	
+                return;
+            }
+            if (closeTicketMessage.length > 500){
+                userMessage.showMessage(false,  "Note cannot be more than 500 chars!");	
+                return;
+            }
+            $.ajax({
+                type: 'PUT',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                },
+                url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
+                data: {
+                    "status" : "closed",
+                    "note_text": closeTicketMessage,
+                    "is_send_notifications": true,
+                    "resolved": true,
+                    dataType: 'json',
+                    "confirmed": false,
+                    "confirm_note": ""
+
+                },
+                success: function (d) {
+                    //location.reload(false);
+                    setTimeout(
+                        function()
+                        {
+                            userMessage.showMessage(true, 'Ticket has been closed <i class="fa fa-thumbs-o-up"></i>');
+                            window.history.back();
+
+                        }, 1000);
+                    userMessage.setMessage(true, "Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
+                },
+                error: function (e, textStatus, errorThrown) {
+                    //alert(textStatus);
+                }
+            });
+        },
 
         closeIt:function() {
             $("#closeIt").click(function(){
@@ -741,45 +785,10 @@ $(document).ready(function(){
                     },400);
                 });
             });
-            $('#closeMessageButton').on('click',function(){
-                var closeTicketMessage = htmlEscape($('#closingMessage').val()).trim();
-                if (closeTicketMessage.length > 500){
-                    userMessage.showMessage(false,  "Note cannot be more than 500 chars!");	
-                    return;
-                }
-                $.ajax({
-                    type: 'PUT',
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization',
-                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                    },
-                    url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
-                    data: {
-                        "status" : "closed",
-                        "note_text": closeTicketMessage,
-                        "is_send_notifications": true,
-                        "resolved": true,
-                        dataType: 'json',
-                        "confirmed": false,
-                        "confirm_note": ""
-
-                    },
-                    success: function (d) {
-                        //location.reload(false);
-                        setTimeout(
-                            function()
-                            {
-                                userMessage.showMessage(true, 'Ticket has been closed <i class="fa fa-thumbs-o-up"></i>');
-                                window.history.back();
-
-                            }, 1000);
-                        userMessage.setMessage(true, "Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
-                    },
-                    error: function (e, textStatus, errorThrown) {
-                        alert(textStatus);
-                    }
-                });
-            });
+            $('#closeMessageButton').click(function() {
+                closeTicket.close($('#closingMessage').val());});
+            $('#closeu').click(function() {
+                closeTicket.close($('#commentText').val());});
         }
     };
     //date formating function
@@ -1027,6 +1036,12 @@ $(document).ready(function(){
             }
 
             // after an account is choosed it get a list of technicians
+            if (!isTech)
+            {
+                $("#addTicketTechs").parent().hide();reveal();
+            }
+            else
+            {
             var technicians = getApi("technicians");
             technicians.then(function(returnData){
                 //console.log(returnData);
@@ -1041,6 +1056,7 @@ $(document).ready(function(){
 
             }
                             );
+            }
 
             // after techs are choosen then get a list of classes
             var classes = getApi('classes');
@@ -1596,11 +1612,11 @@ $(document).ready(function(){
         init:function(){
             if (!isTech){
                 $(".tabs").hide();
-                $("#closeIt").show();
+                $("#closeu").show();
             }
             else
             {
-                $("#closeIt").remove();
+                $("#closeu").hide();
             }
             this.showTicket();
         },
@@ -1634,6 +1650,7 @@ $(document).ready(function(){
                     //check to see if a ticket is closed or open. If a ticket is closed the offer the reopen option
                     if(returnData.status == 'Closed'){
                         $('#closeIt').hide();
+                        $('#closeu').hide();
                     }else{
                         $('#openIt').hide();
                     }

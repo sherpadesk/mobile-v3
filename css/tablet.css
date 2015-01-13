@@ -23,6 +23,7 @@
     margin: 15px 18px;
   }
   .replyButton {
+    float: right;
     border: none;
     width: 40%;
     height: 35px;
@@ -31,10 +32,11 @@
     font-size: 14px;
     text-align: center;
     display: block;
-    margin-left: 67%;
     margin-top: 10px;
+    margin-right: 35px;
     max-width: 180px;
     }
+
     .tableHeader li {
       float: left;
       width: 25%;
