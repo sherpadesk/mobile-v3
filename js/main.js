@@ -1521,8 +1521,9 @@ $(document).ready(function(){
                         }
                         if (timeLog)
                         {
+                            console.log(timeLog.account_id);
                             $("#timeAccounts").val(timeLog.account_id);
-                            if ($("#timeAccounts").val() !== timeLog.account_id)
+                            if (parseInt($("#timeAccounts").val()) !== timeLog.account_id)
                                 $("#timeAccounts").val(-1);
                             addTime.chooseProjects(timeLog.project_id, timeLog.task_type_id);
                         }
@@ -1543,6 +1544,7 @@ $(document).ready(function(){
 
                 // submit time to account
                 $("#submitTime").click(function(){
+                    //alert(isEdit);
                     var time = $("#addTimeTicket").val();
                     var note = htmlEscape($("#noteTime").val().trim());
                     var tech = localStorage.getItem('userId');
@@ -1572,6 +1574,7 @@ $(document).ready(function(){
                         userMessage.showMessage(false, "choose an account");
                         return;
                     }else{
+                        ticketKey = parseInt(isEdit ? timeLog.ticket_id : ticketKey);
                         $.ajax({
                             type: isEdit ? 'PUT' : 'POST',
                             beforeSend: function (xhr) {
@@ -1582,6 +1585,8 @@ $(document).ready(function(){
                             data: {
                                 "tech_id" : isEdit ? timeLog.user_id : tech,
                                 "project_id": projectId,
+                                "is_project_log": !ticketKey,
+                                "ticket_id": ticketKey,
                                 "account_id" :accountId,
                                 "note_text": note,
                                 "task_type_id":taskId,
@@ -1595,7 +1600,7 @@ $(document).ready(function(){
                             success: function (d) {
                                 localStorage.setItem('isMessage','truePos');
                                 localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
-                                window.location = "dashboard.html";
+                                window.history.back();
                             },
                             error: function (e, textStatus, errorThrown) {
                                 alert(textStatus);
