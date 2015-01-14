@@ -1350,6 +1350,7 @@ header {
 
 .timelog {
   list-style-type: none;
+    cursor: pointer;
 }
 
 .timelog li {

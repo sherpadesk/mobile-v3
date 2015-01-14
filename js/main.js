@@ -1521,7 +1521,6 @@ $(document).ready(function(){
                         }
                         if (timeLog)
                         {
-                            console.log(timeLog.account_id);
                             $("#timeAccounts").val(timeLog.account_id);
                             if (parseInt($("#timeAccounts").val()) !== timeLog.account_id)
                                 $("#timeAccounts").val(-1);
@@ -1978,7 +1977,7 @@ $(document).ready(function(){
                             var log = returnData.time_logs[u].total;
                             var date = formatDate(returnData.time_logs[u].date.substring(0,10));
                             var logID = returnData.time_logs[u].id;
-                            var insert = "<li><ul id='invoiceTimelog' data-id='"+logID+"'  class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span></h3></li></ul></li>";
+                            var insert = "<li><ul id='invoiceTimelog' data-id='"+logID+"' data-info='"+JSON.stringify(returnData.time_logs[u]).replace(/'/g, "")+"'  class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span></h3></li></ul></li>";
                             $(insert).appendTo("#invoiceLogs");
                         }
                     }
@@ -1990,7 +1989,7 @@ $(document).ready(function(){
                             var log = returnData.expenses[c].total;
                             var date = formatDate(returnData.expenses[c].date.substring(0,10));
                             var logID = returnData.expenses[c].id;
-                            var insert = "<li><ul id='invoiceExpense' class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
+                            var insert = "<li><ul id='invoiceExpense' class='timelog1'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
                             $(insert).appendTo("#expensesList");
                         }
                     }
@@ -2214,6 +2213,7 @@ $(document).ready(function(){
                     $("#invoiceList").empty();
                     if(returnData.length == 0){
                         $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
+                        return;
                     }
                     if (accountid)
                         returnData = [returnData];
@@ -2697,6 +2697,11 @@ $(document).ready(function(){
             });
         }
     };
+    
+    $(document).on("click",".timelog", function(){
+        localStorage.setItem('timeNumber', $(this).attr("data-info")); //set local storage variable to the ticket id of the ticket block from the ticket list
+        window.location = "edit_time.html"; // change page location from ticket list to ticket detail list
+    });
 
     // get complete list of timelogs for the orginization
     var timeLogs = {
@@ -2705,13 +2710,9 @@ $(document).ready(function(){
         },
 
         getLogs:function() {
-            $(document).on("click",".timelog", function(){
-                localStorage.setItem('timeNumber', $(this).attr("data-info")); //set local storage variable to the ticket id of the ticket block from the ticket list
-                window.location = "edit_time.html"; // change page location from ticket list to ticket detail list
-            });
+            /*
             var localTimelogs = [];
-            var retrievedObject = localStorage.getItem("storageTimeLogs");
-            retrievedObject = JSON.parse(retrievedObject);
+            var retrievedObject = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem("storageTimeLogs")));
             if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
                 console.log("could not load local data")
             }
@@ -2723,17 +2724,8 @@ $(document).ready(function(){
                     $(localInsertlog).appendTo("#timelogs");
                 }
             }
-            $.ajax({
-                type: 'GET',
-                beforeSend: function (xhr) {
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization',
-                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                },
-
-                url:ApiSite +"time?limit=200",
-                dataType:"json",
-                success: function(returnData) {
+            */
+            getApi('time', {"limit" : 200}).then(function(returnData) {
                     $("#timelogs").empty();
                     //add timelogs to list
                     for(var i = 0; i < returnData.length; i++)
@@ -2758,16 +2750,18 @@ $(document).ready(function(){
                         nameCheck = createElipse(nameCheck,.50, 12);
                         var log = "<li class=item><ul class='timelog' data-id="+id+" data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName user_name'>"+nameCheck+"</h2><p class='taskDescription responseText'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                         $(log).appendTo("#timelogs");
-                        localTimelogs.push(log);
+                        if (i==9)
+                            reveal();
+                        //localTimelogs.push(log);
                     }
-                    localStorage.setItem("storageTimeLogs",JSON.stringify(localTimelogs));
+                reveal();
+                //localStorage.setItem("storageTimeLogs",LZString.compressToUTF16(JSON.stringify(localTimelogs)));
                     filterList("timelogs");
                 },
-                error: function() {
+                function() {
                     console.log("fail @ timelogs");
-                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
-            });
+            );
         }
     };
 
@@ -2803,7 +2797,7 @@ $(document).ready(function(){
             }
             else
             {
-                console.log(retrievedObject);
+                //console.log(retrievedObject);
                 $("#AD").html(retrievedObject.name);
                 $("#ticketsOptionTicker").html(retrievedObject.tickets);
                 $("#invoiceOptionTicker").html(retrievedObject.invoices);
@@ -2921,17 +2915,7 @@ $(document).ready(function(){
             var accountId = localStorage.getItem("DetailedAccount");
             if (!accountId)
                 accountId = -1;
-            $.ajax({
-                type: 'GET',
-                beforeSend: function (xhr) {
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization',
-                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                },
-
-                url: ApiSite +"time?account=" + accountId,
-                dataType:"json",
-                success: function(returnData) {
+            getApi("time?account=" + accountId).then(function(returnData) {
                     //console.log(returnData);
                     $("#accountLogs").empty();
                     //add timelogs to log list
@@ -2942,27 +2926,23 @@ $(document).ready(function(){
                         // check for two decimals
                         var hours = returnData[i].hours;
                         hours =hours.toString();
-                        if(hours.indexOf(".") >= 0)
-                        {
-                            // do nothing
-                        }
-                        else
+                        if(hours.indexOf(".") < 0)
                         {
                             hours = hours+".00";
                         }
                         text = createElipse(text, .50, 8);
                         var nameCheck = returnData[i].user_name;
                         nameCheck = createElipse(nameCheck, .50, 12);
-                        var log = "<li><ul class='timelog'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
+                        var log = "<li><ul class='timelog' data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                         $(log).appendTo("#accountLogs");
                     }
 
                 },
-                error: function() {
+                function() {
                     console.log("fail @ timelogs");
                     //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
-            });
+            );
         }
     };
 
