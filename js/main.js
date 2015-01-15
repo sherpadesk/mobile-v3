@@ -287,7 +287,7 @@ $(document).ready(function(){
                                      'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
             },
             url: ApiSite + method,
-            cache: false,
+            cache: true,
             data: data,
             dataType: "json"
         }).promise();
