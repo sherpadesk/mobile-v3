@@ -77,3 +77,22 @@
             width: 95%;
             margin-bottom: 20px;
         }
+
+.sherpadesk-button
+{
+    border: 1px solid #D4D4D4;
+    border-radius: 0.2em 0.2em 0.2em 0.2em;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0.5em 1em;
+    outline: medium none;
+    overflow: visible;
+    position: relative;
+    white-space: nowrap;
+    background-color: #76CA43;
+    background-image: linear-gradient(#76CA43, #569D2B);
+    border-color: #76CA43 #76CA43 #569D2B;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 16px;
+}

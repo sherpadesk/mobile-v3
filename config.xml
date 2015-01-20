@@ -4,8 +4,8 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.sherpadesk.mobile"
-        versionCode="301"
-        version   = "3.0.1">
+        versionCode="302"
+        version   = "3.0.2">
         
         <gap:platform name="ios"/>
      <gap:platform name="android" />
@@ -20,11 +20,11 @@
 	        SherpaDesk
 	    </author>
     <gap:config-file platform="ios" parent="CFBundleShortVersionString">
-        <string>3.0.1</string>
+        <string>3.0.2</string>
     </gap:config-file>
     
     <gap:config-file platform="ios" parent="CFBundleVersion">
-        <string>3.0.1</string>
+        <string>3.0.2</string>
     </gap:config-file>
     
     <gap:config-file platform="ios" parent="CFBundleName">
@@ -80,6 +80,7 @@
         A list of available plugins are available at https://build.phonegap.com/docs/plugins
     -->
     <gap:plugin name="de.appplant.cordova.plugin.badge" />
+    <gap:plugin name="com.telerik.plugins.wkwebview" />
     <gap:plugin name="com.bez4pieci.cookies" />
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="de.appplant.cordova.plugin.local-notification" />
