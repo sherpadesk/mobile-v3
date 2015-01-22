@@ -2243,7 +2243,7 @@ $(document).ready(function(){
     // list tickets of the queue
     var getQueueTickets = {
         init:function() {
-            $(".SherpaDesk").html("Tickets @ " + localStorage.getItem("currentQueueName") + " Queue");
+            $(".title").html("Tickets @ " + localStorage.getItem("currentQueueName") + " Queue");
             this.queueTickets();
         },
 
