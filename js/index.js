@@ -58,8 +58,8 @@ fullscreen();
 
 		lastPage:function(){
 			$(".goBack").click(function(){
-                localStorage.setItem('addAccountTicket', '');
-				window.history.back();
+                setTimeout(function(){localStorage.setItem('addAccountTicket', '');
+				window.history.back();}, 1000);
 			});
 		}
 	};
