@@ -615,6 +615,7 @@ $(document).ready(function(){
 
         transfer:function() {
             $("#transfer").click(function(){
+                $("#loading").show();
                 $("#transfer").hide();
                 $("#transferSelect").show();
                 $.ajax({
@@ -625,7 +626,7 @@ $(document).ready(function(){
                                              'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                     },
 
-                    url:ApiSite +"technicians",
+                    url:ApiSite +"technicians?limit=200",
                     dataType:"json",
                     success: function(returnData) {
                         //console.log(returnData);
@@ -641,7 +642,7 @@ $(document).ready(function(){
                         }
                     },
                     complete: function () {
-                        //reveal();
+                        reveal();
                     },
                     error: function() {
                         console.log("fail @ time accounts");
@@ -3287,6 +3288,7 @@ $(document).ready(function(){
                             userOrg = results[index_number].name;
                             var instances = results[index_number].instances;
                             localStorage.setItem('userOrgKey', userOrgKey);
+                            localStorage.setItem('userOrg', userOrg);
 
                             if (instances.length == 0) {
                                 userMessage.showMessage(false, "You are not associated with any Instance in the Organization or your account is inactivated in the Instances.");
@@ -3326,6 +3328,7 @@ $(document).ready(function(){
                         userOrg =  results[0].name;
                         localStorage.setItem('userOrgKey', userOrgKey);
                         localStorage.setItem('sd_is_MultipleOrgInst', 'false');
+                        localStorage.setItem('userOrg', userOrg);
                         $('#orgSelect').append($("<option></option>")
                                 .attr("value", 0)
                                 .text(results[0].name));
@@ -3357,8 +3360,6 @@ $(document).ready(function(){
                             });
                         };
                     };
-
-                    $("#indexTitle").html(userOrg);
                     //storeLocalData();
                     //window.location = "index.html";
                 },
@@ -3560,13 +3561,16 @@ $(document).ready(function(){
                     //conditional api calls determined by page
                     if (location.pathname.endsWith("dashboard.html"))
                     {
+                        var orgName = localStorage.getItem('userOrg');
+                        if (orgName)
+                            $("#indexTitle").html(orgName);
                         getTicketCount();
                         getQueueList();
                         //getQueues.init();
                         if(isAccount)
                             getActiveAccounts();
                         search.init();
-                        reveal();
+                        //reveal();
                     }
                     $("#loading").show();
                     if (location.pathname.endsWith("account_details.html"))
