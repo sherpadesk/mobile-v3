@@ -615,6 +615,7 @@ $(document).ready(function(){
 
         transfer:function() {
             $("#transfer").click(function(){
+                $('#loading').removeAttr('style');
                 $("#loading").show();
                 $("#transfer").hide();
                 $("#transferSelect").show();
