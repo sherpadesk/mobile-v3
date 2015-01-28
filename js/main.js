@@ -1044,7 +1044,7 @@ $(document).ready(function(){
             }
             else
             {
-            var technicians = getApi("technicians");
+            var technicians = getApi("technicians?limit=200");
             technicians.then(function(returnData){
                 //console.log(returnData);
                 // add techs to option select list
