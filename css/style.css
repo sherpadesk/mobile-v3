@@ -20,6 +20,14 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
     box-sizing:border-box;
 }
 
+.goBack
+{
+    color: white;
+    font-size: 30px;
+    padding-top: 7px;
+    padding-left: 10px;
+}
+
 a {
   text-decoration: none;
   color:inherit;
