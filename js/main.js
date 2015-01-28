@@ -3044,9 +3044,9 @@ $(document).ready(function(){
         },
                               function (j,t,e) {
             console.log("fail @ config");
-            setTimeout(function () {
-            logout(j.url !== ApiSite + "login", e);
-            }, 1000);
+            //setTimeout(function () {
+            //logout(j.url !== ApiSite + "login", e);
+            //}, 1000);
         }
                              );
     };
