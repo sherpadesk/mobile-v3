@@ -924,7 +924,7 @@ header {
   font-weight: 600;
   font-size: 24px;
   border-radius: 3px;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .sideStatsLeft{
@@ -2483,15 +2483,15 @@ padding-right: 17px;
 
 
 .toManyTks {
-  line-height: 27px !important;
+  /*line-height: 27px !important;
   font-size: 19px !important;
+    padding-top: 6px;*/
   position: relative;
-  padding-top: 6px;
 }
 
 .toManyTksSmall {
-  line-height: 27px !important;
-  font-size: 19px !important;
+  /*line-height: 27px !important;
+  font-size: 19px !important;*/
 }
 
 br {
