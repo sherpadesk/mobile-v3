@@ -1,6 +1,6 @@
 /*global jQuery, $ */
 
-var appVersion = "1";
+var appVersion = "2";
 
 //Root Names
 var Site = 'sherpadesk.com/';
@@ -1085,7 +1085,7 @@ $(document).ready(function(){
 
                 if(!isAccount) {$("#addTicketAccounts").parent().hide();reveal();}
                 else
-                { var accounts = getApi("accounts", {"is_with_statistics":false});
+                { var accounts = getApi("accounts?limit=300", {"is_with_statistics":false});
                  accounts.then(function(returnData) {
                      //console.log(returnData);
                      // get list of accounts add them to option select list
@@ -1571,7 +1571,7 @@ $(document).ready(function(){
                 else
                 {
                     //get accounts
-                    getApi("accounts", {"is_with_statistics":false}).then(function(returnData) {
+                    getApi("accounts?limit=300", {"is_with_statistics":false}).then(function(returnData) {
                         ////console.log(returnData);
                         $("#timeAccounts").empty();
                         var chooseAccount = "<option value=0>choose an account</option>";
@@ -2716,7 +2716,7 @@ $(document).ready(function(){
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
-                url:ApiSite +"accounts",
+                url:ApiSite +"accounts?limit=300",
                 dataType:"json",
                 success: function(returnData) {
                     //console.log(returnData);
@@ -3204,7 +3204,7 @@ $(document).ready(function(){
                                      'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
             },
 
-            url:ApiSite +"accounts?query=account_statistics.ticket_counts.open>0",
+            url:ApiSite +"accounts?limit=300&query=account_statistics.ticket_counts.open>0",
             dataType:"json",
             cache: true,
             success: function(returnData) {
