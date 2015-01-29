@@ -64,7 +64,7 @@ body, html {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index: 10;
     width: 100vw;
     height: 110vh;
     background-color: rgba(192, 192, 192, 0.5)/*#ffffff*/;
@@ -509,7 +509,7 @@ nav {
   top: 0; left: 0;
   width: 100%;
   overflow-y:hidden;
-  z-index: 4;
+  z-index: 11;
   transform:translateX(-100%);
   -webkit-transform: translateX(-100%);
   -webkit-transform: translateX(-100%);
@@ -523,7 +523,7 @@ nav {
 
 .sideNavOut {
   position: fixed;
-  z-index: 6;
+  z-index: 11;
   transform:translateX(0%);
   -webkit-transform: translateX(0%);
   -webkit-transform: translateX(0%);
