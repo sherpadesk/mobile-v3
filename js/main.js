@@ -1,5 +1,7 @@
 /*global jQuery, $ */
 
+var appVersion = "1";
+
 //Root Names
 var Site = 'sherpadesk.com/';
 var MobileSite = 'http://m.' + Site;
@@ -3555,6 +3557,15 @@ $(document).ready(function(){
 
     //Main Method that calls all the functions for the app
     (function () {
+        
+        //refresh version
+        if (localStorage.appVersion !== appVersion)
+        {
+            localStorage.setItem("appVersion", appVersion);
+            console.log("Version updated to " + appVersion);
+            location.reload(true);
+            return;
+        }
         //always active api calls
         userMessage.init();
         UserLogin.init();
