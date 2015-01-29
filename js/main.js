@@ -103,6 +103,67 @@ function redirectToPage() {
     }
 };
 
+var iScrollloaded;
+var myScroll,
+    pullDownEl, pullDownOffset,
+    generatedCount = 0;
+if (typeof iScroll === 'function') 
+{
+    iScrollloaded = function () {
+        pullDownEl = document.getElementById('pullDown');
+        pullDownOffset = pullDownEl.offsetHeight;
+        //pullUpEl = document.getElementById('pullUp');	
+        //pullUpOffset = pullUpEl.offsetHeight;
+
+        myScroll = new iScroll('wrapper', {
+            useTransition: true,
+            topOffset: pullDownOffset,
+            onRefresh: function () {
+                if (pullDownEl.className.match('loading')) {
+                    pullDownEl.className = '';
+                    pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down to refresh...';
+                }/* else if (pullUpEl.className.match('loading')) {
+				pullUpEl.className = '';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = 'Pull up to load more...';
+			}*/
+            },
+            onScrollMove: function () {
+                if (this.y > 5 && !pullDownEl.className.match('flip')) {
+                    pullDownEl.className = 'flip';
+                    pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Release to refresh...';
+                    this.minScrollY = 0;
+                } else if (this.y < 5 && pullDownEl.className.match('flip')) {
+                    pullDownEl.className = '';
+                    pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down to refresh...';
+                    this.minScrollY = -pullDownOffset;
+                }/* else if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
+				pullUpEl.className = 'flip';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = 'Release to refresh...';
+				this.maxScrollY = this.maxScrollY;
+			} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
+				pullUpEl.className = '';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = 'Pull up to load more...';
+				this.maxScrollY = pullUpOffset;
+			}*/
+            },
+            onScrollEnd: function () {
+                if (pullDownEl.className.match('flip')) {
+                    pullDownEl.className = 'loading';
+                    pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Loading...';				
+                    setTimeout(location.reload(false), 800);	// Execute custom function (ajax call?)
+                }/* else if (pullUpEl.className.match('flip')) {
+				pullUpEl.className = 'loading';
+				pullUpEl.querySelector('.pullUpLabel').innerHTML = 'Loading...';				
+				pullUpAction();	// Execute custom function (ajax call?)
+			}*/
+            }
+        });
+
+        setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 800);
+    };
+}
+
+
 //global helper functions
 function logout(isRedirect, mess) {
     if (typeof isRedirect === "undefined")
@@ -1965,7 +2026,7 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        var insert = "<li><h3 class=noDataMessage>No accounting contacts found.</h3></li>";
+                        var insert = "<li><h3 class=noDataMessage>No accounting contacts found.<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h3></li>";
                         $(insert).appendTo("#recipientList"); 
                         $("#sendInvoiceButton").remove();
                     }
@@ -2214,7 +2275,7 @@ $(document).ready(function(){
                     ////console.log(returnData);
                     $("#invoiceList").empty();
                     if(returnData.length == 0){
-                        $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
+                        $('<h3 class="noDataMessage">no invoices at this time<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h3>').prependTo('#invoiceList');
                         return;
                     }
                     if (accountid)
