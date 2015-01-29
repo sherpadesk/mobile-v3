@@ -1,6 +1,6 @@
 /*global jQuery, $ */
 
-var appVersion = "2";
+var appVersion = "4";
 
 //Root Names
 var Site = 'sherpadesk.com/';
@@ -29,8 +29,8 @@ var isPhonegap = false;
 var isOnline = true;
 
 document.addEventListener("deviceready", onDeviceReady, false);
-document.addEventListener("offline", off,false);
-document.addEventListener("online", on1 ,false);
+document.addEventListener("offline", offLine,false);
+document.addEventListener("online", onLine ,false);
 
 function onDeviceReady() {
     //alert("gap init");
@@ -67,14 +67,41 @@ function reveal() {
 
 
 //If User is Offline....................................
-function off(){
+function errorLine(message){
+    var func = "location.reload(false)";
+    $("#scroller").hide();
     if (!$(".catch-error").length) {
-        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="redirectToPage()">Refresh</button></center></div></div>');
+        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Something went wrong...</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>'+message+'</h4><h4>&nbsp;<p>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="'+func+'">Refresh</button></center></div></div>');
     }
-    isOnline = false;
 };
 
-function on1 (){
+function offLine(){
+        var func = "redirectToPage()";
+        isOnline = false;
+    if (!$(".catch-error").length) {
+        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="'+func+'">Refresh</button></center></div></div>');
+    }
+};
+
+window.onerror = function(msg, url, line, col, error) {
+    // Note that col & error are new to the HTML 5 spec and may not be 
+    // supported in every browser.  It worked for me in Chrome.
+    var extra = !col ? '' : '<p>column: ' + col;
+    extra += !error ? '' : '<p>error: ' + error;
+
+    // You can view the information in an alert to see things working like this:
+    errorLine("<p onclick='$(\".err\").toggle();'>Click for Error Details:</p><div class=err style='display:none;'>" + msg + "<p>url: " + url + "<p>line: " + line + extra + "</div>");
+
+    // TODO: Report this error via ajax so you can keep track
+    //       of what pages have JS issues
+
+    var suppressErrorAlert = true;
+    // If you return true, then error alerts (like in older versions of 
+    // Internet Explorer) will be suppressed.
+    return suppressErrorAlert;
+};
+
+function onLine (){
     if (!isOnline){
         $(".catch-error").remove();
         location.reload(false);
@@ -85,23 +112,23 @@ function on1 (){
 
 function redirectToPage() {
     if (navigator.onLine)
-    {  if (isPhonegap) on1();
+    {  if (isPhonegap) onLine();
      else
      {
          var img = document.body.appendChild(document.createElement("img"));
          img.style.display = 'none';
          img.onload = function () {
-             on1();
+             onLine();
          };
          img.onerror = function () {
-             // off();
+             // offLine();
          };
          img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
      }
     }
     else
     {
-        // off();
+        // offLine();
     }
 };
 

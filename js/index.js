@@ -255,7 +255,7 @@ fullscreen();
 				},200);
 				$('.headerSearchContainer').animate({
 					'backgroundColor':'#0099CC',
-					width:'300px'
+					width:'280px'
 				},300);
 			});
 			$('.searchCloseExpanded').click(function(){
