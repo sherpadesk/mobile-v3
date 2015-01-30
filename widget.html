@@ -115,7 +115,7 @@
                         form.sherpadesk_cu_submit.firstChild.data = "Processing…";
                         //var data = JSON.parse(this.response);
                         //alert(data);
-                        window.location = e.target.response;
+                        console.log(e.target.response);
                     }
                     else if (e.target.status == 403)
                     {
@@ -341,7 +341,7 @@
                 min-width: 300px;
             }
         </style>
-        <form id="form" name="form" action="http://api.sherpadesk.com/organizations">
+        <form id="form" name="form" action="http://api. sherpadesk.com/organizations">
             <div class="signup_form">
                 <div id="sherpadesk_ContactusForm" class="sherpadesk-contactus-form">
                     <div class="sherpadesk-contactus-content">
@@ -422,7 +422,7 @@
                         </dl>
                         <div id="sherpadesk_cu_formsubmit" class="sherpadesk-contactus-formsubmit" style="width: 100%;">
                             <div style="width: 100%;">
-                                <button class="sherpadesk-contactus-sendmessage sherpadesk-button" id="sherpadesk_cu_submit" type="submit" data-afterclick="Processing…" style="width: 100%;" onclick="return sendForm(this.form);">Create My Account</button>
+                                <button class="sherpadesk-contactus-sendmessage sherpadesk-button" id="sherpadesk_cu_submit" type="submit" data-afterclick="Processing..." style="width: 100%;" onclick="return sendForm(this.form);">Create My Account</button>
                             </div>
                             <div class="Agree" style="padding-top: 10px;">
                                 By clicking the button above I agree to <a target="_blank" href="http://sherpadesk.com/privacy-policy/">Terms of Use</a> and <a target="_blank" href="http://sherpadesk.com/privacy-policy/">Privacy Policy</a>.
