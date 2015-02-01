@@ -1,6 +1,6 @@
 /*global jQuery, $ */
 
-var appVersion = "4";
+var appVersion = "5";
 
 //Root Names
 var Site = 'sherpadesk.com/';
@@ -90,7 +90,7 @@ window.onerror = function(msg, url, line, col, error) {
     extra += !error ? '' : '<p>error: ' + error;
 
     // You can view the information in an alert to see things working like this:
-    errorLine("<p onclick='$(\".err\").toggle();'>Click for Error Details:</p><div class=err style='display:none;'>" + msg + "<p>url: " + url + "<p>line: " + line + extra + "</div>");
+    errorLine("<p onclick='$(\".err\").toggle();'>Click for Error Details:</p><div class=err style='display:none;'>" + msg + "<p>page: " + location.href + "<p>url: " + url + "<p>line: " + line + extra + "</div>");
 
     // TODO: Report this error via ajax so you can keep track
     //       of what pages have JS issues
@@ -2340,21 +2340,12 @@ $(document).ready(function(){
         },
 
         queueTickets:function() {
-            $.ajax({
-                type: 'GET',
-                beforeSend: function (xhr) {
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization',
-                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                },
-
-                url:ApiSite +"queues/"+localStorage.getItem("currentQueue"),
-                dataType:"json",
-                success: function(returnData) {
+            getApi("queues/"+localStorage.getItem("currentQueue")).then(
+                function(returnData) {
                     //console.log(returnData);
                     $("#queueTickets").empty();
                     if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        var insert = '<h1 class="noTicketMessage">No Tickets<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
                         $(insert).appendTo("#queueTickets");
                     }
                     for(var i = 0; i < returnData.length; i++)
@@ -2372,18 +2363,15 @@ $(document).ready(function(){
                         var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initafilPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#queueTickets");
-                    }
-
-                },
-                complete:function(){
                     filterList("queueTickets");
                     reveal();
+                }
                 },
-                error: function() {
+                function() {
                     console.log("fail @ Queues List");
                     //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
-            });
+            );
         }
     };
 
@@ -2522,7 +2510,7 @@ $(document).ready(function(){
                         $(ticket).appendTo("#techContainer");
                     }
                     if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        var insert = '<h1 class="noTicketMessage">No Tickets<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
                         $(insert).appendTo("#techContainer");
                     }
                 },
@@ -2568,7 +2556,7 @@ $(document).ready(function(){
                         $(ticket).appendTo("#allContainer");
                     }
                     if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        var insert = '<h1 class="noTicketMessage">No Tickets<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
                         $(insert).appendTo("#allContainer");
                     }
                 },
@@ -2649,7 +2637,7 @@ $(document).ready(function(){
                         $(ticket).appendTo("#altContainer");
                     }
                     if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        var insert = '<h1 class="noTicketMessage">No Tickets<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
                         $(insert).appendTo("#altContainer");
                     }
                 },
@@ -2694,7 +2682,7 @@ $(document).ready(function(){
                         $(ticket).appendTo("#userContainer");
                     }
                     if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        var insert = '<h1 class="noTicketMessage">No Tickets<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
                         $(insert).appendTo("#userContainer");
                     }
                 },
@@ -2773,7 +2761,7 @@ $(document).ready(function(){
                         localAccountList.push(insert);
                     }
                     if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        var insert = '<h1 class="noTicketMessage">No Tickets<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
                         $(insert).appendTo("#fullList");
                     }
                     localStorage.setItem("storageAccountList",JSON.stringify(localAccountList));
@@ -2819,6 +2807,11 @@ $(document).ready(function(){
             */
             getApi('time', {"limit" : 200}).then(function(returnData) {
                     $("#timelogs").empty();
+                    if (returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Timelogs<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
+                        $(insert).appendTo("#timelogs");
+                    }
+                    else{
                     //add timelogs to list
                     for(var i = 0; i < returnData.length; i++)
                     {
@@ -2846,8 +2839,10 @@ $(document).ready(function(){
                             reveal();
                         //localTimelogs.push(log);
                     }
+                    }
                 reveal();
                 //localStorage.setItem("storageTimeLogs",LZString.compressToUTF16(JSON.stringify(localTimelogs)));
+                if (returnData.length > 1)
                     filterList("timelogs");
                 },
                 function() {
@@ -3547,11 +3542,11 @@ $(document).ready(function(){
         init:function() {
             this.showMessage();
         },
-        setMessage:function(isPos, messageText) {
+        setMessage:function(isPos, messageText, func) {
             localStorage.setItem("userMessage", messageText);
             localStorage.setItem("isMessage", isPos ? "truePos" : "trueNeg");
         },
-        showMessage:function(isPos, messageText) {
+        showMessage:function(isPos, messageText, func) {
 
             if (typeof isPos === "undefined")
             {
@@ -3577,22 +3572,14 @@ $(document).ready(function(){
                 function()
                 {
                     $(messageEl).slideUp(100);
-
+if(typeof func === 'function')
+    func();
                 }, 3500);
         }
     };
 
     //Main Method that calls all the functions for the app
     (function () {
-        
-        //refresh version
-        if (localStorage.appVersion !== appVersion)
-        {
-            localStorage.setItem("appVersion", appVersion);
-            console.log("Version updated to " + appVersion);
-            location.reload(true);
-            return;
-        }
         //always active api calls
         userMessage.init();
         UserLogin.init();
@@ -3644,6 +3631,16 @@ $(document).ready(function(){
                 else
                     $("#switchOrg").show();
 
+                //refresh version
+                if (localStorage.appVersion !== appVersion)
+                {
+                    localStorage.setItem("appVersion", appVersion);
+                    console.log("Version updated to " + appVersion);
+                    userMessage.showMessage(true, "Try new Pull-To-Refresh Gesture", function(){
+                    location.reload(true);
+                    });
+                    return;
+                }
                 //Disable for user
                 if (!isTech){
                     $(".sideNavLinks").children(":not('.user')").hide();

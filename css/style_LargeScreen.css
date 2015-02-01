@@ -127,7 +127,7 @@
   overflow-x: hidden;
   max-width: 650px;
 }
-
+    
 .TicketTabs > ul > li {
   width: 18%;
   text-align: center;
@@ -182,7 +182,7 @@
 .accountDetailsContainer {
   width: 90%;
   margin: 0 auto;
-  padding-top: 20px;
+  padding-top: 50px;
   max-width: 650px;
 }
 

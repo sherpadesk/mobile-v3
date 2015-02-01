@@ -1511,7 +1511,7 @@ footer {
 .accountDetailsContainer {
   width: 90%;
   margin: 0 auto;
-  padding-top: 20px;
+  padding-top: 50px;
 }
 
 .QueuesTickerContainer {
@@ -2647,7 +2647,6 @@ body {
 #wrapper {
     top:45px; bottom:48px; left:-9999px;
     width:100%;
-    background:rgba(224, 224, 224, 0.29);
     overflow:auto;
 }
 
