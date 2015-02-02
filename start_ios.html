@@ -1,5 +1,5 @@
 <html>
-    <head><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
+    <head><script src="cordova.js"></script><!--script src="jquery.min.js"></script-->
         <!--link rel="stylesheet" type="text/css" href="css/bootstrap.css"-->
         <!--link rel="stylesheet" type="text/css" href="css/styles.css"-->
         <link rel="stylesheet" type="text/css" href="css/error.css">
@@ -20,14 +20,18 @@
 
             //If User is Offline....................................
             function off(){ 
-                if (!$(".catch-error").length) {
-                    $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2><br/>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>');
+                if (!document.getElementById("error")) {
+                    var el = document.getElementById("body");
+                    el.innerHTML =  '<div id=error class="catch-error"><div class="catch-error-description"><h2><br/>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><center><button style="width: 200px;" onclick="redirectToPage()" class="sherpadesk-button">Refresh</button></center><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4></div></div>' + el.innerHTML;
                 } 
                 isOnline = false;
             };
+            
             function on1 (){ 
                 if (!isOnline){
-                    $(".catch-error").remove();
+                    var el = document.getElementById("error");
+                    if (el)
+                        el.remove();
                     document.location.href = MobileSite + "index.html"; 
                 }
                 isOnline = true; };
@@ -62,7 +66,7 @@
             };
         </script>
     </head>
-    <body onload="onLoad()">
+    <body id=body onload="onLoad()">
         <div></div>
     </body>
 </html>

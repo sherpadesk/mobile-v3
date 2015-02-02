@@ -12,7 +12,7 @@
     <title>SherpaDesk</title>
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/idangerous.swiper.css">
+    
     <!-- Media query for tablets -->
     <link rel="stylesheet" href="css/tablet.css" />
     <!-- Media query for large Screen -->
@@ -21,28 +21,24 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
     <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
-    <script src="js/md5.js"></script>
-    <!-- Jquery UI -->
-    <link rel="stylesheet" href="js/jquery-ui.css" />
-    <script src="js/jquery-ui.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="js/jquery.datetimepicker.css"/ >
+      <script src="js/jquery.datetimepicker.js"></script>
     <!-- Main.js -->
     <script src="js/index.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/Chart.js"></script>
-    <script src="js/jquery.md5.js"></script>
+    
     <script type='application/javascript' src='js/fastclick.js'></script> 
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
   </head>
   <div class="maxSize">
   <header>
-    <div class="errorMessageNeg"><!--Please enter note--></div>
+      <div class="errorMessageNeg"><!--Please enter note --></div>
+      <div class="errorMessagePos"><!--Time was Succesfully Created :)--></div>
       <div class="accountContainer">
     <div class="headerContainer">
       <ul class="topHeader">
-        <li class="goBack">
-              <i class="fa fa-angle-left backIcon"> back</i>
-            </li>
+          <li class="goBack"><i class="fa fa-arrow-left"></i></li>
         <li><h1 class="SherpaDesk">Add Time</h1></li>
         <li></li>
       </ul>
@@ -53,7 +49,7 @@
       <div class="activeNav">
       <div class="fold"><i class="fa a-angle-double-left fa-2x"></i></div>
       <img class="navProfile" src="img/profile_3.png">
-      <h2 class="navName">NO USER DATA</h2>
+          <h2 class="navName">NO USER DATA</h2>
       <ul class="sideNavLinks">
         <a href="dashboard.html">
           <li id="itemDash">
@@ -107,7 +103,7 @@
             <h3>Queues</h3>
           </li>
         </a>
-        <li class=user id="signOut" >
+        <li class=user id="switchOrg"><div class="iconCircle"><i class="fa fa-list"></i></div><h3>Switch Org</h3></li><li class=user id="signOut">
           <div class="iconCircle">
             <i class="fa fa-sign-in"></i>
           </div>
@@ -125,14 +121,15 @@
       </div>
     </nav>
     <div class="bodyContent">
-      <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
-    <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
       <div class="accountContainer">
         <ul class="buttonList">
           <li><span class="buttonListSymbols">-</span></li>
           <li><input id="addTimeTicket" type="number"></li>
           <li><span class="buttonListSymbols">+</span></li>
         </ul>
+          <div  class="buttonListdiv">
+          <input placeholder="Start Time" id=date_start class="textInputSmall" style="width: 49% !important"></input>
+          <input placeholder="End Time" id=date_end class="textInputSmall" style="width: 49% !important"></input></div>
         <div class="styledSelect">
              <select id="timeAccounts">
                 <!-- <option value="+value+">"+task+"</option> -->
@@ -154,5 +151,6 @@
       </div>
     </div>
   </body>
+      <div id="loading"><div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
   </div>
 </html>

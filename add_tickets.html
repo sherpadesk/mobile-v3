@@ -13,7 +13,6 @@
     <title>SherpaDesk</title>
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/idangerous.swiper.css">
     <!-- Media query for tablets -->
     <link rel="stylesheet" href="css/tablet.css" />
     <!-- Media query for large Screen -->
@@ -22,15 +21,10 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
     <!-- Jquery -->
     <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
-    <script src="js/md5.js"></script>
-    <!-- Jquery UI -->
-    <link rel="stylesheet" href="js/jquery-ui.css" />
-    <script src="js/jquery-ui.min.js"></script>
     <!-- Main.js -->
     <script src="js/index.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/Chart.js"></script>
-    <script src="js/jquery.md5.js"></script>
+    
     <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
@@ -40,28 +34,26 @@
 <header>
     <div class="headerContainer">
         <ul class="topHeader">
-            <li class="goBack">
-              <i class="fa fa-angle-left backIcon"> back</i>
-            </li>
+            <li class="goBack"><i class="fa fa-arrow-left"></i></li>
             <li>
                 <h1 class="SherpaDesk">Add Ticket</h1>
             </li>
             <li></li>
         </ul>
+        <div class="errorMessageNeg">Please enter valid ticket information</div>
+        <div class="errorMessagePos">Ticket was Succesfully Created <i class="fa fa-smile-o"></i></div>
     </div>
 </header>
 
-<body onload="initFastButtons();">
+<body>
   <div class="bodyContent">
-    <div class="errorMessageNeg">Please enter valid ticket information</div>
-    <div class="errorMessagePos">Ticket was Succesfully Created <i class="fa fa-smile-o"></i></div>
     <div class="CreateInvoiceWrapper"> 
-        <div class="styledSelect">
+        <div class="styledSelect user">
            <select id="addTicketAccounts">
               <!--<option value="+value+">"+task+"</option>-->
            </select>
         </div>
-        <div class="styledSelect">
+        <div class="styledSelect user">
            <select id="addTicketTechs">
               <!--<option value="+value+">"+name+"</option>-->
            </select>
@@ -82,6 +74,7 @@
     </div>
   </div>
 </body>
+      <div id="loading"><div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
 </span>
 </div>
 </html>
