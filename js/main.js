@@ -643,13 +643,14 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         //the key for this specific ticket
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .75, 12);
+                        subject = createElipse(subject, .70, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                         if(initialPost.length > 50)
                         {
                             initialPost = initialPost.substring(0,50);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span  class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span  class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo("#closedTickets");
                         filterList("closedTickets");
                     }
@@ -2355,12 +2356,13 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .75, 12);
+                        subject = createElipse(subject, .70, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initafilPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initafilPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#queueTickets");
                     filterList("queueTickets");
@@ -2499,13 +2501,14 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .75, 12);
+                        subject = createElipse(subject, .70, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         //check intial post length can be displayed correctly
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#techContainer");
                     }
@@ -2546,13 +2549,14 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .75, 12);
+                        subject = createElipse(subject, .70, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         //check initial post length
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo("#allContainer");
                     }
                     if(returnData.length < 1){
@@ -2627,12 +2631,13 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .80, 12);
+                        subject = createElipse(subject, .75, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#altContainer");
                     }
@@ -2672,12 +2677,13 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .80, 12);
+                        subject = createElipse(subject, .75, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#userContainer");
                     }
@@ -2966,13 +2972,14 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         //the key for this specific ticket
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .80, 12);
+                        subject = createElipse(subject, .75, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                         if(initialPost.length > 50)
                         {
                             initialPost = initialPost.substring(0,50);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo(".AccountDetailsTicketsContainer");
                         accountTicketsList.push(ticket);
                         filterList("AccountDetailsTicketsContainer");

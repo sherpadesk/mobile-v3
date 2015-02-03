@@ -1,4 +1,4 @@
-html, body {
+/*html, body {
 	height: 100%;
 }
 
@@ -6,7 +6,7 @@ body {
 	background: #333;
 	margin: 0;
 }
-
+*/
 #ptr {
 	position: absolute;
 	top: 0;
@@ -72,12 +72,12 @@ body {
 	z-index: 5;
 	-webkit-backface-visibility: hidden;
 	-webkit-perspective: 1000;
-	text-align: center;
+	/*text-align: center;
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 24px;
 	font-weight: 200;
 	color: #555;
-	box-sizing: border-box;
+	box-sizing: border-box;*/
 }
 
 .ptr-loading #content, .ptr-reset #content,
