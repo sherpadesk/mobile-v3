@@ -1,12 +1,4 @@
-/*html, body {
-	height: 100%;
-}
-
-body {
-	background: #333;
-	margin: 0;
-}
-*/
+/* Pull down to refresh*/
 #ptr {
 	position: absolute;
 	top: 0;
@@ -94,3 +86,4 @@ body {
 	-webkit-transform: translate3d( 0, 50px, 0 );
 	transform: translate3d( 0, 50px, 0 );
 }
+/* End Pull down to refresh*/

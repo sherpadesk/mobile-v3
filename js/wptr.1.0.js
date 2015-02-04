@@ -38,14 +38,15 @@ var WebPullToRefresh = (function () {
 	/**
 	 * Easy shortener for handling adding and removing body classes.
 	 */
-	var bodyClass = document.body.classList;
-	
+	var bodyClass;
+    
 	/**
 	 * Initialize pull to refresh, hammer, and bind drag events.
 	 * 
 	 * @param {object=} params - Setup parameters for pull to refresh
 	 */
 	var init = function( params ) {
+        bodyClass = document.body.classList;
 		params = params || {};
 		options = {
 			contentEl: params.contentEl || document.getElementById( defaults.contentEl ),

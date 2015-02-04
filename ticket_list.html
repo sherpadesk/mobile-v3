@@ -24,7 +24,7 @@
       <link rel="stylesheet" href="css/base.css">
 
     <!-- Main.js -->
-    <script src="js/index.js"></script>
+    <script src="js/hammer.1.1.3.js"></script><script src="js/wptr.1.0.js"></script><script src="js/index.js"></script>
     <script src="js/main.js"></script>
     <script src="js/list.js"></script>
     <script src="js/jquery.md5.js"></script>
@@ -45,10 +45,6 @@
         <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
   </header>
   <body class="bodyContent">
-    <div class="searchReturn">
-      <ul >
-        <!--<li><span class="returnedItem">Ticket #235</span></li>-->
-      </ul>
     </div>
             <nav class="sideNav">
       <div class="activeNav">
@@ -125,15 +121,8 @@
       </ul>
       </div>
     </nav>
-    <div class="searchReturn">
-      <ul >
-        <!--<li><span class="returnedItem">Ticket #235</span></li>-->
-      </ul>
-    </div>
-      <div id="ptr">
-          <span class="genericon genericon-next fa fa-repeat"></span>
-      </div>
-      <div  id="content">
+    <div class="searchReturn"><ul></ul></div>
+      <div id="ptr"><span class="genericon genericon-next fa fa-repeat"></span></div><div id="content">
       <div id="tabContainer">
         <div class="TicketTabs">
             <ul>
@@ -226,11 +215,6 @@
           <div class="createButton"><p>+</p></div>
       </a>
       </span>
-        <script src="js/hammer.1.1.3.js"></script>
-        <script src="js/wptr.1.0.js"></script>
-        <script>
-            window.onload = function() { WebPullToRefresh.init( { loadingFunction: function(){ location.reload(false); }});};
-        </script>
-        </body>
+</body>
     <div id="loading" style="background-color:#34495e; display:block; top:53px;"><div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div></div>
 </html>

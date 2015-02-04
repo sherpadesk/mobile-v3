@@ -45,8 +45,8 @@ body, html {
 /*  height: 100%;
   width: 100%;
   position: relative;
-  overflow: hidden;*/
-  height: 100%;
+  overflow: hidden;
+    height: 100%;*/
   margin-left: -3px;
 }
 
@@ -66,7 +66,7 @@ body, html {
     left: 0;
     z-index: 10;
     width: 100vw;
-    height: 110vh;
+    height: 100vh;
     background-color: rgba(192, 192, 192, 0.5)/*#ffffff*/;
     /*background-image: url(../img/loader.gif);*/
     background-repeat: no-repeat;
@@ -2644,64 +2644,96 @@ body {
     -webkit-user-select:none;
 }
 
-#wrapper {
-    top:45px; bottom:48px; left:-9999px;
-    width:100%;
-    overflow:auto;
+/* Pull down to refresh*/
+#ptr {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    color: #fff;
+    z-index: 5;
+    text-align: center;
+    height: 10px;
 }
 
-#scroller {
+#ptr .genericon {
+    opacity: .6;
+    font-size: 34px;
+    width: auto;
+    height: auto;
+    transition: all .25s ease;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    margin-top: 5px;
+}
+.ptr-refresh #ptr .genericon {
+    -webkit-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+.ptr-loading #ptr .genericon,
+.ptr-reset #ptr .genericon {
+    display: none;
+}
+
+@-webkit-keyframes ptr-loading {
+    0% {
+        -webkit-transform: translateY(0) scale(0.3);
+        transform: translateY(0) scale(0.3);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        background-color: #fff;
+        opacity: 1;
+    }
+}
+
+@keyframes ptr-loading {
+    0% {
+        -webkit-transform: translateY(0) scale(0.3);
+        transform: translateY(0) scale(0.3);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        background-color: #fff;
+        opacity: 1;
+    }
+}
+
+#content {
+    min-height: 95%;
+    z-index: 5;
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    /*text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: 200;
+    color: #555;
+    box-sizing: border-box;*/
     -webkit-touch-callout:none;
     -webkit-tap-highlight-color:rgba(0,0,0,0);
     width:100%;
     padding:0;
 }
-/**
-*
-* Pull down styles
-*
-*/
-#pullDown{
-    /*background:rgba(224, 224, 224, 0.29);*/
-    height:50px;
-    line-height:40px;
-    padding:5px 10px;
-    font-weight:bold;
-    font-size:14px;
-    color: white;
-    display: table;
-    margin: 0 auto;
-}
-#pullDown .pullDownIcon  {
-    display:block; float:left;
-    width:40px; height:40px;
-    background:url(../img/pull-icon@2x.png) 0 0 no-repeat;
-    -webkit-background-size:40px 80px; background-size:40px 80px;
-    -webkit-transition-property:-webkit-transform;
-    -webkit-transition-duration:250ms;	
-}
-#pullDown .pullDownIcon {
-    -webkit-transform:rotate(0deg) translateZ(0);
+
+.ptr-loading #content, .ptr-reset #content,
+.ptr-loading #ptr, .ptr-reset #ptr {
+    transition: all .25s ease;
 }
 
-#pullDown.flip .pullDownIcon {
-    -webkit-transform:rotate(-180deg) translateZ(0);
+.ptr-reset #content {
+    -webkit-transform: translate3d( 0, 0, 0 );
+    transform: translate3d( 0, 0, 0 );
 }
 
-#pullDown.loading .pullDownIcon {
-    background-position:0 100%;
-    -webkit-transform:rotate(0deg) translateZ(0);
-    -webkit-transition-duration:0ms;
-
-    -webkit-animation-name:loading;
-    -webkit-animation-duration:2s;
-    -webkit-animation-iteration-count:infinite;
-    -webkit-animation-timing-function:linear;
+.ptr-loading #content {
+    -webkit-transform: translate3d( 0, 50px, 0 );
+    transform: translate3d( 0, 50px, 0 );
 }
-
-@-webkit-keyframes loading {
-    from { -webkit-transform:rotate(0deg) translateZ(0); }
-    to { -webkit-transform:rotate(360deg) translateZ(0); }
-}
-
-
+/* End Pull down to refresh*/
