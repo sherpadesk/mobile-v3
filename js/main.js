@@ -7,7 +7,7 @@ var Site = 'sherpadesk.com/';
 var MobileSite = 'http://m.' + Site;
 var AppSite = 'https://app.' + Site;
 
-var ApiSite = 'http://api.beta.' + Site;
+var ApiSite = 'http://api.' + Site;
 
 //global config
 var isTech = false,
@@ -31,6 +31,8 @@ var isOnline = true;
 document.addEventListener("deviceready", onDeviceReady, false);
 document.addEventListener("offline", offLine,false);
 document.addEventListener("online", onLine ,false);
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+document.addEventListener('mousemove', function (e) { e.preventDefault(); }, false);
 
 function onDeviceReady() {
     //alert("gap init");
@@ -132,66 +134,8 @@ function redirectToPage() {
     }
 };
 
-var iScrollloaded;
-var myScroll,
-    pullDownEl, pullDownOffset,
-    generatedCount = 0;
-if (typeof iScroll === 'function') 
-{
-    iScrollloaded = function () {
-        pullDownEl = document.getElementById('pullDown');
-        pullDownOffset = pullDownEl.offsetHeight;
-        //pullUpEl = document.getElementById('pullUp');	
-        //pullUpOffset = pullUpEl.offsetHeight;
-
-        myScroll = new iScroll('wrapper', {
-            useTransition: true,
-            topOffset: pullDownOffset,
-            onRefresh: function () {
-                if (pullDownEl.className.match('loading')) {
-                    pullDownEl.className = '';
-                    pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down to refresh...';
-                }/* else if (pullUpEl.className.match('loading')) {
-				pullUpEl.className = '';
-				pullUpEl.querySelector('.pullUpLabel').innerHTML = 'Pull up to load more...';
-			}*/
-            },
-            onScrollMove: function () {
-                if (this.y > 5 && !pullDownEl.className.match('flip')) {
-                    pullDownEl.className = 'flip';
-                    pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Release to refresh...';
-                    this.minScrollY = 0;
-                } else if (this.y < 5 && pullDownEl.className.match('flip')) {
-                    pullDownEl.className = '';
-                    pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Pull down to refresh...';
-                    this.minScrollY = -pullDownOffset;
-                }/* else if (this.y < (this.maxScrollY - 5) && !pullUpEl.className.match('flip')) {
-				pullUpEl.className = 'flip';
-				pullUpEl.querySelector('.pullUpLabel').innerHTML = 'Release to refresh...';
-				this.maxScrollY = this.maxScrollY;
-			} else if (this.y > (this.maxScrollY + 5) && pullUpEl.className.match('flip')) {
-				pullUpEl.className = '';
-				pullUpEl.querySelector('.pullUpLabel').innerHTML = 'Pull up to load more...';
-				this.maxScrollY = pullUpOffset;
-			}*/
-            },
-            onScrollEnd: function () {
-                if (pullDownEl.className.match('flip')) {
-                    pullDownEl.className = 'loading';
-                    pullDownEl.querySelector('.pullDownLabel').innerHTML = 'Loading...';				
-                    setTimeout(location.reload(false), 800);	// Execute custom function (ajax call?)
-                }/* else if (pullUpEl.className.match('flip')) {
-				pullUpEl.className = 'loading';
-				pullUpEl.querySelector('.pullUpLabel').innerHTML = 'Loading...';				
-				pullUpAction();	// Execute custom function (ajax call?)
-			}*/
-            }
-        });
-
-        setTimeout(function () { document.getElementById('wrapper').style.left = '0'; }, 800);
-    };
-}
-
+//pull to refresh
+window.onload = function() { if (typeof WebPullToRefresh === 'object') WebPullToRefresh.init( { loadingFunction: function(){ location.reload(false); }});};
 
 //global helper functions
 function logout(isRedirect, mess) {
@@ -344,6 +288,15 @@ function createElipse(text, containerWidth, fontSize){
         text = text.substring(0,characterSpace)+'...';
     } 
     return text;
+};
+
+function createSpan(elname){
+    var windowH = $(window).height();
+    var elH = $("#content").height();
+    if(windowH > elH + 60){
+        elH = windowH - elH - 60;
+        $("<p id=fill style='height:"+elH+"px'>&nbsp;</p>").appendTo(elname+"");
+    }
 };
 
 
@@ -635,6 +588,8 @@ $(document).ready(function(){
                 success: function(returnData) {
                     $("#closedTickets").empty();
                     //insert open tickets
+                    if(returnData.length > 0)
+                    {
                     for(var i = 0; i < returnData.length; i++)
                     {
                         // get email value for gravatar
@@ -643,16 +598,23 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         //the key for this specific ticket
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .75, 12);
+                        subject = createElipse(subject, .70, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                         if(initialPost.length > 50)
                         {
                             initialPost = initialPost.substring(0,50);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span  class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span  class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo("#closedTickets");
                         filterList("closedTickets");
+                    };
                     }
+                    else
+                    {
+                        $('<h1 class="noTicketMessage">No Tickets</h1>').appendTo("#closedTickets");
+                    }
+                    createSpan("#closedTickets");
 
                 },
                 error: function() {
@@ -2055,10 +2017,11 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        var insert = "<li><h3 class=noDataMessage>No accounting contacts found.<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h3></li>";
+                        var insert = "<li><h3 class=noDataMessage>No accounting contacts found.<p>&nbsp;</p></h3></li>";
                         $(insert).appendTo("#recipientList"); 
                         $("#sendInvoiceButton").remove();
                     }
+                    createSpan("#recipientList");
 
                     // adds timelogs asscoited with this invoice to the invoice timelogs list
                     $("#invoiceLogs").empty();
@@ -2304,7 +2267,7 @@ $(document).ready(function(){
                     ////console.log(returnData);
                     $("#invoiceList").empty();
                     if(returnData.length == 0){
-                        $('<h3 class="noDataMessage">no invoices at this time<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h3>').prependTo('#invoiceList');
+                        $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
                         return;
                     }
                     if (accountid)
@@ -2321,6 +2284,7 @@ $(document).ready(function(){
                         if (!accountid) localInvoiceList.push(insert);
                     }
                     if (!accountid) localStorage.setItem("storageInvoices",JSON.stringify(localInvoiceList));
+                    createSpan('#invoiceList');
                     reveal();
                     //filterList("tabpageContainer");
                 },
@@ -2345,7 +2309,7 @@ $(document).ready(function(){
                     //console.log(returnData);
                     $("#queueTickets").empty();
                     if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
                         $(insert).appendTo("#queueTickets");
                     }
                     for(var i = 0; i < returnData.length; i++)
@@ -2355,17 +2319,19 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .75, 12);
+                        subject = createElipse(subject, .70, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initafilPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initafilPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#queueTickets");
                     filterList("queueTickets");
                     reveal();
                 }
+                    createSpan("#queueTickets");
                 },
                 function() {
                     console.log("fail @ Queues List");
@@ -2492,27 +2458,29 @@ $(document).ready(function(){
                 success: function(returnData) {
                     //console.log(returnData);
                     //add tickets as tech to as tech list
-                    for(var i = 0; i < returnData.length; i++)
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#techContainer");
+                    }
+                    else for(var i = 0; i < returnData.length; i++)
                     {
                         // get email for gravitar avitar
                         var email = $.md5(returnData[i].user_email);
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .75, 12);
+                        subject = createElipse(subject, .70, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         //check intial post length can be displayed correctly
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#techContainer");
                     }
-                    if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
-                        $(insert).appendTo("#techContainer");
-                    }
+                    createSpan("#techContainer");
                 },
                 complete:function(){
                     //reveal();
@@ -2539,6 +2507,11 @@ $(document).ready(function(){
                 success: function(returnData) {
                     //console.log(returnData);
                     //add tickets to the all section
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#allContainer");
+                    }
+                    else
                     for(var i = 0; i < returnData.length; i++)
                     {
                         //get email for gravitar
@@ -2546,19 +2519,17 @@ $(document).ready(function(){
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .75, 12);
+                        subject = createElipse(subject, .70, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         //check initial post length
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo("#allContainer");
                     }
-                    if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
-                        $(insert).appendTo("#allContainer");
-                    }
+                    createSpan("#allContainer");
                 },
                 complete:function(){
                     $('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
@@ -2620,26 +2591,28 @@ $(document).ready(function(){
                 dataType:"json",
                 success: function(returnData) {
                     //console.log(returnData);
-
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#altContainer");
+                    }
+                    else
                     for(var i = 0; i < returnData.length; i++)
                     {
                         var email = $.md5(returnData[i].user_email);
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .80, 12);
+                        subject = createElipse(subject, .75, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#altContainer");
                     }
-                    if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
-                        $(insert).appendTo("#altContainer");
-                    }
+                    createSpan("#altContainer");
                 },
                 complete:function(){
                     //reveal();
@@ -2666,25 +2639,27 @@ $(document).ready(function(){
                 dataType:"json",
                 success: function(returnData) {
                     //console.log(returnData);
-                    for(var i = 0; i < returnData.length; i++)
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
+                        $(insert).appendTo("#userContainer");
+                    }
+                    else for(var i = 0; i < returnData.length; i++)
                     {
                         var email = $.md5(returnData[i].user_email);
                         var intialPost = returnData[i].initial_post;
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .80, 12);
+                        subject = createElipse(subject, .75, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#userContainer");
                     }
-                    if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
-                        $(insert).appendTo("#userContainer");
-                    }
+                    createSpan("#userContainer");
                 },
                 complete:function(){
                     if (!isTech) {
@@ -2720,6 +2695,7 @@ $(document).ready(function(){
                     localInsert = retrievedObject[a];
                     $(localInsert).appendTo("#fullList");
                 }
+                reveal();
             }
 
 
@@ -2737,7 +2713,10 @@ $(document).ready(function(){
                     //console.log(returnData);
                     $("#fullList").empty();
 
-
+                    if(returnData.length < 1){
+                        var insert = '<h1 class="noTicketMessage">No Accounts</h1>';
+                        $(insert).appendTo("#fullList");
+                    }else{
                     //add accounts to accountList
                     var name = null;
                     for(var i = 0; i < returnData.length; i++)
@@ -2760,10 +2739,8 @@ $(document).ready(function(){
                         }
                         localAccountList.push(insert);
                     }
-                    if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
-                        $(insert).appendTo("#fullList");
                     }
+                    createSpan("#fullList");
                     localStorage.setItem("storageAccountList",JSON.stringify(localAccountList));
                 },
                 complete:function(){
@@ -2808,7 +2785,7 @@ $(document).ready(function(){
             getApi('time', {"limit" : 200}).then(function(returnData) {
                     $("#timelogs").empty();
                     if (returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Timelogs<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></h1>';
+                        var insert = '<h1 class="noTicketMessage">No Timelogs</h1>';
                         $(insert).appendTo("#timelogs");
                     }
                     else{
@@ -2840,6 +2817,7 @@ $(document).ready(function(){
                         //localTimelogs.push(log);
                     }
                     }
+                createSpan("#timelogs");
                 reveal();
                 //localStorage.setItem("storageTimeLogs",LZString.compressToUTF16(JSON.stringify(localTimelogs)));
                 if (returnData.length > 1)
@@ -2966,13 +2944,14 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         //the key for this specific ticket
                         var data = returnData[i].key;
-                        subject = createElipse(subject, .80, 12);
+                        subject = createElipse(subject, .75, 12);
+                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                         if(initialPost.length > 50)
                         {
                             initialPost = initialPost.substring(0,50);
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
                         $(ticket).appendTo(".AccountDetailsTicketsContainer");
                         accountTicketsList.push(ticket);
                         filterList("AccountDetailsTicketsContainer");

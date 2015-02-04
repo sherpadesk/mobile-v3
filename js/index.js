@@ -257,6 +257,7 @@ fullscreen();
 					'backgroundColor':'#0099CC',
 					width:'280px'
 				},300);
+                $("input.search").focus();
 			});
 			$('.searchCloseExpanded').click(function(){
 				$('.SherpaDesk').animate({
