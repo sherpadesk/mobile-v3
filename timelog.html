@@ -26,8 +26,7 @@
     
     
     <!-- Main.js -->
-      <script type="text/javascript" src="js/iscroll.js"></script>
-      <!--script src="js/lz-string.min.js"></script-->
+      <script src="js/lz-string.min.js"></script>
     <script src="js/list.js"></script>
     <script src="js/index.js"></script>
     <script src="js/main.js"></script>
@@ -36,14 +35,6 @@
     <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-      <script type="text/javascript">
-          document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-          document.addEventListener('mousemove', function (e) { e.preventDefault(); }, false);
-          if (typeof iScroll === 'function')
-          {
-              document.addEventListener('DOMContentLoaded', function () { setTimeout(iScrollloaded, 200); }, false);
-          }
-      </script>
   </head>
 
   <div class="maxSize">
@@ -54,15 +45,13 @@
         <li><h1 class="SherpaDesk" >Timelog</h1></li>
       <li><img class="headerSearchIcon" src="img/search_icon.png"></li>
     </ul>
-      <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
-      <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
   </header>
   <body>
             <nav class="sideNav">
       <div class="activeNav">
       <div class="fold"><i class="fa a-angle-double-left fa-2x"></i></div>
       <img class="navProfile" src="img/profile_3.png">
-          <h2 class="navName">NO USER DATA</h2>
+      <h2 class="navName">NO USER DATA</h2>
       <ul class="sideNavLinks">
         <a href="dashboard.html">
           <li id="itemDash">
@@ -133,9 +122,7 @@
       </ul>
       </div>
     </nav>
-      <div id=wrapper><div id=scroller>
-          <div id="pullDown"><span class="pullDownIcon"></span><span class="pullDownLabel">Pull down to refresh...</span></div>
-          <section class="bodyContent">
+    <section class="bodyContent">
       <div class="timelogContainer">
         <ul id="timelogs" class="timelogs">
           <!--<li>
@@ -158,7 +145,7 @@
         </ul>
       </div>
     </section>
-      </div></div>
+      <div id="reload" class="createButton" onclick="location.reload(true)"><p class="fa fa-repeat"></p></div>
     <a href="add_time.html">
         <div class="createButton"><p>+</p></div>
         </a>

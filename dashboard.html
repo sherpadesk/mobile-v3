@@ -23,7 +23,6 @@
       <!-- Fonts -->
       <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
       <!-- Main.js -->
-      <script type="text/javascript" src="js/iscroll.js"></script>
       <script src="js/index.js"></script>
       <script src="js/main.js"></script>
       <!--script src="js/Chart.js"></script>
@@ -31,17 +30,8 @@
       <script type='application/javascript' src='js/fastclick.js'></script>
       <!-- Fonts & Icons -->
       <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-
-      <script type="text/javascript">
-          document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-          document.addEventListener('mousemove', function (e) { e.preventDefault(); }, false);
-          if (typeof iScroll === 'function')
-          {
-              document.addEventListener('DOMContentLoaded', function () { setTimeout(iScrollloaded, 200);}, false);
-          }
-      </script>
     </head>
-    <div id="loading" style="background-color:#34495e; display:block;"><div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div></div>
+    <div id="loading" style="background-color:#34495e; display:block; top:53px;"><div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div></div>
     <!-- <div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
     <div class="maxSize"> -->
       <header class="test">
@@ -65,7 +55,7 @@
             <div class="activeNav">
               <div class="fold"><i class="fa a-angle-double-left fa-2x"></i></div>
               <img class="navProfile" src="img/profile_3.png">
-                <h2 class="navName">NO USER DATA</h2>
+              <h2 class="navName">NO USER DATA</h2>
               <ul class="sideNavLinks">
                 <a href="dashboard.html">
                   <li id="itemDash">
@@ -136,9 +126,8 @@
               </ul>
             </div>
           </nav>
-            <div id=wrapper><div id=scroller><div class="bodyContentCover">
-                <div class="bodyContent">
-                <div id="pullDown"><span class="pullDownIcon"></span><span class="pullDownLabel">Pull down to refresh...</span></div>
+          <div class="bodyContentCover">
+            <div class="bodyContent">
               <section class="dashboard clearfix">
                 <!--<div class="swiper-container">
                   <div class="swiper-wrapper">
@@ -244,6 +233,7 @@
                 pagination: '.pagination',
                 paginationClickable: true
                 })</script> -->
+              </div>
             </section>
             <div class="QueuesTickerContainer">
               <ul class="OptionsList" id="DashBoradQueues">
@@ -267,6 +257,17 @@
                 <li><div class='tks1' >"+openTickets+"</div></li>
               </ul>-->
             </div>
+            <!--<div class="pageCover"></div>
+            <div id="dashCreateButton" class="createButton"><p>+</p><ul class="bottomHeader clearfix">
+              <div class="bottomHeaderContainer">
+                <li><a href="add_tickets.html">Tickets</a></li>
+                
+                <li id="invoiceFooter">Invoice</li>
+                
+                <li><a href = "add_time.html">Time</a></li>
+              </div>
+            </ul></div>-->
+    <div id="reload" class="createButton" onclick="location.reload(true)"><p class="fa fa-repeat"></p></div>
             <div id="dashboardCreate" class="createButton"><p>+</p></div>
             <div class="createActions">
               <ul class="createActionsList">
@@ -288,7 +289,19 @@
                 </li>
               </ul>
             </div>
+            <!--  <footer>
+              <ul class="bottomHeader clearfix">
+                <div class="bottomHeaderContainer">
+                  <li><a href="add_tickets.html">+ Tickets</a></li>
+                  <li class="time">|</li>
+                  <li  class="time" id="invoiceFooter">+ Invoice</li>
+                  <li  class="time">|</li>
+                  <li class="time"><a href = "add_time.html">+ Time</a></li>
+                </div>
+              </ul>
+            </footer> -->
           </div>
-            </div></div></div>
-    </body>
+          </span>
+        </body>
+      </div>
     </html>

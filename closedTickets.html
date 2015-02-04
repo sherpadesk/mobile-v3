@@ -26,7 +26,6 @@
     
     
     <!-- Main.js -->
-      <script type="text/javascript" src="js/iscroll.js"></script>
     <script src="js/list.js"></script>
     <script src="js/index.js"></script>
     <script src="js/main.js"></script>
@@ -35,14 +34,6 @@
     <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-      <script type="text/javascript">
-          document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-          document.addEventListener('mousemove', function (e) { e.preventDefault(); }, false);
-          if (typeof iScroll === 'function')
-          {
-              document.addEventListener('DOMContentLoaded', function () { setTimeout(iScrollloaded, 200); }, false);
-          }
-      </script>
   </head>
   <header class="test">
     <div class="headerContainer">
@@ -53,18 +44,18 @@
             </li>
             <li><img class="headerSearchIcon" src="img/search_icon.png"></li>
         </ul>
-        <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
-        <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
     </div>
     <div>
     
   </header>
   <body class="bodyContent">
+    <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
+    <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
             <nav class="sideNav">
       <div class="activeNav">
       <div class="fold"><i class="fa a-angle-double-left fa-2x"></i></div>
       <img class="navProfile" src="img/profile_3.png">
-          <h2 class="navName">NO USER DATA</h2>
+      <h2 class="navName">NO USER DATA</h2>
       <ul class="sideNavLinks">
         <a href="dashboard.html">
           <li id="itemDash">
@@ -135,8 +126,6 @@
       </ul>
       </div>
     </nav>
-      <div id=wrapper><div id=scroller><div class="bodyContentCover"><div class="bodyContent">
-          <div id="pullDown"><span class="pullDownIcon"></span><span class="pullDownLabel">Pull down to refresh...</span></div>
     <div id="tabContainer">
         <div class="tabpage" id="tabpage_reply">
           <div class="currentPage"></div>
@@ -158,6 +147,7 @@
             </div>
         </div>
         </div>
-          </div></div></div>  </div>
+  </div>
   </body>
+  </div>
 </html>
