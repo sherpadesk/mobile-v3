@@ -3628,9 +3628,10 @@ if(typeof func === 'function')
                     console.log("Version updated to " + appVersion);
                     if (adMessage.length > 1)
                     {
+                        setTimeout(function(){
                     userMessage.showMessage(true, adMessage, function(){
                     location.reload(true);
-                    });
+                    });}, 1000);
                     }
                     else
                         location.reload(true);
