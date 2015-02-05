@@ -2393,7 +2393,7 @@ $(document).ready(function(){
                 },
                 complete:function(){
                     reveal();
-                    //filterList("OptionsList");
+                    filterList("OptionsList");
                 },
                 error: function() {
                     console.log("fail @ Queues List");
