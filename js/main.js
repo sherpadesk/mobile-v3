@@ -1,6 +1,6 @@
 /*global jQuery, $ */
 
-var appVersion = "5";
+var appVersion = "6";
 
 //Root Names
 var Site = 'sherpadesk.com/';
