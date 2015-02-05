@@ -1,6 +1,6 @@
 /*global jQuery, $ */
 
-var appVersion = "8";
+var appVersion = "9";
 var adMessage = "Try new Pull-To-Refresh Gesture";
 
 //Root Names
@@ -24,6 +24,9 @@ var isTech = false,
     isInvoice = true,
     is_MultipleOrgInst = true;
 
+function checkURL(url) {
+    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+}
 
 //Phonegap specific
 var isPhonegap = false;
