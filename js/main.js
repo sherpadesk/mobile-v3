@@ -1,6 +1,7 @@
 /*global jQuery, $ */
 
 var appVersion = "6";
+var adMessage = "Try new Pull-To-Refresh Gesture";
 
 //Root Names
 var Site = 'sherpadesk.com/';
@@ -31,8 +32,6 @@ var isOnline = true;
 document.addEventListener("deviceready", onDeviceReady, false);
 document.addEventListener("offline", offLine,false);
 document.addEventListener("online", onLine ,false);
-document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-document.addEventListener('mousemove', function (e) { e.preventDefault(); }, false);
 
 function onDeviceReady() {
     //alert("gap init");
@@ -3615,9 +3614,14 @@ if(typeof func === 'function')
                 {
                     localStorage.setItem("appVersion", appVersion);
                     console.log("Version updated to " + appVersion);
-                    userMessage.showMessage(true, "Try new Pull-To-Refresh Gesture", function(){
+                    if (adMessage.length > 1)
+                    {
+                    userMessage.showMessage(true, adMessage, function(){
                     location.reload(true);
                     });
+                    }
+                    else
+                        location.reload(true);
                     return;
                 }
                 //Disable for user
