@@ -2369,6 +2369,7 @@ $(document).ready(function(){
                 {
                     localInsert = retrievedObject[a];
                     $(localInsert).appendTo("#queuesPage");
+                    reveal();
                 }
             }
             $.ajax({
@@ -2391,6 +2392,7 @@ $(document).ready(function(){
                         $(insert).appendTo("#queuesPage");
                         localQueues.push(insert);
                     }
+                    createSpan("#queuesPage");
                     localStorage.setItem("storageQueues",JSON.stringify(localQueues));
 
                 },
