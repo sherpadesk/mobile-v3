@@ -45,8 +45,8 @@ body, html {
 /*  height: 100%;
   width: 100%;
   position: relative;
-  overflow: hidden;
-    height: 100%;*/
+    overflow: hidden;*/
+    height: 100%;
   margin-left: -3px;
 }
 
@@ -2715,8 +2715,8 @@ body {
     font-size: 24px;
     font-weight: 200;
     color: #555;
-    box-sizing: border-box;*/
-    -webkit-touch-callout:none;
+    box-sizing: border-box;
+    -webkit-touch-callout:none;*/
     -webkit-tap-highlight-color:rgba(0,0,0,0);
     width:100%;
     padding:0;

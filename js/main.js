@@ -1,6 +1,7 @@
 /*global jQuery, $ */
 
-var appVersion = "5";
+var appVersion = "7";
+var adMessage = "Try new Pull-To-Refresh Gesture";
 
 //Root Names
 var Site = 'sherpadesk.com/';
@@ -31,8 +32,6 @@ var isOnline = true;
 document.addEventListener("deviceready", onDeviceReady, false);
 document.addEventListener("offline", offLine,false);
 document.addEventListener("online", onLine ,false);
-document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-document.addEventListener('mousemove', function (e) { e.preventDefault(); }, false);
 
 function onDeviceReady() {
     //alert("gap init");
@@ -614,6 +613,7 @@ $(document).ready(function(){
                     {
                         $('<h1 class="noTicketMessage">No Tickets</h1>').appendTo("#closedTickets");
                     }
+                    reveal();
                     createSpan("#closedTickets");
 
                 },
@@ -1858,7 +1858,7 @@ $(document).ready(function(){
                         }
 
                         // comment insert
-                        var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+note.replace(/\n/g, '<p></p>').replace("<br>", "<p></p>")+"</p></li><li>"+type+"</li></ul>";
+                        var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+ $("<span />", { html: note }).text().replace(/\n/g, '<p></p>').replace("/<br>/g", "<p></p>")+"</p></li><li>"+type+"</li></ul>";
                         $(insert).appendTo("#comments");
                         for(var f = 0; f < attachments.length; f++)
                         {
@@ -1900,7 +1900,7 @@ $(document).ready(function(){
                             }
                         }
                     }
-                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+returnData.ticketlogs[0].note.replace(/\n/g, '<p></p>').replace("<br>", "<p></p>")+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul></div>";
+                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+$("<span />", { html: returnData.ticketlogs[0].note }).text().replace(/\n/g, '<p></p>').replace("<br>", "<p></p>")+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul></div>";
 
                     $(orginalMessageinsert).appendTo(".orginalMessageContainer");
 
@@ -2268,6 +2268,8 @@ $(document).ready(function(){
                     $("#invoiceList").empty();
                     if(returnData.length == 0){
                         $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
+                        createSpan('#invoiceList');
+                        reveal();
                         return;
                     }
                     if (accountid)
@@ -2332,6 +2334,7 @@ $(document).ready(function(){
                     reveal();
                 }
                     createSpan("#queueTickets");
+                    reveal();
                 },
                 function() {
                     console.log("fail @ Queues List");
@@ -2393,7 +2396,7 @@ $(document).ready(function(){
                 },
                 complete:function(){
                     reveal();
-                    //filterList("OptionsList");
+                    filterList("OptionsList");
                 },
                 error: function() {
                     console.log("fail @ Queues List");
@@ -2870,7 +2873,8 @@ $(document).ready(function(){
                 for(var d = 0; d < retrievedObjectTickets.length; d++){
                     var localInsert = retrievedObjectTickets[d];
                     $(localInsert).appendTo(".AccountDetailsTicketsContainer");
-                }   
+                }
+                reveal();
             }
             $.ajax({
                 type: 'GET',
@@ -3132,6 +3136,7 @@ $(document).ready(function(){
                 var localInsertQueue = retrievedObject[c];
                 $(localInsertQueue).prependTo("#DashBoradQueues");
             }
+            reveal();
         }
         $.ajax({
             type: 'GET',
@@ -3196,6 +3201,7 @@ $(document).ready(function(){
                 localActiveAccount = retrievedObjectTwo[a];
                 $(localActiveAccount).appendTo("#activeList");
             }
+                reveal();
         }
         $.ajax({
             type: 'GET',
@@ -3615,9 +3621,14 @@ if(typeof func === 'function')
                 {
                     localStorage.setItem("appVersion", appVersion);
                     console.log("Version updated to " + appVersion);
-                    userMessage.showMessage(true, "Try new Pull-To-Refresh Gesture", function(){
+                    if (adMessage.length > 1)
+                    {
+                    userMessage.showMessage(true, adMessage, function(){
                     location.reload(true);
                     });
+                    }
+                    else
+                        location.reload(true);
                     return;
                 }
                 //Disable for user
