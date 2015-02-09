@@ -1850,7 +1850,7 @@ $(document).ready(function(){
                         date = formatDate(date);
                         var attachments = [];
                         //check to see if this comment has attachments
-                        console.log(returnData.attachments);
+                        
                         if(returnData.attachments != null){
                             for(var e = 0; e < returnData.attachments.length; e++)
                             {
@@ -1859,7 +1859,6 @@ $(document).ready(function(){
                                     attachments.push(returnData.attachments[e].url);
                                 }
                             }
-                            console.log(attachments);
                         }
 
                         // comment insert
