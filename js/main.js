@@ -601,7 +601,7 @@ $(document).ready(function(){
                         //the key for this specific ticket
                         var data = returnData[i].key;
                         subject = createElipse(subject, .70, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                         if(initialPost.length > 50)
                         {
@@ -2338,7 +2338,7 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         subject = createElipse(subject, .70, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
@@ -2491,7 +2491,7 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         subject = createElipse(subject, .70, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         //check intial post length can be displayed correctly
                         if(intialPost.length > 100)
                         {
@@ -2541,7 +2541,7 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         subject = createElipse(subject, .70, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         //check initial post length
                         if(intialPost.length > 100)
                         {
@@ -2624,7 +2624,7 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         subject = createElipse(subject, .75, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
@@ -2671,7 +2671,7 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         subject = createElipse(subject, .75, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
@@ -2967,7 +2967,7 @@ $(document).ready(function(){
                         //the key for this specific ticket
                         var data = returnData[i].key;
                         subject = createElipse(subject, .75, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                         if(initialPost.length > 50)
                         {
