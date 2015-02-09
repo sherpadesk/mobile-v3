@@ -1850,6 +1850,7 @@ $(document).ready(function(){
                         date = formatDate(date);
                         var attachments = [];
                         //check to see if this comment has attachments
+                        console.log(returnData.attachments);
                         if(returnData.attachments != null){
                             for(var e = 0; e < returnData.attachments.length; e++)
                             {
@@ -1858,6 +1859,7 @@ $(document).ready(function(){
                                     attachments.push(returnData.attachments[e].url);
                                 }
                             }
+                            console.log(attachments);
                         }
 
                         // comment insert
@@ -1866,10 +1868,16 @@ $(document).ready(function(){
                         for(var f = 0; f < attachments.length; f++)
                         {
                             var insert = "";
-                            if (isPhonegap)
-                                insert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +attachments[f] + "\")'><img class=\"attachment\" src=\"" +attachments[f] + "\"></a>";
+                            var file;
+                            if (checkURL(attachments[f]))
+                                file = "<img class=\"attachment\" src=\"" + attachments[f] + "\">";
                             else
-                                insert = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +attachments[f] + "\"><img class=\"attachment\" src=\""  +attachments[f]+  "\"></a>";
+                                file = "<img style='float:none;' src='img/file.png'>&nbsp;" + attachments[f].split("/").slice(-1) + "<p></p>";
+                            
+                            if (isPhonegap)
+                                insert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +attachments[f] + "\")'>"+file+"</a>";
+                            else
+                                insert = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +attachments[f] + "\">"+file+"</a>";
                             $(insert).appendTo("#comments");
                         }
                         if(attachments.length > 0)
@@ -1891,10 +1899,15 @@ $(document).ready(function(){
                         {
                             if(note.indexOf(returnData.attachments[e].name) >= 0)
                             {
-                                if (isPhonegap)
-                                    attachments[e] = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +returnData.attachments[e].url + "\")'><img class=\"attachment\" src=\"" +returnData.attachments[e].url+ "\"></a>";
+                                var file;
+                                if (checkURL(returnData.attachments[e].url))
+                                    file = "<img class=\"attachment\" src=\"" + returnData.attachments[e].url + "\">";
                                 else
-                                    attachments[e] = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +returnData.attachments[e].url + "\"><img class=\"attachment\" src=\""  +returnData.attachments[e].url+  "\"></a>";
+                                    file = "<img style='float:none;' src='img/file.png'>&nbsp;" + returnData.attachments[e].name + "<p></p>";
+                                if (isPhonegap)
+                                    attachments[e] = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +returnData.attachments[e].url + "\")'>"+file+"</a>";
+                                else
+                                    attachments[e] = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +returnData.attachments[e].url + "\">"+file+"</a>";
                                 $(attachments[e]).error(function(){
                                     attachments[e] = "0";
 
