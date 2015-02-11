@@ -342,7 +342,7 @@
                 min-width: 300px;
             }
         </style>
-        <form id="form" name="form" action="http://api.sherpadesk.com/organizations?format=json">
+        <form id="form" name="form" action="http://api.beta.sherpadesk.com/organizations?format=json">
             <div class="signup_form">
                 <div id="sherpadesk_ContactusForm" class="sherpadesk-contactus-form">
                     <div class="sherpadesk-contactus-content">
@@ -353,7 +353,7 @@
                                 <small>Acme Inc. or Your Name</small>
                             </dt>
                             <dd>
-                                <input class="sherpadesk-contactus-text-input" title="Name should be 3 or more chars" onchange="var t=''; if (this.validity.patternMismatch) {t=this.title; serror(this.id, t);} else {t=''; if (this.value) form.url.value = this.value.replace(/[^a-zA-Z 0-9]+|[\s]+/g, '').toLowerCase(); postOrg(form, true); ssuccess(this.id);} this.setCustomValidity(t);"  pattern=".{3,}" type="text" id="name" name="name" required placeholder="Company Name...">
+                                <input class="sherpadesk-contactus-text-input" title="Name should be 3 or more chars" onchange="var t=''; if (this.validity.patternMismatch) {t=this.title; serror(this.id, t);} else {t=''; if (this.value) form.url.value = this.value.replace(/[^a-zA-Z 0-9]+|[\s]+/g, '').toLowerCase().substring(0, 20); postOrg(form, true); ssuccess(this.id);} this.setCustomValidity(t);"  pattern=".{3,}" type="text" id="name" name="name" required placeholder="Company Name...">
                             </dd>
                         </dl>
                         <dl class="sherpadesk-contactus-field">
@@ -372,7 +372,7 @@
                             </dt>
                             <dd class="url_dd">
                                 <div class="url1 url">https://</div><div class="url url2">.sherpadesk.com</div>
-                                <div><input title="Url should be 3 or more chars" onchange="var t=this.title; if (this.validity.patternMismatch)  {serror(this.id, t);} else {t=''; postOrg(form, true); ssuccess(this.id);} this.setCustomValidity(t);" pattern=".{3,}" class="sherpadesk-contactus-text-input" id=url type="text" style="width: 47%;" name="url" required maxlength="254" placeholder="Url..."></div>
+                                <div><input title="Url should be between 3 and 20 chars" onchange="var t=this.title; if (this.validity.patternMismatch)  {serror(this.id, t);} else {t=''; postOrg(form, true); ssuccess(this.id);} this.setCustomValidity(t);" pattern=".{3,20}" class="sherpadesk-contactus-text-input" id=url type="text" style="width: 47%;" name="url" required maxlength="254" placeholder="Url..."></div>
                             </dd>
                         </dl>
                         <dl style="display: inline-block;" class="sherpadesk-contactus-field">
