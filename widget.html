@@ -121,7 +121,8 @@
                     else if (e.target.status == 403)
                     {
                         form.sherpadesk_cu_submit.disabled = false;
-                        var error = e.target.response;
+                        var error = e.target.response.substring(1,e.target.response.length-2);
+                        console.log(error);
                         var name = error.split(' ')[0].toLowerCase();
                         if(name)
                             document.getElementById(name).focus();
@@ -372,7 +373,7 @@
                             </dt>
                             <dd class="url_dd">
                                 <div class="url1 url">https://</div><div class="url url2">.sherpadesk.com</div>
-                                <div><input title="Url should be between 3 and 20 chars" onchange="var t=this.title; if (this.validity.patternMismatch)  {serror(this.id, t);} else {t=''; postOrg(form, true); ssuccess(this.id);} this.setCustomValidity(t);" pattern=".{3,20}" class="sherpadesk-contactus-text-input" id=url type="text" style="width: 47%;" name="url" required maxlength="254" placeholder="Url..."></div>
+                                <div><input title="Url should be between 3 and 20 chars" onchange="var t=this.title; if (this.validity.patternMismatch)  {serror(this.id, t);} else {t=''; postOrg(form, true); ssuccess(this.id);} this.setCustomValidity(t);" pattern=".{3,}" class="sherpadesk-contactus-text-input" id=url type="text" style="width: 47%;" name="url" required maxlength="20" placeholder="Url..."></div>
                             </dd>
                         </dl>
                         <dl style="display: inline-block;" class="sherpadesk-contactus-field">
