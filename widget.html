@@ -121,7 +121,7 @@
                     else if (e.target.status == 403)
                     {
                         form.sherpadesk_cu_submit.disabled = false;
-                        var error = e.target.response.substring(1,e.target.response.length-2);
+                        var error = e.target.response.replace(/"/g, '');
                         console.log(error);
                         var name = error.split(' ')[0].toLowerCase();
                         if(name)
