@@ -400,7 +400,7 @@
                                 </label>
                             </dt>
                             <dd>
-                                <input class="sherpadesk-contactus-text-input" pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9_]{5,20})" type="password" id="password" name="password" 
+                                <input class="sherpadesk-contactus-text-input" pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9_-]{5,20})" type="password" id="password" name="password" 
                                        onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Password must be alphanumeric with at least 5 characters' : ''); if(this.checkValidity()) form.passwords.pattern = this.value;" required maxlength="20" placeholder="">
                             </dd>
                         </dl>
@@ -410,7 +410,7 @@
                                 </label>
                             </dt>
                             <dd>
-                                <input class="sherpadesk-contactus-text-input" type="password"  pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9_]{5,20})" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Passwords do not match' : '');" id="passwords" name="password_confirm" required maxlength="20" placeholder="">
+                                <input class="sherpadesk-contactus-text-input" type="password"  pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9_-]{5,20})" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Passwords do not match' : '');" id="passwords" name="password_confirm" required maxlength="20" placeholder="">
                             </dd>
                         </dl>
                         <dl class="sherpadesk-contactus-field">
