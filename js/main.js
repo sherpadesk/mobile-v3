@@ -1,6 +1,6 @@
 /*global jQuery, $ */
 
-var appVersion = "9";
+var appVersion = "10";
 var adMessage = "Try new Pull-To-Refresh Gesture";
 
 //Root Names
