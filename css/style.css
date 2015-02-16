@@ -2600,7 +2600,7 @@ box-shadow: 0px 0px 3px #88888D;
 
 .createActionsList {
   list-style-type: none;
-  width: 380px;
+  width: 360px;
   height: 100%;
   margin: 0 auto;
 }
@@ -2611,7 +2611,7 @@ box-shadow: 0px 0px 3px #88888D;
   float: left;
   border: 6px solid rgba(255, 255, 255, 0.87);
   border-radius: 2px;
-  margin-left: 36px;
+  margin-left: 20px;
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
@@ -2640,7 +2640,7 @@ box-shadow: 0px 0px 3px #88888D;
   color: #fff;
   font-size: 30px;
   text-align: center;
-  line-height: 50px;
+  line-height: 48px;
   font-weight: 300 !important;
 }
 
