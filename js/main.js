@@ -39,6 +39,7 @@ document.addEventListener("online", onLine ,false);
 function onDeviceReady() {
     //alert("gap init");
     isPhonegap = true;
+    cordova.plugins.notification.badge.set(1);
 }
 
 //open link	in blank
