@@ -3173,6 +3173,7 @@ $(document).ready(function(){
                 //console.log(returnData);
                 $("#DashBoradQueues").empty();
                 var dashQueues = 0;
+                alert(isPhonegap && cordova.plugins.notification.badge);
                 for( var i = 0; i < returnData.length; i++)
                 {
                     if(returnData[i].tickets_count > 0 && dashQueues < 3 )
