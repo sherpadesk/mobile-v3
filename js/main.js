@@ -1,6 +1,6 @@
 /*global jQuery, $ */
 
-var appVersion = "7";
+var appVersion = "11";
 var adMessage = "Try new Pull-To-Refresh Gesture";
 
 //Root Names
@@ -24,6 +24,9 @@ var isTech = false,
     isInvoice = true,
     is_MultipleOrgInst = true;
 
+function checkURL(url) {
+    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+}
 
 //Phonegap specific
 var isPhonegap = false;
@@ -598,7 +601,7 @@ $(document).ready(function(){
                         //the key for this specific ticket
                         var data = returnData[i].key;
                         subject = createElipse(subject, .70, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                         if(initialPost.length > 50)
                         {
@@ -1847,6 +1850,7 @@ $(document).ready(function(){
                         date = formatDate(date);
                         var attachments = [];
                         //check to see if this comment has attachments
+                        
                         if(returnData.attachments != null){
                             for(var e = 0; e < returnData.attachments.length; e++)
                             {
@@ -1863,10 +1867,16 @@ $(document).ready(function(){
                         for(var f = 0; f < attachments.length; f++)
                         {
                             var insert = "";
-                            if (isPhonegap)
-                                insert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +attachments[f] + "\")'><img class=\"attachment\" src=\"" +attachments[f] + "\"></a>";
+                            var file;
+                            if (checkURL(attachments[f]))
+                                file = "<img class=\"attachment\" src=\"" + attachments[f] + "\">";
                             else
-                                insert = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +attachments[f] + "\"><img class=\"attachment\" src=\""  +attachments[f]+  "\"></a>";
+                                file = "<img style='float:none;' src='img/file.png'>&nbsp;" + attachments[f].split("/").slice(-1) + "<p></p>";
+                            
+                            if (isPhonegap)
+                                insert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +attachments[f] + "\")'>"+file+"</a>";
+                            else
+                                insert = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +attachments[f] + "\">"+file+"</a>";
                             $(insert).appendTo("#comments");
                         }
                         if(attachments.length > 0)
@@ -1888,10 +1898,15 @@ $(document).ready(function(){
                         {
                             if(note.indexOf(returnData.attachments[e].name) >= 0)
                             {
-                                if (isPhonegap)
-                                    attachments[e] = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +returnData.attachments[e].url + "\")'><img class=\"attachment\" src=\"" +returnData.attachments[e].url+ "\"></a>";
+                                var file;
+                                if (checkURL(returnData.attachments[e].url))
+                                    file = "<img class=\"attachment\" src=\"" + returnData.attachments[e].url + "\">";
                                 else
-                                    attachments[e] = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +returnData.attachments[e].url + "\"><img class=\"attachment\" src=\""  +returnData.attachments[e].url+  "\"></a>";
+                                    file = "<img style='float:none;' src='img/file.png'>&nbsp;" + returnData.attachments[e].name + "<p></p>";
+                                if (isPhonegap)
+                                    attachments[e] = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +returnData.attachments[e].url + "\")'>"+file+"</a>";
+                                else
+                                    attachments[e] = "<a class=\"comment_image_link\" target=\"_blank\" href=\"" +returnData.attachments[e].url + "\">"+file+"</a>";
                                 $(attachments[e]).error(function(){
                                     attachments[e] = "0";
 
@@ -2322,7 +2337,7 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         subject = createElipse(subject, .70, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
@@ -2369,6 +2384,7 @@ $(document).ready(function(){
                 {
                     localInsert = retrievedObject[a];
                     $(localInsert).appendTo("#queuesPage");
+                    reveal();
                 }
             }
             $.ajax({
@@ -2391,6 +2407,7 @@ $(document).ready(function(){
                         $(insert).appendTo("#queuesPage");
                         localQueues.push(insert);
                     }
+                    createSpan("#queuesPage");
                     localStorage.setItem("storageQueues",JSON.stringify(localQueues));
 
                 },
@@ -2473,7 +2490,7 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         subject = createElipse(subject, .70, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         //check intial post length can be displayed correctly
                         if(intialPost.length > 100)
                         {
@@ -2523,7 +2540,7 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         subject = createElipse(subject, .70, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         //check initial post length
                         if(intialPost.length > 100)
                         {
@@ -2606,7 +2623,7 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         subject = createElipse(subject, .75, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
@@ -2653,7 +2670,7 @@ $(document).ready(function(){
                         var subject = returnData[i].subject;
                         var data = returnData[i].key;
                         subject = createElipse(subject, .75, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         if(intialPost.length > 100)
                         {
                             intialPost = intialPost.substring(0,100);
@@ -2949,7 +2966,7 @@ $(document).ready(function(){
                         //the key for this specific ticket
                         var data = returnData[i].key;
                         subject = createElipse(subject, .75, 12);
-                        var newMessage = returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                         // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                         if(initialPost.length > 50)
                         {
@@ -3030,6 +3047,7 @@ $(document).ready(function(){
         $("#all").html(localStorage.getItem("allTickets"));
         $("#userStat").html(localStorage.getItem("userStat"));
         $("#techStat").html(localStorage.getItem("techStat"));
+        //$(".mainStatTitle").html("As Tech" + (localStorage.new_messages > 0 ? "<p>"+localStorage.new_messages+"<i class='fa fa-envelope-o' style='color: #25B0E6;'></i></p>" : ""));
         $("#altStat").html(localStorage.getItem("altStat"));
         $.ajax({
             type: 'GET',
@@ -3054,12 +3072,14 @@ $(document).ready(function(){
                 $("#all").html(allTickets);
                 $("#UserStat").html(returnData.open_as_user);
                 $("#techStat").html(returnData.open_as_tech);
+                //$(".mainStatTitle").html("As Tech" + (returnData.new_messages > 0 ? "<p>"+returnData.new_messages+"<i class='fa fa-envelope-o' style='color: #25B0E6;'></i></p>" : ""));
                 $("#altStat").html(returnData.open_as_alttech);
                 reveal();
                 localStorage.setItem("allTickets",allTickets);
                 localStorage.setItem("userStat",returnData.open_as_user);
                 localStorage.setItem("techStat",returnData.open_as_tech);
                 localStorage.setItem("altStat",returnData.open_as_alttech);
+                //localStorage.setItem("newStat",returnData.new_messages);
             },
             error: function() {
                 console.log("fail @ get getTicketCount");
@@ -3157,6 +3177,16 @@ $(document).ready(function(){
                 {
                     if(returnData[i].tickets_count > 0 && dashQueues < 3 )
                     {
+                        if(isPhonegap && cordova.plugins.notification.badge){
+                            if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0 && returnData[i].tickets_count != 0)
+                            {
+                                cordova.plugins.notification.badge.set(returnData[i].tickets_count);
+                            }
+                            else
+                            {
+                                cordova.plugins.notification.badge.clear();
+                            }
+                        }
                         var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
                         $(insertQueue).prependTo("#DashBoradQueues");
                         localDashQueues.push(insertQueue);
@@ -3623,9 +3653,10 @@ if(typeof func === 'function')
                     console.log("Version updated to " + appVersion);
                     if (adMessage.length > 1)
                     {
+                        setTimeout(function(){
                     userMessage.showMessage(true, adMessage, function(){
-                    location.reload(true);
-                    });
+                    //location.reload(true);
+                    });}, 3000);
                     }
                     else
                         location.reload(true);
