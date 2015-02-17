@@ -3173,7 +3173,6 @@ $(document).ready(function(){
                 //console.log(returnData);
                 $("#DashBoradQueues").empty();
                 var dashQueues = 0;
-                alert(isPhonegap && cordova.plugins.notification.badge);
                 for( var i = 0; i < returnData.length; i++)
                 {
                     if(returnData[i].tickets_count > 0 && dashQueues < 3 )
@@ -3181,6 +3180,7 @@ $(document).ready(function(){
                         if(isPhonegap && cordova.plugins.notification.badge){
                             if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0 && returnData[i].tickets_count != 0)
                             {
+                                alert(returnData[i].tickets_count);
                                 cordova.plugins.notification.badge.set(returnData[i].tickets_count);
                             }
                             else
