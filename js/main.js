@@ -39,7 +39,6 @@ document.addEventListener("online", onLine ,false);
 function onDeviceReady() {
     //alert("gap init");
     isPhonegap = true;
-    cordova.plugins.notification.badge.set(1);
 }
 
 //open link	in blank
@@ -3172,6 +3171,8 @@ $(document).ready(function(){
             cache: true,
             success: function(returnData) {
                 //console.log(returnData);
+                if(isPhonegap && cordova.plugins.notification.badge)
+                    cordova.plugins.notification.badge.clear();
                 $("#DashBoradQueues").empty();
                 var dashQueues = 0;
                 for( var i = 0; i < returnData.length; i++)
@@ -3179,14 +3180,9 @@ $(document).ready(function(){
                     if(returnData[i].tickets_count > 0 && dashQueues < 3 )
                     {
                         if(isPhonegap && cordova.plugins.notification.badge){
-                            if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0 && returnData[i].tickets_count != 0)
+                            if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
                             {
-                                alert(returnData[i].tickets_count);
                                 cordova.plugins.notification.badge.set(returnData[i].tickets_count);
-                            }
-                            else
-                            {
-                                cordova.plugins.notification.badge.clear();
                             }
                         }
                         var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
