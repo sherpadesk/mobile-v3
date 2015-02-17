@@ -1,6 +1,6 @@
 /*global jQuery, $ */
 
-var appVersion = "11";
+var appVersion = "12";
 var adMessage = "Try new Pull-To-Refresh Gesture";
 
 //Root Names
@@ -3660,7 +3660,7 @@ if(typeof func === 'function')
                     }
                     else
                         location.reload(true);
-                    return;
+                    //return;
                 }
                 //Disable for user
                 if (!isTech){
