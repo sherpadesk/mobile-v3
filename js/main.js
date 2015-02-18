@@ -39,8 +39,10 @@ document.addEventListener("online", onLine ,false);
 function onDeviceReady() {
     //alert("gap init");
     isPhonegap = true;
-    if (localStorage.badge !== 0)
+    if (localStorage.badge !== 0){
+        alert(localStorage.badge);
         cordova.plugins.notification.badge.set(localStorage.badge);
+    }
     else
         cordova.plugins.notification.badge.clear();
 }
@@ -3181,7 +3183,7 @@ $(document).ready(function(){
                 {
                     if(returnData[i].tickets_count > 0 && dashQueues < 3 )
                     {
-                        if(isPhonegap && cordova.plugins.notification.badge){
+                        if(isPhonegap){
                             if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
                             {
                                 localStorage.setItem("badge", returnData[i].tickets_count);
