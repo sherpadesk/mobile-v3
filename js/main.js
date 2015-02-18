@@ -1,7 +1,7 @@
 /*global jQuery, $ */
 
-var appVersion = "12";
-var adMessage = "Try new Pull-To-Refresh Gesture";
+var appVersion = "13";
+var adMessage = "Added badge on New Ticket queue";
 
 //Root Names
 var Site = 'sherpadesk.com/';
@@ -39,11 +39,11 @@ document.addEventListener("online", onLine ,false);
 function onDeviceReady() {
     //alert("gap init");
     isPhonegap = true;
-    if (localStorage.badge > 0){
-        cordova.plugins.notification.badge.set(localStorage.badge);
-    }
-    else
-        cordova.plugins.notification.badge.clear();
+    //if (localStorage.badge > 0){
+    //    cordova.plugins.notification.badge.set(localStorage.badge);
+    //}
+    //else
+    //    cordova.plugins.notification.badge.clear();
 }
 
 //open link	in blank
@@ -2408,8 +2408,8 @@ $(document).ready(function(){
                     // add queues to the queues list
                     for(var i = 0; i < returnData.length; i++)
                     {
-                        if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
-                            localStorage.badge = returnData[i].tickets_count;
+                        if (isPhonegap && returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
+                            setTimeout(function(){cordova.plugins.notification.badge.set(returnData[i].tickets_count);}, 1500);
                         var insert = "<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
                         $(insert).appendTo("#queuesPage");
                         localQueues.push(insert);
@@ -3184,12 +3184,9 @@ $(document).ready(function(){
                 {
                     if(returnData[i].tickets_count > 0 && dashQueues < 3 )
                     {
-                        if(isPhonegap){
-                            if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
-                            {
-                                localStorage.setItem("badge", returnData[i].tickets_count);
-                            }
-                        }
+                        if (isPhonegap && returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
+                            setTimeout(function(){cordova.plugins.notification.badge.set(returnData[i].tickets_count);}, 1500);
+                        
                         var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
                         $(insertQueue).prependTo("#DashBoradQueues");
                         localDashQueues.push(insertQueue);
