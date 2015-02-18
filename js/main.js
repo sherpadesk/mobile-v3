@@ -1,7 +1,8 @@
 /*global jQuery, $ */
 
-var appVersion = "10";
-var adMessage = "Try new Pull-To-Refresh Gesture";
+var appVersion = "12";
+var adMessage = "Added badge on New Ticket queue";
+
 
 //Root Names
 var Site = 'sherpadesk.com/';
@@ -39,6 +40,12 @@ document.addEventListener("online", onLine ,false);
 function onDeviceReady() {
     //alert("gap init");
     isPhonegap = true;
+    if (cordova.plugins.notification.badge){
+    if (localStorage.badge > 0){
+        cordova.plugins.notification.badge.set(localStorage.badge);
+    }
+    else
+        cordova.plugins.notification.badge.clear();}
 }
 
 //open link	in blank
@@ -2403,6 +2410,8 @@ $(document).ready(function(){
                     // add queues to the queues list
                     for(var i = 0; i < returnData.length; i++)
                     {
+                        if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
+                            localStorage.badge = returnData[i].tickets_count;
                         var insert = "<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
                         $(insert).appendTo("#queuesPage");
                         localQueues.push(insert);
@@ -3047,6 +3056,7 @@ $(document).ready(function(){
         $("#all").html(localStorage.getItem("allTickets"));
         $("#userStat").html(localStorage.getItem("userStat"));
         $("#techStat").html(localStorage.getItem("techStat"));
+        //$(".mainStatTitle").html("As Tech" + (localStorage.new_messages > 0 ? "<p>"+localStorage.new_messages+"<i class='fa fa-envelope-o' style='color: #25B0E6;'></i></p>" : ""));
         $("#altStat").html(localStorage.getItem("altStat"));
         $.ajax({
             type: 'GET',
@@ -3071,12 +3081,14 @@ $(document).ready(function(){
                 $("#all").html(allTickets);
                 $("#UserStat").html(returnData.open_as_user);
                 $("#techStat").html(returnData.open_as_tech);
+                //$(".mainStatTitle").html("As Tech" + (returnData.new_messages > 0 ? "<p>"+returnData.new_messages+"<i class='fa fa-envelope-o' style='color: #25B0E6;'></i></p>" : ""));
                 $("#altStat").html(returnData.open_as_alttech);
                 reveal();
                 localStorage.setItem("allTickets",allTickets);
                 localStorage.setItem("userStat",returnData.open_as_user);
                 localStorage.setItem("techStat",returnData.open_as_tech);
                 localStorage.setItem("altStat",returnData.open_as_alttech);
+                //localStorage.setItem("newStat",returnData.new_messages);
             },
             error: function() {
                 console.log("fail @ get getTicketCount");
@@ -3174,6 +3186,8 @@ $(document).ready(function(){
                 {
                     if(returnData[i].tickets_count > 0 && dashQueues < 3 )
                     {
+                        if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
+                            localStorage.badge = returnData[i].tickets_count;
                         var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
                         $(insertQueue).prependTo("#DashBoradQueues");
                         localDashQueues.push(insertQueue);
@@ -3642,12 +3656,12 @@ if(typeof func === 'function')
                     {
                         setTimeout(function(){
                     userMessage.showMessage(true, adMessage, function(){
-                    location.reload(true);
-                    });}, 1000);
+                    //location.reload(true);
+                    });}, 3000);
                     }
                     else
                         location.reload(true);
-                    return;
+                    //return;
                 }
                 //Disable for user
                 if (!isTech){
