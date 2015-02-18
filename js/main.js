@@ -39,8 +39,7 @@ document.addEventListener("online", onLine ,false);
 function onDeviceReady() {
     //alert("gap init");
     isPhonegap = true;
-    if (localStorage.badge !== 0){
-        alert(localStorage.badge);
+    if (localStorage.badge > 0){
         cordova.plugins.notification.badge.set(localStorage.badge);
     }
     else
@@ -2409,6 +2408,8 @@ $(document).ready(function(){
                     // add queues to the queues list
                     for(var i = 0; i < returnData.length; i++)
                     {
+                        if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
+                            localStorage.badge = returnData[i].tickets_count;
                         var insert = "<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
                         $(insert).appendTo("#queuesPage");
                         localQueues.push(insert);
