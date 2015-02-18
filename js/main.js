@@ -1371,6 +1371,40 @@ $(document).ready(function(){
     };
 
     // add time to an account
+    var addExpence = {
+        init:function(isEdit){
+            this.addExpence(isEdit);
+        },
+        addExpence: function(isEdit){
+            reveal();
+            //add an expense
+            $("#addexpenseButton").click(function(){
+                getApi('expenses', 
+                    {
+                        "account_id": localStorage.getItem("invoiceAccountId"),
+                        "project_id": localStorage.getItem("invoiceProjectId"),
+                        "tech_id": localStorage.getItem("user_id"),
+                        "note": $("#expensesNote").val(),
+                        "note_internal": $("#expensesInternal").val(),
+                        "amount": $("#expenseAmount").val(),
+                    "is_billable": $(".innerCircle").hasClass("billFill"),
+                    "vendor": $("#vendor").val()
+                        //"markup": 
+                    },
+                       'POST').then(function (d) {
+                        console.log("time log has been added");
+
+                    },
+                    function (e, textStatus, errorThrown) {
+                        console.log(textStatus);
+                    }
+                );
+    });
+        }
+    }
+                                         
+    
+    // add time to an account
     var addTime = {
         init:function(isEdit){
             this.addpicker();
@@ -1686,6 +1720,8 @@ $(document).ready(function(){
             {
                 $("#closeu").hide();
             }
+            if (!isExpenses)
+                $(".expense").hide();
             this.showTicket();
         },
 
@@ -3802,6 +3838,14 @@ if(typeof func === 'function')
                     else
                     {
                         addTime.init();
+                    }
+                }
+                if (location.pathname.endsWith("addExpence.html"))
+                {
+                    if (!isExpenses) window.location = "dashboard.html";
+                    else
+                    {
+                        addExpence.init();
                     }
                 }
                 if (location.pathname.endsWith("edit_time.html"))
