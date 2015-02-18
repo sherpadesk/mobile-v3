@@ -39,6 +39,10 @@ document.addEventListener("online", onLine ,false);
 function onDeviceReady() {
     //alert("gap init");
     isPhonegap = true;
+    if (localStorage.badge !== 0)
+        cordova.plugins.notification.badge.set(localStorage.badge);
+    else
+        cordova.plugins.notification.badge.clear();
 }
 
 //open link	in blank
@@ -3170,9 +3174,7 @@ $(document).ready(function(){
             dataType:"json",
             cache: true,
             success: function(returnData) {
-                //console.log(returnData);
-                if(isPhonegap && cordova.plugins.notification.badge)
-                    cordova.plugins.notification.badge.clear();
+                //console.log(returnData);   
                 $("#DashBoradQueues").empty();
                 var dashQueues = 0;
                 for( var i = 0; i < returnData.length; i++)
@@ -3182,7 +3184,7 @@ $(document).ready(function(){
                         if(isPhonegap && cordova.plugins.notification.badge){
                             if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
                             {
-                                cordova.plugins.notification.badge.set(returnData[i].tickets_count);
+                                localStorage.setItem("badge", returnData[i].tickets_count);
                             }
                         }
                         var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
