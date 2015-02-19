@@ -106,6 +106,8 @@ window.onerror = function(msg, url, line, col, error) {
     // TODO: Report this error via ajax so you can keep track
     //       of what pages have JS issues
 
+    $("#loading").hide();
+    $(".page").show();
     var suppressErrorAlert = true;
     // If you return true, then error alerts (like in older versions of 
     // Internet Explorer) will be suppressed.

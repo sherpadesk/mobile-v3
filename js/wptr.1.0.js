@@ -140,7 +140,8 @@ var WebPullToRefresh = (function () {
 		// For UX continuity, make sure we show loading for at least one second before resetting
 		setTimeout( function() {
 			// Once actual loading is complete, reset pull to refresh
-			loadingPromise.then( _doReset );
+			//loadingPromise.then( _doReset );
+            location.reload(false);
 		}, 1000 );
 	};
 
