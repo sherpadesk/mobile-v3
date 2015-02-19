@@ -1,7 +1,8 @@
 /*global jQuery, $ */
 
-var appVersion = "13";
+var appVersion = "12";
 var adMessage = "Added badge on New Ticket queue";
+
 
 //Root Names
 var Site = 'sherpadesk.com/';
@@ -39,11 +40,13 @@ document.addEventListener("online", onLine ,false);
 function onDeviceReady() {
     //alert("gap init");
     isPhonegap = true;
+    if (cordova.plugins.notification.badge){
     if (localStorage.badge > 0){
-        cordova.plugins.notification.badge.set(localStorage.badge);
+        window.setTimeout(cordova.plugins.notification.badge.set(localStorage.badge), 2000);
     }
     else
-        cordova.plugins.notification.badge.clear();
+        window.setTimeout(cordova.plugins.notification.badge.clear(), 2000);
+    }
 }
 
 //open link	in blank
@@ -1369,6 +1372,40 @@ $(document).ready(function(){
     };
 
     // add time to an account
+    var addExpence = {
+        init:function(isEdit){
+            this.addExpence(isEdit);
+        },
+        addExpence: function(isEdit){
+            reveal();
+            //add an expense
+            $("#addexpenseButton").click(function(){
+                getApi('expenses', 
+                    {
+                        "account_id": localStorage.getItem("invoiceAccountId"),
+                        "project_id": localStorage.getItem("invoiceProjectId"),
+                        "tech_id": localStorage.getItem("user_id"),
+                        "note": $("#expensesNote").val(),
+                        "note_internal": $("#expensesInternal").val(),
+                        "amount": $("#expenseAmount").val(),
+                    "is_billable": $(".innerCircle").hasClass("billFill"),
+                    "vendor": $("#vendor").val()
+                        //"markup": 
+                    },
+                       'POST').then(function (d) {
+                        console.log("time log has been added");
+
+                    },
+                    function (e, textStatus, errorThrown) {
+                        console.log(textStatus);
+                    }
+                );
+    });
+        }
+    }
+                                         
+    
+    // add time to an account
     var addTime = {
         init:function(isEdit){
             this.addpicker();
@@ -1684,6 +1721,8 @@ $(document).ready(function(){
             {
                 $("#closeu").hide();
             }
+            if (!isExpenses)
+                $(".expense").hide();
             this.showTicket();
         },
 
@@ -3177,19 +3216,15 @@ $(document).ready(function(){
             dataType:"json",
             cache: true,
             success: function(returnData) {
-                //console.log(returnData);   
+                //console.log(returnData);
                 $("#DashBoradQueues").empty();
                 var dashQueues = 0;
                 for( var i = 0; i < returnData.length; i++)
                 {
                     if(returnData[i].tickets_count > 0 && dashQueues < 3 )
                     {
-                        if(isPhonegap){
-                            if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
-                            {
-                                localStorage.setItem("badge", returnData[i].tickets_count);
-                            }
-                        }
+                        if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
+                            localStorage.badge = returnData[i].tickets_count;
                         var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
                         $(insertQueue).prependTo("#DashBoradQueues");
                         localDashQueues.push(insertQueue);
@@ -3804,6 +3839,14 @@ if(typeof func === 'function')
                     else
                     {
                         addTime.init();
+                    }
+                }
+                if (location.pathname.endsWith("addExpence.html"))
+                {
+                    if (!isExpenses) window.location = "dashboard.html";
+                    else
+                    {
+                        addExpence.init();
                     }
                 }
                 if (location.pathname.endsWith("edit_time.html"))
