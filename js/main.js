@@ -1374,17 +1374,67 @@ $(document).ready(function(){
 
     // add time to an account
     var addExpence = {
-        init:function(isEdit){
-            this.addExpence(isEdit);
+        init:function(ticket_id){
+            this.addExpence(getParameterByName("ticket"));
         },
-        addExpence: function(isEdit){
-            reveal();
+        addExpence: function(ticket_id){
+            var account_id = localStorage.DetailedAccount, project_id=0;
+            if(!isProject || ticket_id)
+                $("#timeProjects").parent().hide();
+            else
+            {
+                var chooseProject = "<option value=0>choose a project</option>";
+                $(chooseProject).appendTo("#timeProjects");
+            }
+            if(!isAccount || ticket_id)
+            {
+                $("#timeAccounts").parent().hide();
+                reveal();
+            }
+            else
+            {
+                //get accounts
+                getApi("accounts?limit=300", {"is_with_statistics":false}).then(function(returnData) {
+                    ////console.log(returnData);
+                    $("#timeAccounts").empty();
+                    var chooseAccount = "<option value=0>choose an account</option>";
+                    $(chooseAccount).appendTo("#timeAccounts");
+                    // accounts to add time
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        var value = returnData[i].id;
+                        var task = returnData[i].name;
+                        var insert = "<option value="+value+">"+task+"</option>";
+                        $(insert).appendTo("#timeAccounts");
+                    }
+                    if (account_id)
+                    {
+                        $("#timeAccounts").val(account_id);
+                        if (parseInt($("#timeAccounts").val()) !== account_id)
+                            $("#timeAccounts").val(-1);
+                        addTime.chooseProjects(project_id, 0);
+                    }
+                    reveal();
+
+                },
+                                                                                function() {
+                    console.log("fail @ time accounts");
+                    ////console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+                                                                               );
+            }
+
+            $("#timeAccounts").on("change", function(){
+                //console.log(timeLog.task_type_id);
+                addTime.chooseProjects(0, 0);
+            });
             //add an expense
             $("#addexpenseButton").click(function(){
                 getApi('expenses', 
                     {
-                        "account_id": localStorage.getItem("invoiceAccountId"),
-                        "project_id": localStorage.getItem("invoiceProjectId"),
+                    "ticket_id": ticket_id ? ticket_id : null,
+                    "account_id": ticket_id ? $("#timeAccounts").val() : null ,
+                    "project_id": ticket_id ? $("#timeProjects").val() : null,
                         "tech_id": localStorage.getItem("user_id"),
                         "note": $("#expensesNote").val(),
                         "note_internal": $("#expensesInternal").val(),
@@ -1732,6 +1782,7 @@ $(document).ready(function(){
             {
                 userMessage.showMessage(true);
             }
+            $(".expense").attr("href", "addExpence.html?ticket=" + localStorage.getItem('ticketNumber'));
             // listen for a click of a ticket block from a ticket list page (account detail  ticket list or complete ticket list)
             $(document).on("click",".responseBlock", function(){
                 localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
