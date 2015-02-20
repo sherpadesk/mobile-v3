@@ -1,7 +1,7 @@
 /*global jQuery, $ */
 
-var appVersion = "12";
-var adMessage = "Added badge on New Ticket queue";
+var appVersion = "14";
+var adMessage = "Added Expenses";
 
 
 //Root Names
@@ -1410,8 +1410,8 @@ $(document).ready(function(){
                     if (account_id)
                     {
                         $("#timeAccounts").val(account_id);
-                        if (parseInt($("#timeAccounts").val()) !== account_id)
-                            $("#timeAccounts").val(-1);
+                        //if (parseInt($("#timeAccounts").val()) !== account_id)
+                        //    $("#timeAccounts").val(-1);
                         addTime.chooseProjects(project_id, 0);
                     }
                     reveal();
@@ -1430,22 +1430,35 @@ $(document).ready(function(){
             });
             //add an expense
             $("#addexpenseButton").click(function(){
+                var money=$("#expenseAmount").val();
+                if (!money)
+                {
+                    userMessage.showMessage(false, "Please enter amount");
+                    return;
+                }
+                var note= htmlEscape($("#expenseNote").val()).trim();
+                if (note.length < 1)
+                {
+                    userMessage.showMessage(false, "Please enter note");
+                    return;
+                }
                 getApi('expenses', 
                     {
-                    "ticket_id": ticket_id ? ticket_id : null,
-                    "account_id": ticket_id ? $("#timeAccounts").val() : null ,
-                    "project_id": ticket_id ? $("#timeProjects").val() : null,
+                    "ticket_key": ticket_id ? ticket_id : null,
+                    "account_id": !ticket_id ? $("#timeAccounts").val() : null ,
+                    "project_id": !ticket_id ? $("#timeProjects").val() : null,
                         "tech_id": localStorage.getItem("user_id"),
-                        "note": $("#expensesNote").val(),
-                        "note_internal": $("#expensesInternal").val(),
-                        "amount": $("#expenseAmount").val(),
+                        "note": note,
+                        "note_internal": $("#expenseInternal").val(),
+                        "amount": money,
                     "is_billable": $(".innerCircle").hasClass("billFill"),
                     "vendor": $("#vendor").val()
                         //"markup": 
                     },
                        'POST').then(function (d) {
-                        console.log("time log has been added");
-
+                    localStorage.setItem('isMessage','truePos');
+                    localStorage.setItem('userMessage','Expense was successfully added <i class="fa fa-money"></i>')
+                    window.history.back();
                     },
                     function (e, textStatus, errorThrown) {
                         console.log(textStatus);
@@ -1669,13 +1682,19 @@ $(document).ready(function(){
                             var insert = "<option value="+value+">"+task+"</option>";
                             $(insert).appendTo("#timeAccounts");
                         }
+                        var account_id = localStorage.DetailedAccount ? localStorage.DetailedAccount : -1;
+                        var project_id = 0;
+                        var task_type_id = 0;
                         if (timeLog)
                         {
-                            $("#timeAccounts").val(timeLog.account_id);
-                            if (parseInt($("#timeAccounts").val()) !== timeLog.account_id)
-                                $("#timeAccounts").val(-1);
-                            addTime.chooseProjects(timeLog.project_id, timeLog.task_type_id);
+                            account_id = timeLog.account_id;
+                            project_id = timeLog.project_id;
+                            task_type_id = timeLog.task_type_id;
                         }
+                        $("#timeAccounts").val(account_id);
+                        //if (parseInt($("#timeAccounts").val()) !== account_id)
+                        //    $("#timeAccounts").val(-1);
+                        addTime.chooseProjects(project_id, task_type_id);
                         reveal();
 
                     },
@@ -1782,7 +1801,6 @@ $(document).ready(function(){
             {
                 userMessage.showMessage(true);
             }
-            $(".expense").attr("href", "addExpence.html?ticket=" + localStorage.getItem('ticketNumber'));
             // listen for a click of a ticket block from a ticket list page (account detail  ticket list or complete ticket list)
             $(document).on("click",".responseBlock", function(){
                 localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
@@ -1796,6 +1814,7 @@ $(document).ready(function(){
                     var daysOld = returnData.daysold_in_minutes / -60;
                     localStorage.setItem('techId', returnData.tech_id); // set the local storage variable with the tech id asscioted with this ticket
                     localStorage.setItem('ticketId',returnData.id); // set the local storage variable with the ticket ID
+                    $(".expense").attr("href", "addExpence.html?ticket=" + returnData.id);
                     // check to see if the ticket is less than a day old
                     if(daysOld > 24){
                         daysOld = daysOld/24;
@@ -1818,6 +1837,10 @@ $(document).ready(function(){
                     $("#ticketClass").html(returnData.class_name);
                     $("#ticketTech").html(returnData.tech_firstname);
                     $("#lastUpdate").html(daysOld);
+                    if (returnData.misc_cost)
+                        $("#expenses").html("Expenses: " +localStorage.currency + Number(returnData.misc_cost).toFixed(2).toString());
+                    else
+                        $("#expenses").hide();
                     if(ticketHours != 0){
                         $("#ticketHours").html(ticketHours+" Hours");
                     }else{
@@ -2497,14 +2520,16 @@ $(document).ready(function(){
                     //console.log(returnData);
                     $("#queuesPage").empty();
                     // add queues to the queues list
+                    var badge=0;
                     for(var i = 0; i < returnData.length; i++)
                     {
                         if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
-                            localStorage.badge = returnData[i].tickets_count;
+                            badge = returnData[i].tickets_count;
                         var insert = "<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
                         $(insert).appendTo("#queuesPage");
                         localQueues.push(insert);
                     }
+                    localStorage.badge = badge;
                     createSpan("#queuesPage");
                     localStorage.setItem("storageQueues",JSON.stringify(localQueues));
 
@@ -3271,12 +3296,13 @@ $(document).ready(function(){
                 //console.log(returnData);
                 $("#DashBoradQueues").empty();
                 var dashQueues = 0;
+                var badge=0;
                 for( var i = 0; i < returnData.length; i++)
                 {
                     if(returnData[i].tickets_count > 0 && dashQueues < 3 )
                     {
                         if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
-                            localStorage.badge = returnData[i].tickets_count;
+                            badge = returnData[i].tickets_count;
                         var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
                         $(insertQueue).prependTo("#DashBoradQueues");
                         localDashQueues.push(insertQueue);
@@ -3285,7 +3311,7 @@ $(document).ready(function(){
                     }
 
                 }
-
+                localStorage.badge = badge;
                 hasLocalData = true;
 
             },
@@ -3621,7 +3647,8 @@ $(document).ready(function(){
                 localStorage.setItem('ticketPage','allTickets');
                 window.location = "ticket_list.html";
             });
-            $(document).on('click', '#addAccountTicket', function() {
+            $(document).on('click', '#addAccountTicket', function(e) {
+                //e.preventDefault();
                 var ticketAccount = localStorage.getItem('DetailedAccount');
                 console.log(ticketAccount);
                 localStorage.setItem('addAccountTicket', ticketAccount);
@@ -3769,6 +3796,7 @@ if(typeof func === 'function')
                     //conditional api calls determined by page
                     if (location.pathname.endsWith("dashboard.html"))
                     {
+                        localStorage.DetailedAccount = '';
                         var orgName = localStorage.getItem('userOrg');
                         if (orgName)
                             $("#indexTitle").html(orgName);
@@ -3797,6 +3825,7 @@ if(typeof func === 'function')
                         if (!isAccount) window.location = "dashboard.html";
                         else
                         {
+                            localStorage.DetailedAccount = '';
                             accountList.init();
                         }
                     }
