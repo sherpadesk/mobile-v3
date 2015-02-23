@@ -831,7 +831,7 @@ $(document).ready(function(){
                         function()
                         {
                             userMessage.showMessage(true, 'Ticket has been closed <i class="fa fa-thumbs-o-up"></i>');
-                            window.location = "ticket_detail.html";
+                            window.location = "ticket_list.html";
 
                         }, 1000);
                     userMessage.setMessage(true, "Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
