@@ -3808,7 +3808,7 @@ if(typeof func === 'function')
                         search.init();
                         //reveal();
                     }
-                    $("#loading").show();
+                    //$("#loading").show();
                     if (location.pathname.endsWith("account_details.html"))
                     {
                         if (!isAccount) window.location = "dashboard.html";
