@@ -2596,7 +2596,7 @@ $(document).ready(function(){
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
-                url:ApiSite +"tickets?status=open&limit=500&role=tech",
+                url:ApiSite +"tickets?status=open&limit=100&role=tech",
                 dataType:"json",
                 success: function(returnData) {
                     //console.log(returnData);
@@ -2645,7 +2645,7 @@ $(document).ready(function(){
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
-                url:ApiSite +"tickets?status=allopen&limit=500&query=all",
+                url:ApiSite +"tickets?status=allopen&limit=100&query=all",
                 dataType:"json",
                 success: function(returnData) {
                     //console.log(returnData);
@@ -2730,7 +2730,7 @@ $(document).ready(function(){
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
-                url:ApiSite +"tickets?status=open&limit=500&role=alt_tech",
+                url:ApiSite +"tickets?status=open&limit=100&role=alt_tech",
                 dataType:"json",
                 success: function(returnData) {
                     //console.log(returnData);
@@ -2778,7 +2778,7 @@ $(document).ready(function(){
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
-                url:ApiSite +"tickets?status=open,onhold&limit=500&role=user",
+                url:ApiSite +"tickets?status=open,onhold&limit=100&role=user",
                 dataType:"json",
                 success: function(returnData) {
                     //console.log(returnData);
