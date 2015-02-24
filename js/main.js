@@ -804,8 +804,8 @@ $(document).ready(function(){
                 userMessage.showMessage(false,  "Note cannot be empty!");	
                 return;
             }
-            if (closeTicketMessage.length > 500){
-                userMessage.showMessage(false,  "Note cannot be more than 500 chars!");	
+            if (closeTicketMessage.length > 5000){
+                userMessage.showMessage(false,  "Note cannot be more than 5000 chars!");	
                 return;
             }
             $.ajax({
@@ -1194,8 +1194,8 @@ $(document).ready(function(){
                     userMessage.showMessage(false, "Please enter note");
                     return;
                 }
-                if (comment.length > 500) {
-                    userMessage.showMessage(false, "Note cannot be more than 500 chars!");
+                if (comment.length > 5000) {
+                    userMessage.showMessage(false, "Note cannot be more than 5000 chars!");
                     return;
                 }
                 $.ajax({
@@ -1585,9 +1585,9 @@ $(document).ready(function(){
                     userMessage.showMessage(false, "Please enter note");
                     return;
                 }
-                if (note.length > 500)
+                if (note.length > 5000)
                 {
-                    userMessage.showMessage(false, "Note cannot be more than 500 chars!");
+                    userMessage.showMessage(false, "Note cannot be more than 5000 chars!");
                     return;
                 }
                 // check to see if user check for time to be billable
@@ -3709,6 +3709,219 @@ if(typeof func === 'function')
                 }, 3500);
         }
     };
+    
+    function routing(){
+        if (localStorage.getItem('userRole') === "tech")
+            isTech = true;
+        if (localStorage.getItem('projectTracking') === "false")
+            isProject = false;
+        if (localStorage.getItem('timeTracking') === "false")
+            isTime = false;
+        if (localStorage.getItem('accountManager') === "false")
+            isAccount = false;
+        if (localStorage.getItem('ticketLevels') === "false")
+            isLevel = false;
+        if (localStorage.getItem('classTracking') === "false")
+            isClass = false;
+        if (localStorage.getItem('locationTracking') === "false")
+            isLocation = false;
+        if (localStorage.getItem('freshbooks') === "false")
+            isFreshbook = false;
+        if (localStorage.getItem('is_invoice') === "false")
+            isInvoice = false;
+        if (localStorage.getItem('is_expenses') === "false")
+            isExpenses = false;
+        if (localStorage.getItem('is_travel_costs') === "false")
+            isTravelCosts = false;
+        if (localStorage.getItem('sd_is_MultipleOrgInst') === "false")
+        {
+            is_MultipleOrgInst = false;
+            $("#switchOrg").hide();
+        }
+        else
+            $("#switchOrg").show();
+
+        //refresh version
+        if (localStorage.appVersion !== appVersion)
+        {
+            localStorage.setItem("appVersion", appVersion);
+            console.log("Version updated to " + appVersion);
+            if (adMessage.length > 1)
+            {
+                setTimeout(function(){
+                    userMessage.showMessage(true, adMessage, function(){
+                        //location.reload(true);
+                    });}, 3000);
+            }
+            else
+                location.reload(true);
+            //return;
+        }
+        //Disable for user
+        if (!isTech){
+            $(".sideNavLinks").children(":not('.user')").hide();
+        }
+        //Only for tech
+        else{
+            if(!isAccount)
+                $("#itemAccount").parent().hide();
+            if(!isInvoice)
+            { 
+                $("#itemInvoice").hide();
+                $("#invoiceFooter").hide();
+                $("#invoiceFooter").next().hide();
+            }
+            //conditional api calls determined by page
+            if (location.pathname.endsWith("dashboard.html"))
+            {
+                localStorage.DetailedAccount = '';
+                var orgName = localStorage.getItem('userOrg');
+                if (orgName)
+                    $("#indexTitle").html(orgName);
+                getTicketCount();
+                getQueueList();
+                //getQueues.init();
+                if(isAccount)
+                    getActiveAccounts();
+                search.init();
+                //reveal();
+            }
+            //$("#loading").show();
+            if (location.pathname.endsWith("account_details.html"))
+            {
+                if (!isAccount) window.location = "dashboard.html";
+                else
+                {
+                    if(!isInvoice) $("#invoiceOption").parent().remove();
+                    accountDetailsPageSetup.init();
+                    //detailedTicket.init();
+                    closedTickets.pageChange();
+                }
+            }
+            if (location.pathname.endsWith("Account_List.html"))
+            {
+                if (!isAccount) window.location = "dashboard.html";
+                else
+                {
+                    localStorage.DetailedAccount = '';
+                    accountList.init();
+                }
+            }
+            if (location.pathname.endsWith("addTicketTime.html"))
+            {
+                if (isTime) addTime.init();
+                else window.location = "dashboard.html";
+
+            }
+            if (location.pathname.endsWith("timelog.html"))
+            {if (!isTime) window.location = "dashboard.html";
+             else
+             {
+                 //accountTimeLogs.init();
+                 timeLogs.init();
+                 //addTime.init();
+             }
+            }
+            if (location.pathname.endsWith("accountTimes.html"))
+            {
+                if (!isTime || !isAccount) window.location = "dashboard.html";
+                else
+                {
+                    accountTimeLogs.init();
+                    //timeLogs.init();
+                }
+            }
+            if (location.pathname.endsWith("allInvoice_List.html"))
+            {
+                if (!isTime || !isInvoice) window.location = "dashboard.html";
+                else
+                {
+                    invoiceList.init();
+                }
+            }
+            else if (location.pathname.endsWith("Invoice_List.html"))
+            {
+                if (!isTime || !isInvoice) window.location = "dashboard.html";
+                else
+                {
+                    invoiceList.init(localStorage.getItem("DetailedAccount"));
+                }
+
+            }
+            if (location.pathname.endsWith("invoice.html"))
+            {
+                if (!isTime || !isInvoice) window.location = "dashboard.html";
+                else
+                {
+                    detailedInvoice.init();
+                    sendInvoice.init();
+                    addRecip.init();
+                }
+            }
+            if (location.pathname.endsWith("Queues.html"))
+            {
+                getQueues.init();
+            }
+            if (location.pathname.endsWith("queueTickets.html"))
+            {
+                getQueueTickets.init();
+            }
+        }
+        if (location.pathname.endsWith("ticket_list.html"))
+        {
+            ticketList.init();
+            //accountDetailsPageSetup.init();
+
+        }
+        if (location.pathname.endsWith("ticket_detail.html"))
+        {
+            detailedTicket.init();
+            pickUpTicket.init();
+            transferTicket.init();
+            closeTicket.init();
+            //addTime.init();
+            postComment.init();
+        }
+        if (location.pathname.endsWith("closedTickets.html"))
+        {
+            // detailedTicket.init();
+            closedTickets.init();
+        }
+        if (location.pathname.endsWith("add_tickets.html"))
+        {
+            newTicket.init();
+            //accountTimeLogs.init();
+        }
+        if (location.pathname.endsWith("add_time.html"))
+        {
+            if (!isTime) window.location = "dashboard.html";
+            else
+            {
+                addTime.init();
+            }
+        }
+        if (location.pathname.endsWith("addExpence.html"))
+        {
+            if (!isExpenses) window.location = "dashboard.html";
+            else
+            {
+                addExpence.init();
+            }
+        }
+        if (location.pathname.endsWith("edit_time.html"))
+        {
+            if (!isTime) window.location = "dashboard.html";
+            else
+            {
+                addTime.init(true);
+            }
+        }
+        fullapplink();
+        if (typeof navigator.splashscreen !== 'undefined') 
+            navigator.splashscreen.hide();
+        if (!isTime)
+            $(".time").remove();
+    }
 
     //Main Method that calls all the functions for the app
     (function () {
@@ -3732,218 +3945,18 @@ if(typeof func === 'function')
             signout.init();
             miscClicks.init();
             //init config
-            getInstanceConfig("","",false, function(){
-                if (localStorage.getItem('userRole') === "tech")
-                    isTech = true;
-                if (localStorage.getItem('projectTracking') === "false")
-                    isProject = false;
-                if (localStorage.getItem('timeTracking') === "false")
-                    isTime = false;
-                if (localStorage.getItem('accountManager') === "false")
-                    isAccount = false;
-                if (localStorage.getItem('ticketLevels') === "false")
-                    isLevel = false;
-                if (localStorage.getItem('classTracking') === "false")
-                    isClass = false;
-                if (localStorage.getItem('locationTracking') === "false")
-                    isLocation = false;
-                if (localStorage.getItem('freshbooks') === "false")
-                    isFreshbook = false;
-                if (localStorage.getItem('is_invoice') === "false")
-                    isInvoice = false;
-                if (localStorage.getItem('is_expenses') === "false")
-                    isExpenses = false;
-                if (localStorage.getItem('is_travel_costs') === "false")
-                    isTravelCosts = false;
-                if (localStorage.getItem('sd_is_MultipleOrgInst') === "false")
-                {
-                    is_MultipleOrgInst = false;
-                    $("#switchOrg").hide();
-                }
-                else
-                    $("#switchOrg").show();
-
-                //refresh version
-                if (localStorage.appVersion !== appVersion)
-                {
-                    localStorage.setItem("appVersion", appVersion);
-                    console.log("Version updated to " + appVersion);
-                    if (adMessage.length > 1)
-                    {
-                        setTimeout(function(){
-                    userMessage.showMessage(true, adMessage, function(){
-                    //location.reload(true);
-                    });}, 3000);
-                    }
-                    else
-                        location.reload(true);
-                    //return;
-                }
-                //Disable for user
-                if (!isTech){
-                    $(".sideNavLinks").children(":not('.user')").hide();
-                }
-                //Only for tech
-                else{
-                    if(!isAccount)
-                        $("#itemAccount").parent().hide();
-                    if(!isInvoice)
-                    { 
-                        $("#itemInvoice").hide();
-                        $("#invoiceFooter").hide();
-                        $("#invoiceFooter").next().hide();
-                    }
-                    //conditional api calls determined by page
-                    if (location.pathname.endsWith("dashboard.html"))
-                    {
-                        localStorage.DetailedAccount = '';
-                        var orgName = localStorage.getItem('userOrg');
-                        if (orgName)
-                            $("#indexTitle").html(orgName);
-                        getTicketCount();
-                        getQueueList();
-                        //getQueues.init();
-                        if(isAccount)
-                            getActiveAccounts();
-                        search.init();
-                        //reveal();
-                    }
-                    //$("#loading").show();
-                    if (location.pathname.endsWith("account_details.html"))
-                    {
-                        if (!isAccount) window.location = "dashboard.html";
-                        else
-                        {
-                            if(!isInvoice) $("#invoiceOption").parent().remove();
-                            accountDetailsPageSetup.init();
-                            //detailedTicket.init();
-                            closedTickets.pageChange();
-                        }
-                    }
-                    if (location.pathname.endsWith("Account_List.html"))
-                    {
-                        if (!isAccount) window.location = "dashboard.html";
-                        else
-                        {
-                            localStorage.DetailedAccount = '';
-                            accountList.init();
-                        }
-                    }
-                    if (location.pathname.endsWith("addTicketTime.html"))
-                    {
-                        if (isTime) addTime.init();
-                        else window.location = "dashboard.html";
-
-                    }
-                    if (location.pathname.endsWith("timelog.html"))
-                    {if (!isTime) window.location = "dashboard.html";
-                     else
-                     {
-                         //accountTimeLogs.init();
-                         timeLogs.init();
-                         //addTime.init();
-                     }
-                    }
-                    if (location.pathname.endsWith("accountTimes.html"))
-                    {
-                        if (!isTime || !isAccount) window.location = "dashboard.html";
-                        else
-                        {
-                            accountTimeLogs.init();
-                            //timeLogs.init();
-                        }
-                    }
-                    if (location.pathname.endsWith("allInvoice_List.html"))
-                    {
-                        if (!isTime || !isInvoice) window.location = "dashboard.html";
-                        else
-                        {
-                            invoiceList.init();
-                        }
-                    }
-                    else if (location.pathname.endsWith("Invoice_List.html"))
-                    {
-                        if (!isTime || !isInvoice) window.location = "dashboard.html";
-                        else
-                        {
-                            invoiceList.init(localStorage.getItem("DetailedAccount"));
-                        }
-
-                    }
-                    if (location.pathname.endsWith("invoice.html"))
-                    {
-                        if (!isTime || !isInvoice) window.location = "dashboard.html";
-                        else
-                        {
-                            detailedInvoice.init();
-                            sendInvoice.init();
-                            addRecip.init();
-                        }
-                    }
-                    if (location.pathname.endsWith("Queues.html"))
-                    {
-                        getQueues.init();
-                    }
-                    if (location.pathname.endsWith("queueTickets.html"))
-                    {
-                        getQueueTickets.init();
-                    }
-                }
-                if (location.pathname.endsWith("ticket_list.html"))
-                {
-                    ticketList.init();
-                    //accountDetailsPageSetup.init();
-
-                }
-                if (location.pathname.endsWith("ticket_detail.html"))
-                {
-                    detailedTicket.init();
-                    pickUpTicket.init();
-                    transferTicket.init();
-                    closeTicket.init();
-                    //addTime.init();
-                    postComment.init();
-                }
-                if (location.pathname.endsWith("closedTickets.html"))
-                {
-                    // detailedTicket.init();
-                    closedTickets.init();
-                }
-                if (location.pathname.endsWith("add_tickets.html"))
-                {
-                    newTicket.init();
-                    //accountTimeLogs.init();
-                }
-                if (location.pathname.endsWith("add_time.html"))
-                {
-                    if (!isTime) window.location = "dashboard.html";
-                    else
-                    {
-                        addTime.init();
-                    }
-                }
-                if (location.pathname.endsWith("addExpence.html"))
-                {
-                    if (!isExpenses) window.location = "dashboard.html";
-                    else
-                    {
-                        addExpence.init();
-                    }
-                }
-                if (location.pathname.endsWith("edit_time.html"))
-                {
-                    if (!isTime) window.location = "dashboard.html";
-                    else
-                    {
-                        addTime.init(true);
-                    }
-                }
-                fullapplink();
-                if (typeof navigator.splashscreen !== 'undefined') 
-                    navigator.splashscreen.hide();
-                if (!isTime)
-                    $(".time").remove();
-            });
+            //refresh version
+            if (!localStorage.lastclick)
+            {
+                localStorage.lastclick = new Date();
+            }
+            else if (((new Date()).valueOf() - Date.parse(localStorage.lastclick).valueOf()) / 60 > 1200)
+            {
+                localStorage.lastclick = new Date();
+                getInstanceConfig("","",false, routing);
+                return;
+            }
+            routing();
         }
     }());
 
