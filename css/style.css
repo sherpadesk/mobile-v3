@@ -2294,30 +2294,11 @@ padding-right: 17px;
 }
 
 .overflowTickets {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  width: 14px;
-  height: 14px;
-  background-color: #304ffe;
-  display: block;
-  border-radius: 100%;
-  display: none;
-}
-
-.overflowTickets p {
-  margin-top: -11px;
-  font-size: 12px;
+    margin-top: 4px !important;
 }
 
 .headerOverflowTickets {
-  top: 0px !important;
-  right: -9px !important;
-}
-
-.headerOverflowTicketsP {
-  font-size: 12px !important;
-  margin-top: -6.5px !important;
+    margin-top: -2px  !important;
 }
 
 .invoiceRows {
@@ -2467,8 +2448,7 @@ padding-right: 17px;
 }
 
 .tks {
-  width: 35px;
-  height: 35px;
+  width: 40px;
   background: #0099CC;
   text-align: center;
   line-height: 35px;
@@ -2479,8 +2459,7 @@ padding-right: 17px;
 
 
 .tks1 {
-  width: 35px;
-  height: 35px;
+  width: 40px;
   background: #0099CC;
   text-align: center;
   line-height: 35px;

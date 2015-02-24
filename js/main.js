@@ -1,7 +1,7 @@
 /*global jQuery, $ */
 
-var appVersion = "14";
-var adMessage = "Added Expenses";
+var appVersion = "15";
+var adMessage = "Speed improvements";
 
 
 //Root Names
@@ -2872,13 +2872,13 @@ $(document).ready(function(){
                         if( openTks > 99)
                         {
                             openTks = "99";
-                            var insert = "<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+name+"</li><li><div class='tks'>"+openTks+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                            var insert = "<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+name+"</li><li><div class='tks' style='height: 42px;'>"+openTks+"<sup>+</sup></div></li></ul>";
                             $(insert).appendTo($("#fullList"));
                         }
                         // else add account and number of tickets normally to the list
                         else
                         {
-                            var insert = "<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+name+"</li><li><div class='tks'>"+openTks+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                            var insert = "<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+name+"</li><li><div class='tks'>"+openTks+"</div></li></ul>";
                             $(insert).appendTo($("#fullList"));
                         }
                         localAccountList.push(insert);
@@ -3189,8 +3189,11 @@ $(document).ready(function(){
                 var allTickets = returnData.open_all;
                 //if ticket count is greater than 100 sub 99+
                 if(allTickets > 100){
-                    allTickets = "99<div class='overflowTickets headerOverflowTickets'><p class='headerOverflowTicketsP'>+</p></div>";
-                    //$("all").addClass("toManyTks");
+                    allTickets = "99<sup>+</sup>";
+                }
+                else
+                {
+                    $("#all").removeClass("headerOverflowTickets");
                 }
                 // update each notification ticker on the dashboard
                 $("#all").html(allTickets);
@@ -3389,7 +3392,7 @@ $(document).ready(function(){
                     if(openTickets > 100)
                     {
                         openTickets = "99";
-                        activeAccount = "<ul class='tableRows clickme' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1' >" + openTickets + "<div class='overflowTickets'><p>+</p></div></div></li></ul>";
+                        activeAccount = "<ul class='tableRows clickme' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1 overflowTickets'>" + openTickets + "<sup>+</sup></div></li></ul>";
                         $(activeAccount).appendTo("#activeList");
                         //localDashAccounts.push(activeAccount);
                     }else{
