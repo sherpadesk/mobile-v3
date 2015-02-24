@@ -66,6 +66,7 @@ $( document ).ajaxError(function( event, request, settings ) {
     //        alert(request.statusText);
     //alert(request.responseText);
     //    alert(settings.url);
+    redirectToPage();
     if ((request.status == 403 && settings.url !== ApiSite + "organizations") || (request.status == 404 && settings.url === ApiSite + "config"))
     {
         logout(settings.url !== ApiSite + "login", request.statusText);
@@ -141,7 +142,7 @@ function redirectToPage() {
     }
     else
     {
-        // offLine();
+        offLine();
     }
 };
 
