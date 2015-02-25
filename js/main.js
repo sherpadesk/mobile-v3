@@ -3647,11 +3647,11 @@ if(typeof func === 'function')
             var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
                 parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
             if (updateStatusBar) {
-                document.getElementsByTagName("header")[0].style.paddingTop = "20px";
-                document.getElementsByTagName("header")[0].style.height = "73px";
-                document.getElementById("ptr").style.marginTop = "20px";
+                document.getElementsByTagName("header")[0].style.paddingTop = "15px";
+                document.getElementsByTagName("header")[0].style.height = "58px";
+                document.getElementById("ptr").style.marginTop = "15px";
                 $('body').css('margin-top', function (index, curValue) {
-                    return parseInt(curValue, 10) + 20 + 'px';
+                    return parseInt(curValue, 10) + 15 + 'px';
                 });
             }
             //set the name of the nav side menu
