@@ -3646,7 +3646,7 @@ if(typeof func === 'function')
         {
             var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
                 parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
-            if (!updateStatusBar) {
+            if (updateStatusBar) {
                 document.body.style.webkitTransform = 'translate3d(0, 20px, 0)';
             }
             //set the name of the nav side menu
