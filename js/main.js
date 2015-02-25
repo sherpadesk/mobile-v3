@@ -181,12 +181,14 @@ function GooglelogOut(mess) {
 function clearStorage()
 {
     var userName = localStorage.userName;
+    var appVersion = localStorage.appVersion;
     localStorage.clear();
     localStorage.removeItem('userOrgKey');
     localStorage.removeItem('userOrg');
     localStorage.removeItem('userInstanceKey');
     localStorage.removeItem('userKey');
     localStorage.setItem("userName", userName);
+    localStorage.appVersion = appVersion;
     //clear also chrome ext if needed
     if (window.self !== window.top)
         window.top.postMessage("logout", "*");
@@ -972,11 +974,13 @@ $(document).ready(function(){
 
         changeOrg:function(){
             $("#switchOrg").click(function(){
+                var appVersion = localStorage.appVersion;
                 var userKey = localStorage.userKey;
                 var userName = localStorage.userName;
                 localStorage.clear();
                 localStorage.userName = userName;
                 localStorage.userKey = userKey;
+                localStorage.appVersion = appVersion;
                 window.location = "org.html";
             });
         }
