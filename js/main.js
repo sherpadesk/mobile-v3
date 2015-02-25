@@ -66,6 +66,8 @@ $( document ).ajaxError(function( event, request, settings ) {
     //        alert(request.statusText);
     //alert(request.responseText);
     //    alert(settings.url);
+    $("#loading").hide();
+    $(".page").show();
     redirectToPage();
     if ((request.status == 403 && settings.url !== ApiSite + "organizations") || (request.status == 404 && settings.url === ApiSite + "config"))
     {
@@ -135,7 +137,7 @@ function redirectToPage() {
              onLine();
          };
          img.onerror = function () {
-             // offLine();
+             offLine();
          };
          img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
      }
@@ -3541,6 +3543,7 @@ $(document).ready(function(){
                                     var userInstanceKey = instances[$(this).attr("data-id")].key;
                                     localStorage.setItem('userInstanceKey', userInstanceKey);
                                     localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+                                    $("#loading").show();
                                     getInstanceConfig(userOrgKey, userInstanceKey);
                                 });
                             };
@@ -3576,6 +3579,7 @@ $(document).ready(function(){
                                 var userInstanceKey = instances[$(this).attr("data-id")].key;
                                 localStorage.setItem('userInstanceKey', userInstanceKey);
                                 localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+                                $("#loading").show();
                                 getInstanceConfig(userOrgKey, userInstanceKey);
                             });
                         };
