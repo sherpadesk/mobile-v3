@@ -343,7 +343,7 @@ strong {
 
   background-repeat: no-repeat;
   background-position:center;
-  overflow-y: hidden;
+  /*overflow-y: hidden;*/
 
 }
 
@@ -363,7 +363,7 @@ strong {
 }
 
 .bodyContent {
-  margin-top: 45px;
+  margin-top: 25px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -1567,6 +1567,24 @@ footer {
   height: 100%;
   float: left;
   line-height: 45px;
+
+}
+
+.OptionWrapper1 {
+    width: 100%;
+    background-color: #489CD6;
+    height: 100%;
+    float: left;
+    line-height: 45px;
+
+}
+
+.OptionWrapper2 {
+    width: 100%;
+    background-color: #0099CC;
+    height: 100%;
+    float: left;
+    line-height: 45px;
 
 }
 

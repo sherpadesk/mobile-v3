@@ -972,7 +972,11 @@ $(document).ready(function(){
 
         changeOrg:function(){
             $("#switchOrg").click(function(){
-                localStorage.setItem("userInstanceKey", "");
+                var userKey = localStorage.userKey;
+                var userName = localStorage.userName;
+                localStorage.clear();
+                localStorage.userName = userName;
+                localStorage.userKey = userKey;
                 window.location = "org.html";
             });
         }
@@ -3496,15 +3500,11 @@ $(document).ready(function(){
                         localStorage.setItem('sd_is_MultipleOrgInst', 'true');
                         var orglistitem = results;
                         for (var i = 0; i < orglistitem.length; i++) {
-                            $('#orgSelect')
-                            .append($("<option></option>")
-                                    .attr("value", i)
-                                    .text(orglistitem[i].name));
+                            var insert = "<li class=item><div id='org' data-id="+i+" class='OptionWrapper1'><h3 class='OptionTitle user_name'>"+orglistitem[i].name+"</h3></div></li>";
+                            $('#orgsPage').append(insert);
                         }
-                        $('#orgSelect')
-                        // listen for org selection
-                        .change(function () {
-                            var index_number = this.value;
+                        $(document).on("click","#org", function () {
+                            var index_number = $(this).attr("data-id");
                             userOrgKey = results[index_number].key;
                             userOrg = results[index_number].name;
                             var instances = results[index_number].instances;
@@ -3524,17 +3524,17 @@ $(document).ready(function(){
                             }
                             else {
                                 // If there is MORE than one instance on the selected org
-                                $('#instSelect').find('option:gt(0)').remove();
+                                //$("p[class!='intro']") 
+                                $("div.OptionWrapper1[data-id!='"+index_number+"']").parent().remove()
+                                //$('#orgsPage').find('option:gt(0)').remove();
                                 for (var i = 0; i < instances.length; i++) {
-                                    $('#instSelect')
-                                    .append($("<option></option>")
-                                            .attr("value", i)
-                                            .text(instances[i].name));
+                                    var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle user_name'>"+instances[i].name+"</h3></div></li>";
+                                    $('#instsPage').append(insert);
                                 }
                                 $('.instSelect').show();
                                 // listen for Instance selection
-                                $('#instSelect').change(function () {
-                                    var userInstanceKey = instances[this.value].key;
+                                $(document).on("click","#inst", function () {
+                                    var userInstanceKey = instances[$(this).attr("data-id")].key;
                                     localStorage.setItem('userInstanceKey', userInstanceKey);
                                     localStorage.setItem('sd_is_MultipleOrgInst', 'true');
                                     getInstanceConfig(userOrgKey, userInstanceKey);
@@ -3550,10 +3550,8 @@ $(document).ready(function(){
                         localStorage.setItem('userOrgKey', userOrgKey);
                         localStorage.setItem('sd_is_MultipleOrgInst', 'false');
                         localStorage.setItem('userOrg', userOrg);
-                        $('#orgSelect').append($("<option></option>")
-                                .attr("value", 0)
-                                .text(results[0].name));
-                        $('#orgSelect').val(0);
+                        var insert = "<li class=item><div id='org' data-id=0 class='OptionWrapper1'><h3 class='OptionTitle user_name'>"+results[0].name+"</h3></div></li>";
+                        $('#orgsPage').append(insert);
                         //location.reload(true);
                         var instances = results[0].instances;
                         // If there is only one instance on the selected org
@@ -3564,17 +3562,14 @@ $(document).ready(function(){
                         }
                         else {
                             // If there is MORE than one instance on the selected org
-                            $('#instSelect').find('option:gt(0)').remove();
                             for (var i = 0; i < instances.length; i++) {
-                                $('#instSelect')
-                                .append($("<option></option>")
-                                        .attr("value", i)
-                                        .text(instances[i].name));
+                                var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle user_name'>"+instances[i].name+"</h3></div></li>";
+                                $('#instsPage').append(insert);
                             }
                             $('.instSelect').show();
                             // listen for Instance selection
-                            $('#instSelect').change(function () {
-                                userInstanceKey = instances[this.value].key;
+                            $(document).on("click","#inst", function () {
+                                var userInstanceKey = instances[$(this).attr("data-id")].key;
                                 localStorage.setItem('userInstanceKey', userInstanceKey);
                                 localStorage.setItem('sd_is_MultipleOrgInst', 'true');
                                 getInstanceConfig(userOrgKey, userInstanceKey);
@@ -3744,7 +3739,8 @@ if(typeof func === 'function')
         }
         else
             $("#switchOrg").show();
-
+        if (!isTime)
+            $(".time").remove();
         //refresh version
         if (localStorage.appVersion !== appVersion)
         {
@@ -3761,6 +3757,9 @@ if(typeof func === 'function')
                 location.reload(true);
             //return;
         }
+        fullapplink();
+        if (typeof navigator.splashscreen !== 'undefined') 
+            navigator.splashscreen.hide();
         //Disable for user
         if (!isTech){
             $(".sideNavLinks").children(":not('.user')").hide();
@@ -3789,8 +3788,8 @@ if(typeof func === 'function')
                     getActiveAccounts();
                 search.init();
                 //reveal();
+                return;
             }
-            //$("#loading").show();
             if (location.pathname.endsWith("account_details.html"))
             {
                 if (!isAccount) window.location = "dashboard.html";
@@ -3801,6 +3800,7 @@ if(typeof func === 'function')
                     //detailedTicket.init();
                     closedTickets.pageChange();
                 }
+                return;
             }
             if (location.pathname.endsWith("Account_List.html"))
             {
@@ -3810,12 +3810,7 @@ if(typeof func === 'function')
                     localStorage.DetailedAccount = '';
                     accountList.init();
                 }
-            }
-            if (location.pathname.endsWith("addTicketTime.html"))
-            {
-                if (isTime) addTime.init();
-                else window.location = "dashboard.html";
-
+                return;
             }
             if (location.pathname.endsWith("timelog.html"))
             {if (!isTime) window.location = "dashboard.html";
@@ -3825,6 +3820,7 @@ if(typeof func === 'function')
                  timeLogs.init();
                  //addTime.init();
              }
+             return;
             }
             if (location.pathname.endsWith("accountTimes.html"))
             {
@@ -3834,6 +3830,7 @@ if(typeof func === 'function')
                     accountTimeLogs.init();
                     //timeLogs.init();
                 }
+                return;
             }
             if (location.pathname.endsWith("allInvoice_List.html"))
             {
@@ -3842,6 +3839,7 @@ if(typeof func === 'function')
                 {
                     invoiceList.init();
                 }
+                return;
             }
             else if (location.pathname.endsWith("Invoice_List.html"))
             {
@@ -3850,7 +3848,7 @@ if(typeof func === 'function')
                 {
                     invoiceList.init(localStorage.getItem("DetailedAccount"));
                 }
-
+                return;
             }
             if (location.pathname.endsWith("invoice.html"))
             {
@@ -3861,20 +3859,24 @@ if(typeof func === 'function')
                     sendInvoice.init();
                     addRecip.init();
                 }
+                return;
             }
             if (location.pathname.endsWith("Queues.html"))
             {
                 getQueues.init();
+                return;
             }
             if (location.pathname.endsWith("queueTickets.html"))
             {
                 getQueueTickets.init();
+                return;
             }
         }
         if (location.pathname.endsWith("ticket_list.html"))
         {
             ticketList.init();
             //accountDetailsPageSetup.init();
+            return;
 
         }
         if (location.pathname.endsWith("ticket_detail.html"))
@@ -3885,16 +3887,27 @@ if(typeof func === 'function')
             closeTicket.init();
             //addTime.init();
             postComment.init();
+            return;
         }
         if (location.pathname.endsWith("closedTickets.html"))
         {
             // detailedTicket.init();
             closedTickets.init();
+            return;
+        }
+        $("#loading").show();
+        if (location.pathname.endsWith("addTicketTime.html"))
+        {
+            if (isTime) addTime.init();
+            else window.location = "dashboard.html";
+            return;
+
         }
         if (location.pathname.endsWith("add_tickets.html"))
         {
             newTicket.init();
             //accountTimeLogs.init();
+            return;
         }
         if (location.pathname.endsWith("add_time.html"))
         {
@@ -3903,6 +3916,7 @@ if(typeof func === 'function')
             {
                 addTime.init();
             }
+            return;
         }
         if (location.pathname.endsWith("addExpence.html"))
         {
@@ -3911,6 +3925,7 @@ if(typeof func === 'function')
             {
                 addExpence.init();
             }
+            return;
         }
         if (location.pathname.endsWith("edit_time.html"))
         {
@@ -3919,12 +3934,8 @@ if(typeof func === 'function')
             {
                 addTime.init(true);
             }
+            return;
         }
-        fullapplink();
-        if (typeof navigator.splashscreen !== 'undefined') 
-            navigator.splashscreen.hide();
-        if (!isTime)
-            $(".time").remove();
     }
 
     //Main Method that calls all the functions for the app
