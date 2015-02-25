@@ -3644,6 +3644,11 @@ if(typeof func === 'function')
         //when user logged in
         if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/" && location.pathname.indexOf("org.html")<0)
         {
+            var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
+                parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
+            if (!updateStatusBar) {
+                document.body.style.webkitTransform = 'translate3d(0, 20px, 0)';
+            }
             //set the name of the nav side menu
             //$(".navName").html(localStorage.getItem("userFullName"));
             //set user avatar picture in side menu
