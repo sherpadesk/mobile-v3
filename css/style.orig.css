@@ -1521,7 +1521,7 @@ footer {
 .accountDetailsContainer {
   width: 90%;
   margin: 0 auto;
-  padding-top: 50px;
+  padding-top: 30px;
 }
 
 .QueuesTickerContainer {
@@ -1648,7 +1648,7 @@ footer {
   margin-left: 20px;
   overflow: auto;
   z-index: 1;
-  padding-top: 20px;
+  padding-top: 40px;
   margin-bottom: 50px;
 }
 
@@ -1767,7 +1767,7 @@ footer {
   float: left;
   margin-top: 7px;
   width: 70%;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .shortInfo {
@@ -1908,7 +1908,6 @@ footer {
 .commentBlock li:nth-child(4) {
   width: 90%;
   margin-top: 20px;
-  margin-bottom: 22px;
   soverflow-x: hidden;
 }
 
@@ -1916,13 +1915,14 @@ footer {
   width: 95%;
   height: 30%;
   text-align: right;
-  margin-top: -20px;
+  margin-top: -6px;
   color: #cccccc;
   font-size: 10px;
 }
 
 #invoiceList {
   overflow: visible !important;
+  margin-top: 25px;
 }
 
 .commentText {
@@ -1976,7 +1976,6 @@ footer {
   float: left;
   margin-top: 10px !important;
   margin-left: 10px;
-  margin-bottom: 10px;
   width: 75%;
   z-index: 2;
 }
@@ -1995,7 +1994,7 @@ footer {
   width: 95%;
   height: 30%;
   text-align: right;
-  margin-top: -20px !important;
+  margin-top: -8px !important;
   color: #cccccc;
   font-size: 10px;
 }
@@ -2390,6 +2389,7 @@ padding-right: 17px;
 .TicketTabs ul {
   font-size: 15px;
   list-style: none;
+  margin-top: -7px;
 }
 
 .TicketTabs > ul > li {
@@ -2432,7 +2432,7 @@ padding-right: 17px;
 }
 
 .QueuesContainer ul {
-  margin-top: 70px;
+  margin-top: 80px;
 }
 
 .listedAccount {
@@ -2614,7 +2614,7 @@ box-shadow: 0px 0px 3px #88888D;
   float: left;
   border: 6px solid rgba(255, 255, 255, 0.87);
   border-radius: 2px;
-  margin-left: 20px;
+  margin-left: 5%;
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
