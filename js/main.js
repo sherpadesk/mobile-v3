@@ -975,6 +975,7 @@ $(document).ready(function(){
         },
 
         changeOrg:function(){
+            if (is_MultipleOrgInst)
             $("#switchOrg").click(function(){
                 var appVersion = localStorage.appVersion;
                 var userKey = localStorage.userKey;
@@ -3959,6 +3960,16 @@ if(typeof func === 'function')
         //when user logged in
         if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/" && location.pathname.indexOf("org.html")<0)
         {
+            var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
+                parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
+            if (updateStatusBar) {
+                document.getElementsByTagName("header")[0].style.paddingTop = "10px";
+                document.getElementsByTagName("header")[0].style.height = "63px";
+                document.getElementById("ptr").style.marginTop = "10px";
+                $('body').css('margin-top', function (index, curValue) {
+                    return parseInt(curValue, 10) + 10 + 'px';
+                });
+            }
             //set the name of the nav side menu
             //$(".navName").html(localStorage.getItem("userFullName"));
             //set user avatar picture in side menu
