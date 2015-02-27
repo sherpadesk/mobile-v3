@@ -66,13 +66,13 @@ $( document ).ajaxError(function( event, request, settings ) {
     //        alert(request.statusText);
     //alert(request.responseText);
     //    alert(settings.url);
-    $("#loading").hide();
-    $(".page").show();
-    redirectToPage();
     if ((request.status == 403 && settings.url !== ApiSite + "organizations") || (request.status == 404 && settings.url === ApiSite + "config"))
     {
         logout(settings.url !== ApiSite + "login", request.statusText);
     }
+    setTimeout(function(){ $("#loading").hide();
+                          $(".page").show(); 
+                          redirectToPage()}, 1000);
 });
 
 function reveal() {
@@ -104,13 +104,14 @@ window.onerror = function(msg, url, line, col, error) {
     extra += !error ? '' : '<p>error: ' + error;
 
     // You can view the information in an alert to see things working like this:
-    errorLine("<p onclick='$(\".err\").toggle();'>Click for Error Details:</p><div class=err style='display:none;'>" + msg + "<p>page: " + location.href + "<p>url: " + url + "<p>line: " + line + extra + "</div>");
+    if (line > 0)
+    setTimeout(function(){errorLine("<p onclick='$(\".err\").toggle();'>Click for Error Details:</p><div class=err style='display:none;'>" + msg + "<p>page: " + location.href + "<p>url: " + url + "<p>line: " + line + extra + "</div>");
+                          $("#loading").hide();
+                          $(".page").show();}, 1000);
 
     // TODO: Report this error via ajax so you can keep track
     //       of what pages have JS issues
 
-    $("#loading").hide();
-    $(".page").show();
     var suppressErrorAlert = true;
     // If you return true, then error alerts (like in older versions of 
     // Internet Explorer) will be suppressed.
@@ -792,7 +793,7 @@ $(document).ready(function(){
                             function()
                             {
                                 userMessage.showMessage(true, 'Ticket has been Reopened <i class="fa fa-thumbs-o-up"></i>');
-                                window.location = "ticket_detail.html";
+                                window.history.back();
 
                             }, 1000);
                     },
@@ -836,7 +837,7 @@ $(document).ready(function(){
                         function()
                         {
                             userMessage.showMessage(true, 'Ticket has been closed <i class="fa fa-thumbs-o-up"></i>');
-                            window.location = "ticket_list.html";
+                            window.history.back();
 
                         }, 1000);
                     userMessage.setMessage(true, "Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
@@ -1490,6 +1491,7 @@ $(document).ready(function(){
         addpicker: function(){
             jQuery('#date_start').datetimepicker({
                 mask: false,
+                step:5,
                 onShow:function( ct ){
                     var dat1 = jQuery('#date_end').val();
                     var dat;
@@ -1504,6 +1506,7 @@ $(document).ready(function(){
             });
             jQuery('#date_end').datetimepicker({
                 mask: false,
+                step:5,
                 onShow:function( ct ){
                     var dat1 = jQuery('#date_start').val();
                     var dat;
@@ -1635,7 +1638,7 @@ $(document).ready(function(){
                        'POST').then(function (d) {
                     localStorage.setItem('isMessage','truePos');
                     localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
-                    window.location = "ticket_detail.html";
+                    window.location.replace("ticket_detail.html");
                 },
                                     function (e, textStatus, errorThrown) {
                     alert(textStatus);
@@ -3907,13 +3910,14 @@ if(typeof func === 'function')
         $("#loading").show();
         if (location.pathname.endsWith("addTicketTime.html"))
         {
-            if (isTime) addTime.init();
+            if (isTime) { addTime.init();}
             else window.location = "dashboard.html";
             return;
 
         }
         if (location.pathname.endsWith("add_tickets.html"))
         {
+            //window.location.replace(document.referrer);
             newTicket.init();
             //accountTimeLogs.init();
             return;
@@ -3923,6 +3927,7 @@ if(typeof func === 'function')
             if (!isTime) window.location = "dashboard.html";
             else
             {
+                //window.location.replace(document.referrer);
                 addTime.init();
             }
             return;
@@ -3932,6 +3937,7 @@ if(typeof func === 'function')
             if (!isExpenses) window.location = "dashboard.html";
             else
             {
+                //window.location.replace(document.referrer);
                 addExpence.init();
             }
             return;
@@ -3941,6 +3947,7 @@ if(typeof func === 'function')
             if (!isTime) window.location = "dashboard.html";
             else
             {
+                //window.location.replace(document.referrer);
                 addTime.init(true);
             }
             return;
@@ -3963,12 +3970,16 @@ if(typeof func === 'function')
             var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
                 parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
             if (updateStatusBar) {
-                document.getElementsByTagName("header")[0].style.paddingTop = "10px";
-                document.getElementsByTagName("header")[0].style.height = "63px";
-                document.getElementById("ptr").style.marginTop = "10px";
-                $('body').css('margin-top', function (index, curValue) {
-                    return parseInt(curValue, 10) + 10 + 'px';
-                });
+                var t=document.getElementsByTagName("header")[0];
+                if (t){
+                t.style.paddingTop = "10px";
+                t.style.height = "63px";
+                    $('body').css('margin-top', function (index, curValue) {
+                        return parseInt(curValue, 10) + 10 + 'px';
+                    });
+                }
+                t = document.getElementById("ptr");
+                if (t){t.style.marginTop = "10px";}
             }
             //set the name of the nav side menu
             //$(".navName").html(localStorage.getItem("userFullName"));
