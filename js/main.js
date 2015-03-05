@@ -1,7 +1,7 @@
 /*global jQuery, $ */
 
-var appVersion = "12";
-var adMessage = "Added badge on New Ticket queue";
+var appVersion = "16";
+var adMessage = "Cache improvements";
 
 
 //Root Names
@@ -41,12 +41,11 @@ function onDeviceReady() {
     //alert("gap init");
     isPhonegap = true;
     if (cordova.plugins.notification.badge){
-    if (localStorage.badge > 0){
-        window.setTimeout(cordova.plugins.notification.badge.set(localStorage.badge), 2000);
-    }
-    else
-        window.setTimeout(cordova.plugins.notification.badge.clear(), 2000);
-    }
+        if (localStorage.badge > 0){
+            cordova.plugins.notification.badge.set(localStorage.badge);
+        }
+        else
+            cordova.plugins.notification.badge.clear();}
 }
 
 //open link	in blank
@@ -71,6 +70,9 @@ $( document ).ajaxError(function( event, request, settings ) {
     {
         logout(settings.url !== ApiSite + "login", request.statusText);
     }
+    setTimeout(function(){ $("#loading").hide();
+                          $(".page").show(); 
+                          redirectToPage()}, 1000);
 });
 
 function reveal() {
@@ -88,8 +90,8 @@ function errorLine(message){
 };
 
 function offLine(){
-        var func = "redirectToPage()";
-        isOnline = false;
+    var func = "redirectToPage()";
+    isOnline = false;
     if (!$(".catch-error").length) {
         $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="'+func+'">Refresh</button></center></div></div>');
     }
@@ -102,7 +104,10 @@ window.onerror = function(msg, url, line, col, error) {
     extra += !error ? '' : '<p>error: ' + error;
 
     // You can view the information in an alert to see things working like this:
-    errorLine("<p onclick='$(\".err\").toggle();'>Click for Error Details:</p><div class=err style='display:none;'>" + msg + "<p>page: " + location.href + "<p>url: " + url + "<p>line: " + line + extra + "</div>");
+    if (line > 0)
+        setTimeout(function(){errorLine("<p onclick='$(\".err\").toggle();'>Click for Error Details:</p><div class=err style='display:none;'>" + msg + "<p>page: " + location.href + "<p>url: " + url + "<p>line: " + line + extra + "</div>");
+                              $("#loading").hide();
+                              $(".page").show();}, 1000);
 
     // TODO: Report this error via ajax so you can keep track
     //       of what pages have JS issues
@@ -133,14 +138,14 @@ function redirectToPage() {
              onLine();
          };
          img.onerror = function () {
-             // offLine();
+             offLine();
          };
          img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
      }
     }
     else
     {
-        // offLine();
+        offLine();
     }
 };
 
@@ -179,12 +184,14 @@ function GooglelogOut(mess) {
 function clearStorage()
 {
     var userName = localStorage.userName;
+    var appVersion = localStorage.appVersion;
     localStorage.clear();
     localStorage.removeItem('userOrgKey');
     localStorage.removeItem('userOrg');
     localStorage.removeItem('userInstanceKey');
     localStorage.removeItem('userKey');
     localStorage.setItem("userName", userName);
+    localStorage.appVersion = appVersion;
     //clear also chrome ext if needed
     if (window.self !== window.top)
         window.top.postMessage("logout", "*");
@@ -600,25 +607,25 @@ $(document).ready(function(){
                     //insert open tickets
                     if(returnData.length > 0)
                     {
-                    for(var i = 0; i < returnData.length; i++)
-                    {
-                        // get email value for gravatar
-                        var email = $.md5(returnData[i].user_email);
-                        var initialPost = returnData[i].initial_post;
-                        var subject = returnData[i].subject;
-                        //the key for this specific ticket
-                        var data = returnData[i].key;
-                        subject = createElipse(subject, .70, 12);
-                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
-                        // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
-                        if(initialPost.length > 50)
+                        for(var i = 0; i < returnData.length; i++)
                         {
-                            initialPost = initialPost.substring(0,50);
-                        }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span  class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
-                        $(ticket).appendTo("#closedTickets");
-                        filterList("closedTickets");
-                    };
+                            // get email value for gravatar
+                            var email = $.md5(returnData[i].user_email);
+                            var initialPost = returnData[i].initial_post;
+                            var subject = returnData[i].subject;
+                            //the key for this specific ticket
+                            var data = returnData[i].key;
+                            subject = createElipse(subject, .70, 12);
+                            var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                            // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
+                            if(initialPost.length > 50)
+                            {
+                                initialPost = initialPost.substring(0,50);
+                            }
+                            var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span  class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                            $(ticket).appendTo("#closedTickets");
+                            filterList("closedTickets");
+                        };
                     }
                     else
                     {
@@ -786,7 +793,7 @@ $(document).ready(function(){
                             function()
                             {
                                 userMessage.showMessage(true, 'Ticket has been Reopened <i class="fa fa-thumbs-o-up"></i>');
-                                window.location = "ticket_detail.html";
+                                window.history.back();
 
                             }, 1000);
                     },
@@ -796,15 +803,15 @@ $(document).ready(function(){
                 });
             });
         },
-        
+
         close: function(closeTicketMessage){
             closeTicketMessage = htmlEscape(closeTicketMessage).trim();
             if (closeTicketMessage.length < 2){
                 userMessage.showMessage(false,  "Note cannot be empty!");	
                 return;
             }
-            if (closeTicketMessage.length > 500){
-                userMessage.showMessage(false,  "Note cannot be more than 500 chars!");	
+            if (closeTicketMessage.length > 5000){
+                userMessage.showMessage(false,  "Note cannot be more than 5000 chars!");	
                 return;
             }
             $.ajax({
@@ -830,7 +837,7 @@ $(document).ready(function(){
                         function()
                         {
                             userMessage.showMessage(true, 'Ticket has been closed <i class="fa fa-thumbs-o-up"></i>');
-                            window.location = "ticket_detail.html";
+                            window.history.back();
 
                         }, 1000);
                     userMessage.setMessage(true, "Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
@@ -969,10 +976,17 @@ $(document).ready(function(){
         },
 
         changeOrg:function(){
-            $("#switchOrg").click(function(){
-                localStorage.setItem("userInstanceKey", "");
-                window.location = "org.html";
-            });
+            if (is_MultipleOrgInst)
+                $("#switchOrg").click(function(){
+                    var appVersion = localStorage.appVersion;
+                    var userKey = localStorage.userKey;
+                    var userName = localStorage.userName;
+                    localStorage.clear();
+                    localStorage.userName = userName;
+                    localStorage.userKey = userKey;
+                    localStorage.appVersion = appVersion;
+                    window.location = "org.html";
+                });
         }
     };
 
@@ -1107,20 +1121,20 @@ $(document).ready(function(){
             }
             else
             {
-            var technicians = getApi("technicians?limit=200");
-            technicians.then(function(returnData){
-                //console.log(returnData);
-                // add techs to option select list
-                fillSelect(returnData, "#addTicketTechs",
-                           "<option value=0 disabled selected>choose a tech</option>", "",
-                           "firstname,lastname");
-                //reveal();
-            },
-                             function() {
-                console.log("fail @ ticket accounts");
+                var technicians = getApi("technicians?limit=200");
+                technicians.then(function(returnData){
+                    //console.log(returnData);
+                    // add techs to option select list
+                    fillSelect(returnData, "#addTicketTechs",
+                               "<option value=0 disabled selected>choose a tech</option>", "",
+                               "firstname,lastname");
+                    //reveal();
+                },
+                                 function() {
+                    console.log("fail @ ticket accounts");
 
-            }
-                            );
+                }
+                                );
             }
 
             // after techs are choosen then get a list of classes
@@ -1193,8 +1207,8 @@ $(document).ready(function(){
                     userMessage.showMessage(false, "Please enter note");
                     return;
                 }
-                if (comment.length > 500) {
-                    userMessage.showMessage(false, "Note cannot be more than 500 chars!");
+                if (comment.length > 5000) {
+                    userMessage.showMessage(false, "Note cannot be more than 5000 chars!");
                     return;
                 }
                 $.ajax({
@@ -1373,38 +1387,101 @@ $(document).ready(function(){
 
     // add time to an account
     var addExpence = {
-        init:function(isEdit){
-            this.addExpence(isEdit);
+        init:function(ticket_id){
+            this.addExpence(getParameterByName("ticket"));
         },
-        addExpence: function(isEdit){
-            reveal();
+        addExpence: function(ticket_id){
+            var account_id = localStorage.DetailedAccount, project_id=0;
+            if(!isProject || ticket_id)
+                $("#timeProjects").parent().hide();
+            else
+            {
+                var chooseProject = "<option value=0>choose a project</option>";
+                $(chooseProject).appendTo("#timeProjects");
+            }
+            if(!isAccount || ticket_id)
+            {
+                $("#timeAccounts").parent().hide();
+                reveal();
+            }
+            else
+            {
+                //get accounts
+                getApi("accounts?limit=300", {"is_with_statistics":false}).then(function(returnData) {
+                    ////console.log(returnData);
+                    $("#timeAccounts").empty();
+                    var chooseAccount = "<option value=0>choose an account</option>";
+                    $(chooseAccount).appendTo("#timeAccounts");
+                    // accounts to add time
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        var value = returnData[i].id;
+                        var task = returnData[i].name;
+                        var insert = "<option value="+value+">"+task+"</option>";
+                        $(insert).appendTo("#timeAccounts");
+                    }
+                    if (account_id)
+                    {
+                        $("#timeAccounts").val(account_id);
+                        //if (parseInt($("#timeAccounts").val()) !== account_id)
+                        //    $("#timeAccounts").val(-1);
+                        addTime.chooseProjects(project_id, 0);
+                    }
+                    reveal();
+
+                },
+                                                                                function() {
+                    console.log("fail @ time accounts");
+                    ////console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                }
+                                                                               );
+            }
+
+            $("#timeAccounts").on("change", function(){
+                //console.log(timeLog.task_type_id);
+                addTime.chooseProjects(0, 0);
+            });
             //add an expense
             $("#addexpenseButton").click(function(){
+                var money=$("#expenseAmount").val();
+                if (!money)
+                {
+                    userMessage.showMessage(false, "Please enter amount");
+                    return;
+                }
+                var note= htmlEscape($("#expenseNote").val()).trim();
+                if (note.length < 1)
+                {
+                    userMessage.showMessage(false, "Please enter note");
+                    return;
+                }
                 getApi('expenses', 
-                    {
-                        "account_id": localStorage.getItem("invoiceAccountId"),
-                        "project_id": localStorage.getItem("invoiceProjectId"),
-                        "tech_id": localStorage.getItem("user_id"),
-                        "note": $("#expensesNote").val(),
-                        "note_internal": $("#expensesInternal").val(),
-                        "amount": $("#expenseAmount").val(),
+                       {
+                    "ticket_key": ticket_id ? ticket_id : null,
+                    "account_id": !ticket_id ? $("#timeAccounts").val() : null ,
+                    "project_id": !ticket_id ? $("#timeProjects").val() : null,
+                    "tech_id": localStorage.getItem("user_id"),
+                    "note": note,
+                    "note_internal": $("#expenseInternal").val(),
+                    "amount": money,
                     "is_billable": $(".innerCircle").hasClass("billFill"),
                     "vendor": $("#vendor").val()
-                        //"markup": 
-                    },
+                    //"markup": 
+                },
                        'POST').then(function (d) {
-                        console.log("time log has been added");
-
-                    },
-                    function (e, textStatus, errorThrown) {
-                        console.log(textStatus);
-                    }
-                );
-    });
+                    localStorage.setItem('isMessage','truePos');
+                    localStorage.setItem('userMessage','Expense was successfully added <i class="fa fa-money"></i>')
+                    window.history.back();
+                },
+                                    function (e, textStatus, errorThrown) {
+                    console.log(textStatus);
+                }
+                                   );
+            });
         }
     }
-                                         
-    
+
+
     // add time to an account
     var addTime = {
         init:function(isEdit){
@@ -1414,6 +1491,7 @@ $(document).ready(function(){
         addpicker: function(){
             jQuery('#date_start').datetimepicker({
                 mask: false,
+                step:5,
                 onShow:function( ct ){
                     var dat1 = jQuery('#date_end').val();
                     var dat;
@@ -1428,6 +1506,7 @@ $(document).ready(function(){
             });
             jQuery('#date_end').datetimepicker({
                 mask: false,
+                step:5,
                 onShow:function( ct ){
                     var dat1 = jQuery('#date_start').val();
                     var dat;
@@ -1521,9 +1600,9 @@ $(document).ready(function(){
                     userMessage.showMessage(false, "Please enter note");
                     return;
                 }
-                if (note.length > 500)
+                if (note.length > 5000)
                 {
-                    userMessage.showMessage(false, "Note cannot be more than 500 chars!");
+                    userMessage.showMessage(false, "Note cannot be more than 5000 chars!");
                     return;
                 }
                 // check to see if user check for time to be billable
@@ -1559,7 +1638,7 @@ $(document).ready(function(){
                        'POST').then(function (d) {
                     localStorage.setItem('isMessage','truePos');
                     localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>')
-                    window.location = "ticket_detail.html";
+                    window.location.replace("ticket_detail.html");
                 },
                                     function (e, textStatus, errorThrown) {
                     alert(textStatus);
@@ -1618,21 +1697,27 @@ $(document).ready(function(){
                             var insert = "<option value="+value+">"+task+"</option>";
                             $(insert).appendTo("#timeAccounts");
                         }
+                        var account_id = localStorage.DetailedAccount ? localStorage.DetailedAccount : -1;
+                        var project_id = 0;
+                        var task_type_id = 0;
                         if (timeLog)
                         {
-                            $("#timeAccounts").val(timeLog.account_id);
-                            if (parseInt($("#timeAccounts").val()) !== timeLog.account_id)
-                                $("#timeAccounts").val(-1);
-                            addTime.chooseProjects(timeLog.project_id, timeLog.task_type_id);
+                            account_id = timeLog.account_id;
+                            project_id = timeLog.project_id;
+                            task_type_id = timeLog.task_type_id;
                         }
+                        $("#timeAccounts").val(account_id);
+                        //if (parseInt($("#timeAccounts").val()) !== account_id)
+                        //    $("#timeAccounts").val(-1);
+                        addTime.chooseProjects(project_id, task_type_id);
                         reveal();
 
                     },
-                    function() {
+                                                                                    function() {
                         console.log("fail @ time accounts");
                         ////console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     }
-                                                                         );
+                                                                                   );
                 }
 
                 $("#timeAccounts").on("change", function(){
@@ -1744,6 +1829,7 @@ $(document).ready(function(){
                     var daysOld = returnData.daysold_in_minutes / -60;
                     localStorage.setItem('techId', returnData.tech_id); // set the local storage variable with the tech id asscioted with this ticket
                     localStorage.setItem('ticketId',returnData.id); // set the local storage variable with the ticket ID
+                    $(".expense").attr("href", "addExpence.html?ticket=" + returnData.id);
                     // check to see if the ticket is less than a day old
                     if(daysOld > 24){
                         daysOld = daysOld/24;
@@ -1766,6 +1852,10 @@ $(document).ready(function(){
                     $("#ticketClass").html(returnData.class_name);
                     $("#ticketTech").html(returnData.tech_firstname);
                     $("#lastUpdate").html(daysOld);
+                    if (returnData.misc_cost)
+                        $("#expenses").html("Expenses: " +localStorage.currency + Number(returnData.misc_cost).toFixed(2).toString());
+                    else
+                        $("#expenses").hide();
                     if(ticketHours != 0){
                         $("#ticketHours").html(ticketHours+" Hours");
                     }else{
@@ -1894,7 +1984,7 @@ $(document).ready(function(){
                         date = formatDate(date);
                         var attachments = [];
                         //check to see if this comment has attachments
-                        
+
                         if(returnData.attachments != null){
                             for(var e = 0; e < returnData.attachments.length; e++)
                             {
@@ -1916,7 +2006,7 @@ $(document).ready(function(){
                                 file = "<img class=\"attachment\" src=\"" + attachments[f] + "\">";
                             else
                                 file = "<img style='float:none;' src='img/file.png'>&nbsp;" + attachments[f].split("/").slice(-1) + "<p></p>";
-                            
+
                             if (isPhonegap)
                                 insert = "<a class=\"comment_image_link\" href=# onclick='openURL(\"" +attachments[f] + "\")'>"+file+"</a>";
                             else
@@ -2389,9 +2479,9 @@ $(document).ready(function(){
                         var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initafilPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
                         $(ticket).appendTo("#queueTickets");
-                    filterList("queueTickets");
-                    reveal();
-                }
+                        filterList("queueTickets");
+                        reveal();
+                    }
                     createSpan("#queueTickets");
                     reveal();
                 },
@@ -2405,67 +2495,59 @@ $(document).ready(function(){
 
     // get complete queue list for the orginization for the Queues list page
     var getQueues = {
-        init:function() {
-            this.queues();
-        },
-
-        queues:function() {
+        init:function(parent, limit) {
             $(document).on("click","#queue", function(){
                 localStorage.setItem('currentQueue',$(this).attr("data-id"));
                 localStorage.setItem('currentQueueName',$(this).find(".OptionTitle").text());
                 window.location = "queueTickets.html";
             });
-            var localQueues = [];
+            getQueues.queues(limit, parent);
+        },
+
+        queues:function(limit, parent) {
+
             var retrievedObject = localStorage.getItem("storageQueues");
-            retrievedObject = JSON.parse(retrievedObject);
+            var time = 15000;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
             if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
             {
                 console.log("could not load local data")
+                time = 10;
             }
             else
             {
-                for(var a = 0; a < retrievedObject.length; a++)
-                {
-                    localInsert = retrievedObject[a];
-                    $(localInsert).appendTo("#queuesPage");
-                    reveal();
-                }
+                getQueues.createQueuesList(parent, retrievedObject, limit);
+                createSpan(parent);
             }
-            $.ajax({
-                type: 'GET',
-                beforeSend: function (xhr) {
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization',
-                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                },
+            var p=getApi("queues", {"sort_by" : "tickets_count"});
+            setTimeout(
+            p.then(function(returnData) {
+                getQueues.createQueuesList(parent, returnData, limit);
+                localStorage.setItem("storageQueues",JSON.stringify(returnData));
+                reveal();
+                if (!limit) {createSpan(parent);filterList("OptionsList");}
+            },
+                   function() {
+                console.log("fail @ Queues List");
+            })
+            , time);
+        },
 
-                url:ApiSite +"queues",
-                dataType:"json",
-                success: function(returnData) {
-                    //console.log(returnData);
-                    $("#queuesPage").empty();
-                    // add queues to the queues list
-                    for(var i = 0; i < returnData.length; i++)
-                    {
-                        if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
-                            localStorage.badge = returnData[i].tickets_count;
-                        var insert = "<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
-                        $(insert).appendTo("#queuesPage");
-                        localQueues.push(insert);
-                    }
-                    createSpan("#queuesPage");
-                    localStorage.setItem("storageQueues",JSON.stringify(localQueues));
-
-                },
-                complete:function(){
-                    reveal();
-                    filterList("OptionsList");
-                },
-                error: function() {
-                    console.log("fail @ Queues List");
-                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
-                }
-            });
+        createQueuesList : function (parent, returnData, limit){
+            $(parent).empty();
+            // add queues to the queues list
+            var badge=0;
+            for(var i = 0; i < returnData.length; i++)
+            {
+                if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
+                    badge = returnData[i].tickets_count;
+                var insert = "<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
+                $(insert).appendTo(parent);
+                if (limit && i>= limit-1)
+                    break;
+            }
+            localStorage.badge = badge;
         }
     };
 
@@ -2519,7 +2601,7 @@ $(document).ready(function(){
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
-                url:ApiSite +"tickets?status=open&limit=500&role=tech",
+                url:ApiSite +"tickets?status=open&limit=100&role=tech",
                 dataType:"json",
                 success: function(returnData) {
                     //console.log(returnData);
@@ -2568,7 +2650,7 @@ $(document).ready(function(){
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
-                url:ApiSite +"tickets?status=allopen&limit=500&query=all",
+                url:ApiSite +"tickets?status=allopen&limit=100&query=all",
                 dataType:"json",
                 success: function(returnData) {
                     //console.log(returnData);
@@ -2578,23 +2660,23 @@ $(document).ready(function(){
                         $(insert).appendTo("#allContainer");
                     }
                     else
-                    for(var i = 0; i < returnData.length; i++)
-                    {
-                        //get email for gravitar
-                        var email = $.md5(returnData[i].user_email);
-                        var intialPost = returnData[i].initial_post;
-                        var subject = returnData[i].subject;
-                        var data = returnData[i].key;
-                        subject = createElipse(subject, .70, 12);
-                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
-                        //check initial post length
-                        if(intialPost.length > 100)
+                        for(var i = 0; i < returnData.length; i++)
                         {
-                            intialPost = intialPost.substring(0,100);
+                            //get email for gravitar
+                            var email = $.md5(returnData[i].user_email);
+                            var intialPost = returnData[i].initial_post;
+                            var subject = returnData[i].subject;
+                            var data = returnData[i].key;
+                            subject = createElipse(subject, .70, 12);
+                            var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                            //check initial post length
+                            if(intialPost.length > 100)
+                            {
+                                intialPost = intialPost.substring(0,100);
+                            }
+                            var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                            $(ticket).appendTo("#allContainer");
                         }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
-                        $(ticket).appendTo("#allContainer");
-                    }
                     createSpan("#allContainer");
                 },
                 complete:function(){
@@ -2631,7 +2713,7 @@ $(document).ready(function(){
                     }
                     else
                         $('#replyTab').css('color','#ffffff');
-                    
+
                     localStorage.setItem("searchItem","");
                     reveal();
 
@@ -2653,7 +2735,7 @@ $(document).ready(function(){
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
-                url:ApiSite +"tickets?status=open&limit=500&role=alt_tech",
+                url:ApiSite +"tickets?status=open&limit=100&role=alt_tech",
                 dataType:"json",
                 success: function(returnData) {
                     //console.log(returnData);
@@ -2662,22 +2744,22 @@ $(document).ready(function(){
                         $(insert).appendTo("#altContainer");
                     }
                     else
-                    for(var i = 0; i < returnData.length; i++)
-                    {
-                        var email = $.md5(returnData[i].user_email);
-                        var intialPost = returnData[i].initial_post;
-                        var subject = returnData[i].subject;
-                        var data = returnData[i].key;
-                        subject = createElipse(subject, .75, 12);
-                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
-                        if(intialPost.length > 100)
+                        for(var i = 0; i < returnData.length; i++)
                         {
-                            intialPost = intialPost.substring(0,100);
-                        }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
+                            var email = $.md5(returnData[i].user_email);
+                            var intialPost = returnData[i].initial_post;
+                            var subject = returnData[i].subject;
+                            var data = returnData[i].key;
+                            subject = createElipse(subject, .75, 12);
+                            var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                            if(intialPost.length > 100)
+                            {
+                                intialPost = intialPost.substring(0,100);
+                            }
+                            var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
 
-                        $(ticket).appendTo("#altContainer");
-                    }
+                            $(ticket).appendTo("#altContainer");
+                        }
                     createSpan("#altContainer");
                 },
                 complete:function(){
@@ -2701,7 +2783,7 @@ $(document).ready(function(){
                                          'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
                 },
 
-                url:ApiSite +"tickets?status=open,onhold&limit=500&role=user",
+                url:ApiSite +"tickets?status=open,onhold&limit=100&role=user",
                 dataType:"json",
                 success: function(returnData) {
                     //console.log(returnData);
@@ -2742,85 +2824,98 @@ $(document).ready(function(){
 
     //get a complete list of accounts attached to the orginizations
     var accountList = {
-        init:function() {
-            this.listAccounts();
+        init:function(parent, limit) {
+            accountList.listAccounts(parent, limit);
         },
 
-        listAccounts:function() {
-            var localAccountList = [];
+        listAccounts:function(parent, limit) {
+            var time = 10000;
             var retrievedObject = localStorage.getItem("storageAccountList");
-            retrievedObject = JSON.parse(retrievedObject);
+            if (retrievedObject) retrievedObject = JSON.parse(retrievedObject);
             if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
             {
                 console.log("could not load local data")
+                time = 10;
             }
             else
             {
-                for(var a = 0; a < retrievedObject.length; a++)
-                {
-                    localInsert = retrievedObject[a];
-                    $(localInsert).appendTo("#fullList");
-                }
+                accountList.createAccountsList(parent, retrievedObject, limit);
                 reveal();
             }
 
-
-            $.ajax({
-                type: 'GET',
-                beforeSend: function (xhr) {
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization',
-                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                },
-
-                url:ApiSite +"accounts?limit=300",
-                dataType:"json",
-                success: function(returnData) {
-                    //console.log(returnData);
-                    $("#fullList").empty();
-
-                    if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Accounts</h1>';
-                        $(insert).appendTo("#fullList");
-                    }else{
-                    //add accounts to accountList
-                    var name = null;
-                    for(var i = 0; i < returnData.length; i++)
-                    {
-                        name = returnData[i].name;
-                        name = createElipse(name, .75, 12);
-                        // check the number of open tickets for the account if the number of tickets is greater than 100 sub 99+
-                        var openTks = returnData[i].account_statistics.ticket_counts.open;
-                        if( openTks > 99)
-                        {
-                            openTks = "99";
-                            var insert = "<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+name+"</li><li><div class='tks'>"+openTks+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
-                            $(insert).appendTo($("#fullList"));
-                        }
-                        // else add account and number of tickets normally to the list
-                        else
-                        {
-                            var insert = "<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+name+"</li><li><div class='tks'>"+openTks+"<div class='overflowTickets'><p>+</p></div></div></li></ul>";
-                            $(insert).appendTo($("#fullList"));
-                        }
-                        localAccountList.push(insert);
-                    }
-                    }
-                    createSpan("#fullList");
-                    localStorage.setItem("storageAccountList",JSON.stringify(localAccountList));
-                },
-                complete:function(){
-                    filterList("ActiveAccountsContainer");
-                    reveal();
-                },
-                error: function() {
-                    console.log("fail @ listAccounts");
-                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+            var p=getApi("accounts?limit=300");
+            p.then(function(returnData) {
+                accountList.createAccountsList(parent, returnData, limit);
+                reveal();
+            },
+                   function() {
+                console.log("fail @ listAccounts");
+            }
+                  );
+        },
+        createAccountsList : function (parent, returnData, limit){
+            $(parent).empty();
+            if(returnData.length < 1 && limit){
+                var insert = '<h1 class="noTicketMessage">No Accounts</h1>';
+                $(insert).appendTo(parent);
+            }else{
+                //add accounts to accountList
+                var name = null;
+                for(var i = 0; i < returnData.length; i++)
+                {
+                    var openTks = returnData[i].account_statistics.ticket_counts.open;
+                    if (limit && openTks < 1)
+                        continue;
+                    name = returnData[i].name;
+                    name = createElipse(name, .75, 12);
+                    // check the number of open tickets for the account if the number of tickets is greater than 100 sub 99+
+                    var insert = "<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+name+"</li><li><div class='tks' "+ (openTks > 99 ? "style='height: 42px;'>99<sup>+</sup>" : ">"+openTks )+"</div></li></ul>";
+                    $(insert).appendTo($(parent));
                 }
-            });
+                localStorage.setItem("storageAccountList",JSON.stringify(returnData));
+                if (!limit) {createSpan(parent); filterList("ActiveAccountsContainer");}
+            }
+            /*
+            $(parent).empty();
+                //insert for  the header of the active account table
+                var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tkts</li></ul>";
+                $(tableHeader).prependTo(parent);
+                //console.log(returnData);
+                //add accounts to the active accounts list
+                var activeLength = returnData.length;
+                //if(returnData.length > 7){activeLength = 7;}
+                var activeAccount;
+                for (var i = 0; i < activeLength; i++)
+                {
+                    var openTickets = returnData[i].account_statistics.ticket_counts.open;
+                    var openHours = returnData[i].account_statistics.hours;
+                    var nameCheck = returnData[i].name;
+                    nameCheck = createElipse(nameCheck, .30, 12);
+                    if(openHours > 999){
+                        openHours = 999;
+                    }
+                    openHours = openHours.toString();
+                    //if(openHours.length > 3){
+                    //    openHours = openHours.substring(0,3);
+                    //}
+
+                    // if account has more than 100 open tickets then sub 99+
+                    if(openTickets > 100)
+                    {
+                        openTickets = "99";
+                        activeAccount = "<ul class='tableRows clickme' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1 overflowTickets'>" + openTickets + "<sup>+</sup></div></li></ul>";
+                        $(activeAccount).appendTo(parent);
+                        //localDashAccounts.push(activeAccount);
+                    }else{
+                        activeAccount = "<ul class='tableRows' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1' >" + openTickets + "</div></li></ul>";
+                        $(activeAccount).appendTo(parent);
+                    }
+                    dashAccounts.push(activeAccount);
+                }
+            */
         }
     };
-    
+
     $(document).on("click",".timelog", function(){
         localStorage.setItem('timeNumber', $(this).attr("data-info")); //set local storage variable to the ticket id of the ticket block from the ticket list
         window.location = "edit_time.html"; // change page location from ticket list to ticket detail list
@@ -2849,12 +2944,12 @@ $(document).ready(function(){
             }
             */
             getApi('time', {"limit" : 200}).then(function(returnData) {
-                    $("#timelogs").empty();
-                    if (returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Timelogs</h1>';
-                        $(insert).appendTo("#timelogs");
-                    }
-                    else{
+                $("#timelogs").empty();
+                if (returnData.length < 1){
+                    var insert = '<h1 class="noTicketMessage">No Timelogs</h1>';
+                    $(insert).appendTo("#timelogs");
+                }
+                else{
                     //add timelogs to list
                     for(var i = 0; i < returnData.length; i++)
                     {
@@ -2882,17 +2977,17 @@ $(document).ready(function(){
                             reveal();
                         //localTimelogs.push(log);
                     }
-                    }
+                }
                 createSpan("#timelogs");
                 reveal();
                 //localStorage.setItem("storageTimeLogs",LZString.compressToUTF16(JSON.stringify(localTimelogs)));
                 if (returnData.length > 1)
                     filterList("timelogs");
-                },
-                function() {
-                    console.log("fail @ timelogs");
-                }
-            );
+            },
+                                                 function() {
+                console.log("fail @ timelogs");
+            }
+                                                );
         }
     };
 
@@ -2900,15 +2995,7 @@ $(document).ready(function(){
     // calls and methods to propagate the account details page
     var accountDetailsPageSetup = {
         init:function() {
-            this.clickedAccount();
             this.pageSetup();
-        },
-        // when an account is clicked from the active accounts list & account list page, save the account id & set window location to account_details.html
-        clickedAccount: function() {
-            $(document).on("click",'.tableRows, .listedAccount', function(){
-                localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
-                window.location = "account_details.html";
-            });
         },
 
         pageSetup: function() {
@@ -3049,33 +3136,33 @@ $(document).ready(function(){
             if (!accountId)
                 accountId = -1;
             getApi("time?account=" + accountId).then(function(returnData) {
-                    //console.log(returnData);
-                    $("#accountLogs").empty();
-                    //add timelogs to log list
-                    for(var i = 0; i < returnData.length; i++)
+                //console.log(returnData);
+                $("#accountLogs").empty();
+                //add timelogs to log list
+                for(var i = 0; i < returnData.length; i++)
+                {
+                    var email = $.md5(returnData[i].user_email);
+                    var text = returnData[i].note;
+                    // check for two decimals
+                    var hours = returnData[i].hours;
+                    hours =hours.toString();
+                    if(hours.indexOf(".") < 0)
                     {
-                        var email = $.md5(returnData[i].user_email);
-                        var text = returnData[i].note;
-                        // check for two decimals
-                        var hours = returnData[i].hours;
-                        hours =hours.toString();
-                        if(hours.indexOf(".") < 0)
-                        {
-                            hours = hours+".00";
-                        }
-                        text = createElipse(text, .50, 8);
-                        var nameCheck = returnData[i].user_name;
-                        nameCheck = createElipse(nameCheck, .50, 12);
-                        var log = "<li><ul class='timelog' data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
-                        $(log).appendTo("#accountLogs");
+                        hours = hours+".00";
                     }
-
-                },
-                function() {
-                    console.log("fail @ timelogs");
-                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    text = createElipse(text, .50, 8);
+                    var nameCheck = returnData[i].user_name;
+                    nameCheck = createElipse(nameCheck, .50, 12);
+                    var log = "<li><ul class='timelog' data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
+                    $(log).appendTo("#accountLogs");
                 }
-            );
+
+            },
+                                                     function() {
+                console.log("fail @ timelogs");
+                //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+            }
+                                                    );
         }
     };
 
@@ -3111,8 +3198,11 @@ $(document).ready(function(){
                 var allTickets = returnData.open_all;
                 //if ticket count is greater than 100 sub 99+
                 if(allTickets > 100){
-                    allTickets = "99<div class='overflowTickets headerOverflowTickets'><p class='headerOverflowTicketsP'>+</p></div>";
-                    //$("all").addClass("toManyTks");
+                    allTickets = "99<sup>+</sup>";
+                }
+                else
+                {
+                    $("#all").removeClass("headerOverflowTickets");
                 }
                 // update each notification ticker on the dashboard
                 $("#all").html(allTickets);
@@ -3182,151 +3272,7 @@ $(document).ready(function(){
             //logout(j.url !== ApiSite + "login", e);
             //}, 1000);
         }
-                             );
-    };
-
-    // get queues for the organization and list a max of 3 to the dashboard
-    var getQueueList = function() {
-        var hasLocalData = false;
-        var localDashQueues =[];
-        var retrievedObject = localStorage.getItem("dashQueues");
-        retrievedObject = JSON.parse(retrievedObject);
-
-        if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
-            console.log("could not load local data")
-        }
-        else
-        {
-            for(var c = 0; c < retrievedObject.length; c++)
-            {
-                var localInsertQueue = retrievedObject[c];
-                $(localInsertQueue).prependTo("#DashBoradQueues");
-            }
-            reveal();
-        }
-        $.ajax({
-            type: 'GET',
-            beforeSend: function (xhr) {
-                xhr.withCredentials = true;
-                xhr.setRequestHeader('Authorization',
-                                     'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-            },
-
-            url:ApiSite +"queues?sort_by=tickets_count",
-            dataType:"json",
-            cache: true,
-            success: function(returnData) {
-                //console.log(returnData);
-                $("#DashBoradQueues").empty();
-                var dashQueues = 0;
-                for( var i = 0; i < returnData.length; i++)
-                {
-                    if(returnData[i].tickets_count > 0 && dashQueues < 3 )
-                    {
-                        if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
-                            localStorage.badge = returnData[i].tickets_count;
-                        var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
-                        $(insertQueue).prependTo("#DashBoradQueues");
-                        localDashQueues.push(insertQueue);
-                        dashQueues++;
-                        localStorage.setItem("dashQueues",JSON.stringify(localDashQueues));
-                    }
-
-                }
-
-                hasLocalData = true;
-
-            },
-            complete:function(){
-                reveal();
-            },
-            error: function() {
-                console.log("fail");
-                console.log(userOrgKey + '-' + userInstanceKey +':'+userKey);(userOrg);
-            }
-
-        });
-    };
-
-    //get accounts that have open tickets and list them in active accounts container on the Dashboard
-    var getActiveAccounts = function() {
-        $(document).on("click",'.tableRows, .listedAccount', function(){
-            localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
-            window.location = "account_details.html";
-        });
-        //propagate page with data from last Ajax Call
-        var dashAccounts =[];
-        var retrievedObjectTwo = localStorage.getItem("localDashAccounts");
-        retrievedObjectTwo = JSON.parse(retrievedObjectTwo);
-        if (retrievedObjectTwo == undefined || retrievedObjectTwo == null || retrievedObjectTwo.length == 0){
-            console.log("could not load local data")
-        }
-        else
-        {
-            var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tkts</li></ul>";
-            $(tableHeader).prependTo("#activeList");
-            for(var a = 0; a < retrievedObjectTwo.length; a++){
-                localActiveAccount = retrievedObjectTwo[a];
-                $(localActiveAccount).appendTo("#activeList");
-            }
-                reveal();
-        }
-        $.ajax({
-            type: 'GET',
-            beforeSend: function (xhr) {
-                xhr.withCredentials = true;
-                xhr.setRequestHeader('Authorization',
-                                     'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-            },
-
-            url:ApiSite +"accounts?limit=300&query=account_statistics.ticket_counts.open>0",
-            dataType:"json",
-            cache: true,
-            success: function(returnData) {
-                $("#activeList").empty();
-                //insert for  the header of the active account table
-                var tableHeader = "<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tkts</li></ul>";
-                $(tableHeader).prependTo("#activeList");
-                //console.log(returnData);
-                //add accounts to the active accounts list
-                var activeLength = returnData.length;
-                //if(returnData.length > 7){activeLength = 7;}
-                var activeAccount;
-                for (var i = 0; i < activeLength; i++)
-                {
-                    var openTickets = returnData[i].account_statistics.ticket_counts.open;
-                    var openHours = returnData[i].account_statistics.hours;
-                    var nameCheck = returnData[i].name;
-                    nameCheck = createElipse(nameCheck, .30, 12);
-                    if(openHours > 999){
-                        openHours = 999;
-                    }
-                    openHours = openHours.toString();
-                    //if(openHours.length > 3){
-                    //    openHours = openHours.substring(0,3);
-                    //}
-
-                    // if account has more than 100 open tickets then sub 99+
-                    if(openTickets > 100)
-                    {
-                        openTickets = "99";
-                        activeAccount = "<ul class='tableRows clickme' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1' >" + openTickets + "<div class='overflowTickets'><p>+</p></div></div></li></ul>";
-                        $(activeAccount).appendTo("#activeList");
-                        //localDashAccounts.push(activeAccount);
-                    }else{
-                        activeAccount = "<ul class='tableRows' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1' >" + openTickets + "</div></li></ul>";
-                        $(activeAccount).appendTo("#activeList");
-                    }
-                    dashAccounts.push(activeAccount);
-                }
-                localStorage.setItem('localDashAccounts', JSON.stringify(dashAccounts));
-
-            },
-            error: function() {
-                console.log("fail @ get getTicketCount");
-                console.log(userOrgKey + '-' + userInstanceKey +':'+userKey);(userOrg);
-            }
-        });
+     );
     };
 
     var userInfo = {
@@ -3414,15 +3360,11 @@ $(document).ready(function(){
                         localStorage.setItem('sd_is_MultipleOrgInst', 'true');
                         var orglistitem = results;
                         for (var i = 0; i < orglistitem.length; i++) {
-                            $('#orgSelect')
-                            .append($("<option></option>")
-                                    .attr("value", i)
-                                    .text(orglistitem[i].name));
+                            var insert = "<li class=item><div id='org' data-id="+i+" class='OptionWrapper1'><h3 class='OptionTitle user_name'>"+orglistitem[i].name+"</h3></div></li>";
+                            $('#orgsPage').append(insert);
                         }
-                        $('#orgSelect')
-                        // listen for org selection
-                        .change(function () {
-                            var index_number = this.value;
+                        $(document).on("click","#org", function () {
+                            var index_number = $(this).attr("data-id");
                             userOrgKey = results[index_number].key;
                             userOrg = results[index_number].name;
                             var instances = results[index_number].instances;
@@ -3442,19 +3384,20 @@ $(document).ready(function(){
                             }
                             else {
                                 // If there is MORE than one instance on the selected org
-                                $('#instSelect').find('option:gt(0)').remove();
+                                //$("p[class!='intro']") 
+                                $("div.OptionWrapper1[data-id!='"+index_number+"']").parent().remove()
+                                //$('#orgsPage').find('option:gt(0)').remove();
                                 for (var i = 0; i < instances.length; i++) {
-                                    $('#instSelect')
-                                    .append($("<option></option>")
-                                            .attr("value", i)
-                                            .text(instances[i].name));
+                                    var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle user_name'>"+instances[i].name+"</h3></div></li>";
+                                    $('#instsPage').append(insert);
                                 }
                                 $('.instSelect').show();
                                 // listen for Instance selection
-                                $('#instSelect').change(function () {
-                                    var userInstanceKey = instances[this.value].key;
+                                $(document).on("click","#inst", function () {
+                                    var userInstanceKey = instances[$(this).attr("data-id")].key;
                                     localStorage.setItem('userInstanceKey', userInstanceKey);
                                     localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+                                    $("#loading").show();
                                     getInstanceConfig(userOrgKey, userInstanceKey);
                                 });
                             };
@@ -3468,10 +3411,8 @@ $(document).ready(function(){
                         localStorage.setItem('userOrgKey', userOrgKey);
                         localStorage.setItem('sd_is_MultipleOrgInst', 'false');
                         localStorage.setItem('userOrg', userOrg);
-                        $('#orgSelect').append($("<option></option>")
-                                .attr("value", 0)
-                                .text(results[0].name));
-                        $('#orgSelect').val(0);
+                        var insert = "<li class=item><div id='org' data-id=0 class='OptionWrapper1'><h3 class='OptionTitle user_name'>"+results[0].name+"</h3></div></li>";
+                        $('#orgsPage').append(insert);
                         //location.reload(true);
                         var instances = results[0].instances;
                         // If there is only one instance on the selected org
@@ -3482,19 +3423,17 @@ $(document).ready(function(){
                         }
                         else {
                             // If there is MORE than one instance on the selected org
-                            $('#instSelect').find('option:gt(0)').remove();
                             for (var i = 0; i < instances.length; i++) {
-                                $('#instSelect')
-                                .append($("<option></option>")
-                                        .attr("value", i)
-                                        .text(instances[i].name));
+                                var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle user_name'>"+instances[i].name+"</h3></div></li>";
+                                $('#instsPage').append(insert);
                             }
                             $('.instSelect').show();
                             // listen for Instance selection
-                            $('#instSelect').change(function () {
-                                userInstanceKey = instances[this.value].key;
+                            $(document).on("click","#inst", function () {
+                                var userInstanceKey = instances[$(this).attr("data-id")].key;
                                 localStorage.setItem('userInstanceKey', userInstanceKey);
                                 localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+                                $("#loading").show();
                                 getInstanceConfig(userOrgKey, userInstanceKey);
                             });
                         };
@@ -3569,7 +3508,8 @@ $(document).ready(function(){
                 localStorage.setItem('ticketPage','allTickets');
                 window.location = "ticket_list.html";
             });
-            $(document).on('click', '#addAccountTicket', function() {
+            $(document).on('click', '#addAccountTicket', function(e) {
+                //e.preventDefault();
                 var ticketAccount = localStorage.getItem('DetailedAccount');
                 console.log(ticketAccount);
                 localStorage.setItem('addAccountTicket', ticketAccount);
@@ -3625,11 +3565,245 @@ $(document).ready(function(){
                 function()
                 {
                     $(messageEl).slideUp(100);
-if(typeof func === 'function')
-    func();
+                    if(typeof func === 'function')
+                        func();
                 }, 3500);
         }
     };
+
+    function routing(){
+        if (localStorage.getItem('userRole') === "tech")
+            isTech = true;
+        if (localStorage.getItem('projectTracking') === "false")
+            isProject = false;
+        if (localStorage.getItem('timeTracking') === "false")
+            isTime = false;
+        if (localStorage.getItem('accountManager') === "false")
+            isAccount = false;
+        if (localStorage.getItem('ticketLevels') === "false")
+            isLevel = false;
+        if (localStorage.getItem('classTracking') === "false")
+            isClass = false;
+        if (localStorage.getItem('locationTracking') === "false")
+            isLocation = false;
+        if (localStorage.getItem('freshbooks') === "false")
+            isFreshbook = false;
+        if (localStorage.getItem('is_invoice') === "false")
+            isInvoice = false;
+        if (localStorage.getItem('is_expenses') === "false")
+            isExpenses = false;
+        if (localStorage.getItem('is_travel_costs') === "false")
+            isTravelCosts = false;
+        if (localStorage.getItem('sd_is_MultipleOrgInst') === "false")
+        {
+            is_MultipleOrgInst = false;
+            $("#switchOrg").hide();
+        }
+        else
+            $("#switchOrg").show();
+        if (!isTime)
+            $(".time").remove();
+        //refresh version
+        if (localStorage.appVersion !== appVersion)
+        {
+            localStorage.setItem("appVersion", appVersion);
+            console.log("Version updated to " + appVersion);
+            if (adMessage.length > 1)
+            {
+                setTimeout(function(){
+                    userMessage.showMessage(true, adMessage, function(){
+                        localStorage.setItem("storageQueues", "");
+                        localStorage.setItem("storageAccountList", "");
+                        //location.reload(true);
+                    });}, 3000);
+            }
+            else
+                location.reload(true);
+            //return;
+        }
+        fullapplink();
+        if (typeof navigator.splashscreen !== 'undefined') 
+            navigator.splashscreen.hide();
+        //Disable for user
+        if (!isTech){
+            $(".sideNavLinks").children(":not('.user')").hide();
+        }
+        //Only for tech
+        else{
+            if(!isAccount)
+                $("#itemAccount").parent().hide();
+            if(!isInvoice)
+            { 
+                $("#itemInvoice").hide();
+                $("#invoiceFooter").hide();
+                $("#invoiceFooter").next().hide();
+            }
+            //conditional api calls determined by page
+            if (location.pathname.endsWith("dashboard.html"))
+            {
+                localStorage.DetailedAccount = '';
+                var orgName = localStorage.getItem('userOrg');
+                if (orgName)
+                    $("#indexTitle").html(orgName);
+                getTicketCount();
+                getQueues.init("#DashBoradQueues", 3);
+                if(isAccount)
+                    accountList.init("#activeList", 1);
+                search.init();
+                //reveal();
+                return;
+            }
+            if (location.pathname.endsWith("account_details.html"))
+            {
+                if (!isAccount) window.location = "dashboard.html";
+                else
+                {
+                    if(!isInvoice) $("#invoiceOption").parent().remove();
+                    accountDetailsPageSetup.init();
+                    //detailedTicket.init();
+                    closedTickets.pageChange();
+                }
+                return;
+            }
+            if (location.pathname.endsWith("Account_List.html"))
+            {
+                if (!isAccount) window.location = "dashboard.html";
+                else
+                {
+                    localStorage.DetailedAccount = '';
+                    accountList.init("#fullList");
+                }
+                return;
+            }
+            if (location.pathname.endsWith("timelog.html"))
+            {if (!isTime) window.location = "dashboard.html";
+             else
+             {
+                 //accountTimeLogs.init();
+                 timeLogs.init();
+                 //addTime.init();
+             }
+             return;
+            }
+            if (location.pathname.endsWith("accountTimes.html"))
+            {
+                if (!isTime || !isAccount) window.location = "dashboard.html";
+                else
+                {
+                    accountTimeLogs.init();
+                    //timeLogs.init();
+                }
+                return;
+            }
+            if (location.pathname.endsWith("allInvoice_List.html"))
+            {
+                if (!isTime || !isInvoice) window.location = "dashboard.html";
+                else
+                {
+                    invoiceList.init();
+                }
+                return;
+            }
+            else if (location.pathname.endsWith("Invoice_List.html"))
+            {
+                if (!isTime || !isInvoice) window.location = "dashboard.html";
+                else
+                {
+                    invoiceList.init(localStorage.getItem("DetailedAccount"));
+                }
+                return;
+            }
+            if (location.pathname.endsWith("invoice.html"))
+            {
+                if (!isTime || !isInvoice) window.location = "dashboard.html";
+                else
+                {
+                    detailedInvoice.init();
+                    sendInvoice.init();
+                    addRecip.init();
+                }
+                return;
+            }
+            if (location.pathname.endsWith("Queues.html"))
+            {
+                getQueues.init("#queuesPage");
+                return;
+            }
+            if (location.pathname.endsWith("queueTickets.html"))
+            {
+                getQueueTickets.init();
+                return;
+            }
+        }
+        if (location.pathname.endsWith("ticket_list.html"))
+        {
+            ticketList.init();
+            //accountDetailsPageSetup.init();
+            return;
+
+        }
+        if (location.pathname.endsWith("ticket_detail.html"))
+        {
+            detailedTicket.init();
+            pickUpTicket.init();
+            transferTicket.init();
+            closeTicket.init();
+            //addTime.init();
+            postComment.init();
+            return;
+        }
+        if (location.pathname.endsWith("closedTickets.html"))
+        {
+            // detailedTicket.init();
+            closedTickets.init();
+            return;
+        }
+        $("#loading").show();
+        if (location.pathname.endsWith("addTicketTime.html"))
+        {
+            if (isTime) { addTime.init();}
+            else window.location = "dashboard.html";
+            return;
+
+        }
+        if (location.pathname.endsWith("add_tickets.html"))
+        {
+            //window.location.replace(document.referrer);
+            newTicket.init();
+            //accountTimeLogs.init();
+            return;
+        }
+        if (location.pathname.endsWith("add_time.html"))
+        {
+            if (!isTime) window.location = "dashboard.html";
+            else
+            {
+                //window.location.replace(document.referrer);
+                addTime.init();
+            }
+            return;
+        }
+        if (location.pathname.endsWith("addExpence.html"))
+        {
+            if (!isExpenses) window.location = "dashboard.html";
+            else
+            {
+                //window.location.replace(document.referrer);
+                addExpence.init();
+            }
+            return;
+        }
+        if (location.pathname.endsWith("edit_time.html"))
+        {
+            if (!isTime) window.location = "dashboard.html";
+            else
+            {
+                //window.location.replace(document.referrer);
+                addTime.init(true);
+            }
+            return;
+        }
+    }
 
     //Main Method that calls all the functions for the app
     (function () {
@@ -3647,12 +3821,16 @@ if(typeof func === 'function')
             var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
                 parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
             if (updateStatusBar) {
-                document.getElementsByTagName("header")[0].style.paddingTop = "10px";
-                document.getElementsByTagName("header")[0].style.height = "63px";
-                document.getElementById("ptr").style.marginTop = "10px";
-                $('body').css('margin-top', function (index, curValue) {
-                    return parseInt(curValue, 10) + 10 + 'px';
-                });
+                var t=document.getElementsByTagName("header")[0];
+                if (t){
+                    t.style.paddingTop = "10px";
+                    t.style.height = "63px";
+                    $('body').css('margin-top', function (index, curValue) {
+                        return parseInt(curValue, 10) + 10 + 'px';
+                    });
+                }
+                t = document.getElementById("ptr");
+                if (t){t.style.marginTop = "10px";}
             }
             //set the name of the nav side menu
             //$(".navName").html(localStorage.getItem("userFullName"));
@@ -3663,216 +3841,18 @@ if(typeof func === 'function')
             signout.init();
             miscClicks.init();
             //init config
-            getInstanceConfig("","",false, function(){
-                if (localStorage.getItem('userRole') === "tech")
-                    isTech = true;
-                if (localStorage.getItem('projectTracking') === "false")
-                    isProject = false;
-                if (localStorage.getItem('timeTracking') === "false")
-                    isTime = false;
-                if (localStorage.getItem('accountManager') === "false")
-                    isAccount = false;
-                if (localStorage.getItem('ticketLevels') === "false")
-                    isLevel = false;
-                if (localStorage.getItem('classTracking') === "false")
-                    isClass = false;
-                if (localStorage.getItem('locationTracking') === "false")
-                    isLocation = false;
-                if (localStorage.getItem('freshbooks') === "false")
-                    isFreshbook = false;
-                if (localStorage.getItem('is_invoice') === "false")
-                    isInvoice = false;
-                if (localStorage.getItem('is_expenses') === "false")
-                    isExpenses = false;
-                if (localStorage.getItem('is_travel_costs') === "false")
-                    isTravelCosts = false;
-                if (localStorage.getItem('sd_is_MultipleOrgInst') === "false")
-                {
-                    is_MultipleOrgInst = false;
-                    $("#switchOrg").hide();
-                }
-                else
-                    $("#switchOrg").show();
-
-                //refresh version
-                if (localStorage.appVersion !== appVersion)
-                {
-                    localStorage.setItem("appVersion", appVersion);
-                    console.log("Version updated to " + appVersion);
-                    if (adMessage.length > 1)
-                    {
-                        setTimeout(function(){
-                    userMessage.showMessage(true, adMessage, function(){
-                    //location.reload(true);
-                    });}, 3000);
-                    }
-                    else
-                        location.reload(true);
-                    //return;
-                }
-                //Disable for user
-                if (!isTech){
-                    $(".sideNavLinks").children(":not('.user')").hide();
-                }
-                //Only for tech
-                else{
-                    if(!isAccount)
-                        $("#itemAccount").parent().hide();
-                    if(!isInvoice)
-                    { 
-                        $("#itemInvoice").hide();
-                        $("#invoiceFooter").hide();
-                        $("#invoiceFooter").next().hide();
-                    }
-                    //conditional api calls determined by page
-                    if (location.pathname.endsWith("dashboard.html"))
-                    {
-                        var orgName = localStorage.getItem('userOrg');
-                        if (orgName)
-                            $("#indexTitle").html(orgName);
-                        getTicketCount();
-                        getQueueList();
-                        //getQueues.init();
-                        if(isAccount)
-                            getActiveAccounts();
-                        search.init();
-                        //reveal();
-                    }
-                    $("#loading").show();
-                    if (location.pathname.endsWith("account_details.html"))
-                    {
-                        if (!isAccount) window.location = "dashboard.html";
-                        else
-                        {
-                            if(!isInvoice) $("#invoiceOption").parent().remove();
-                            accountDetailsPageSetup.init();
-                            //detailedTicket.init();
-                            closedTickets.pageChange();
-                        }
-                    }
-                    if (location.pathname.endsWith("Account_List.html"))
-                    {
-                        if (!isAccount) window.location = "dashboard.html";
-                        else
-                        {
-                            accountList.init();
-                        }
-                    }
-                    if (location.pathname.endsWith("addTicketTime.html"))
-                    {
-                        if (isTime) addTime.init();
-                        else window.location = "dashboard.html";
-
-                    }
-                    if (location.pathname.endsWith("timelog.html"))
-                    {if (!isTime) window.location = "dashboard.html";
-                     else
-                     {
-                         //accountTimeLogs.init();
-                         timeLogs.init();
-                         //addTime.init();
-                     }
-                    }
-                    if (location.pathname.endsWith("accountTimes.html"))
-                    {
-                        if (!isTime || !isAccount) window.location = "dashboard.html";
-                        else
-                        {
-                            accountTimeLogs.init();
-                            //timeLogs.init();
-                        }
-                    }
-                    if (location.pathname.endsWith("allInvoice_List.html"))
-                    {
-                        if (!isTime || !isInvoice) window.location = "dashboard.html";
-                        else
-                        {
-                            invoiceList.init();
-                        }
-                    }
-                    else if (location.pathname.endsWith("Invoice_List.html"))
-                    {
-                        if (!isTime || !isInvoice) window.location = "dashboard.html";
-                        else
-                        {
-                            invoiceList.init(localStorage.getItem("DetailedAccount"));
-                        }
-
-                    }
-                    if (location.pathname.endsWith("invoice.html"))
-                    {
-                        if (!isTime || !isInvoice) window.location = "dashboard.html";
-                        else
-                        {
-                            detailedInvoice.init();
-                            sendInvoice.init();
-                            addRecip.init();
-                        }
-                    }
-                    if (location.pathname.endsWith("Queues.html"))
-                    {
-                        getQueues.init();
-                    }
-                    if (location.pathname.endsWith("queueTickets.html"))
-                    {
-                        getQueueTickets.init();
-                    }
-                }
-                if (location.pathname.endsWith("ticket_list.html"))
-                {
-                    ticketList.init();
-                    //accountDetailsPageSetup.init();
-
-                }
-                if (location.pathname.endsWith("ticket_detail.html"))
-                {
-                    detailedTicket.init();
-                    pickUpTicket.init();
-                    transferTicket.init();
-                    closeTicket.init();
-                    //addTime.init();
-                    postComment.init();
-                }
-                if (location.pathname.endsWith("closedTickets.html"))
-                {
-                    // detailedTicket.init();
-                    closedTickets.init();
-                }
-                if (location.pathname.endsWith("add_tickets.html"))
-                {
-                    newTicket.init();
-                    //accountTimeLogs.init();
-                }
-                if (location.pathname.endsWith("add_time.html"))
-                {
-                    if (!isTime) window.location = "dashboard.html";
-                    else
-                    {
-                        addTime.init();
-                    }
-                }
-                if (location.pathname.endsWith("addExpence.html"))
-                {
-                    if (!isExpenses) window.location = "dashboard.html";
-                    else
-                    {
-                        addExpence.init();
-                    }
-                }
-                if (location.pathname.endsWith("edit_time.html"))
-                {
-                    if (!isTime) window.location = "dashboard.html";
-                    else
-                    {
-                        addTime.init(true);
-                    }
-                }
-                fullapplink();
-                if (typeof navigator.splashscreen !== 'undefined') 
-                    navigator.splashscreen.hide();
-                if (!isTime)
-                    $(".time").remove();
-            });
+            //refresh version
+            if (!localStorage.lastclick)
+            {
+                localStorage.lastclick = new Date();
+            }
+            else if (((new Date()).valueOf() - Date.parse(localStorage.lastclick).valueOf()) / 60 > 1200)
+            {
+                localStorage.lastclick = new Date();
+                getInstanceConfig("","",false, routing);
+                return;
+            }
+            routing();
         }
     }());
 

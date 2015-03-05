@@ -13,6 +13,8 @@
   width: 95%;
   margin: 0 auto;
 }
+    
+#date_start, #date_end {width: 49.5% !important}
 
 .dashboard {
   background: rgba(0,0,0, .4);
