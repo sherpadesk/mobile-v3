@@ -1,7 +1,7 @@
 /*global jQuery, $ */
 
-var appVersion = "15";
-var adMessage = "Speed improvements";
+var appVersion = "16";
+var adMessage = "Cache improvements";
 
 
 //Root Names
@@ -2495,70 +2495,58 @@ $(document).ready(function(){
 
     // get complete queue list for the orginization for the Queues list page
     var getQueues = {
-        init:function() {
-            this.queues();
-        },
-
-        queues:function() {
+        init:function(parent, limit) {
             $(document).on("click","#queue", function(){
                 localStorage.setItem('currentQueue',$(this).attr("data-id"));
                 localStorage.setItem('currentQueueName',$(this).find(".OptionTitle").text());
                 window.location = "queueTickets.html";
             });
-            var localQueues = [];
+            this.queues(limit, parent);
+        },
+
+        queues:function(limit, parent) {
             var retrievedObject = localStorage.getItem("storageQueues");
+            var time = 5000;
             retrievedObject = JSON.parse(retrievedObject);
             if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
             {
                 console.log("could not load local data")
+                time = 10;
             }
             else
             {
-                for(var a = 0; a < retrievedObject.length; a++)
-                {
-                    localInsert = retrievedObject[a];
-                    $(localInsert).appendTo("#queuesPage");
-                    reveal();
-                }
+                getQueues.createQueuesList(parent, retrievedObject, limit);
+                createSpan(parent);
             }
-            $.ajax({
-                type: 'GET',
-                beforeSend: function (xhr) {
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization',
-                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                },
-
-                url:ApiSite +"queues",
-                dataType:"json",
-                success: function(returnData) {
-                    //console.log(returnData);
-                    $("#queuesPage").empty();
-                    // add queues to the queues list
-                    var badge=0;
-                    for(var i = 0; i < returnData.length; i++)
-                    {
-                        if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
-                            badge = returnData[i].tickets_count;
-                        var insert = "<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
-                        $(insert).appendTo("#queuesPage");
-                        localQueues.push(insert);
-                    }
-                    localStorage.badge = badge;
-                    createSpan("#queuesPage");
-                    localStorage.setItem("storageQueues",JSON.stringify(localQueues));
-
-                },
-                complete:function(){
+            setTimeout(
+                getApi("queues", {"sort_by" : "tickets_count"}).then(function(returnData) {
+                //console.log(returnData);
+                    getQueues.createQueuesList(parent, returnData, limit);
+                    localStorage.setItem("storageQueues",JSON.stringify(returnData));
                     reveal();
-                    filterList("OptionsList");
+                    if (!limit) {createSpan(parent);filterList("OptionsList");}
                 },
-                error: function() {
+                function() {
                     console.log("fail @ Queues List");
-                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
-            });
+            ), time);
+        },
+        
+        createQueuesList : function (parent, returnData, limit){
+        $(parent).empty();
+        // add queues to the queues list
+        var badge=0;
+        for(var i = 0; i < returnData.length; i++)
+        {
+        if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
+        badge = returnData[i].tickets_count;
+        var insert = "<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
+        $(insert).appendTo(parent);
+            if (limit && i>= limit)
+                break;
         }
+        localStorage.badge = badge;
+    }
     };
 
     // Ajax calls to get open tickets for the app user, tickets include (as tech, as user, as alt tech, all tickets)
@@ -3280,70 +3268,6 @@ $(document).ready(function(){
                              );
     };
 
-    // get queues for the organization and list a max of 3 to the dashboard
-    var getQueueList = function() {
-        var hasLocalData = false;
-        var localDashQueues =[];
-        var retrievedObject = localStorage.getItem("dashQueues");
-        retrievedObject = JSON.parse(retrievedObject);
-
-        if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
-            console.log("could not load local data")
-        }
-        else
-        {
-            for(var c = 0; c < retrievedObject.length; c++)
-            {
-                var localInsertQueue = retrievedObject[c];
-                $(localInsertQueue).prependTo("#DashBoradQueues");
-            }
-            reveal();
-        }
-        $.ajax({
-            type: 'GET',
-            beforeSend: function (xhr) {
-                xhr.withCredentials = true;
-                xhr.setRequestHeader('Authorization',
-                                     'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-            },
-
-            url:ApiSite +"queues?sort_by=tickets_count",
-            dataType:"json",
-            cache: true,
-            success: function(returnData) {
-                //console.log(returnData);
-                $("#DashBoradQueues").empty();
-                var dashQueues = 0;
-                var badge=0;
-                for( var i = 0; i < returnData.length; i++)
-                {
-                    if(returnData[i].tickets_count > 0 && dashQueues < 3 )
-                    {
-                        if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
-                            badge = returnData[i].tickets_count;
-                        var insertQueue = "<li id='queue' data-id="+returnData[i].id+"><div class='OptionWrapper'><h3 class='OptionTitle'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>";
-                        $(insertQueue).prependTo("#DashBoradQueues");
-                        localDashQueues.push(insertQueue);
-                        dashQueues++;
-                        localStorage.setItem("dashQueues",JSON.stringify(localDashQueues));
-                    }
-
-                }
-                localStorage.badge = badge;
-                hasLocalData = true;
-
-            },
-            complete:function(){
-                reveal();
-            },
-            error: function() {
-                console.log("fail");
-                console.log(userOrgKey + '-' + userInstanceKey +':'+userKey);(userOrg);
-            }
-
-        });
-    };
-
     //get accounts that have open tickets and list them in active accounts container on the Dashboard
     var getActiveAccounts = function() {
         $(document).on("click",'.tableRows, .listedAccount', function(){
@@ -3762,6 +3686,7 @@ if(typeof func === 'function')
             {
                 setTimeout(function(){
                     userMessage.showMessage(true, adMessage, function(){
+                        localStorage.setItem("storageQueues", "");
                         //location.reload(true);
                     });}, 3000);
             }
@@ -3794,8 +3719,7 @@ if(typeof func === 'function')
                 if (orgName)
                     $("#indexTitle").html(orgName);
                 getTicketCount();
-                getQueueList();
-                //getQueues.init();
+                getQueues.init("#DashBoradQueues", 3);
                 if(isAccount)
                     getActiveAccounts();
                 search.init();
@@ -3875,7 +3799,7 @@ if(typeof func === 'function')
             }
             if (location.pathname.endsWith("Queues.html"))
             {
-                getQueues.init();
+                getQueues.init("#queuesPage");
                 return;
             }
             if (location.pathname.endsWith("queueTickets.html"))

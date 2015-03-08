@@ -1326,27 +1326,27 @@ header {
 
 .errorMessageNeg {
   width: 100%;
-  height: 55px;
+  height: 63px;
   background-color: rgba(228, 49, 49, 0.86);
   color: rgba(253, 250, 250, 1);
   text-align: center;
   position: absolute;
   top: 0px;
   left: 0%;
-  padding-top: 13px;
+  padding-top: 18px;
   z-index: 5;
   display: none;
 }
 .errorMessagePos {
   width: 100%;
-  height: 55px;
+  height: 63px;
   background-color: rgba(75, 178, 77, 0.89);
   color: rgba(253, 250, 250, 1);
   text-align: center;
   position: absolute;
   top: 0px;
   left: 0%;
-  padding-top: 13px;
+  padding-top: 18px;
   z-index: 5;
   display: none;
 }

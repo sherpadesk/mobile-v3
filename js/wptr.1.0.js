@@ -141,8 +141,10 @@ var WebPullToRefresh = (function () {
 		setTimeout( function() {
 			// Once actual loading is complete, reset pull to refresh
 			//loadingPromise.then( _doReset );
+            localStorage.setItem("storageQueues", "");
+            localStorage.setItem("storageAccountList", "");
             location.reload(false);
-		}, 1000 );
+		}, 10 );
 	};
 
 	/**
