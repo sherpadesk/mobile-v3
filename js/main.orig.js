@@ -1,6 +1,6 @@
 /*global jQuery, $ */
 
-var appVersion = "17";
+var appVersion = "18";
 var adMessage = "Cache improvements";
 
 
@@ -3656,7 +3656,7 @@ $(document).ready(function(){
                     userMessage.showMessage(true, adMessage, function(){
                         localStorage.setItem("storageQueues", "");
                         localStorage.setItem("storageAccountList", "");
-                        //location.reload(true);
+                        location.reload(true);
                     });}, 3000);
             }
             else
