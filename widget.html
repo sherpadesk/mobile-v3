@@ -113,10 +113,10 @@
                 xhr.onload = function(e) { 
                     if (e.target.status == 200)
                     {
-                        form.sherpadesk_cu_submit.firstChild.data = "Processing…";
-                        //var data = JSON.parse(this.response);
-                        //alert(data);
+                        form.sherpadesk_cu_submit.firstChild.data = "Processing...";
                         console.log(e.target.response);
+                        var data = JSON.parse(e.target.response);
+                        console.log(data.url);
                     }
                     else if (e.target.status == 403)
                     {

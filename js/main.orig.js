@@ -27,7 +27,7 @@ var isTech = false,
 
 //Cache settings
 var cacheName = "", //current cache to kill on refresh
-    cacheTime = 10000; // milisecomds before cache update 
+    cacheTime = 7000; // milliseconds before cache update 
 
 function checkURL(url) {
     return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
