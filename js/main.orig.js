@@ -27,7 +27,7 @@ var isTech = false,
 
 //Cache settings
 var cacheName = "", //current cache to kill on refresh
-    cacheTime = 7000; // milliseconds before cache update 
+    cacheTime = 6000; // milliseconds before cache update 
 
 function checkURL(url) {
     return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
@@ -2429,7 +2429,7 @@ $(document).ready(function(){
             // get list of invoices for a specific account
             getApi("invoices", {"account" : accountid}).then(
                 function(returnData) {
-                    ////console.log(returnData);
+                    console.log(returnData);
                     $("#invoiceList").empty();
                     if(returnData.length == 0){
                         $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
@@ -2437,7 +2437,7 @@ $(document).ready(function(){
                         reveal();
                         return;
                     }
-                    if (accountid)
+                    else
                         returnData = [returnData];
                     for(var i = 0; i < returnData.length; i++)
                     {
@@ -2551,20 +2551,23 @@ $(document).ready(function(){
 
         createQueuesList : function (parent, returnData, limit){
             // add queues to the queues list
-            var badge=0;
+            var badge=0, activeQueues=0;
             var textToInsert =  [],
                 length = returnData.length,
                 $table = $(parent);
             for (var i = 0; i<length; i += 1) {
                 if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
                     badge = returnData[i].tickets_count;
-                if (limit && i>= limit)
+                if (limit && returnData[i].tickets_count < 1)
+                    continue;
+                if (limit && activeQueues>= limit)
                     break;
                 textToInsert.push("<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>");
 
                 if(length > 10 && i == 10){
                     $table.html(textToInsert.join(''));
                 }
+                activeQueues += 1;
             }
             $table.html(textToInsert.join(''));
             localStorage.badge = badge;

@@ -116,6 +116,7 @@
                         form.sherpadesk_cu_submit.firstChild.data = "Processing...";
                         console.log(e.target.response);
                         var data = JSON.parse(e.target.response);
+                        console.log(data);
                         console.log(data.url);
                     }
                     else if (e.target.status == 403)
@@ -343,7 +344,7 @@
                 min-width: 300px;
             }
         </style>
-        <form id="form" name="form" action="http://api.beta.sherpadesk.com/organizations?format=json">
+        <form id="form" name="form" action="http://api.sherpadesk.com/organizations?format=json">
             <div class="signup_form">
                 <div id="sherpadesk_ContactusForm" class="sherpadesk-contactus-form">
                     <div class="sherpadesk-contactus-content">
