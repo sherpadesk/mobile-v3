@@ -18,8 +18,6 @@
     <link rel="stylesheet" href="css/tablet.css" />
     <!-- Media query for large Screen -->
     <link rel="stylesheet" href="css/style_LargeScreen.css" />
-    <!-- Fonts -->
-    
     <!-- Jquery -->
     <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
     
@@ -40,26 +38,40 @@
 <header>
     <div class="headerContainer">
         <ul class="topHeader">
-            <li class="goBack"><i class="fa fa-arrow-left"></i></li>
+            <li id=goBack><i class="fa fa-arrow-left"></i></li>
             <li>
                 <h1 class="SherpaDesk">Add Expense</h1>
             </li>
             <li></li>
         </ul>
+        <div class="errorMessageNeg"><!--Please enter note --></div>
+        <div class="errorMessagePos"><!--Time was Succesfully Created :)--></div>
     </div>
 </header>
 
 <body>
   <div class="bodyContent">
     <div class="CreateInvoiceWrapper"> 
-        <input id='expenseAmount' class=" input" type="number" placeholder="Amount"></input>
-        <textarea id="expenseNote" class="textInput" type="text" placeholder="Customer Notes"></textarea>
-        <textarea id="expenseInternal" class="textInput" type="text" placeholder="Internal Notes"></textarea>
-        <div id="billem" class="billable"><div id="billem1" class="innerCircle"></div></div><span class="billTag">Billable</span>
-        <button id="addexpenseButton" class="greenButton">Add Log</button>
+        <input id='expenseAmount' class="input" type="number" placeholder="Amount"></input>
+      <div class="styledSelect">
+          <select id="timeAccounts">
+              <!-- <option value="+value+">"+task+"</option> -->
+          </select>
+      </div>
+      <div class="styledSelect">
+          <select id="timeProjects">
+              <!-- <option value="+value+">"+task+"</option> -->
+          </select>
+      </div>
+        <textarea id="expenseNote" class="textInput" type="text" placeholder="Note"></textarea>
+      <textarea id="vendor" class="textInputSmallLight" type="text" placeholder="Vendor"></textarea>
+      <textarea id="expenseInternal" class="textInputSmallLight" type="text" placeholder="Internal Notes"></textarea>
+      <div id="billem" class="billable"><div id="billem1" class="innerCircle billFill"></div></div><span class="billTag">Billable</span>
+        <button id="addexpenseButton" class="greenButton">Add Expense</button>
         </div>
     </div>
   </div>
+    <div id="loading"><div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
 </body>
 </span>
 </div>
