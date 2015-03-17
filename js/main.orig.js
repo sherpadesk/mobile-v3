@@ -27,10 +27,10 @@ var isTech = false,
 
 //Cache settings
 var cacheName = "", //current cache to kill on refresh
-    cacheTime = 6000; // milliseconds before cache update 
+    cacheTime = 4000; // milliseconds before cache update 
 
 function checkURL(url) {
-    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+    return(url.trim().match(/\.(jpeg|jpg|gif|png)$/i) != null);
 }
 
 //Phonegap specific
@@ -3040,6 +3040,8 @@ $(document).ready(function(){
     // calls and methods to propagate the account details page
     var accountDetailsPageSetup = {
         init:function() {
+            var ticketAccount = localStorage.getItem('DetailedAccount');
+            localStorage.setItem('addAccountTicket', ticketAccount);
             this.pageSetup();
         },
 
@@ -3552,13 +3554,6 @@ $(document).ready(function(){
             $(document).on('click','#allTicketsStat', function(){
                 localStorage.setItem('ticketPage','allTickets');
                 window.location = "ticket_list.html";
-            });
-            $(document).on('click', '#addAccountTicket', function(e) {
-                //e.preventDefault();
-                var ticketAccount = localStorage.getItem('DetailedAccount');
-                console.log(ticketAccount);
-                localStorage.setItem('addAccountTicket', ticketAccount);
-                window.location = 'add_tickets.html';
             });
         },
 
