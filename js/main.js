@@ -2894,9 +2894,8 @@ $(document).ready(function(){
             var accountHours = returnData.account_statistics.hours,
                 accountTickets = returnData.account_statistics.ticket_counts.open,
                 accountInvoices = returnData.account_statistics.invoices;
-            accountName = returnData.name;
             $("#AD").html(returnData.name);
-            $("#ticketsOptionTicker").html(accountTickets > 999 ? 999 : accontTickets);
+            $("#ticketsOptionTicker").html(accountTickets > 999 ? 999 : accountTickets);
             $("#invoiceOptionTicker").html(accountInvoices > 999 ? 999 : accountInvoices);
             $("#timesOptionTicker").html(accountHours > 999 ? 999 : accountHours);
         },
@@ -2936,7 +2935,7 @@ $(document).ready(function(){
             }
             else
             {
-                //console.log(retrievedObject);
+                console.log(retrievedObject);
                 accountDetailsPageSetup.createAccDetails(retrievedObject);
                 reveal();
             }
