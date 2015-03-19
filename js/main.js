@@ -2906,7 +2906,7 @@ $(document).ready(function(){
             var accountInvoices;
             var accountName;
             var retrievedObject;
-            var retrievedObjectTickets = localStorage.getItem(currentDetailedAccount+'tickets');
+            var retrievedObjectTickets = localStorage.getItem('account'+currentDetailedAccount+'tickets');
             var accountTicketsList = [];
             var match, time = cacheTime, timeTickets=cacheTime;
             var test = localStorage.getItem("storageAccountList");
@@ -2958,7 +2958,7 @@ $(document).ready(function(){
             setTimeout( function(){ 
                 getApi("tickets?status=open&account="+currentDetailedAccount).then( 
                     function(returnData) {
-                        ticketList.createTicketsList(returnData, ".AccountDetailsTicketsContainer", currentDetailedAccount);
+                        ticketList.createTicketsList(returnData, ".AccountDetailsTicketsContainer",'account'+currentDetailedAccount);
                         filterList("AccountDetailsTicketsContainer");
                     },
                     function() {
