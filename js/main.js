@@ -1,8 +1,13 @@
 /*jshint eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var appVersion = "18";
-var adMessage = "Cache improvements";
+var appVersion = "19";
+var adMessage = "Caching improoved";
+function updatedFunction ()
+{
+   localStorage.setItem("techtickets", "");   
+   location.reload(true);
+}
 
 
 //Root Names
@@ -606,15 +611,30 @@ $(document).ready(function(){
             {
                 userMessage.showMessage(true);
             }
+            var cacheName1 = "closed",
+                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                ticketList.createTicketsList(retrievedObject, "#closedTickets");
+            }
+            setTimeout(function(){
             getApi("tickets?status=closed&account="+localStorage.getItem("DetailedAccount")).then(function(returnData) {
-                ticketList.createTicketsList(returnData, "#closedTickets", "closed");
+                ticketList.createTicketsList(returnData, "#closedTickets", cacheName1);
                 filterList("closedTickets");
             },
                                                                                                   function() {
                 console.log("fail @ closed accounts tickets");
-            }
-                                                                                                 );
-        }
+            });
+            }, time); 
+    }
     };
 
     // pick up current detailed ticket
@@ -2605,20 +2625,50 @@ $(document).ready(function(){
                 page ="allContainer";
             }
             $("#techContainer, #optionsConainer, #allContainer, #userContainer").hide();
+            var cacheName1 = "tech",
+                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                ticketList.createTicketsList(retrievedObject, "#techContainer");
+            }
+            setTimeout(function(){
             getApi("tickets?status=open&limit=100&role=tech").then(function(returnData) {
                 //add tickets as tech to as tech list
-                ticketList.createTicketsList(returnData, "#techContainer", "tech");
+                ticketList.createTicketsList(returnData, "#techContainer", cacheName1);
                 featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
             },
                                                                    function() {
                 console.log("fail @ tech ticket List");
             }
-                                                                  );
+                                                                  );}, time); 
         },
         //get all tickets in this orginization
         allTickets:function() {
+            var cacheName1 = "all",
+                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                ticketList.createTicketsList(retrievedObject, "#allContainer");
+            }
+            setTimeout(function(){
             getApi("tickets?status=allopen&limit=100&query=all").then(function(returnData) {
-                ticketList.createTicketsList(returnData, "#allContainer", "all");
+                ticketList.createTicketsList(returnData, "#allContainer", cacheName1);
                 $('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
                 var ticketView = localStorage.getItem("ticketPage");
                 $("#techContainer, #optionsConainer, #allContainer, #userContainer").show();
@@ -2660,25 +2710,55 @@ $(document).ready(function(){
                                                                       function() {
                 console.log("fail @ all ticket List");
             }
-                                                                     );
+                                                                     );}, time); 
         },
 
         // get alt tech tickets
         altTickets:function() {
+            var cacheName1 = "alt",
+                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                ticketList.createTicketsList(retrievedObject, "#altContainer");
+            }
+            setTimeout(function(){
             getApi("tickets?status=open&limit=100&role=alt_tech").then(function(returnData){
-                ticketList.createTicketsList(returnData, "#altContainer", "alt");
+                ticketList.createTicketsList(returnData, "#altContainer", cacheName1);
                 featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
             },
                                                                        function() {
                 console.log("fail @ alt ticket List");
             }
-                                                                      );
+                                                                      );}, time); 
         },
         // get as user tickets
         userTickets:function() {
             $("maxSize").hide();
+            var cacheName1 = "user",
+                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                ticketList.createTicketsList(retrievedObject, "#userContainer");
+            }
+            setTimeout(function(){
             getApi("tickets?status=open,onhold&limit=100&role=user").then(function(returnData) {
-                ticketList.createTicketsList(returnData, "#userContainer", "tech");
+                ticketList.createTicketsList(returnData, "#userContainer", cacheName1);
                 if (!isTech) {
                     $('#tabpage_reply').fadeIn(); reveal();
                 }
@@ -2687,7 +2767,7 @@ $(document).ready(function(){
                                                                           function() {
                 console.log("fail @ user ticket List");
             }
-                                                                         );
+                                                                         );}, time); 
         }
     };
 
@@ -2906,7 +2986,7 @@ $(document).ready(function(){
             var accountInvoices;
             var accountName;
             var retrievedObject;
-            var retrievedObjectTickets = localStorage.getItem(currentDetailedAccount+'tickets');
+            var retrievedObjectTickets = localStorage.getItem('account'+currentDetailedAccount+'tickets');
             var accountTicketsList = [];
             var match, time = cacheTime, timeTickets=cacheTime;
             var test = localStorage.getItem("storageAccountList");
@@ -2958,7 +3038,7 @@ $(document).ready(function(){
             setTimeout( function(){ 
                 getApi("tickets?status=open&account="+currentDetailedAccount).then( 
                     function(returnData) {
-                        ticketList.createTicketsList(returnData, ".AccountDetailsTicketsContainer", currentDetailedAccount);
+                        ticketList.createTicketsList(returnData, ".AccountDetailsTicketsContainer",'account'+currentDetailedAccount);
                         filterList("AccountDetailsTicketsContainer");
                     },
                     function() {
@@ -3440,11 +3520,8 @@ $(document).ready(function(){
             if (adMessage.length > 1)
             {
                 setTimeout(function(){
-                    userMessage.showMessage(true, adMessage, function(){
-                        localStorage.setItem("storageQueues", "");
-                        localStorage.setItem("storageAccountList", "");
-                        location.reload(true);
-                    });}, 3000);
+                    userMessage.showMessage(true, adMessage,updatedFunction)
+                }, 3000);
             }
             else
                 location.reload(true);
