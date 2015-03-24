@@ -624,6 +624,7 @@ $(document).ready(function(){
             else
             {
                 ticketList.createTicketsList(retrievedObject, "#closedTickets");
+                filterList("closedTickets");
             }
             setTimeout(function(){
             getApi("tickets?status=closed&account="+localStorage.getItem("DetailedAccount")).then(function(returnData) {
@@ -2556,121 +2557,30 @@ $(document).ready(function(){
     var page = "";
     var ticketList = {
         init:function() {
-            if (!isTech)
+            if (!isTech){
                 this.userTickets();
-            else
-            {
-                this.userTickets();
-                this.techTickets();
-                this.altTickets();
-                this.allTickets();
-            }
-            this.ticketClick();
-        },
-        ticketClick:function() {
-            $(document).on("click",".responseBlock", function(){
-                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
-                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
-            });
-        },
-        createTicketsList : function (returnData, parent, cachePrefix){
-            if(!returnData || returnData.length < 1){
-                var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
-                $(insert).html(parent);
-            }else{
-                var name = null;
-                var textToInsert =  [],
-                    length = returnData.length,
-                    $table = $(parent);
-                for (var i = 0; i<length; i += 1) {
-                    // get email value for gravatar
-                    var email = $.md5(returnData[i].user_email);
-                    var initialPost = returnData[i].initial_post;
-                    var subject = returnData[i].subject;
-                    //the key for this specific ticket
-                    var data = returnData[i].key;
-                    subject = createElipse(subject, .70, 12);
-                    var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
-                    // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
-                    if(initialPost.length > 50)
-                    {
-                        initialPost = initialPost.substring(0,50);
-                    }
-                    textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>");
-                }
-                $table.html(textToInsert.join(''));
-                createSpan(parent);
-                if (cachePrefix !== undefined && cachePrefix){
-                    localStorage.setItem(cachePrefix+'tickets',JSON.stringify(returnData));
-                }
-            }
-        },
-        //get tickets as tech
-        techTickets:function() {
-            var ticketView = localStorage.getItem("ticketPage");
-            if(ticketView == "asAltTech")
-            {
-                page ="altContainer";
-            }
-            else if(ticketView == "asTech")
-            {
-                page = "techContainer";
-            }
-            else if(ticketView == "asUser")
-            {
-                page ="userContainer";
-            }
-            else if(ticketView == "allTickets")
-            {
-                page ="allContainer";
-            }
-            $("#techContainer, #optionsConainer, #allContainer, #userContainer").hide();
-            var cacheName1 = "tech",
-                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
-            var time = cacheTime;
-            if (retrievedObject)
-                retrievedObject = JSON.parse(retrievedObject);
-            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
-            {
-                console.log("could not load local data");
-                time = 10;
+                $('#tabpage_reply').fadeIn();
             }
             else
             {
-                ticketList.createTicketsList(retrievedObject, "#techContainer");
-            }
-            setTimeout(function(){
-            getApi("tickets?status=open&limit=100&role=tech").then(function(returnData) {
-                //add tickets as tech to as tech list
-                ticketList.createTicketsList(returnData, "#techContainer", cacheName1);
-                featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
-            },
-                                                                   function() {
-                console.log("fail @ tech ticket List");
-            }
-                                                                  );}, time); 
-        },
-        //get all tickets in this orginization
-        allTickets:function() {
-            var cacheName1 = "all",
-                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
-            var time = cacheTime;
-            if (retrievedObject)
-                retrievedObject = JSON.parse(retrievedObject);
-            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
-            {
-                console.log("could not load local data");
-                time = 10;
-            }
-            else
-            {
-                ticketList.createTicketsList(retrievedObject, "#allContainer");
-            }
-            setTimeout(function(){
-            getApi("tickets?status=allopen&limit=100&query=all").then(function(returnData) {
-                ticketList.createTicketsList(returnData, "#allContainer", cacheName1);
-                $('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
                 var ticketView = localStorage.getItem("ticketPage");
+                if(ticketView == "asAltTech")
+                {
+                    page ="altContainer";
+                }
+                else if(ticketView == "asTech")
+                {
+                    page = "techContainer";
+                }
+                else if(ticketView == "asUser")
+                {
+                    page ="userContainer";
+                }
+                else if(ticketView == "allTickets")
+                {
+                    page ="allContainer";
+                }
+                $('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
                 $("#techContainer, #optionsConainer, #allContainer, #userContainer").show();
                 if(ticketView == "asAltTech")
                 {
@@ -2702,6 +2612,104 @@ $(document).ready(function(){
                 else
                     $('#replyTab').css('color','#ffffff');
                 $(".TicketTabs").show();
+                this.userTickets();
+                this.techTickets();
+                this.altTickets();
+                this.allTickets();
+            }
+            this.ticketClick();
+        },
+        ticketClick:function() {
+            $(document).on("click",".responseBlock", function(){
+                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
+                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
+            });
+        },
+        createTicketsList : function (returnData, parent, cachePrefix){
+            var $table = $(parent);
+            $table.empty();
+            if(!returnData || returnData.length < 1){
+                $table.html('<h1 class="noTicketMessage">No Tickets</h1>');
+            }else{
+                var name = null;
+                var textToInsert =  [],
+                    length = returnData.length;
+                for (var i = 0; i<length; i += 1) {
+                    // get email value for gravatar
+                    var email = $.md5(returnData[i].user_email);
+                    var initialPost = returnData[i].initial_post;
+                    var subject = returnData[i].subject;
+                    //the key for this specific ticket
+                    var data = returnData[i].key;
+                    subject = createElipse(subject, .70, 12);
+                    var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                    // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
+                    if(initialPost.length > 50)
+                    {
+                        initialPost = initialPost.substring(0,50);
+                    }
+                    textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>");
+                    if(length>10 && i==10){
+                        $table.html(textToInsert.join(''));
+                        textToInsert =  [];
+                    }
+                }
+                $table.append(textToInsert.join(''));
+                createSpan(parent);
+                if (cachePrefix !== undefined && cachePrefix){
+                    localStorage.setItem(cachePrefix+'tickets',JSON.stringify(returnData));
+                }
+            }
+        },
+        //get tickets as tech
+        techTickets:function() {
+            //$("#techContainer, #optionsConainer, #allContainer, #userContainer").hide();
+            var cacheName1 = "tech",
+                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                ticketList.createTicketsList(retrievedObject, "#techContainer");
+                featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
+            }
+            setTimeout(function(){
+            getApi("tickets?status=open&limit=100&role=tech").then(function(returnData) {
+                //add tickets as tech to as tech list
+                ticketList.createTicketsList(returnData, "#techContainer", cacheName1);
+                featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
+            },
+                                                                   function() {
+                console.log("fail @ tech ticket List");
+            }
+                                                                  );}, time); 
+        },
+        //get all tickets in this orginization
+        allTickets:function() {
+            var cacheName1 = "all",
+                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                ticketList.createTicketsList(retrievedObject, "#allContainer");
+                featureList3 = filterList("allContainer", "", localStorage.getItem("searchItem"));
+            }
+            setTimeout(function(){
+            getApi("tickets?status=allopen&limit=100&query=all").then(function(returnData) {
+                ticketList.createTicketsList(returnData, "#allContainer", cacheName1);
                 featureList3 = filterList("allContainer", "", localStorage.getItem("searchItem"));
                 localStorage.setItem("searchItem","");
                 reveal();
@@ -2728,6 +2736,7 @@ $(document).ready(function(){
             else
             {
                 ticketList.createTicketsList(retrievedObject, "#altContainer");
+                featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
             }
             setTimeout(function(){
             getApi("tickets?status=open&limit=100&role=alt_tech").then(function(returnData){
@@ -2755,13 +2764,11 @@ $(document).ready(function(){
             else
             {
                 ticketList.createTicketsList(retrievedObject, "#userContainer");
+                featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
             }
             setTimeout(function(){
             getApi("tickets?status=open,onhold&limit=100&role=user").then(function(returnData) {
                 ticketList.createTicketsList(returnData, "#userContainer", cacheName1);
-                if (!isTech) {
-                    $('#tabpage_reply').fadeIn(); reveal();
-                }
                 featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
             },
                                                                           function() {
