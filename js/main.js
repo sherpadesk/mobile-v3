@@ -1467,7 +1467,47 @@ $(document).ready(function(){
     };
 
 
-    // add time to an account
+    // add user to an account
+    var addUser = {
+        init:function(){
+            $("#submitNewUser").click(function(){
+                var email = $("#addTicketEmail").val().trim();
+                if (email.length < 1)
+                {
+                    alert("Please enter email");
+                    return;
+                }
+                console.log(email);
+
+                var Firstname = $("#addTicketFirstname").val().trim();
+                if (Firstname.length < 1)
+                {
+                    alert("Please enter Firstname");
+                    return;
+                }
+                Lastname = $("#addTicketLastname").val().trim();
+                if (Lastname.length < 1)
+                {
+                    alert("Please enter Lastname");
+                    return;
+                }
+                getApi('users', {
+                    "Lastname": Lastname,
+                    "Firstname": Firstname,
+                    "email":email
+                }, 'POST').then(
+                    function (d) {
+                        history.back();
+                    },
+                    function (e, textStatus, errorThrown) {
+                        alert(e);
+                    }
+                );
+            });
+        }
+    }
+        
+        // add time to an account
     var addTime = {
         init:function(isEdit){
             this.addpicker();
@@ -3684,6 +3724,11 @@ $(document).ready(function(){
                 //window.location.replace(document.referrer);
                 addTime.init();
             }
+            return;
+        }
+        if (location.pathname.endsWith("add_user.html"))
+        {
+            addUser.init();
             return;
         }
         if (location.pathname.endsWith("addExpence.html"))
