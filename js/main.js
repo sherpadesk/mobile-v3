@@ -488,7 +488,7 @@ $(document).ready(function(){
                 e.preventDefault();
                 document.location.href = "signup.html";
             });
-            $('form.google_openid').get(0).setAttribute('action', ApiSite + 'api/auth/googleopenid');
+            $('form.google_openid').get(0).setAttribute('action', ApiSite + 'auth/auth0');
             $('#sign_in_with_google').on('click', function (e) {
                 e.preventDefault();
                 if (window.self !== window.top) {
