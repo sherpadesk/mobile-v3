@@ -1205,27 +1205,17 @@ $(document).ready(function(){
                     userMessage.showMessage(false, "Note cannot be more than 5000 chars!");
                     return;
                 }
-                $.ajax({
-                    type: 'POST',
-                    beforeSend: function (xhr) {
-                        xhr.withCredentials = true;
-                        xhr.setRequestHeader('Authorization',
-                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                    },
-                    url: ApiSite + 'tickets/'+localStorage.getItem('ticketNumber'),
-                    data: {
+                getApi('tickets/'+localStorage.getItem('ticketNumber'),
+                    {
                         "note_text": comment,
                         "action": "response"
-                    },
-                    dataType: 'json',
-                    success: function (d) {
-
+                }, 'POST').then(function (d) {
                         location.reload(false);
                     },
-                    error: function (e, textStatus, errorThrown) {
+                    function (e, textStatus, errorThrown) {
                         alert(textStatus);
                     }
-                });
+                );
             });
         }
     };
