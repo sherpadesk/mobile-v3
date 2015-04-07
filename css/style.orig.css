@@ -2644,7 +2644,52 @@ box-shadow: 0px 0px 3px #88888D;
   font-weight: 300 !important;
     padding-left: 1px;
 }
+.createButtonSmall {
+    width: 35px;
+    height: 35px;
+    color: #fff;
+    background-color: rgba(66, 189, 65, 0.9);
+    border-radius: 100%;
+    z-index: 7;
+    position: top;
+    bottom: 20px;
+    /* left: 83%; */
+    right: 20px;
+    float: right;
+    box-shadow: 0px 0px 3px #88888D;
+    -webkit-transition: -webkit-transform .2s ease-in;
+    -moz-transition: -moz-transform .2s ease-in;
+    -o-transition: -o-transform .2s ease-in;
+    transition: transform .2s ease-in;
+    transition: all .5s;
+    -webkit-transition: all .5s;
+}
 
+.createButton pSmall {
+    color: #fff;
+    font-size: 27px;
+    text-align: center;
+    line-height: 45px;
+    font-weight: 300 !important;
+    padding-left: 1px;
+}
+.createButton pSmall {
+    line-height: 35px !important;
+}
+.textInputSmallLightS {
+    background: rgba(0, 0, 0, .4);
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border: none;
+    overflow: hidden;
+    color: #ffffff;
+    font-size: 16px;
+    height: 40px;
+    padding: 10px;
+    width: 90%;
+    resize: none;
+    margin-bottom: 4px;
+}
 body {
     -webkit-user-select:none;
 }

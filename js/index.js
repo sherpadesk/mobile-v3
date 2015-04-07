@@ -439,7 +439,7 @@ fullscreen();
 			$("#billem, #billem1").click(function(){
 				$(".innerCircle").toggleClass("billFill");
 			});
-
+            
 			$(document).on("click",".innerCircle",function(){
 				$(this).toggleClass("billFill");
 			});

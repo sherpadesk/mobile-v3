@@ -1079,6 +1079,9 @@ $(document).ready(function(){
     // create a new ticket
     var newTicket = {
         init:function() {
+            $("#userCreate").on("click", function(){
+                    window.location = "add_user.html";
+            }); 
             this.addTicket();
         },
 
@@ -1120,7 +1123,7 @@ $(document).ready(function(){
                     //console.log(returnData);
                     // add techs to option select list
                     fillSelect(returnData, "#addTicketTechs",
-                               "<option value=0 disabled selected>choose a tech</option>", "",
+                               "<option value='-1' disabled selected>choose a tech</option>", "",
                                "firstname,lastname");
                     //reveal();
                 },
@@ -1470,6 +1473,11 @@ $(document).ready(function(){
     // add user to an account
     var addUser = {
         init:function(){
+            $(document).on("click",".innerCircle",function(){
+                if ($(".innerCircle").hasClass("billFill")) {$("#addTicketPassword").hide(); $("#addTicketConfirmPassword").hide();}
+                else  {$("#addTicketPassword").show(); $("#addTicketConfirmPassword").show();}
+
+            });
             $("#submitNewUser").click(function(){
                 var email = $("#addTicketEmail").val().trim();
                 if (email.length < 1)
@@ -3752,7 +3760,7 @@ $(document).ready(function(){
             return;
         }
     }
-
+        
     //Main Method that calls all the functions for the app
     (function () {
         //always active api calls
