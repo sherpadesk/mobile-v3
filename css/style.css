@@ -104,6 +104,13 @@ float: right;
 .createButton pSmall {
     line-height: 35px !important;
 }
+
+.fa-stackSmall {
+    line-height: 1 !important;
+    
+}
+    
+    
 .textInputSmallLightS {
     background: rgba(0, 0, 0, .4);
     box-sizing: border-box;
