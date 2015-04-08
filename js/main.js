@@ -2454,14 +2454,16 @@ $(document).ready(function(){
                         reveal();
                         return;
                     }
-                    else
+                    else if (returnData.length == 1)
                         returnData = [returnData];
                     for(var i = 0; i < returnData.length; i++)
                     {
                         var customer = returnData[i].customer; // account name
-                        var date = returnData[i].date.substring(0,10);
+                        var date = returnData[i].date;
+                        if (date){
+                            date = date.substring(0,10);
                         // check account name for display purposes
-                        date = formatDate(date);
+                            date = formatDate(date);}
                         customer = createElipse(customer, .33, 12);
                         var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
                         $(insert).appendTo("#invoiceList");
