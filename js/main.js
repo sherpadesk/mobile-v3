@@ -2407,7 +2407,6 @@ $(document).ready(function(){
             // get list of invoices for a specific account
             getApi("invoices", {"account" : accountid}).then(
                 function(returnData) {
-                    console.log(returnData);
                     $("#invoiceList").empty();
                     if(returnData.length == 0){
                         $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
@@ -2415,7 +2414,7 @@ $(document).ready(function(){
                         reveal();
                         return;
                     }
-                    else if(returnData.length == 1)
+                    else if(typeof returnData.length === 'undefined')
                         returnData = [returnData];
                     for(var i = 0; i < returnData.length; i++)
                     {
@@ -2431,7 +2430,7 @@ $(document).ready(function(){
                     if (!accountid) localStorage.setItem("storageInvoices",JSON.stringify(localInvoiceList));
                     createSpan('#invoiceList');
                     reveal();
-                    //filterList("tabpageContainer");
+                    filterList("tabpageContainer");
                 },
                 function() {
                     console.log("fail @ Invoice List");
@@ -3021,7 +3020,7 @@ $(document).ready(function(){
             }
             else
             {
-                console.log(retrievedObject);
+                //console.log(retrievedObject);
                 accountDetailsPageSetup.createAccDetails(retrievedObject);
                 reveal();
             }
