@@ -5,39 +5,58 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
     padding: 0;
     border: 0;
 }
+
+.fa-b
+{
+  font-size: 49px;
+  padding: 2px; 
+  color: whitesmoke;
+}
+
+.fa-f
+{
+    font-size: 60px;
+    color: rgba(66, 189, 65, 1);
+}
+
 .styledSelectSmall{
     width: 90% !important;
 float: left;
 }
-.createButtonSmall1 {
-    width: 35px;
-    height: 35px;
-    color: #fff;
-    background-color: rgba(66, 189, 65, 0.9);
-    border-radius: 100%;
-    z-index: 7;
-    position: top;
-    bottom: 20px;
-    /* left: 83%; */
-    right: 20px;
-    float: right;
-    box-shadow: 0px 0px 3px #88888D;
-    -webkit-transition: -webkit-transform .2s ease-in;
-    -moz-transition: -moz-transform .2s ease-in;
-    -o-transition: -o-transform .2s ease-in;
-    transition: transform .2s ease-in;
-    transition: all .5s;
-    -webkit-transition: all .5s;
+
+.fa-bs
+{
+  font-size: 36px;
+  padding: 2px; 
+  color: whitesmoke;
 }
 
-.createButtonSmall1 p {
-    color: #fff;
-    font-size: 27px;
-    text-align: center;
-    line-height: 35px;
-    font-weight: 300 !important;
-    padding-left: 1px;
+.fa-fs
+{
+    font-size: 45px;
+    color: rgba(66, 189, 65, 1);
 }
+
+.styledSelectSmall{
+    width: 90% !important;
+float: left;
+}
+
+.createButtonSmall1 {
+width: 45px;
+height: 40px;
+z-index: 7;
+float: right;
+/* left: 83%; */
+/* float: right; */
+  -webkit-transition: -webkit-transform .2s ease-in; /* Changed here */
+     -moz-transition: -moz-transform .2s ease-in;
+       -o-transition: -o-transform .2s ease-in;
+          transition: transform .2s ease-in;
+          transition:all .2s;
+          -webkit-transition:all .5s; /* For Safari */
+}
+
 
 .textInputSmallLightS {
     background: rgba(0, 0, 0, .4);
