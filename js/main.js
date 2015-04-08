@@ -2415,7 +2415,7 @@ $(document).ready(function(){
                         reveal();
                         return;
                     }
-                    else
+                    else if(returnData.length == 1)
                         returnData = [returnData];
                     for(var i = 0; i < returnData.length; i++)
                     {

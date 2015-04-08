@@ -9,12 +9,13 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
 @font-face{font-family:'Open Sans';font-style:normal;font-weight:600;src:local('Open Sans Semibold'), local('OpenSans-Semibold'), url(fonts/MTP_ySUJH_bn48VBG8sNShampu5_7CjHW5spxoeN3Vs.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;}
 @font-face{font-family:'Open Sans';font-style:normal;font-weight:400;src:local('Open Sans'), local('OpenSans'), url(fonts/cJZKeOuBrn4kERxqtaUH3ZBw1xU1rKptJj_0jans920.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;}
 
-
+/* webkit hack
 @supports (-webkit-appearance:none) {    
     .createButton p {
         line-height: 50px !important;
     }
 }
+*/
 
 *{
   margin: 0;
@@ -2560,33 +2561,43 @@ br {
     padding-left: 13px;
 }
 
+.fa-b
+{
+  font-size: 49px;
+  padding: 2px; 
+  color: whitesmoke;
+}
+
+.fa-f
+{
+    font-size: 60px;
+    color: rgba(66, 189, 65, 1);
+}
+
 .createButton {
-width: 50px;
+width: 55px;
 height: 50px;
-color: #fff;
-background-color: rgba(66, 189, 65, 0.9);
-border-radius: 100%;
 z-index: 7;
 position: fixed;
-bottom: 20px;
+bottom: 7px;
 /* left: 83%; */
 right: 20px;
 /* float: right; */
-box-shadow: 0px 0px 3px #88888D;
   -webkit-transition: -webkit-transform .2s ease-in; /* Changed here */
      -moz-transition: -moz-transform .2s ease-in;
        -o-transition: -o-transform .2s ease-in;
           transition: transform .2s ease-in;
-          transition:all .5s;
+          transition:all .2s;
           -webkit-transition:all .5s; /* For Safari */
 }
 
 .destroyButton {
-  -webkit-transform: rotate(130deg);
-    -moz-transform: rotate(130deg);
-    -o-transform: rotate(130deg);
-    -ms-transform: rotate(130deg);
-    transform: rotate(130deg);
+  -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+transform-origin: 55% 25%;
 
 }
 
