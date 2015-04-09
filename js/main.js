@@ -1,11 +1,10 @@
 /*jshint eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var appVersion = "19";
-var adMessage = "Caching improoved";
+var appVersion = "20";
+var adMessage = "Navigation improoved";
 function updatedFunction ()
 {
-    localStorage.setItem("techtickets", "");   
     location.reload(true);
 }
 

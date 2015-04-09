@@ -315,10 +315,11 @@ var fastClicker = {
                     test = $element.attr("data-id");
                 }
                 else if(islist) {
-                    test = $element.toLowerCase().replace("as", "").replace("tickets");
+                    test = $element.toLowerCase().replace("as", "").replace("tickets","");
                     if (test.length > 5) test = test.replace("tech", "");
                     $element = $("li.tabHeader[data-id="+test+"]");
                 }
+
 				$('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
 				$(".tabpage").hide();
 				switch(test) {
