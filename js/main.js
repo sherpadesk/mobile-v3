@@ -11,10 +11,10 @@ function updatedFunction ()
 
 //Root Names
 var Site = 'sherpadesk.com/';
-var MobileSite = 'http://m.' + Site;
-var AppSite = 'https://app.' + Site;
+var MobileSite = 'http://m0.' + Site;
+var AppSite = 'https://app.beta.' + Site;
 
-var ApiSite = 'http://api.' + Site;
+var ApiSite = 'http://api.beta.' + Site;
 
 //global config
 var isTech = false,
