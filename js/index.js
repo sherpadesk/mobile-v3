@@ -23,8 +23,6 @@ var fastClicker = {
 };
 
 
-fullscreen();
-
 	var homePage = {
 		init: function() {
 			this.tabDashboard();
@@ -294,7 +292,6 @@ fullscreen();
 	var ticketDetails = {
 		init: function() {
 			this.tab();
-
 			//this.scrollResponse();
 			this.latestPost();
 		},
@@ -304,32 +301,54 @@ fullscreen();
 		},
 
 		tab: function() {
-			$('#replyTab, #ticketReply').css('color','#fff');
-			$(".tabHeader").click(function() {
-				$('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
-				$(".tabpage").hide();
-				switch( $(this).attr("data-id") ) {
-					case "reply":
-						$(this).css('color','#ffffff');
-						$("#tabpage_reply").show();
-						break;
-					case "info":
-						$(this).css('color','#ffffff');
-						$("#tabpage_info").show();
-						break;
-					case "all":
-						$(this).css('color','#ffffff');
-						$("#tabpage_all").show();
-						break;
-					case "options":
-						$(this).css('color','#ffffff');
-						$("#tabpage_options").show();
-						default:
-						break;
-				}
+			$('#replyTab, #ticketReply').css('color','#fff');   
+            //$(".TicketTabs").show();
+            this.tabnav(localStorage.getItem("ticketPage"));
+            $(document).on("click",".tabHeader",function(){
+				ticketDetails.tabnav($(this));
 			});
 		},
-
+        
+        tabnav: function($element) {
+                var test, islist = $('.TicketTabs').length;
+                if(Object.prototype.toString.call($element) !== '[object String]'){
+                    test = $element.attr("data-id");
+                }
+                else if(islist) {
+                    test = $element.toLowerCase().replace("as", "").replace("tickets");
+                    if (test.length > 5) test = test.replace("tech", "");
+                    $element = $("li.tabHeader[data-id="+test+"]");
+                }
+				$('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
+				$(".tabpage").hide();
+				switch(test) {
+					case "info":
+                    case "tech":
+						$element.css('color','#ffffff');
+						$("#tabpage_info").show();
+                        if (islist) localStorage.setItem('ticketPage',"asTech");
+						break;
+					case "all":
+						$element.css('color','#ffffff');
+						$("#tabpage_all").show();
+                        if (islist) localStorage.setItem('ticketPage',"allTickets");
+						break;
+					case "options":
+                    case "alt":
+						$element.css('color','#ffffff');
+						$("#tabpage_options").show();
+                        if (islist) localStorage.setItem('ticketPage',"asAltTech");
+                        break;
+				    default:
+                    case "reply":
+                    case "user":
+                        $('.TicketTabs > ul > li:first, .tabs > ul > li:first').css('color','#ffffff');
+						$("#tabpage_reply").show();
+                        if (islist) localStorage.setItem('ticketPage',"asUser");
+						break;
+				}
+			},
+        /*
 		addResponse: function() {
 			$(".replyButton").click(function(e) {
 				e.preventDefault();
@@ -344,7 +363,8 @@ fullscreen();
 				$(".orginalMessageContainer .responseBlock").addClass("latestResponse");
 			});
 		},
-
+        */
+        /*
 		scrollResponse: function() {
 			$(window).scroll(function(e) {
 				$("body").bind("touchmove", function(e) {
@@ -363,6 +383,7 @@ fullscreen();
 				});
 			});
 		}
+        */
 	};
 
 	var invoice = {
@@ -530,33 +551,6 @@ fullscreen();
 					optionsOut = false;
 				}
 			});
-			// $(document).on('click',"#dashCreateButton",function(){
-			// 	var top = $(window).scrollTop();
-			// 	$('#dashCreateButton p').fadeOut('fast');
-			// 	$("#dashCreateButton").animate({
-			// 		'border-radius': 3,
-			// 		width: '92%'
-			// 	}, 200);
-			// 	$(".bottomHeader").fadeIn();
-			// 	$(".pageCover").css('top',top);
-			// 	$(".pageCover").show();
-			// });
-			// //hide options
-			// $(document).on('click',".pageCover",function(){
-			// 	$(".pageCover").hide();
-			// 	$('.bottomHeader').fadeOut('fast');
-			// 	$("#dashCreateButton").animate({
-			// 		//'border-radius': "100%",
-			// 		width: '50'
-			// 	}, 200);
-			// 	setTimeout(function(){
-			// 			$("#dashCreateButton").animate({
-			// 				'border-radius': "100%",
-
-			// 			}, 200);
-			// 		});
-			// 	$('#dashCreateButton p').fadeIn();
-			// });
 		}
 	};
 
@@ -598,29 +592,49 @@ fullscreen();
         nav.className = "sideNav";
         nav.innerHTML = NAV_MENU;
         document.body.insertBefore(nav, document.body.firstChild);
+            		sideBar.init();
         }
+        else
+            backButton.init();
         var $create_el = $("#dashboardCreate");
-        if ($create_el)
+        if ($create_el){
             $(CREATE_MENU).insertAfter($create_el);
-		//splashScreen.init();
 		createButton.init();
+        }
+        
+        
 		fastClicker.init();
-		openTickets.init();
-		largeScreenStlye.init();
-		backButton.init();
-		addRecip.init();
-		showExtendedDetails.init();
-		if($(window).width() < 478){footer.init();}
-		homePage.init();
-		if($(window).width() > 478){hideFooter.init();}
-		sideBar.init();
+        //largeScreenStlye.init();
+        //fullscreen();
+        
+		if (location.pathname.endsWith("edit_time.html"))
+        {openTickets.init();}
+        
+		if (location.pathname.endsWith("invoice.html"))
+        {
+            addRecip.init();
+            invoice.init();
+        }
+        
+        if ($(".headerSearchIcon").length){
 		searchBar.init();
+        }
+        
+        if($("#addTimeTicket").length)
 		ticker.init();
+        
+        if ($(".tabHeader").length)
 		ticketDetails.init();
-		invoice.init();
-		StickRecentTickets.init();
+		
+		//StickRecentTickets.init();
 		billEm.init();
-		footer.init();
+		//footer.init();
+        		
+        if (location.pathname.endsWith("addTicket_V4.html"))
+        {showExtendedDetails.init();}
+		//if($(window).width() < 478){footer.init();}
+		//homePage.init();
+		//if($(window).width() > 478){hideFooter.init();}
 	}());
 
 });

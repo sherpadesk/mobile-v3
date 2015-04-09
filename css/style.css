@@ -44,6 +44,49 @@ a {
   color:inherit;
 }
 
+.fa-bs
+{
+  font-size: 36px;
+  padding: 2px; 
+  color: whitesmoke;
+  line-height: 1 !important;
+}
+
+.fa-fs
+{
+    font-size: 45px;
+    color: rgba(66, 189, 65, 1);
+    line-height: 1 !important;
+}
+
+.styledSelectSmall{
+    width: 90% !important;
+float: left;
+}
+
+.textInputSmallLightS {
+    background: rgba(0, 0, 0, .4);
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border: none;
+    overflow: hidden;
+    color: #ffffff;
+    font-size: 16px;
+    height: 40px;
+    padding: 10px;
+    width: 90%;
+    resize: none;
+    margin-bottom: 4px;
+}
+
+.createButtonSmall1 {
+width: 45px;
+height: 40px;
+z-index: 7;
+float: right;
+}
+
+
 body {
   /*background: url("../img/bg_dark.png");*/
   background: #34495e;
@@ -1800,7 +1843,7 @@ footer {
 .tabpageContainer {
   width: 90%;
   margin: 0 auto;
-  margin-top: 10px;
+  margin-top: 25px;
   overflow: visible;
   overflow-x:hidden;
 }

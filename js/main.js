@@ -1078,6 +1078,9 @@ $(document).ready(function(){
     // create a new ticket
     var newTicket = {
         init:function() {
+            $("#userCreate").on("click", function(){
+                    window.location = "add_user.html";
+            }); 
             this.addTicket();
         },
 
@@ -1204,27 +1207,17 @@ $(document).ready(function(){
                     userMessage.showMessage(false, "Note cannot be more than 5000 chars!");
                     return;
                 }
-                $.ajax({
-                    type: 'POST',
-                    beforeSend: function (xhr) {
-                        xhr.withCredentials = true;
-                        xhr.setRequestHeader('Authorization',
-                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                    },
-                    url: ApiSite + 'tickets/'+localStorage.getItem('ticketNumber'),
-                    data: {
+                getApi('tickets/'+localStorage.getItem('ticketNumber'),
+                    {
                         "note_text": comment,
                         "action": "response"
-                    },
-                    dataType: 'json',
-                    success: function (d) {
-
+                }, 'POST').then(function (d) {
                         location.reload(false);
                     },
-                    error: function (e, textStatus, errorThrown) {
+                    function (e, textStatus, errorThrown) {
                         alert(textStatus);
                     }
-                });
+                );
             });
         }
     };
@@ -1476,6 +1469,51 @@ $(document).ready(function(){
     };
 
 
+    // add user to an account
+    var addUser = {
+        init:function(){
+            $(".innerCircle").click(function(){
+                if ($(".innerCircle").hasClass("billFill")) {$("#addTicketPassword").hide(); $("#addTicketConfirmPassword").hide();}
+                else  {$("#addTicketPassword").show(); $("#addTicketConfirmPassword").show();}
+
+            });
+            $("#submitNewUser").click(function(){
+                var email = $("#addTicketEmail").val().trim();
+                if (email.length < 1)
+                {
+                    alert("Please enter email");
+                    return;
+                }
+                console.log(email);
+
+                var Firstname = $("#addTicketFirstname").val().trim();
+                if (Firstname.length < 1)
+                {
+                    alert("Please enter Firstname");
+                    return;
+                }
+                Lastname = $("#addTicketLastname").val().trim();
+                if (Lastname.length < 1)
+                {
+                    alert("Please enter Lastname");
+                    return;
+                }
+                getApi('users', {
+                    "Lastname": Lastname,
+                    "Firstname": Firstname,
+                    "email":email
+                }, 'POST').then(
+                    function (d) {
+                        history.back();
+                    },
+                    function (e, textStatus, errorThrown) {
+                        alert(e);
+                    }
+                );
+            });
+        }
+    }
+    
     // add time to an account
     var addTime = {
         init:function(isEdit){
@@ -2552,7 +2590,6 @@ $(document).ready(function(){
     };
 
     // Ajax calls to get open tickets for the app user, tickets include (as tech, as user, as alt tech, all tickets)
-    var page = "";
     var ticketList = {
         init:function() {
             if (!isTech){
@@ -2561,55 +2598,6 @@ $(document).ready(function(){
             }
             else
             {
-                var ticketView = localStorage.getItem("ticketPage");
-                if(ticketView == "asAltTech")
-                {
-                    page ="altContainer";
-                }
-                else if(ticketView == "asTech")
-                {
-                    page = "techContainer";
-                }
-                else if(ticketView == "asUser")
-                {
-                    page ="userContainer";
-                }
-                else if(ticketView == "allTickets")
-                {
-                    page ="allContainer";
-                }
-                $('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
-                $("#techContainer, #optionsConainer, #allContainer, #userContainer").show();
-                if(ticketView == "asAltTech")
-                {
-                    $('#tabpage_reply, #tabpage_all, #tabpage_info').hide();
-                    $('#tabpage_options').fadeIn();
-                    $('#altTab').css('color','#ffffff');
-                    localStorage.setItem('ticketPage',"asTech");
-                }
-                else if(ticketView == "asTech")
-                {
-                    $('#tabpage_reply, #tabpage_all, #tabpage_options').hide();
-                    $('#tabpage_info').fadeIn();
-                    $('#userTab').css('color','#ffffff');
-                }
-                else if(ticketView == "asUser")
-                {
-                    $('#tabpage_info, #tabpage_all, #tabpage_options').hide();
-                    $('#tabpage_reply').fadeIn();
-                    localStorage.setItem('ticketPage',"asTech");
-                    $('#replyTab').css('color','#ffffff');
-                }
-                else if(ticketView == "allTickets")
-                {
-                    $('#tabpage_info, #tabpage_reply, #tabpage_options').hide();
-                    $('#tabpage_all').fadeIn();
-                    localStorage.setItem('ticketPage',"asTech");
-                    $('#openTab').css('color','#ffffff');
-                }
-                else
-                    $('#replyTab').css('color','#ffffff');
-                $(".TicketTabs").show();
                 this.userTickets();
                 this.techTickets();
                 this.altTickets();
@@ -2638,6 +2626,7 @@ $(document).ready(function(){
                     var initialPost = returnData[i].initial_post;
                     var subject = returnData[i].subject;
                     //the key for this specific ticket
+                    returnData[i].index = returnData[i].key +',' + i;
                     var data = returnData[i].key;
                     subject = createElipse(subject, .70, 12);
                     var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
@@ -3102,7 +3091,7 @@ $(document).ready(function(){
     var TicketsCounts = {
         init: function() {
             $('html,body').css('scrollTop','0');
-            var time = 2000;
+            var time = 10;
             var cachedTickets = localStorage.ticketsStat;
             if (cachedTickets)
                 cachedTickets = JSON.parse(cachedTickets);
@@ -3112,7 +3101,7 @@ $(document).ready(function(){
             }
             else
             {
-                time = 10;
+                //time = 10;
                 console.log("no cache TicketsCounts"); 
             }   
             setTimeout(function(){
