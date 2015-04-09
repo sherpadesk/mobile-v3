@@ -1,14 +1,12 @@
 /*jshint eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var appVersion = "19";
-var adMessage = "Caching improoved";
+var appVersion = "20";
+var adMessage = "Navigation improoved";
 function updatedFunction ()
 {
-   localStorage.setItem("techtickets", "");   
-   location.reload(true);
+    location.reload(true);
 }
-
 
 //Root Names
 var Site = 'sherpadesk.com/';
@@ -627,15 +625,15 @@ $(document).ready(function(){
                 filterList("closedTickets");
             }
             setTimeout(function(){
-            getApi("tickets?status=closed&account="+localStorage.getItem("DetailedAccount")).then(function(returnData) {
-                ticketList.createTicketsList(returnData, "#closedTickets", cacheName1);
-                filterList("closedTickets");
-            },
-                                                                                                  function() {
-                console.log("fail @ closed accounts tickets");
-            });
+                getApi("tickets?status=closed&account="+localStorage.getItem("DetailedAccount")).then(function(returnData) {
+                    ticketList.createTicketsList(returnData, "#closedTickets", cacheName1);
+                    filterList("closedTickets");
+                },
+                                                                                                      function() {
+                    console.log("fail @ closed accounts tickets");
+                });
             }, time); 
-    }
+        }
     };
 
     // pick up current detailed ticket
@@ -1123,7 +1121,7 @@ $(document).ready(function(){
                     //console.log(returnData);
                     // add techs to option select list
                     fillSelect(returnData, "#addTicketTechs",
-                               "<option value='-1' disabled selected>choose a tech</option>", "",
+                               "<option value=0 disabled selected>choose a tech</option>", "",
                                "firstname,lastname");
                     //reveal();
                 },
@@ -1473,7 +1471,7 @@ $(document).ready(function(){
     // add user to an account
     var addUser = {
         init:function(){
-            $(document).on("click",".innerCircle",function(){
+            $(".innerCircle").click(function(){
                 if ($(".innerCircle").hasClass("billFill")) {$("#addTicketPassword").hide(); $("#addTicketConfirmPassword").hide();}
                 else  {$("#addTicketPassword").show(); $("#addTicketConfirmPassword").show();}
 
@@ -1514,8 +1512,8 @@ $(document).ready(function(){
             });
         }
     }
-        
-        // add time to an account
+    
+    // add time to an account
     var addTime = {
         init:function(isEdit){
             this.addpicker();
@@ -2446,7 +2444,6 @@ $(document).ready(function(){
             // get list of invoices for a specific account
             getApi("invoices", {"account" : accountid}).then(
                 function(returnData) {
-                    console.log(returnData);
                     $("#invoiceList").empty();
                     if(returnData.length == 0){
                         $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
@@ -2454,16 +2451,14 @@ $(document).ready(function(){
                         reveal();
                         return;
                     }
-                    else if (returnData.length == 1)
+                    else if(typeof returnData.length === 'undefined')
                         returnData = [returnData];
                     for(var i = 0; i < returnData.length; i++)
                     {
                         var customer = returnData[i].customer; // account name
-                        var date = returnData[i].date;
-                        if (date){
-                            date = date.substring(0,10);
+                        var date = returnData[i].date.substring(0,10);
                         // check account name for display purposes
-                            date = formatDate(date);}
+                        date = formatDate(date);
                         customer = createElipse(customer, .33, 12);
                         var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
                         $(insert).appendTo("#invoiceList");
@@ -2472,7 +2467,7 @@ $(document).ready(function(){
                     if (!accountid) localStorage.setItem("storageInvoices",JSON.stringify(localInvoiceList));
                     createSpan('#invoiceList');
                     reveal();
-                    //filterList("tabpageContainer");
+                    filterList("tabpageContainer");
                 },
                 function() {
                     console.log("fail @ Invoice List");
@@ -2594,7 +2589,6 @@ $(document).ready(function(){
     };
 
     // Ajax calls to get open tickets for the app user, tickets include (as tech, as user, as alt tech, all tickets)
-    var page = "";
     var ticketList = {
         init:function() {
             if (!isTech){
@@ -2603,55 +2597,6 @@ $(document).ready(function(){
             }
             else
             {
-                var ticketView = localStorage.getItem("ticketPage");
-                if(ticketView == "asAltTech")
-                {
-                    page ="altContainer";
-                }
-                else if(ticketView == "asTech")
-                {
-                    page = "techContainer";
-                }
-                else if(ticketView == "asUser")
-                {
-                    page ="userContainer";
-                }
-                else if(ticketView == "allTickets")
-                {
-                    page ="allContainer";
-                }
-                $('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
-                $("#techContainer, #optionsConainer, #allContainer, #userContainer").show();
-                if(ticketView == "asAltTech")
-                {
-                    $('#tabpage_reply, #tabpage_all, #tabpage_info').hide();
-                    $('#tabpage_options').fadeIn();
-                    $('#altTab').css('color','#ffffff');
-                    localStorage.setItem('ticketPage',"asTech");
-                }
-                else if(ticketView == "asTech")
-                {
-                    $('#tabpage_reply, #tabpage_all, #tabpage_options').hide();
-                    $('#tabpage_info').fadeIn();
-                    $('#userTab').css('color','#ffffff');
-                }
-                else if(ticketView == "asUser")
-                {
-                    $('#tabpage_info, #tabpage_all, #tabpage_options').hide();
-                    $('#tabpage_reply').fadeIn();
-                    localStorage.setItem('ticketPage',"asTech");
-                    $('#replyTab').css('color','#ffffff');
-                }
-                else if(ticketView == "allTickets")
-                {
-                    $('#tabpage_info, #tabpage_reply, #tabpage_options').hide();
-                    $('#tabpage_all').fadeIn();
-                    localStorage.setItem('ticketPage',"asTech");
-                    $('#openTab').css('color','#ffffff');
-                }
-                else
-                    $('#replyTab').css('color','#ffffff');
-                $(".TicketTabs").show();
                 this.userTickets();
                 this.techTickets();
                 this.altTickets();
@@ -2680,6 +2625,7 @@ $(document).ready(function(){
                     var initialPost = returnData[i].initial_post;
                     var subject = returnData[i].subject;
                     //the key for this specific ticket
+                    returnData[i].index = returnData[i].key +',' + i;
                     var data = returnData[i].key;
                     subject = createElipse(subject, .70, 12);
                     var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
@@ -2720,15 +2666,15 @@ $(document).ready(function(){
                 featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
             }
             setTimeout(function(){
-            getApi("tickets?status=open&limit=100&role=tech").then(function(returnData) {
-                //add tickets as tech to as tech list
-                ticketList.createTicketsList(returnData, "#techContainer", cacheName1);
-                featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
-            },
-                                                                   function() {
-                console.log("fail @ tech ticket List");
-            }
-                                                                  );}, time); 
+                getApi("tickets?status=open&limit=100&role=tech").then(function(returnData) {
+                    //add tickets as tech to as tech list
+                    ticketList.createTicketsList(returnData, "#techContainer", cacheName1);
+                    featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
+                },
+                                                                       function() {
+                    console.log("fail @ tech ticket List");
+                }
+                                                                      );}, time); 
         },
         //get all tickets in this orginization
         allTickets:function() {
@@ -2748,17 +2694,17 @@ $(document).ready(function(){
                 featureList3 = filterList("allContainer", "", localStorage.getItem("searchItem"));
             }
             setTimeout(function(){
-            getApi("tickets?status=allopen&limit=100&query=all").then(function(returnData) {
-                ticketList.createTicketsList(returnData, "#allContainer", cacheName1);
-                featureList3 = filterList("allContainer", "", localStorage.getItem("searchItem"));
-                localStorage.setItem("searchItem","");
-                reveal();
+                getApi("tickets?status=allopen&limit=100&query=all").then(function(returnData) {
+                    ticketList.createTicketsList(returnData, "#allContainer", cacheName1);
+                    featureList3 = filterList("allContainer", "", localStorage.getItem("searchItem"));
+                    localStorage.setItem("searchItem","");
+                    reveal();
 
-            },
-                                                                      function() {
-                console.log("fail @ all ticket List");
-            }
-                                                                     );}, time); 
+                },
+                                                                          function() {
+                    console.log("fail @ all ticket List");
+                }
+                                                                         );}, time); 
         },
 
         // get alt tech tickets
@@ -2779,14 +2725,14 @@ $(document).ready(function(){
                 featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
             }
             setTimeout(function(){
-            getApi("tickets?status=open&limit=100&role=alt_tech").then(function(returnData){
-                ticketList.createTicketsList(returnData, "#altContainer", cacheName1);
-                featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
-            },
-                                                                       function() {
-                console.log("fail @ alt ticket List");
-            }
-                                                                      );}, time); 
+                getApi("tickets?status=open&limit=100&role=alt_tech").then(function(returnData){
+                    ticketList.createTicketsList(returnData, "#altContainer", cacheName1);
+                    featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
+                },
+                                                                           function() {
+                    console.log("fail @ alt ticket List");
+                }
+                                                                          );}, time); 
         },
         // get as user tickets
         userTickets:function() {
@@ -2807,14 +2753,14 @@ $(document).ready(function(){
                 featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
             }
             setTimeout(function(){
-            getApi("tickets?status=open,onhold&limit=100&role=user").then(function(returnData) {
-                ticketList.createTicketsList(returnData, "#userContainer", cacheName1);
-                featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
-            },
-                                                                          function() {
-                console.log("fail @ user ticket List");
-            }
-                                                                         );}, time); 
+                getApi("tickets?status=open,onhold&limit=100&role=user").then(function(returnData) {
+                    ticketList.createTicketsList(returnData, "#userContainer", cacheName1);
+                    featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
+                },
+                                                                              function() {
+                    console.log("fail @ user ticket List");
+                }
+                                                                             );}, time); 
         }
     };
 
@@ -3062,7 +3008,7 @@ $(document).ready(function(){
             }
             else
             {
-                console.log(retrievedObject);
+                //console.log(retrievedObject);
                 accountDetailsPageSetup.createAccDetails(retrievedObject);
                 reveal();
             }
@@ -3144,7 +3090,7 @@ $(document).ready(function(){
     var TicketsCounts = {
         init: function() {
             $('html,body').css('scrollTop','0');
-            var time = 2000;
+            var time = 10;
             var cachedTickets = localStorage.ticketsStat;
             if (cachedTickets)
                 cachedTickets = JSON.parse(cachedTickets);
@@ -3154,7 +3100,7 @@ $(document).ready(function(){
             }
             else
             {
-                time = 10;
+                //time = 10;
                 console.log("no cache TicketsCounts"); 
             }   
             setTimeout(function(){
@@ -3736,11 +3682,6 @@ $(document).ready(function(){
             }
             return;
         }
-        if (location.pathname.endsWith("add_user.html"))
-        {
-            addUser.init();
-            return;
-        }
         if (location.pathname.endsWith("addExpence.html"))
         {
             if (!isExpenses) window.location = "dashboard.html";
@@ -3762,7 +3703,7 @@ $(document).ready(function(){
             return;
         }
     }
-        
+
     //Main Method that calls all the functions for the app
     (function () {
         //always active api calls

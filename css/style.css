@@ -6,135 +6,16 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
     border: 0;
 }
 
-.fa-b
-{
-  font-size: 49px;
-  padding: 2px; 
-  color: whitesmoke;
-}
-
-.fa-f
-{
-    font-size: 60px;
-    color: rgba(66, 189, 65, 1);
-}
-
-.styledSelectSmall{
-    width: 90% !important;
-float: left;
-}
-
-.fa-bs
-{
-  font-size: 36px;
-  padding: 2px; 
-  color: whitesmoke;
-}
-
-.fa-fs
-{
-    font-size: 45px;
-    color: rgba(66, 189, 65, 1);
-}
-
-.styledSelectSmall{
-    width: 90% !important;
-float: left;
-}
-
-.createButtonSmall1 {
-width: 45px;
-height: 40px;
-z-index: 7;
-float: right;
-/* left: 83%; */
-/* float: right; */
-  -webkit-transition: -webkit-transform .2s ease-in; /* Changed here */
-     -moz-transition: -moz-transform .2s ease-in;
-       -o-transition: -o-transform .2s ease-in;
-          transition: transform .2s ease-in;
-          transition:all .2s;
-          -webkit-transition:all .5s; /* For Safari */
-}
-
-
-.textInputSmallLightS {
-    background: rgba(0, 0, 0, .4);
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    border: none;
-    overflow: hidden;
-    color: #ffffff;
-    font-size: 16px;
-    height: 40px;
-    padding: 10px;
-    width: 90%;
-    resize: none;
-    margin-bottom: 4px;
-}
-.createButtonSmall {
-    width: 35px;
-    height: 35px;
-    color: #fff;
-    background-color: rgba(66, 189, 65, 0.9);
-    border-radius: 100%;
-    z-index: 7;
-    position: top;
-    bottom: 20px;
-    /* left: 83%; */
-    right: 20px;
-    float: right;
-    box-shadow: 0px 0px 3px #88888D;
-    -webkit-transition: -webkit-transform .2s ease-in;
-    -moz-transition: -moz-transform .2s ease-in;
-    -o-transition: -o-transform .2s ease-in;
-    transition: transform .2s ease-in;
-    transition: all .5s;
-    -webkit-transition: all .5s;
-}
-
-.createButton pSmall {
-    color: #fff;
-    font-size: 27px;
-    text-align: center;
-    line-height: 45px;
-    font-weight: 300 !important;
-    padding-left: 1px;
-}
-.createButton pSmall {
-    line-height: 35px !important;
-}
-
-.fa-stackSmall {
-    line-height: 1 !important;
-    
-}
-    
-    
-.textInputSmallLightS {
-    background: rgba(0, 0, 0, .4);
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    border: none;
-    overflow: hidden;
-    color: #ffffff;
-    font-size: 16px;
-    height: 40px;
-    padding: 10px;
-    width: 90%;
-    resize: none;
-    margin-bottom: 4px;
-}
-
 @font-face{font-family:'Open Sans';font-style:normal;font-weight:600;src:local('Open Sans Semibold'), local('OpenSans-Semibold'), url(fonts/MTP_ySUJH_bn48VBG8sNShampu5_7CjHW5spxoeN3Vs.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;}
 @font-face{font-family:'Open Sans';font-style:normal;font-weight:400;src:local('Open Sans'), local('OpenSans'), url(fonts/cJZKeOuBrn4kERxqtaUH3ZBw1xU1rKptJj_0jans920.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;}
 
-
+/* webkit hack
 @supports (-webkit-appearance:none) {    
     .createButton p {
         line-height: 50px !important;
     }
 }
+*/
 
 *{
   margin: 0;
@@ -162,6 +43,49 @@ a {
   text-decoration: none;
   color:inherit;
 }
+
+.fa-bs
+{
+  font-size: 36px;
+  padding: 2px; 
+  color: whitesmoke;
+  line-height: 1 !important;
+}
+
+.fa-fs
+{
+    font-size: 45px;
+    color: rgba(66, 189, 65, 1);
+    line-height: 1 !important;
+}
+
+.styledSelectSmall{
+    width: 90% !important;
+float: left;
+}
+
+.textInputSmallLightS {
+    background: rgba(0, 0, 0, .4);
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border: none;
+    overflow: hidden;
+    color: #ffffff;
+    font-size: 16px;
+    height: 40px;
+    padding: 10px;
+    width: 90%;
+    resize: none;
+    margin-bottom: 4px;
+}
+
+.createButtonSmall1 {
+width: 45px;
+height: 40px;
+z-index: 7;
+float: right;
+}
+
 
 body {
   /*background: url("../img/bg_dark.png");*/
@@ -1919,7 +1843,7 @@ footer {
 .tabpageContainer {
   width: 90%;
   margin: 0 auto;
-  margin-top: 10px;
+  margin-top: 25px;
   overflow: visible;
   overflow-x:hidden;
 }
@@ -2680,33 +2604,43 @@ br {
     padding-left: 13px;
 }
 
+.fa-b
+{
+  font-size: 49px;
+  padding: 2px; 
+  color: whitesmoke;
+}
+
+.fa-f
+{
+    font-size: 60px;
+    color: rgba(66, 189, 65, 1);
+}
+
 .createButton {
-width: 50px;
+width: 55px;
 height: 50px;
-color: #fff;
-background-color: rgba(66, 189, 65, 0.9);
-border-radius: 100%;
 z-index: 7;
 position: fixed;
-bottom: 20px;
+bottom: 7px;
 /* left: 83%; */
 right: 20px;
 /* float: right; */
-box-shadow: 0px 0px 3px #88888D;
   -webkit-transition: -webkit-transform .2s ease-in; /* Changed here */
      -moz-transition: -moz-transform .2s ease-in;
        -o-transition: -o-transform .2s ease-in;
           transition: transform .2s ease-in;
-          transition:all .5s;
+          transition:all .2s;
           -webkit-transition:all .5s; /* For Safari */
 }
 
 .destroyButton {
-  -webkit-transform: rotate(130deg);
-    -moz-transform: rotate(130deg);
-    -o-transform: rotate(130deg);
-    -ms-transform: rotate(130deg);
-    transform: rotate(130deg);
+  -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+transform-origin: 55% 25%;
 
 }
 
