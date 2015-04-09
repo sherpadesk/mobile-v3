@@ -303,7 +303,8 @@ var fastClicker = {
 		tab: function() {
 			$('#replyTab, #ticketReply').css('color','#fff');   
             //$(".TicketTabs").show();
-            this.tabnav(localStorage.getItem("ticketPage"));
+            var test = localStorage.getItem("ticketPage");
+            this.tabnav(test ? test : "user");
             $(document).on("click",".tabHeader",function(){
 				ticketDetails.tabnav($(this));
 			});
