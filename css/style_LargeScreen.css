@@ -14,6 +14,10 @@
   margin: 0 auto;
 }
     
+.topHeader li:last-child {
+ padding-right: 10px; 
+}   
+    
 #date_start, #date_end {width: 49.5% !important}
 
 .dashboard {

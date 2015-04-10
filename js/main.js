@@ -1,11 +1,10 @@
-/*jshint eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
+/*jshint -W004, -W041, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var appVersion = "19";
-var adMessage = "Caching improoved";
+var appVersion = "20";
+var adMessage = "Navigation improved";
 function updatedFunction ()
 {
-    localStorage.setItem("techtickets", "");   
     location.reload(true);
 }
 
@@ -645,27 +644,29 @@ $(document).ready(function(){
 
         pick:function() {
             $("#pickUp").click(function(){
-                $.ajax({
-                    type: 'PUT',
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization',
-                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                    },
-                    url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
-                    data: {
+                getApi('tickets/'+localStorage.getItem("ticketNumber"),{
+                    "action" : "pickup",
+                    "note_text": ""
+                }, 'PUT').then(function (d) {
+                    userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
+                    window.location = "ticket_detail.html";
+                },
+                               function (e, textStatus, errorThrown) {
+                    alert(textStatus);
+                });
+                
+                getApi('tickets/'+localStorage.getItem("ticketNumber"),{
                         "action" : "pickup",
                         "note_text": ""
 
-                    },
-                    dataType: 'json',
-                    success: function (d) {
+                }, 'PUT').then(function (d) {
                         userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
                         window.location = "ticket_detail.html";
                     },
-                    error: function (e, textStatus, errorThrown) {
+                    function (e, textStatus, errorThrown) {
                         alert(textStatus);
                     }
-                });
+                );
             });
         }
     };
@@ -682,17 +683,7 @@ $(document).ready(function(){
                 $("#loading").show();
                 $("#transfer").hide();
                 $("#transferSelect").show();
-                $.ajax({
-                    type: 'GET',
-                    beforeSend: function (xhr) {
-                        xhr.withCredentials = true;
-                        xhr.setRequestHeader('Authorization',
-                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                    },
-
-                    url:ApiSite +"technicians?limit=200",
-                    dataType:"json",
-                    success: function(returnData) {
+                getApi("technicians?limit=200").then(function(returnData) {
                         //console.log(returnData);
                         // add techs to option select list
                         var insert = "<option value=0 disabled selected> Choose Tech</option>";
@@ -704,40 +695,29 @@ $(document).ready(function(){
                             insert = "<option value="+value+">"+name+"</option>";
                             $(insert).appendTo("#transferTechs");
                         }
-                    },
-                    complete: function () {
                         reveal();
                     },
-                    error: function() {
+                    function() {
                         console.log("fail @ time accounts");
-                        //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     }
-                });
+                );
                 // get value
                 $("#transferTechs").on("change", function(){
                     var techId = $("#transferTechs").val();
-                    $.ajax({
-                        type: 'PUT',
-                        beforeSend: function (xhr) {
-                            xhr.setRequestHeader('Authorization',
-                                                 'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                        },
-                        url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
-                        data: {
+                    getApi('tickets/'+localStorage.getItem("ticketNumber"),{
                             "action": "transfer",
                             "note_text": " ",
                             "tech_id": techId,
                             "keep_attached": false
+                        
 
-                        },
-                        dataType: 'json',
-                        success: function (d) {
+                        }, 'PUT').then(function (d) {
                             location.reload(false);
                         },
-                        error: function (e, textStatus, errorThrown) {
+                        function (e, textStatus, errorThrown) {
                             alert(textStatus);
                         }
-                    });
+                    );
                 });
             });
         }
@@ -769,18 +749,11 @@ $(document).ready(function(){
         },
         reopenIt:function() {
             $('#openIt').click(function(){
-                $.ajax({
-                    type: 'PUT',
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization',
-                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                    },
-                    url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
-                    data: {
+                getApi('tickets/'+localStorage.getItem("ticketNumber"),
+                    {
                         "status" : "open",
                         "note_text": ""
-                    },
-                    success: function (d) {
+                }, 'PUT').then(function (d) {
                         //location.reload(false);
                         setTimeout(
                             function()
@@ -790,10 +763,10 @@ $(document).ready(function(){
 
                             }, 1000);
                     },
-                    error: function (e, textStatus, errorThrown) {
+                    function (e, textStatus, errorThrown) {
                         alert(textStatus);
                     }
-                });
+                );
             });
         },
 
@@ -807,14 +780,7 @@ $(document).ready(function(){
                 userMessage.showMessage(false,  "Note cannot be more than 5000 chars!");	
                 return;
             }
-            $.ajax({
-                type: 'PUT',
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader('Authorization',
-                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                },
-                url: ApiSite + 'tickets/'+localStorage.getItem("ticketNumber"),
-                data: {
+            getApi('tickets/'+localStorage.getItem("ticketNumber"),{
                     "status" : "closed",
                     "note_text": closeTicketMessage,
                     "is_send_notifications": true,
@@ -823,8 +789,7 @@ $(document).ready(function(){
                     "confirmed": false,
                     "confirm_note": ""
 
-                },
-                success: function (d) {
+                }, 'PUT').then(function (d) {
                     //location.reload(false);
                     setTimeout(
                         function()
@@ -835,10 +800,10 @@ $(document).ready(function(){
                         }, 1000);
                     userMessage.setMessage(true, "Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
                 },
-                error: function (e, textStatus, errorThrown) {
+                function (e, textStatus, errorThrown) {
                     //alert(textStatus);
                 }
-            });
+            );
         },
 
         closeIt:function() {
@@ -920,20 +885,10 @@ $(document).ready(function(){
                 var emails = ""; 
                 $.each($(".recipient").children(".closeIcon"), function(){emails+=$(this).attr("id") + ",";}); 
                 console.log(emails);
-                $.ajax({
-                    type: 'PUT',
-                    beforeSend: function (xhr) {
-                        xhr.withCredentials = true;
-                        xhr.setRequestHeader('Authorization',
-                                             'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                    },
-                    url: ApiSite + 'invoices/'+localStorage.getItem('invoiceNumber'),
-                    data: {
+                getAp('invoices/'+localStorage.getItem('invoiceNumber'),{
                         "action": "sendEmail",
                         "recipients": emails
-                    },
-                    dataType: 'json',
-                    success: function (d) {
+                },'PUT').then(function (d) {
                         setTimeout(
                             function()
                             {
@@ -943,10 +898,10 @@ $(document).ready(function(){
                             }, 1000);
                         userMessage.setMessage(true, "Hurray! Invoice sent");
                     },
-                    error: function (e, textStatus, errorThrown) {
+                    function (e, textStatus, errorThrown) {
                         //alert(textStatus);
                     }
-                });
+                );
             });
         }
     };
@@ -1207,8 +1162,7 @@ $(document).ready(function(){
                     userMessage.showMessage(false, "Note cannot be more than 5000 chars!");
                     return;
                 }
-                getApi('tickets/'+localStorage.getItem('ticketNumber'),
-                    {
+                getApi('tickets/'+localStorage.getItem('ticketNumber'),{
                         "note_text": comment,
                         "action": "response"
                 }, 'POST').then(function (d) {
@@ -1442,8 +1396,7 @@ $(document).ready(function(){
                     userMessage.showMessage(false, "Please enter note");
                     return;
                 }
-                getApi('expenses', 
-                       {
+                getApi('expenses',{
                     "ticket_key": ticket_id ? ticket_id : null,
                     "account_id": !ticket_id ? $("#timeAccounts").val() : null ,
                     "project_id": !ticket_id ? $("#timeProjects").val() : null,
@@ -1454,16 +1407,15 @@ $(document).ready(function(){
                     "is_billable": $(".innerCircle").hasClass("billFill"),
                     "vendor": $("#vendor").val()
                     //"markup": 
-                },
-                       'POST').then(function (d) {
+                },'POST').then(function (d) {
                     localStorage.setItem('isMessage','truePos');
                     localStorage.setItem('userMessage','Expense was successfully added <i class="fa fa-money"></i>');
                     window.history.back();
                 },
-                                    function (e, textStatus, errorThrown) {
+                    function (e, textStatus, errorThrown) {
                     console.log(textStatus);
                 }
-                                   );
+                 );
             });
         }
     };
@@ -1512,7 +1464,7 @@ $(document).ready(function(){
                 );
             });
         }
-    }
+    };
     
     // add time to an account
     var addTime = {
@@ -1667,7 +1619,7 @@ $(document).ready(function(){
                     "stop_date": dat2 ? edat : "",
                     "tech_id": tech,
                 },
-                       'POST').then(function (d) {
+                    'POST').then(function (d) {
                     localStorage.setItem('isMessage','truePos');
                     localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>');
                     window.location.replace("ticket_detail.html");
@@ -1790,14 +1742,7 @@ $(document).ready(function(){
                         return;
                     }else{
                         ticketKey = parseInt(isEdit ? timeLog.ticket_id : ticketKey);
-                        $.ajax({
-                            type: isEdit ? 'PUT' : 'POST',
-                            beforeSend: function (xhr) {
-                                xhr.setRequestHeader('Authorization',
-                                                     'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                            },
-                            url: ApiSite + 'time' + (isEdit ? "/" + timeLog.time_id : ""),
-                            data: {
+                        getApi('time' + (isEdit ? "/" + timeLog.time_id : ""),{
                                 "tech_id" : isEdit ? timeLog.user_id : tech,
                                 "project_id": projectId,
                                 "is_project_log": !ticketKey,
@@ -1810,17 +1755,15 @@ $(document).ready(function(){
                                 "date": dat1 ? sdat: "",
                                 "start_date": dat1 ? sdat : "",
                                 "stop_date": dat2 ? edat : ""
-                            },
-                            dataType: 'json',
-                            success: function (d) {
+                        }, isEdit ? 'PUT' : 'POST').then(function (d) {
                                 localStorage.setItem('isMessage','truePos');
                                 localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>');
                                 window.history.back();
                             },
-                            error: function (e, textStatus, errorThrown) {
+                            function (e, textStatus, errorThrown) {
                                 alert(textStatus);
                             }
-                        });
+                    );
                     }
                 });
             }
@@ -2119,17 +2062,7 @@ $(document).ready(function(){
                 window.location = "invoice.html";
             });
 
-            $.ajax({
-                type: 'GET',
-                beforeSend: function (xhr) {
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization',
-                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                },
-
-                url:ApiSite +"invoices/"+localStorage.getItem("invoiceNumber"),
-                dataType:"json",
-                success: function(returnData) {
+            getApi("invoices/"+localStorage.getItem("invoiceNumber")).then(function(returnData) {
                     ////console.log(returnData);
                     localStorage.setItem("invoiceAccountId",returnData.account_id);
                     localStorage.setItem("invoiceProjectId",returnData.project_id);
@@ -2229,18 +2162,13 @@ $(document).ready(function(){
                             $(insert).appendTo("#expensesList");
                         }
                     }
-
-                },
-                complete:function(){
                     reveal();
                 },
-                error: function() {
+                function() {
                     console.log("fail @ Invoice details");
                     //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
-            });
-
-        }
+            );}
     };
 
     /*
@@ -2558,7 +2486,7 @@ $(document).ready(function(){
                     reveal();
                     if (!limit) {createSpan(parent);filterList("OptionsList");}
                 },
-                                                                     function() {
+                 function() {
                     console.log("fail @ Queues List");
                 });
             }, time);
@@ -2702,7 +2630,7 @@ $(document).ready(function(){
                     reveal();
 
                 },
-                                                                          function() {
+                    function() {
                     console.log("fail @ all ticket List");
                 }
                                                                          );}, time); 
@@ -2730,7 +2658,7 @@ $(document).ready(function(){
                     ticketList.createTicketsList(returnData, "#altContainer", cacheName1);
                     featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
                 },
-                                                                           function() {
+                    function() {
                     console.log("fail @ alt ticket List");
                 }
                                                                           );}, time); 
@@ -2758,7 +2686,7 @@ $(document).ready(function(){
                     ticketList.createTicketsList(returnData, "#userContainer", cacheName1);
                     featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
                 },
-                                                                              function() {
+                    function() {
                     console.log("fail @ user ticket List");
                 }
                                                                              );}, time); 
@@ -2768,10 +2696,7 @@ $(document).ready(function(){
     String.format = function(format) {
         var args = Array.prototype.slice.call(arguments, 1);
         return format.replace(/{(\d+)}/, function(match, number) { 
-            return typeof args[number] != 'undefined'
-                ? args[number] 
-            : match
-            ;
+            return typeof args[number] != 'undefined' ? args[number] : match;
         });
     };
 
@@ -2826,7 +2751,7 @@ $(document).ready(function(){
                 localStorage.setItem("storageAccountList",JSON.stringify(returnData));
                 reveal();
             },
-                                                                     function() {
+                function() {
                 console.log("fail @ listAccounts");
             }
                                                                     );}, time);
@@ -2949,7 +2874,7 @@ $(document).ready(function(){
                 if (returnData.length > 1)
                     filterList("timelogs");
             },
-                                                 function() {
+                function() {
                 console.log("fail @ timelogs");
             }
                                                 );
@@ -3023,7 +2948,7 @@ $(document).ready(function(){
                         localStorage.setItem("storageAccountList", JSON.stringify(test));
                     }
                 },
-                                                                function() {
+                    function() {
                     console.log("fail @ accounts");
                 }
                                                                );
@@ -3080,7 +3005,7 @@ $(document).ready(function(){
                 }
 
             },
-                                                     function() {
+                function() {
                 console.log("fail @ timelogs");
             }
                                                     );
@@ -3110,7 +3035,7 @@ $(document).ready(function(){
                     reveal();
                     localStorage.setItem("ticketsStat", JSON.stringify(returnData));
                 },
-                                              function() {
+                    function() {
                     console.log("fail @ get TicketsCounts");
                 }
                                              );
@@ -3191,17 +3116,7 @@ $(document).ready(function(){
         },
         userData:function() {
             //get user info
-            $.ajax({
-                type: 'GET',
-                beforeSend: function (xhr) {
-                    xhr.withCredentials = true;
-                    xhr.setRequestHeader('Authorization',
-                                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
-                },
-
-                url:ApiSite +"users?query="+localStorage.getItem('userName'),
-                dataType:"json",
-                success: function(returnData) {
+            getApi("users?query="+localStorage.getItem('userName')).then(function(returnData) {
                     //console.log(returnData);
                     //set the name of the nav side menu
                     $(".navName").html(returnData[0].firstname+" "+returnData[0].lastname);
@@ -3211,16 +3126,14 @@ $(document).ready(function(){
                     $(".navProfile").attr("src","http://www.gravatar.com/avatar/" + email + "?d=mm&s=80");
                     //set user id to local storage
                     localStorage.setItem("userId",returnData[0].id);
-                },
-                complete:function(){
                     reveal();
                     window.setTimeout(reveal,500);
                 },
-                error: function() {
+              function() {
                     console.log("fail @ accounts");
                     //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                 }
-            });
+            );
         }
     };
 
@@ -3363,7 +3276,6 @@ $(document).ready(function(){
                     logout();
                 }
             });
-
         }
     };
 
@@ -3514,7 +3426,7 @@ $(document).ready(function(){
             if (adMessage.length > 1)
             {
                 setTimeout(function(){
-                    userMessage.showMessage(true, adMessage,updatedFunction)
+                    userMessage.showMessage(true, adMessage,updatedFunction);
                 }, 3000);
             }
             else

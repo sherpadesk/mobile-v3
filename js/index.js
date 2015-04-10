@@ -303,7 +303,8 @@ var fastClicker = {
 		tab: function() {
 			$('#replyTab, #ticketReply').css('color','#fff');   
             //$(".TicketTabs").show();
-            this.tabnav(localStorage.getItem("ticketPage"));
+            var test = localStorage.getItem("ticketPage");
+            this.tabnav(test ? test : "user");
             $(document).on("click",".tabHeader",function(){
 				ticketDetails.tabnav($(this));
 			});
@@ -315,10 +316,11 @@ var fastClicker = {
                     test = $element.attr("data-id");
                 }
                 else if(islist) {
-                    test = $element.toLowerCase().replace("as", "").replace("tickets");
+                    test = $element.toLowerCase().replace("as", "").replace("tickets","");
                     if (test.length > 5) test = test.replace("tech", "");
                     $element = $("li.tabHeader[data-id="+test+"]");
                 }
+
 				$('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
 				$(".tabpage").hide();
 				switch(test) {
