@@ -2,7 +2,7 @@
 /*global jQuery, $ */
 
 var appVersion = "20";
-var adMessage = "Navigation improoved";
+var adMessage = "Navigation improved";
 function updatedFunction ()
 {
     location.reload(true);
@@ -2466,7 +2466,7 @@ $(document).ready(function(){
 
         queues:function(limit, parent) {
             var retrievedObject = localStorage.getItem("storageQueues");
-            var time = cacheTime;
+            var time = limit ? 1000 : cacheTime;
             if (retrievedObject)
                 retrievedObject = JSON.parse(retrievedObject);
             if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
