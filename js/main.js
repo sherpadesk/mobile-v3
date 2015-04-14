@@ -33,6 +33,10 @@ var isTech = false,
 var cacheName = "", //current cache to kill on refresh
     cacheTime = 5000; // milliseconds before cache update 
 
+function checkEmail(email) {
+    return(email.trim().match(/^[^@\s]+@[^@\s]+(\.[^@\s]+)+$/i) !== null);
+}
+
 function checkURL(url) {
     return(url.trim().match(/\.(jpeg|jpg|gif|png)$/i) !== null);
 }
@@ -189,10 +193,16 @@ if (typeof String.prototype.endsWith !== 'function') {
     };
 }
 
+function getPage()
+{
+    var m = location.href.match(/(.+\w\/)(.+)/);
+    return m ? m : ['','',''];
+}
+
 function GooglelogOut(mess) {
     if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-        document.location.href = location.href.replace(/(.+\w\/)(.+)/, "$1") + "index.html" + ((typeof mess === "undefined") ? "" : "?f="+mess);
+        document.location.href = getPage()[1] + "index.html" + ((typeof mess === "undefined") ? "" : "?f="+mess);
     }
     else
         window.location = "index.html" + ((typeof isRedirect === "undefined") ? "" : "?f="+mess);
@@ -1034,7 +1044,7 @@ $(document).ready(function(){
     var newTicket = {
         init:function() {
             $("#userCreate").on("click", function(){
-                    window.location = "add_user.html";
+                window.location = "add_user.html?p="+getPage()[2];
             }); 
             this.addTicket();
         },
@@ -1058,7 +1068,6 @@ $(document).ready(function(){
                      fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
                      if (accountset)
                          $("#addTicketAccounts").val(accountset);
-                     reveal();
                  }, function() {
                      console.log("fail @ ticket accounts");
                  });
@@ -1072,14 +1081,18 @@ $(document).ready(function(){
             }
             else
             {
-                var technicians = getApi("users?limit=200");
-                technicians.then(function(returnData){
+                var users = getApi("users?limit=2000");
+                users.then(function(returnData){
                     //console.log(returnData);
                     // add techs to option select list
                     fillSelect(returnData, "#addTicketUser",
                                "<option value=0 disabled selected>choose end user</option>", "",
                                "firstname,lastname");
-                    //reveal();
+                    var userid = getParameterByName('user');
+                    if (userid) cleanQuerystring();
+                    else userid = localStorage.getItem('userId');
+                    $("#addTicketUser").val(userid);
+                    reveal();
                 },
                                  function() {
                     console.log("fail @ ticket user");
@@ -1452,11 +1465,17 @@ $(document).ready(function(){
                 else  {$("#addTicketPassword").show(); $("#addTicketConfirmPassword").show();}
 
             });
+            
             $("#submitNewUser").click(function(){
                 var email = $("#addTicketEmail").val().trim();
                 if (email.length < 1)
                 {
-                    alert("Please enter email");
+                    userMessage.showMessage(false, "Please enter email");
+                    return;
+                }
+                if (!checkEmail(email))
+                {
+                    userMessage.showMessage(false, "Please correct email");
                     return;
                 }
                 console.log(email);
@@ -1464,13 +1483,13 @@ $(document).ready(function(){
                 var Firstname = $("#addTicketFirstname").val().trim();
                 if (Firstname.length < 1)
                 {
-                    alert("Please enter Firstname");
+                    userMessage.showMessage(false, "Please enter Firstname");
                     return;
                 }
                 Lastname = $("#addTicketLastname").val().trim();
                 if (Lastname.length < 1)
                 {
-                    alert("Please enter Lastname");
+                    userMessage.showMessage(false, "Please enter Lastname");
                     return;
                 }
                 getApi('users', {
@@ -1479,10 +1498,17 @@ $(document).ready(function(){
                     "email":email
                 }, 'POST').then(
                     function (d) {
-                        history.back();
+                        userMessage.showMessage(true, 'User was created <i class="fa fa-thumbs-o-up"></i>', function(){ 
+                            var page1 = getParameterByName('p');
+                            if (page1) {
+                                cleanQuerystring();
+                                page1 += "?user="+d.id;
+                            }
+                            else page1 = "add_tickets.html?user="+d.id;
+                            window.location.replace(page1);                                                        }); 
                     },
-                    function (e, textStatus, errorThrown) {
-                        alert(e);
+                    function (e) {
+                            userMessage.showMessage(false, 'This email is already in use for this department/organization');
                     }
                 );
             });
@@ -3614,6 +3640,16 @@ $(document).ready(function(){
             {
                 //window.location.replace(document.referrer);
                 addTime.init();
+            }
+            return;
+        }
+        if (location.pathname.endsWith("add_user.html"))
+        {
+            if (!isTech) window.location = "dashboard.html";
+            else
+            {
+                //window.location.replace(document.referrer);
+                addUser.init();
             }
             return;
         }

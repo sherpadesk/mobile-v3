@@ -583,9 +583,15 @@ var fastClicker = {
 		}
 	};
     
+    function getPage()
+    {
+        var m = location.href.match(/(.+\w\/)(.+)/);
+        return m ? m : ['','',''];
+    }
+    
     var NAV_MENU="<div class='activeNav'><div class='fold'><i class='fa a-angle-double-left fa-2x'></i></div><img class='navProfile' src='img/profile_3.png'><h2 class='navName'>NO USER DATA</h2><ul class='sideNavLinks'><a href='dashboard.html'><li id='itemDash'><a href='dashboard.html'><div class='iconCircle'><i class='fa fa-tachometer'></i></div><h3>Dashboard</h3></a></li></a> <a class='user' href='ticket_list.html'><li id='itemTickets'><div class='iconCircle'><i class='fa fa-ticket'></i></div><h3>Tickets</h3><div class='menuTicketsStat'><p class='menuTicketStatNumber'>0</p></div></li></a> <a class='time' href='timelog.html'><li id='itemTimelog'><div class='iconCircle'><i class='fa fa-clock-o'></i></div><h3>Timelogs</h3></li></a> <a href='Account_List.html'><li id='itemAccount'><div class='iconCircle'><i class='fa fa-users'></i></div><h3>Accounts</h3></li></a><li class='time' id='itemInvoice'><div class='iconCircle'><i class='fa fa-credit-card'></i></div><h3 id='allInvoice'>Invoices</h3></li><a href='Queues.html'><li id='itemQueues'><div class='iconCircle'><i class='fa fa-sort-amount-asc'></i></div><h3>Queues</h3></li></a><li class='user' id='switchOrg'><div class='iconCircle'><i class='fa fa-list'></i></div><h3>Switch Org</h3></li><li class='user' id='signOut'><div class='iconCircle'><i class='fa fa-sign-in'></i></div><h3>Signout</h3></li><a class='fullapplink user' href='#'><li><div class='iconCircle'><i class='fa fa-external-link'></i></div><h3>Full App</h3></li></a></ul></div>";
     
-    var CREATE_MENU="<div class='createActions'><ul class='createActionsList'><a href='add_tickets.html'><li><i class='fa fa-ticket'></i><p>Add Ticket</p></li></a> <a href='add_time.html'><li><i class='fa fa-clock-o'></i><p>Add Time</p></li></a><li id='invoiceFooter'><i class='fa fa-credit-card'></i><p>Add Invoice</p></li><a href='addExpence.html'><li><i class='fa fa-money'></i><p>Add Expense</p></li></a></ul></div>";
+    var CREATE_MENU="<div class='createActions'><ul class='createActionsList'><a href='#' onclick='window.location.replace(\"add_tickets.html\");'><li><i class='fa fa-ticket'></i><p>Add Ticket</p></li></a> <a href='add_time.html'><li><i class='fa fa-clock-o'></i><p>Add Time</p></li></a><li id='invoiceFooter'><i class='fa fa-credit-card'></i><p>Add Invoice</p></li><a href='addExpence.html'><li><i class='fa fa-money'></i><p>Add Expense</p></li></a></ul></div>";
 
 
 	(function() { 
