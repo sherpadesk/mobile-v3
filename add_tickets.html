@@ -48,12 +48,20 @@
 <body>
   <div class="bodyContent">
     <div class="CreateInvoiceWrapper"> 
+        <div class="styledSelect user styledSelectSmall">
+            <select id="addTicketUser">     
+            </select>
+        </div>
+
+        <div id="userCreate" class="createButtonSmall1 destroyButtonSmall">
+            <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div> 
+            
         <div class="styledSelect user">
            <select id="addTicketAccounts">
               <!--<option value="+value+">"+task+"</option>-->
            </select>
         </div>
-        <div class="styledSelect user <!--styledSelectSmall-->">
+        <div class="styledSelect user <!-- styledSelectSmall-->">
            <select id="addTicketTechs">     
            </select>
         </div>
@@ -67,6 +75,8 @@
               <!--<option value="+classId+">"+className+"</option>-->
            </select>
         </div>
+            
+            
             <div class="sub_class1" style="display:none"><div class="styledSelect"><select id="sub_class1"></select></div></div>
         <div class="sub_class2" style="display:none"><div class="styledSelect"><select id="sub_class2"></select></div></div>
         </div>
