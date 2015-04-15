@@ -1045,7 +1045,13 @@ $(document).ready(function(){
         init:function() {
             $("#userCreate").on("click", function(){
                 window.location = "add_user.html?p="+getPage()[2];
+            });
+            
+            $("#TechCreate").on("click", function(){
+                localStorage.setItem('add_user_type', 'tech');
+                window.location = "add_user.html?p="+getPage()[2];           
             }); 
+            
             this.addTicket();
         },
 
@@ -1116,7 +1122,9 @@ $(document).ready(function(){
                     fillSelect(returnData, "#addTicketTechs",
                                "<option value=0 disabled selected>choose a tech</option>", "",
                                "firstname,lastname");
-                    //reveal();
+                    var techid = getParameterByName('tech');
+                    if (techid) cleanQuerystring();
+                    $("#addTicketTech").val(techid);
                 },
                                  function() {
                     console.log("fail @ ticket tech");
@@ -1466,6 +1474,14 @@ $(document).ready(function(){
 
             });
             
+            var value = localStorage.getItem('add_user_type');
+            if (value == "tech"){
+                $('.SherpaDesk').text('Add New Tech');
+                $('.greenButton').text('Add New Tech');  
+            }
+            
+            localStorage.setItem('add_user_type', '');
+            
             $("#submitNewUser").click(function(){
                 var email = $("#addTicketEmail").val().trim();
                 if (email.length < 1)
@@ -1495,16 +1511,25 @@ $(document).ready(function(){
                 getApi('users', {
                     "Lastname": Lastname,
                     "Firstname": Firstname,
-                    "email":email
+                    "email":email,
+                    "role" : value == "tech" ? "tech" : "user"
                 }, 'POST').then(
                     function (d) {
                         userMessage.showMessage(true, 'User was created <i class="fa fa-thumbs-o-up"></i>', function(){ 
                             var page1 = getParameterByName('p');
-                            if (page1) {
+                            if (value == "tech"){
+                                if (page1) {
+                                    cleanQuerystring();
+                                    page1 += "?tech="+d.id;
+                                }
+                                else page1 = "add_tickets.html?tech="+d.id;
+                            }
+                            else {if (page1) {
                                 cleanQuerystring();
                                 page1 += "?user="+d.id;
                             }
                             else page1 = "add_tickets.html?user="+d.id;
+                            }
                             window.location.replace(page1);                                                        }); 
                     },
                     function (e) {
