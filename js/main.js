@@ -193,12 +193,6 @@ if (typeof String.prototype.endsWith !== 'function') {
     };
 }
 
-function getPage()
-{
-    var m = location.href.match(/(.+\w\/)(.+)/);
-    return m ? m : ['','',''];
-}
-
 function GooglelogOut(mess) {
     if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
@@ -1043,13 +1037,25 @@ $(document).ready(function(){
     // create a new ticket
     var newTicket = {
         init:function() {
+            //back
+            //localStorage.setItem('add_tickets.html_ref', '');
+            //localStorage.setItem('add_user_techid', '');
+            //localStorage.setItem('add_user_userid', '');
+            
+            var reff = getParameterByName("page");
+            if (reff){
+                localStorage.setItem('add_tickets.html_ref', getParameterByName("page"));
+                cleanQuerystring();
+            }
             $("#userCreate").on("click", function(){
-                window.location = "add_user.html?p="+getPage()[2];
+                localStorage.setItem('add_user_userid', $("#addTicketUser").val());
+                window.location = "add_user.html";
             });
             
             $("#TechCreate").on("click", function(){
                 localStorage.setItem('add_user_type', 'tech');
-                window.location = "add_user.html?p="+getPage()[2];           
+                localStorage.setItem('add_user_techid', $("#addTicketTech").val());
+                window.location = "add_user.html";           
             }); 
             
             this.addTicket();
@@ -1094,8 +1100,8 @@ $(document).ready(function(){
                     fillSelect(returnData, "#addTicketUser",
                                "<option value=0 disabled selected>choose end user</option>", "",
                                "firstname,lastname");
-                    var userid = getParameterByName('user');
-                    if (userid) cleanQuerystring();
+                    var userid = localStorage.getItem('add_user_userid');
+                    if (userid) localStorage.setItem('add_user_userid', "");
                     else userid = localStorage.getItem('userId');
                     $("#addTicketUser").val(userid);
                     reveal();
@@ -1122,9 +1128,11 @@ $(document).ready(function(){
                     fillSelect(returnData, "#addTicketTechs",
                                "<option value=0 disabled selected>choose a tech</option>", "",
                                "firstname,lastname");
-                    var techid = getParameterByName('tech');
-                    if (techid) cleanQuerystring();
-                    $("#addTicketTech").val(techid);
+                    var techid = localStorage.getItem('add_user_techid');
+                    if (techid) {
+                        localStorage.setItem('add_user_techid', '');
+                    }
+                        $("#addTicketTech").val(techid);
                 },
                                  function() {
                     console.log("fail @ ticket tech");
@@ -1173,8 +1181,13 @@ $(document).ready(function(){
                         setTimeout(
                             function()
                             {
-
-                                window.location =  isTech ? "dashboard.html" : "ticket_list.html";
+                                var reff = localStorage.getItem('add_tickets.html_ref');
+                                localStorage.setItem('add_tickets.html_ref', '');
+                                localStorage.setItem('add_user_techid', '');
+                                localStorage.setItem('add_user_userid', '');
+                                if (!reff)
+                                    reff = isTech ? "dashboard.html" : "ticket_list.html";
+                                window.location.replace(reff);
 
                             }, 1000);
                         userMessage.setMessage(true, "Ticket was Succesfully Created :)");
@@ -1468,6 +1481,9 @@ $(document).ready(function(){
     // add user to an account
     var addUser = {
         init:function(){
+            
+            //back
+            //localStorage.setItem('add_user_type', '');
             $(".innerCircle").click(function(){
                 if ($(".innerCircle").hasClass("billFill")) {$("#addTicketPassword").hide(); $("#addTicketConfirmPassword").hide();}
                 else  {$("#addTicketPassword").show(); $("#addTicketConfirmPassword").show();}
@@ -1477,10 +1493,11 @@ $(document).ready(function(){
             var value = localStorage.getItem('add_user_type');
             if (value == "tech"){
                 $('.SherpaDesk').text('Add New Tech');
-                $('.greenButton').text('Add New Tech');  
+                $('.greenButton').text('Add New Tech');
+                value = 'Tech';
             }
-            
-            localStorage.setItem('add_user_type', '');
+            else
+                value = 'User'
             
             $("#submitNewUser").click(function(){
                 var email = $("#addTicketEmail").val().trim();
@@ -1512,24 +1529,13 @@ $(document).ready(function(){
                     "Lastname": Lastname,
                     "Firstname": Firstname,
                     "email":email,
-                    "role" : value == "tech" ? "tech" : "user"
+                    "role" : value
                 }, 'POST').then(
                     function (d) {
-                        userMessage.showMessage(true, 'User was created <i class="fa fa-thumbs-o-up"></i>', function(){ 
-                            var page1 = getParameterByName('p');
-                            if (value == "tech"){
-                                if (page1) {
-                                    cleanQuerystring();
-                                    page1 += "?tech="+d.id;
-                                }
-                                else page1 = "add_tickets.html?tech="+d.id;
-                            }
-                            else {if (page1) {
-                                cleanQuerystring();
-                                page1 += "?user="+d.id;
-                            }
-                            else page1 = "add_tickets.html?user="+d.id;
-                            }
+                        userMessage.showMessage(true, value +' was created <i class="fa fa-thumbs-o-up"></i>', function(){ 
+                                localStorage.setItem(value == "Tech" ? 'add_user_techid' : 'add_user_userid', d.id);
+                            localStorage.setItem('add_user_type', '');
+                            page1 = "add_tickets.html";
                             window.location.replace(page1);                                                        }); 
                     },
                     function (e) {
