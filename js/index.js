@@ -1,8 +1,5 @@
-    function backFunction ()
-    {
-                localStorage.setItem('addAccountTicket', '');
-				window.history.back();
-    }
+/*jshint -W004, -W041, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
+/*global jQuery, $ */
 
 $(document).ready(function() {
 
@@ -57,8 +54,14 @@ var fastClicker = {
 
 	var backButton = {
 		init:function() {
-			$("#goBack").click(backFunction);
-		}
+			$("#goBack").click(function(){
+                if (!window.backFunction)
+                    window.history.back();
+                else if (typeof window.backFunction == "function")
+                window.backFunction(); 
+                }
+        );
+        }
 	};
 
 
@@ -223,7 +226,7 @@ var fastClicker = {
             if ($(".headerSearchIcon")){
                 var parent = $(".headerSearchIcon").parent();
                 //console.log(parent);
-                var insert = "<div id='searchThis' class='headerSearchContainer'><img class='searchIconExpanded' src='img/search_icon.png'><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><img class='searchCloseExpanded' src='img/close_search.png'></div>"
+                var insert = "<div id='searchThis' class='headerSearchContainer'><img class='searchIconExpanded' src='img/search_icon.png'><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><img class='searchCloseExpanded' src='img/close_search.png'></div>";
 				$(parent).empty();
 				$(insert).appendTo( $( parent ) );
 				$(".headerSearchContainer").animate({
@@ -577,7 +580,7 @@ var fastClicker = {
                },500);
                setTimeout(function(){
                	$('.splashScreen').fadeOut();
-               },1500)
+               },1500);
             }
 		}
 	};

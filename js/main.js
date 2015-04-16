@@ -1,8 +1,8 @@
 /*jshint -W004, -W041, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var appVersion = "20";
-var adMessage = "Navigation improved";
+var appVersion = "21";
+var adMessage = "Invite new user feature";
 function updatedFunction ()
 {
     location.reload(true);
@@ -299,7 +299,7 @@ function filterList(listClass, value_names, init_value){
         if (featureList.matchingItems.length > 1) 
         {
             var itemMessage = 'There are ' + featureList.matchingItems.length + ' matching tickets.';
-            console.log( itemMessage);
+            //console.log( itemMessage);
         } else if (featureList.matchingItems.length === 0) {
             console.log( 'Bummer...  0 items found');
         }
@@ -888,7 +888,7 @@ $(document).ready(function(){
                 }
                 var emails = ""; 
                 $.each($(".recipient").children(".closeIcon"), function(){emails+=$(this).attr("id") + ",";}); 
-                console.log(emails);
+                //console.log(emails);
                 getAp('invoices/'+localStorage.getItem('invoiceNumber'),{
                         "action": "sendEmail",
                         "recipients": emails
@@ -1037,10 +1037,7 @@ $(document).ready(function(){
     // create a new ticket
     var newTicket = {
         init:function() {
-            window.backFunction = function() {
-            localStorage.setItem('add_tickets.html_ref', '');
-            window.history.back();
-            };
+            backFunction = function() { newTicket.back(); };
             
             var reff = getParameterByName("page");
             if (reff){
@@ -1054,7 +1051,7 @@ $(document).ready(function(){
                 if (tech) localStorage.setItem('add_user_techid',tech);
                 var account = $("#addTicketAccounts").val();
                 if (account) localStorage.setItem('add_user_accountid',account);
-                window.location = "add_user.html";
+                window.location = "add_user.html".addUrlParam("page", "add_tickets.html");
             });
             
             $("#TechCreate").on("click", function(){
@@ -1065,12 +1062,20 @@ $(document).ready(function(){
                 if (tech) localStorage.setItem('add_user_techid', tech);
                 var account = $("#addTicketAccounts").val();
                 if (account) localStorage.setItem('add_user_accountid',account);
-                window.location = "add_user.html";           
+                window.location = "add_user.html".addUrlParam("page", "add_tickets.html");           
             }); 
             
             this.addTicket();
         },
+        back: function(){
+                                var reff = localStorage.getItem('add_tickets.html_ref');
+                                localStorage.setItem('add_tickets.html_ref', '');
+                                if (!reff)
+                                    reff = isTech ? "dashboard.html" : "ticket_list.html";
+                                    localStorage.setItem('addAccountTicket', '');
+                                window.location.replace(reff);
 
+        },
         addTicket:function() {
             $("#addTicketAccounts").empty();
             var accountset = localStorage.getItem('addAccountTicket');
@@ -1191,22 +1196,8 @@ $(document).ready(function(){
                         "tech_id" : $("#addTicketTechs").val()
                     }, "POST");
                     addTicket.then(function (d) {
-                        localStorage.setItem('addAccountTicket', '');
-                        setTimeout(
-                            function()
-                            {
-                                var reff = localStorage.getItem('add_tickets.html_ref');
-                                localStorage.setItem('add_tickets.html_ref', '');
-                                localStorage.setItem('add_user_techid', '');
-                                localStorage.setItem('add_user_userid', '');
-                                if (!reff)
-                                    reff = isTech ? "dashboard.html" : "ticket_list.html";
-                                window.location.replace(reff);
-
-                            }, 1000);
+                        setTimeout(newTicket.back, 1000);
                         userMessage.setMessage(true, "Ticket was Succesfully Created :)");
-
-
                     },
                                    function (e, textStatus, errorThrown) {
                         alert(textStatus);
@@ -1494,10 +1485,24 @@ $(document).ready(function(){
 
     // add user to an account
     var addUser = {
+        back: function(){
+                        localStorage.setItem('add_user_type', '');
+                                var reff = localStorage.getItem('add_user.html_ref');
+                                localStorage.setItem('add_user.html_ref', '');
+                                if (!reff)
+                                    history.back();
+                                else
+                                window.location.replace(reff);
+
+        },
         init:function(){
+            backFunction = function() { addUser.back(); };
+            var reff = getParameterByName("page");
+            if (reff){
+                localStorage.setItem('add_user.html_ref', getParameterByName("page"));
+                cleanQuerystring();
+            }
             
-            //back
-            //localStorage.setItem('add_user_type', '');
             $(".innerCircle").click(function(){
                 if ($(".innerCircle").hasClass("billFill")) {$("#addTicketPassword").hide(); $("#addTicketConfirmPassword").hide();}
                 else  {$("#addTicketPassword").show(); $("#addTicketConfirmPassword").show();}
@@ -1525,7 +1530,6 @@ $(document).ready(function(){
                     userMessage.showMessage(false, "Please correct email");
                     return;
                 }
-                console.log(email);
 
                 var Firstname = $("#addTicketFirstname").val().trim();
                 if (Firstname.length < 1)
@@ -1548,12 +1552,10 @@ $(document).ready(function(){
                     function (d) {
                         userMessage.showMessage(true, value +' was created <i class="fa fa-thumbs-o-up"></i>', function(){ 
                                 localStorage.setItem(value == "Tech" ? 'add_user_techid' : 'add_user_userid', d.id);
-                            localStorage.setItem('add_user_type', '');
-                            page1 = "add_tickets.html";
-                            window.location.replace(page1);                                                        }); 
+                           addUser.back();
+                        }); 
                     },
                     function (e) {
-                        console.log(e);
                             userMessage.showMessage(false, e.statusText);
                     }
                 );
@@ -2206,7 +2208,7 @@ $(document).ready(function(){
                     // adjustments
                     $("#invoiceAdjustments").html(localStorage.getItem('currency') + "0<span class='detail3Small'>.00</span>");
                     //$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
-                    console.log(Number(returnData.total_cost).toFixed(2).toString());
+                    //console.log(Number(returnData.total_cost).toFixed(2).toString());
                     amount = Number(returnData.total_cost).toFixed(2).toString();
                     change = amount.substring(amount.length-3, amount.length);
                     amount = amount.substring(0, amount.length -3);
@@ -2379,11 +2381,11 @@ $(document).ready(function(){
 				var accountId = localStorage.getItem("invoiceAccountId");
 				var note = $("#noteTimeTicket").val();
 				var hours = $("#addTimeTicket").val();
-				console.log(techId);
-				console.log(projectId);
-				console.log(accountId);
-				console.log(note);
-				console.log(hours);
+				//console.log(techId);
+				//console.log(projectId);
+				//console.log(accountId);
+				//console.log(note);
+				//console.log(hours);
 				$.ajax({
     				type: 'POST',
     				beforeSend: function (xhr) {
