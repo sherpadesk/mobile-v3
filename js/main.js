@@ -70,6 +70,22 @@ function openURLsystem(urlString){
     window.open(urlString, '_system');
 }
 
+    function getPage()
+    {
+        var m = location.href.match(/(.+\w\/)(.+)/);
+        return m ? m : ['','',''];
+    }
+    
+    if (typeof String.prototype.addUrlParam !== 'function') {
+        String.prototype.addUrlParam = function(param, value) {
+            if (!value || !param)
+                return this;
+            var ch = this.indexOf('?') > 0 ? '&' : '?';
+            return this + ch + param + '=' + value;
+        };
+    }
+    
+
 //global error handler
 $( document ).ajaxError(function( event, request, settings ) {
     //console.log(event);
@@ -3632,23 +3648,31 @@ $(document).ready(function(){
                 }
                 return;
             }
+            var addticketsb = false;
             if (location.pathname.endsWith("Queues.html"))
             {
                 getQueues.init("#queuesPage");
-                return;
+                addticketsb = true;
             }
             if (location.pathname.endsWith("queueTickets.html"))
             {
                 getQueueTickets.init();
-                return;
+                addticketsb = true;
             }
         }
         if (location.pathname.endsWith("ticket_list.html"))
         {
             ticketList.init();
             //accountDetailsPageSetup.init();
-            return;
+            addticketsb = true;
 
+        }
+        if (addticketsb){
+                    $(".createButton").click(
+            function(){
+                window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]));
+            });
+            return;
         }
         if (location.pathname.endsWith("ticket_detail.html"))
         {
