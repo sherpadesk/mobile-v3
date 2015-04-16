@@ -1037,10 +1037,10 @@ $(document).ready(function(){
     // create a new ticket
     var newTicket = {
         init:function() {
-            //back
-            //localStorage.setItem('add_tickets.html_ref', '');
-            //localStorage.setItem('add_user_techid', '');
-            //localStorage.setItem('add_user_userid', '');
+            window.backFunction = function() {
+            localStorage.setItem('add_tickets.html_ref', '');
+            window.history.back();
+            };
             
             var reff = getParameterByName("page");
             if (reff){
@@ -1048,13 +1048,23 @@ $(document).ready(function(){
                 cleanQuerystring();
             }
             $("#userCreate").on("click", function(){
-                localStorage.setItem('add_user_userid', $("#addTicketUser").val());
+                var user = $("#addTicketUser").val();
+                if (user) localStorage.setItem('add_user_userid', user);
+                var tech = $("#addTicketTechs").val();
+                if (tech) localStorage.setItem('add_user_techid',tech);
+                var account = $("#addTicketAccounts").val();
+                if (account) localStorage.setItem('add_user_accountid',account);
                 window.location = "add_user.html";
             });
             
             $("#TechCreate").on("click", function(){
                 localStorage.setItem('add_user_type', 'tech');
-                localStorage.setItem('add_user_techid', $("#addTicketTech").val());
+                var user = $("#addTicketUser").val();
+                if (user) localStorage.setItem('add_user_userid', user);
+                var tech = $("#addTicketTechs").val();
+                if (tech) localStorage.setItem('add_user_techid', tech);
+                var account = $("#addTicketAccounts").val();
+                if (account) localStorage.setItem('add_user_accountid',account);
                 window.location = "add_user.html";           
             }); 
             
@@ -1078,8 +1088,12 @@ $(document).ready(function(){
                      // get list of accounts add them to option select list
                      $("#addTicketAccounts").empty();
                      fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
-                     if (accountset)
+                     var account =  localStorage.getItem('add_user_accountid');
+                     accountset  = accountset ? accountset : account; 
+                     if (accountset){
+                         localStorage.setItem('add_user_accountid', '');
                          $("#addTicketAccounts").val(accountset);
+                     }
                  }, function() {
                      console.log("fail @ ticket accounts");
                  });
@@ -1131,8 +1145,8 @@ $(document).ready(function(){
                     var techid = localStorage.getItem('add_user_techid');
                     if (techid) {
                         localStorage.setItem('add_user_techid', '');
+                        $("#addTicketTechs").val(techid);
                     }
-                        $("#addTicketTech").val(techid);
                 },
                                  function() {
                     console.log("fail @ ticket tech");
@@ -1497,7 +1511,7 @@ $(document).ready(function(){
                 value = 'Tech';
             }
             else
-                value = 'User'
+                value = 'User';
             
             $("#submitNewUser").click(function(){
                 var email = $("#addTicketEmail").val().trim();
@@ -1539,7 +1553,8 @@ $(document).ready(function(){
                             window.location.replace(page1);                                                        }); 
                     },
                     function (e) {
-                            userMessage.showMessage(false, 'This email is already in use for this department/organization');
+                        console.log(e);
+                            userMessage.showMessage(false, e.statusText);
                     }
                 );
             });
