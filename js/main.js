@@ -1903,11 +1903,6 @@ $(document).ready(function(){
             {
                 userMessage.showMessage(true);
             }
-            // listen for a click of a ticket block from a ticket list page (account detail  ticket list or complete ticket list)
-            $(document).on("click",".responseBlock", function(){
-                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
-                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
-            });
             $('html,body').css('scrollTop','0');
             getApi("tickets/"+localStorage.getItem('ticketNumber')).then(
                 function(returnData) {
@@ -2523,41 +2518,41 @@ $(document).ready(function(){
         init:function() {
             $(".title").html("Tickets @ " + localStorage.getItem("currentQueueName") + " Queue");
             this.queueTickets();
+            $(".createButton").click(
+            function(){
+                localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
+                localStorage.setItem('add_user_accountid',account);
+                window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]));
+            });
         },
 
         queueTickets:function() {
-            getApi("queues/"+localStorage.getItem("currentQueue")).then(
+            var queueId = localStorage.getItem("currentQueue");
+            if (!queueId) {
+                console.log("fail @ Queues tickets");
+                window.history.back();
+            }
+            getApi("queues/"+queueId).then(
                 function(returnData) {
-                    //console.log(returnData);
-                    $("#queueTickets").empty();
-                    if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
-                        $(insert).appendTo("#queueTickets");
-                    }
-                    for(var i = 0; i < returnData.length; i++)
-                    {
-                        // get email for gravitar avitar
-                        var email = $.md5(returnData[i].user_email);
-                        var intialPost = returnData[i].initial_post;
-                        var subject = returnData[i].subject;
-                        var data = returnData[i].key;
-                        subject = createElipse(subject, .70, 12);
-                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
-                        if(intialPost.length > 100)
-                        {
-                            intialPost = intialPost.substring(0,100);
-                        }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initafilPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
-
-                        $(ticket).appendTo("#queueTickets");
-                        filterList("queueTickets");
-                        reveal();
-                    }
-                    createSpan("#queueTickets");
+                    console.log(returnData);
+                    ticketList.createTicketsList(returnData, "#queueTickets");  
+                    filterList("queueTickets");
                     reveal();
+                    var retrievedObject, test = localStorage.getItem("storageQueues");
+            if (test){
+                match = new RegExp('\"' + queueId+',(\\d+)').exec(test);
+                if (match) {
+                    test = JSON.parse(test);
+                    retrievedObject = test[Number(match[1])];
+                    if (retrievedObject) {
+                        test[Number(match[1])].tickets_count = returnData.length;
+                        localStorage.setItem("storageQueues", JSON.stringify(test));
+                    }
+                }
+            }
                 },
                 function() {
-                    console.log("fail @ Queues List");
+                    console.log("fail @ Queues tickets");
                     
                 }
             );
@@ -2568,17 +2563,12 @@ $(document).ready(function(){
     var getQueues = {
         init:function(parent, limit) {
             cacheName = "storageQueues";
-            $(document).on("click","#queue", function(){
-                localStorage.setItem('currentQueue',$(this).attr("data-id"));
-                localStorage.setItem('currentQueueName',$(this).find(".OptionTitle").text());
-                window.location = "queueTickets.html";
-            });
             getQueues.queues(limit, parent);
         },
 
         queues:function(limit, parent) {
             var retrievedObject = localStorage.getItem("storageQueues");
-            var time = limit ? 1000 : cacheTime;
+            var time = cacheTime;
             if (retrievedObject)
                 retrievedObject = JSON.parse(retrievedObject);
             if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
@@ -2613,10 +2603,11 @@ $(document).ready(function(){
             for (var i = 0; i<length; i += 1) {
                 if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
                     badge = returnData[i].tickets_count;
+                returnData[i].index = returnData[i].id +',' + i;
                 if (limit && returnData[i].tickets_count < 1)
                     continue;
                 if (limit && activeQueues>= limit)
-                    break;
+                    continue;
                 textToInsert.push("<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>");
 
                 if(length > 10 && i == 10){
@@ -2644,12 +2635,6 @@ $(document).ready(function(){
                 this.allTickets();
             }
             this.ticketClick();
-        },
-        ticketClick:function() {
-            $(document).on("click",".responseBlock", function(){
-                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
-                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
-            });
         },
         createTicketsList : function (returnData, parent, cachePrefix){
             var $table = $(parent);
@@ -3398,10 +3383,13 @@ $(document).ready(function(){
         },
 
         justClicked:function() {
-            $(document).on("click",".responseBlock", function(){
-                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
-                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
+            $createButton = $(".createButton");
+            if ($createButton){
+                    $createButton.click(
+            function(){
+                window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]));
             });
+            }
             $("#invoiceOption").click(function(){
                 window.location = "Invoice_List.html";
             });
@@ -3648,31 +3636,23 @@ $(document).ready(function(){
                 }
                 return;
             }
-            var addticketsb = false;
             if (location.pathname.endsWith("Queues.html"))
             {
                 getQueues.init("#queuesPage");
-                addticketsb = true;
+                return;
             }
             if (location.pathname.endsWith("queueTickets.html"))
             {
                 getQueueTickets.init();
-                addticketsb = true;
+                return;
             }
         }
         if (location.pathname.endsWith("ticket_list.html"))
         {
             ticketList.init();
             //accountDetailsPageSetup.init();
-            addticketsb = true;
-
-        }
-        if (addticketsb){
-                    $(".createButton").click(
-            function(){
-                window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]));
-            });
             return;
+
         }
         if (location.pathname.endsWith("ticket_detail.html"))
         {
