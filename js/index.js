@@ -185,6 +185,18 @@ var fastClicker = {
 				$(this).attr("src", 'img/close_icon.png');
                 $(this).removeClass().addClass("closeIcon");
 			});
+			$(document).on("click",".closeIcon",function(){
+                var email = $(this).attr("id");
+				$(this).attr("src", 'img/plus_icon.png');
+                $(this).removeClass().addClass("plusIcon");
+                
+                if ($("#recipientList").children().length<1)
+                    {
+                       var insert = "<li><h3 class=noDataMessage>No accounting contacts found.</h3></li>";
+                            $(insert).appendTo("#recipientList"); 
+                        $("#sendInvoiceButton").remove();
+                    }
+			});
 			$(document).on("click","#addRecipient", function(){
 				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer addRecipColor'><input class='headerSearch'><img class='searchCloseExpandedR addRecipX' src='img/close_search.png'></div></li>";
 				var parent = $(this).parent();
@@ -388,24 +400,6 @@ var fastClicker = {
 			});
 		}
         */
-	};
-
-	var invoice = {
-		init: function() {
-			this.removeRecipients();
-		},
-
-		removeRecipients: function() {
-			$(document).on("click",".closeIcon",function(){
-				$(this).parent().parent().parent().parent().remove();
-                if ($("#recipientList").children().length<1)
-                    {
-                       var insert = "<li><h3 class=noDataMessage>No accounting contacts found.</h3></li>";
-                            $(insert).appendTo("#recipientList"); 
-                        $("#sendInvoiceButton").remove();
-                    }
-			});
-		}
 	};
 
 	var footer = {
@@ -632,7 +626,6 @@ var fastClicker = {
 		if (location.pathname.endsWith("invoice.html"))
         {
             addRecip.init();
-            invoice.init();
         }
         
         if ($(".headerSearchIcon").length){
