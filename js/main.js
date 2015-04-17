@@ -2518,7 +2518,7 @@ $(document).ready(function(){
         init:function() {
             $(".title").html("Tickets @ " + localStorage.getItem("currentQueueName") + " Queue");
             this.queueTickets();
-            $(".createButton").click(
+            $("#ticketCreate").click(
             function(){
                 localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
                 localStorage.setItem('add_user_accountid',account);
@@ -3383,7 +3383,7 @@ $(document).ready(function(){
         },
 
         justClicked:function() {
-            $createButton = $(".createButton");
+            $createButton = $("#ticketCreate");
             if ($createButton){
                     $createButton.click(
             function(){
