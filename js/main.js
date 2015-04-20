@@ -1054,7 +1054,8 @@ $(document).ready(function(){
     var newTicket = {
         init:function() {
             backFunction = function() { newTicket.back(); };
-            
+        
+                
             var reff = getParameterByName("page");
             if (reff){
                 localStorage.setItem('add_tickets.html_ref', getParameterByName("page"));
@@ -1124,7 +1125,9 @@ $(document).ready(function(){
             // list of Users
             if (!isTech)
             {
-                $("#addTicketUser").parent().hide();reveal();
+                $("#addTicketUser").parent().hide();
+                $("#userCreate").hide();
+                reveal();
             }
             else
             {
@@ -1150,9 +1153,13 @@ $(document).ready(function(){
             }
             
             // after an account is choosed it get a list of technicians
+            
+            // list of Tech
             if (!isTech)
             {
                 $("#addTicketTechs").parent().hide();reveal();
+                $("#TechCreate").hide();
+
             }
             else
             {
@@ -2711,7 +2718,8 @@ $(document).ready(function(){
     var ticketList = {
         init:function() {
             if (!isTech){
-                this.userTickets();
+                this.userTickets(); 
+                $('#userContainer').css('padding-top', '20px');
                 $('#tabpage_reply').fadeIn();
             }
             else
