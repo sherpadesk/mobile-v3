@@ -2172,7 +2172,7 @@ $(document).ready(function(){
                         }
 
                         // comment insert
-                        var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+ $("<span />", { html: note }).text().replace(/\n/g, '<p></p>').replace("/<br>/g", "<p></p>")+"</p></li><li>"+type+"</li></ul>";
+                        var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+ $("<span />", { html: note.replace(/<br\s*[\/]?>/gi, "\n") }).text().replace(/\n/g, "<p></p>")+"</p></li><li>"+type+"</li></ul>";
                         $(insert).appendTo("#comments");
                         for(var f = 0; f < attachments.length; f++)
                         {
@@ -2225,7 +2225,7 @@ $(document).ready(function(){
                             }
                         }
                     }
-                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+$("<span />", { html: returnData.ticketlogs[0].note }).text().replace(/\n/g, '<p></p>').replace("<br>", "<p></p>")+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul></div>";
+                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+$("<span />", { html: returnData.ticketlogs[0].note.replace(/<br\s*[\/]?>/gi, "\n") }).text().replace(/\n/g, "<p></p>")+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul></div>";
 
                     $(orginalMessageinsert).appendTo(".orginalMessageContainer");
 
@@ -2750,10 +2750,11 @@ $(document).ready(function(){
                     subject = createElipse(subject, .70, 12);
                     var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                     // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
-                    if(initialPost.length > 50)
+                    if(initialPost.length > 150)
                     {
-                        initialPost = initialPost.substring(0,50);
+                        initialPost = initialPost.substring(0,150)+"...";
                     }
+                    initialPost = $("<span />", { html: initialPost.replace(/<br\s*[\/]?>/gi, "\n") }).text();
                     textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>");
                     if(length>10 && i==10){
                         $table.html(textToInsert.join(''));
@@ -3115,7 +3116,7 @@ $(document).ready(function(){
             }
             else
             {
-                time = 10; 
+                timeTickets = 10; 
                 console.log("could not load local account tickets data");
             }
 
