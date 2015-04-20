@@ -113,6 +113,10 @@ body, html {
 .page {
     display: none;
 }
+
+.0 { display: none; }
+.1 { display: inline-block; }
+
 #loading {
     display: none;
     position: absolute;

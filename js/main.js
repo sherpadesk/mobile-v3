@@ -2054,6 +2054,93 @@ $(document).ready(function(){
                         });
                     });
                     //});
+                    /*
+                     public static string EmbedInlineImagesAndLinks(string tktLog, Collection<File> tktFiles, bool UseInNotificationEmail)
+        {
+            tktLog = NormalizeString(tktLog);
+
+            List<string> inlineImgs = new List<string>();
+            MatchCollection mc = Regex.Matches(tktLog, @"\[cid:[^\[\]]*\]");
+            foreach (Match mcItem in mc)
+            {
+                string fileName = Regex.Replace(mcItem.Value, @"\[cid:|[\[\]]", string.Empty);
+                if (fileName.Contains("_link_"))
+                {
+                    fileName = fileName.Replace("_link_", string.Empty);
+                    if (UseInNotificationEmail) tktLog = tktLog.Replace(mcItem.Value, "<a target=\"_blank\" href=\"" + fileName + "\"><img src=\"" + fileName + "\" style=\"max-width: 600px; border: 1px solid gray;\" /></a>");
+                    else tktLog = tktLog.Replace(mcItem.Value, "<a target=\"_blank\" href=\"" + fileName + "\"><img src=\"" + fileName + "\" /></a>");
+                }
+                else
+                {
+                    if (tktFiles != null && tktFiles.Count > 0)
+                    {
+                        foreach (File tktFile in tktFiles)
+                        {
+                            if (Regex.Replace(tktFile.Name, "[^A-Za-z0-9]", string.Empty).Contains(fileName))
+                            {
+                                inlineImgs.Add(tktFile.Name);
+                                string fileUrl = tktFile.Url;
+                                if (!string.IsNullOrEmpty(fileUrl))
+                                {
+                                    if (UseInNotificationEmail) tktLog = tktLog.Replace(mcItem.Value, "<a target=\"_blank\" href=\"" + tktFile.Url + "\"><img src=\"" + tktFile.Url + "\" alt=\"" + tktFile.Name + "\" style=\"max-width: 600px; border: 1px solid gray;\" /></a>");
+                                    else tktLog = tktLog.Replace(mcItem.Value, "<a target=\"_blank\" href=\"" + fileUrl + "\"><img src=\"" + fileUrl + "\" alt=\"" + fileName + "\" /></a>");
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (tktFiles == null || tktFiles.Count == 0) return tktLog;
+
+            int i0 = tktLog.LastIndexOf("uploaded: ");
+
+            if (i0 < 0 || tktLog.Length < (i0 + 11)) return tktLog;
+
+            string fNames = tktLog.Substring(i0 + 10);
+            int i1 = fNames.IndexOf("<br/>");
+            if (i1 > 0) fNames = fNames.Substring(0, i1);
+            fNames = fNames.Trim(' ', '.', ',');
+
+            if (string.IsNullOrEmpty(fNames)) return tktLog;
+
+            string[] fArr = fNames.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+            string fImgLinks = string.Empty;
+            string fFileLinks = string.Empty;
+            foreach (string fn in fArr)
+            {
+                string fileUrl = string.Empty;
+                string fileName = fn.Trim(' ', '.');
+
+                foreach (File tktFile in tktFiles)
+                {
+                    if (tktFile.Name == fileName && !inlineImgs.Contains(tktFile.Name))
+                    {
+                        fileUrl = tktFile.Url;
+                        break;
+                    }
+                }
+                if (!string.IsNullOrEmpty(fileUrl))
+                {
+                    string fExt = fileName.LastIndexOf('.') > 0 ? fileName.Substring(fn.LastIndexOf('.')) : string.Empty;
+                    if (!string.IsNullOrEmpty(fExt) && Regex.IsMatch(fExt.ToLower(), "bmp|gif|jpeg|jpg|jpe|png|svg|ico"))
+                    {
+                        if (UseInNotificationEmail) fImgLinks += "<br/><a target=\"_blank\" href=\"" + fileUrl + "\"><img src=\"" + fileUrl + "\" alt=\"" + fileName + "\" style=\"max-width: 600px; border: 1px solid gray; margin-bottom: 15px;\" /></a>";
+                        else fImgLinks += "<br/><a target=\"_blank\" href=\"" + fileUrl + "\"><img src=\"" + fileUrl + "\" alt=\"" + fileName + "\" style=\"margin-bottom: 15px; margin-top: 8px;\" /></a>";
+                    }
+                    else fFileLinks += "<a href=\"" + fileUrl + "\">" + fileName + "</a>, ";
+                }
+                else fFileLinks += fileName + ", ";
+            }
+            if (!string.IsNullOrEmpty(fFileLinks)) fFileLinks = fFileLinks.TrimEnd(' ', ',');
+            fFileLinks += fImgLinks.TrimEnd(' ', ',', '.');
+            return tktLog.Substring(0, i0 + 10) + tktLog.Substring(i0 + 10).Replace(fNames, fFileLinks);
+        }
+
+                    */
+                    //add posts list, for one - do array
+                    
                     //add comments (ticketLogs) to the page
                     $("#comments").empty();
                     for(var c = 1; c < returnData.ticketlogs.length; c++)
@@ -2634,7 +2721,6 @@ $(document).ready(function(){
                 this.altTickets();
                 this.allTickets();
             }
-            this.ticketClick();
         },
         createTicketsList : function (returnData, parent, cachePrefix){
             var $table = $(parent);

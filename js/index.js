@@ -316,7 +316,7 @@ var fastClicker = {
 
 		tab: function() {
 			$('#replyTab, #ticketReply').css('color','#fff');   
-            //$(".TicketTabs").show();
+            if (localStorage.getItem('userRole') !== "tech") $(".TicketTabs").hide();
             var test = localStorage.getItem("ticketPage");
             this.tabnav(test ? test : "user");
             $(document).on("click",".tabHeader",function(){
