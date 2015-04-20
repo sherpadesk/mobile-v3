@@ -1,3 +1,6 @@
+/*jshint -W004, -W041, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
+/*global jQuery, $ */
+
 $(document).ready(function() {
 
 function fullscreen() {
@@ -51,15 +54,14 @@ var fastClicker = {
 
 	var backButton = {
 		init:function() {
-			this.lastPage();
-		},
-
-		lastPage:function(){
 			$("#goBack").click(function(){
-                localStorage.setItem('addAccountTicket', '');
-				window.history.back();
-			});
-		}
+                if (!window.backFunction)
+                    window.history.back();
+                else if (typeof window.backFunction == "function")
+                window.backFunction(); 
+                }
+        );
+        }
 	};
 
 
@@ -183,6 +185,18 @@ var fastClicker = {
 				$(this).attr("src", 'img/close_icon.png');
                 $(this).removeClass().addClass("closeIcon");
 			});
+			$(document).on("click",".closeIcon",function(){
+                var email = $(this).attr("id");
+				$(this).attr("src", 'img/plus_icon.png');
+                $(this).removeClass().addClass("plusIcon");
+                
+                if ($("#recipientList").children().length<1)
+                    {
+                       var insert = "<li><h3 class=noDataMessage>No accounting contacts found.</h3></li>";
+                            $(insert).appendTo("#recipientList"); 
+                        $("#sendInvoiceButton").remove();
+                    }
+			});
 			$(document).on("click","#addRecipient", function(){
 				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer addRecipColor'><input class='headerSearch'><img class='searchCloseExpandedR addRecipX' src='img/close_search.png'></div></li>";
 				var parent = $(this).parent();
@@ -224,7 +238,7 @@ var fastClicker = {
             if ($(".headerSearchIcon")){
                 var parent = $(".headerSearchIcon").parent();
                 //console.log(parent);
-                var insert = "<div id='searchThis' class='headerSearchContainer'><img class='searchIconExpanded' src='img/search_icon.png'><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><img class='searchCloseExpanded' src='img/close_search.png'></div>"
+                var insert = "<div id='searchThis' class='headerSearchContainer'><img class='searchIconExpanded' src='img/search_icon.png'><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><img class='searchCloseExpanded' src='img/close_search.png'></div>";
 				$(parent).empty();
 				$(insert).appendTo( $( parent ) );
 				$(".headerSearchContainer").animate({
@@ -302,7 +316,7 @@ var fastClicker = {
 
 		tab: function() {
 			$('#replyTab, #ticketReply').css('color','#fff');   
-            //$(".TicketTabs").show();
+            if (localStorage.getItem('userRole') !== "tech") $(".TicketTabs").hide();
             var test = localStorage.getItem("ticketPage");
             this.tabnav(test ? test : "user");
             $(document).on("click",".tabHeader",function(){
@@ -386,24 +400,6 @@ var fastClicker = {
 			});
 		}
         */
-	};
-
-	var invoice = {
-		init: function() {
-			this.removeRecipients();
-		},
-
-		removeRecipients: function() {
-			$(document).on("click",".closeIcon",function(){
-				$(this).parent().parent().parent().parent().remove();
-                if ($("#recipientList").children().length<1)
-                    {
-                       var insert = "<li><h3 class=noDataMessage>No accounting contacts found.</h3></li>";
-                            $(insert).appendTo("#recipientList"); 
-                        $("#sendInvoiceButton").remove();
-                    }
-			});
-		}
 	};
 
 	var footer = {
@@ -578,14 +574,29 @@ var fastClicker = {
                },500);
                setTimeout(function(){
                	$('.splashScreen').fadeOut();
-               },1500)
+               },1500);
             }
 		}
 	};
     
+    function getPage()
+    {
+        var m = location.href.match(/(.+\w\/)(.+)/);
+        return m ? m : ['','',''];
+    }
+    
+    if (typeof String.prototype.addUrlParam !== 'function') {
+        String.prototype.addUrlParam = function(param, value) {
+            if (!value || !param)
+                return this;
+            var ch = this.indexOf('?') > 0 ? '&' : '?';
+            return this + ch + param + '=' + value;
+        };
+    }
+    
     var NAV_MENU="<div class='activeNav'><div class='fold'><i class='fa a-angle-double-left fa-2x'></i></div><img class='navProfile' src='img/profile_3.png'><h2 class='navName'>NO USER DATA</h2><ul class='sideNavLinks'><a href='dashboard.html'><li id='itemDash'><a href='dashboard.html'><div class='iconCircle'><i class='fa fa-tachometer'></i></div><h3>Dashboard</h3></a></li></a> <a class='user' href='ticket_list.html'><li id='itemTickets'><div class='iconCircle'><i class='fa fa-ticket'></i></div><h3>Tickets</h3><div class='menuTicketsStat'><p class='menuTicketStatNumber'>0</p></div></li></a> <a class='time' href='timelog.html'><li id='itemTimelog'><div class='iconCircle'><i class='fa fa-clock-o'></i></div><h3>Timelogs</h3></li></a> <a href='Account_List.html'><li id='itemAccount'><div class='iconCircle'><i class='fa fa-users'></i></div><h3>Accounts</h3></li></a><li class='time' id='itemInvoice'><div class='iconCircle'><i class='fa fa-credit-card'></i></div><h3 id='allInvoice'>Invoices</h3></li><a href='Queues.html'><li id='itemQueues'><div class='iconCircle'><i class='fa fa-sort-amount-asc'></i></div><h3>Queues</h3></li></a><li class='user' id='switchOrg'><div class='iconCircle'><i class='fa fa-list'></i></div><h3>Switch Org</h3></li><li class='user' id='signOut'><div class='iconCircle'><i class='fa fa-sign-in'></i></div><h3>Signout</h3></li><a class='fullapplink user' href='#'><li><div class='iconCircle'><i class='fa fa-external-link'></i></div><h3>Full App</h3></li></a></ul></div>";
     
-    var CREATE_MENU="<div class='createActions'><ul class='createActionsList'><a href='add_tickets.html'><li><i class='fa fa-ticket'></i><p>Add Ticket</p></li></a> <a href='add_time.html'><li><i class='fa fa-clock-o'></i><p>Add Time</p></li></a><li id='invoiceFooter'><i class='fa fa-credit-card'></i><p>Add Invoice</p></li><a href='addExpence.html'><li><i class='fa fa-money'></i><p>Add Expense</p></li></a></ul></div>";
+    var CREATE_MENU="<div class='createActions'><ul class='createActionsList'><li onclick='window.location.replace(\"add_tickets.html\".addUrlParam(\"page\",\""+getPage()[2]+"\"));'><i class='fa fa-ticket'></i><p>Add Ticket</p></li><a href='add_time.html'><li><i class='fa fa-clock-o'></i><p>Add Time</p></li></a><li id='invoiceFooter'><i class='fa fa-credit-card'></i><p>Add Invoice</p></li><a href='addExpence.html'><li><i class='fa fa-money'></i><p>Add Expense</p></li></a></ul></div>";
 
 
 	(function() { 
@@ -615,7 +626,6 @@ var fastClicker = {
 		if (location.pathname.endsWith("invoice.html"))
         {
             addRecip.init();
-            invoice.init();
         }
         
         if ($(".headerSearchIcon").length){

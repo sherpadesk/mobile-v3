@@ -1,8 +1,8 @@
 /*jshint -W004, -W041, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var appVersion = "20";
-var adMessage = "Navigation improved";
+var appVersion = "21";
+var adMessage = "Invite new user feature";
 function updatedFunction ()
 {
     location.reload(true);
@@ -32,6 +32,10 @@ var isTech = false,
 //Cache settings
 var cacheName = "", //current cache to kill on refresh
     cacheTime = 5000; // milliseconds before cache update 
+
+function checkEmail(email) {
+    return(email.trim().match(/^[^@\s]+@[^@\s]+(\.[^@\s]+)+$/i) !== null);
+}
 
 function checkURL(url) {
     return(url.trim().match(/\.(jpeg|jpg|gif|png)$/i) !== null);
@@ -65,6 +69,22 @@ function openURL(urlString){
 function openURLsystem(urlString){
     window.open(urlString, '_system');
 }
+
+    function getPage()
+    {
+        var m = location.href.match(/(.+\w\/)(.+)/);
+        return m ? m : ['','',''];
+    }
+    
+    if (typeof String.prototype.addUrlParam !== 'function') {
+        String.prototype.addUrlParam = function(param, value) {
+            if (!value || !param)
+                return this;
+            var ch = this.indexOf('?') > 0 ? '&' : '?';
+            return this + ch + param + '=' + value;
+        };
+    }
+    
 
 //global error handler
 $( document ).ajaxError(function( event, request, settings ) {
@@ -192,7 +212,7 @@ if (typeof String.prototype.endsWith !== 'function') {
 function GooglelogOut(mess) {
     if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-        document.location.href = location.href.replace(/(.+\w\/)(.+)/, "$1") + "index.html" + ((typeof mess === "undefined") ? "" : "?f="+mess);
+        document.location.href = getPage()[1] + "index.html" + ((typeof mess === "undefined") ? "" : "?f="+mess);
     }
     else
         window.location = "index.html" + ((typeof isRedirect === "undefined") ? "" : "?f="+mess);
@@ -295,7 +315,7 @@ function filterList(listClass, value_names, init_value){
         if (featureList.matchingItems.length > 1) 
         {
             var itemMessage = 'There are ' + featureList.matchingItems.length + ' matching tickets.';
-            console.log( itemMessage);
+            //console.log( itemMessage);
         } else if (featureList.matchingItems.length === 0) {
             console.log( 'Bummer...  0 items found');
         }
@@ -884,7 +904,7 @@ $(document).ready(function(){
                 }
                 var emails = ""; 
                 $.each($(".recipient").children(".closeIcon"), function(){emails+=$(this).attr("id") + ",";}); 
-                console.log(emails);
+                //console.log(emails);
                 getAp('invoices/'+localStorage.getItem('invoiceNumber'),{
                         "action": "sendEmail",
                         "recipients": emails
@@ -1033,12 +1053,46 @@ $(document).ready(function(){
     // create a new ticket
     var newTicket = {
         init:function() {
+            backFunction = function() { newTicket.back(); };
+        
+                
+            var reff = getParameterByName("page");
+            if (reff){
+                localStorage.setItem('add_tickets.html_ref', getParameterByName("page"));
+                cleanQuerystring();
+            }
             $("#userCreate").on("click", function(){
-                    window.location = "add_user.html";
+                var user = $("#addTicketUser").val();
+                if (user) localStorage.setItem('add_user_userid', user);
+                var tech = $("#addTicketTechs").val();
+                if (tech) localStorage.setItem('add_user_techid',tech);
+                var account = $("#addTicketAccounts").val();
+                if (account) localStorage.setItem('add_user_accountid',account);
+                window.location = "add_user.html".addUrlParam("page", "add_tickets.html");
+            });
+            
+            $("#TechCreate").on("click", function(){
+                localStorage.setItem('add_user_type', 'tech');
+                var user = $("#addTicketUser").val();
+                if (user) localStorage.setItem('add_user_userid', user);
+                var tech = $("#addTicketTechs").val();
+                if (tech) localStorage.setItem('add_user_techid', tech);
+                var account = $("#addTicketAccounts").val();
+                if (account) localStorage.setItem('add_user_accountid',account);
+                window.location = "add_user.html".addUrlParam("page", "add_tickets.html");           
             }); 
+            
             this.addTicket();
         },
+        back: function(){
+                                var reff = localStorage.getItem('add_tickets.html_ref');
+                                localStorage.setItem('add_tickets.html_ref', '');
+                                if (!reff)
+                                    reff = isTech ? "dashboard.html" : "ticket_list.html";
+                                    localStorage.setItem('addAccountTicket', '');
+                                window.location.replace(reff);
 
+        },
         addTicket:function() {
             $("#addTicketAccounts").empty();
             var accountset = localStorage.getItem('addAccountTicket');
@@ -1056,19 +1110,56 @@ $(document).ready(function(){
                      // get list of accounts add them to option select list
                      $("#addTicketAccounts").empty();
                      fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
-                     if (accountset)
+                     var account =  localStorage.getItem('add_user_accountid');
+                     accountset  = accountset ? accountset : account; 
+                     if (accountset){
+                         localStorage.setItem('add_user_accountid', '');
                          $("#addTicketAccounts").val(accountset);
-                     reveal();
+                     }
                  }, function() {
                      console.log("fail @ ticket accounts");
                  });
                 }
             }
 
+            // list of Users
+            if (!isTech)
+            {
+                $("#addTicketUser").parent().hide();
+                $("#userCreate").hide();
+                reveal();
+            }
+            else
+            {
+                var users = getApi("users?limit=2000");
+                users.then(function(returnData){
+                    //console.log(returnData);
+                    // add techs to option select list
+                    fillSelect(returnData, "#addTicketUser",
+                               "<option value=0 disabled selected>choose end user</option>", "",
+                               "firstname,lastname");
+                    var userid = localStorage.getItem('add_user_userid');
+                    if (userid) localStorage.setItem('add_user_userid', "");
+                    else userid = localStorage.getItem('userId');
+                    $("#addTicketUser").val(userid);
+                    reveal();
+                },
+                                 function() {
+                    console.log("fail @ ticket user");
+
+                }
+                                );
+                
+            }
+            
             // after an account is choosed it get a list of technicians
+            
+            // list of Tech
             if (!isTech)
             {
                 $("#addTicketTechs").parent().hide();reveal();
+                $("#TechCreate").hide();
+
             }
             else
             {
@@ -1079,10 +1170,14 @@ $(document).ready(function(){
                     fillSelect(returnData, "#addTicketTechs",
                                "<option value=0 disabled selected>choose a tech</option>", "",
                                "firstname,lastname");
-                    //reveal();
+                    var techid = localStorage.getItem('add_user_techid');
+                    if (techid) {
+                        localStorage.setItem('add_user_techid', '');
+                        $("#addTicketTechs").val(techid);
+                    }
                 },
                                  function() {
-                    console.log("fail @ ticket accounts");
+                    console.log("fail @ ticket tech");
 
                 }
                                 );
@@ -1098,6 +1193,7 @@ $(document).ready(function(){
 
 
             // make api post call when submit ticket button is clicked
+            
             $("#submitNewTicket").click(function(){
                 var subject = htmlEscape($("#addTicketSubject").val().trim());
                 var post = htmlEscape($("#addTicketInitPost").val().trim());
@@ -1119,21 +1215,12 @@ $(document).ready(function(){
                         "initial_post" : post,
                         "class_id" : selectedEditClass,
                         "account_id" : $("#addTicketAccounts").val(),
-                        "user_id" : localStorage.getItem('userId'),
+                        "user_id" : isTech ? $("#addTicketUser").val() : localStorage.getItem('userId'),
                         "tech_id" : $("#addTicketTechs").val()
                     }, "POST");
                     addTicket.then(function (d) {
-                        localStorage.setItem('addAccountTicket', '');
-                        setTimeout(
-                            function()
-                            {
-
-                                window.location =  isTech ? "dashboard.html" : "ticket_list.html";
-
-                            }, 1000);
+                        setTimeout(newTicket.back, 1000);
                         userMessage.setMessage(true, "Ticket was Succesfully Created :)");
-
-
                     },
                                    function (e, textStatus, errorThrown) {
                         alert(textStatus);
@@ -1225,7 +1312,7 @@ $(document).ready(function(){
                             reveal();
                         },
                         error: function() {
-                            //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                            
                         }
                     });
                     // search for a ticket number that matches the search critera
@@ -1249,8 +1336,7 @@ $(document).ready(function(){
                             reveal();
                         },
                         error: function() {
-
-                            //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                            
                         }
                     });
 
@@ -1296,7 +1382,6 @@ $(document).ready(function(){
                         },
                         error: function() {
 
-                            //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                         }
                     });
                     // close the search when the "X" icon is pressed
@@ -1373,7 +1458,7 @@ $(document).ready(function(){
                 },
                                                                                 function() {
                     console.log("fail @ time accounts");
-                    ////console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    
                 }
                                                                                );
             }
@@ -1423,43 +1508,78 @@ $(document).ready(function(){
 
     // add user to an account
     var addUser = {
+        back: function(){
+                        localStorage.setItem('add_user_type', '');
+                                var reff = localStorage.getItem('add_user.html_ref');
+                                localStorage.setItem('add_user.html_ref', '');
+                                if (!reff)
+                                    history.back();
+                                else
+                                window.location.replace(reff);
+
+        },
         init:function(){
+            backFunction = function() { addUser.back(); };
+            var reff = getParameterByName("page");
+            if (reff){
+                localStorage.setItem('add_user.html_ref', getParameterByName("page"));
+                cleanQuerystring();
+            }
+            
             $(".innerCircle").click(function(){
                 if ($(".innerCircle").hasClass("billFill")) {$("#addTicketPassword").hide(); $("#addTicketConfirmPassword").hide();}
                 else  {$("#addTicketPassword").show(); $("#addTicketConfirmPassword").show();}
 
             });
+            
+            var value = localStorage.getItem('add_user_type');
+            if (value == "tech"){
+                $('.SherpaDesk').text('Add New Tech');
+                $('.greenButton').text('Add New Tech');
+                value = 'Tech';
+            }
+            else
+                value = 'User';
+            
             $("#submitNewUser").click(function(){
                 var email = $("#addTicketEmail").val().trim();
                 if (email.length < 1)
                 {
-                    alert("Please enter email");
+                    userMessage.showMessage(false, "Please enter email");
                     return;
                 }
-                console.log(email);
+                if (!checkEmail(email))
+                {
+                    userMessage.showMessage(false, "Please correct email");
+                    return;
+                }
 
                 var Firstname = $("#addTicketFirstname").val().trim();
                 if (Firstname.length < 1)
                 {
-                    alert("Please enter Firstname");
+                    userMessage.showMessage(false, "Please enter Firstname");
                     return;
                 }
                 Lastname = $("#addTicketLastname").val().trim();
                 if (Lastname.length < 1)
                 {
-                    alert("Please enter Lastname");
+                    userMessage.showMessage(false, "Please enter Lastname");
                     return;
                 }
                 getApi('users', {
                     "Lastname": Lastname,
                     "Firstname": Firstname,
-                    "email":email
+                    "email":email,
+                    "role" : value
                 }, 'POST').then(
                     function (d) {
-                        history.back();
+                        userMessage.showMessage(true, value +' was created <i class="fa fa-thumbs-o-up"></i>', function(){ 
+                                localStorage.setItem(value == "Tech" ? 'add_user_techid' : 'add_user_userid', d.id);
+                           addUser.back();
+                        }); 
                     },
-                    function (e, textStatus, errorThrown) {
-                        alert(e);
+                    function (e) {
+                            userMessage.showMessage(false, e.statusText);
                     }
                 );
             });
@@ -1525,7 +1645,7 @@ $(document).ready(function(){
                 function() {
                     //reveal();
                     console.log("fail @ task types");
-                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    
                 }
             );
         },
@@ -1558,7 +1678,7 @@ $(document).ready(function(){
                         function() {
                             console.log("fail @ time accounts");
                             reveal();
-                            ////console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                        
                         }
                     );
                 }
@@ -1699,7 +1819,6 @@ $(document).ready(function(){
                     },
                                                                                     function() {
                         console.log("fail @ time accounts");
-                        ////console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
                     }
                                                                                    );
                 }
@@ -1791,11 +1910,6 @@ $(document).ready(function(){
             {
                 userMessage.showMessage(true);
             }
-            // listen for a click of a ticket block from a ticket list page (account detail  ticket list or complete ticket list)
-            $(document).on("click",".responseBlock", function(){
-                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
-                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
-            });
             $('html,body').css('scrollTop','0');
             getApi("tickets/"+localStorage.getItem('ticketNumber')).then(
                 function(returnData) {
@@ -1947,6 +2061,93 @@ $(document).ready(function(){
                         });
                     });
                     //});
+                    /*
+                     public static string EmbedInlineImagesAndLinks(string tktLog, Collection<File> tktFiles, bool UseInNotificationEmail)
+        {
+            tktLog = NormalizeString(tktLog);
+
+            List<string> inlineImgs = new List<string>();
+            MatchCollection mc = Regex.Matches(tktLog, @"\[cid:[^\[\]]*\]");
+            foreach (Match mcItem in mc)
+            {
+                string fileName = Regex.Replace(mcItem.Value, @"\[cid:|[\[\]]", string.Empty);
+                if (fileName.Contains("_link_"))
+                {
+                    fileName = fileName.Replace("_link_", string.Empty);
+                    if (UseInNotificationEmail) tktLog = tktLog.Replace(mcItem.Value, "<a target=\"_blank\" href=\"" + fileName + "\"><img src=\"" + fileName + "\" style=\"max-width: 600px; border: 1px solid gray;\" /></a>");
+                    else tktLog = tktLog.Replace(mcItem.Value, "<a target=\"_blank\" href=\"" + fileName + "\"><img src=\"" + fileName + "\" /></a>");
+                }
+                else
+                {
+                    if (tktFiles != null && tktFiles.Count > 0)
+                    {
+                        foreach (File tktFile in tktFiles)
+                        {
+                            if (Regex.Replace(tktFile.Name, "[^A-Za-z0-9]", string.Empty).Contains(fileName))
+                            {
+                                inlineImgs.Add(tktFile.Name);
+                                string fileUrl = tktFile.Url;
+                                if (!string.IsNullOrEmpty(fileUrl))
+                                {
+                                    if (UseInNotificationEmail) tktLog = tktLog.Replace(mcItem.Value, "<a target=\"_blank\" href=\"" + tktFile.Url + "\"><img src=\"" + tktFile.Url + "\" alt=\"" + tktFile.Name + "\" style=\"max-width: 600px; border: 1px solid gray;\" /></a>");
+                                    else tktLog = tktLog.Replace(mcItem.Value, "<a target=\"_blank\" href=\"" + fileUrl + "\"><img src=\"" + fileUrl + "\" alt=\"" + fileName + "\" /></a>");
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (tktFiles == null || tktFiles.Count == 0) return tktLog;
+
+            int i0 = tktLog.LastIndexOf("uploaded: ");
+
+            if (i0 < 0 || tktLog.Length < (i0 + 11)) return tktLog;
+
+            string fNames = tktLog.Substring(i0 + 10);
+            int i1 = fNames.IndexOf("<br/>");
+            if (i1 > 0) fNames = fNames.Substring(0, i1);
+            fNames = fNames.Trim(' ', '.', ',');
+
+            if (string.IsNullOrEmpty(fNames)) return tktLog;
+
+            string[] fArr = fNames.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+            string fImgLinks = string.Empty;
+            string fFileLinks = string.Empty;
+            foreach (string fn in fArr)
+            {
+                string fileUrl = string.Empty;
+                string fileName = fn.Trim(' ', '.');
+
+                foreach (File tktFile in tktFiles)
+                {
+                    if (tktFile.Name == fileName && !inlineImgs.Contains(tktFile.Name))
+                    {
+                        fileUrl = tktFile.Url;
+                        break;
+                    }
+                }
+                if (!string.IsNullOrEmpty(fileUrl))
+                {
+                    string fExt = fileName.LastIndexOf('.') > 0 ? fileName.Substring(fn.LastIndexOf('.')) : string.Empty;
+                    if (!string.IsNullOrEmpty(fExt) && Regex.IsMatch(fExt.ToLower(), "bmp|gif|jpeg|jpg|jpe|png|svg|ico"))
+                    {
+                        if (UseInNotificationEmail) fImgLinks += "<br/><a target=\"_blank\" href=\"" + fileUrl + "\"><img src=\"" + fileUrl + "\" alt=\"" + fileName + "\" style=\"max-width: 600px; border: 1px solid gray; margin-bottom: 15px;\" /></a>";
+                        else fImgLinks += "<br/><a target=\"_blank\" href=\"" + fileUrl + "\"><img src=\"" + fileUrl + "\" alt=\"" + fileName + "\" style=\"margin-bottom: 15px; margin-top: 8px;\" /></a>";
+                    }
+                    else fFileLinks += "<a href=\"" + fileUrl + "\">" + fileName + "</a>, ";
+                }
+                else fFileLinks += fileName + ", ";
+            }
+            if (!string.IsNullOrEmpty(fFileLinks)) fFileLinks = fFileLinks.TrimEnd(' ', ',');
+            fFileLinks += fImgLinks.TrimEnd(' ', ',', '.');
+            return tktLog.Substring(0, i0 + 10) + tktLog.Substring(i0 + 10).Replace(fNames, fFileLinks);
+        }
+
+                    */
+                    //add posts list, for one - do array
+                    
                     //add comments (ticketLogs) to the page
                     $("#comments").empty();
                     for(var c = 1; c < returnData.ticketlogs.length; c++)
@@ -1971,7 +2172,7 @@ $(document).ready(function(){
                         }
 
                         // comment insert
-                        var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+ $("<span />", { html: note }).text().replace(/\n/g, '<p></p>').replace("/<br>/g", "<p></p>")+"</p></li><li>"+type+"</li></ul>";
+                        var insert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+ $("<span />", { html: note.replace(/<br\s*[\/]?>/gi, "\n") }).text().replace(/\n/g, "<p></p>")+"</p></li><li>"+type+"</li></ul>";
                         $(insert).appendTo("#comments");
                         for(var f = 0; f < attachments.length; f++)
                         {
@@ -2024,7 +2225,7 @@ $(document).ready(function(){
                             }
                         }
                     }
-                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+$("<span />", { html: returnData.ticketlogs[0].note }).text().replace(/\n/g, '<p></p>').replace("<br>", "<p></p>")+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul></div>";
+                    var orginalMessageinsert = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + orginalMessageEmail + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+returnData.ticketlogs[0].user_firstname+" "+returnData.ticketlogs[0].user_lastname+"</h3></li><li><span>"+orginalMessageDate+"</span></li><li class='commentText'><p>"+$("<span />", { html: returnData.ticketlogs[0].note.replace(/<br\s*[\/]?>/gi, "\n") }).text().replace(/\n/g, "<p></p>")+"</p></li><li>"+returnData.ticketlogs[0].log_type+"</li></ul></div>";
 
                     $(orginalMessageinsert).appendTo(".orginalMessageContainer");
 
@@ -2041,7 +2242,7 @@ $(document).ready(function(){
                 },
                 function() {
                     console.log("fail @ Ticket Detail");
-                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    
                     localStorage.setItem('ticketId', "");
                     window.location = "ticket_list.html";
                 }
@@ -2112,7 +2313,7 @@ $(document).ready(function(){
                     // adjustments
                     $("#invoiceAdjustments").html(localStorage.getItem('currency') + "0<span class='detail3Small'>.00</span>");
                     //$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
-                    console.log(Number(returnData.total_cost).toFixed(2).toString());
+                    //console.log(Number(returnData.total_cost).toFixed(2).toString());
                     amount = Number(returnData.total_cost).toFixed(2).toString();
                     change = amount.substring(amount.length-3, amount.length);
                     amount = amount.substring(0, amount.length -3);
@@ -2166,7 +2367,7 @@ $(document).ready(function(){
                 },
                 function() {
                     console.log("fail @ Invoice details");
-                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    
                 }
             );}
     };
@@ -2285,11 +2486,11 @@ $(document).ready(function(){
 				var accountId = localStorage.getItem("invoiceAccountId");
 				var note = $("#noteTimeTicket").val();
 				var hours = $("#addTimeTicket").val();
-				console.log(techId);
-				console.log(projectId);
-				console.log(accountId);
-				console.log(note);
-				console.log(hours);
+				//console.log(techId);
+				//console.log(projectId);
+				//console.log(accountId);
+				//console.log(note);
+				//console.log(hours);
 				$.ajax({
     				type: 'POST',
     				beforeSend: function (xhr) {
@@ -2400,7 +2601,7 @@ $(document).ready(function(){
                 },
                 function() {
                     console.log("fail @ Invoice List");
-                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    
                 }
             );
         }
@@ -2411,42 +2612,42 @@ $(document).ready(function(){
         init:function() {
             $(".title").html("Tickets @ " + localStorage.getItem("currentQueueName") + " Queue");
             this.queueTickets();
+            $("#ticketCreate").click(
+            function(){
+                localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
+                localStorage.setItem('add_user_accountid',account);
+                window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]));
+            });
         },
 
         queueTickets:function() {
-            getApi("queues/"+localStorage.getItem("currentQueue")).then(
+            var queueId = localStorage.getItem("currentQueue");
+            if (!queueId) {
+                console.log("fail @ Queues tickets");
+                window.history.back();
+            }
+            getApi("queues/"+queueId).then(
                 function(returnData) {
-                    //console.log(returnData);
-                    $("#queueTickets").empty();
-                    if(returnData.length < 1){
-                        var insert = '<h1 class="noTicketMessage">No Tickets</h1>';
-                        $(insert).appendTo("#queueTickets");
-                    }
-                    for(var i = 0; i < returnData.length; i++)
-                    {
-                        // get email for gravitar avitar
-                        var email = $.md5(returnData[i].user_email);
-                        var intialPost = returnData[i].initial_post;
-                        var subject = returnData[i].subject;
-                        var data = returnData[i].key;
-                        subject = createElipse(subject, .70, 12);
-                        var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
-                        if(intialPost.length > 100)
-                        {
-                            intialPost = intialPost.substring(0,100);
-                        }
-                        var ticket = "<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initafilPost'>"+intialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>";
-
-                        $(ticket).appendTo("#queueTickets");
-                        filterList("queueTickets");
-                        reveal();
-                    }
-                    createSpan("#queueTickets");
+                    console.log(returnData);
+                    ticketList.createTicketsList(returnData, "#queueTickets");  
+                    filterList("queueTickets");
                     reveal();
+                    var retrievedObject, test = localStorage.getItem("storageQueues");
+            if (test){
+                match = new RegExp('\"' + queueId+',(\\d+)').exec(test);
+                if (match) {
+                    test = JSON.parse(test);
+                    retrievedObject = test[Number(match[1])];
+                    if (retrievedObject) {
+                        test[Number(match[1])].tickets_count = returnData.length;
+                        localStorage.setItem("storageQueues", JSON.stringify(test));
+                    }
+                }
+            }
                 },
                 function() {
-                    console.log("fail @ Queues List");
-                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    console.log("fail @ Queues tickets");
+                    
                 }
             );
         }
@@ -2456,11 +2657,6 @@ $(document).ready(function(){
     var getQueues = {
         init:function(parent, limit) {
             cacheName = "storageQueues";
-            $(document).on("click","#queue", function(){
-                localStorage.setItem('currentQueue',$(this).attr("data-id"));
-                localStorage.setItem('currentQueueName',$(this).find(".OptionTitle").text());
-                window.location = "queueTickets.html";
-            });
             getQueues.queues(limit, parent);
         },
 
@@ -2501,10 +2697,11 @@ $(document).ready(function(){
             for (var i = 0; i<length; i += 1) {
                 if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
                     badge = returnData[i].tickets_count;
+                returnData[i].index = returnData[i].id +',' + i;
                 if (limit && returnData[i].tickets_count < 1)
                     continue;
                 if (limit && activeQueues>= limit)
-                    break;
+                    continue;
                 textToInsert.push("<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>");
 
                 if(length > 10 && i == 10){
@@ -2521,7 +2718,8 @@ $(document).ready(function(){
     var ticketList = {
         init:function() {
             if (!isTech){
-                this.userTickets();
+                this.userTickets(); 
+                $('#userContainer').css('padding-top', '20px');
                 $('#tabpage_reply').fadeIn();
             }
             else
@@ -2531,13 +2729,6 @@ $(document).ready(function(){
                 this.altTickets();
                 this.allTickets();
             }
-            this.ticketClick();
-        },
-        ticketClick:function() {
-            $(document).on("click",".responseBlock", function(){
-                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
-                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
-            });
         },
         createTicketsList : function (returnData, parent, cachePrefix){
             var $table = $(parent);
@@ -2559,10 +2750,11 @@ $(document).ready(function(){
                     subject = createElipse(subject, .70, 12);
                     var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                     // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
-                    if(initialPost.length > 50)
+                    if(initialPost.length > 150)
                     {
-                        initialPost = initialPost.substring(0,50);
+                        initialPost = initialPost.substring(0,150)+"...";
                     }
+                    initialPost = $("<span />", { html: initialPost.replace(/<br\s*[\/]?>/gi, "\n") }).text();
                     textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>");
                     if(length>10 && i==10){
                         $table.html(textToInsert.join(''));
@@ -2924,7 +3116,7 @@ $(document).ready(function(){
             }
             else
             {
-                time = 10; 
+                timeTickets = 10; 
                 console.log("could not load local account tickets data");
             }
 
@@ -2962,7 +3154,7 @@ $(document).ready(function(){
                     },
                     function() {
                         console.log("fail @ accounts");
-                        //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                        
                     }
                 );
             }, timeTickets);
@@ -3131,7 +3323,7 @@ $(document).ready(function(){
                 },
               function() {
                     console.log("fail @ accounts");
-                    //console.log(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey"));
+                    
                 }
             );
         }
@@ -3286,10 +3478,13 @@ $(document).ready(function(){
         },
 
         justClicked:function() {
-            $(document).on("click",".responseBlock", function(){
-                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
-                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
+            $createButton = $("#ticketCreate");
+            if ($createButton){
+                    $createButton.click(
+            function(){
+                window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]));
             });
+            }
             $("#invoiceOption").click(function(){
                 window.location = "Invoice_List.html";
             });
@@ -3453,6 +3648,9 @@ $(document).ready(function(){
             //conditional api calls determined by page
             if (location.pathname.endsWith("dashboard.html"))
             {
+                if (!isTech) window.location = "ticket_list.html";
+                else
+                {
                 localStorage.DetailedAccount = '';
                 var orgName = localStorage.getItem('userOrg');
                 if (orgName)
@@ -3463,6 +3661,7 @@ $(document).ready(function(){
                     accountList.init("#activeList", 1);
                 search.init();
                 //reveal();
+                }
                 return;
             }
             if (location.pathname.endsWith("account_details.html"))
@@ -3592,6 +3791,16 @@ $(document).ready(function(){
             {
                 //window.location.replace(document.referrer);
                 addTime.init();
+            }
+            return;
+        }
+        if (location.pathname.endsWith("add_user.html"))
+        {
+            if (!isTech) window.location = "dashboard.html";
+            else
+            {
+                //window.location.replace(document.referrer);
+                addUser.init();
             }
             return;
         }

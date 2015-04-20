@@ -113,6 +113,10 @@ body, html {
 .page {
     display: none;
 }
+
+.d0 { display: none; }
+.d1 { display: inline-block; }
+
 #loading {
     display: none;
     position: absolute;
@@ -1189,17 +1193,17 @@ header {
   font-size: 18px;
   font-weight: 600;
   text-align: left !important;
-  width: 40%;
+  width: 35%;
 }
 
 .detail2 {
   font-size: 16px;
-  width: 29% !important;
+  width: 20% !important;
 }
 
 .detail3 {
   font-size: 16px;
-  width: 29% !important;
+  width: 45% !important;
 }
 
 .detail3Small {
@@ -1219,12 +1223,12 @@ header {
   font-size: 18px;
   font-weight: 600;
   text-align: left !important;
-  width: 60%;
+  width: 70%;
 }
 
 .detail2Short {
   font-size: 16px;
-  width: 38% !important;
+  width: 30% !important;
 }
 
 .detail3Short {
@@ -1239,8 +1243,9 @@ header {
 
 #sendInvoiceButton {
   width: 90%;
-  margin: 0 auto 10px;
+  margin: 0 5% 5px;
   display: block;
+  margin-bottom: 30px;
 }
 
 .invoiceAccount {
@@ -1282,10 +1287,19 @@ header {
 
 .invoiceInfo {
   list-style-type: none;
-  margin-top: 15px;
-  width: 99%;
-  max-height: 540px;
-  overflow: scroll;
+  margin-top: 35px;
+  width: 100%;
+  max-height: 630px;
+  overflow: overlay;
+  margin-bottom: 30px;
+}
+
+.invoiceInfoSmall {
+    list-style-type: none;
+    margin-top: 24px;
+    width: 100%;
+    max-height: 500px;
+    overflow: overlay;
 }
 
 .invoiceInfo li {
@@ -1301,13 +1315,14 @@ header {
   color: #ffffff;
   font-size: 30px;
   text-align: right;
-  width: 85%;
+  width: 89%;
 }
 
 .invoiceTotalHr {
-  margin-top: -5px;
+  margin-top: 22px;
   float: right;
-  width: 30%;
+  width: 35%;
+  margin-bottom: 8px;
 }
 
 .recipient {
@@ -1316,10 +1331,10 @@ header {
     -moz-box-sizing:border-box;
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
-  border-radius: 15px;
+  border-radius: 14px;
   height: 40px;
   padding: 0 20px;
-  width: 100%;
+  width: 92%;
 }
 
 .recipient p {
@@ -1348,7 +1363,7 @@ header {
 }
 
 .recipientDetail li:first-child {
-  width: 15%;
+  width: 13%;
 }
 
 .recipientDetail li:last-child {

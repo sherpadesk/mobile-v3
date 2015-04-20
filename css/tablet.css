@@ -43,4 +43,10 @@
       text-align: center;
       margin-bottom: 10px;
     }
+   
+    .styledSelectSmall{
+        width: 90% !important;
+        float: left;
+    }
+
 }
