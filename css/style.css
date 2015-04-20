@@ -114,8 +114,8 @@ body, html {
     display: none;
 }
 
-.0 { display: none; }
-.1 { display: inline-block; }
+.d0 { display: none; }
+.d1 { display: inline-block; }
 
 #loading {
     display: none;

@@ -3639,6 +3639,9 @@ $(document).ready(function(){
             //conditional api calls determined by page
             if (location.pathname.endsWith("dashboard.html"))
             {
+                if (!isTech) window.location = "ticket_list.html";
+                else
+                {
                 localStorage.DetailedAccount = '';
                 var orgName = localStorage.getItem('userOrg');
                 if (orgName)
@@ -3649,6 +3652,7 @@ $(document).ready(function(){
                     accountList.init("#activeList", 1);
                 search.init();
                 //reveal();
+                }
                 return;
             }
             if (location.pathname.endsWith("account_details.html"))
