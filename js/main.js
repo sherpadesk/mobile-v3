@@ -1757,7 +1757,7 @@ $(document).ready(function(){
             }
             else
             {
-                var timeLog, timeEntry = localStorage.getItem("timeNumber");
+                var timeLog = 0, timeEntry = localStorage.getItem("timeNumber");
                 if (isEdit && timeEntry)
                 {
                     timeLog = JSON.parse(timeEntry);
@@ -1771,19 +1771,19 @@ $(document).ready(function(){
                     if (timeLog.stop_time)
                         $("#date_end").val(new Date(timeLog.stop_time).dateFormat("Y/\m/\d H:i"));
                 }
-                if(!isProject)
-                    $("#timeProjects").parent().hide();
-                else
+                
+                var account_id = localStorage.DetailedAccount ? localStorage.DetailedAccount : -1;
+                var project_id = 0;
+                var task_type_id = 0;
+                if (timeLog)
                 {
-                    var chooseProject = "<option value=0>choose a project</option>";
-                    $(chooseProject).appendTo("#timeProjects");
+                    account_id = timeLog.account_id;
+                    project_id = timeLog.project_id;
+                    task_type_id = timeLog.task_type_id;
                 }
-                $("#taskTypes").empty();
-                $("<option value=0>choose a task type</option>").appendTo("#taskTypes");
                 if(!isAccount)
                 {
                     $("#timeAccounts").parent().hide();
-                    reveal();
                 }
                 else
                 {
@@ -1794,26 +1794,15 @@ $(document).ready(function(){
                         var chooseAccount = "<option value=0>choose an account</option>";
                         $(chooseAccount).appendTo("#timeAccounts");
                         // accounts to add time
+                        var insert = "";
                         for(var i = 0; i < returnData.length; i++)
                         {
-                            var value = returnData[i].id;
-                            var task = returnData[i].name;
-                            var insert = "<option value="+value+">"+task+"</option>";
-                            $(insert).appendTo("#timeAccounts");
+                            insert += "<option value="+returnData[i].id+">"+ returnData[i].name+"</option>";
                         }
-                        var account_id = localStorage.DetailedAccount ? localStorage.DetailedAccount : -1;
-                        var project_id = 0;
-                        var task_type_id = 0;
-                        if (timeLog)
-                        {
-                            account_id = timeLog.account_id;
-                            project_id = timeLog.project_id;
-                            task_type_id = timeLog.task_type_id;
-                        }
+                        $(insert).appendTo("#timeAccounts");
                         $("#timeAccounts").val(account_id);
                         //if (parseInt($("#timeAccounts").val()) !== account_id)
                         //    $("#timeAccounts").val(-1);
-                        addTime.chooseProjects(project_id, task_type_id);
                         reveal();
 
                     },
@@ -1821,12 +1810,27 @@ $(document).ready(function(){
                         console.log("fail @ time accounts");
                     }
                                                                                    );
-                }
-
-                $("#timeAccounts").on("change", function(){
+                    
+                    $("#timeAccounts").on("change", function(){
                     //console.log(timeLog.task_type_id);
-                    addTime.chooseProjects(0, timeLog ? timeLog.task_type_id : 0);
+                    addTime.chooseProjects(project_id, task_type_id);
                 });
+                }
+                
+                if(!isProject)
+                    $("#timeProjects").parent().hide();
+                else
+                {
+                    var chooseProject = "<option value=0>choose a project</option>";
+                    $(chooseProject).appendTo("#timeProjects");
+                    addTime.chooseProjects(project_id, task_type_id);
+                    reveal();
+                }
+                
+                $("#taskTypes").empty();
+                $("<option value=0>choose a task type</option>").appendTo("#taskTypes");
+                if (!isAccount && !isProject)
+                    addTime.getTaskTypes({"account" : account_id, "project": project_id}, task_type_id);
 
                 // submit time to account
                 $("#submitTime").click(function(){
@@ -1856,7 +1860,7 @@ $(document).ready(function(){
                     if(time === 0){
                         userMessage.showMessage(false, "Oops not enough time");
                         return;
-                    } else if(accountId == '0'){
+                    } else if(accountId == '0' && isAccount){
                         userMessage.showMessage(false, "choose an account");
                         return;
                     }else{
@@ -1900,8 +1904,6 @@ $(document).ready(function(){
             {
                 $("#closeu").hide();
             }
-            if (!isExpenses)
-                $(".expense").hide();
             this.showTicket();
         },
 
@@ -1918,7 +1920,7 @@ $(document).ready(function(){
                     var daysOld = returnData.daysold_in_minutes / -60;
                     localStorage.setItem('techId', returnData.tech_id); // set the local storage variable with the tech id asscioted with this ticket
                     localStorage.setItem('ticketId',returnData.id); // set the local storage variable with the ticket ID
-                    $(".expense").attr("href", "addExpence.html?ticket=" + returnData.id);
+                    $("#ticketExpense").attr("href", "addExpence.html?ticket=" + returnData.id);
                     // check to see if the ticket is less than a day old
                     if(daysOld > 24){
                         daysOld = daysOld/24;
@@ -3643,8 +3645,10 @@ $(document).ready(function(){
             { 
                 $("#itemInvoice").hide();
                 $("#invoiceFooter").hide();
-                $("#invoiceFooter").next().hide();
             }
+            if (!isExpenses)
+                $(".expense").hide();
+
             //conditional api calls determined by page
             if (location.pathname.endsWith("dashboard.html"))
             {
