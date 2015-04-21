@@ -1654,7 +1654,7 @@ $(document).ready(function(){
                 project_id = 0; 
             if (typeof task_type_id === "undefined")
                 task_type_id = 0; 
-            var account = $("#timeAccounts").val();
+            var account = isAccount ? $("#timeAccounts").val() : -1;
             if (isProject){
                 $("#timeProjects").on("change", function(){
                     var project = $("#timeProjects").val();
