@@ -104,7 +104,7 @@ $( document ).ajaxError(function( event, request, settings ) {
 });
 
 function reveal() {
-    $("#loading").fadeOut();
+    $("#loading").hide();
 }
 
 
@@ -990,8 +990,14 @@ $(document).ready(function(){
                 name = returnData[i].name;
             else
             {
-                for(var j = 0; j < names.length; j++)
+                var len = names.length-1;
+                for(var j = 0; j < len; j++)
                     name += " " + returnData[i][names[j]];
+                var email = returnData[i][names[len]];
+                if (!name.trim())
+                    name = email;
+                else
+                    name += " (" + email + ")";
             }
             insert += "<option value="+value+">"+prefix+name+"</option>";
         }
@@ -1116,6 +1122,7 @@ $(document).ready(function(){
                          localStorage.setItem('add_user_accountid', '');
                          $("#addTicketAccounts").val(accountset);
                      }
+                    reveal();
                  }, function() {
                      console.log("fail @ ticket accounts");
                  });
@@ -1127,22 +1134,29 @@ $(document).ready(function(){
             {
                 $("#addTicketUser").parent().hide();
                 $("#userCreate").hide();
-                reveal();
             }
             else
             {
+                var userid = localStorage.getItem('add_user_userid');
+                if (userid) localStorage.setItem('add_user_userid', "");
+                else userid = localStorage.getItem('userId');
+                
+                var userName = localStorage.getItem('add_user_name');
+                if (userName) localStorage.setItem('add_user_name', '');
+                else userName = localStorage.getItem("userFullName");
+                
+                if (!userName.trim())
+                    userName = localStorage.getItem("userName");
+                
+                $("#addTicketUser").append("<option value="+userid+" selected>"+userName+"</option>");
+                
                 var users = getApi("users?limit=2000");
                 users.then(function(returnData){
                     //console.log(returnData);
                     // add techs to option select list
-                    fillSelect(returnData, "#addTicketUser",
-                               "<option value=0 disabled selected>choose end user</option>", "",
-                               "firstname,lastname");
-                    var userid = localStorage.getItem('add_user_userid');
-                    if (userid) localStorage.setItem('add_user_userid', "");
-                    else userid = localStorage.getItem('userId');
+                    fillSelect(returnData, "#addTicketUser", "", "",
+                               "firstname,lastname,email");
                     $("#addTicketUser").val(userid);
-                    reveal();
                 },
                                  function() {
                     console.log("fail @ ticket user");
@@ -1157,7 +1171,7 @@ $(document).ready(function(){
             // list of Tech
             if (!isTech)
             {
-                $("#addTicketTechs").parent().hide();reveal();
+                $("#addTicketTechs").parent().hide();
                 $("#TechCreate").hide();
 
             }
@@ -1169,7 +1183,7 @@ $(document).ready(function(){
                     // add techs to option select list
                     fillSelect(returnData, "#addTicketTechs",
                                "<option value=0 disabled selected>choose a tech</option>", "",
-                               "firstname,lastname");
+                               "firstname,lastname,email");
                     var techid = localStorage.getItem('add_user_techid');
                     if (techid) {
                         localStorage.setItem('add_user_techid', '');
@@ -1415,16 +1429,24 @@ $(document).ready(function(){
     var addExpence = {
         init:function(ticket_id){
             this.addExpence(getParameterByName("ticket"));
+            backFunction = function() { addExpence.back(); };
+            var reff = getParameterByName("page");
+            if (reff){
+                localStorage.setItem('addExpence.html_ref', getParameterByName("page"));
+                cleanQuerystring();
+            }
+        },
+        back: function(){
+                                var reff = localStorage.getItem('addExpence.html_ref');
+                                localStorage.setItem('addExpence.html_ref', '');
+                                if (!reff)
+                                    history.back();
+                                else
+                                window.location.replace(reff);
+
         },
         addExpence: function(ticket_id){
             var account_id = localStorage.DetailedAccount, project_id=0;
-            if(!isProject || ticket_id)
-                $("#timeProjects").parent().hide();
-            else
-            {
-                var chooseProject = "<option value=0>choose a project</option>";
-                $(chooseProject).appendTo("#timeProjects");
-            }
             if(!isAccount || ticket_id)
             {
                 $("#timeAccounts").parent().hide();
@@ -1434,39 +1456,45 @@ $(document).ready(function(){
             {
                 //get accounts
                 getApi("accounts?limit=300", {"is_with_statistics":false}).then(function(returnData) {
-                    ////console.log(returnData);
-                    $("#timeAccounts").empty();
-                    var chooseAccount = "<option value=0>choose an account</option>";
-                    $(chooseAccount).appendTo("#timeAccounts");
+                    //console.log(returnData);
                     // accounts to add time
+                    var insert = "<option value=0>choose an account</option>";
                     for(var i = 0; i < returnData.length; i++)
                     {
-                        var value = returnData[i].id;
-                        var task = returnData[i].name;
-                        var insert = "<option value="+value+">"+task+"</option>";
-                        $(insert).appendTo("#timeAccounts");
+                        insert += "<option value="+returnData[i].id+">"+returnData[i].name+"</option>";
                     }
+                    $("#timeAccounts").html(insert);
                     if (account_id)
                     {
                         $("#timeAccounts").val(account_id);
                         //if (parseInt($("#timeAccounts").val()) !== account_id)
                         //    $("#timeAccounts").val(-1);
-                        addTime.chooseProjects(project_id, 0);
                     }
+               $("#timeAccounts").on("change", function(){
+                //console.log(timeLog.task_type_id);
+                addTime.chooseProjects(0, 0);
+            });
                     reveal();
 
                 },
-                                                                                function() {
+           function() {
                     console.log("fail @ time accounts");
                     
                 }
                                                                                );
             }
+            
+            if(!isProject || ticket_id){
+                $("#timeProjects").parent().hide();
+                reveal();
+            }
+            else
+            {
+                var chooseProject = "<option value=0>choose a project</option>";
+                $(chooseProject).appendTo("#timeProjects");
+                addTime.chooseProjects(project_id, 0);
+            }
 
-            $("#timeAccounts").on("change", function(){
-                //console.log(timeLog.task_type_id);
-                addTime.chooseProjects(0, 0);
-            });
             //add an expense
             $("#addexpenseButton").click(function(){
                 var money=$("#expenseAmount").val();
@@ -1495,7 +1523,7 @@ $(document).ready(function(){
                 },'POST').then(function (d) {
                     localStorage.setItem('isMessage','truePos');
                     localStorage.setItem('userMessage','Expense was successfully added <i class="fa fa-money"></i>');
-                    window.history.back();
+                    addExpence.back();
                 },
                     function (e, textStatus, errorThrown) {
                     console.log(textStatus);
@@ -1574,7 +1602,16 @@ $(document).ready(function(){
                 }, 'POST').then(
                     function (d) {
                         userMessage.showMessage(true, value +' was created <i class="fa fa-thumbs-o-up"></i>', function(){ 
-                                localStorage.setItem(value == "Tech" ? 'add_user_techid' : 'add_user_userid', d.id);
+                            localStorage.setItem('add_user_name', '');
+                            if (value == "Tech")
+                            {
+                                localStorage.setItem('add_user_techid', d.id);
+                            }
+                            else
+                            {
+                                localStorage.setItem('add_user_userid', d.id);
+                                localStorage.setItem('add_user_name', Firstname + " " + Lastname);
+                            }
                            addUser.back();
                         }); 
                     },
@@ -1591,6 +1628,21 @@ $(document).ready(function(){
         init:function(isEdit){
             this.addpicker();
             this.inputTime(isEdit);
+            backFunction = function() { addTime.back(); };
+            var reff = getParameterByName("page");
+            if (reff){
+                localStorage.setItem('add_time.html_ref', getParameterByName("page"));
+                cleanQuerystring();
+            }
+        },
+        back: function(){
+                                var reff = localStorage.getItem('add_time.html_ref');
+                                localStorage.setItem('add_time.html_ref', '');
+                                if (!reff)
+                                    history.back();
+                                else
+                                window.location.replace(reff);
+
         },
         addpicker: function(){
             jQuery('#date_start').datetimepicker({
@@ -1881,7 +1933,7 @@ $(document).ready(function(){
                         }, isEdit ? 'PUT' : 'POST').then(function (d) {
                                 localStorage.setItem('isMessage','truePos');
                                 localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>');
-                                window.history.back();
+                                addTime.back();
                             },
                             function (e, textStatus, errorThrown) {
                                 alert(textStatus);
