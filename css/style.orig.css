@@ -2688,6 +2688,7 @@ transform-origin: 55% 25%;
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .createActions p {
