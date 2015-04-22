@@ -1446,7 +1446,8 @@ $(document).ready(function(){
 
         },
         addExpence: function(ticket_id){
-            var account_id = localStorage.DetailedAccount, project_id=0;
+            var account_id = localStorage.DetailedAccount ? localStorage.DetailedAccount : -1;
+            var project_id=0;
             if(!isAccount || ticket_id)
             {
                 $("#timeAccounts").parent().hide();
@@ -1472,7 +1473,7 @@ $(document).ready(function(){
                     }
                $("#timeAccounts").on("change", function(){
                 //console.log(timeLog.task_type_id);
-                addTime.chooseProjects(0, 0);
+                addTime.chooseProjects(0, 0, 0);
             });
                     reveal();
 
@@ -1492,7 +1493,7 @@ $(document).ready(function(){
             {
                 var chooseProject = "<option value=0>choose a project</option>";
                 $(chooseProject).appendTo("#timeProjects");
-                addTime.chooseProjects(project_id, 0);
+                addTime.chooseProjects(account_id, project_id, 0);
             }
 
             //add an expense
@@ -1701,12 +1702,15 @@ $(document).ready(function(){
                 }
             );
         },
-        chooseProjects : function (project_id, task_type_id){
+        chooseProjects : function (account, project_id, task_type_id){
+            if (typeof account === "undefined")
+                account = -1;
             if (typeof project_id === "undefined")
                 project_id = 0; 
             if (typeof task_type_id === "undefined")
                 task_type_id = 0; 
-            var account = isAccount ? $("#timeAccounts").val() : -1;
+            if (!account)
+                account = isAccount ? $("#timeAccounts").val() : -1;
             if (isProject){
                 $("#timeProjects").on("change", function(){
                     var project = $("#timeProjects").val();
@@ -1714,6 +1718,7 @@ $(document).ready(function(){
                 });
                 $("#timeProjects").empty();
                 $("<option value=0>choose a project</option>").appendTo("#timeProjects");
+
                 if (account !== "0"){
                     //get projects
                     $("#loading").fadeIn();
@@ -1865,7 +1870,7 @@ $(document).ready(function(){
                     
                     $("#timeAccounts").on("change", function(){
                     //console.log(timeLog.task_type_id);
-                    addTime.chooseProjects(project_id, task_type_id);
+                    addTime.chooseProjects(0, project_id, task_type_id);
                 });
                 }
                 
@@ -1875,7 +1880,7 @@ $(document).ready(function(){
                 {
                     var chooseProject = "<option value=0>choose a project</option>";
                     $(chooseProject).appendTo("#timeProjects");
-                    addTime.chooseProjects(project_id, task_type_id);
+                    addTime.chooseProjects(account_id, project_id, task_type_id);
                     reveal();
                 }
                 
