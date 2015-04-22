@@ -2328,7 +2328,7 @@ $(document).ready(function(){
                     localStorage.setItem("invoiceProjectId",returnData.project_id);
                     $("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number
                     var nameCheck = returnData.customer;
-                    nameCheck = createElipse(nameCheck, .70, 12);
+                    nameCheck = createElipse(nameCheck, 0.70, 12);
                     $("#customerName").html(nameCheck); // customer name
                     var date = returnData.date.substring(0,10);
                     date = formatDate(date);
@@ -2648,7 +2648,7 @@ $(document).ready(function(){
                         var date = returnData[i].date.substring(0,10);
                         // check account name for display purposes
                         date = formatDate(date);
-                        customer = createElipse(customer, .33, 12);
+                        customer = createElipse(customer, 0.33, 12);
                         var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
                         $(insert).appendTo("#invoiceList");
                         if (!accountid) localInvoiceList.push(insert);
@@ -2806,7 +2806,7 @@ $(document).ready(function(){
                     //the key for this specific ticket
                     returnData[i].index = returnData[i].key +',' + i;
                     var data = returnData[i].key;
-                    subject = createElipse(subject, .70, 12);
+                    subject = createElipse(subject, 0.70, 12);
                     var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                     // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                     if(initialPost.length > 150)
@@ -3020,7 +3020,7 @@ $(document).ready(function(){
                     returnData[i].index = returnData[i].id +',' + i;
                     var openTks = returnData[i].account_statistics.ticket_counts.open;
                     var nameCheck = returnData[i].name;
-                    nameCheck = createElipse(nameCheck, .75, 12);
+                    nameCheck = createElipse(nameCheck, 0.75, 12);
                     textToInsert.push("<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+nameCheck+"</li><li><div class='tks' "+(openTks > 99 ? "style='height: 42px;'>99<sup>+</sup>" : ">"+openTks)+"</div></li></ul>");
 
                     if(length > 10 && i == 10){
@@ -3042,7 +3042,7 @@ $(document).ready(function(){
                 if (openTks < 1)
                     continue;
                 var nameCheck = returnData[i].name;
-                nameCheck = createElipse(nameCheck, .30, 12);
+                nameCheck = createElipse(nameCheck, 0.30, 12);
                 var openHours = returnData[i].account_statistics.hours;
                 if(openHours > 999){
                     openHours = 999;
@@ -3102,7 +3102,7 @@ $(document).ready(function(){
                         var hours = returnData[i].hours;
                         hours =hours.toString();
                         var nameCheck = returnData[i].user_name;
-                        text = createElipse(text,.50, 8);
+                        text = createElipse(text, 0.50, 8);
                         if(hours.indexOf(".") >= 0)
                         {
                             // do nothing
@@ -3111,7 +3111,7 @@ $(document).ready(function(){
                         {
                             hours = hours+".00";
                         }
-                        nameCheck = createElipse(nameCheck,.50, 12);
+                        nameCheck = createElipse(nameCheck, 0.50, 12);
                         var log = "<li class=item><ul class='timelog' data-id="+id+" data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName user_name'>"+nameCheck+"</h2><p class='taskDescription responseText'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                         $(log).appendTo("#timelogs");
                         if (i==9)
@@ -3248,9 +3248,9 @@ $(document).ready(function(){
                     {
                         hours = hours+".00";
                     }
-                    text = createElipse(text, .50, 8);
+                    text = createElipse(text, 0.50, 8);
                     var nameCheck = returnData[i].user_name;
-                    nameCheck = createElipse(nameCheck, .50, 12);
+                    nameCheck = createElipse(nameCheck, 0.50, 12);
                     var log = "<li><ul class='timelog' data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                     $(log).appendTo("#accountLogs");
                 }
