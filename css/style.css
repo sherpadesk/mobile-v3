@@ -1843,6 +1843,7 @@ footer {
   width: 100%;
   height: 25%;
   margin-bottom: 5px;
+  margin-top: 10px;
 }
 
 .attachmentBorder {
@@ -1908,7 +1909,7 @@ footer {
   z-index: 5;
 }
 
-.commentBlock img {
+.commentImg {
   float: left;
   /* margin-left: 5px; */
   margin-top: -10px;
