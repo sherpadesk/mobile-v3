@@ -2160,7 +2160,7 @@ $(document).ready(function(){
                 localStorage.setItem("invoiceProjectId",returnData.project_id);
                 $("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number
                 var nameCheck = returnData.customer;
-                nameCheck = createElipse(nameCheck, 0.70, 12);
+                nameCheck = createElipse(nameCheck, 0.9, 12);
                 $("#customerName").html(nameCheck); // customer name
                 var date = returnData.date.substring(0,10);
                 date = formatDate(date);
