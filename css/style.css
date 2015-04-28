@@ -1840,9 +1840,10 @@ footer {
 }
 
 .attachment {
-  width: 100%;
+  width: 108%;
   height: 25%;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
+  margin-top: 5px;
 }
 
 .attachmentBorder {
@@ -1908,15 +1909,14 @@ footer {
   z-index: 5;
 }
 
-.commentBlock img {
-  float: left;
-  /* margin-left: 5px; */
-  margin-top: -10px;
-  z-index: 1;
-  border-radius: 100%;
-  border: 2px solid #fff;
-  width: 42px;
-
+.commentImg {
+    float: left;
+    /* margin-left: 5px; */
+    margin-top: -10px;
+    z-index: 1;
+    border-radius: 100%;
+    border: 2px solid #fff;
+    width: 42px;
 }
 
 .commentBlock span {

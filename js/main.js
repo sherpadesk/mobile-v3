@@ -294,13 +294,20 @@ function addUrls(note, files)
 {
     if(files)
     {
-        console.log(note);
+        //console.log(note);
+        //var index=-1
         var length = files.length;
         for(var i = 0; i < length; i++){
-            note = note.replace("Following file was  uploaded: ", "");
-            note = note.replace("Following files were  uploaded: ", "");
-            note = note.replaceAll(files[i].name, getFileLink(files[i].url) + "<div class='attachmentBorder'></div>");
+            note = note.replaceAll(files[i].name, getFileLink(files[i].url));
         }
+        note = note.replaceAll("Following file was ", "");
+        if (length > 1) {
+            note = note.replaceAll("Following files were ", "");
+            note = note.replaceAll("a>,", "a>");
+        }
+        note = note.replaceAll("uploaded:", "");
+        note = note.replaceAll("a>.", "a>");
+        //note += "<div class='attachmentBorder'></div>"; 
     }
     return note;
 }
@@ -311,7 +318,7 @@ function getFileLink(file)
     if (checkURL(file))
         img = "<img class=\"attachment\" src=\"" + file + "\">";
     else
-        img = "<img style='float:none;' src='img/file.png'>&nbsp;" + file.split("/").slice(-1) + "<p></p>";
+        img = "<img style='float:none;' src='img/file.png'>&nbsp;" + decodeURIComponent(file.split("/").slice(-1)) + "<p></p>";
 
     return "<a class=\"comment_image_link\"" + (isPhonegap ? (" href=# onclick='openURL(\"" +file + "\")'>"+img+"</a>") :
                                                 (" target=\"_blank\" href=\"" +file + "\">"+img+"</a>"));
