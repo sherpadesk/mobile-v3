@@ -1203,7 +1203,7 @@ header {
 
 .detail3 {
   font-size: 16px;
-  width: 45% !important;
+  width: 35% !important;
 }
 
 .detail3Small {
@@ -1215,7 +1215,7 @@ header {
 .detail4 {
   font-size: 16px;
   text-align: right;
-  width: 15%;
+  width: 10%;
 }
 
 .detail1Short {
@@ -1228,16 +1228,16 @@ header {
 
 .detail2Short {
   font-size: 16px;
-  width: 30% !important;
+  width: 20% !important;
 }
 
 .detail3Short {
   font-size: 16px;
-  width: 15%;
+  width: 10%;
 }
 
 .plusIcon {
-  height: 25px;
+  height: 22px;
   /*display: none;*/
 }
 
@@ -1315,13 +1315,13 @@ header {
   color: #ffffff;
   font-size: 30px;
   text-align: right;
-  width: 89%;
+  width: 92%;
 }
 
 .invoiceTotalHr {
   margin-top: 22px;
   float: right;
-  width: 35%;
+  width: 25%;
   margin-bottom: 8px;
 }
 
