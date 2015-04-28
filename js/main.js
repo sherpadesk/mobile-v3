@@ -2227,7 +2227,7 @@ $(document).ready(function(){
                     $(insert).appendTo("#recipientList"); 
                     $("#sendInvoiceButton").remove();
                 }
-                createSpan("#recipientList");
+                //createSpan("#recipientList");
 
                 // adds timelogs asscoited with this invoice to the invoice timelogs list
                 $("#invoiceLogs").empty();
