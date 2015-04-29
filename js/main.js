@@ -992,12 +992,8 @@ $(document).ready(function(){
 
     // send an invoice to recipents
     var sendInvoice = {
-        init:function()
-        if (!localStorage.sendInvoiceButton){
-                $("#sendInvoiceButton").html("Create Invoice");
-             }
-            
-                this.submitInvoice();
+        init:function(){
+            this.submitInvoice();
         },
 
 
