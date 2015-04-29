@@ -992,9 +992,14 @@ $(document).ready(function(){
 
     // send an invoice to recipents
     var sendInvoice = {
-        init:function() {
-            this.submitInvoice();
+        init:function()
+        if (!localStorage.sendInvoiceButton){
+                $("#sendInvoiceButton").html("Create Invoice");
+             }
+            
+                this.submitInvoice();
         },
+
 
         submitInvoice:function(){
             $("#sendInvoiceButton").click(function(){
@@ -2159,16 +2164,20 @@ $(document).ready(function(){
     //get info for a specific invoice
     var detailedInvoice = {
         init:function(){
-            this.specifics();
+            if (!localStorage.invoiceNumber){
+                $("#invoiceNumber").html("Create Invoice"); 
+            }
+            
+           this.specifics();        
         },
         specifics:function(){
             getApi("invoices/"+localStorage.getItem("invoiceNumber")).then(function(returnData) {
                 ////console.log(returnData);
                 localStorage.setItem("invoiceAccountId",returnData.account_id);
                 localStorage.setItem("invoiceProjectId",returnData.project_id);
-                $("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number
+                $("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number            
                 var nameCheck = returnData.customer;
-                nameCheck = createElipse(nameCheck, 0.9, 12);
+                nameCheck = createElipse(nameCheck, 0.9, 12);                
                 $("#customerName").html(nameCheck); // customer name
                 var date = formatDate(returnData.date);
                 $("#invoiceDate").html(date);
