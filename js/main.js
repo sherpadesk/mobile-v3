@@ -29,8 +29,17 @@ var isTech = false,
     isInvoice = true,
     is_MultipleOrgInst = true;
 
-var formatDate=function(a){var e=a.substring(5,7),r=a.substring(8,10);switch(e){case"01":e="Jan";break;case"02":e="Feb";break;case"03":e="Mar";break;case"04":e="Apr";break;case"05":e="May";break;case"06":e="Jun";break;case"07":e="Jul";break;case"08":e="Aug";break;case"09":e="Sep";break;case"10":e="Oct";break;case"11":e="Nov";break;case"12":e="Dec";break;default:e="nul";}return e+" "+r;};
+var formatDate=function(a){if (!a || a.length < 12) return a;  var e=a.substring(5,7),r=a.substring(8,10);switch(e){case"01":e="Jan";break;case"02":e="Feb";break;case"03":e="Mar";break;case"04":e="Apr";break;case"05":e="May";break;case"06":e="Jun";break;case"07":e="Jul";break;case"08":e="Aug";break;case"09":e="Sep";break;case"10":e="Oct";break;case"11":e="Nov";break;case"12":e="Dec";break;default:e="nul";}return e+" "+r;};
 
+Object.toType = (function toType(global) {
+    return function(obj) {
+        if (obj === global) {
+            return "global";
+        }
+        return ({}).toString.call(obj).match(/\s([a-z|A-Z]+)/)[1].toLowerCase();
+    }
+})(this);
+ 
 //Cache settings
 var cacheName = "", //current cache to kill on refresh
     cacheTime = 5000; // milliseconds before cache update 
@@ -2137,8 +2146,7 @@ $(document).ready(function(){
                 var type = logs[c].log_type;
                 var userName = logs[c].user_firstname+" "+logs[c].user_lastname;
                 var note = logs[c].note;
-                var date = logs[c].record_date.toString().substring(0,10);
-                date = formatDate(date);
+                var date = formatDate(logs[c].record_date);
 
                 // comment insert
                 insert[c] = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+ $("<span />", { html: note.replace(/<br\s*[\/]?>/gi, "\n") }).text().replace(/\n/g, "<p></p>")+"</p></li><li>"+type+"</li></ul>";
@@ -2162,8 +2170,7 @@ $(document).ready(function(){
                 var nameCheck = returnData.customer;
                 nameCheck = createElipse(nameCheck, 0.9, 12);
                 $("#customerName").html(nameCheck); // customer name
-                var date = returnData.date.substring(0,10);
-                date = formatDate(date);
+                var date = formatDate(returnData.date);
                 $("#invoiceDate").html(date);
                 $("#invoiceHours").html(returnData.total_hours+"<span class='detail3Small'>hrs</span>"); // hours to invoice
                 var amount = 0;
@@ -2236,7 +2243,7 @@ $(document).ready(function(){
                     {
                         var name = returnData.time_logs[u].name;
                         var log = returnData.time_logs[u].total;
-                        var date = formatDate(returnData.time_logs[u].date.substring(0,10));
+                        var date = formatDate(returnData.time_logs[u].date);
                         var logID = returnData.time_logs[u].id;
                         var insert = "<li><ul id='invoiceTimelog' data-id='"+logID+"' data-info='"+JSON.stringify(returnData.time_logs[u]).replace(/'/g, "")+"'  class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span></h3></li></ul></li>";
                         $(insert).appendTo("#invoiceLogs");
@@ -2248,7 +2255,7 @@ $(document).ready(function(){
                     {
                         var name = returnData.expenses[c].name;
                         var log = returnData.expenses[c].total;
-                        var date = formatDate(returnData.expenses[c].date.substring(0,10));
+                        var date = formatDate(returnData.expenses[c].date);
                         var logID = returnData.expenses[c].id;
                         var insert = "<li><ul id='invoiceExpense' class='timelog1'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
                         $(insert).appendTo("#expensesList");
@@ -2449,23 +2456,33 @@ $(document).ready(function(){
     // get a list of invoices both for a specific account as well as a complete list of invoices
     var invoiceList = {
         init:function(accountid){
-            this.listInvoices(accountid);
+            var is_unbilled = getParameterByName("status");
+            //cleanQuerystring();
+            if (is_unbilled){
+                $("#invoiceCreate").remove();
+                $("h1.SherpaDesk").html("Create Invoices");
+            }
+            else
+                $("#invoiceCreate").click(
+                    function(){
+                        //localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
+                        //localStorage.setItem('add_user_accountid',account);
+                        window.location.replace("allInvoice_List.html?status=unbilled".addUrlParam("page",getPage()[2]));
+                    });
+            this.listInvoices(accountid, is_unbilled);
         },
 
-        listInvoices:function(accountid){
+        listInvoices:function(accountid, is_unbilled){
             var localInvoiceList = [];
             // go to list of account invoice on click
             $("#invoiceOption").click(function(){
                 window.location = "Invoice_List.html";
             });
-            // go to complete list of invoice on click
-            $("#allInvoice, #invoiceFooter").click(function(){
-                window.location = "allInvoice_List.html";
-            });
             // get list of invoices for a specific account
-            getApi("invoices", {"account" : accountid}).then(
+            getApi("invoices", {"status": is_unbilled, "account" : accountid}).then(
                 function(returnData) {
                     $("#invoiceList").empty();
+                    console.log(returnData);
                     if(returnData.length == 0){
                         $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
                         createSpan('#invoiceList');
@@ -2474,18 +2491,16 @@ $(document).ready(function(){
                     }
                     else if(typeof returnData.length === 'undefined')
                         returnData = [returnData];
+                    var insert = "";
                     for(var i = 0; i < returnData.length; i++)
                     {
-                        var customer = returnData[i].customer; // account name
-                        var date = returnData[i].date.substring(0,10);
-                        // check account name for display purposes
-                        date = formatDate(date);
-                        customer = createElipse(customer, 0.33, 12);
-                        var insert = "<ul data-id="+returnData[i].id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
-                        $(insert).appendTo("#invoiceList");
-                        if (!accountid) localInvoiceList.push(insert);
+                        var customer = createElipse(returnData[i].customer, 0.33, 12);; // account name
+                        var date = formatDate(returnData[i].date || "Create new");
+                        insert += "<ul data-id="+returnData[i].id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
+                        //if (!accountid) localInvoiceList.push(insert);
                     }
-                    if (!accountid) localStorage.setItem("storageInvoices",JSON.stringify(localInvoiceList));
+                    $(insert).appendTo("#invoiceList");
+                    //if (!accountid) localStorage.setItem("storageInvoices",JSON.stringify(localInvoiceList));
                     createSpan('#invoiceList');
                     reveal();
                     filterList("tabpageContainer");
@@ -3380,7 +3395,7 @@ $(document).ready(function(){
                 window.location = "Invoice_List.html";
             });
             // go to complete list of invoice on click
-            $("#allInvoice, #invoiceFooter").click(function(){
+            $("#allInvoice").click(function(){
                 window.location = "allInvoice_List.html";
             });
             $(document).on("click",".invoiceRows", function(){
@@ -3541,9 +3556,6 @@ $(document).ready(function(){
             //conditional api calls determined by page
             if (location.pathname.endsWith("dashboard.html"))
             {
-                if (!isTech) window.location = "ticket_list.html";
-                else
-                {
                     localStorage.DetailedAccount = '';
                     var orgName = localStorage.getItem('userOrg');
                     if (orgName)
@@ -3554,7 +3566,6 @@ $(document).ready(function(){
                         accountList.init("#activeList", 1);
                     search.init();
                     //reveal();
-                }
                 return;
             }
             if (location.pathname.endsWith("account_details.html"))
@@ -3638,6 +3649,56 @@ $(document).ready(function(){
                 getQueueTickets.init();
                 return;
             }
+            if (location.pathname.endsWith("add_time.html"))
+            {
+                if (!isTime) window.location = "dashboard.html";
+                else
+                {
+                    //window.location.replace(document.referrer);
+                    addTime.init();
+                }
+                return;
+            }
+            if (location.pathname.endsWith("add_user.html"))
+            {
+                    //window.location.replace(document.referrer);
+                    addUser.init();
+                return;
+            }
+            if (location.pathname.endsWith("addExpence.html"))
+            {
+                if (!isExpenses) window.location = "dashboard.html";
+                else
+                {
+                    //window.location.replace(document.referrer);
+                    addExpence.init();
+                }
+                return;
+            }
+            if (location.pathname.endsWith("edit_time.html"))
+            {
+                if (!isTime) window.location = "dashboard.html";
+                else
+                {
+                    //window.location.replace(document.referrer);
+                    addTime.init(true);
+                }
+                return;
+            }
+            if (location.pathname.endsWith("closedTickets.html"))
+            {
+                // detailedTicket.init();
+                closedTickets.init();
+                return;
+            }
+            $("#loading").show();
+            if (location.pathname.endsWith("addTicketTime.html"))
+            {
+                if (isTime) { addTime.init();}
+                else window.location = "dashboard.html";
+                return;
+
+            }
         }
         if (location.pathname.endsWith("ticket_list.html"))
         {
@@ -3656,20 +3717,6 @@ $(document).ready(function(){
             postComment.init();
             return;
         }
-        if (location.pathname.endsWith("closedTickets.html"))
-        {
-            // detailedTicket.init();
-            closedTickets.init();
-            return;
-        }
-        $("#loading").show();
-        if (location.pathname.endsWith("addTicketTime.html"))
-        {
-            if (isTime) { addTime.init();}
-            else window.location = "dashboard.html";
-            return;
-
-        }
         if (location.pathname.endsWith("add_tickets.html"))
         {
             //window.location.replace(document.referrer);
@@ -3677,46 +3724,8 @@ $(document).ready(function(){
             //accountTimeLogs.init();
             return;
         }
-        if (location.pathname.endsWith("add_time.html"))
-        {
-            if (!isTime) window.location = "dashboard.html";
-            else
-            {
-                //window.location.replace(document.referrer);
-                addTime.init();
-            }
-            return;
-        }
-        if (location.pathname.endsWith("add_user.html"))
-        {
-            if (!isTech) window.location = "dashboard.html";
-            else
-            {
-                //window.location.replace(document.referrer);
-                addUser.init();
-            }
-            return;
-        }
-        if (location.pathname.endsWith("addExpence.html"))
-        {
-            if (!isExpenses) window.location = "dashboard.html";
-            else
-            {
-                //window.location.replace(document.referrer);
-                addExpence.init();
-            }
-            return;
-        }
-        if (location.pathname.endsWith("edit_time.html"))
-        {
-            if (!isTime) window.location = "dashboard.html";
-            else
-            {
-                //window.location.replace(document.referrer);
-                addTime.init(true);
-            }
-            return;
-        }
+
+        window.location = isTech ? "dashboard.html" : "ticket_list.html";
     }
 
     //Main Method that calls all the functions for the app
