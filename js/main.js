@@ -37,9 +37,9 @@ Object.toType = (function toType(global) {
             return "global";
         }
         return ({}).toString.call(obj).match(/\s([a-z|A-Z]+)/)[1].toLowerCase();
-    }
+    };
 })(this);
- 
+
 //Cache settings
 var cacheName = "", //current cache to kill on refresh
     cacheTime = 5000; // milliseconds before cache update 
@@ -202,16 +202,14 @@ window.onload = function() { if (typeof WebPullToRefresh === 'object') WebPullTo
 
 //global helper functions
 function logout(isRedirect, mess) {
-    if (typeof isRedirect === "undefined")
-        isRedirect = true;
     clearStorage();
     if (localStorage.is_google) {
         localStorage.removeItem('userName');
         localStorage.removeItem('is_google');
         GooglelogOut();
     }
-    else if (isRedirect)
-        window.location = "index.html" + ((typeof mess === "undefined") ? "" : "?f="+mess);
+    else if (isRedirect || true)
+        window.location = "index.html" + (!mess ? "" : "?f="+mess);
 }
 
 if (typeof String.prototype.endsWith !== 'function') {
@@ -221,12 +219,13 @@ if (typeof String.prototype.endsWith !== 'function') {
 }
 
 function GooglelogOut(mess) {
+    mess = !mess ? "" : "?f="+mess;
     if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-        document.location.href = getPage()[1] + "index.html" + ((typeof mess === "undefined") ? "" : "?f="+mess);
+        document.location.href = getPage()[1] + "index.html" + mess;
     }
     else
-        window.location = "index.html" + ((typeof isRedirect === "undefined") ? "" : "?f="+mess);
+        window.location = "index.html" + mess;
 }
 
 function clearStorage()
@@ -301,13 +300,11 @@ String.prototype.replaceAll = function (find, replace) {
 
 function addUrls(note, files)
 {
-    if(files)
+    var length = files.length;
+    if (length)
     {
-        //console.log(note);
-        //var index=-1
-        var length = files.length;
         for(var i = 0; i < length; i++){
-            note = note.replaceAll(files[i].name, getFileLink(files[i].url));
+            note = note.replaceAll(" "+files[i].name, getFileLink(files[i].url));
         }
         note = note.replaceAll("Following file was ", "");
         if (length > 1) {
@@ -329,8 +326,9 @@ function getFileLink(file)
     else
         img = "<img style='float:none;' src='img/file.png'>&nbsp;" + decodeURIComponent(file.split("/").slice(-1)) + "<p></p>";
 
-    return "<a class=\"comment_image_link\"" + (isPhonegap ? (" href=# onclick='openURL(\"" +file + "\")'>"+img+"</a>") :
-                                                (" target=\"_blank\" href=\"" +file + "\">"+img+"</a>"));
+    return "<a class=\"comment_image_link\"" + 
+        (isPhonegap ? (" href=# onclick='openURL(\"" +file + "\")'>"+img+"</a>") :
+                      (" target=\"_blank\" href=\"" +file + "\">"+img+"</a>"));
 }
 
 
@@ -342,7 +340,7 @@ var featureList5;
 
 function filterList(listClass, value_names, init_value){
     $('body').attr('id', 'search_wrap');
-    if (typeof value_names === "undefined" || !value_names)
+    if (!value_names)
     {
         value_names = [ 'blockNumber', 'responseText', 'TicketBlockNumber', 'user_name'];
     }
@@ -356,7 +354,7 @@ function filterList(listClass, value_names, init_value){
         valueNames: value_names			
     };
     featureList = new List('search_wrap', options);
-    if (typeof init_value !== "undefined" && init_value)
+    if (init_value)
     {
         featureList.search(init_value);
         $(".search").val(init_value);
@@ -455,27 +453,23 @@ $(document).ready(function(){
 
     function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
     {
-        if (typeof returnData === "undefined" || !returnData || !returnData.length)
+        if (!returnData || !returnData.length)
         { 
             $(""+element).parent().hide();
             return 0;
         }
         var names;
         var isCustom = false;
-        if (typeof customValues !== "undefined" && customValues.length > 0){
+        if (customValues && customValues.length > 0){
             names = customValues.split(',');
             if (names.length > 0)
                 isCustom = true;
         }
-        if (typeof prefix === "undefined")
-            prefix = "";
-        if (typeof initialValue === "undefined")
-            initialValue = "";
-        if (typeof envelope_start === "undefined")
-            envelope_start = "";
-        if (typeof envelope_end === "undefined")
-            envelope_end = "";
-        var insert = ""+initialValue;
+        prefix = prefix || "";
+        initialValue = initialValue || "";
+        envelope_start = envelope_start || "";
+        envelope_end = envelope_end || "";
+        var insert = initialValue;
         var i = 0;
         for(i = 0; i < returnData.length; i++)
         {
@@ -782,7 +776,7 @@ $(document).ready(function(){
             var time = cacheTime;
             if (retrievedObject)
                 retrievedObject = JSON.parse(retrievedObject);
-            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            if (!retrievedObject || retrievedObject.length == 0)
             {
                 console.log("could not load local data");
                 time = 10;
@@ -1683,8 +1677,7 @@ $(document).ready(function(){
             });
         },
         getTaskTypes: function (data, task_type_id){
-            if (typeof task_type_id === "undefined")
-                task_type_id = 0; 
+            task_type_id = task_type_id || 0; 
             //$("#loading").show();
             $("#taskTypes").empty();
             $("<option value=0>choose a task type</option>").appendTo("#taskTypes");
@@ -1710,10 +1703,8 @@ $(document).ready(function(){
         chooseProjects : function (account, project_id, task_type_id){
             if (typeof account === "undefined")
                 account = -1;
-            if (typeof project_id === "undefined")
-                project_id = 0; 
-            if (typeof task_type_id === "undefined")
-                task_type_id = 0; 
+            project_id = project_id || 0; 
+            task_type_id = task_type_id || 0; 
             if (!account)
                 account = isAccount ? $("#timeAccounts").val() : -1;
             if (isProject){
@@ -2116,13 +2107,18 @@ $(document).ready(function(){
 
                     //add comments (ticketLogs) to the page
                     var logslen = returnData.ticketlogs.length;
+                    var files = returnData.attachments || [];
+                    //sort files by filename to avoid wrong replace
+                    files.sort(function(a, b){
+                        return b.name.length - a.name.length;
+                    });
                     $(".orginalMessageContainer").empty();
-                    detailedTicket.createLogs([returnData.ticketlogs.shift()], ".orginalMessageContainer", returnData.attachments);
+                    detailedTicket.createLogs([returnData.ticketlogs.shift()], ".orginalMessageContainer", files);
 
                     // add the lastest comment to the top of the comments list
                     if (logslen > 1){
                         $("#comments").empty();
-                        detailedTicket.createLogs(returnData.ticketlogs, "#comments", returnData.attachments);
+                        detailedTicket.createLogs(returnData.ticketlogs, "#comments", files);
                     }
 
                     reveal();
@@ -2163,8 +2159,8 @@ $(document).ready(function(){
             if (!localStorage.invoiceNumber){
                 $("#invoiceNumber").html("Create Invoice"); 
             }
-            
-           this.specifics();        
+
+            this.specifics();        
         },
         specifics:function(){
             getApi("invoices/"+localStorage.getItem("invoiceNumber")).then(function(returnData) {
@@ -2460,9 +2456,10 @@ $(document).ready(function(){
 
     // get a list of invoices both for a specific account as well as a complete list of invoices
     var invoiceList = {
-        init:function(accountid){
+        init:function(){
             var is_unbilled = getParameterByName("status");
-            //cleanQuerystring();
+            var accountid = localStorage.DetailedAccount;
+            cleanQuerystring();
             if (is_unbilled){
                 $("#invoiceCreate").remove();
                 $("h1.SherpaDesk").html("Create Invoices");
@@ -2472,22 +2469,17 @@ $(document).ready(function(){
                     function(){
                         //localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
                         //localStorage.setItem('add_user_accountid',account);
-                        window.location.replace("allInvoice_List.html?status=unbilled".addUrlParam("page",getPage()[2]));
+                        window.location.replace("Invoice_List.html?status=unbilled".addUrlParam("page",getPage()[2]));
                     });
             this.listInvoices(accountid, is_unbilled);
         },
 
         listInvoices:function(accountid, is_unbilled){
             var localInvoiceList = [];
-            // go to list of account invoice on click
-            $("#invoiceOption").click(function(){
-                window.location = "Invoice_List.html";
-            });
             // get list of invoices for a specific account
             getApi("invoices", {"status": is_unbilled, "account" : accountid}).then(
                 function(returnData) {
                     $("#invoiceList").empty();
-                    console.log(returnData);
                     if(returnData.length == 0){
                         $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
                         createSpan('#invoiceList');
@@ -2499,7 +2491,7 @@ $(document).ready(function(){
                     var insert = "";
                     for(var i = 0; i < returnData.length; i++)
                     {
-                        var customer = createElipse(returnData[i].customer, 0.33, 12);; // account name
+                        var customer = createElipse(returnData[i].customer, 0.33, 12); // account name
                         var date = formatDate(returnData[i].date || "Create new");
                         insert += "<ul data-id="+returnData[i].id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
                         //if (!accountid) localInvoiceList.push(insert);
@@ -2576,7 +2568,7 @@ $(document).ready(function(){
             var time = cacheTime;
             if (retrievedObject)
                 retrievedObject = JSON.parse(retrievedObject);
-            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            if (!retrievedObject || retrievedObject.length == 0)
             {
                 console.log("could not load local data");
                 time = 10;
@@ -2674,7 +2666,7 @@ $(document).ready(function(){
                 }
                 $table.append(textToInsert.join(''));
                 createSpan(parent);
-                if (cachePrefix !== undefined && cachePrefix){
+                if (cachePrefix){
                     localStorage.setItem(cachePrefix+'tickets',JSON.stringify(returnData));
                 }
             }
@@ -2687,7 +2679,7 @@ $(document).ready(function(){
             var time = cacheTime;
             if (retrievedObject)
                 retrievedObject = JSON.parse(retrievedObject);
-            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            if (!retrievedObject || retrievedObject.length == 0)
             {
                 console.log("could not load local data");
                 time = 10;
@@ -2715,7 +2707,7 @@ $(document).ready(function(){
             var time = cacheTime;
             if (retrievedObject)
                 retrievedObject = JSON.parse(retrievedObject);
-            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            if (!retrievedObject || retrievedObject.length == 0)
             {
                 console.log("could not load local data");
                 time = 10;
@@ -2746,7 +2738,7 @@ $(document).ready(function(){
             var time = cacheTime;
             if (retrievedObject)
                 retrievedObject = JSON.parse(retrievedObject);
-            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            if (!retrievedObject || retrievedObject.length == 0)
             {
                 console.log("could not load local data");
                 time = 10;
@@ -2774,7 +2766,7 @@ $(document).ready(function(){
             var time = cacheTime;
             if (retrievedObject)
                 retrievedObject = JSON.parse(retrievedObject);
-            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            if (!retrievedObject || retrievedObject.length == 0)
             {
                 console.log("could not load local data");
                 time = 10;
@@ -2799,14 +2791,13 @@ $(document).ready(function(){
     String.format = function(format) {
         var args = Array.prototype.slice.call(arguments, 1);
         return format.replace(/{(\d+)}/, function(match, number) { 
-            return typeof args[number] != 'undefined' ? args[number] : match;
+            return typeof args[number] !== 'undefined' ? args[number] : match;
         });
     };
 
     function BuildList(parent, arr, template, values, header)
     {
-        if (typeof header === 'undefined')
-            header = '';
+        header = header || '';
         var textToInsert = [header],
             length = returnData.length,
             $table = $(parent);
@@ -2830,7 +2821,7 @@ $(document).ready(function(){
             var time = cacheTime;
             var retrievedObject = localStorage.getItem("storageAccountList");
             if (retrievedObject) retrievedObject = JSON.parse(retrievedObject);
-            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0)
+            if (!retrievedObject || retrievedObject.length == 0)
             {
                 console.log("could not load local data");
                 time = 10;
@@ -2924,7 +2915,7 @@ $(document).ready(function(){
             /*
             var localTimelogs = [];
             var retrievedObject = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem("storageTimeLogs")));
-            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
+            if (!retrievedObject || retrievedObject.length == 0){
                 console.log("could not load local data")
             }
             else
@@ -3031,7 +3022,7 @@ $(document).ready(function(){
                 console.log("could not load local account tickets data");
             }
 
-            if (retrievedObject == undefined || retrievedObject == null || retrievedObject.length == 0){
+            if (!retrievedObject || retrievedObject.length == 0){
                 console.log("could not load local account details data");
                 time = 10;
             }
@@ -3082,9 +3073,8 @@ $(document).ready(function(){
         },
 
         getTimeLogs: function () {
-            var accountId = localStorage.getItem("DetailedAccount");
-            if (!accountId)
-                accountId = -1;
+            var accountId = localStorage.getItem("DetailedAccount") || -1;
+
             getApi("time?account=" + accountId).then(function(returnData) {
                 //console.log(returnData);
                 $("#accountLogs").empty();
@@ -3397,7 +3387,7 @@ $(document).ready(function(){
                     });
             }
             $("#invoiceOption").click(function(){
-                window.location = "Invoice_List.html";
+                window.location = "Invoice_List.html".addUrlParam("page",getPage()[2]);
             });
             // go to complete list of invoice on click
             $("#allInvoice").click(function(){
@@ -3470,10 +3460,10 @@ $(document).ready(function(){
                 else if(isMessage == "trueNeg")
                 {isPos = false;localStorage.setItem("isMessage","false");}
                 else
-                    return;
+                return;
             }
 
-            if (typeof messageText === "undefined")
+            if (messageText)
             {
                 messageText = localStorage.getItem("userMessage");
             }
@@ -3561,88 +3551,82 @@ $(document).ready(function(){
             //conditional api calls determined by page
             if (location.pathname.endsWith("dashboard.html"))
             {
-                    localStorage.DetailedAccount = '';
-                    var orgName = localStorage.getItem('userOrg');
-                    if (orgName)
-                        $("#indexTitle").html(orgName);
-                    TicketsCounts.init();
-                    getQueues.init("#DashBoradQueues", 3);
-                    if(isAccount)
-                        accountList.init("#activeList", 1);
-                    search.init();
-                    //reveal();
+                localStorage.DetailedAccount = '';
+                var orgName = localStorage.getItem('userOrg');
+                if (orgName)
+                    $("#indexTitle").html(orgName);
+                TicketsCounts.init();
+                getQueues.init("#DashBoradQueues", 3);
+                if(isAccount)
+                    accountList.init("#activeList", 1);
+                search.init();
+                //reveal();
                 return;
             }
             if (location.pathname.endsWith("account_details.html"))
             {
-                if (!isAccount) window.location = "dashboard.html";
-                else
+                if (isAccount)
                 {
                     if(!isInvoice) $("#invoiceOption").parent().remove();
                     accountDetailsPageSetup.init();
                     //detailedTicket.init();
                     closedTickets.pageChange();
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("Account_List.html"))
             {
-                if (!isAccount) window.location = "dashboard.html";
-                else
+                if (isAccount)
                 {
                     localStorage.DetailedAccount = '';
                     accountList.init("#fullList");
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("timelog.html"))
-            {if (!isTime) window.location = "dashboard.html";
-             else
-             {
-                 //accountTimeLogs.init();
-                 timeLogs.init();
-                 //addTime.init();
-             }
-             return;
+            {
+                if (isTime)
+                {
+                    //accountTimeLogs.init();
+                    timeLogs.init();
+                    //addTime.init();
+                    return;
+                }
             }
             if (location.pathname.endsWith("accountTimes.html"))
             {
-                if (!isTime || !isAccount) window.location = "dashboard.html";
-                else
+                if (isTime && isAccount)
                 {
                     accountTimeLogs.init();
                     //timeLogs.init();
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("allInvoice_List.html"))
             {
-                if (!isTime || !isInvoice) window.location = "dashboard.html";
-                else
+                if (isTime && isInvoice)
                 {
                     invoiceList.init();
+                    return;
                 }
-                return;
             }
-            else if (location.pathname.endsWith("Invoice_List.html"))
+            else if (location.pathname.indexOf("Invoice_List.html") >= 0)
             {
-                if (!isTime || !isInvoice) window.location = "dashboard.html";
-                else
+                if (isTime && isInvoice)
                 {
-                    invoiceList.init(localStorage.getItem("DetailedAccount"));
+                    invoiceList.init();
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("invoice.html"))
             {
-                if (!isTime || !isInvoice) window.location = "dashboard.html";
-                else
+                if (isTime && isInvoice)
                 {
                     detailedInvoice.init();
                     sendInvoice.init();
                     addRecip.init();
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("Queues.html"))
             {
@@ -3656,39 +3640,36 @@ $(document).ready(function(){
             }
             if (location.pathname.endsWith("add_time.html"))
             {
-                if (!isTime) window.location = "dashboard.html";
-                else
+                if (isTime)
                 {
                     //window.location.replace(document.referrer);
                     addTime.init();
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("add_user.html"))
             {
-                    //window.location.replace(document.referrer);
-                    addUser.init();
+                //window.location.replace(document.referrer);
+                addUser.init();
                 return;
             }
             if (location.pathname.endsWith("addExpence.html"))
             {
-                if (!isExpenses) window.location = "dashboard.html";
-                else
+                if (isExpenses)
                 {
                     //window.location.replace(document.referrer);
                     addExpence.init();
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("edit_time.html"))
             {
-                if (!isTime) window.location = "dashboard.html";
-                else
+                if (isTime)
                 {
                     //window.location.replace(document.referrer);
                     addTime.init(true);
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("closedTickets.html"))
             {
@@ -3696,12 +3677,13 @@ $(document).ready(function(){
                 closedTickets.init();
                 return;
             }
-            $("#loading").show();
+            //$("#loading").show();
             if (location.pathname.endsWith("addTicketTime.html"))
             {
-                if (isTime) { addTime.init();}
-                else window.location = "dashboard.html";
-                return;
+                if (isTime) { 
+                    addTime.init();
+                    return;
+                }
 
             }
         }
