@@ -137,11 +137,6 @@ var fastClicker = {
             $("#itemInvoice").addClass("activeLink");
             $("#itemInovice").find(".iconCircle").addClass("activeBorder");
         }
-        if (location.pathname.indexOf("allInvoice_List.html") >= 0)
-        {
-            $("#itemInvoice").addClass("activeLink");
-            $("#itemInovice").find(".iconCircle").addClass("activeBorder");
-        }
         if (location.pathname.indexOf("invoice.html") >= 0)
         {
             $("#itemInvoice").addClass("activeLink");
@@ -190,11 +185,11 @@ var fastClicker = {
 				$(this).attr("src", 'img/plus_icon.png');
                 $(this).removeClass().addClass("plusIcon");
                 
-                if ($("#recipientList").children().length<1)
+                if ($(".closeIcon").length<1)
                     {
-                       var insert = "<li><h3 class=noDataMessage>No accounting contacts found.</h3></li>";
-                            $(insert).appendTo("#recipientList"); 
-                        $("#sendInvoiceButton").remove();
+                       //No accounting contacts found.</h3></li>";
+                        //add span
+                        //$("#sendInvoiceButton").remove();
                     }
 			});
 			$(document).on("click","#addRecipient", function(){
@@ -208,6 +203,14 @@ var fastClicker = {
 					width: "200px"
 				}, 300);
 			});
+            /*$("ul.recipientDetail").click(function() {
+
+                $(this).parent().parent().prepend($(this).parent());
+
+            });
+            var d = document.getElementById('foo0');
+            d.parentNode.appendChild(d);*/
+
 		},
 
 		slideIn: function() {
@@ -596,7 +599,7 @@ var fastClicker = {
     
     var NAV_MENU="<div class='activeNav'><div class='fold'><i class='fa a-angle-double-left fa-2x'></i></div><img class='navProfile' src='img/profile_3.png'><h2 class='navName'>NO USER DATA</h2><ul class='sideNavLinks'><a href='dashboard.html'><li id='itemDash'><a href='dashboard.html'><div class='iconCircle'><i class='fa fa-tachometer'></i></div><h3>Dashboard</h3></a></li></a> <a class='user' href='ticket_list.html'><li id='itemTickets'><div class='iconCircle'><i class='fa fa-ticket'></i></div><h3>Tickets</h3><div class='menuTicketsStat'><p class='menuTicketStatNumber'>0</p></div></li></a> <a class='time' href='timelog.html'><li id='itemTimelog'><div class='iconCircle'><i class='fa fa-clock-o'></i></div><h3>Timelogs</h3></li></a> <a href='Account_List.html'><li id='itemAccount'><div class='iconCircle'><i class='fa fa-users'></i></div><h3>Accounts</h3></li></a><li class='time' id='itemInvoice'><div class='iconCircle'><i class='fa fa-credit-card'></i></div><h3 id='allInvoice'>Invoices</h3></li><a href='Queues.html'><li id='itemQueues'><div class='iconCircle'><i class='fa fa-sort-amount-asc'></i></div><h3>Queues</h3></li></a><li class='user' id='switchOrg'><div class='iconCircle'><i class='fa fa-list'></i></div><h3>Switch Org</h3></li><li class='user' id='signOut'><div class='iconCircle'><i class='fa fa-sign-in'></i></div><h3>Signout</h3></li><a class='fullapplink user' href='#'><li><div class='iconCircle'><i class='fa fa-external-link'></i></div><h3>Full App</h3></li></a></ul></div>";
     
-    var CREATE_MENU="<div class='createActions'><ul class='createActionsList'><li onclick='window.location.replace(\"add_tickets.html\".addUrlParam(\"page\",\"%p\"));'><i class='fa fa-ticket'></i><p>Add Ticket</p></li><li class='time' onclick='window.location.replace(\"add_time.html\".addUrlParam(\"page\",\"%p\"));'><i class='fa fa-clock-o'></i><p>Add Time</p></li><li id='invoiceFooter'  onclick='window.location.replace(\"allInvoice_List.html?status=unbilled\".addUrlParam(\"page\",\"%p\"));'><i class='fa fa-credit-card'></i><p>Add Invoice</p></li><li class='expense' onclick='window.location.replace(\"addExpence.html\".addUrlParam(\"page\",\"%p\"));'><i class='fa fa-money'></i><p>Add Expense</p></li></ul></div>";
+    var CREATE_MENU="<div class='createActions'><ul class='createActionsList'><li onclick='window.location.replace(\"add_tickets.html\".addUrlParam(\"page\",\"%p\"));'><i class='fa fa-ticket'></i><p>Add Ticket</p></li><li class='time' onclick='window.location.replace(\"add_time.html\".addUrlParam(\"page\",\"%p\"));'><i class='fa fa-clock-o'></i><p>Add Time</p></li><li id='invoiceFooter'  onclick='window.location.replace(\"Invoice_List.html?status=unbilled\".addUrlParam(\"page\",\"%p\"));'><i class='fa fa-credit-card'></i><p>Add Invoice</p></li><li class='expense' onclick='window.location.replace(\"addExpence.html\".addUrlParam(\"page\",\"%p\"));'><i class='fa fa-money'></i><p>Add Expense</p></li></ul></div>";
 
 	(function() { 
         if (!document.getElementById("goBack")){

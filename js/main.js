@@ -301,13 +301,10 @@ String.prototype.replaceAll = function (find, replace) {
 
 function addUrls(note, files)
 {
-    if(files)
-    {
-        //console.log(note);
-        //var index=-1
         var length = files.length;
+        if (length){
         for(var i = 0; i < length; i++){
-            note = note.replaceAll(files[i].name, getFileLink(files[i].url));
+            note = note.replaceAll(" "+files[i].name, getFileLink(files[i].url));
         }
         note = note.replaceAll("Following file was ", "");
         if (length > 1) {
@@ -317,7 +314,7 @@ function addUrls(note, files)
         note = note.replaceAll("uploaded:", "");
         note = note.replaceAll("a>.", "a>");
         //note += "<div class='attachmentBorder'></div>"; 
-    }
+        }
     return note;
 }
 
@@ -2116,13 +2113,18 @@ $(document).ready(function(){
 
                     //add comments (ticketLogs) to the page
                     var logslen = returnData.ticketlogs.length;
+                    var files = returnData.attachments || [];
+                    //sort files by filename to avoid wrong replace
+                    files.sort(function(a, b){
+                        return b.name.length - a.name.length;
+                    });
                     $(".orginalMessageContainer").empty();
-                    detailedTicket.createLogs([returnData.ticketlogs.shift()], ".orginalMessageContainer", returnData.attachments);
+                    detailedTicket.createLogs([returnData.ticketlogs.shift()], ".orginalMessageContainer", files);
 
                     // add the lastest comment to the top of the comments list
                     if (logslen > 1){
                         $("#comments").empty();
-                        detailedTicket.createLogs(returnData.ticketlogs, "#comments", returnData.attachments);
+                        detailedTicket.createLogs(returnData.ticketlogs, "#comments", files);
                     }
 
                     reveal();
@@ -2460,9 +2462,10 @@ $(document).ready(function(){
 
     // get a list of invoices both for a specific account as well as a complete list of invoices
     var invoiceList = {
-        init:function(accountid){
+        init:function(){
             var is_unbilled = getParameterByName("status");
-            //cleanQuerystring();
+            var accountid = localStorage.DetailedAccount;
+            cleanQuerystring();
             if (is_unbilled){
                 $("#invoiceCreate").remove();
                 $("h1.SherpaDesk").html("Create Invoices");
@@ -2472,22 +2475,17 @@ $(document).ready(function(){
                     function(){
                         //localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
                         //localStorage.setItem('add_user_accountid',account);
-                        window.location.replace("allInvoice_List.html?status=unbilled".addUrlParam("page",getPage()[2]));
+                        window.location.replace("Invoice_List.html?status=unbilled".addUrlParam("page",getPage()[2]));
                     });
             this.listInvoices(accountid, is_unbilled);
         },
 
         listInvoices:function(accountid, is_unbilled){
             var localInvoiceList = [];
-            // go to list of account invoice on click
-            $("#invoiceOption").click(function(){
-                window.location = "Invoice_List.html";
-            });
             // get list of invoices for a specific account
             getApi("invoices", {"status": is_unbilled, "account" : accountid}).then(
                 function(returnData) {
                     $("#invoiceList").empty();
-                    console.log(returnData);
                     if(returnData.length == 0){
                         $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
                         createSpan('#invoiceList');
@@ -3397,7 +3395,7 @@ $(document).ready(function(){
                     });
             }
             $("#invoiceOption").click(function(){
-                window.location = "Invoice_List.html";
+                window.location = "Invoice_List.html".addUrlParam("page",getPage()[2]);
             });
             // go to complete list of invoice on click
             $("#allInvoice").click(function(){
@@ -3575,74 +3573,68 @@ $(document).ready(function(){
             }
             if (location.pathname.endsWith("account_details.html"))
             {
-                if (!isAccount) window.location = "dashboard.html";
-                else
+                if (isAccount)
                 {
                     if(!isInvoice) $("#invoiceOption").parent().remove();
                     accountDetailsPageSetup.init();
                     //detailedTicket.init();
                     closedTickets.pageChange();
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("Account_List.html"))
             {
-                if (!isAccount) window.location = "dashboard.html";
-                else
+                if (isAccount)
                 {
                     localStorage.DetailedAccount = '';
                     accountList.init("#fullList");
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("timelog.html"))
-            {if (!isTime) window.location = "dashboard.html";
-             else
+            {
+                if (isTime)
              {
                  //accountTimeLogs.init();
                  timeLogs.init();
                  //addTime.init();
+                 return;
              }
-             return;
             }
             if (location.pathname.endsWith("accountTimes.html"))
             {
-                if (!isTime || !isAccount) window.location = "dashboard.html";
-                else
+                if (isTime && isAccount)
                 {
                     accountTimeLogs.init();
                     //timeLogs.init();
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("allInvoice_List.html"))
             {
-                if (!isTime || !isInvoice) window.location = "dashboard.html";
-                else
+                if (isTime && isInvoice)
                 {
                     invoiceList.init();
+                    return;
                 }
-                return;
             }
-            else if (location.pathname.endsWith("Invoice_List.html"))
+            else if (location.pathname.indexOf("Invoice_List.html") >= 0)
             {
-                if (!isTime || !isInvoice) window.location = "dashboard.html";
-                else
+                if (isTime && isInvoice)
                 {
-                    invoiceList.init(localStorage.getItem("DetailedAccount"));
+                    invoiceList.init();
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("invoice.html"))
             {
-                if (!isTime || !isInvoice) window.location = "dashboard.html";
-                else
+                if (isTime && isInvoice)
                 {
                     detailedInvoice.init();
                     sendInvoice.init();
                     addRecip.init();
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("Queues.html"))
             {
@@ -3656,13 +3648,12 @@ $(document).ready(function(){
             }
             if (location.pathname.endsWith("add_time.html"))
             {
-                if (!isTime) window.location = "dashboard.html";
-                else
+                if (isTime)
                 {
                     //window.location.replace(document.referrer);
                     addTime.init();
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("add_user.html"))
             {
@@ -3672,23 +3663,21 @@ $(document).ready(function(){
             }
             if (location.pathname.endsWith("addExpence.html"))
             {
-                if (!isExpenses) window.location = "dashboard.html";
-                else
+                if (isExpenses)
                 {
                     //window.location.replace(document.referrer);
                     addExpence.init();
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("edit_time.html"))
             {
-                if (!isTime) window.location = "dashboard.html";
-                else
+                if (isTime)
                 {
                     //window.location.replace(document.referrer);
                     addTime.init(true);
+                    return;
                 }
-                return;
             }
             if (location.pathname.endsWith("closedTickets.html"))
             {
@@ -3696,12 +3685,13 @@ $(document).ready(function(){
                 closedTickets.init();
                 return;
             }
-            $("#loading").show();
+            //$("#loading").show();
             if (location.pathname.endsWith("addTicketTime.html"))
             {
-                if (isTime) { addTime.init();}
-                else window.location = "dashboard.html";
+                if (isTime) { 
+                    addTime.init();
                 return;
+                }
 
             }
         }
