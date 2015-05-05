@@ -1848,8 +1848,8 @@ footer {
 }
 
 .attachment {
-  width: 108%;
-  height: 25%;
+  max-width: 108%;
+  /*height: 25%;*/
   margin-bottom: 7px;
   margin-top: 5px;
 }
