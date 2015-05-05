@@ -177,12 +177,12 @@ var fastClicker = {
 		slideOut: function() {
             $(document).on("click",".plusIcon",function(){
                 var email = $(this).attr("id");
-				$(this).attr("src", 'img/close_icon.png');
+				$(this).attr("src", 'img/error.png');
                 $(this).removeClass().addClass("closeIcon");
 			});
 			$(document).on("click",".closeIcon",function(){
                 var email = $(this).attr("id");
-				$(this).attr("src", 'img/plus_icon.png');
+				$(this).attr("src", 'img/check.png');
                 $(this).removeClass().addClass("plusIcon");
                 
                 if ($(".closeIcon").length<1)

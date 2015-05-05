@@ -2224,7 +2224,7 @@ $(document).ready(function(){
                     {
                         var email = $.md5(returnData.recipients[x].email);
                         var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p>" +
-                            (returnData.recipients[x].is_accounting_contact ? "<img class='closeIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/close_icon.png'>" : "<img class=plusIcon id=\""+ returnData.recipients[x].email +"\" src='img/plus_icon.png'>") +
+                            (returnData.recipients[x].is_accounting_contact ? "<img class='closeIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/error.png'> " : "<img class=plusIcon id=\""+ returnData.recipients[x].email +"\" src='img/check.png'>") +
                             "</div></li></ul></li>";
                         $(insert).appendTo("#recipientList");
                     }

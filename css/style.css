@@ -1194,6 +1194,7 @@ header {
   font-weight: 600;
   text-align: left !important;
   width: 35%;
+  padding: 5px
 }
 
 .detail2 {
@@ -1224,6 +1225,7 @@ header {
   font-weight: 600;
   text-align: left !important;
   width: 70%;
+  padding: 5px
 }
 
 .detail2Short {
@@ -1236,8 +1238,14 @@ header {
   width: 10%;
 }
 
+.plusIconCheck {
+  height: 32px;
+  /*display: none;*/
+}
+
 .plusIcon {
-  height: 22px;
+  height: 32px;
+    
   /*display: none;*/
 }
 
@@ -1349,7 +1357,7 @@ header {
 
 .recipient img {
   height: 25px;
-  margin-top: 6px;
+  margin-top: 8px;
   margin-left: 5px;
   float: right;
 }
