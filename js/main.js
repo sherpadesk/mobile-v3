@@ -2531,7 +2531,7 @@ $(document).ready(function(){
             }
             getApi("queues/"+queueId).then(
                 function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     ticketList.createTicketsList(returnData, "#queueTickets");  
                     filterList("queueTickets");
                     reveal();
