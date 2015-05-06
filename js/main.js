@@ -323,7 +323,6 @@ function addUrls(note, files)
         {
             for(var j = 0; j < inlineImg.length; j++){
                 var filename = inlineImg[j].slice(5, -1); 
-                console.log(filename);
                     if (filename.indexOf("_link_") >= 0)
                     {
                         filename = filename.replace("_link_", "");
@@ -2261,17 +2260,8 @@ $(document).ready(function(){
                     for(var x = 0; x < returnData.recipients.length; x++)
                     {
                         var email = $.md5(returnData.recipients[x].email);
-<<<<<<< HEAD
                         var insert = "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p>" +
-                            (returnData.recipients[x].is_accounting_contact ? "<img class='closeIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/error.png'> " : "<img class=plusIcon id=\""+ returnData.recipients[x].email +"\" src='img/check.png'>") +
-=======
-                        var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p>" +
-                            (returnData.recipients[x].is_accounting_contact ? 
-                             "<img class=plusIcon id=\""+ returnData.recipients[x].email +"\" src='img/check.png'>" 
-                             : 
-                             "<img class='closeIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/error.png'> ") +
->>>>>>> 0f85ceffcac987910f73868bf02f9591cf53635e
-                            "</div></li></ul></li>";
+                            (returnData.recipients[x].is_accounting_contact ? "<img class='closeIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/error.png'> " : "<img class=plusIcon id=\""+ returnData.recipients[x].email +"\" src='img/check.png'>") + "</div></li></ul></li>";
                         $(insert).appendTo("#recipientList");
                     }
                 }
