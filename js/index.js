@@ -179,11 +179,13 @@ var fastClicker = {
                 var email = $(this).attr("id");
 				$(this).attr("src", 'img/error.png');
                 $(this).removeClass().addClass("closeIcon");
+                $(this).parents(".recipientParent").appendTo("#recipientList");
 			});
 			$(document).on("click",".closeIcon",function(){
                 var email = $(this).attr("id");
 				$(this).attr("src", 'img/check.png');
                 $(this).removeClass().addClass("plusIcon");
+                $(this).parents(".recipientParent").prependTo('#recipientList');
                 
                 if ($(".closeIcon").length<1)
                     {
