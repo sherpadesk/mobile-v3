@@ -2219,12 +2219,23 @@ $(document).ready(function(){
                 $(".invoiceTotal").html(localStorage.getItem('currency') + amount + "<span class='detail3Small'>" + change + "</span>");
                 $("#recipientList").empty();
                 // add recipients to recipients list
-                if(returnData.recipients != null && returnData.recipients.length > 0){
+                if(returnData.recipients && returnData.recipients.length > 0){
+                    returnData.recipients.sort(function(a,b){
+                        return a.is_accounting_contact < b.is_accounting_contact ? 1 : -1;
+                    });
                     for(var x = 0; x < returnData.recipients.length; x++)
                     {
                         var email = $.md5(returnData.recipients[x].email);
+<<<<<<< HEAD
                         var insert = "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p>" +
                             (returnData.recipients[x].is_accounting_contact ? "<img class='closeIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/error.png'> " : "<img class=plusIcon id=\""+ returnData.recipients[x].email +"\" src='img/check.png'>") +
+=======
+                        var insert = "<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p>" +
+                            (returnData.recipients[x].is_accounting_contact ? 
+                             "<img class=plusIcon id=\""+ returnData.recipients[x].email +"\" src='img/check.png'>" 
+                             : 
+                             "<img class='closeIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/error.png'> ") +
+>>>>>>> 0f85ceffcac987910f73868bf02f9591cf53635e
                             "</div></li></ul></li>";
                         $(insert).appendTo("#recipientList");
                     }
@@ -2531,7 +2542,7 @@ $(document).ready(function(){
             }
             getApi("queues/"+queueId).then(
                 function(returnData) {
-                    console.log(returnData);
+                    //console.log(returnData);
                     ticketList.createTicketsList(returnData, "#queueTickets");  
                     filterList("queueTickets");
                     reveal();
