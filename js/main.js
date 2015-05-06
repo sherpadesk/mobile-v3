@@ -2506,6 +2506,7 @@ $(document).ready(function(){
         init:function(){
             var is_unbilled = getParameterByName("status");
             var accountid = localStorage.DetailedAccount;
+            localStorage.DetailedAccount = "";
             //cleanQuerystring();
             if (is_unbilled){
                 $("#invoiceCreate").remove();
