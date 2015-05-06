@@ -49,7 +49,7 @@ function checkEmail(email) {
 }
 
 function checkURL(url) {
-    return(url.trim().match(/\.(jpeg|jpg|gif|png)$/i) !== null);
+    return(url.trim().match(/(jpeg|jpg|gif|png)$/i) !== null);
 }
 
 //Phonegap specific
@@ -298,20 +298,55 @@ String.prototype.replaceAll = function (find, replace) {
     //return str.replace(new RegExp(find, 'g'), replace);
 };
 
+function matchKey(search, array){
+for(var key in array) {
+    if(key.indexOf(search) != -1) {
+        return key;
+    }
+}
+return "";
+}
+    
+
 function addUrls(note, files)
 {
     var length = files.length;
+    var filearray = {};
     if (length)
     {
+        var inlineImg = note.match(/\[cid:[^\[\]]*]/g);
         for(var i = 0; i < length; i++){
             note = note.replaceAll(" "+files[i].name, getFileLink(files[i].url));
+            filearray['"'+files[i].name.substring(0, files[i].name.lastIndexOf("."))+'"'] = files[i].url;
         }
-        note = note.replaceAll("Following file was ", "");
+        if (inlineImg)
+        {
+            for(var j = 0; j < inlineImg.length; j++){
+                var filename = inlineImg[j].slice(5, -1); 
+                console.log(filename);
+                    if (filename.indexOf("_link_") >= 0)
+                    {
+                        filename = filename.replace("_link_", "");
+                    }
+                    else
+                    {
+                        filename = matchKey(filename.slice(0, -3), filearray);
+                        if(filename && typeof(filearray[filename]) !== 'undefined' ) {
+                            filename = filearray[filename];
+                        }
+                        else
+                            filename = "";
+                    }
+                if (filename.length)
+                    note = note.replaceAll(inlineImg[j], getFileLink(filename));
+            }
+        }
+        //note = note.replaceAll("Following file was ", "");
         if (length > 1) {
-            note = note.replaceAll("Following files were ", "");
+            //note = note.replaceAll("Following files were ", "");
             note = note.replaceAll("a>,", "a>");
         }
-        note = note.replaceAll("uploaded:", "");
+        //note = note.replaceAll("uploaded:", "");
         note = note.replaceAll("a>.", "a>");
         //note += "<div class='attachmentBorder'></div>"; 
     }
@@ -328,7 +363,7 @@ function getFileLink(file)
 
     return "<a class=\"comment_image_link\"" + 
         (isPhonegap ? (" href=# onclick='openURL(\"" +file + "\")'>"+img+"</a>") :
-                      (" target=\"_blank\" href=\"" +file + "\">"+img+"</a>"));
+         (" target=\"_blank\" href=\"" +file + "\">"+img+"</a>"));
 }
 
 
@@ -3457,7 +3492,6 @@ $(document).ready(function(){
             localStorage.setItem("isMessage", isPos ? "truePos" : "trueNeg");
         },
         showMessage:function(isPos, messageText, func) {
-
             if (typeof isPos === "undefined")
             {
                 var isMessage = localStorage.getItem("isMessage");
@@ -3466,10 +3500,10 @@ $(document).ready(function(){
                 else if(isMessage == "trueNeg")
                 {isPos = false;localStorage.setItem("isMessage","false");}
                 else
-                return;
+                    return;
             }
 
-            if (messageText)
+            if (!messageText)
             {
                 messageText = localStorage.getItem("userMessage");
             }
