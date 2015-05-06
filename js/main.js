@@ -2190,18 +2190,29 @@ $(document).ready(function(){
     //get info for a specific invoice
     var detailedInvoice = {
         init:function(){
-            if (!localStorage.invoiceNumber){
+            if (localStorage.invoiceNumber.indexOf(",") != -1){
+                $("#sendInvoiceButton").html("Create Invoice"); 
                 $("#invoiceNumber").html("Create Invoice"); 
             }
 
             this.specifics();        
         },
         specifics:function(){
-            getApi("invoices/"+localStorage.getItem("invoiceNumber")).then(function(returnData) {
+            var data = localStorage.invoiceNumber;
+            if (data.indexOf(",") != -1)
+            {
+                data = data.split(",");
+                data = "?status=unbilled&account="+data[0]+"&project="+data[1];
+            }
+            else
+                data = "/"+data;
+            
+            
+            getApi("invoices"+data).then(function(returnData) {
                 ////console.log(returnData);
                 localStorage.setItem("invoiceAccountId",returnData.account_id);
                 localStorage.setItem("invoiceProjectId",returnData.project_id);
-                $("#invoiceNumber").html("Invoice  #"+returnData.id); //invoice number            
+                $("#invoiceNumber").html(returnData.id ? "Invoice  #"+returnData.id : "Create Invoice"); //invoice number            
                 var nameCheck = returnData.customer;
                 nameCheck = createElipse(nameCheck, 0.9, 12);                
                 $("#customerName").html(nameCheck); // customer name
@@ -2261,7 +2272,7 @@ $(document).ready(function(){
                     {
                         var email = $.md5(returnData.recipients[x].email);
                         var insert = "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p>" +
-                            (returnData.recipients[x].is_accounting_contact ? "<img class='closeIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/error.png'> " : "<img class=plusIcon id=\""+ returnData.recipients[x].email +"\" src='img/check.png'>") + "</div></li></ul></li>";
+                            (returnData.recipients[x].is_accounting_contact ? "<img class='plusIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/check.png'> " : "<img class=closeIcon id=\""+ returnData.recipients[x].email +"\" src='img/error.png'>") + "</div></li></ul></li>";
                         $(insert).appendTo("#recipientList");
                     }
                 }
@@ -2495,7 +2506,7 @@ $(document).ready(function(){
         init:function(){
             var is_unbilled = getParameterByName("status");
             var accountid = localStorage.DetailedAccount;
-            cleanQuerystring();
+            //cleanQuerystring();
             if (is_unbilled){
                 $("#invoiceCreate").remove();
                 $("h1.SherpaDesk").html("Create Invoices");
@@ -2529,7 +2540,8 @@ $(document).ready(function(){
                     {
                         var customer = createElipse(returnData[i].customer, 0.33, 12); // account name
                         var date = formatDate(returnData[i].date || "Create new");
-                        insert += "<ul data-id="+returnData[i].id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
+                        var id = is_unbilled ? returnData[i].account_id +","+returnData[i].project_id : returnData[i].id;
+                        insert += "<ul data-id="+id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
                         //if (!accountid) localInvoiceList.push(insert);
                     }
                     $(insert).appendTo("#invoiceList");
@@ -3747,7 +3759,7 @@ $(document).ready(function(){
             return;
         }
 
-        window.location = isTech ? "dashboard.html" : "ticket_list.html";
+        //window.location = isTech ? "dashboard.html" : "ticket_list.html";
     }
 
     //Main Method that calls all the functions for the app
