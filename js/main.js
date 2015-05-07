@@ -1035,17 +1035,28 @@ $(document).ready(function(){
                 }
                 var emails = ""; 
                 $.each($(".recipient").children(".closeIcon"), function(){emails+=$(this).attr("id") + ",";}); 
-                //console.log(emails);
-                getAp('invoices/'+localStorage.getItem('invoiceNumber'),{
-                    "action": "sendEmail",
-                    "recipients": emails
-                },'PUT').then(function (d) {
+                
+                var data, number = localStorage.invoiceNumber;
+                var isUnbilled = (number.indexOf(",") != -1);
+                if (isUnbilled)
+                {
+                    number = number.split(",");
+                    data = {"status": "unbilled", "account" : number[0], "project" : number[1]};
+                    number = 'invoices';
+                }
+                else
+                {
+                    data = {"action":"sendEmail"};
+                    number = 'invoices/' +number;
+                }
+                
+                data.recipients = emails;
+                
+                getApi(number, data, isUnbilled ? 'POST' : 'PUT').then(function (d) {
                     setTimeout(
                         function()
                         {
-
                             window.history.back();
-
                         }, 1000);
                     userMessage.setMessage(true, "Hurray! Invoice sent");
                 },
