@@ -24,6 +24,18 @@
     <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
       <link rel="stylesheet" type="text/css" href="js/jquery.datetimepicker.css"/ >
       <script src="js/jquery.datetimepicker.js"></script>
+    <script> 
+     $(document).ready(function(){
+         jQuery('#date').datetimepicker({
+                timepicker:false,
+                format:'d/m/Y'
+                           
+                
+            });
+     })
+        
+        
+    </script>
     <!-- Jquery UI -->
     
     
@@ -57,8 +69,8 @@
     <div class="CreateInvoiceWrapper"> 
         <textarea id="vendor" class="textInputSmallLight" type="text" placeholder="Start Location:"></textarea>
          <textarea id="vendor" class="textInputSmallLight" type="text" placeholder="End Location:"></textarea>
-        <input class=" input" type="date" placeholder="00/00/0000" ></input>
-         <textarea id="vendor" class="textInputSmallLight" type="text" placeholder="Distance:"></textarea>  
+        <input placeholder="Date" id=date class=" input"></input>
+       <textarea id="vendor" class="textInputSmallLight" type="text" placeholder="Distance:"></textarea>  
       <input class=" input" type="number" placeholder="Distance Rate: 0.00"></input>
         <textarea class="textInput" type="text" placeholder="Notes..."></textarea>
       <div id="billem" class="billable"><div id="billem1" class="innerCircle billFill"></div></div><span class="billTag">Billable</span>
