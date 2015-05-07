@@ -2601,11 +2601,11 @@ br {
 }
 
 .input {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   border: 0px;
   width: 100%;
   font-size: 16px;
-  height: 35px;
+  height: 40px;
   background-color: rgba(0,0,0,0.4);
   color: #fff;
   padding-left: 10px;
