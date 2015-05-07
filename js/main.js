@@ -40,6 +40,19 @@ Object.toType = (function toType(global) {
     };
 })(this);
 
+function HasProp(obj, prop) {
+    for (var p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            if (p === prop) {
+                return obj;
+            } else if (obj[p] instanceof Object && HasProp(obj[p], prop)) {
+                return obj[p];
+            }
+        }
+    }
+    return null;
+}
+
 //Cache settings
 var cacheName = "", //current cache to kill on refresh
     cacheTime = 5000; // milliseconds before cache update 
@@ -483,6 +496,11 @@ $(document).ready(function(){
     function cleanQuerystring() {
         var clean_uri = location.protocol + "//" + location.host + location.pathname;
         window.history.replaceState({}, document.title, clean_uri);
+    }
+    
+    function showError(e){
+        var error = (((e || {}).responseJSON || {}).ResponseStatus || {}).Message;
+        userMessage.showMessage(false, error || "Error. Please contact Administrator");
     }
 
     function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
@@ -1241,6 +1259,12 @@ $(document).ready(function(){
                                 );
             }
 
+            if (!isTech)
+            {
+                $(".add_class").hide();
+            }
+            else
+            {
             // after techs are choosen then get a list of classes
             var classes = getApi('classes');
             classes.done(
@@ -1248,7 +1272,7 @@ $(document).ready(function(){
                     fillClasses(classResults, "#classTicketOptions", "<option value=0 disabled selected>choose a class</option>");
                 });
 
-
+            }
 
             // make api post call when submit ticket button is clicked
 
@@ -1280,10 +1304,7 @@ $(document).ready(function(){
                         setTimeout(newTicket.back, 1000);
                         userMessage.setMessage(true, "Ticket was Succesfully Created :)");
                     },
-                                   function (e, textStatus, errorThrown) {
-                        alert(textStatus);
-                    }
-                                  );
+                    showError);
 
                 }
             });
@@ -2517,8 +2538,10 @@ $(document).ready(function(){
         init:function(){
             var is_unbilled = getParameterByName("status");
             var accountid = localStorage.DetailedAccount;
-            localStorage.DetailedAccount = "";
+            //todo localStorage.DetailedAccount = "";
             //cleanQuerystring();
+            //todo
+            $("#invoiceCreate").remove();
             if (is_unbilled){
                 $("#invoiceCreate").remove();
                 $("h1.SherpaDesk").html("Create Invoices");
@@ -3361,6 +3384,7 @@ $(document).ready(function(){
                             else {
                                 // If there is MORE than one instance on the selected org
                                 //$("p[class!='intro']") 
+                                $('#instsPage').empty();
                                 $("div.OptionWrapper1[data-id!='"+index_number+"']").parent().remove();
                                 //$('#orgsPage').find('option:gt(0)').remove();
                                 for (var i = 0; i < instances.length; i++) {
@@ -3398,6 +3422,7 @@ $(document).ready(function(){
                             getInstanceConfig(userOrgKey, userInstanceKey);
                         }
                         else {
+                            $('#instsPage').empty();
                             // If there is MORE than one instance on the selected org
                             for (var i = 0; i < instances.length; i++) {
                                 var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle user_name'>"+instances[i].name+"</h3></div></li>";
@@ -3771,7 +3796,7 @@ $(document).ready(function(){
             return;
         }
 
-        //window.location = isTech ? "dashboard.html" : "ticket_list.html";
+        window.location = isTech ? "dashboard.html" : "ticket_list.html";
     }
 
     //Main Method that calls all the functions for the app
