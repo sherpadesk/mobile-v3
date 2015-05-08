@@ -1,3 +1,3854 @@
-function updatedFunction(){location.reload(!0)}function checkEmail(e){return null!==e.trim().match(/^[^@\s]+@[^@\s]+(\.[^@\s]+)+$/i)}function checkURL(e){return null!==e.trim().match(/\.(jpeg|jpg|gif|png)$/i)}function onDeviceReady(){isPhonegap=!0,cordova.plugins.notification.badge&&(localStorage.badge>0?cordova.plugins.notification.badge.set(localStorage.badge):cordova.plugins.notification.badge.clear())}function openURL(e){window.open(e,"_blank","location=no,EnableViewPortScale=yes")}function openURLsystem(e){window.open(e,"_system")}function getPage(){var e=location.href.match(/(.+\w\/)(.+)/);return e?e:["","",""]}function reveal(){$("#loading").hide()}function errorLine(e){var t="location.reload(false)";$("#scroller").hide(),$(".catch-error").length||$("body").prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Something went wrong...</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>'+e+'</h4><h4>&nbsp;<p>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="'+t+'">Refresh</button></center></div></div>')}function offLine(){var e="redirectToPage()";isOnline=!1,$(".catch-error").length||$("body").prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="'+e+'">Refresh</button></center></div></div>')}function onLine(){isOnline||($(".catch-error").remove(),location.reload(!1)),isOnline=!0}function redirectToPage(){if(navigator.onLine)if(isPhonegap)onLine();else{var e=document.body.appendChild(document.createElement("img"));e.style.display="none",e.onload=function(){onLine()},e.onerror=function(){offLine()},e.src=MobileSite+"img/select_arrow.png?rand="+Math.random()}else offLine()}function logout(e,t){"undefined"==typeof e&&(e=!0),clearStorage(),localStorage.is_google?(localStorage.removeItem("userName"),localStorage.removeItem("is_google"),GooglelogOut()):e&&(window.location="index.html"+("undefined"==typeof t?"":"?f="+t))}function GooglelogOut(e){if(window.self!==window.top||confirm("Do you want to stay logged in Google account?"))window.location="index.html"+("undefined"==typeof isRedirect?"":"?f="+e);else{document.location.href=getPage()[1]+"index.html"+("undefined"==typeof e?"":"?f="+e)}}function clearStorage(){var e=localStorage.userName,t=localStorage.appVersion;localStorage.clear(),localStorage.removeItem("userOrgKey"),localStorage.removeItem("userOrg"),localStorage.removeItem("userInstanceKey"),localStorage.removeItem("userKey"),localStorage.setItem("userName",e),localStorage.appVersion=t,window.self!==window.top&&window.top.postMessage("logout","*")}function getInfo4Extension(){if(window.self!==window.top){var e="login?t="+localStorage.getItem("userKey")+"&o="+localStorage.getItem("userOrgKey")+"&i="+localStorage.getItem("userInstanceKey");window.top.postMessage(e,"*")}}function fullapplink(){var e=AppSite+"?dept="+localStorage.getItem("userInstanceKey")+"&org="+localStorage.getItem("userOrgKey");return isPhonegap?$(".fullapplink").on("click",function(t){t.preventDefault(),openURLsystem(e)}):window.self!==window.top?$(".fullapplink").on("click",function(t){t.preventDefault();var i=window.__proto__.open;i.apply(window,[e,"_blank"])}):($(".fullapplink").attr("target","_blank"),$(".fullapplink").attr("href",e)),e}function htmlEscape(e){return String(e).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/'/g,"&apos;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}function filterList(e,t,i){$("body").attr("id","search_wrap"),"undefined"!=typeof t&&t?t&&(t=t.split(",")):t=["blockNumber","responseText","TicketBlockNumber","user_name"];var a={listClass:e,item:"item",valueNames:t};return featureList=new List("search_wrap",a),"undefined"!=typeof i&&i&&(featureList.search(i),$(".search").val(i)),featureList.on("updated",function(){if(featureList.matchingItems.length>1){"There are "+featureList.matchingItems.length+" matching tickets."}else 0===featureList.matchingItems.length&&console.log("Bummer...  0 items found")}),featureList}function float2int(e){return 0|e}function createElipse(e,t,i){var a=e.length;if(10>=a)return e;var o=$(window).width();o>650&&(o=650);var n;return t*=o,n=t/i,n=float2int(n),a-2>n&&(e=e.substring(0,n)+"..."),e}function createSpan(e){var t=$(window).height(),i=$("#content").height();t>i+60&&(i=t-i-60,$("<p id=fill style='height:"+i+"px'>&nbsp;</p>").appendTo(e+""))}var appVersion="21",adMessage="Invite new user feature",Site="sherpadesk.com/",MobileSite="http://m."+Site,AppSite="https://app."+Site,ApiSite="http://api."+Site,isTech=!1,isProject=!0,isTime=!0,isAccount=!0,isLevel=!0,isClass=!0,isLocation=!0,isFreshbook=!0,isExpenses=!0,isTravelCosts=!0,isInvoice=!0,is_MultipleOrgInst=!0,cacheName="",cacheTime=5e3,isPhonegap=!1,isOnline=!0;document.addEventListener("deviceready",onDeviceReady,!1),document.addEventListener("offline",offLine,!1),document.addEventListener("online",onLine,!1),"function"!=typeof String.prototype.addUrlParam&&(String.prototype.addUrlParam=function(e,t){if(!t||!e)return this;var i=this.indexOf("?")>0?"&":"?";return this+i+e+"="+t}),$(document).ajaxError(function(e,t,i){(403==t.status&&i.url!==ApiSite+"organizations"||404==t.status&&i.url===ApiSite+"config")&&logout(i.url!==ApiSite+"login",t.statusText),setTimeout(function(){$("#loading").hide(),$(".page").show(),redirectToPage()},1e3)}),window.onerror=function(e,t,i,a,o){var n=a?"<p>column: "+a:"";n+=o?"<p>error: "+o:"",i>0&&setTimeout(function(){errorLine("<p onclick='$(\".err\").toggle();'>Click for Error Details:</p><div class=err style='display:none;'>"+e+"<p>page: "+location.href+"<p>url: "+t+"<p>line: "+i+n+"</div>"),$("#loading").hide(),$(".page").show()},1e3);var s=!0;return s},window.onload=function(){"object"==typeof WebPullToRefresh&&WebPullToRefresh.init({loadingFunction:function(){"dash"===cacheName?(localStorage.setItem("storageQueues",""),localStorage.setItem("storageAccountList",""),localStorage.setItem("ticketsStat","")):localStorage.setItem(cacheName,""),location.reload(!1)}})},"function"!=typeof String.prototype.endsWith&&(String.prototype.endsWith=function(e){return-1!==this.indexOf(e,this.length-e.length)});var featureList,featureList2,featureList3,featureList4,featureList5;$(document).ready(function(){function e(e,t,i){var a=localStorage.getItem("userKey"),o=localStorage.getItem("userOrgKey"),n=localStorage.getItem("userInstanceKey");return a&&o&&n?(i||(i="GET"),$.ajax({type:i,beforeSend:function(e){e.withCredentials=!0,e.setRequestHeader("Authorization","Basic "+btoa(o+"-"+n+":"+a))},url:ApiSite+e,cache:!0,data:t,dataType:"json"}).promise()):void console.log("Invalid organization!")}function t(e){var t=RegExp("[?&]"+e+"=([^&]*)").exec(window.location.search);return t&&decodeURIComponent(t[1].replace(/\+/g," "))}function i(){var e=location.protocol+"//"+location.host+location.pathname;window.history.replaceState({},document.title,e)}function a(e,t,i,a,o,n,s){if("undefined"==typeof e||!e||!e.length)return $(""+t).parent().hide(),0;var c,l=!1;"undefined"!=typeof o&&o.length>0&&(c=o.split(","),c.length>0&&(l=!0)),"undefined"==typeof a&&(a=""),"undefined"==typeof i&&(i=""),"undefined"==typeof n&&(n=""),"undefined"==typeof s&&(s="");var r=""+i,u=0;for(u=0;u<e.length;u++){var d=e[u].id,m="";if(l){for(var g=c.length-1,h=0;g>h;h++)m+=" "+e[u][c[h]];var p=e[u][c[g]];m.trim()?m+=" ("+p+")":m=p}else m=e[u].name;r+="<option value="+d+">"+a+m+"</option>"}return u>0?($(""+n+r+s).appendTo(""+t),$(""+t).parent().show(),$(""+t).parent().parent().show()):$(""+t).parent().hide(),u}function o(e,t,i){return isClass?(a(e,t,i,"Class: "),void $(""+t).on("change",function(){$(".sub_class1, .sub_class2").is(":visible")&&($(".sub_class1, .sub_class2").hide(),$("#sub_class1, #sub_class2").empty());var i=$(t+" option:selected").val(),o=$.grep(e,function(e){return e.id==i});c=i,"undefined"!=typeof o[0]&&(null!==o[0].sub||o[0].sub>0)&&(a(o[0].sub,"#sub_class1","<option value="+c+">choose a sub class</option>","Sub class: "),$("select#sub_class1").on("change",function(){$(".sub_class2").is(":visible")&&($(".sub_class2").hide(),$("#sub_class2").empty());var e=$("select#sub_class1 option:selected").val(),t=$.grep(o[0].sub,function(t){return t.id==e});c=e,"undefined"!=typeof t[0]&&(t[0].sub>0||null!==t[0].sub)&&(a(t[0].sub,"#sub_class2","<option value="+c+">Sub Sub Class: ---</option>","Sub Sub Class: "),$("select#sub_class2").on("change",function(){var e=$("select#sub_class2 option:selected").val();c=e}))}))})):void $(""+t).parent().parent().hide()}function n(){if("tech"===localStorage.getItem("userRole")&&(isTech=!0),"false"===localStorage.getItem("projectTracking")&&(isProject=!1),"false"===localStorage.getItem("timeTracking")&&(isTime=!1),"false"===localStorage.getItem("accountManager")&&(isAccount=!1),"false"===localStorage.getItem("ticketLevels")&&(isLevel=!1),"false"===localStorage.getItem("classTracking")&&(isClass=!1),"false"===localStorage.getItem("locationTracking")&&(isLocation=!1),"false"===localStorage.getItem("freshbooks")&&(isFreshbook=!1),"false"===localStorage.getItem("is_invoice")&&(isInvoice=!1),"false"===localStorage.getItem("is_expenses")&&(isExpenses=!1),"false"===localStorage.getItem("is_travel_costs")&&(isTravelCosts=!1),"false"===localStorage.getItem("sd_is_MultipleOrgInst")?(is_MultipleOrgInst=!1,$("#switchOrg").hide()):$("#switchOrg").show(),isTime||$(".time").remove(),localStorage.appVersion!==appVersion&&(localStorage.setItem("appVersion",appVersion),console.log("Version updated to "+appVersion),adMessage.length>1?setTimeout(function(){J.showMessage(!0,adMessage,updatedFunction)},3e3):location.reload(!0)),fullapplink(),"undefined"!=typeof navigator.splashscreen&&navigator.splashscreen.hide(),isTech){if(isAccount||$("#itemAccount").parent().hide(),isInvoice||($("#itemInvoice").hide(),$("#invoiceFooter").hide()),isExpenses||$(".expense").hide(),location.pathname.endsWith("dashboard.html")){if(isTech){localStorage.DetailedAccount="";var e=localStorage.getItem("userOrg");e&&$("#indexTitle").html(e),K.init(),M.init("#DashBoradQueues",3),isAccount&&D.init("#activeList",1),y.init()}else window.location="ticket_list.html";return}if(location.pathname.endsWith("account_details.html"))return void(isAccount?(isInvoice||$("#invoiceOption").parent().remove(),U.init(),h.pageChange()):window.location="dashboard.html");if(location.pathname.endsWith("Account_List.html"))return void(isAccount?(localStorage.DetailedAccount="",D.init("#fullList")):window.location="dashboard.html");if(location.pathname.endsWith("timelog.html"))return void(isTime?E.init():window.location="dashboard.html");if(location.pathname.endsWith("accountTimes.html"))return void(isTime&&isAccount?B.init():window.location="dashboard.html");if(location.pathname.endsWith("allInvoice_List.html"))return void(isTime&&isInvoice?N.init():window.location="dashboard.html");if(location.pathname.endsWith("Invoice_List.html"))return void(isTime&&isInvoice?N.init(localStorage.getItem("DetailedAccount")):window.location="dashboard.html");if(location.pathname.endsWith("invoice.html"))return void(isTime&&isInvoice?(A.init(),S.init(),v.init()):window.location="dashboard.html");if(location.pathname.endsWith("Queues.html"))return void M.init("#queuesPage");if(location.pathname.endsWith("queueTickets.html"))return void C.init()}else $(".sideNavLinks").children(":not('.user')").hide();return location.pathname.endsWith("ticket_list.html")?void j.init():location.pathname.endsWith("ticket_detail.html")?(P.init(),p.init(),f.init(),k.init(),void b.init()):location.pathname.endsWith("closedTickets.html")?void h.init():($("#loading").show(),location.pathname.endsWith("addTicketTime.html")?void(isTime?O.init():window.location="dashboard.html"):location.pathname.endsWith("add_tickets.html")?void I.init():location.pathname.endsWith("add_time.html")?void(isTime?O.init():window.location="dashboard.html"):location.pathname.endsWith("add_user.html")?void(isTech?x.init():window.location="dashboard.html"):location.pathname.endsWith("addExpence.html")?void(isExpenses?L.init():window.location="dashboard.html"):location.pathname.endsWith("edit_time.html")?void(isTime?O.init(!0):window.location="dashboard.html"):void 0)}var s=new Image;s.src=MobileSite+"img/error-background.png";var c,l="",r="",u="",d="",m={init:function(){var e=!0;if(location.pathname.indexOf("index.html")<0&&"/"!=location.pathname&&(e=!1),d=localStorage.getItem("userKey"),l=localStorage.getItem("userOrgKey"),u=localStorage.getItem("userInstanceKey"),(!d||!l||!u)&&!e&&location.pathname.indexOf("org.html")<0&&location.pathname.indexOf("signup.html")<0)return void logout();if(e){if(d&&l&&u)return void F(l,u);if(d)return void(window.location="org.html");var a=t("t"),o=t("e");if(a)return i(),localStorage.setItem("is_google",!0),localStorage.setItem("userKey",a),localStorage.setItem("userName",o),void(window.location="org.html");var n=t("f");n&&(i(),J.showMessage(!1,n)),this.login()}},do_login:function(){var e=$("#userName").val(),t=$("#password").val();return""===e||""===t?void J.showMessage(!1,"Please enter a valid Email or Password"):void $.ajax({type:"POST",beforeSend:function(i){i.withCredentials=!0,i.setRequestHeader("Authorization","Basic "+btoa(e+":"+t))},url:ApiSite+"login",dataType:"json",success:function(t){localStorage.setItem("userKey",t.api_token),localStorage.setItem("userName",e),window.location="org.html"},complete:function(){},error:function(){e&&-1!=e.indexOf("@gmail.com")?J.showMessage(!1,"Wrong Password, Google sign password is not neeeded"):(J.showMessage(!1,"There was a problem with your login.  Please try again."),$("#password").val(""))}})},login:function(){$(".page").show(),d=localStorage.getItem("userKey");var e=localStorage.getItem("userName");null!==e&&e.length>0&&$("#userName").val(e),$("#login_signup").on("click",function(e){e.preventDefault(),document.location.href="signup.html"}),$("form.google_openid").get(0).setAttribute("action",ApiSite+"auth/auth0"),$("#sign_in_with_google").on("click",function(e){e.preventDefault(),window.self!==window.top,$("form.google_openid").get(0).submit()}),$("#loginButton").click(function(){m.do_login()}),$(document).on("keypress","#password, #userName",function(e){13==e.which&&m.do_login()}),reveal()}},g={init:function(){if(!(location.pathname.indexOf("signup.html")<0)){var e=localStorage.getItem("userName");null!==e&&e.length>0&&$("#email").val(e),$("#signupButton").click(function(){g.add()}),$(document).on("change","#name",function(e){var t=$("#name").val();t&&$("#url").val(t.replace(/[^a-zA-Z 0-9]+|[\s]+/g,"").toLowerCase())}),$("#is_force_registration").prop("checked",!1),reveal()}},add:function(){var e=$("#name").val(),t=$("#email").val(),i=$("#url").val(),a=$("#firstname").val(),o=$("#lastname").val(),n=$("#password").val(),s=$("#password_confirm").val(),c=$("#how").val();return""===e||""===t||""===i||""===a||""===o||""===n||""===s?void J.showMessage(!1,"Please enter all fields!"):n!=s?void J.showMessage(!1,"Passwords do not match!"):void $.ajax({type:"POST",url:ApiSite+"organizations",dataType:"json",data:{name:e,email:t,url:i,is_force_registration:$("#is_force_registration").is(":checked"),firstname:a,lastname:o,password:n,password_confirm:s,how_did_you_hear_about_us:c,note:isPhonegap?"registered by iPhone":"registered from mobile site"},success:function(e){return e.api_token?e.organization&&e.instance?(localStorage.setItem("userKey",e.api_token),localStorage.setItem("userName",t),localStorage.setItem("userOrgKey",e.organization),localStorage.setItem("userInstanceKey",e.instance),localStorage.setItem("userRole","user"),void F(e.organization,e.instance)):void(window.location="org.html"):void(window.location="index.html")},error:function(e){return 409==e.status?(J.showMessage(!1,"This email is already in use. Please choose action below"),localStorage.setItem("userName",$("#email").val()),$("#is_force_registration").prop("checked",!0),$("#signupButton").before("<center><h3 style='padding-top: 10px;'>This email is already in use. Would you like to</h3> <div class=loginButton onclick='window.location = \"index.html\"'>Login</div><h3>or</h3></center>"),void $("#signupButton").text("Create New Organization")):void J.showMessage(!1,e.statusText)}})}},h={init:function(){this.showClosedTickets(),this.pageChange()},pageChange:function(){$(".buttonShowClosedTickets").click(function(){window.location="closedTickets.html"})},showClosedTickets:function(){"truePos"==localStorage.getItem("isMessage")&&J.showMessage(!0);var t="closed",i=localStorage.getItem(t+"tickets"),a=cacheTime;i&&(i=JSON.parse(i)),void 0==i||null==i||0==i.length?(console.log("could not load local data"),a=10):(j.createTicketsList(i,"#closedTickets"),filterList("closedTickets")),setTimeout(function(){e("tickets?status=closed&account="+localStorage.getItem("DetailedAccount")).then(function(e){j.createTicketsList(e,"#closedTickets",t),filterList("closedTickets")},function(){console.log("fail @ closed accounts tickets")})},a)}},p={init:function(){this.pick()},pick:function(){$("#pickUp").click(function(){e("tickets/"+localStorage.getItem("ticketNumber"),{action:"pickup",note_text:""},"PUT").then(function(e){J.showMessage(!0,'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>'),window.location="ticket_detail.html"},function(e,t,i){alert(t)}),e("tickets/"+localStorage.getItem("ticketNumber"),{action:"pickup",note_text:""},"PUT").then(function(e){J.showMessage(!0,'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>'),window.location="ticket_detail.html"},function(e,t,i){alert(t)})})}},f={init:function(){this.transfer()},transfer:function(){$("#transfer").click(function(){$("#loading").removeAttr("style"),$("#loading").show(),$("#transfer").hide(),$("#transferSelect").show(),e("technicians?limit=200").then(function(e){var t="<option value=0 disabled selected> Choose Tech</option>";$(t).appendTo("#transferTechs");for(var i=0;i<e.length;i++){var a=e[i].id,o=e[i].firstname+" "+e[i].lastname;t="<option value="+a+">"+o+"</option>",$(t).appendTo("#transferTechs")}reveal()},function(){console.log("fail @ time accounts")}),$("#transferTechs").on("change",function(){var t=$("#transferTechs").val();e("tickets/"+localStorage.getItem("ticketNumber"),{action:"transfer",note_text:" ",tech_id:t,keep_attached:!1},"PUT").then(function(e){location.reload(!1)},function(e,t,i){alert(t)})})})}},v={init:function(){this.addEm()},addEm:function(){$(document).on("keypress","#addEm",function(e){if(13==e.which){var t=$(".headerSearch").val().toLowerCase();localStorage.setItem("searchItem",t);{$("headerSearch").val()}}})}},k={init:function(){this.closeIt(),this.reopenIt()},reopenIt:function(){$("#openIt").click(function(){e("tickets/"+localStorage.getItem("ticketNumber"),{status:"open",note_text:""},"PUT").then(function(e){setTimeout(function(){J.showMessage(!0,'Ticket has been Reopened <i class="fa fa-thumbs-o-up"></i>'),window.history.back()},1e3)},function(e,t,i){alert(t)})})},close:function(t){return t=htmlEscape(t).trim(),t.length<2?void J.showMessage(!1,"Note cannot be empty!"):t.length>5e3?void J.showMessage(!1,"Note cannot be more than 5000 chars!"):void e("tickets/"+localStorage.getItem("ticketNumber"),{status:"closed",note_text:t,is_send_notifications:!0,resolved:!0,dataType:"json",confirmed:!1,confirm_note:""},"PUT").then(function(e){setTimeout(function(){J.showMessage(!0,'Ticket has been closed <i class="fa fa-thumbs-o-up"></i>'),window.history.back()},1e3),J.setMessage(!0,"Ticket was Closed <i class='fa fa-thumbs-o-up'></i>")},function(e,t,i){})},closeIt:function(){$("#closeIt").click(function(){$("#closingMessage").slideDown(400,function(){$("#closeMessageButton").fadeIn(),$("html,body").animate({scrollTop:$("#closeMessageButton").offset().top},400)})}),$("#closeMessageButton").click(function(){k.close($("#closingMessage").val())}),$("#closeu").click(function(){k.close($("#commentText").val())})}},_=function(e){var t=e.substring(5,7),i=e.substring(8,10);switch(t){case"01":t="Jan";break;case"02":t="Feb";break;case"03":t="Mar";break;case"04":t="Apr";break;case"05":t="May";break;case"06":t="Jun";break;case"07":t="Jul";break;case"08":t="Aug";break;case"09":t="Sep";break;case"10":t="Oct";break;case"11":t="Nov";break;case"12":t="Dec";break;default:t="nul"}return t+" "+i},S={init:function(){this.submitInvoice()},submitInvoice:function(){$("#sendInvoiceButton").click(function(){if($(".recipient").children(".closeIcon").length<1)return void J.showMessage(!1,"No accounting contacts added");var e="";$.each($(".recipient").children(".closeIcon"),function(){e+=$(this).attr("id")+","}),getAp("invoices/"+localStorage.getItem("invoiceNumber"),{action:"sendEmail",recipients:e},"PUT").then(function(e){setTimeout(function(){window.history.back()},1e3),J.setMessage(!0,"Hurray! Invoice sent")},function(e,t,i){})})}},T={init:function(){this.logOut()},logOut:function(){$("#signOut").click(logout)}},w={init:function(){this.changeOrg()},changeOrg:function(){is_MultipleOrgInst&&$("#switchOrg").click(function(){var e=localStorage.appVersion,t=localStorage.userKey,i=localStorage.userName;localStorage.clear(),localStorage.userName=i,localStorage.userKey=t,localStorage.appVersion=e,window.location="org.html"})}},I={init:function(){backFunction=function(){I.back()};var e=t("page");e&&(localStorage.setItem("add_tickets.html_ref",t("page")),i()),$("#userCreate").on("click",function(){var e=$("#addTicketUser").val();e&&localStorage.setItem("add_user_userid",e);var t=$("#addTicketTechs").val();t&&localStorage.setItem("add_user_techid",t);var i=$("#addTicketAccounts").val();i&&localStorage.setItem("add_user_accountid",i),window.location="add_user.html".addUrlParam("page","add_tickets.html")}),$("#TechCreate").on("click",function(){localStorage.setItem("add_user_type","tech");var e=$("#addTicketUser").val();e&&localStorage.setItem("add_user_userid",e);var t=$("#addTicketTechs").val();t&&localStorage.setItem("add_user_techid",t);var i=$("#addTicketAccounts").val();i&&localStorage.setItem("add_user_accountid",i),window.location="add_user.html".addUrlParam("page","add_tickets.html")}),this.addTicket()},back:function(){var e=localStorage.getItem("add_tickets.html_ref");localStorage.setItem("add_tickets.html_ref",""),e||(e=isTech?"dashboard.html":"ticket_list.html"),localStorage.setItem("addAccountTicket",""),window.location.replace(e)},addTicket:function(){$("#addTicketAccounts").empty();var t=localStorage.getItem("addAccountTicket");if(isTech)if(isAccount){var i=e("accounts?limit=300",{is_with_statistics:!1});i.then(function(e){$("#addTicketAccounts").empty(),a(e,"#addTicketAccounts","<option value=0 disabled selected>choose an account</option>");var i=localStorage.getItem("add_user_accountid");t=t?t:i,t&&(localStorage.setItem("add_user_accountid",""),$("#addTicketAccounts").val(t)),reveal()},function(){console.log("fail @ ticket accounts")})}else $("#addTicketAccounts").parent().hide(),reveal();else $("#addTicketAccounts").parent().hide();if(isTech){var n=localStorage.getItem("add_user_userid");n?localStorage.setItem("add_user_userid",""):n=localStorage.getItem("userId");var s=localStorage.getItem("add_user_name");s?localStorage.setItem("add_user_name",""):s=localStorage.getItem("userFullName"),s.trim()||(s=localStorage.getItem("userName")),$("#addTicketUser").append("<option value="+n+" selected>"+s+"</option>");var l=e("users?limit=2000");l.then(function(e){a(e,"#addTicketUser","","","firstname,lastname,email"),$("#addTicketUser").val(n)},function(){console.log("fail @ ticket user")})}else $("#addTicketUser").parent().hide(),$("#userCreate").hide();if(isTech){var r=e("technicians?limit=200");r.then(function(e){a(e,"#addTicketTechs","<option value=0 disabled selected>choose a tech</option>","","firstname,lastname,email");var t=localStorage.getItem("add_user_techid");t&&(localStorage.setItem("add_user_techid",""),$("#addTicketTechs").val(t))},function(){console.log("fail @ ticket tech")})}else $("#addTicketTechs").parent().hide(),$("#TechCreate").hide();var u=e("classes");u.done(function(e){o(e,"#classTicketOptions","<option value=0 disabled selected>choose a class</option>")}),$("#submitNewTicket").click(function(){var t=htmlEscape($("#addTicketSubject").val().trim()),i=htmlEscape($("#addTicketInitPost").val().trim());if(""===t||""===$("#addTicketTechs").val()||1>c)J.showMessage(!1,"Please enter subject");else if(t.length>100)J.showMessage(!1,"Subject should be less 100 chars!");else if(i.length>5e3)J.showMessage(!1,"Details cannot be more than 5000 chars!");else{var a=e("tickets",{status:"open",subject:t,initial_post:i,class_id:c,account_id:$("#addTicketAccounts").val(),user_id:isTech?$("#addTicketUser").val():localStorage.getItem("userId"),tech_id:$("#addTicketTechs").val()},"POST");a.then(function(e){setTimeout(I.back,1e3),J.setMessage(!0,"Ticket was Succesfully Created :)")},function(e,t,i){alert(t)})}})}},b={init:function(){this.sendComment()},sendComment:function(){$("#reply").click(function(){var t=htmlEscape($("#commentText").val().trim());return t?t.length>5e3?void J.showMessage(!1,"Note cannot be more than 5000 chars!"):void e("tickets/"+localStorage.getItem("ticketNumber"),{note_text:t,action:"response"},"POST").then(function(e){location.reload(!1)},function(e,t,i){alert(t)}):void J.showMessage(!1,"Please enter note")})}},y={init:function(){this.universalSearch()},universalSearch:function(){$(document).on("keypress","#searchThis",function(e){if(13==e.which){var t=$(".headerSearch").val().toLowerCase();return localStorage.setItem("searchItem",t),localStorage.setItem("ticketPage","asTech"),void(window.location="ticket_list.html")}})}},L={init:function(e){this.addExpence(t("ticket")),backFunction=function(){L.back()};var a=t("page");a&&(localStorage.setItem("addExpence.html_ref",t("page")),i())},back:function(){var e=localStorage.getItem("addExpence.html_ref");localStorage.setItem("addExpence.html_ref",""),e?window.location.replace(e):history.back()},addExpence:function(t){var i=localStorage.DetailedAccount?localStorage.DetailedAccount:-1,a=0;if(!isAccount||t?($("#timeAccounts").parent().hide(),reveal()):e("accounts?limit=300",{is_with_statistics:!1}).then(function(e){for(var t="<option value=0>choose an account</option>",a=0;a<e.length;a++)t+="<option value="+e[a].id+">"+e[a].name+"</option>";$("#timeAccounts").html(t),i&&$("#timeAccounts").val(i),$("#timeAccounts").on("change",function(){O.chooseProjects(0,0,0)}),reveal()},function(){console.log("fail @ time accounts")}),!isProject||t)$("#timeProjects").parent().hide(),reveal();else{var o="<option value=0>choose a project</option>";$(o).appendTo("#timeProjects"),O.chooseProjects(i,a,0)}$("#addexpenseButton").click(function(){var i=$("#expenseAmount").val();if(!i)return void J.showMessage(!1,"Please enter amount");var a=htmlEscape($("#expenseNote").val()).trim();return a.length<1?void J.showMessage(!1,"Please enter note"):void e("expenses",{ticket_key:t?t:null,account_id:t?null:$("#timeAccounts").val(),project_id:t?null:$("#timeProjects").val(),tech_id:localStorage.getItem("user_id"),note:a,note_internal:$("#expenseInternal").val(),amount:i,is_billable:$(".innerCircle").hasClass("billFill"),vendor:$("#vendor").val()},"POST").then(function(e){localStorage.setItem("isMessage","truePos"),localStorage.setItem("userMessage",'Expense was successfully added <i class="fa fa-money"></i>'),L.back()},function(e,t,i){console.log(t)})})}},x={back:function(){localStorage.setItem("add_user_type","");var e=localStorage.getItem("add_user.html_ref");localStorage.setItem("add_user.html_ref",""),e?window.location.replace(e):history.back()},init:function(){backFunction=function(){x.back()};var a=t("page");a&&(localStorage.setItem("add_user.html_ref",t("page")),i()),$(".innerCircle").click(function(){$(".innerCircle").hasClass("billFill")?($("#addTicketPassword").hide(),$("#addTicketConfirmPassword").hide()):($("#addTicketPassword").show(),$("#addTicketConfirmPassword").show())});var o=localStorage.getItem("add_user_type");"tech"==o?($(".SherpaDesk").text("Add New Tech"),$(".greenButton").text("Add New Tech"),o="Tech"):o="User",$("#submitNewUser").click(function(){var t=$("#addTicketEmail").val().trim();if(t.length<1)return void J.showMessage(!1,"Please enter email");if(!checkEmail(t))return void J.showMessage(!1,"Please correct email");var i=$("#addTicketFirstname").val().trim();return i.length<1?void J.showMessage(!1,"Please enter Firstname"):(Lastname=$("#addTicketLastname").val().trim(),Lastname.length<1?void J.showMessage(!1,"Please enter Lastname"):void e("users",{Lastname:Lastname,Firstname:i,email:t,role:o},"POST").then(function(e){J.showMessage(!0,o+' was created <i class="fa fa-thumbs-o-up"></i>',function(){localStorage.setItem("add_user_name",""),"Tech"==o?localStorage.setItem("add_user_techid",e.id):(localStorage.setItem("add_user_userid",e.id),localStorage.setItem("add_user_name",i+" "+Lastname)),x.back()})},function(e){J.showMessage(!1,e.statusText)}))})}},O={init:function(e){this.addpicker(),this.inputTime(e),backFunction=function(){O.back()};var a=t("page");a&&(localStorage.setItem("add_time.html_ref",t("page")),i())},back:function(){var e=localStorage.getItem("add_time.html_ref");localStorage.setItem("add_time.html_ref",""),e?window.location.replace(e):history.back()},addpicker:function(){jQuery("#date_start").datetimepicker({mask:!1,step:5,onShow:function(e){var t,i=jQuery("#date_end").val();i&&(t=new Date(i),t.setDate(t.getDate())),this.setOptions({maxDate:i?t:!1})}}),jQuery("#date_end").datetimepicker({mask:!1,step:5,onShow:function(e){var t,i=jQuery("#date_start").val();i&&(t=new Date(i),t.setDate(t.getDate())),this.setOptions({minDate:i?t:!1})}})},getTaskTypes:function(t,i){"undefined"==typeof i&&(i=0),$("#taskTypes").empty(),$("<option value=0>choose a task type</option>").appendTo("#taskTypes");var o=e("task_types",t);o.then(function(e){$("#taskTypes").empty(),a(e,"#taskTypes","<option value=0>choose a task type</option>"),i>0&&$("#taskTypes").val(i),reveal()},function(){console.log("fail @ task types")})},chooseProjects:function(t,i,o){"undefined"==typeof t&&(t=-1),"undefined"==typeof i&&(i=0),"undefined"==typeof o&&(o=0),t||(t=isAccount?$("#timeAccounts").val():-1),isProject?($("#timeProjects").on("change",function(){var e=$("#timeProjects").val();O.getTaskTypes({account:t,project:e},o)}),$("#timeProjects").empty(),$("<option value=0>choose a project</option>").appendTo("#timeProjects"),"0"!==t?($("#loading").fadeIn(),e("accounts/"+t,{is_with_statistics:!1}).then(function(e){a(e.projects,"#timeProjects"),$("#timeProjects").val(i),O.getTaskTypes({account:t,project:i},o),reveal()},function(){console.log("fail @ time accounts"),reveal()})):$("#timeProjects").parent().show()):O.getTaskTypes({account:t},o)},inputTime:function(t){{var i=localStorage.getItem("ticketNumber"),a=!0;(new Date).toJSON().slice(0,10)}if($("#submitTicketTime").click(function(){var t=$("#addTimeTicket").val(),o=htmlEscape($("#noteTimeTicket").val().trim()),n=localStorage.getItem("techId"),s=$("#ticketTaskTypes").val();if(o.length<1)return void J.showMessage(!1,"Please enter note");if(o.length>5e3)return void J.showMessage(!1,"Note cannot be more than 5000 chars!");a=$(".innerCircle").hasClass("billFill")?!0:!1;var c,l=jQuery("#date_start").val();l&&(c=JSON.stringify(new Date(l)));var r,u=jQuery("#date_end").val();u&&(r=JSON.stringify(new Date(u))),e("time",{ticket_key:i,note_text:o,task_type_id:s,hours:t,is_billable:a,date:l?c:"",start_date:l?c:"",stop_date:u?r:"",tech_id:n},"POST").then(function(e){localStorage.setItem("isMessage","truePos"),localStorage.setItem("userMessage",'Time was successfully added <i class="fa fa-thumbs-o-up"></i>'),window.location.replace("ticket_detail.html");
+/*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
+/*global jQuery, $ */
 
-},function(e,t,i){alert(t)})}),$("#submitTicketTime").length)O.getTaskTypes({ticket:i},0);else{var o=0,n=localStorage.getItem("timeNumber");t&&n&&(o=JSON.parse(n),o.billable||$(".innerCircle").removeClass("billFill"),$("#noteTime").val(o.note),$("#addTimeTicket").val(o.hours),$(".title").html("Time #"+o.time_id+" by "+o.user_name+" @ "+new Date(o.date).dateFormat("Y/m/d H:i")),o.start_time&&$("#date_start").val(new Date(o.start_time).dateFormat("Y/m/d H:i")),o.stop_time&&$("#date_end").val(new Date(o.stop_time).dateFormat("Y/m/d H:i")));var s=localStorage.DetailedAccount?localStorage.DetailedAccount:-1,c=0,l=0;if(o&&(s=o.account_id,c=o.project_id,l=o.task_type_id),isAccount?(e("accounts?limit=300",{is_with_statistics:!1}).then(function(e){$("#timeAccounts").empty();var t="<option value=0>choose an account</option>";$(t).appendTo("#timeAccounts");for(var i="",a=0;a<e.length;a++)i+="<option value="+e[a].id+">"+e[a].name+"</option>";$(i).appendTo("#timeAccounts"),$("#timeAccounts").val(s),reveal()},function(){console.log("fail @ time accounts")}),$("#timeAccounts").on("change",function(){O.chooseProjects(0,c,l)})):$("#timeAccounts").parent().hide(),isProject){var r="<option value=0>choose a project</option>";$(r).appendTo("#timeProjects"),O.chooseProjects(s,c,l),reveal()}else $("#timeProjects").parent().hide();$("#taskTypes").empty(),$("<option value=0>choose a task type</option>").appendTo("#taskTypes"),isAccount||isProject||O.getTaskTypes({account:s,project:c},l),$("#submitTime").click(function(){var n=$("#addTimeTicket").val(),s=htmlEscape($("#noteTime").val().trim()),c=localStorage.getItem("userId"),l=$("#timeAccounts").val(),r=$("#timeProjects").val(),u=$("#taskTypes").val();a=$(".innerCircle").hasClass("billFill")?!0:!1;var d,m=jQuery("#date_start").val();m&&(d=JSON.stringify(new Date(m)));var g,h=jQuery("#date_end").val();return h&&(g=JSON.stringify(new Date(h))),0===n?void J.showMessage(!1,"Oops not enough time"):"0"==l&&isAccount?void J.showMessage(!1,"choose an account"):(i=parseInt(t?o.ticket_id:i),void e("time"+(t?"/"+o.time_id:""),{tech_id:t?o.user_id:c,project_id:r,is_project_log:!i,ticket_id:i,account_id:l,note_text:s,task_type_id:u,hours:n,is_billable:a,date:m?d:"",start_date:m?d:"",stop_date:h?g:""},t?"PUT":"POST").then(function(e){localStorage.setItem("isMessage","truePos"),localStorage.setItem("userMessage",'Time was successfully added <i class="fa fa-thumbs-o-up"></i>'),O.back()},function(e,t,i){alert(t)}))})}}},P={init:function(){isTech?$("#closeu").hide():($(".tabs").hide(),$("#closeu").show()),this.showTicket()},showTicket:function(){"truePos"==localStorage.getItem("isMessage")&&J.showMessage(!0),$("html,body").css("scrollTop","0"),e("tickets/"+localStorage.getItem("ticketNumber")).then(function(t){var i=t.daysold_in_minutes/-60;localStorage.setItem("techId",t.tech_id),localStorage.setItem("ticketId",t.id),$("#ticketExpense").attr("href","addExpence.html?ticket="+t.id),i>24?(i/=24,i=parseInt(i),i+=" days ago"):i=parseInt(i)+" hours ago","Closed"==t.status?($("#closeIt").hide(),$("#closeu").hide()):$("#openIt").hide();var n=t.total_hours;$("#ticketNumber").html(t.status+" | "+t.number),$("#ticketSubject").html(t.subject),$("#ticketClass").html(t.class_name),$("#ticketTech").html(t.tech_firstname),$("#lastUpdate").html(i),t.misc_cost?$("#expenses").html("Expenses: "+localStorage.currency+Number(t.misc_cost).toFixed(2).toString()):$("#expenses").hide(),0!==n?$("#ticketHours").html(n+" Hours"):$("#ticketHours").hide(),null===t.sla_complete_date?$("#ticketSLA").hide():$("#ticketSLA").html("SLA: "+t.sla_complete_date.toString().substring(0,10));var s=t.tech_email;s==localStorage.getItem("userName")&&$("#pickUp").hide();var l=e("classes"),r=e("priorities");if($("#ticketLevel").empty(),isLevel){var u=e("levels");u.done(function(e){a(e,"#ticketLevel","","Level: ")>0&&$("#ticketLevel").val(t.level)})}else $("#ticketLevel").parent().hide();$("#classOptions").empty(),l.done(function(e){c=t.class_id,o(e,"#classOptions","<option data-classId="+t.class_id+" value="+t.class_id+">Class: "+t.class_name+"</option>")}),$("#ticketPriority").empty(),r.done(function(e){for(var i="",a=0;a<e.length;a++)i+="<option value="+e[a].id+">Priority: "+e[a].priority_level+" - "+e[a].name+"</option>";$(i).appendTo("#ticketPriority"),$("#ticketPriority").val(t.priority_id)}),$("#ticketTechs").empty();for(var d=0;d<t.technicians.length;d++){var m=t.technicians[d].user_fullname,g=t.technicians[d].user_id,h="<option value="+g+">"+m+"</option>";$(h).appendTo("#ticketTechs")}if($("#location").remove(),isProject){var p=e("projects");p.done(function(e){a(e,"#ticketProject",""==t.project_name?"<option value='null' disabled selected>Project</option>":"")>0&&""!=t.project_name&&$("#ticketProject").val(t.project_id)})}else $("#project").hide();$(".updateButton").click(function(){var t=c,i=$("#ticketLevel").val(),a=$("#ticketPriority").val(),o=$("#ticketProject").val(),n={class_id:t,level_id:i,priority_id:a,project_id:o},s="tickets/"+localStorage.getItem("ticketId"),l=e(s,n,"PUT");l.then(function(e){console.log("Then Complete"),J.setMessage(!0,"Ticket was successfully updated <i class='fa fa-thumbs-o-up'></i>"),window.location="ticket_detail.html",J.showMessage(!0)})}),$("#comments").empty();for(var f=1;f<t.ticketlogs.length;f++){var v=$.md5(t.ticketlogs[f].user_email),k=t.ticketlogs[f].log_type,S=t.ticketlogs[f].user_firstname+" "+t.ticketlogs[f].user_lastname,T=t.ticketlogs[f].note,w=t.ticketlogs[f].record_date.toString().substring(0,10);w=_(w);var I=[];if(null!=t.attachments)for(var b=0;b<t.attachments.length;b++)T.indexOf(t.attachments[b].name)>=0&&I.push(t.attachments[b].url);var h="<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/"+v+"?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+S+"</h3></li><li><span>"+w+"</span></li><li class='commentText'><p>"+$("<span />",{html:T.replace(/<br\s*[\/]?>/gi,"\n")}).text().replace(/\n/g,"<p></p>")+"</p></li><li>"+k+"</li></ul>";$(h).appendTo("#comments");for(var y=0;y<I.length;y++){h="";var L;L=checkURL(I[y])?'<img class="attachment" src="'+I[y]+'">':"<img style='float:none;' src='img/file.png'>&nbsp;"+I[y].split("/").slice(-1)+"<p></p>",h=isPhonegap?'<a class="comment_image_link" href=# onclick=\'openURL("'+I[y]+"\")'>"+L+"</a>":'<a class="comment_image_link" target="_blank" href="'+I[y]+'">'+L+"</a>",$(h).appendTo("#comments")}I.length>0&&(borderInsert="<div class='attachmentBorder'></div>",$(borderInsert).appendTo("#comments"))}$(".orginalMessageContainer").empty();var x=$.md5(t.ticketlogs[0].user_email),O=t.ticketlogs[0].record_date.toString().substring(0,10);O=_(O);var T=t.ticketlogs[0].note,I=[];if(null!=t.attachments)for(var b=0;b<t.attachments.length;b++)if(T.indexOf(t.attachments[b].name)>=0){var L;L=checkURL(t.attachments[b].url)?'<img class="attachment" src="'+t.attachments[b].url+'">':"<img style='float:none;' src='img/file.png'>&nbsp;"+t.attachments[b].name+"<p></p>",isPhonegap?I[b]='<a class="comment_image_link" href=# onclick=\'openURL("'+t.attachments[b].url+"\")'>"+L+"</a>":I[b]='<a class="comment_image_link" target="_blank" href="'+t.attachments[b].url+'">'+L+"</a>",$(I[b]).error(function(){I[b]="0"})}var P="<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/"+x+"?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+t.ticketlogs[0].user_firstname+" "+t.ticketlogs[0].user_lastname+"</h3></li><li><span>"+O+"</span></li><li class='commentText'><p>"+$("<span />",{html:t.ticketlogs[0].note.replace(/<br\s*[\/]?>/gi,"\n")}).text().replace(/\n/g,"<p></p>")+"</p></li><li>"+t.ticketlogs[0].log_type+"</li></ul></div>";if($(P).appendTo(".orginalMessageContainer"),null!=t.attachments)for(var y=0;y<I.length;y++){var A=I[y];$(A).appendTo(".orginalMessageContainer")}reveal()},function(){console.log("fail @ Ticket Detail"),localStorage.setItem("ticketId",""),window.location="ticket_list.html"})}},A={init:function(){this.specifics()},specifics:function(){$(document).on("click",".invoiceRows",function(){localStorage.setItem("invoiceNumber",$(this).attr("data-id")),window.location="invoice.html"}),e("invoices/"+localStorage.getItem("invoiceNumber")).then(function(e){localStorage.setItem("invoiceAccountId",e.account_id),localStorage.setItem("invoiceProjectId",e.project_id),$("#invoiceNumber").html("Invoice  #"+e.id);var t=e.customer;t=createElipse(t,.7,12),$("#customerName").html(t);var i=e.date.substring(0,10);i=_(i),$("#invoiceDate").html(i),$("#invoiceHours").html(e.total_hours+"<span class='detail3Small'>hrs</span>");var a=0,o=".00",n=e.amount.toString().length;if(e.amount.toString().indexOf(".")>=0?(a=e.amount.toString().substring(0,n-3),o="."+e.amount.toString().substring(n-2,n),o.indexOf("..")>=0&&(o="."+e.total_cost.toString().substring(n-1,n)+"0")):a=e.amount,$("#invoiceAmount").html(localStorage.getItem("currency")+a+"<span class='detail3Small'>"+o+"</span>"),isTravelCosts?$("#invoiceTravel").html(localStorage.getItem("currency")+e.travel_cost+"<span class='detail3Small'>.00</span>"):$("#invoiceTravel").parent().parent().hide(),isExpenses){var s=0;if(null!=e.expenses)for(var c=0;c<e.expenses.length;c++)s+=e.expenses[c].total;$("#invoiceExpenses").html(localStorage.getItem("currency")+s+"<span class='detail3Small'>.00</span>")}else $("#invoiceExpenses").parent().parent().hide();if($("#invoiceAdjustments").html(localStorage.getItem("currency")+"0<span class='detail3Small'>.00</span>"),a=Number(e.total_cost).toFixed(2).toString(),o=a.substring(a.length-3,a.length),a=a.substring(0,a.length-3),$(".invoiceTotal").html(localStorage.getItem("currency")+a+"<span class='detail3Small'>"+o+"</span>"),$("#recipientList").empty(),null!=e.recipients&&e.recipients.length>0)for(var l=0;l<e.recipients.length;l++){var r=$.md5(e.recipients[l].email),u="<li><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/"+r+"?d=mm&s=80'></li><li><div class='recipient'><p>"+e.recipients[l].email+"</p>"+(e.recipients[l].is_accounting_contact?"<img class='closeIcon' id=\""+e.recipients[l].email+"\"  src='img/close_icon.png'>":'<img class=plusIcon id="'+e.recipients[l].email+"\" src='img/plus_icon.png'>")+"</div></li></ul></li>";$(u).appendTo("#recipientList")}else{var u="<li><h3 class=noDataMessage>No accounting contacts found.<p>&nbsp;</p></h3></li>";$(u).appendTo("#recipientList"),$("#sendInvoiceButton").remove()}if(createSpan("#recipientList"),$("#invoiceLogs").empty(),null!=e.time_logs)for(var d=0;d<e.time_logs.length;d++){var m=e.time_logs[d].name,g=e.time_logs[d].total,i=_(e.time_logs[d].date.substring(0,10)),h=e.time_logs[d].id,u="<li><ul id='invoiceTimelog' data-id='"+h+"' data-info='"+JSON.stringify(e.time_logs[d]).replace(/'/g,"")+"'  class='timelog'><li><div class='billable timeLogAddButton' data-id='"+h+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+m+"</h2><p class='taskDescription'>"+i+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+g+"</span></h3></li></ul></li>";$(u).appendTo("#invoiceLogs")}if(null!=e.recipients){$("#expensesList").empty();for(var p=0;p<e.expenses.length;p++){var m=e.expenses[p].name,g=e.expenses[p].total,i=_(e.expenses[p].date.substring(0,10)),h=e.expenses[p].id,u="<li><ul id='invoiceExpense' class='timelog1'><li><div class='billable timeLogAddButton' data-id='"+h+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+m+"</h2><p class='taskDescription'>"+i+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+g+"</span></h3></li></ul></li>";$(u).appendTo("#expensesList")}}reveal()},function(){console.log("fail @ Invoice details")})}},N={init:function(e){this.listInvoices(e)},listInvoices:function(t){var i=[];$("#invoiceOption").click(function(){window.location="Invoice_List.html"}),$("#allInvoice, #invoiceFooter").click(function(){window.location="allInvoice_List.html"}),e("invoices",{account:t}).then(function(e){if($("#invoiceList").empty(),0==e.length)return $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo("#invoiceList"),createSpan("#invoiceList"),void reveal();"undefined"==typeof e.length&&(e=[e]);for(var a=0;a<e.length;a++){var o=e[a].customer,n=e[a].date.substring(0,10);n=_(n),o=createElipse(o,.33,12);var s="<ul data-id="+e[a].id+" class='invoiceRows item'><li class=user_name>"+o+"</li><li class=responseText>"+n+"</li><li>$"+Number(e[a].total_cost).toFixed(2)+"</li></ul>";$(s).appendTo("#invoiceList"),t||i.push(s)}t||localStorage.setItem("storageInvoices",JSON.stringify(i)),createSpan("#invoiceList"),reveal(),filterList("tabpageContainer")},function(){console.log("fail @ Invoice List")})}},C={init:function(){$(".title").html("Tickets @ "+localStorage.getItem("currentQueueName")+" Queue"),this.queueTickets(),$("#ticketCreate").click(function(){localStorage.setItem("add_user_techid",localStorage.getItem("currentQueue")),localStorage.setItem("add_user_accountid",account),window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]))})},queueTickets:function(){var t=localStorage.getItem("currentQueue");t||(console.log("fail @ Queues tickets"),window.history.back()),e("queues/"+t).then(function(e){console.log(e),j.createTicketsList(e,"#queueTickets"),filterList("queueTickets"),reveal();var i,a=localStorage.getItem("storageQueues");a&&(match=new RegExp('"'+t+",(\\d+)").exec(a),match&&(a=JSON.parse(a),i=a[Number(match[1])],i&&(a[Number(match[1])].tickets_count=e.length,localStorage.setItem("storageQueues",JSON.stringify(a)))))},function(){console.log("fail @ Queues tickets")})}},M={init:function(e,t){cacheName="storageQueues",M.queues(t,e)},queues:function(t,i){var a=localStorage.getItem("storageQueues"),o=cacheTime;a&&(a=JSON.parse(a)),void 0==a||null==a||0==a.length?(console.log("could not load local data"),o=10):(M.createQueuesList(i,a,t),t||createSpan(i)),setTimeout(function(){e("queues",{sort_by:"tickets_count"}).then(function(e){M.createQueuesList(i,e,t),localStorage.setItem("storageQueues",JSON.stringify(e)),reveal(),t||(createSpan(i),filterList("OptionsList"))},function(){console.log("fail @ Queues List")})},o)},createQueuesList:function(e,t,i){for(var a=0,o=0,n=[],s=t.length,c=$(e),l=0;s>l;l+=1)0==t[l].fullname.toLowerCase().indexOf("new ticket")&&(a=t[l].tickets_count),t[l].index=t[l].id+","+l,i&&t[l].tickets_count<1||i&&o>=i||(n.push("<li class=item><div id='queue' data-id="+t[l].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+t[l].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+t[l].tickets_count+"</h2></div></li>"),s>10&&10==l&&c.html(n.join("")),o+=1);c.html(n.join("")),localStorage.badge=a}},j={init:function(){isTech?(this.userTickets(),this.techTickets(),this.altTickets(),this.allTickets()):(this.userTickets(),$("#userContainer").css("padding-top","20px"),$("#tabpage_reply").fadeIn())},createTicketsList:function(e,t,i){var a=$(t);if(a.empty(),!e||e.length<1)a.html('<h1 class="noTicketMessage">No Tickets</h1>');else{for(var o=[],n=e.length,s=0;n>s;s+=1){var c=$.md5(e[s].user_email),l=e[s].initial_post,r=e[s].subject;e[s].index=e[s].key+","+s;var u=e[s].key;r=createElipse(r,.7,12);var d=e[s].is_new_tech_post&&e[s].technician_email!=localStorage.userName||e[s].is_new_user_post&&e[s].user_email!=localStorage.userName?"<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> ":"";l.length>150&&(l=l.substring(0,150)+"..."),l=$("<span />",{html:l.replace(/<br\s*[\/]?>/gi,"\n")}).text(),o.push("<ul class='responseBlock item' id='thisBlock' data-id="+u+"><li><p class='blockNumber numberStyle'>#"+e[s].number+"</p><img src='http://www.gravatar.com/avatar/"+c+"?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+e[s].user_firstname+"</span></li><li class='responseText'><h4>"+d+r+"</h4><p class ='initailPost'>"+l+"</p></li><li><p class='TicketBlockNumber'>"+e[s].class_name+"</p></li></ul>"),n>10&&10==s&&(a.html(o.join("")),o=[])}a.append(o.join("")),createSpan(t),void 0!==i&&i&&localStorage.setItem(i+"tickets",JSON.stringify(e))}},techTickets:function(){var t="tech",i=localStorage.getItem(t+"tickets"),a=cacheTime;i&&(i=JSON.parse(i)),void 0==i||null==i||0==i.length?(console.log("could not load local data"),a=10):(j.createTicketsList(i,"#techContainer"),featureList2=filterList("techContainer","",localStorage.getItem("searchItem"))),setTimeout(function(){e("tickets?status=open&limit=100&role=tech").then(function(e){j.createTicketsList(e,"#techContainer",t),featureList2=filterList("techContainer","",localStorage.getItem("searchItem"))},function(){console.log("fail @ tech ticket List")})},a)},allTickets:function(){var t="all",i=localStorage.getItem(t+"tickets"),a=cacheTime;i&&(i=JSON.parse(i)),void 0==i||null==i||0==i.length?(console.log("could not load local data"),a=10):(j.createTicketsList(i,"#allContainer"),featureList3=filterList("allContainer","",localStorage.getItem("searchItem"))),setTimeout(function(){e("tickets?status=allopen&limit=100&query=all").then(function(e){j.createTicketsList(e,"#allContainer",t),featureList3=filterList("allContainer","",localStorage.getItem("searchItem")),localStorage.setItem("searchItem",""),reveal()},function(){console.log("fail @ all ticket List")})},a)},altTickets:function(){var t="alt",i=localStorage.getItem(t+"tickets"),a=cacheTime;i&&(i=JSON.parse(i)),void 0==i||null==i||0==i.length?(console.log("could not load local data"),a=10):(j.createTicketsList(i,"#altContainer"),featureList4=filterList("altContainer","",localStorage.getItem("searchItem"))),setTimeout(function(){e("tickets?status=open&limit=100&role=alt_tech").then(function(e){j.createTicketsList(e,"#altContainer",t),featureList4=filterList("altContainer","",localStorage.getItem("searchItem"))},function(){console.log("fail @ alt ticket List")})},a)},userTickets:function(){$("maxSize").hide();var t="user",i=localStorage.getItem(t+"tickets"),a=cacheTime;i&&(i=JSON.parse(i)),void 0==i||null==i||0==i.length?(console.log("could not load local data"),a=10):(j.createTicketsList(i,"#userContainer"),featureList5=filterList("userContainer","",localStorage.getItem("searchItem"))),setTimeout(function(){e("tickets?status=open,onhold&limit=100&role=user").then(function(e){j.createTicketsList(e,"#userContainer",t),featureList5=filterList("userContainer","",localStorage.getItem("searchItem"))},function(){console.log("fail @ user ticket List")})},a)}};String.format=function(e){var t=Array.prototype.slice.call(arguments,1);return e.replace(/{(\d+)}/,function(e,i){return"undefined"!=typeof t[i]?t[i]:e})};var D={init:function(e,t){cacheName="storageAccountList",D.listAccounts(e,t)},listAccounts:function(t,i){var a=cacheTime,o=localStorage.getItem("storageAccountList");o&&(o=JSON.parse(o)),void 0==o||null==o||0==o.length?(console.log("could not load local data"),a=10):(i?(cacheName="dash",D.createDashAccountsList(t,o)):D.createAccountsList(t,o),reveal()),setTimeout(function(){e("accounts?limit=300").then(function(e){i?D.createDashAccountsList(t,e):D.createAccountsList(t,e),localStorage.setItem("storageAccountList",JSON.stringify(e)),reveal()},function(){console.log("fail @ listAccounts")})},a)},createAccountsList:function(e,t){if(t.length<1){var i='<h1 class="noTicketMessage">No Accounts</h1>';$(i).html(e)}else{for(var a=[],o=t.length,n=$(e),s=0;o>s;s+=1){t[s].index=t[s].id+","+s;var c=t[s].account_statistics.ticket_counts.open,l=t[s].name;l=createElipse(l,.75,12),a.push("<ul class='listedAccount item' data-id="+t[s].id+"><li class=user_name>"+l+"</li><li><div class='tks' "+(c>99?"style='height: 42px;'>99<sup>+</sup>":">"+c)+"</div></li></ul>"),o>10&&10==s&&n.html(a.join(""))}n.html(a.join("")),createSpan(e),filterList("ActiveAccountsContainer")}},createDashAccountsList:function(e,t){for(var i=["<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tkts</li></ul>"],a=t.length,o=$(e),n=0;a>n;n+=1){t[n].index=t[n].id+","+n;var s=t[n].account_statistics.ticket_counts.open;if(!(1>s)){var c=t[n].name;c=createElipse(c,.3,12);var l=t[n].account_statistics.hours;l>999&&(l=999),i.push("<ul class='tableRows clickme' data-id="+t[n].id+"><li>"+c+"</li><li>"+l+"</li><li>"+localStorage.getItem("currency")+Number(t[n].account_statistics.expenses).toFixed(2)+"</li><li><div class='tks1 "+(s>99?"overflowTickets' style='height: 42px;'>99<sup>+</sup>":"'>"+s)+"</div></li></ul>"),a>10&&10==n&&o.html(i.join(""))}}o.html(i.join(""))}};$(document).on("click",".timelog",function(){localStorage.setItem("timeNumber",$(this).attr("data-info")),window.location="edit_time.html"});var E={init:function(){this.getLogs()},getLogs:function(){e("time",{limit:200}).then(function(e){if($("#timelogs").empty(),e.length<1){var t='<h1 class="noTicketMessage">No Timelogs</h1>';$(t).appendTo("#timelogs")}else for(var i=0;i<e.length;i++){var a=$.md5(e[i].user_email),o=e[i].note,n=e[i].time_id,s=e[i].hours;s=s.toString();var c=e[i].user_name;o=createElipse(o,.5,8),s.indexOf(".")>=0||(s+=".00"),c=createElipse(c,.5,12);var l="<li class=item><ul class='timelog' data-id="+n+" data-info='"+JSON.stringify(e[i]).replace(/'/g,"")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/"+a+"?d=mm&s=80'></li><li><h2 class='feedName user_name'>"+c+"</h2><p class='taskDescription responseText'>"+o+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+s+"</span></h3></li></ul></li>";$(l).appendTo("#timelogs"),9==i&&reveal()}createSpan("#timelogs"),reveal(),e.length>1&&filterList("timelogs")},function(){console.log("fail @ timelogs")})}},U={init:function(){var e=localStorage.getItem("DetailedAccount");localStorage.setItem("addAccountTicket",e),this.pageSetup()},createAccDetails:function(e){var t=e.account_statistics.hours,i=e.account_statistics.ticket_counts.open,a=e.account_statistics.invoices;$("#AD").html(e.name),$("#ticketsOptionTicker").html(i>999?999:i),$("#invoiceOptionTicker").html(a>999?999:a),$("#timesOptionTicker").html(t>999?999:t)},pageSetup:function(){var t,i,a=localStorage.getItem("DetailedAccount"),o=localStorage.getItem("account"+a+"tickets"),n=cacheTime,s=cacheTime,c=localStorage.getItem("storageAccountList");c&&(i=new RegExp('"'+a+",(\\d+)").exec(c),i&&(c=JSON.parse(c),t=c[Number(i[1])])),o?(o=JSON.parse(o),j.createTicketsList(o,".AccountDetailsTicketsContainer"),filterList("AccountDetailsTicketsContainer")):(s=10,console.log("could not load local account tickets data")),void 0==t||null==t||0==t.length?(console.log("could not load local account details data"),n=10):(U.createAccDetails(t),reveal()),setTimeout(function(){e("accounts/"+a).then(function(e){U.createAccDetails(e),t&&(c[Number(i[1])].account_statistics=e.account_statistics,localStorage.setItem("storageAccountList",JSON.stringify(c)))},function(){console.log("fail @ accounts")})},n),setTimeout(function(){e("tickets?status=open&account="+a).then(function(e){j.createTicketsList(e,".AccountDetailsTicketsContainer","account"+a),filterList("AccountDetailsTicketsContainer")},function(){console.log("fail @ accounts")})},s)}},B={init:function(){$("#addTimeAccount").click(function(){window.location="add_time.html"}),this.getTimeLogs()},getTimeLogs:function(){var t=localStorage.getItem("DetailedAccount");t||(t=-1),e("time?account="+t).then(function(e){$("#accountLogs").empty();for(var t=0;t<e.length;t++){var i=$.md5(e[t].user_email),a=e[t].note,o=e[t].hours;o=o.toString(),o.indexOf(".")<0&&(o+=".00"),a=createElipse(a,.5,8);var n=e[t].user_name;n=createElipse(n,.5,12);var s="<li><ul class='timelog' data-info='"+JSON.stringify(e[t]).replace(/'/g,"")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/"+i+"?d=mm&s=80'></li><li><h2 class='feedName'>"+n+"</h2><p class='taskDescription'>"+a+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+o+"</span></h3></li></ul></li>";$(s).appendTo("#accountLogs")}},function(){console.log("fail @ timelogs")})}},K={init:function(){$("html,body").css("scrollTop","0");var t=10,i=localStorage.ticketsStat;i&&(i=JSON.parse(i)),i?K.setTicketCounts(i):console.log("no cache TicketsCounts"),setTimeout(function(){e("tickets/counts").then(function(e){K.setTicketCounts(e),reveal(),localStorage.setItem("ticketsStat",JSON.stringify(e))},function(){console.log("fail @ get TicketsCounts")})},t)},setTicketCounts:function(e){var t=e.open_all;t>100?t="99<sup>+</sup>":$("#all").removeClass("headerOverflowTickets"),$("#all").html(t),$("#userStat").html(e.open_as_user),$("#techStat").html(e.open_as_tech),$("#altStat").html(e.open_as_alttech)}},F=function(t,i,a,o){"undefined"==typeof a&&(a=!0),t&&i||(t=localStorage.getItem("userOrgKey"),i=localStorage.getItem("userInstanceKey")),t&&i&&e("config").then(function(e){localStorage.setItem("userRole",e.user.is_techoradmin?"tech":"user"),isTech=e.user.is_techoradmin,localStorage.setItem("projectTracking",e.is_project_tracking),localStorage.setItem("timeTracking",e.is_time_tracking),localStorage.setItem("accountManager",e.is_account_manager),localStorage.setItem("ticketLevels",e.is_ticket_levels),localStorage.setItem("classTracking",e.is_class_tracking),localStorage.setItem("locationTracking",e.is_location_tracking),localStorage.setItem("freshbooks",e.is_freshbooks),localStorage.setItem("is_invoice",e.is_invoice),localStorage.setItem("is_expenses",e.is_expenses),localStorage.setItem("is_travel_costs",e.is_travel_costs),localStorage.setItem("currency",e.currency),localStorage.setItem("userFullName",e.user.firstname+" "+e.user.lastname),localStorage.setItem("userId",e.user.user_id),o&&"function"==typeof o?o():getInfo4Extension(),a&&(isTech?window.location="dashboard.html":window.location="ticket_list.html")},function(e,t,i){console.log("fail @ config")})},R={init:function(){return location.pathname.indexOf("org.html")<0?void 0:($(".instSelect").hide(),(d=localStorage.getItem("userKey"))?(l=localStorage.getItem("userOrgKey"),u=localStorage.getItem("userInstanceKey"),localStorage.setItem("userRole","user"),l&&u?void F(l,u):void this.getOrg()):void(window.location="index.html"))},getOrg:function(){$(".page").show(),$("#loading").show(),d=localStorage.getItem("userKey"),$.ajax({type:"GET",beforeSend:function(e){e.withCredentials=!0,e.setRequestHeader("Authorization","Basic "+btoa("x:"+d))},url:ApiSite+"organizations/",async:!0,cache:!1,dataType:"json",success:function(e){if(e.length>1){localStorage.setItem("sd_is_MultipleOrgInst","true");for(var t=e,i=0;i<t.length;i++){var a="<li class=item><div id='org' data-id="+i+" class='OptionWrapper1'><h3 class='OptionTitle user_name'>"+t[i].name+"</h3></div></li>";$("#orgsPage").append(a)}$(document).on("click","#org",function(){var t=$(this).attr("data-id");l=e[t].key,r=e[t].name;var i=e[t].instances;if(localStorage.setItem("userOrgKey",l),localStorage.setItem("userOrg",r),0==i.length)return void J.showMessage(!1,"You are not associated with any Instance in the Organization or your account is inactivated in the Instances.");if(1==i.length)u=i[0].key,localStorage.setItem("userInstanceKey",u),F(l,u);else{$("div.OptionWrapper1[data-id!='"+t+"']").parent().remove();for(var a=0;a<i.length;a++){var o="<li class=item><div id='inst' data-id="+a+" class='OptionWrapper2'><h3 class='OptionTitle user_name'>"+i[a].name+"</h3></div></li>";$("#instsPage").append(o)}$(".instSelect").show(),$(document).on("click","#inst",function(){var e=i[$(this).attr("data-id")].key;localStorage.setItem("userInstanceKey",e),localStorage.setItem("sd_is_MultipleOrgInst","true"),$("#loading").show(),F(l,e)})}})}if(1==e.length){l=e[0].key,r=e[0].name,localStorage.setItem("userOrgKey",l),localStorage.setItem("sd_is_MultipleOrgInst","false"),localStorage.setItem("userOrg",r);var a="<li class=item><div id='org' data-id=0 class='OptionWrapper1'><h3 class='OptionTitle user_name'>"+e[0].name+"</h3></div></li>";$("#orgsPage").append(a);var o=e[0].instances;if(1==o.length)u=o[0].key,localStorage.setItem("userInstanceKey",u),F(l,u);else{for(var i=0;i<o.length;i++){var a="<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle user_name'>"+o[i].name+"</h3></div></li>";$("#instsPage").append(a)}$(".instSelect").show(),$(document).on("click","#inst",function(){var e=o[$(this).attr("data-id")].key;localStorage.setItem("userInstanceKey",e),localStorage.setItem("sd_is_MultipleOrgInst","true"),$("#loading").show(),F(l,e)})}}},complete:function(){l=localStorage.getItem("userOrgKey"),u=localStorage.getItem("userInstanceKey"),l&&u||reveal()},error:function(){console.log("fail @ getOrg"),logout()}})}},W={init:function(){this.justClicked()},justClicked:function(){$createButton=$("#ticketCreate"),$createButton&&$createButton.click(function(){window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]))}),$("#invoiceOption").click(function(){window.location="Invoice_List.html"}),$("#allInvoice, #invoiceFooter").click(function(){window.location="allInvoice_List.html"}),$(document).on("click",".invoiceRows",function(){localStorage.setItem("invoiceNumber",$(this).attr("data-id")),window.location="invoice.html"}),$(document).on("click",".tableRows, .listedAccount",function(){localStorage.setItem("DetailedAccount",$(this).attr("data-id")),window.location="account_details.html"}),$(document).on("click",".responseBlock",function(){localStorage.setItem("ticketNumber",$(this).attr("data-id")),window.location="ticket_detail.html"}),$(document).on("click","#queue",function(){localStorage.setItem("currentQueue",$(this).attr("data-id")),localStorage.setItem("currentQueueName",$(this).find(".OptionTitle").text()),window.location="queueTickets.html"}),$(document).on("click","#asUserStat",function(){localStorage.setItem("ticketPage","asUser"),window.location="ticket_list.html"}),$(document).on("click","#techStat",function(){localStorage.setItem("ticketPage","asTech"),window.location="ticket_list.html"}),$(document).on("click","#asAltTechStat",function(){localStorage.setItem("ticketPage","asAltTech"),window.location="ticket_list.html"}),$(document).on("click","#allTicketsStat",function(){localStorage.setItem("ticketPage","allTickets"),window.location="ticket_list.html"})},menuFunctions:function(){var e=localStorage.getItem("techStat");null==e?$(".menuTicketsStat").hide():(e>100&&(e=99),$(".menuTicketStatNumber").html(e))}},J={init:function(){this.showMessage()},setMessage:function(e,t,i){localStorage.setItem("userMessage",t),localStorage.setItem("isMessage",e?"truePos":"trueNeg")},showMessage:function(e,t,i){if("undefined"==typeof e){var a=localStorage.getItem("isMessage");if("truePos"==a)e=!0,localStorage.setItem("isMessage","false");else{if("trueNeg"!=a)return;e=!1,localStorage.setItem("isMessage","false")}}"undefined"==typeof t&&(t=localStorage.getItem("userMessage"));var o=e?".errorMessagePos":".errorMessageNeg";$(o).html(t),$(o).slideDown(100),setTimeout(function(){$(o).slideUp(100),"function"==typeof i&&i()},3500)}};!function(){if(J.init(),m.init(),R.init(),g.init(),w.init(),location.pathname.indexOf("index.html")<0&&"/"!=location.pathname&&location.pathname.indexOf("org.html")<0){var e=navigator.userAgent.match(/iphone|ipad|ipod/i)&&parseInt(navigator.appVersion.match(/OS (\d)/)[1],10)>=7;if(e){var t=document.getElementsByTagName("header")[0];t&&(t.style.paddingTop="10px",t.style.height="63px",$("body").css("margin-top",function(e,t){return parseInt(t,10)+10+"px"})),t=document.getElementById("ptr"),t&&(t.style.marginTop="10px")}if(T.init(),W.init(),localStorage.lastclick){if(((new Date).valueOf()-Date.parse(localStorage.lastclick).valueOf())/60>1200)return localStorage.lastclick=new Date,void F("","",!1,n)}else localStorage.lastclick=new Date;n()}}()});
+var appVersion = "22";
+var adMessage = "Image fixes";
+function updatedFunction ()
+{
+    location.reload(true);
+}
+
+//Root Names
+var Site = 'sherpadesk.com/';
+var MobileSite = 'http://m.' + Site;
+var AppSite = 'https://app.' + Site;
+
+var ApiSite = 'http://api.' + Site;
+
+//global config
+var isTech = false,
+    isProject = true,
+    isTime = true,
+    isAccount = true,
+    isLevel = true,
+    isClass = true,
+    isLocation = true,
+    isFreshbook = true,
+    isExpenses = true,
+    isTravelCosts = true,
+    isInvoice = true,
+    is_MultipleOrgInst = true;
+
+var formatDate=function(a){if (!a || a.length < 12) return a;  var e=a.substring(5,7),r=a.substring(8,10);switch(e){case"01":e="Jan";break;case"02":e="Feb";break;case"03":e="Mar";break;case"04":e="Apr";break;case"05":e="May";break;case"06":e="Jun";break;case"07":e="Jul";break;case"08":e="Aug";break;case"09":e="Sep";break;case"10":e="Oct";break;case"11":e="Nov";break;case"12":e="Dec";break;default:e="nul";}return e+" "+r;};
+
+Object.toType = (function toType(global) {
+    return function(obj) {
+        if (obj === global) {
+            return "global";
+        }
+        return ({}).toString.call(obj).match(/\s([a-z|A-Z]+)/)[1].toLowerCase();
+    };
+})(this);
+
+function HasProp(obj, prop) {
+    for (var p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            if (p === prop) {
+                return obj;
+            } else if (obj[p] instanceof Object && HasProp(obj[p], prop)) {
+                return obj[p];
+            }
+        }
+    }
+    return null;
+}
+
+//Cache settings
+var cacheName = "", //current cache to kill on refresh
+    cacheTime = 5000; // milliseconds before cache update 
+
+function checkEmail(email) {
+    return(email.trim().match(/^[^@\s]+@[^@\s]+(\.[^@\s]+)+$/i) !== null);
+}
+
+function checkURL(url) {
+    return(url.trim().match(/(jpeg|jpg|gif|png)$/i) !== null);
+}
+
+//Phonegap specific
+var isPhonegap = false;
+var isOnline = true;
+
+document.addEventListener("deviceready", onDeviceReady, false);
+document.addEventListener("offline", offLine,false);
+document.addEventListener("online", onLine ,false);
+
+function onDeviceReady() {
+    //alert("gap init");
+    isPhonegap = true;
+    if (cordova.plugins.notification.badge){
+        if (localStorage.badge > 0){
+            cordova.plugins.notification.badge.set(localStorage.badge);
+        }
+        else
+            cordova.plugins.notification.badge.clear();}
+}
+
+//open link	in blank
+function openURL(urlString){
+    window.open(urlString, '_blank', 'location=no,EnableViewPortScale=yes');
+}
+
+//open link	in system
+function openURLsystem(urlString){
+    window.open(urlString, '_system');
+}
+
+function getPage()
+{
+    var m = location.href.match(/(.+\w\/)(.+)/);
+    return m ? m : ['','',''];
+}
+
+if (typeof String.prototype.addUrlParam !== 'function') {
+    String.prototype.addUrlParam = function(param, value) {
+        if (!value || !param)
+            return this;
+        var ch = this.indexOf('?') > 0 ? '&' : '?';
+        return this + ch + param + '=' + value;
+    };
+}
+
+
+//global error handler
+$( document ).ajaxError(function( event, request, settings ) {
+    //console.log(event);
+    //console.log(request);
+    //console.log(settings);
+    //        alert(request.statusText);
+    //alert(request.responseText);
+    //    alert(settings.url);
+    if ((request.status == 403 && settings.url !== ApiSite + "organizations") || (request.status == 404 && settings.url === ApiSite + "config"))
+    {
+        logout(settings.url !== ApiSite + "login", request.statusText);
+    }
+    setTimeout(function(){ $("#loading").hide();
+                          $(".page").show(); 
+                          redirectToPage();}, 1000);
+});
+
+function reveal() {
+    $("#loading").hide();
+}
+
+
+//If User is Offline....................................
+function errorLine(message){
+    var func = "location.reload(false)";
+    $("#scroller").hide();
+    if (!$(".catch-error").length) {
+        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Something went wrong...</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>'+message+'</h4><h4>&nbsp;<p>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="'+func+'">Refresh</button></center></div></div>');
+    }
+}
+
+function offLine(){
+    var func = "redirectToPage()";
+    isOnline = false;
+    if (!$(".catch-error").length) {
+        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="'+func+'">Refresh</button></center></div></div>');
+    }
+}
+
+window.onerror = function(msg, url, line, col, error) {
+    // Note that col & error are new to the HTML 5 spec and may not be 
+    // supported in every browser.  It worked for me in Chrome.
+    var extra = !col ? '' : '<p>column: ' + col;
+    extra += !error ? '' : '<p>error: ' + error;
+
+    // You can view the information in an alert to see things working like this:
+    if (line > 0)
+        setTimeout(function(){errorLine("<p onclick='$(\".err\").toggle();'>Click for Error Details:</p><div class=err style='display:none;'>" + msg + "<p>page: " + location.href + "<p>url: " + url + "<p>line: " + line + extra + "</div>");
+                              $("#loading").hide();
+                              $(".page").show();}, 1000);
+
+    // TODO: Report this error via ajax so you can keep track
+    //       of what pages have JS issues
+
+    var suppressErrorAlert = true;
+    // If you return true, then error alerts (like in older versions of 
+    // Internet Explorer) will be suppressed.
+    return suppressErrorAlert;
+};
+
+function onLine (){
+    if (!isOnline){
+        $(".catch-error").remove();
+        location.reload(false);
+        //document.location.href = MobileSite + "index.html";
+    }
+    isOnline = true;
+}
+
+function redirectToPage() {
+    if (navigator.onLine)
+    {  if (isPhonegap) onLine();
+     else
+     {
+         var img = document.body.appendChild(document.createElement("img"));
+         img.style.display = 'none';
+         img.onload = function () {
+             onLine();
+         };
+         img.onerror = function () {
+             offLine();
+         };
+         img.src = MobileSite + "img/select_arrow.png?rand=" + Math.random();
+     }
+    }
+    else
+    {
+        offLine();
+    }
+}
+
+//pull to refresh
+window.onload = function() { if (typeof WebPullToRefresh === 'object') WebPullToRefresh.init( { loadingFunction: function(){ 
+    if (cacheName === "dash")
+    {
+        localStorage.setItem("storageQueues", "");
+        localStorage.setItem("storageAccountList", "");
+        localStorage.setItem("ticketsStat", "");
+    }
+    else
+        localStorage.setItem(cacheName, ""); 
+    location.reload(false);}});};
+
+//global helper functions
+function logout(isRedirect, mess) {
+    clearStorage();
+    if (localStorage.is_google) {
+        localStorage.removeItem('userName');
+        localStorage.removeItem('is_google');
+        GooglelogOut();
+    }
+    else if (isRedirect || true)
+        window.location = "index.html" + (!mess ? "" : "?f="+mess);
+}
+
+if (typeof String.prototype.endsWith !== 'function') {
+    String.prototype.endsWith = function(suffix) {
+        return this.indexOf(suffix, this.length - suffix.length) !== -1;
+    };
+}
+
+function GooglelogOut(mess) {
+    mess = !mess ? "" : "?f="+mess;
+    if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
+        var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
+        document.location.href = getPage()[1] + "index.html" + mess;
+    }
+    else
+        window.location = "index.html" + mess;
+}
+
+function clearStorage()
+{
+    var userName = localStorage.userName;
+    var appVersion = localStorage.appVersion;
+    localStorage.clear();
+    //localStorage.removeItem('userOrgKey');
+    //localStorage.removeItem('userOrg');
+    //localStorage.removeItem('userInstanceKey');
+    //localStorage.removeItem('userKey');
+    localStorage.setItem("userName", userName);
+    localStorage.appVersion = appVersion;
+    //clear also chrome ext if needed
+    if (window.self !== window.top)
+        window.top.postMessage("logout", "*");
+
+}
+
+function getInfo4Extension()
+{
+    if (window.self !== window.top)
+    {
+        var loginStr = "login?t=" + localStorage.getItem("userKey") +
+            "&o=" + localStorage.getItem('userOrgKey') +
+            "&i=" + localStorage.getItem('userInstanceKey'); 
+        window.top.postMessage(loginStr,"*");
+    }
+}
+
+function fullapplink (){
+    // Create link to specific org | instance
+    var urlString = AppSite + "?dept=" + localStorage.getItem('userInstanceKey') + "&org=" + localStorage.getItem('userOrgKey');
+    if (isPhonegap) {
+        //alert("gap!");
+        $(".fullapplink").on('click', function (e) {
+            e.preventDefault();
+            openURLsystem(urlString);});
+    } else if (window.self !== window.top) {
+
+        $(".fullapplink").on('click', function (e) {
+            e.preventDefault();
+            //alert('Please register in new window and reopen Sherpadesk extension again.');
+            var origOpenFunc = window.__proto__.open;
+            origOpenFunc.apply(window, [urlString, "_blank"]); 
+        });
+    }
+    else
+    {
+        $(".fullapplink").attr("target", "_blank");
+        $(".fullapplink").attr("href", urlString);
+    }
+
+    return urlString;
+}
+
+function htmlEscape(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+    //.replace(/\n/g, "<br />")
+    ;
+}
+
+String.prototype.replaceAll = function (find, replace) {
+    return this.split(find).join(replace);
+    //return str.replace(new RegExp(find, 'g'), replace);
+};
+
+function matchKey(search, array){
+for(var key in array) {
+    if(key.indexOf(search) != -1) {
+        return key;
+    }
+}
+return "";
+}
+    
+
+function addUrls(note, files)
+{
+    var length = files.length;
+    var filearray = {};
+    if (length)
+    {
+        var inlineImg = note.match(/\[cid:[^\[\]]*]/g);
+        for(var i = 0; i < length; i++){
+            note = note.replaceAll(" "+files[i].name, getFileLink(files[i].url));
+            filearray['"'+files[i].name.substring(0, files[i].name.lastIndexOf("."))+'"'] = files[i].url;
+        }
+        if (inlineImg)
+        {
+            for(var j = 0; j < inlineImg.length; j++){
+                var filename = inlineImg[j].slice(5, -1); 
+                    if (filename.indexOf("_link_") >= 0)
+                    {
+                        filename = filename.replace("_link_", "");
+                    }
+                    else
+                    {
+                        filename = matchKey(filename.slice(0, -3), filearray);
+                        if(filename && typeof(filearray[filename]) !== 'undefined' ) {
+                            filename = filearray[filename];
+                        }
+                        else
+                            filename = "";
+                    }
+                if (filename.length)
+                    note = note.replaceAll(inlineImg[j], getFileLink(filename));
+            }
+        }
+        //note = note.replaceAll("Following file was ", "");
+        if (length > 1) {
+            //note = note.replaceAll("Following files were ", "");
+            note = note.replaceAll("a>,", "a>");
+        }
+        //note = note.replaceAll("uploaded:", "");
+        note = note.replaceAll("a>.", "a>");
+        //note += "<div class='attachmentBorder'></div>"; 
+    }
+    return note;
+}
+
+function getFileLink(file)
+{
+    var img ="";
+    if (checkURL(file))
+        img = "<img class=\"attachment\" src=\"" + file + "\">";
+    else
+        img = "<img style='float:none;' src='img/file.png'>&nbsp;" + decodeURIComponent(file.split("/").slice(-1)) + "<p></p>";
+
+    return "<p></p><a class=\"comment_image_link\"" + 
+        (isPhonegap ? (" href=# onclick='openURL(\"" +file + "\")'>"+img+"</a>") :
+         (" target=\"_blank\" href=\"" +file + "\">"+img+"</a>"));
+}
+
+
+var featureList;
+var featureList2;
+var featureList3;
+var featureList4;
+var featureList5;
+
+function filterList(listClass, value_names, init_value){
+    $('body').attr('id', 'search_wrap');
+    if (!value_names)
+    {
+        value_names = [ 'blockNumber', 'responseText', 'TicketBlockNumber', 'user_name'];
+    }
+    else if (value_names)
+    {
+        value_names = value_names.split(',');
+    }
+    var options = {
+        listClass: listClass,
+        item: "item",
+        valueNames: value_names			
+    };
+    featureList = new List('search_wrap', options);
+    if (init_value)
+    {
+        featureList.search(init_value);
+        $(".search").val(init_value);
+    }
+    featureList.on('updated',function(){
+        //console.log(featureList);
+        if (featureList.matchingItems.length > 1) 
+        {
+            var itemMessage = 'There are ' + featureList.matchingItems.length + ' matching tickets.';
+            //console.log( itemMessage);
+        } else if (featureList.matchingItems.length === 0) {
+            console.log( 'Bummer...  0 items found');
+        }
+        //else if (featureList.matchingItems.length == 1) { ; }
+    });
+    //console.log("loaded list");
+    return featureList;
+}
+function float2int (value) {
+    return value | 0;
+}
+
+function createElipse(text, containerWidth, fontSize){
+    var len = text.length;
+    if (len <= 10)
+        return text;
+    var windowWidth = $(window).width();
+    if(windowWidth > 650){
+        windowWidth = 650;
+    }
+    var characterSpace;
+    containerWidth = containerWidth * windowWidth;
+    characterSpace = containerWidth / fontSize;
+    characterSpace = float2int(characterSpace);
+    if(len -2 > characterSpace){
+        text = text.substring(0,characterSpace)+'...';
+    } 
+    return text;
+}
+
+function createSpan(elname){
+    var windowH = $(window).height();
+    var elH = $("#content").height();
+    if(windowH > elH + 60){
+        elH = windowH - elH - 60;
+        $("<p id=fill style='height:"+elH+"px'>&nbsp;</p>").appendTo(elname+"");
+    }
+}
+
+
+
+$(document).ready(function(){
+    //preload image
+    var img = new Image();
+    img.src = MobileSite + "img/error-background.png";
+
+    var userOrgKey = "";
+    var userOrg = "";
+    var userInstanceKey = "";
+    var	userKey = "";
+    var accountDetailed = "";
+    var selectedEditClass;
+
+    function getApi (method, data, type) {
+        var userKey = localStorage.getItem("userKey");
+        var userOrgKey = localStorage.getItem('userOrgKey');
+        var userInstanceKey = localStorage.getItem('userInstanceKey');
+        if (!userKey || !userOrgKey || !userInstanceKey) {
+            console.log("Invalid organization!");
+            return;
+        }
+        if( !type ) type = 'GET';
+        return $.ajax({
+            type: type,
+            beforeSend: function (xhr) {
+                xhr.withCredentials = true;
+                xhr.setRequestHeader('Authorization',
+                                     'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
+            },
+            url: ApiSite + method,
+            cache: true,
+            data: data,
+            dataType: "json"
+        }).promise();
+    }
+
+    function getParameterByName(name) {
+        var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+
+    function cleanQuerystring() {
+        var clean_uri = location.protocol + "//" + location.host + location.pathname;
+        window.history.replaceState({}, document.title, clean_uri);
+    }
+    
+    function showError(e){
+        var error = (((e || {}).responseJSON || {}).ResponseStatus || {}).Message;
+        userMessage.showMessage(false, error || "Error. Please contact Administrator");
+    }
+
+    function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
+    {
+        if (!returnData || !returnData.length)
+        { 
+            $(""+element).parent().hide();
+            return 0;
+        }
+        var names;
+        var isCustom = false;
+        if (customValues && customValues.length > 0){
+            names = customValues.split(',');
+            if (names.length > 0)
+                isCustom = true;
+        }
+        prefix = prefix || "";
+        initialValue = initialValue || "";
+        envelope_start = envelope_start || "";
+        envelope_end = envelope_end || "";
+        var insert = initialValue;
+        var i = 0;
+        for(i = 0; i < returnData.length; i++)
+        {
+            var value = returnData[i].id;
+            var name = "";
+            if (!isCustom)
+                name = returnData[i].name;
+            else
+            {
+                var len = names.length-1;
+                for(var j = 0; j < len; j++)
+                    name += " " + returnData[i][names[j]];
+                var email = returnData[i][names[len]];
+                if (!name.trim())
+                    name = email;
+                else
+                    name += " (" + email + ")";
+            }
+            insert += "<option value="+value+">"+prefix+name+"</option>";
+        }
+        // $(""+element).empty();
+        if (i > 0){
+            $(""+envelope_start + insert + envelope_end).appendTo(""+element);
+            $(""+element).parent().show();
+            $(""+element).parent().parent().show();
+        }
+        else
+            $(""+element).parent().hide();
+        return i;
+    }
+
+    function fillClasses(classResults, element, initialValue)
+    {
+        if(!isClass) {$(''+element).parent().parent().hide();
+                      return;}
+        fillSelect(classResults, element, initialValue, "Class: ");
+
+        //Listen for class and detect sub-classes
+        $(''+element).on('change', function(){
+
+            if($('.sub_class1, .sub_class2').is(":visible")){$('.sub_class1, .sub_class2').hide();$('#sub_class1, #sub_class2').empty();}
+            var classSelected0 = $(element +' option:selected').val();
+            var classSub = $.grep(classResults, function(a){ return a.id == classSelected0; });
+
+            //set class
+            selectedEditClass = classSelected0;
+
+            //If sub-class exist
+            if((typeof classSub[0] !== "undefined") && (classSub[0].sub !== null || classSub[0].sub > 0)){
+                //Show sub-class select
+                fillSelect(classSub[0].sub, "#sub_class1", "<option value="+selectedEditClass+">choose a sub class</option>", "Sub class: ");
+
+                $("select#sub_class1").on('change', function(){
+                    if($('.sub_class2').is(":visible")){$('.sub_class2').hide();$('#sub_class2').empty();}
+                    var classSelected1 = $('select#sub_class1 option:selected').val();
+                    var classSub1 = $.grep(classSub[0].sub, function(a){ return a.id == classSelected1; });
+                    //reset class
+                    selectedEditClass = classSelected1;
+                    //If sub-sub-class exist
+                    if((typeof classSub1[0] !== "undefined") && (classSub1[0].sub > 0 || classSub1[0].sub!== null)){
+                        //Show sub-class select
+                        fillSelect(classSub1[0].sub, "#sub_class2", "<option value="+selectedEditClass+">Sub Sub Class: ---</option>", "Sub Sub Class: ");
+
+                        $("select#sub_class2").on('change', function(){
+                            var classSelected2 = $('select#sub_class2 option:selected').val();
+                            //reset class
+                            selectedEditClass = classSelected2;
+                        });
+                    }
+                });
+            }
+
+        });
+    }
+
+    // user login
+    var UserLogin = {
+        init: function () {
+            var loginPage = true;
+            if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/")
+                loginPage = false;
+            userKey = localStorage.getItem("userKey");
+            userOrgKey = localStorage.getItem('userOrgKey');
+            userInstanceKey = localStorage.getItem('userInstanceKey');
+            if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage && location.pathname.indexOf("org.html")<0 && location.pathname.indexOf("signup.html")<0) {
+                logout();
+                return;
+            }
+            if (!loginPage)
+                return;
+            if (userKey && userOrgKey && userInstanceKey) {
+                getInstanceConfig(userOrgKey, userInstanceKey);
+                return;
+            }
+            if (userKey) {
+                window.location = "org.html";
+                return;
+            }
+            else {
+                var key = getParameterByName('t');
+                var email = getParameterByName('e');
+                if (key) {
+                    cleanQuerystring();
+                    localStorage.setItem('is_google', true);
+                    localStorage.setItem("userKey", key);
+                    localStorage.setItem('userName', email);
+                    window.location = "org.html";
+                    return;
+                }
+                else
+                {
+                    var error = getParameterByName('f');
+                    if (error) {
+                        cleanQuerystring();
+                        userMessage.showMessage(false, error);
+                    }
+                }
+            }
+            this.login();
+        },
+        do_login: function () {
+            var userName = $("#userName").val();
+            var password = $("#password").val();
+            if (userName === '' || password === '') {
+                userMessage.showMessage(false, "Please enter a valid Email or Password");
+                return;
+            }
+            //test
+            //localStorage.setItem("userKey",1)
+            //localStorage.setItem('userOrgKey',2);
+            //localStorage.setItem('userInstanceKey',3);
+            //getInfo4Extension();
+            //return;
+            $.ajax({
+                type: 'POST',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization',
+                                         'Basic ' + btoa(userName + ':' + password));
+                },
+                url: ApiSite +"login",
+                dataType: "json",
+                success: function (returnData) {
+                    //console.log(returnData);
+
+                    localStorage.setItem("userKey", returnData.api_token);
+                    localStorage.setItem('userName', userName);
+                    window.location = "org.html";
+
+                },
+                complete: function () {
+
+                },
+                error: function () {
+                    if(userName && userName.indexOf("@gmail.com") != -1){
+                        userMessage.showMessage(false, "Wrong Password, Google sign password is not neeeded");
+                    }else{
+                        userMessage.showMessage(false, "There was a problem with your login.  Please try again.");
+                        $("#password").val("");
+                    }
+                    // if (userName && userName.indexOf("@gmail.com") != -1)
+                    //     $("#errorMessage").html("If you are attempting to login with a google account, please do not type your google password, click the 'Sign in with Google' button, it is more secure.");
+                    // else
+                    //     $("#errorMessage").html("There was a problem with your login.  Please try again.");
+                    // $("#password").val("");
+                }
+            });
+        },
+        login:function() {
+            $(".page").show();
+            userKey = localStorage.getItem("userKey");
+            var userName = localStorage.getItem('userName');
+            if (userName !== null && userName.length > 0)
+                $("#userName").val(userName);
+            $('#login_signup').on('click', function (e) {
+                e.preventDefault();
+                document.location.href = "signup.html";
+            });
+            $('form.google_openid').get(0).setAttribute('action', ApiSite + 'auth/auth0');
+            $('#sign_in_with_google').on('click', function (e) {
+                e.preventDefault();
+                if (window.self !== window.top) {
+                    //alert('Please goto Google login in new window and reopen Sherpadesk extension again.');
+                    //$('form.google_openid').get(0).setAttribute('target', '_blank');
+                }
+                $('form.google_openid').get(0).submit();
+            });
+            $("#loginButton").click(function () { UserLogin.do_login(); });
+            $(document).on("keypress", "#password, #userName", function (e) {
+                if (e.which == 13) {
+                    UserLogin.do_login();
+                }
+            });
+            reveal();
+        }
+    };
+
+    // org signup
+    var OrgSignup = {
+        init: function () {
+            if (location.pathname.indexOf("signup.html") < 0)
+                return;
+            var userName = localStorage.getItem('userName');
+            if (userName !== null && userName.length > 0)
+                $("#email").val(userName);
+            $("#signupButton").click(function () { OrgSignup.add(); });
+            $(document).on("change", "#name", function (e) {
+                var t=$("#name").val();
+                if (t)
+                    $("#url").val(t.replace(/[^a-zA-Z 0-9]+|[\s]+/g, '').toLowerCase());
+            });
+            $("#is_force_registration").prop("checked", false);
+            reveal();   
+        },
+        add: function () {
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var url = $("#url").val();
+            var firstname = $("#firstname").val();
+            var lastname = $("#lastname").val();
+            var password = $("#password").val();
+            var password_confirm = $("#password_confirm").val();
+            var how = $("#how").val();
+            if (name === '' || email === '' || url === '' || firstname === '' || lastname === '' || password === '' || password_confirm  === '') {
+                userMessage.showMessage(false, "Please enter all fields!");
+                return;
+            }
+            if (password != password_confirm) {
+                userMessage.showMessage(false, "Passwords do not match!");
+                return;
+            }
+            $.ajax({
+                type: 'POST',
+                url: ApiSite +"organizations",
+                dataType: "json",
+                data: {"name": name, 
+                       "email":email, 
+                       "url":url, 
+                       "is_force_registration": $("#is_force_registration").is(':checked'),
+                       "firstname": firstname,
+                       "lastname":lastname,
+                       "password":password,
+                       "password_confirm": password_confirm,
+                       "how_did_you_hear_about_us": how,
+                       "note": isPhonegap ? "registered by iPhone" : "registered from mobile site"
+                      },
+                success: function (returnData) {
+                    if (!returnData.api_token)
+                    {
+                        window.location = "index.html";
+                        return;
+                    }
+                    if (!returnData.organization || !returnData.instance)
+                    {
+                        window.location = "org.html";
+                        return;
+                    }        
+                    localStorage.setItem("userKey", returnData.api_token);
+                    localStorage.setItem('userName', email);
+                    localStorage.setItem('userOrgKey', returnData.organization);
+                    localStorage.setItem('userInstanceKey', returnData.instance);
+
+                    //sets user role to user in local storage
+                    localStorage.setItem('userRole', "user");
+                    getInstanceConfig(returnData.organization, returnData.instance);
+                },
+                error: function ( event ) {
+                    //"User already have one registered organization. Please set is_force_registration=true to continue."
+                    if (event.status == 409)
+                    {
+                        userMessage.showMessage(false, "This email is already in use. Please choose action below");
+                        localStorage.setItem('userName', $("#email").val());
+                        $("#is_force_registration").prop("checked", true);
+                        $("#signupButton").before("<center><h3 style='padding-top: 10px;'>This email is already in use. Would you like to</h3>"+" <div class=loginButton onclick='window.location = \"index.html\"'>Login</div>"+"<h3>or</h3></center>");
+                        $("#signupButton").text("Create New Organization");
+                        return;
+                    }
+                    userMessage.showMessage(false, event.statusText);
+                }
+            });
+        }
+    };
+
+    //show closed tickets
+    var closedTickets = {
+        init:function() {
+            this.showClosedTickets();
+            this.pageChange();
+        },
+
+        pageChange:function() {
+            $(".buttonShowClosedTickets").click(function(){
+                window.location = "closedTickets.html";
+            });
+        },
+
+        showClosedTickets:function() {
+            if(localStorage.getItem("isMessage") == "truePos")
+            {
+                userMessage.showMessage(true);
+            }
+            var cacheName1 = "closed",
+                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (!retrievedObject || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                ticketList.createTicketsList(retrievedObject, "#closedTickets");
+                filterList("closedTickets");
+            }
+            setTimeout(function(){
+                getApi("tickets?status=closed&account="+localStorage.getItem("DetailedAccount")).then(function(returnData) {
+                    ticketList.createTicketsList(returnData, "#closedTickets", cacheName1);
+                    filterList("closedTickets");
+                },
+                                                                                                      function() {
+                    console.log("fail @ closed accounts tickets");
+                });
+            }, time); 
+        }
+    };
+
+    // pick up current detailed ticket
+    var pickUpTicket = {
+        init:function() {
+            this.pick();
+        },
+
+        pick:function() {
+            $("#pickUp").click(function(){
+                getApi('tickets/'+localStorage.getItem("ticketNumber"),{
+                    "action" : "pickup",
+                    "note_text": ""
+                }, 'PUT').then(function (d) {
+                    userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
+                    window.location = "ticket_detail.html";
+                },
+                               function (e, textStatus, errorThrown) {
+                    alert(textStatus);
+                });
+
+                getApi('tickets/'+localStorage.getItem("ticketNumber"),{
+                    "action" : "pickup",
+                    "note_text": ""
+
+                }, 'PUT').then(function (d) {
+                    userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
+                    window.location = "ticket_detail.html";
+                },
+                               function (e, textStatus, errorThrown) {
+                    alert(textStatus);
+                }
+                              );
+            });
+        }
+    };
+
+    // transfer current detailed ticket
+    var transferTicket = {
+        init:function() {
+            this.transfer();
+        },
+
+        transfer:function() {
+            $("#transfer").click(function(){
+                $('#loading').removeAttr('style');
+                $("#loading").show();
+                $("#transfer").hide();
+                $("#transferSelect").show();
+                getApi("technicians?limit=200").then(function(returnData) {
+                    //console.log(returnData);
+                    // add techs to option select list
+                    var insert = "<option value=0 disabled selected> Choose Tech</option>";
+                    $(insert).appendTo("#transferTechs");
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        var value = returnData[i].id;
+                        var name = returnData[i].firstname+" "+returnData[i].lastname;
+                        insert = "<option value="+value+">"+name+"</option>";
+                        $(insert).appendTo("#transferTechs");
+                    }
+                    reveal();
+                },
+                                                     function() {
+                    console.log("fail @ time accounts");
+                }
+                                                    );
+                // get value
+                $("#transferTechs").on("change", function(){
+                    var techId = $("#transferTechs").val();
+                    getApi('tickets/'+localStorage.getItem("ticketNumber"),{
+                        "action": "transfer",
+                        "note_text": " ",
+                        "tech_id": techId,
+                        "keep_attached": false
+
+
+                    }, 'PUT').then(function (d) {
+                        location.reload(false);
+                    },
+                                   function (e, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                                  );
+                });
+            });
+        }
+    };
+
+    var addRecip = {
+        init:function() {
+            this.addEm();
+        },
+
+        addEm:function() {
+            $(document).on("keypress","#addEm",function(e){
+                if(e.which == 13) {
+                    var searchItem  = $(".headerSearch").val().toLowerCase();
+                    localStorage.setItem("searchItem",searchItem);
+                    var found = false;
+
+                    var email = $("headerSearch").val();
+                }
+            });
+        }
+    };
+
+    // close current detailed ticket
+    var closeTicket = {
+        init:function() {
+            this.closeIt();
+            this.reopenIt();
+        },
+        reopenIt:function() {
+            $('#openIt').click(function(){
+                getApi('tickets/'+localStorage.getItem("ticketNumber"),
+                       {
+                    "status" : "open",
+                    "note_text": ""
+                }, 'PUT').then(function (d) {
+                    //location.reload(false);
+                    setTimeout(
+                        function()
+                        {
+                            userMessage.showMessage(true, 'Ticket has been Reopened <i class="fa fa-thumbs-o-up"></i>');
+                            window.history.back();
+
+                        }, 1000);
+                },
+                               function (e, textStatus, errorThrown) {
+                    alert(textStatus);
+                }
+                              );
+            });
+        },
+
+        close: function(closeTicketMessage){
+            closeTicketMessage = htmlEscape(closeTicketMessage).trim();
+            if (closeTicketMessage.length < 2){
+                userMessage.showMessage(false,  "Note cannot be empty!");	
+                return;
+            }
+            if (closeTicketMessage.length > 5000){
+                userMessage.showMessage(false,  "Note cannot be more than 5000 chars!");	
+                return;
+            }
+            getApi('tickets/'+localStorage.getItem("ticketNumber"),{
+                "status" : "closed",
+                "note_text": closeTicketMessage,
+                "is_send_notifications": true,
+                "resolved": true,
+                dataType: 'json',
+                "confirmed": false,
+                "confirm_note": ""
+
+            }, 'PUT').then(function (d) {
+                //location.reload(false);
+                setTimeout(
+                    function()
+                    {
+                        userMessage.showMessage(true, 'Ticket has been closed <i class="fa fa-thumbs-o-up"></i>');
+                        window.history.back();
+
+                    }, 1000);
+                userMessage.setMessage(true, "Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
+            },
+                           function (e, textStatus, errorThrown) {
+                //alert(textStatus);
+            }
+                          );
+        },
+
+        closeIt:function() {
+            $("#closeIt").click(function(){
+                $('#closingMessage').slideDown(400, function(){
+                    $('#closeMessageButton').fadeIn();
+                    $('html,body').animate({
+                        scrollTop: $('#closeMessageButton').offset().top
+                    },400);
+                });
+            });
+            $('#closeMessageButton').click(function() {
+                closeTicket.close($('#closingMessage').val());});
+            $('#closeu').click(function() {
+                closeTicket.close($('#commentText').val());});
+        }
+    };
+
+    // send an invoice to recipents
+    var sendInvoice = {
+        init:function(){
+            this.submitInvoice();
+        },
+
+
+        submitInvoice:function(){
+            $("#sendInvoiceButton").click(function(){
+                //alert(localStorage.getItem('invoiceNumber'));
+                if ($(".recipient").children(".closeIcon").length < 1)
+                {
+                    userMessage.showMessage(false, "No accounting contacts added");
+                    return;
+                }
+                var emails = ""; 
+                $.each($(".recipient").children(".closeIcon"), function(){emails+=$(this).attr("id") + ",";}); 
+                
+                var data, number = localStorage.invoiceNumber;
+                var isUnbilled = (number.indexOf(",") != -1);
+                if (isUnbilled)
+                {
+                    number = number.split(",");
+                    data = {"status": "unbilled", "account" : number[0], "project" : number[1]};
+                    number = 'invoices';
+                }
+                else
+                {
+                    data = {"action":"sendEmail"};
+                    number = 'invoices/' +number;
+                }
+                
+                data.recipients = emails;
+                
+                getApi(number, data, isUnbilled ? 'POST' : 'PUT').then(function (d) {
+                    setTimeout(
+                        function()
+                        {
+                            window.history.back();
+                        }, 1000);
+                    userMessage.setMessage(true, "Hurray! Invoice sent");
+                },
+                              function (e, textStatus, errorThrown) {
+                    //alert(textStatus);
+                }
+                             );
+            });
+        }
+    };
+
+    // when signout button is pressed all user data is whiped from local storage
+    var signout = {
+        init:function(){
+            this.logOut();
+        },
+
+        logOut:function(){
+            $("#signOut").click(logout);
+        }
+    };
+
+    // when signout button is pressed all user data is whiped from local storage
+    var switchOrg = {
+        init:function(){
+            this.changeOrg();
+        },
+
+        changeOrg:function(){
+            if (is_MultipleOrgInst)
+                $("#switchOrg").click(function(){
+                    var appVersion = localStorage.appVersion;
+                    var userKey = localStorage.userKey;
+                    var userName = localStorage.userName;
+                    localStorage.clear();
+                    localStorage.userName = userName;
+                    localStorage.userKey = userKey;
+                    localStorage.appVersion = appVersion;
+                    window.location = "org.html";
+                });
+        }
+    };
+
+    // create a new ticket
+    var newTicket = {
+        init:function() {
+            backFunction = function() { newTicket.back(); };
+
+
+            var reff = getParameterByName("page");
+            if (reff){
+                localStorage.setItem('add_tickets.html_ref', getParameterByName("page"));
+                cleanQuerystring();
+            }
+            $("#userCreate").on("click", function(){
+                var user = $("#addTicketUser").val();
+                if (user) localStorage.setItem('add_user_userid', user);
+                var tech = $("#addTicketTechs").val();
+                if (tech) localStorage.setItem('add_user_techid',tech);
+                var account = $("#addTicketAccounts").val();
+                if (account) localStorage.setItem('add_user_accountid',account);
+                window.location = "add_user.html".addUrlParam("page", "add_tickets.html");
+            });
+
+            $("#TechCreate").on("click", function(){
+                localStorage.setItem('add_user_type', 'tech');
+                var user = $("#addTicketUser").val();
+                if (user) localStorage.setItem('add_user_userid', user);
+                var tech = $("#addTicketTechs").val();
+                if (tech) localStorage.setItem('add_user_techid', tech);
+                var account = $("#addTicketAccounts").val();
+                if (account) localStorage.setItem('add_user_accountid',account);
+                window.location = "add_user.html".addUrlParam("page", "add_tickets.html");           
+            }); 
+
+            this.addTicket();
+        },
+        back: function(){
+            var reff = localStorage.getItem('add_tickets.html_ref');
+            localStorage.setItem('add_tickets.html_ref', '');
+            if (!reff)
+                reff = isTech ? "dashboard.html" : "ticket_list.html";
+            localStorage.setItem('addAccountTicket', '');
+            window.location.replace(reff);
+
+        },
+        addTicket:function() {
+            $("#addTicketAccounts").empty();
+            var accountset = localStorage.getItem('addAccountTicket');
+            if(!isTech){
+                $("#addTicketAccounts").parent().hide();
+            }
+            else
+            {
+
+                if(!isAccount) {$("#addTicketAccounts").parent().hide();reveal();}
+                else
+                { var accounts = getApi("accounts?limit=300", {"is_with_statistics":false});
+                 accounts.then(function(returnData) {
+                     //console.log(returnData);
+                     // get list of accounts add them to option select list
+                     $("#addTicketAccounts").empty();
+                     fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
+                     var account =  localStorage.getItem('add_user_accountid');
+                     accountset  = accountset ? accountset : account; 
+                     if (accountset){
+                         localStorage.setItem('add_user_accountid', '');
+                         $("#addTicketAccounts").val(accountset);
+                     }
+                     reveal();
+                 }, function() {
+                     console.log("fail @ ticket accounts");
+                 });
+                }
+            }
+
+            // list of Users
+            if (!isTech)
+            {
+                $("#addTicketUser").parent().hide();
+                $("#userCreate").hide();
+            }
+            else
+            {
+                var userid = localStorage.getItem('add_user_userid');
+                if (userid) localStorage.setItem('add_user_userid', "");
+                else userid = localStorage.getItem('userId');
+
+                var userName = localStorage.getItem('add_user_name');
+                if (userName) localStorage.setItem('add_user_name', '');
+                else userName = localStorage.getItem("userFullName");
+
+                if (!userName.trim())
+                    userName = localStorage.getItem("userName");
+
+                $("#addTicketUser").append("<option value="+userid+" selected>"+userName+"</option>");
+
+                var users = getApi("users?limit=2000");
+                users.then(function(returnData){
+                    //console.log(returnData);
+                    // add techs to option select list
+                    fillSelect(returnData, "#addTicketUser", "", "",
+                               "firstname,lastname,email");
+                    $("#addTicketUser").val(userid);
+                },
+                           function() {
+                    console.log("fail @ ticket user");
+
+                }
+                          );
+
+            }
+
+            // after an account is choosed it get a list of technicians
+
+            // list of Tech
+            if (!isTech)
+            {
+                $("#addTicketTechs").parent().hide();
+                $("#TechCreate").hide();
+
+            }
+            else
+            {
+                var technicians = getApi("technicians?limit=200");
+                technicians.then(function(returnData){
+                    //console.log(returnData);
+                    // add techs to option select list
+                    fillSelect(returnData, "#addTicketTechs",
+                               "<option value=0 disabled selected>choose a tech</option>", "",
+                               "firstname,lastname,email");
+                    var techid = localStorage.getItem('add_user_techid');
+                    if (techid) {
+                        localStorage.setItem('add_user_techid', '');
+                        $("#addTicketTechs").val(techid);
+                    }
+                },
+                                 function() {
+                    console.log("fail @ ticket tech");
+
+                }
+                                );
+            }
+
+            if (!isTech)
+            {
+                $(".add_class").hide();
+            }
+            else
+            {
+            // after techs are choosen then get a list of classes
+            var classes = getApi('classes');
+            classes.done(
+                function(classResults){
+                    fillClasses(classResults, "#classTicketOptions", "<option value=0 disabled selected>choose a class</option>");
+                });
+
+            }
+
+            // make api post call when submit ticket button is clicked
+
+            $("#submitNewTicket").click(function(){
+                var subject = htmlEscape($("#addTicketSubject").val().trim());
+                var post = htmlEscape($("#addTicketInitPost").val().trim());
+                if(subject === "" || $("#addTicketTechs").val() === "" || selectedEditClass < 1)
+                {
+                    userMessage.showMessage(false, "Please enter subject");
+                }
+                else if (subject.length > 100){
+                    userMessage.showMessage(false, "Subject should be less 100 chars!");	
+                } 
+                else if (post.length > 5000) {
+                    userMessage.showMessage(false, "Details cannot be more than 5000 chars!");
+                }
+                else
+                {
+                    var addTicket = getApi("tickets", {
+                        "status" : "open",
+                        "subject" : subject,
+                        "initial_post" : post,
+                        "class_id" : selectedEditClass,
+                        "account_id" : $("#addTicketAccounts").val(),
+                        "user_id" : isTech ? $("#addTicketUser").val() : localStorage.getItem('userId'),
+                        "tech_id" : $("#addTicketTechs").val()
+                    }, "POST");
+                    addTicket.then(function (d) {
+                        setTimeout(newTicket.back, 1000);
+                        userMessage.setMessage(true, "Ticket was Succesfully Created :)");
+                    },
+                    showError);
+
+                }
+            });
+        }
+    };
+
+    // post a comment to a ticket on the ticket details page
+    var postComment = {
+        init:function(){
+            this.sendComment();
+        },
+
+        sendComment:function(){
+            $("#reply").click(function(){
+                var comment = htmlEscape($("#commentText").val().trim());
+                if (!comment) {
+                    userMessage.showMessage(false, "Please enter note");
+                    return;
+                }
+                if (comment.length > 5000) {
+                    userMessage.showMessage(false, "Note cannot be more than 5000 chars!");
+                    return;
+                }
+                getApi('tickets/'+localStorage.getItem('ticketNumber'),{
+                    "note_text": comment,
+                    "action": "response"
+                }, 'POST').then(function (d) {
+                    location.reload(false);
+                },
+                                function (e, textStatus, errorThrown) {
+                    alert(textStatus);
+                }
+                               );
+            });
+        }
+    };
+
+    // Ajax calls for semi-universal search bar
+    var search = {
+        init:function(){
+            this.universalSearch();
+        },
+
+        universalSearch:function(){
+            //get the search value when the enter key is pressed
+            $(document).on("keypress","#searchThis",function(e){
+                if(e.which == 13) {
+                    var searchItem  = $(".headerSearch").val().toLowerCase();
+                    localStorage.setItem("searchItem",searchItem);
+                    localStorage.setItem("ticketPage", "asTech");
+                    window.location = "ticket_list.html";
+                    return;
+                    /*var found = false;
+                    var matchedTickets = [];
+
+                    // search for a account value that matches the search critera
+                    $.ajax({
+                        type: 'GET',
+                        beforeSend: function (xhr) {
+                            xhr.withCredentials = true;
+                            xhr.setRequestHeader('Authorization',
+                                                 'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                        },
+
+                        url:ApiSite +"accounts",
+                        dataType:"json",
+                        success: function(returnData) {
+                            for(var i = 0; i < returnData.length; i++)
+                            {
+                                if(returnData[i].name.toLowerCase() == searchItem)
+                                {
+                                    found = true;
+                                    localStorage.setItem("DetailedAccount", returnData[i].id);
+                                }
+                                if (found == true)
+                                {
+                                    window.location = "account_details.html";
+                                }
+                            }
+
+
+                        },
+                        complete:function(){
+                            reveal();
+                        },
+                        error: function() {
+
+                        }
+                    });
+                    // search for a ticket number that matches the search critera
+                    $.ajax({
+                        type: 'GET',
+                        beforeSend: function (xhr) {
+                            xhr.withCredentials = true;
+                            xhr.setRequestHeader('Authorization',
+                                                 'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                        },
+
+                        url:ApiSite +"tickets/?status=open"+searchItem,
+                        dataType:"json",
+                        success: function(returnData) {
+                            localStorage.setItem("ticketNumber",searchItem);
+                            window.location = "ticket_detail.html";
+
+
+                        },
+                        complete:function(){
+                            reveal();
+                        },
+                        error: function() {
+
+                        }
+                    });
+
+                    // search for tickets containing the search critera in the subject and return a list
+                    $.ajax({
+                        type: 'GET',
+                        beforeSend: function (xhr) {
+                            xhr.withCredentials = true;
+                            xhr.setRequestHeader('Authorization',
+                                                 'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+                        },
+
+                        url:ApiSite +"tickets",
+                        dataType:"json",
+                        success: function(returnData) {
+                            //console.log(returnData);
+                            for(var i = 0; i < returnData.length; i++)
+                            {
+                                if(returnData[i].subject.toLowerCase().indexOf(searchItem) >= 0)
+                                {
+                                    matchedTickets.push(returnData[i]);
+                                    found = true;
+
+                                }
+                            }
+                            if(found == false){
+                                $(".searchReturn").show();
+                                $("body").addClass("bodyLock");
+                                var insert = "<li class='' data-id=null><span class='returnedItem'>Nothing matches that Search</span></li>";
+                                $(insert).appendTo(".searchReturn");
+                            }
+                            // add list of tickets that match the search critera
+                            for(var a = 0; a < matchedTickets.length; a++)
+                            {
+                                $(".searchReturn").show();
+                                $("body").addClass("bodyLock");
+                                var insert = "<li class='searched' data-id="+matchedTickets[a].key+"><span class='returnedItem'> #"+matchedTickets[a].number+" "+matchedTickets[a].subject +"</span></li>";
+                                $(insert).appendTo(".searchReturn");
+                            }
+                        },
+                        complete:function(){
+                            reveal();
+                        },
+                        error: function() {
+
+                        }
+                    });
+                    // close the search when the "X" icon is pressed
+                    $(document).on("click",".searchCloseExpanded", function(){
+                        $("body").removeClass("bodyLock");
+                        $(".searchReturn").hide();
+                        $(".searchReturn").empty();
+                    });
+                    // close the search when something outside of the search is pressed
+                    $(document).on("click",".bodyLock", function(){
+                        $("body").removeClass("bodyLock");
+                        $(".searchReturn").hide();
+                        $(".searchReturn").empty();
+                    });
+                    // go to the ticket detail of the pressed returned search return
+                    $(document).on("click",".searched", function(){
+                        $("body").removeClass("bodyLock");
+                        localStorage.setItem('ticketNumber', $(this).attr("data-id"));
+                        window.location = "ticket_detail.html";
+                    });
+                    */
+                }
+
+
+            });
+
+        }
+    };
+
+    // add time to an account
+    var addExpence = {
+        init:function(ticket_id){
+            this.addExpence(getParameterByName("ticket"));
+            backFunction = function() { addExpence.back(); };
+            var reff = getParameterByName("page");
+            if (reff){
+                localStorage.setItem('addExpence.html_ref', getParameterByName("page"));
+                cleanQuerystring();
+            }
+        },
+        back: function(){
+            var reff = localStorage.getItem('addExpence.html_ref');
+            localStorage.setItem('addExpence.html_ref', '');
+            if (!reff)
+                history.back();
+            else
+                window.location.replace(reff);
+
+        },
+        addExpence: function(ticket_id){
+            var account_id = localStorage.DetailedAccount ? localStorage.DetailedAccount : -1;
+            var project_id=0;
+            if(!isAccount || ticket_id)
+            {
+                $("#timeAccounts").parent().hide();
+                reveal();
+            }
+            else
+            {
+                //get accounts
+                getApi("accounts?limit=300", {"is_with_statistics":false}).then(function(returnData) {
+                    //console.log(returnData);
+                    // accounts to add time
+                    var insert = "<option value=0>choose an account</option>";
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        insert += "<option value="+returnData[i].id+">"+returnData[i].name+"</option>";
+                    }
+                    $("#timeAccounts").html(insert);
+                    if (account_id)
+                    {
+                        $("#timeAccounts").val(account_id);
+                        //if (parseInt($("#timeAccounts").val()) !== account_id)
+                        //    $("#timeAccounts").val(-1);
+                    }
+                    $("#timeAccounts").on("change", function(){
+                        //console.log(timeLog.task_type_id);
+                        addTime.chooseProjects(0, 0, 0);
+                    });
+                    reveal();
+
+                },
+                                                                                function() {
+                    console.log("fail @ time accounts");
+
+                }
+                                                                               );
+            }
+
+            if(!isProject || ticket_id){
+                $("#timeProjects").parent().hide();
+                reveal();
+            }
+            else
+            {
+                var chooseProject = "<option value=0>choose a project</option>";
+                $(chooseProject).appendTo("#timeProjects");
+                addTime.chooseProjects(account_id, project_id, 0);
+            }
+
+            //add an expense
+            $("#addexpenseButton").click(function(){
+                var money=$("#expenseAmount").val();
+                if (!money)
+                {
+                    userMessage.showMessage(false, "Please enter amount");
+                    return;
+                }
+                var note= htmlEscape($("#expenseNote").val()).trim();
+                if (note.length < 1)
+                {
+                    userMessage.showMessage(false, "Please enter note");
+                    return;
+                }
+                getApi('expenses',{
+                    "ticket_key": ticket_id ? ticket_id : null,
+                    "account_id": !ticket_id ? $("#timeAccounts").val() : null ,
+                    "project_id": !ticket_id ? $("#timeProjects").val() : null,
+                    "tech_id": localStorage.getItem("user_id"),
+                    "note": note,
+                    "note_internal": $("#expenseInternal").val(),
+                    "amount": money,
+                    "is_billable": $(".innerCircle").hasClass("billFill"),
+                    "vendor": $("#vendor").val()
+                    //"markup": 
+                },'POST').then(function (d) {
+                    localStorage.setItem('isMessage','truePos');
+                    localStorage.setItem('userMessage','Expense was successfully added <i class="fa fa-money"></i>');
+                    addExpence.back();
+                },
+                               function (e, textStatus, errorThrown) {
+                    console.log(textStatus);
+                }
+                              );
+            });
+        }
+    };
+
+
+    // add user to an account
+    var addUser = {
+        back: function(){
+            localStorage.setItem('add_user_type', '');
+            var reff = localStorage.getItem('add_user.html_ref');
+            localStorage.setItem('add_user.html_ref', '');
+            if (!reff)
+                history.back();
+            else
+                window.location.replace(reff);
+
+        },
+        init:function(){
+            backFunction = function() { addUser.back(); };
+            var reff = getParameterByName("page");
+            if (reff){
+                localStorage.setItem('add_user.html_ref', getParameterByName("page"));
+                cleanQuerystring();
+            }
+
+            $(".innerCircle").click(function(){
+                if ($(".innerCircle").hasClass("billFill")) {$("#addTicketPassword").hide(); $("#addTicketConfirmPassword").hide();}
+                else  {$("#addTicketPassword").show(); $("#addTicketConfirmPassword").show();}
+
+            });
+
+            var value = localStorage.getItem('add_user_type');
+            if (value == "tech"){
+                $('.SherpaDesk').text('Add New Tech');
+                $('.greenButton').text('Add New Tech');
+                value = 'Tech';
+            }
+            else
+                value = 'User';
+
+            $("#submitNewUser").click(function(){
+                var email = $("#addTicketEmail").val().trim();
+                if (email.length < 1)
+                {
+                    userMessage.showMessage(false, "Please enter email");
+                    return;
+                }
+                if (!checkEmail(email))
+                {
+                    userMessage.showMessage(false, "Please correct email");
+                    return;
+                }
+
+                var Firstname = $("#addTicketFirstname").val().trim();
+                if (Firstname.length < 1)
+                {
+                    userMessage.showMessage(false, "Please enter Firstname");
+                    return;
+                }
+                Lastname = $("#addTicketLastname").val().trim();
+                if (Lastname.length < 1)
+                {
+                    userMessage.showMessage(false, "Please enter Lastname");
+                    return;
+                }
+                getApi('users', {
+                    "Lastname": Lastname,
+                    "Firstname": Firstname,
+                    "email":email,
+                    "role" : value
+                }, 'POST').then(
+                    function (d) {
+                        userMessage.showMessage(true, value +' was created <i class="fa fa-thumbs-o-up"></i>', function(){ 
+                            localStorage.setItem('add_user_name', '');
+                            if (value == "Tech")
+                            {
+                                localStorage.setItem('add_user_techid', d.id);
+                            }
+                            else
+                            {
+                                localStorage.setItem('add_user_userid', d.id);
+                                localStorage.setItem('add_user_name', Firstname + " " + Lastname);
+                            }
+                            addUser.back();
+                        }); 
+                    },
+                    function (e) {
+                        userMessage.showMessage(false, e.statusText);
+                    }
+                );
+            });
+        }
+    };
+
+    // add time to an account
+    var addTime = {
+        init:function(isEdit){
+            this.addpicker();
+            this.inputTime(isEdit);
+            backFunction = function() { addTime.back(); };
+            var reff = getParameterByName("page");
+            if (reff){
+                localStorage.setItem('add_time.html_ref', getParameterByName("page"));
+                cleanQuerystring();
+            }
+        },
+        back: function(){
+            var reff = localStorage.getItem('add_time.html_ref');
+            localStorage.setItem('add_time.html_ref', '');
+            if (!reff)
+                history.back();
+            else
+                window.location.replace(reff);
+
+        },
+        addpicker: function(){
+            jQuery('#date_start').datetimepicker({
+                mask: false,
+                step:5,
+                onShow:function( ct ){
+                    var dat1 = jQuery('#date_end').val();
+                    var dat;
+                    if (dat1){
+                        dat = new Date(dat1);
+                        dat.setDate(dat.getDate());
+                    }
+                    this.setOptions({
+                        maxDate:dat1?dat:false
+                    });
+                }
+            });
+            jQuery('#date_end').datetimepicker({
+                mask: false,
+                step:5,
+                onShow:function( ct ){
+                    var dat1 = jQuery('#date_start').val();
+                    var dat;
+                    if (dat1){
+                        dat = new Date(dat1);
+                        dat.setDate(dat.getDate());
+                    }
+                    this.setOptions({
+                        minDate:dat1?dat:false
+                    });
+                }
+            });
+        },
+        getTaskTypes: function (data, task_type_id){
+            task_type_id = task_type_id || 0; 
+            //$("#loading").show();
+            $("#taskTypes").empty();
+            $("<option value=0>choose a task type</option>").appendTo("#taskTypes");
+            //get task types
+            var taskTypes = getApi("task_types", data);
+            taskTypes.then(
+                function(returnData) {
+                    ////console.log(returnData);
+                    $("#taskTypes").empty();
+                    // add task types to list
+                    fillSelect(returnData, "#taskTypes", "<option value=0>choose a task type</option>");
+                    if (task_type_id > 0)
+                        $("#taskTypes").val(task_type_id);
+                    reveal();
+                },
+                function() {
+                    //reveal();
+                    console.log("fail @ task types");
+
+                }
+            );
+        },
+        chooseProjects : function (account, project_id, task_type_id){
+            if (typeof account === "undefined")
+                account = -1;
+            project_id = project_id || 0; 
+            task_type_id = task_type_id || 0; 
+            if (!account)
+                account = isAccount ? $("#timeAccounts").val() : -1;
+            if (isProject){
+                $("#timeProjects").on("change", function(){
+                    var project = $("#timeProjects").val();
+                    addTime.getTaskTypes({"account" : account, "project": project}, task_type_id);
+                });
+                $("#timeProjects").empty();
+                $("<option value=0>choose a project</option>").appendTo("#timeProjects");
+
+                if (account !== "0"){
+                    //get projects
+                    $("#loading").fadeIn();
+                    getApi("accounts/"+account, {"is_with_statistics":false}).then(
+                        function(returnData) {
+                            ////console.log(returnData);
+                            // add projects
+                            fillSelect(returnData.projects, "#timeProjects");
+                            $("#timeProjects").val(project_id);
+                            addTime.getTaskTypes({"account" : account, "project": project_id}, task_type_id);
+                            reveal();
+
+                        },
+                        function() {
+                            console.log("fail @ time accounts");
+                            reveal();
+
+                        }
+                    );
+                }
+                else
+                    $("#timeProjects").parent().show();
+            }
+            else
+                addTime.getTaskTypes({"account" : account}, task_type_id);
+        },
+        inputTime:function(isEdit){
+            var ticketKey = localStorage.getItem('ticketNumber');
+            var isBillable = true;
+            var date = new Date().toJSON().slice(0,10);
+
+            // on submit click get the time and note typed by the user
+            $("#submitTicketTime").click(function(){
+                var time = $("#addTimeTicket").val();
+                var note = htmlEscape($("#noteTimeTicket").val().trim());
+                var tech = localStorage.getItem('techId');
+                var task_type = $("#ticketTaskTypes").val();
+                if (note.length < 1)
+                {
+                    userMessage.showMessage(false, "Please enter note");
+                    return;
+                }
+                if (note.length > 5000)
+                {
+                    userMessage.showMessage(false, "Note cannot be more than 5000 chars!");
+                    return;
+                }
+                // check to see if user check for time to be billable
+                if($(".innerCircle").hasClass("billFill")){
+                    isBillable = true;
+                }else{
+                    isBillable = false;
+                }
+                //date
+                var dat1 = jQuery('#date_start').val();
+                var sdat;
+                if (dat1){
+                    sdat = JSON.stringify(new Date(dat1));
+                }
+                var dat2 = jQuery('#date_end').val();
+                var edat;
+                if (dat2){
+                    edat = JSON.stringify(new Date(dat2));
+                }
+                // add time to the orginization
+                getApi('time',
+                       {
+                    "ticket_key": ticketKey,
+                    "note_text": note,
+                    "task_type_id": task_type,
+                    "hours": time,
+                    "is_billable": isBillable,
+                    "date": dat1 ? sdat : "",
+                    "start_date": dat1 ? sdat : "",
+                    "stop_date": dat2 ? edat : "",
+                    "tech_id": tech,
+                },
+                       'POST').then(function (d) {
+                    localStorage.setItem('isMessage','truePos');
+                    localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>');
+                    window.location.replace("ticket_detail.html");
+                },
+                                    function (e, textStatus, errorThrown) {
+                    alert(textStatus);
+                }
+                                   );
+            });
+
+            if ($("#submitTicketTime").length)
+            {
+                //get task types
+                addTime.getTaskTypes({"ticket" : ticketKey}, 0);
+            }
+            else
+            {
+                var timeLog = 0, timeEntry = localStorage.getItem("timeNumber");
+                if (isEdit && timeEntry)
+                {
+                    timeLog = JSON.parse(timeEntry);
+                    if (!timeLog.billable)
+                        $(".innerCircle").removeClass("billFill");
+                    $("#noteTime").val(timeLog.note);
+                    $("#addTimeTicket").val(timeLog.hours);
+                    $(".title").html("Time #"+ timeLog.time_id + " by " + timeLog.user_name + " @ " + new Date(timeLog.date).dateFormat("Y/\m/\d H:i"));
+                    if (timeLog.start_time)
+                        $("#date_start").val(new Date(timeLog.start_time).dateFormat("Y/\m/\d H:i"));
+                    if (timeLog.stop_time)
+                        $("#date_end").val(new Date(timeLog.stop_time).dateFormat("Y/\m/\d H:i"));
+                }
+
+                var account_id = localStorage.DetailedAccount ? localStorage.DetailedAccount : -1;
+                var project_id = 0;
+                var task_type_id = 0;
+                if (timeLog)
+                {
+                    account_id = timeLog.account_id;
+                    project_id = timeLog.project_id;
+                    task_type_id = timeLog.task_type_id;
+                }
+                if(!isAccount)
+                {
+                    $("#timeAccounts").parent().hide();
+                }
+                else
+                {
+                    //get accounts
+                    getApi("accounts?limit=300", {"is_with_statistics":false}).then(function(returnData) {
+                        ////console.log(returnData);
+                        $("#timeAccounts").empty();
+                        var chooseAccount = "<option value=0>choose an account</option>";
+                        $(chooseAccount).appendTo("#timeAccounts");
+                        // accounts to add time
+                        var insert = "";
+                        for(var i = 0; i < returnData.length; i++)
+                        {
+                            insert += "<option value="+returnData[i].id+">"+ returnData[i].name+"</option>";
+                        }
+                        $(insert).appendTo("#timeAccounts");
+                        $("#timeAccounts").val(account_id);
+                        //if (parseInt($("#timeAccounts").val()) !== account_id)
+                        //    $("#timeAccounts").val(-1);
+                        reveal();
+
+                    },
+                                                                                    function() {
+                        console.log("fail @ time accounts");
+                    }
+                                                                                   );
+
+                    $("#timeAccounts").on("change", function(){
+                        //console.log(timeLog.task_type_id);
+                        addTime.chooseProjects(0, project_id, task_type_id);
+                    });
+                }
+
+                if(!isProject)
+                    $("#timeProjects").parent().hide();
+                else
+                {
+                    var chooseProject = "<option value=0>choose a project</option>";
+                    $(chooseProject).appendTo("#timeProjects");
+                    addTime.chooseProjects(account_id, project_id, task_type_id);
+                    reveal();
+                }
+
+                $("#taskTypes").empty();
+                $("<option value=0>choose a task type</option>").appendTo("#taskTypes");
+                if (!isAccount && !isProject)
+                    addTime.getTaskTypes({"account" : account_id, "project": project_id}, task_type_id);
+
+                // submit time to account
+                $("#submitTime").click(function(){
+                    //alert(isEdit);
+                    var time = $("#addTimeTicket").val();
+                    var note = htmlEscape($("#noteTime").val().trim());
+                    var tech = localStorage.getItem('userId');
+                    var accountId = $("#timeAccounts").val();
+                    var projectId = $("#timeProjects").val();
+                    var taskId = $("#taskTypes").val();
+                    if($(".innerCircle").hasClass("billFill")){
+                        isBillable = true;
+                    }else{
+                        isBillable = false;
+                    }
+                    //date
+                    var dat1 = jQuery('#date_start').val();
+                    var sdat;
+                    if (dat1){
+                        sdat = JSON.stringify(new Date(dat1));
+                    }
+                    var dat2 = jQuery('#date_end').val();
+                    var edat;
+                    if (dat2){
+                        edat = JSON.stringify(new Date(dat2));
+                    }
+                    if(time === 0){
+                        userMessage.showMessage(false, "Oops not enough time");
+                        return;
+                    } else if(accountId == '0' && isAccount){
+                        userMessage.showMessage(false, "choose an account");
+                        return;
+                    }else{
+                        ticketKey = parseInt(isEdit ? timeLog.ticket_id : ticketKey);
+                        getApi('time' + (isEdit ? "/" + timeLog.time_id : ""),{
+                            "tech_id" : isEdit ? timeLog.user_id : tech,
+                            "project_id": projectId,
+                            "is_project_log": !ticketKey,
+                            "ticket_id": ticketKey,
+                            "account_id" :accountId,
+                            "note_text": note,
+                            "task_type_id":taskId,
+                            "hours":time,
+                            "is_billable": isBillable,
+                            "date": dat1 ? sdat: "",
+                            "start_date": dat1 ? sdat : "",
+                            "stop_date": dat2 ? edat : ""
+                        }, isEdit ? 'PUT' : 'POST').then(function (d) {
+                            localStorage.setItem('isMessage','truePos');
+                            localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>');
+                            addTime.back();
+                        },
+                                                         function (e, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                                                        );
+                    }
+                });
+            }
+        }
+    };
+
+    // needed methods to propogate a ticket detailed page
+    var detailedTicket = {
+        init:function(){
+            if (!isTech){ $(".tabs").hide();
+                         $("#closeu").show(); }
+            else { $("#closeu").hide();}
+
+            this.showTicket();
+            this.updateTicket();
+        },
+        updateTicket: function(){
+            $(".updateButton").click(function(){
+                //var ticketAccount = $('form.update_ticket select#account').val(),
+                var	ticketClass = selectedEditClass,
+                    ticketLevel = $("#ticketLevel").val(),
+                    ticketPriority = $("#ticketPriority").val(),
+                    ticketProject = $("#ticketProject").val();
+
+                var response = {
+                    //"account_id" : ticketAccount,
+                    "class_id" : ticketClass,
+                    "level_id" : ticketLevel,
+                    "priority_id" : ticketPriority,
+                    "project_id" : ticketProject
+                };
+
+                getApi('tickets/' + localStorage.getItem('ticketId'), response, 'PUT').then(function(results){
+
+                    console.log('Then Complete');
+                    userMessage.setMessage(true, "Ticket was successfully updated <i class='fa fa-thumbs-o-up'></i>");
+                    window.location = "ticket_detail.html";
+                    userMessage.showMessage(true);
+
+                    //SherpaDesk.getTicketDetail(configPass, key);
+                    //addAlert("success", "Ticket has been Updated");
+
+                });
+            });
+        },
+        showTicket:function(){
+            if(localStorage.getItem("isMessage") == "truePos")
+            {
+                userMessage.showMessage(true);
+            }
+            $('html,body').css('scrollTop','0');
+            getApi("tickets/"+localStorage.getItem('ticketNumber')).then(
+                function(returnData) {
+                    ////console.log(returnData);
+                    // calculate the number of days since the ticket was created
+                    var daysOld = returnData.daysold_in_minutes / -60;
+                    localStorage.setItem('techId', returnData.tech_id); // set the local storage variable with the tech id asscioted with this ticket
+                    localStorage.setItem('ticketId',returnData.id); // set the local storage variable with the ticket ID
+                    $("#ticketExpense").attr("href", "addExpence.html?ticket=" + returnData.id);
+                    // check to see if the ticket is less than a day old
+                    if(daysOld > 24){
+                        daysOld = parseInt(daysOld/24) +" days ago";
+                    } else {
+                        daysOld = parseInt(daysOld) +" hours ago";
+                    }
+                    //check to see if a ticket is closed or open. If a ticket is closed the offer the reopen option
+                    if(returnData.status == 'Closed'){
+                        $('#closeIt').hide();
+                        $('#closeu').hide();
+                    }else{
+                        $('#openIt').hide();
+                    }
+                    // update page variables with correct ticket information
+                    var ticketHours = returnData.total_hours;
+                    $("#ticketNumber").html(returnData.status+" | "+returnData.number);
+                    $("#ticketSubject").html(returnData.subject);
+                    $("#ticketClass").html(returnData.class_name);
+                    $("#ticketTech").html(returnData.tech_firstname);
+                    $("#lastUpdate").html(daysOld);
+                    if (returnData.misc_cost)
+                        $("#expenses").html("Expenses: " +localStorage.currency + Number(returnData.misc_cost).toFixed(2).toString());
+                    else
+                        $("#expenses").hide();
+                    if(ticketHours !== 0){
+                        $("#ticketHours").html(ticketHours+" Hours");
+                    }else{
+                        $('#ticketHours').hide();
+                    }
+                    if(returnData.sla_complete_date === null)
+                    {
+                        $('#ticketSLA').hide();
+                    }
+                    else
+                    {
+                        $("#ticketSLA").html("SLA: "+returnData.sla_complete_date.toString().substring(0,10));
+                    }
+                    var ticketTech = returnData.tech_email;
+                    //console.log(ticketTech);
+                    if(ticketTech == localStorage.getItem('userName')){
+                        $('#pickUp').hide();
+                    } 
+                    //$("ul").find("[data-id='info']").click(function(){
+
+                    var classes = getApi('classes');
+                    var priorities = getApi('priorities');
+
+                    $("#ticketLevel").empty();
+                    if (!isLevel) $("#ticketLevel").parent().hide();
+                    else{
+                        // add select options to level Option box
+                        getApi('levels').done(
+                            function(levelResults){
+                                if (fillSelect(levelResults, "#ticketLevel", "", "Level: ") > 0)
+                                    $("#ticketLevel").val(returnData.level);
+                            }
+                        );
+                    }
+                    $("#classOptions").empty();
+                    classes.done(
+                        function(classResults){
+                            //Init ticket class if not changed
+                            selectedEditClass = returnData.class_id;
+                            fillClasses(classResults, "#classOptions", "<option data-classId="+returnData.class_id+" value="+returnData.class_id+">Class: "+returnData.class_name+"</option>");
+                        });
+
+                    $("#ticketPriority").empty();
+                    // add select options to priority option box
+                    priorities.done(
+                        function(prioritiesResults){
+                            var priorityInsert = "";
+                            for(var b = 0; b < prioritiesResults.length; b++)
+                            {
+                                priorityInsert += "<option value="+prioritiesResults[b].id+">Priority: " + prioritiesResults[b].priority_level + " - " +prioritiesResults[b].name+"</option>";
+                            }
+                            $(priorityInsert).appendTo("#ticketPriority");
+                            $("#ticketPriority").val(returnData.priority_id);
+                        }
+                    );
+                    $("#ticketTechs").empty();
+                    // add select options to tech Option box
+                    var insert = "";
+                    for(var b = 0; b < returnData.technicians.length; b++)
+                    {
+                        insert += "<option value="+returnData.technicians[b].user_id+">"+returnData.technicians[b].user_fullname+"</option>";
+                    }
+                    $(insert).appendTo("#ticketTechs");
+
+                    $("#location").remove();
+
+                    if (!isProject)
+                        $("#project").hide();
+                    else
+                    {
+                        // add select options to project option box
+                        var projects = getApi('projects');
+                        projects.done(
+                            function(projectResults){
+                                if (fillSelect(projectResults, "#ticketProject", returnData.project_name == "" ? "<option value='null' disabled selected>Project</option>" : "") >0){
+                                    if (returnData.project_name != "") $("#ticketProject").val(returnData.project_id);
+                                }
+                            }
+                        );
+                    }
+                    //});
+
+                    //add comments (ticketLogs) to the page
+                    var logslen = returnData.ticketlogs.length;
+                    var files = returnData.attachments || [];
+                    //sort files by filename to avoid wrong replace
+                    files.sort(function(a, b){
+                        return b.name.length - a.name.length;
+                    });
+                    $(".orginalMessageContainer").empty();
+                    detailedTicket.createLogs([returnData.ticketlogs.shift()], ".orginalMessageContainer", files);
+
+                    // add the lastest comment to the top of the comments list
+                    if (logslen > 1){
+                        $("#comments").empty();
+                        detailedTicket.createLogs(returnData.ticketlogs, "#comments", files);
+                    }
+
+                    reveal();
+                },
+                function() {
+                    console.log("fail @ Ticket Detail");
+
+                    localStorage.setItem('ticketId', "");
+                    window.location = "ticket_list.html";
+                }
+            );
+
+        },
+        createLogs: function (logs, parent, files){
+            var len = logs.length,
+                insert =[],
+                $table = $(parent);
+
+            for(var c = 0; c < len; c++)
+            {
+                var email = $.md5(logs[c].user_email);
+                var type = logs[c].log_type;
+                var userName = logs[c].user_firstname+" "+logs[c].user_lastname;
+                var note = logs[c].note;
+                var date = formatDate(logs[c].record_date);
+
+                // comment insert
+                insert[c] = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+ $("<span />", { html: note.replace(/<br\s*[\/]?>/gi, "\n") }).text().replace(/\n/g, "<p></p>")+"</p></li><li>"+type+"</li></ul>";
+            }
+            var notes = addUrls(insert.join(''), files);
+            $table.html(notes);
+        }
+    };
+
+    //get info for a specific invoice
+    var detailedInvoice = {
+        init:function(){
+            if (localStorage.invoiceNumber.indexOf(",") != -1){
+                $("#sendInvoiceButton").html("Create Invoice"); 
+                $("#invoiceNumber").html("Create Invoice"); 
+            }
+
+            this.specifics();        
+        },
+        specifics:function(){
+            var data = localStorage.invoiceNumber;
+            if (data.indexOf(",") != -1)
+            {
+                data = data.split(",");
+                data = "?status=unbilled&account="+data[0]+"&project="+data[1];
+            }
+            else
+                data = "/"+data;
+            
+            
+            getApi("invoices"+data).then(function(returnData) {
+                ////console.log(returnData);
+                localStorage.setItem("invoiceAccountId",returnData.account_id);
+                localStorage.setItem("invoiceProjectId",returnData.project_id);
+                $("#invoiceNumber").html(returnData.id ? "Invoice  #"+returnData.id : "Create Invoice"); //invoice number            
+                var nameCheck = returnData.customer;
+                nameCheck = createElipse(nameCheck, 0.9, 12);                
+                $("#customerName").html(nameCheck); // customer name
+                var date = formatDate(returnData.date);
+                $("#invoiceDate").html(date);
+                $("#invoiceHours").html(returnData.total_hours+"<span class='detail3Small'>hrs</span>"); // hours to invoice
+                var amount = 0;
+                var change = ".00";
+                var length = returnData.amount.toString().length;
+                if(returnData.amount.toString().indexOf(".") >= 0)
+                {
+                    amount = returnData.amount.toString().substring(0, length -3);
+                    change = "."+returnData.amount.toString().substring(length-2, length);
+                    if(change.indexOf("..") >= 0)
+                    {
+                        change = "."+returnData.total_cost.toString().substring(length-1, length)+"0";
+                    }
+                }
+                else
+                {
+                    amount = returnData.amount;
+                }
+                $("#invoiceAmount").html(localStorage.getItem('currency')+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount
+                if (!isTravelCosts) {
+                    $("#invoiceTravel").parent().parent().hide();
+                }
+                else {
+                    $("#invoiceTravel").html(localStorage.getItem('currency') + returnData.travel_cost + "<span class='detail3Small'>.00</span>");
+                }
+                // travel expenses amount
+                if (!isExpenses)
+                    $("#invoiceExpenses").parent().parent().hide();
+                else {
+                    var expenses = 0;
+                    if (returnData.expenses != null) {
+                        for (var i = 0; i < returnData.expenses.length; i++) {
+                            expenses = expenses + returnData.expenses[i].total;
+                        }
+                    }
+                    $("#invoiceExpenses").html(localStorage.getItem('currency') + expenses + "<span class='detail3Small'>.00</span>"); // expenses amount
+                }
+                // adjustments
+                $("#invoiceAdjustments").html(localStorage.getItem('currency') + "0<span class='detail3Small'>.00</span>");
+                //$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
+                //console.log(Number(returnData.total_cost).toFixed(2).toString());
+                amount = Number(returnData.total_cost).toFixed(2).toString();
+                change = amount.substring(amount.length-3, amount.length);
+                amount = amount.substring(0, amount.length -3);
+                $(".invoiceTotal").html(localStorage.getItem('currency') + amount + "<span class='detail3Small'>" + change + "</span>");
+                $("#recipientList").empty();
+                // add recipients to recipients list
+                if(returnData.recipients && returnData.recipients.length > 0){
+                    returnData.recipients.sort(function(a,b){
+                        return a.is_accounting_contact < b.is_accounting_contact ? 1 : -1;
+                    });
+                    for(var x = 0; x < returnData.recipients.length; x++)
+                    {
+                        var email = $.md5(returnData.recipients[x].email);
+                        var insert = "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p>" +
+                            (returnData.recipients[x].is_accounting_contact ? "<img class='plusIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/check.png'> " : "<img class=closeIcon id=\""+ returnData.recipients[x].email +"\" src='img/error.png'>") + "</div></li></ul></li>";
+                        $(insert).appendTo("#recipientList");
+                    }
+                }
+                else
+                {
+                    var insert = "<li><h3 class=noDataMessage>No accounting contacts found.<p>&nbsp;</p></h3></li>";
+                    $(insert).appendTo("#recipientList"); 
+                    $("#sendInvoiceButton").remove();
+                }
+                //createSpan("#recipientList");
+
+                // adds timelogs asscoited with this invoice to the invoice timelogs list
+                $("#invoiceLogs").empty();
+                if(returnData.time_logs != null){
+                    for(var u = 0; u < returnData.time_logs.length; u++)
+                    {
+                        var name = returnData.time_logs[u].name;
+                        var log = returnData.time_logs[u].total;
+                        var date = formatDate(returnData.time_logs[u].date);
+                        var logID = returnData.time_logs[u].id;
+                        var insert = "<li><ul id='invoiceTimelog' data-id='"+logID+"' data-info='"+JSON.stringify(returnData.time_logs[u]).replace(/'/g, "")+"'  class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span></h3></li></ul></li>";
+                        $(insert).appendTo("#invoiceLogs");
+                    }
+                }
+                if(returnData.recipients != null){
+                    $("#expensesList").empty();
+                    for(var c = 0; c < returnData.expenses.length; c++)
+                    {
+                        var name = returnData.expenses[c].name;
+                        var log = returnData.expenses[c].total;
+                        var date = formatDate(returnData.expenses[c].date);
+                        var logID = returnData.expenses[c].id;
+                        var insert = "<li><ul id='invoiceExpense' class='timelog1'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
+                        $(insert).appendTo("#expensesList");
+                    }
+                }
+                reveal();
+            },
+                                                                           function() {
+                console.log("fail @ Invoice details");
+
+            }
+                                                                          );}
+    };
+
+    /*
+	//methods & Api calls that deal with changing time adding adjustments, expenses
+	var updateInvoice ={
+		init:function(){
+			this.changeInvoice();
+		},
+
+		changeInvoice:function(){
+			//update timelog after being clicked
+			$(document).on("click","#invoiceTimelog, #billem",function(){
+				var timeId = $(this).attr("data-id");
+				var billable = false;
+				$(this).find(".innerCircle").toggleClass("billFill");
+				//change billable to oposite of its current state
+				if($(this).find(".innerCircle").hasClass("billFill"))
+				{
+					billable = false;
+				}
+				$.ajax({
+    				type: 'PUT',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization',
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: ApiSite + 'time/'+timeId,
+    				data: {
+    				    	"is_billable" : billable,
+							"is_project_log": true
+						   },
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("time log has been updated "+billable);
+
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+
+			});
+			//update expense after beign clicked
+			$(document).on("click","#invoiceExpense",function(){
+				var timeId = $(this).find(".timeLogAddButton").attr("data-id");
+				alert(timeId);
+				$(this).find(".innerCircle").toggleClass("billFill");
+
+				$.ajax({
+    				type: 'DELETE',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization',
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: ApiSite + 'expenses'+timeId,
+    				data: {
+
+						   },
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("Deleted Expense");
+
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+			});
+
+			//add an expense
+			$("#addexpenseButton").click(function(){
+
+				$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization',
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: ApiSite + 'expenses',
+    				data: {
+    				    	"account_id": localStorage.getItem("invoiceAccountId"),
+    						"project_id": localStorage.getItem("invoiceProjectId"),
+    						"tech_id": localStorage.getItem("user_id"),
+    						"note": $("#expensesNote").val(),
+    						"note_internal": $("#expensesInternal").val(),
+    						"amount": $("#expenseAmount").val(),
+    						"is_billable": true,
+    						"vendor": "vendor name",
+    						"markup": 10
+						   },
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("time log has been added");
+
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+			});
+
+			//add travel log
+			$("#addTravelLog").click(function(){
+
+			});
+
+			//addTime to an invoice
+			$("#submitInvoiceTime").click(function(){
+				var techId = localStorage.getItem("userId");
+				var projectId = localStorage.getItem("invoiceProjectId");
+				var accountId = localStorage.getItem("invoiceAccountId");
+				var note = $("#noteTimeTicket").val();
+				var hours = $("#addTimeTicket").val();
+				//console.log(techId);
+				//console.log(projectId);
+				//console.log(accountId);
+				//console.log(note);
+				//console.log(hours);
+				$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization',
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: ApiSite + 'time',
+    				data: {
+    				    	"tech_id" : techId,
+    						"project_id": projectId,
+    						"account_id" :accountId,
+    						"note_text": note,
+    						"task_type_id": 1,
+    						"hours":hours,
+    						"is_billable": true,
+    						"date": new Date().toJSON(),
+    						"start_date": new Date().toJSON(),
+    						"stop_date": new Date().toJSON()
+						   },
+    				dataType: 'json',
+    				success: function (d) {
+    				    console.log("time log has been added");
+
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+
+			});
+
+			//add and adjustment to an invoice
+			$("#addAdjustment").click(function(){
+				var amount = $("#adjustVal").val();
+				var note= $("#adjustNote").val();
+				var projectId = localStorage.getItem("invoiceProjectId");
+				var accountId = localStorage.getItem("invoiceAccountId");
+				$.ajax({
+    				type: 'POST',
+    				beforeSend: function (xhr) {
+    				    xhr.withCredentials = true;
+    				    xhr.setRequestHeader('Authorization',
+    				                         'Basic ' + btoa(localStorage.getItem("userOrgKey") + '-' + localStorage.getItem("userInstanceKey") +':'+localStorage.getItem("userKey")));
+    				    },
+    				url: ApiSite + 'invoices?status=unbilled&project=-1&account=-1&adjustments=-2.4&adjustments_note=my_note',
+    				data: {
+
+						   },
+    				dataType: 'json',
+    				success: function (d) {
+    				    location.reload(false);
+
+    				},
+    				error: function (e, textStatus, errorThrown) {
+    				         console.log(textStatus);
+    				}
+ 				});
+			});
+
+		}
+	};
+	*/
+
+    // get a list of invoices both for a specific account as well as a complete list of invoices
+    var invoiceList = {
+        init:function(){
+            var is_unbilled = getParameterByName("status");
+            var accountid = localStorage.DetailedAccount;
+            //todo localStorage.DetailedAccount = "";
+            //cleanQuerystring();
+            //todo
+            $("#invoiceCreate").remove();
+            if (is_unbilled){
+                $("#invoiceCreate").remove();
+                $("h1.SherpaDesk").html("Create Invoices");
+            }
+            else
+                $("#invoiceCreate").click(
+                    function(){
+                        //localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
+                        //localStorage.setItem('add_user_accountid',account);
+                        window.location.replace("Invoice_List.html?status=unbilled".addUrlParam("page",getPage()[2]));
+                    });
+            this.listInvoices(accountid, is_unbilled);
+        },
+
+        listInvoices:function(accountid, is_unbilled){
+            var localInvoiceList = [];
+            // get list of invoices for a specific account
+            getApi("invoices", {"status": is_unbilled, "account" : accountid}).then(
+                function(returnData) {
+                    $("#invoiceList").empty();
+                    if(returnData.length == 0){
+                        $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
+                        createSpan('#invoiceList');
+                        reveal();
+                        return;
+                    }
+                    else if(typeof returnData.length === 'undefined')
+                        returnData = [returnData];
+                    var insert = "";
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        var customer = createElipse(returnData[i].customer, 0.33, 12); // account name
+                        var date = formatDate(returnData[i].date || "Create new");
+                        var id = is_unbilled ? returnData[i].account_id +","+returnData[i].project_id : returnData[i].id;
+                        insert += "<ul data-id="+id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
+                        //if (!accountid) localInvoiceList.push(insert);
+                    }
+                    $(insert).appendTo("#invoiceList");
+                    //if (!accountid) localStorage.setItem("storageInvoices",JSON.stringify(localInvoiceList));
+                    createSpan('#invoiceList');
+                    reveal();
+                    filterList("tabpageContainer");
+                },
+                function() {
+                    console.log("fail @ Invoice List");
+
+                }
+            );
+        }
+    };
+
+    // list tickets of the queue
+    var getQueueTickets = {
+        init:function() {
+            $(".title").html("Tickets @ " + localStorage.getItem("currentQueueName") + " Queue");
+            this.queueTickets();
+            $("#ticketCreate").click(
+                function(){
+                    localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
+                    localStorage.setItem('add_user_accountid',account);
+                    window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]));
+                });
+        },
+
+        queueTickets:function() {
+            var queueId = localStorage.getItem("currentQueue");
+            if (!queueId) {
+                console.log("fail @ Queues tickets");
+                window.history.back();
+            }
+            getApi("queues/"+queueId).then(
+                function(returnData) {
+                    //console.log(returnData);
+                    ticketList.createTicketsList(returnData, "#queueTickets");  
+                    filterList("queueTickets");
+                    reveal();
+                    var retrievedObject, test = localStorage.getItem("storageQueues");
+                    if (test){
+                        match = new RegExp('\"' + queueId+',(\\d+)').exec(test);
+                        if (match) {
+                            test = JSON.parse(test);
+                            retrievedObject = test[Number(match[1])];
+                            if (retrievedObject) {
+                                test[Number(match[1])].tickets_count = returnData.length;
+                                localStorage.setItem("storageQueues", JSON.stringify(test));
+                            }
+                        }
+                    }
+                },
+                function() {
+                    console.log("fail @ Queues tickets");
+
+                }
+            );
+        }
+    };
+
+    // get complete queue list for the orginization for the Queues list page
+    var getQueues = {
+        init:function(parent, limit) {
+            cacheName = "storageQueues";
+            getQueues.queues(limit, parent);
+        },
+
+        queues:function(limit, parent) {
+            var retrievedObject = localStorage.getItem("storageQueues");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (!retrievedObject || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                getQueues.createQueuesList(parent, retrievedObject, limit);
+                if (!limit) createSpan(parent);
+            }
+            setTimeout(function(){
+                getApi("queues", {"sort_by" : "tickets_count"}).then(function(returnData) {
+                    getQueues.createQueuesList(parent, returnData, limit);
+                    localStorage.setItem("storageQueues",JSON.stringify(returnData));
+                    reveal();
+                    if (!limit) {createSpan(parent);filterList("OptionsList");}
+                },
+                                                                     function() {
+                    console.log("fail @ Queues List");
+                });
+            }, time);
+        },
+
+        createQueuesList : function (parent, returnData, limit){
+            // add queues to the queues list
+            var badge=0, activeQueues=0;
+            var textToInsert =  [],
+                length = returnData.length,
+                $table = $(parent);
+            for (var i = 0; i<length; i += 1) {
+                if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
+                    badge = returnData[i].tickets_count;
+                returnData[i].index = returnData[i].id +',' + i;
+                if (limit && returnData[i].tickets_count < 1)
+                    continue;
+                if (limit && activeQueues>= limit)
+                    continue;
+                textToInsert.push("<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>");
+
+                if(length > 10 && i == 10){
+                    $table.html(textToInsert.join(''));
+                }
+                activeQueues += 1;
+            }
+            $table.html(textToInsert.join(''));
+            localStorage.badge = badge;
+        }
+    };
+
+    // Ajax calls to get open tickets for the app user, tickets include (as tech, as user, as alt tech, all tickets)
+    var ticketList = {
+        init:function() {
+            if (!isTech){
+                this.userTickets(); 
+                $('#userContainer').css('padding-top', '20px');
+                $('#tabpage_reply').fadeIn();
+            }
+            else
+            {
+                this.userTickets();
+                this.techTickets();
+                this.altTickets();
+                this.allTickets();
+            }
+        },
+        createTicketsList : function (returnData, parent, cachePrefix){
+            var $table = $(parent);
+            $table.empty();
+            if(!returnData || returnData.length < 1){
+                $table.html('<h1 class="noTicketMessage">No Tickets</h1>');
+            }else{
+                var name = null;
+                var textToInsert =  [],
+                    length = returnData.length;
+                for (var i = 0; i<length; i += 1) {
+                    // get email value for gravatar
+                    var email = $.md5(returnData[i].user_email);
+                    var initialPost = returnData[i].initial_post;
+                    var subject = returnData[i].subject;
+                    //the key for this specific ticket
+                    returnData[i].index = returnData[i].key +',' + i;
+                    var data = returnData[i].key;
+                    subject = createElipse(subject, 0.70, 12);
+                    var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                    // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
+                    if(initialPost.length > 150)
+                    {
+                        initialPost = initialPost.substring(0,150)+"...";
+                    }
+                    initialPost = $("<span />", { html: initialPost.replace(/<br\s*[\/]?>/gi, "\n") }).text();
+                    textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>");
+                    if(length>10 && i==10){
+                        $table.html(textToInsert.join(''));
+                        textToInsert =  [];
+                    }
+                }
+                $table.append(textToInsert.join(''));
+                createSpan(parent);
+                if (cachePrefix){
+                    localStorage.setItem(cachePrefix+'tickets',JSON.stringify(returnData));
+                }
+            }
+        },
+        //get tickets as tech
+        techTickets:function() {
+            //$("#techContainer, #optionsConainer, #allContainer, #userContainer").hide();
+            var cacheName1 = "tech",
+                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (!retrievedObject || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                ticketList.createTicketsList(retrievedObject, "#techContainer");
+                featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
+            }
+            setTimeout(function(){
+                getApi("tickets?status=open&limit=100&role=tech").then(function(returnData) {
+                    //add tickets as tech to as tech list
+                    ticketList.createTicketsList(returnData, "#techContainer", cacheName1);
+                    featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
+                },
+                                                                       function() {
+                    console.log("fail @ tech ticket List");
+                }
+                                                                      );}, time); 
+        },
+        //get all tickets in this orginization
+        allTickets:function() {
+            var cacheName1 = "all",
+                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (!retrievedObject || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                ticketList.createTicketsList(retrievedObject, "#allContainer");
+                featureList3 = filterList("allContainer", "", localStorage.getItem("searchItem"));
+            }
+            setTimeout(function(){
+                getApi("tickets?status=allopen&limit=100&query=all").then(function(returnData) {
+                    ticketList.createTicketsList(returnData, "#allContainer", cacheName1);
+                    featureList3 = filterList("allContainer", "", localStorage.getItem("searchItem"));
+                    localStorage.setItem("searchItem","");
+                    reveal();
+
+                },
+                                                                          function() {
+                    console.log("fail @ all ticket List");
+                }
+                                                                         );}, time); 
+        },
+
+        // get alt tech tickets
+        altTickets:function() {
+            var cacheName1 = "alt",
+                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (!retrievedObject || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                ticketList.createTicketsList(retrievedObject, "#altContainer");
+                featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
+            }
+            setTimeout(function(){
+                getApi("tickets?status=open&limit=100&role=alt_tech").then(function(returnData){
+                    ticketList.createTicketsList(returnData, "#altContainer", cacheName1);
+                    featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
+                },
+                                                                           function() {
+                    console.log("fail @ alt ticket List");
+                }
+                                                                          );}, time); 
+        },
+        // get as user tickets
+        userTickets:function() {
+            $("maxSize").hide();
+            var cacheName1 = "user",
+                retrievedObject = localStorage.getItem(cacheName1 +"tickets");
+            var time = cacheTime;
+            if (retrievedObject)
+                retrievedObject = JSON.parse(retrievedObject);
+            if (!retrievedObject || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                ticketList.createTicketsList(retrievedObject, "#userContainer");
+                featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
+            }
+            setTimeout(function(){
+                getApi("tickets?status=open,onhold&limit=100&role=user").then(function(returnData) {
+                    ticketList.createTicketsList(returnData, "#userContainer", cacheName1);
+                    featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
+                },
+                                                                              function() {
+                    console.log("fail @ user ticket List");
+                }
+                                                                             );}, time); 
+        }
+    };
+
+    String.format = function(format) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return format.replace(/{(\d+)}/, function(match, number) { 
+            return typeof args[number] !== 'undefined' ? args[number] : match;
+        });
+    };
+
+    function BuildList(parent, arr, template, values, header)
+    {
+        header = header || '';
+        var textToInsert = [header],
+            length = returnData.length,
+            $table = $(parent);
+        for (var i = 0; i<length; i += 1) {
+            textToInsert.push(template.format());
+            if(length > 10 && i == 10){
+                $table.html(textToInsert.join(''));
+            }
+        }
+        $table.html(textToInsert.join(''));
+    }
+
+    //get a complete list of accounts attached to the orginizations
+    var accountList = {
+        init:function(parent, limit) {
+            cacheName = "storageAccountList";
+            accountList.listAccounts(parent, limit);
+        },
+
+        listAccounts:function(parent, limit) {
+            var time = cacheTime;
+            var retrievedObject = localStorage.getItem("storageAccountList");
+            if (retrievedObject) retrievedObject = JSON.parse(retrievedObject);
+            if (!retrievedObject || retrievedObject.length == 0)
+            {
+                console.log("could not load local data");
+                time = 10;
+            }
+            else
+            {
+                if (!limit)
+                    accountList.createAccountsList(parent, retrievedObject);
+                else {
+                    cacheName = "dash";
+                    accountList.createDashAccountsList(parent, retrievedObject);
+                }
+                reveal();
+            }
+
+            setTimeout(function(){ getApi("accounts?limit=300").then(function(returnData) {
+                if (!limit)
+                    accountList.createAccountsList(parent, returnData);
+                else
+                    accountList.createDashAccountsList(parent, returnData);
+                localStorage.setItem("storageAccountList",JSON.stringify(returnData));
+                reveal();
+            },
+                                                                     function() {
+                console.log("fail @ listAccounts");
+            }
+                                                                    );}, time);
+        },
+        createAccountsList : function (parent, returnData){
+            if(returnData.length < 1){
+                var insert = '<h1 class="noTicketMessage">No Accounts</h1>';
+                $(insert).html(parent);
+            }else{
+                var name = null;
+                var textToInsert =  [],
+                    length = returnData.length,
+                    $table = $(parent);
+                for (var i = 0; i<length; i += 1) {
+                    returnData[i].index = returnData[i].id +',' + i;
+                    var openTks = returnData[i].account_statistics.ticket_counts.open;
+                    var nameCheck = returnData[i].name;
+                    nameCheck = createElipse(nameCheck, 0.75, 12);
+                    textToInsert.push("<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+nameCheck+"</li><li><div class='tks' "+(openTks > 99 ? "style='height: 42px;'>99<sup>+</sup>" : ">"+openTks)+"</div></li></ul>");
+
+                    if(length > 10 && i == 10){
+                        $table.html(textToInsert.join(''));
+                    }
+                }
+                $table.html(textToInsert.join(''));
+                createSpan(parent); filterList("ActiveAccountsContainer");
+            }
+        },
+        createDashAccountsList : function (parent, returnData){
+            var name = null;
+            var textToInsert =  ["<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tkts</li></ul>"],
+                length = returnData.length,
+                $table = $(parent);
+            for (var i = 0; i<length; i += 1) {
+                returnData[i].index = returnData[i].id +',' + i;
+                var openTks = returnData[i].account_statistics.ticket_counts.open;
+                if (openTks < 1)
+                    continue;
+                var nameCheck = returnData[i].name;
+                nameCheck = createElipse(nameCheck, 0.30, 12);
+                var openHours = returnData[i].account_statistics.hours;
+                if(openHours > 999){
+                    openHours = 999;
+                }
+                textToInsert.push("<ul class='tableRows clickme' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1 " + (openTks > 99 ? "overflowTickets' style='height: 42px;'>99<sup>+</sup>" : "'>"+openTks) + "</div></li></ul>");
+
+                if(length > 10 && i == 10){
+                    $table.html(textToInsert.join(''));
+                }
+            }
+            $table.html(textToInsert.join(''));
+        }
+    };
+
+    $(document).on("click",".timelog", function(){
+        localStorage.setItem('timeNumber', $(this).attr("data-info")); //set local storage variable to the ticket id of the ticket block from the ticket list
+        window.location = "edit_time.html"; // change page location from ticket list to ticket detail list
+    });
+
+    // get complete list of timelogs for the orginization
+    var timeLogs = {
+        init:function() {
+            this.getLogs();
+        },
+
+        getLogs:function() {
+            /*
+            var localTimelogs = [];
+            var retrievedObject = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem("storageTimeLogs")));
+            if (!retrievedObject || retrievedObject.length == 0){
+                console.log("could not load local data")
+            }
+            else
+            {
+                for(var c = 0; c < retrievedObject.length; c++)
+                {
+                    var localInsertlog = retrievedObject[c];
+                    $(localInsertlog).appendTo("#timelogs");
+                }
+            }
+            */
+            getApi('time', {"limit" : 200}).then(function(returnData) {
+                $("#timelogs").empty();
+                if (returnData.length < 1){
+                    var insert = '<h1 class="noTicketMessage">No Timelogs</h1>';
+                    $(insert).appendTo("#timelogs");
+                }
+                else{
+                    //add timelogs to list
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        //get users email for gravitar
+                        var email = $.md5(returnData[i].user_email);
+                        var text = returnData[i].note;
+                        var id = returnData[i].time_id;
+                        //check to see if hours are has a decimal
+                        var hours = returnData[i].hours;
+                        hours =hours.toString();
+                        var nameCheck = returnData[i].user_name;
+                        text = createElipse(text, 0.50, 8);
+                        if(hours.indexOf(".") >= 0)
+                        {
+                            // do nothing
+                        }
+                        else
+                        {
+                            hours = hours+".00";
+                        }
+                        nameCheck = createElipse(nameCheck, 0.50, 12);
+                        var log = "<li class=item><ul class='timelog' data-id="+id+" data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName user_name'>"+nameCheck+"</h2><p class='taskDescription responseText'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
+                        $(log).appendTo("#timelogs");
+                        if (i==9)
+                            reveal();
+                        //localTimelogs.push(log);
+                    }
+                }
+                createSpan("#timelogs");
+                reveal();
+                //localStorage.setItem("storageTimeLogs",LZString.compressToUTF16(JSON.stringify(localTimelogs)));
+                if (returnData.length > 1)
+                    filterList("timelogs");
+            },
+                                                 function() {
+                console.log("fail @ timelogs");
+            }
+                                                );
+        }
+    };
+
+
+    // calls and methods to propagate the account details page
+    var accountDetailsPageSetup = {
+        init:function() {
+            var ticketAccount = localStorage.getItem('DetailedAccount');
+            localStorage.setItem('addAccountTicket', ticketAccount);
+            this.pageSetup();
+        },
+        createAccDetails: function (returnData) {
+            var accountHours = returnData.account_statistics.hours,
+                accountTickets = returnData.account_statistics.ticket_counts.open,
+                accountInvoices = returnData.account_statistics.invoices;
+            $("#AD").html(returnData.name);
+            $("#ticketsOptionTicker").html(accountTickets > 999 ? 999 : accountTickets);
+            $("#invoiceOptionTicker").html(accountInvoices > 999 ? 999 : accountInvoices);
+            $("#timesOptionTicker").html(accountHours > 999 ? 999 : accountHours);
+        },
+        pageSetup: function() {
+            var currentDetailedAccount = localStorage.getItem('DetailedAccount');
+            var accountHours;
+            var accountTickets;
+            var accountInvoices;
+            var accountName;
+            var retrievedObject;
+            var retrievedObjectTickets = localStorage.getItem('account'+currentDetailedAccount+'tickets');
+            var accountTicketsList = [];
+            var match, time = cacheTime, timeTickets=cacheTime;
+            var test = localStorage.getItem("storageAccountList");
+            if (test){
+                match = new RegExp('\"' + currentDetailedAccount+',(\\d+)').exec(test);
+                if (match) {
+                    test = JSON.parse(test);
+                    retrievedObject = test[Number(match[1])];
+                }
+            }
+            // get the open tickets for the account and list them in the open tickets list
+            if (retrievedObjectTickets){
+                retrievedObjectTickets = JSON.parse(retrievedObjectTickets);
+                ticketList.createTicketsList(retrievedObjectTickets, ".AccountDetailsTicketsContainer");
+                filterList("AccountDetailsTicketsContainer");
+            }
+            else
+            {
+                timeTickets = 10; 
+                console.log("could not load local account tickets data");
+            }
+
+            if (!retrievedObject || retrievedObject.length == 0){
+                console.log("could not load local account details data");
+                time = 10;
+            }
+            else
+            {
+                //console.log(retrievedObject);
+                accountDetailsPageSetup.createAccDetails(retrievedObject);
+                reveal();
+            }
+
+            setTimeout( function(){
+                getApi("accounts/"+currentDetailedAccount).then(function(returnData) {
+                    accountDetailsPageSetup.createAccDetails(returnData);
+                    //storedata
+                    if (retrievedObject) {
+                        test[Number(match[1])].account_statistics = returnData.account_statistics;
+                        localStorage.setItem("storageAccountList", JSON.stringify(test));
+                    }
+                },
+                                                                function() {
+                    console.log("fail @ accounts");
+                }
+                                                               );
+            }, time);
+
+            setTimeout( function(){ 
+                getApi("tickets?status=open&account="+currentDetailedAccount).then( 
+                    function(returnData) {
+                        ticketList.createTicketsList(returnData, ".AccountDetailsTicketsContainer",'account'+currentDetailedAccount);
+                        filterList("AccountDetailsTicketsContainer");
+                    },
+                    function() {
+                        console.log("fail @ accounts");
+
+                    }
+                );
+            }, timeTickets);
+        }        
+    };
+
+    // get timeLogs for a specific account
+    var accountTimeLogs = {
+        init:function(){
+            $("#addTimeAccount").click(function(){
+                window.location = "add_time.html";
+            });
+            this.getTimeLogs();
+        },
+
+        getTimeLogs: function () {
+            var accountId = localStorage.getItem("DetailedAccount") || -1;
+
+            getApi("time?account=" + accountId).then(function(returnData) {
+                //console.log(returnData);
+                $("#accountLogs").empty();
+                //add timelogs to log list
+                for(var i = 0; i < returnData.length; i++)
+                {
+                    var email = $.md5(returnData[i].user_email);
+                    var text = returnData[i].note;
+                    // check for two decimals
+                    var hours = returnData[i].hours;
+                    hours =hours.toString();
+                    if(hours.indexOf(".") < 0)
+                    {
+                        hours = hours+".00";
+                    }
+                    text = createElipse(text, 0.50, 8);
+                    var nameCheck = returnData[i].user_name;
+                    nameCheck = createElipse(nameCheck, 0.50, 12);
+                    var log = "<li><ul class='timelog' data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
+                    $(log).appendTo("#accountLogs");
+                }
+
+            },
+                                                     function() {
+                console.log("fail @ timelogs");
+            }
+                                                    );
+        }
+    };
+
+    // get the counts for open tickets (as tech, alt tech, user) and updates the ticket banner on the dashboard
+    var TicketsCounts = {
+        init: function() {
+            $('html,body').css('scrollTop','0');
+            var time = 10;
+            var cachedTickets = localStorage.ticketsStat;
+            if (cachedTickets)
+                cachedTickets = JSON.parse(cachedTickets);
+            if (cachedTickets)
+            {
+                TicketsCounts.setTicketCounts(cachedTickets);
+            }
+            else
+            {
+                //time = 10;
+                console.log("no cache TicketsCounts"); 
+            }   
+            setTimeout(function(){
+                getApi("tickets/counts").then(function(returnData) {
+                    TicketsCounts.setTicketCounts(returnData);
+                    reveal();
+                    localStorage.setItem("ticketsStat", JSON.stringify(returnData));
+                },
+                                              function() {
+                    console.log("fail @ get TicketsCounts");
+                }
+                                             );
+            }, time);
+        },
+        setTicketCounts: function (returnData) {
+            var allTickets = returnData.open_all;
+            //if ticket count is greater than 100 sub 99+
+            if(allTickets > 100){
+                allTickets = "99<sup>+</sup>";
+            }
+            else
+            {
+                $("#all").removeClass("headerOverflowTickets");
+            }
+            // update each notification ticker on the dashboard
+            $("#all").html(allTickets);
+            $("#userStat").html(returnData.open_as_user);
+            $("#techStat").html(returnData.open_as_tech);
+            $("#altStat").html(returnData.open_as_alttech);
+        }
+    };
+
+    //get instance config
+    var getInstanceConfig = function (_userOrgKey, _userInstanceKey, is_redirect, paramFunc) {
+
+        if (typeof is_redirect === "undefined")
+            is_redirect = true;        
+        if (!_userOrgKey || !_userInstanceKey) {
+            _userOrgKey = localStorage.getItem('userOrgKey');
+            _userInstanceKey = localStorage.getItem('userInstanceKey');
+        }
+        if (!_userOrgKey || !_userInstanceKey) {
+            return;
+        }
+        //get instance config
+        getApi("config").then(function (returnData) {            
+            localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
+            isTech = returnData.user.is_techoradmin;
+            localStorage.setItem('projectTracking', returnData.is_project_tracking);
+            localStorage.setItem('timeTracking', returnData.is_time_tracking);
+            localStorage.setItem('accountManager', returnData.is_account_manager);
+            localStorage.setItem('ticketLevels', returnData.is_ticket_levels);
+            localStorage.setItem('classTracking', returnData.is_class_tracking);
+            localStorage.setItem('locationTracking', returnData.is_location_tracking);
+            localStorage.setItem('freshbooks', returnData.is_freshbooks);
+            localStorage.setItem('is_invoice', returnData.is_invoice);
+            localStorage.setItem('is_expenses', returnData.is_expenses);
+            localStorage.setItem('is_travel_costs', returnData.is_travel_costs);
+            localStorage.setItem('currency', returnData.currency);
+            localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
+            localStorage.setItem('userId', returnData.user.user_id);
+            if (paramFunc && (typeof paramFunc == "function"))
+                paramFunc(); 
+            //success login only
+            else
+                getInfo4Extension();
+            if (is_redirect)
+            {
+                if (isTech)
+                    window.location = "dashboard.html";
+                else
+                    window.location = "ticket_list.html";
+            }
+        },
+                              function (j,t,e) {
+            console.log("fail @ config");
+            //setTimeout(function () {
+            //logout(j.url !== ApiSite + "login", e);
+            //}, 1000);
+        }
+                             );
+    };
+
+    var userInfo = {
+        init:function() {
+            this.userData();
+        },
+        userData:function() {
+            //get user info
+            getApi("users?query="+localStorage.getItem('userName')).then(function(returnData) {
+                //console.log(returnData);
+                //set the name of the nav side menu
+                $(".navName").html(returnData[0].firstname+" "+returnData[0].lastname);
+                //get md5 value of users email for gravatar
+                var email = $.md5(returnData[0].email);
+                //set user avatar picture in side menu
+                $(".navProfile").attr("src","http://www.gravatar.com/avatar/" + email + "?d=mm&s=80");
+                //set user id to local storage
+                localStorage.setItem("userId",returnData[0].id);
+                reveal();
+                window.setTimeout(reveal,500);
+            },
+                                                                         function() {
+                console.log("fail @ accounts");
+
+            }
+                                                                        );
+        }
+    };
+
+    // organization Ajax call
+    var org = {
+        init: function () {
+            if (location.pathname.indexOf("org.html") < 0)
+                return;
+            $('.instSelect').hide();
+            userKey = localStorage.getItem("userKey");
+            if (!userKey)
+            {
+                window.location = "index.html";
+                return;
+            }
+            userOrgKey = localStorage.getItem('userOrgKey');
+            userInstanceKey = localStorage.getItem('userInstanceKey');
+            //sets user role to user in local storage
+            localStorage.setItem('userRole', "user");
+            if (userOrgKey && userInstanceKey)
+            {
+                getInstanceConfig(userOrgKey, userInstanceKey);
+                return;
+            }
+            this.getOrg();
+            //hide load screen
+        },
+
+        getOrg: function() {
+            $(".page").show();
+            $("#loading").show();
+            userKey = localStorage.getItem("userKey");
+            $.ajax({
+                type: 'GET',
+                beforeSend: function (xhr) {
+                    xhr.withCredentials = true;
+                    xhr.setRequestHeader('Authorization', 'Basic ' + btoa('x:' + userKey));
+                },
+                url: ApiSite + 'organizations/',
+                async: true,
+                cache: false,
+                dataType: 'json',
+                success: function(results) {
+                    //console.log(results);
+                    // If there are more than one org
+                    if (results.length > 1) {
+                        localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+                        var orglistitem = results;
+                        for (var i = 0; i < orglistitem.length; i++) {
+                            var insert = "<li class=item><div id='org' data-id="+i+" class='OptionWrapper1'><h3 class='OptionTitle user_name'>"+orglistitem[i].name+"</h3></div></li>";
+                            $('#orgsPage').append(insert);
+                        }
+                        $(document).on("click","#org", function () {
+                            var index_number = $(this).attr("data-id");
+                            userOrgKey = results[index_number].key;
+                            userOrg = results[index_number].name;
+                            var instances = results[index_number].instances;
+                            localStorage.setItem('userOrgKey', userOrgKey);
+                            localStorage.setItem('userOrg', userOrg);
+
+                            if (instances.length == 0) {
+                                userMessage.showMessage(false, "You are not associated with any Instance in the Organization or your account is inactivated in the Instances.");
+                                return;
+                            }
+
+                            // If there is only one instance on the selected org
+                            if (instances.length == 1) {
+                                userInstanceKey = instances[0].key;
+                                localStorage.setItem('userInstanceKey', userInstanceKey);
+                                getInstanceConfig(userOrgKey, userInstanceKey);
+                            }
+                            else {
+                                // If there is MORE than one instance on the selected org
+                                //$("p[class!='intro']") 
+                                $('#instsPage').empty();
+                                $("div.OptionWrapper1[data-id!='"+index_number+"']").parent().remove();
+                                //$('#orgsPage').find('option:gt(0)').remove();
+                                for (var i = 0; i < instances.length; i++) {
+                                    var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle user_name'>"+instances[i].name+"</h3></div></li>";
+                                    $('#instsPage').append(insert);
+                                }
+                                $('.instSelect').show();
+                                // listen for Instance selection
+                                $(document).on("click","#inst", function () {
+                                    var userInstanceKey = instances[$(this).attr("data-id")].key;
+                                    localStorage.setItem('userInstanceKey', userInstanceKey);
+                                    localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+                                    $("#loading").show();
+                                    getInstanceConfig(userOrgKey, userInstanceKey);
+                                });
+                            }
+                        });
+                    }// End > 1
+
+                    // If there is ONLY ONE org and instance
+                    if (results.length == 1) {
+                        userOrgKey = results[0].key;
+                        userOrg =  results[0].name;
+                        localStorage.setItem('userOrgKey', userOrgKey);
+                        localStorage.setItem('sd_is_MultipleOrgInst', 'false');
+                        localStorage.setItem('userOrg', userOrg);
+                        var insert = "<li class=item><div id='org' data-id=0 class='OptionWrapper1'><h3 class='OptionTitle user_name'>"+results[0].name+"</h3></div></li>";
+                        $('#orgsPage').append(insert);
+                        //location.reload(true);
+                        var instances = results[0].instances;
+                        // If there is only one instance on the selected org
+                        if (instances.length == 1) {
+                            userInstanceKey = instances[0].key;
+                            localStorage.setItem('userInstanceKey', userInstanceKey);
+                            getInstanceConfig(userOrgKey, userInstanceKey);
+                        }
+                        else {
+                            $('#instsPage').empty();
+                            // If there is MORE than one instance on the selected org
+                            for (var i = 0; i < instances.length; i++) {
+                                var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle user_name'>"+instances[i].name+"</h3></div></li>";
+                                $('#instsPage').append(insert);
+                            }
+                            $('.instSelect').show();
+                            // listen for Instance selection
+                            $(document).on("click","#inst", function () {
+                                var userInstanceKey = instances[$(this).attr("data-id")].key;
+                                localStorage.setItem('userInstanceKey', userInstanceKey);
+                                localStorage.setItem('sd_is_MultipleOrgInst', 'true');
+                                $("#loading").show();
+                                getInstanceConfig(userOrgKey, userInstanceKey);
+                            });
+                        }
+                    }
+                    //storeLocalData();
+                    //window.location = "index.html";
+                },
+                complete: function () {
+                    userOrgKey = localStorage.getItem('userOrgKey');
+                    userInstanceKey = localStorage.getItem('userInstanceKey');
+                    if (!userOrgKey || !userInstanceKey) {
+                        reveal();
+                    }
+                },
+                error: function() {
+                    console.log("fail @ getOrg");
+                    logout();
+                }
+            });
+        }
+    };
+
+    var miscClicks = {
+        init:function() {
+            this.justClicked();
+            //this.menuFunctions();
+        },
+
+        justClicked:function() {
+            $createButton = $("#ticketCreate");
+            if ($createButton){
+                $createButton.click(
+                    function(){
+                        window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]));
+                    });
+            }
+            $("#invoiceOption").click(function(){
+                window.location = "Invoice_List.html".addUrlParam("page",getPage()[2]);
+            });
+            // go to complete list of invoice on click
+            $("#allInvoice").click(function(){
+                window.location = "allInvoice_List.html";
+            });
+            $(document).on("click",".invoiceRows", function(){
+                localStorage.setItem('invoiceNumber',$(this).attr("data-id"));
+                window.location = "invoice.html";
+            });
+            $(document).on("click",'.tableRows, .listedAccount', function(){
+                localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
+                window.location = "account_details.html";
+            });
+            $(document).on("click",".responseBlock", function(){
+                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
+                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
+            });
+            $(document).on("click","#queue", function(){
+                localStorage.setItem('currentQueue',$(this).attr("data-id"));
+                localStorage.setItem('currentQueueName',$(this).find(".OptionTitle").text());
+                window.location = "queueTickets.html";
+            });
+            $(document).on('click','#asUserStat', function(){
+                localStorage.setItem('ticketPage','asUser');
+                window.location = "ticket_list.html";
+            });
+            $(document).on('click','#techStat', function(){
+                localStorage.setItem('ticketPage','asTech');
+                window.location = "ticket_list.html";
+            });
+            $(document).on('click','#asAltTechStat', function(){
+                localStorage.setItem('ticketPage','asAltTech');
+                window.location = "ticket_list.html";
+            });
+            $(document).on('click','#allTicketsStat', function(){
+                localStorage.setItem('ticketPage','allTickets');
+                window.location = "ticket_list.html";
+            });
+        },
+
+        menuFunctions:function(){
+            //set ticket amount in menu 
+            var techTicketStats = localStorage.getItem('techStat');
+            if(techTicketStats == null){
+                $('.menuTicketsStat').hide();
+            }else{
+                if(techTicketStats > 100){
+                    techTicketStats = 99;
+                }
+                $(".menuTicketStatNumber").html(techTicketStats);
+            }
+        }
+    };
+
+    var userMessage = {
+        init:function() {
+            this.showMessage();
+        },
+        setMessage:function(isPos, messageText, func) {
+            localStorage.setItem("userMessage", messageText);
+            localStorage.setItem("isMessage", isPos ? "truePos" : "trueNeg");
+        },
+        showMessage:function(isPos, messageText, func) {
+            if (typeof isPos === "undefined")
+            {
+                var isMessage = localStorage.getItem("isMessage");
+                if(isMessage == "truePos")
+                {isPos = true;localStorage.setItem("isMessage","false");}
+                else if(isMessage == "trueNeg")
+                {isPos = false;localStorage.setItem("isMessage","false");}
+                else
+                    return;
+            }
+
+            if (!messageText)
+            {
+                messageText = localStorage.getItem("userMessage");
+            }
+
+            var messageEl = isPos ? ".errorMessagePos" : ".errorMessageNeg";
+
+            $(messageEl).html(messageText);
+            $(messageEl).slideDown(100);
+            setTimeout(
+                function()
+                {
+                    $(messageEl).slideUp(100);
+                    if(typeof func === 'function')
+                        func();
+                }, 3500);
+        }
+    };
+
+    function routing(){
+        if (localStorage.getItem('userRole') === "tech")
+            isTech = true;
+        if (localStorage.getItem('projectTracking') === "false")
+            isProject = false;
+        if (localStorage.getItem('timeTracking') === "false")
+            isTime = false;
+        if (localStorage.getItem('accountManager') === "false")
+            isAccount = false;
+        if (localStorage.getItem('ticketLevels') === "false")
+            isLevel = false;
+        if (localStorage.getItem('classTracking') === "false")
+            isClass = false;
+        if (localStorage.getItem('locationTracking') === "false")
+            isLocation = false;
+        if (localStorage.getItem('freshbooks') === "false")
+            isFreshbook = false;
+        if (localStorage.getItem('is_invoice') === "false")
+            isInvoice = false;
+        if (localStorage.getItem('is_expenses') === "false")
+            isExpenses = false;
+        if (localStorage.getItem('is_travel_costs') === "false")
+            isTravelCosts = false;
+        if (localStorage.getItem('sd_is_MultipleOrgInst') === "false")
+        {
+            is_MultipleOrgInst = false;
+            $("#switchOrg").hide();
+        }
+        else
+            $("#switchOrg").show();
+        if (!isTime)
+            $(".time").remove();
+        //refresh version
+        if (localStorage.appVersion !== appVersion)
+        {
+            localStorage.setItem("appVersion", appVersion);
+            console.log("Version updated to " + appVersion);
+            if (adMessage.length > 1)
+            {
+                setTimeout(function(){
+                    userMessage.showMessage(true, adMessage,updatedFunction);
+                }, 3000);
+            }
+            else
+                location.reload(true);
+            //return;
+        }
+        fullapplink();
+        if (typeof navigator.splashscreen !== 'undefined') 
+            navigator.splashscreen.hide();
+        //Disable for user
+        if (!isTech){
+            $(".sideNavLinks").children(":not('.user')").hide();
+        }
+        //Only for tech
+        else{
+            if(!isAccount)
+                $("#itemAccount").parent().hide();
+            if(!isInvoice)
+            { 
+                $("#itemInvoice").hide();
+                $("#invoiceFooter").hide();
+            }
+            if (!isExpenses)
+                $(".expense").hide();
+
+            //conditional api calls determined by page
+            if (location.pathname.endsWith("dashboard.html"))
+            {
+                localStorage.DetailedAccount = '';
+                var orgName = localStorage.getItem('userOrg');
+                if (orgName)
+                    $("#indexTitle").html(orgName);
+                TicketsCounts.init();
+                getQueues.init("#DashBoradQueues", 3);
+                if(isAccount)
+                    accountList.init("#activeList", 1);
+                search.init();
+                //reveal();
+                return;
+            }
+            if (location.pathname.endsWith("account_details.html"))
+            {
+                if (isAccount)
+                {
+                    if(!isInvoice) $("#invoiceOption").parent().remove();
+                    accountDetailsPageSetup.init();
+                    //detailedTicket.init();
+                    closedTickets.pageChange();
+                    return;
+                }
+            }
+            if (location.pathname.endsWith("Account_List.html"))
+            {
+                if (isAccount)
+                {
+                    localStorage.DetailedAccount = '';
+                    accountList.init("#fullList");
+                    return;
+                }
+            }
+            if (location.pathname.endsWith("timelog.html"))
+            {
+                if (isTime)
+                {
+                    //accountTimeLogs.init();
+                    timeLogs.init();
+                    //addTime.init();
+                    return;
+                }
+            }
+            if (location.pathname.endsWith("accountTimes.html"))
+            {
+                if (isTime && isAccount)
+                {
+                    accountTimeLogs.init();
+                    //timeLogs.init();
+                    return;
+                }
+            }
+            if (location.pathname.endsWith("allInvoice_List.html"))
+            {
+                if (isTime && isInvoice)
+                {
+                    invoiceList.init();
+                    return;
+                }
+            }
+            else if (location.pathname.indexOf("Invoice_List.html") >= 0)
+            {
+                if (isTime && isInvoice)
+                {
+                    invoiceList.init();
+                    return;
+                }
+            }
+            if (location.pathname.endsWith("invoice.html"))
+            {
+                if (isTime && isInvoice)
+                {
+                    detailedInvoice.init();
+                    sendInvoice.init();
+                    addRecip.init();
+                    return;
+                }
+            }
+            if (location.pathname.endsWith("Queues.html"))
+            {
+                getQueues.init("#queuesPage");
+                return;
+            }
+            if (location.pathname.endsWith("queueTickets.html"))
+            {
+                getQueueTickets.init();
+                return;
+            }
+            if (location.pathname.endsWith("add_time.html"))
+            {
+                if (isTime)
+                {
+                    //window.location.replace(document.referrer);
+                    addTime.init();
+                    return;
+                }
+            }
+            if (location.pathname.endsWith("add_user.html"))
+            {
+                //window.location.replace(document.referrer);
+                addUser.init();
+                return;
+            }
+            if (location.pathname.endsWith("addExpence.html"))
+            {
+                if (isExpenses)
+                {
+                    //window.location.replace(document.referrer);
+                    addExpence.init();
+                    return;
+                }
+            }
+            if (location.pathname.endsWith("edit_time.html"))
+            {
+                if (isTime)
+                {
+                    //window.location.replace(document.referrer);
+                    addTime.init(true);
+                    return;
+                }
+            }
+            if (location.pathname.endsWith("closedTickets.html"))
+            {
+                // detailedTicket.init();
+                closedTickets.init();
+                return;
+            }
+            //$("#loading").show();
+            if (location.pathname.endsWith("addTicketTime.html"))
+            {
+                if (isTime) { 
+                    addTime.init();
+                    return;
+                }
+
+            }
+        }
+        if (location.pathname.endsWith("ticket_list.html"))
+        {
+            ticketList.init();
+            //accountDetailsPageSetup.init();
+            return;
+
+        }
+        if (location.pathname.endsWith("ticket_detail.html"))
+        {
+            detailedTicket.init();
+            pickUpTicket.init();
+            transferTicket.init();
+            closeTicket.init();
+            //addTime.init();
+            postComment.init();
+            return;
+        }
+        if (location.pathname.endsWith("add_tickets.html"))
+        {
+            //window.location.replace(document.referrer);
+            newTicket.init();
+            //accountTimeLogs.init();
+            return;
+        }
+
+        window.location = isTech ? "dashboard.html" : "ticket_list.html";
+    }
+
+    //Main Method that calls all the functions for the app
+    (function () {
+        //always active api calls
+        userMessage.init();
+        UserLogin.init();
+        org.init();
+        OrgSignup.init();
+        switchOrg.init();
+        //userInfo.init();
+
+        //when user logged in
+        if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/" && location.pathname.indexOf("org.html")<0)
+        {
+            var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
+                parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
+            if (updateStatusBar) {
+                var t=document.getElementsByTagName("header")[0];
+                if (t){
+                    t.style.paddingTop = "10px";
+                    t.style.height = "63px";
+                    $('body').css('margin-top', function (index, curValue) {
+                        return parseInt(curValue, 10) + 10 + 'px';
+                    });
+                }
+                t = document.getElementById("ptr");
+                if (t){t.style.marginTop = "10px";}
+            }
+            //set the name of the nav side menu
+            //$(".navName").html(localStorage.getItem("userFullName"));
+            //set user avatar picture in side menu
+            //$(".navProfile").attr("src","http://www.gravatar.com/avatar/" + $.md5(localStorage.getItem("userName")) + "?d=mm&s=80");
+            //$(".navName").show();
+            //$(".navProfile").show();
+            signout.init();
+            miscClicks.init();
+            //init config
+            //refresh version
+            if (!localStorage.lastclick)
+            {
+                localStorage.lastclick = new Date();
+            }
+            else if (((new Date()).valueOf() - Date.parse(localStorage.lastclick).valueOf()) / 60 > 1200)
+            {
+                localStorage.lastclick = new Date();
+                getInstanceConfig("","",false, routing);
+                return;
+            }
+            routing();
+        }
+    }());
+
+
+});
