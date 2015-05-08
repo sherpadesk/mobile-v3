@@ -843,7 +843,8 @@ $(document).ready(function(){
                     ticketList.createTicketsList(returnData, "#closedTickets", cacheName1);
                     filterList("closedTickets");
                 },
-                                                                                                      function() {
+                 function(e) {
+                    showError(e);
                     console.log("fail @ closed accounts tickets");
                 });
             }, time); 
@@ -865,22 +866,12 @@ $(document).ready(function(){
                     userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
                     window.location = "ticket_detail.html";
                 },
-                               function (e, textStatus, errorThrown) {
-                    alert(textStatus);
+                               function(e) {
+                    showError(e);
+                    console.log("fail @ pickup");
                 });
 
-                getApi('tickets/'+localStorage.getItem("ticketNumber"),{
-                    "action" : "pickup",
-                    "note_text": ""
-
-                }, 'PUT').then(function (d) {
-                    userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
-                    window.location = "ticket_detail.html";
-                },
-                               function (e, textStatus, errorThrown) {
-                    alert(textStatus);
-                }
-                              );
+            
             });
         }
     };
@@ -911,8 +902,9 @@ $(document).ready(function(){
                     }
                     reveal();
                 },
-                                                     function() {
-                    console.log("fail @ time accounts");
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ listTechs");
                 }
                                                     );
                 // get value
@@ -928,10 +920,10 @@ $(document).ready(function(){
                     }, 'PUT').then(function (d) {
                         location.reload(false);
                     },
-                                   function (e, textStatus, errorThrown) {
-                        alert(textStatus);
-                    }
-                                  );
+                                   function(e) {
+                    showError(e);
+                    console.log("fail @ transferTechs");
+                });
                 });
             });
         }
@@ -978,9 +970,9 @@ $(document).ready(function(){
                         }, 1000);
                 },
                                function (e, textStatus, errorThrown) {
-                    alert(textStatus);
-                }
-                              );
+                    showError(e);
+                    console.log("fail @ ticketNumber");
+                });
             });
         },
 
@@ -1015,8 +1007,11 @@ $(document).ready(function(){
                 userMessage.setMessage(true, "Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
             },
                            function (e, textStatus, errorThrown) {
+                    showError(e);
+                    console.log("fail @ ticket Number");
+                }
                 //alert(textStatus);
-            }
+            
                           );
         },
 
@@ -1080,7 +1075,10 @@ $(document).ready(function(){
                 },
                               function (e, textStatus, errorThrown) {
                     //alert(textStatus);
+                    showError(e);
+                    console.log("fail @ storage Account List");
                 }
+                
                              );
             });
         }
@@ -1185,8 +1183,9 @@ $(document).ready(function(){
                          $("#addTicketAccounts").val(accountset);
                      }
                      reveal();
-                 }, function() {
-                     console.log("fail @ ticket accounts");
+                 }, function(e) {
+                    showError(e);
+                    console.log("fail @ ticket accounts");
                  });
                 }
             }
@@ -1220,9 +1219,9 @@ $(document).ready(function(){
                                "firstname,lastname,email");
                     $("#addTicketUser").val(userid);
                 },
-                           function() {
-                    console.log("fail @ ticket user");
-
+                           function(e) {
+                    showError(e);
+                    console.log("fail @ TicketUser");
                 }
                           );
 
@@ -1252,9 +1251,9 @@ $(document).ready(function(){
                         $("#addTicketTechs").val(techid);
                     }
                 },
-                                 function() {
-                    console.log("fail @ ticket tech");
-
+                                 function(e) {
+                    showError(e);
+                    console.log("fail @ Ticket Techs");
                 }
                                 );
             }
@@ -1304,11 +1303,15 @@ $(document).ready(function(){
                         setTimeout(newTicket.back, 1000);
                         userMessage.setMessage(true, "Ticket was Succesfully Created :)");
                     },
-                    showError);
-
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ tickets");
                 }
-            });
-        }
+
+                );
+            }
+        });
+    }
     };
 
     // post a comment to a ticket on the ticket details page
@@ -1335,7 +1338,8 @@ $(document).ready(function(){
                     location.reload(false);
                 },
                                 function (e, textStatus, errorThrown) {
-                    alert(textStatus);
+                    showError(e);
+                    console.log("fail @ ticket Number");
                 }
                                );
             });
@@ -1543,9 +1547,9 @@ $(document).ready(function(){
                     reveal();
 
                 },
-                                                                                function() {
-                    console.log("fail @ time accounts");
-
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ time Accounts");
                 }
                                                                                );
             }
@@ -1592,8 +1596,10 @@ $(document).ready(function(){
                     addExpence.back();
                 },
                                function (e, textStatus, errorThrown) {
-                    console.log(textStatus);
+                    showError(e);
+                    console.log("fail @ pickup");
                 }
+                
                               );
             });
         }
@@ -1681,9 +1687,10 @@ $(document).ready(function(){
                             addUser.back();
                         }); 
                     },
-                    function (e) {
-                        userMessage.showMessage(false, e.statusText);
-                    }
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ pickup");
+                }
                 );
             });
         }
@@ -1759,10 +1766,9 @@ $(document).ready(function(){
                         $("#taskTypes").val(task_type_id);
                     reveal();
                 },
-                function() {
-                    //reveal();
-                    console.log("fail @ task types");
-
+                function(e) {
+                    showError(e);
+                    console.log("fail @ task Types");
                 }
             );
         },
@@ -1794,11 +1800,10 @@ $(document).ready(function(){
                             reveal();
 
                         },
-                        function() {
-                            console.log("fail @ time accounts");
-                            reveal();
-
-                        }
+                        function(e) {
+                    showError(e);
+                    console.log("fail @ time Projects");
+                }
                     );
                 }
                 else
@@ -1863,8 +1868,9 @@ $(document).ready(function(){
                     localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>');
                     window.location.replace("ticket_detail.html");
                 },
-                                    function (e, textStatus, errorThrown) {
-                    alert(textStatus);
+                    function (e, textStatus, errorThrown) {
+                    showError(e);
+                    console.log("fail @ pickup");
                 }
                                    );
             });
@@ -1925,10 +1931,11 @@ $(document).ready(function(){
                         reveal();
 
                     },
-                                                                                    function() {
-                        console.log("fail @ time accounts");
-                    }
-                                                                                   );
+                        function() {
+                       showError(e);
+                    console.log("fail @ time accounts");
+                }
+                          );
 
                     $("#timeAccounts").on("change", function(){
                         //console.log(timeLog.task_type_id);
@@ -2002,9 +2009,10 @@ $(document).ready(function(){
                             localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>');
                             addTime.back();
                         },
-                                                         function (e, textStatus, errorThrown) {
-                            alert(textStatus);
-                        }
+                        function (e, textStatus, errorThrown) {
+                    showError(e);
+                    console.log("fail @ pickup");
+                }
                                                         );
                     }
                 });
@@ -2585,9 +2593,9 @@ $(document).ready(function(){
                     reveal();
                     filterList("tabpageContainer");
                 },
-                function() {
-                    console.log("fail @ Invoice List");
-
+                function(e) {
+                    showError(e);
+                    console.log("fail @ invoice List");
                 }
             );
         }
@@ -2631,9 +2639,9 @@ $(document).ready(function(){
                         }
                     }
                 },
-                function() {
-                    console.log("fail @ Queues tickets");
-
+               function(e) {
+                    showError(e);
+                    console.log("fail @ queue Tickets");
                 }
             );
         }
@@ -2668,9 +2676,10 @@ $(document).ready(function(){
                     reveal();
                     if (!limit) {createSpan(parent);filterList("OptionsList");}
                 },
-                                                                     function() {
+                    function(e) {
+                    showError(e);
                     console.log("fail @ Queues List");
-                });
+             });
             }, time);
         },
 
@@ -2778,8 +2787,9 @@ $(document).ready(function(){
                     ticketList.createTicketsList(returnData, "#techContainer", cacheName1);
                     featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
                 },
-                                                                       function() {
-                    console.log("fail @ tech ticket List");
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ tech Container");
                 }
                                                                       );}, time); 
         },
@@ -2808,10 +2818,11 @@ $(document).ready(function(){
                     reveal();
 
                 },
-                                                                          function() {
+                   function(e) {
+                    showError(e);
                     console.log("fail @ all ticket List");
                 }
-                                                                         );}, time); 
+            );}, time); 
         },
 
         // get alt tech tickets
@@ -2836,8 +2847,9 @@ $(document).ready(function(){
                     ticketList.createTicketsList(returnData, "#altContainer", cacheName1);
                     featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
                 },
-                                                                           function() {
-                    console.log("fail @ alt ticket List");
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ all ticket List");
                 }
                                                                           );}, time); 
         },
@@ -2864,9 +2876,10 @@ $(document).ready(function(){
                     ticketList.createTicketsList(returnData, "#userContainer", cacheName1);
                     featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
                 },
-                                                                              function() {
-                    console.log("fail @ user ticket List");
-                }
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ user Container");
+                    }
                                                                              );}, time); 
         }
     };
@@ -2928,8 +2941,9 @@ $(document).ready(function(){
                 localStorage.setItem("storageAccountList",JSON.stringify(returnData));
                 reveal();
             },
-                                                                     function() {
-                console.log("fail @ listAccounts");
+                 function(e) {
+                    showError(e);
+                    console.log("fail @ Account List");
             }
                                                                     );}, time);
         },
@@ -3051,9 +3065,10 @@ $(document).ready(function(){
                 if (returnData.length > 1)
                     filterList("timelogs");
             },
-                                                 function() {
-                console.log("fail @ timelogs");
-            }
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ time logs");
+                }
                                                 );
         }
     };
@@ -3125,8 +3140,9 @@ $(document).ready(function(){
                         localStorage.setItem("storageAccountList", JSON.stringify(test));
                     }
                 },
-                                                                function() {
-                    console.log("fail @ accounts");
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ storage Account List");
                 }
                                                                );
             }, time);
@@ -3137,10 +3153,10 @@ $(document).ready(function(){
                         ticketList.createTicketsList(returnData, ".AccountDetailsTicketsContainer",'account'+currentDetailedAccount);
                         filterList("AccountDetailsTicketsContainer");
                     },
-                    function() {
-                        console.log("fail @ accounts");
-
-                    }
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ Account");
+                }
                 );
             }, timeTickets);
         }        
@@ -3181,9 +3197,11 @@ $(document).ready(function(){
                 }
 
             },
-                                                     function() {
-                console.log("fail @ timelogs");
-            }
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ accountlogs");
+                }
+            
                                                     );
         }
     };
@@ -3211,9 +3229,10 @@ $(document).ready(function(){
                     reveal();
                     localStorage.setItem("ticketsStat", JSON.stringify(returnData));
                 },
-                                              function() {
+                    function(e) {
+                    showError(e);
                     console.log("fail @ get TicketsCounts");
-                }
+                         }
                                              );
             }, time);
         },
@@ -3278,7 +3297,8 @@ $(document).ready(function(){
             }
         },
                               function (j,t,e) {
-            console.log("fail @ config");
+                     showError(e);
+                    console.log("fail @ config");
             //setTimeout(function () {
             //logout(j.url !== ApiSite + "login", e);
             //}, 1000);
@@ -3305,9 +3325,10 @@ $(document).ready(function(){
                 reveal();
                 window.setTimeout(reveal,500);
             },
-                                                                         function() {
-                console.log("fail @ accounts");
-
+                     function(e) {
+                    showError(e);
+                    console.log("fail @ Account");
+            
             }
                                                                         );
         }
