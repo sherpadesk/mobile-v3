@@ -3646,14 +3646,6 @@ $(document).ready(function(){
                     return;
                 }
             }
-            else if (location.pathname.indexOf("Invoice_List.html") >= 0)
-            {
-                if (isTime && isInvoice)
-                {
-                    invoiceList.init();
-                    return;
-                }
-            }
             if (location.pathname.endsWith("Queues.html"))
             {
                 getQueues.init("#queuesPage");
@@ -3694,6 +3686,14 @@ $(document).ready(function(){
             
             localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
             
+            if (location.pathname.indexOf("Invoice_List.html") >= 0)
+            {
+                if (isTime && isInvoice)
+                {
+                    invoiceList.init();
+                    return;
+                }
+            }
             if (location.pathname.endsWith("invoice.html"))
             {
                 if (isTime && isInvoice)
