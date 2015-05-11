@@ -186,13 +186,6 @@ var fastClicker = {
 				$(this).attr("src", 'img/check.png');
                 $(this).removeClass().addClass("plusIcon");
                 $(this).parents(".recipientParent").prependTo('#recipientList');
-                
-                if ($(".closeIcon").length<1)
-                    {
-                       //No accounting contacts found.</h3></li>";
-                        //add span
-                        //$("#sendInvoiceButton").remove();
-                    }
 			});
 			$(document).on("click","#addRecipient", function(){
 				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer addRecipColor'><input class='headerSearch'><img class='searchCloseExpandedR addRecipX' src='img/close_search.png'></div></li>";

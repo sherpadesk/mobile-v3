@@ -28,7 +28,12 @@
      $(document).ready(function(){
          jQuery('#date').datetimepicker({
                 timepicker:false,
-                format:'d/m/Y'
+                format:'d/m/Y',
+             onShow:function( ct ){
+                 this.setOptions({
+                     maxDate: new Date()
+                 });
+             }
                            
                 
             });

@@ -1031,59 +1031,6 @@ $(document).ready(function(){
         }
     };
 
-    // send an invoice to recipents
-    var sendInvoice = {
-        init:function(){
-            this.submitInvoice();
-        },
-
-
-        submitInvoice:function(){
-            $("#sendInvoiceButton").click(function(){
-                //alert(localStorage.getItem('invoiceNumber'));
-                if ($(".recipient").children(".closeIcon").length < 1)
-                {
-                    userMessage.showMessage(false, "No accounting contacts added");
-                    return;
-                }
-                var emails = ""; 
-                $.each($(".recipient").children(".closeIcon"), function(){emails+=$(this).attr("id") + ",";}); 
-                
-                var data, number = localStorage.invoiceNumber;
-                var isUnbilled = (number.indexOf(",") != -1);
-                if (isUnbilled)
-                {
-                    number = number.split(",");
-                    data = {"status": "unbilled", "account" : number[0], "project" : number[1]};
-                    number = 'invoices';
-                }
-                else
-                {
-                    data = {"action":"sendEmail"};
-                    number = 'invoices/' +number;
-                }
-                
-                data.recipients = emails;
-                
-                getApi(number, data, isUnbilled ? 'POST' : 'PUT').then(function (d) {
-                    setTimeout(
-                        function()
-                        {
-                            window.history.back();
-                        }, 1000);
-                    userMessage.setMessage(true, "Hurray! Invoice sent");
-                },
-                              function (e, textStatus, errorThrown) {
-                    //alert(textStatus);
-                    showError(e);
-                    console.log("fail @ storage Account List");
-                }
-                
-                             );
-            });
-        }
-    };
-
     // when signout button is pressed all user data is whiped from local storage
     var signout = {
         init:function(){
@@ -2197,11 +2144,12 @@ $(document).ready(function(){
 
                     reveal();
                 },
-                function() {
+                function(e) {
+                    showError(e);
                     console.log("fail @ Ticket Detail");
-
-                    localStorage.setItem('ticketId', "");
+                    setTimeout(function(){
                     window.location = "ticket_list.html";
+                    }, 2000);
                 }
             );
 
@@ -2247,11 +2195,14 @@ $(document).ready(function(){
             else
                 data = "/"+data;
             
+            var start_date, end_date;
             
             getApi("invoices"+data).then(function(returnData) {
                 ////console.log(returnData);
                 localStorage.setItem("invoiceAccountId",returnData.account_id);
                 localStorage.setItem("invoiceProjectId",returnData.project_id);
+                start_date = returnData.start_date || new Date().toJSON();
+                end_date = returnData.end_date || new Date().toJSON();
                 $("#invoiceNumber").html(returnData.id ? "Invoice  #"+returnData.id : "Create Invoice"); //invoice number            
                 var nameCheck = returnData.customer;
                 nameCheck = createElipse(nameCheck, 0.9, 12);                
@@ -2259,22 +2210,10 @@ $(document).ready(function(){
                 var date = formatDate(returnData.date);
                 $("#invoiceDate").html(date);
                 $("#invoiceHours").html(returnData.total_hours+"<span class='detail3Small'>hrs</span>"); // hours to invoice
-                var amount = 0;
-                var change = ".00";
-                var length = returnData.amount.toString().length;
-                if(returnData.amount.toString().indexOf(".") >= 0)
-                {
-                    amount = returnData.amount.toString().substring(0, length -3);
-                    change = "."+returnData.amount.toString().substring(length-2, length);
-                    if(change.indexOf("..") >= 0)
-                    {
-                        change = "."+returnData.total_cost.toString().substring(length-1, length)+"0";
-                    }
-                }
-                else
-                {
-                    amount = returnData.amount;
-                }
+                var amount = Number(returnData.amount).toFixed(2).toString();
+                var change = amount.substring(amount.length-3, amount.length);
+                var amount = amount.substring(0, amount.length -3);
+                
                 $("#invoiceAmount").html(localStorage.getItem('currency')+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount
                 if (!isTravelCosts) {
                     $("#invoiceTravel").parent().parent().hide();
@@ -2323,7 +2262,7 @@ $(document).ready(function(){
                     $("#sendInvoiceButton").remove();
                 }
                 //createSpan("#recipientList");
-
+/*
                 // adds timelogs asscoited with this invoice to the invoice timelogs list
                 $("#invoiceLogs").empty();
                 if(returnData.time_logs != null){
@@ -2349,13 +2288,60 @@ $(document).ready(function(){
                         $(insert).appendTo("#expensesList");
                     }
                 }
+                */
                 reveal();
             },
-                                                                           function() {
+                                         function(e) {
+                showError(e);
                 console.log("fail @ Invoice details");
 
             }
-                                                                          );}
+                                                                          );
+        
+            $("#sendInvoiceButton").click(function(){
+                //alert(localStorage.getItem('invoiceNumber'));
+                if ($(".recipient").children(".plusIcon").length < 1)
+                {
+                    userMessage.showMessage(false, "No accounting contacts added");
+                    return;
+                }
+                var emails = ""; 
+                $.each($(".recipient").children(".plusIcon"), function(){emails+=$(this).attr("id") + ",";}); 
+
+                var data, number = localStorage.invoiceNumber;
+                var isUnbilled = (number.indexOf(",") != -1);
+                if (isUnbilled)
+                {
+                    number = number.split(",");
+                    data = {"status": "unbilled", "account" : number[0], "project" : number[1], 
+                            "start_date" : start_date, "end_date" : end_date};
+                    number = 'invoices';
+                }
+                else
+                {
+                    data = {"action":"sendEmail"};
+                    number = 'invoices/' +number;
+                }
+
+                data.recipients = emails;
+
+                getApi(number, data, isUnbilled ? 'POST' : 'PUT').then(function (d) {
+                    setTimeout(
+                        function()
+                        {
+                            window.history.back();
+                        }, 1000);
+                    userMessage.setMessage(true, "Hurray! Invoice sent");
+                },
+                                                                       function (e, textStatus, errorThrown) {
+                    //alert(textStatus);
+                    showError(e);
+                    console.log("fail @ storage Account List");
+                }
+
+                                                                      );
+            });
+        }
     };
 
     /*
@@ -2548,8 +2534,6 @@ $(document).ready(function(){
             var accountid = localStorage.DetailedAccount;
             //todo localStorage.DetailedAccount = "";
             //cleanQuerystring();
-            //todo
-            $("#invoiceCreate").remove();
             if (is_unbilled){
                 $("#invoiceCreate").remove();
                 $("h1.SherpaDesk").html("Create Invoices");
@@ -2582,8 +2566,12 @@ $(document).ready(function(){
                     for(var i = 0; i < returnData.length; i++)
                     {
                         var customer = createElipse(returnData[i].customer, 0.33, 12); // account name
-                        var date = formatDate(returnData[i].date || "Create new");
-                        var id = is_unbilled ? returnData[i].account_id +","+returnData[i].project_id : returnData[i].id;
+                        var date = formatDate(returnData[i].date || returnData[i].end_date || new Date().toJSON());
+                        var id = returnData[i].id;
+                        if (is_unbilled) { 
+                            //date = formatDate(returnData[i].start_date || new Date().toJSON()) + " to " + date;
+                            id = returnData[i].account_id +","+returnData[i].project_id;// +","+(returnData[i].start_date || new Date().toJSON()).slice(0, 10) +","+ (returnData[i].end_date || new Date().toJSON()).slice(0, 10);
+                        }
                         insert += "<ul data-id="+id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
                         //if (!accountid) localInvoiceList.push(insert);
                     }
@@ -3728,8 +3716,7 @@ $(document).ready(function(){
                 if (isTime && isInvoice)
                 {
                     detailedInvoice.init();
-                    sendInvoice.init();
-                    addRecip.init();
+                    //addRecip.init();
                     return;
                 }
             }
@@ -3817,7 +3804,7 @@ $(document).ready(function(){
             return;
         }
 
-        window.location = isTech ? "dashboard.html" : "ticket_list.html";
+        //window.location = isTech ? "dashboard.html" : "ticket_list.html";
     }
 
     //Main Method that calls all the functions for the app
