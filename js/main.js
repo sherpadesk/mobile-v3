@@ -15,6 +15,8 @@ var AppSite = 'https://app.beta.' + Site;
 
 var ApiSite = 'http://api.beta.' + Site;
 
+//$( window ).unload(function() { localStorage.setItem("referrer", getPage()[2]); });
+
 //global config
 var isTech = false,
     isProject = true,
@@ -1066,14 +1068,6 @@ $(document).ready(function(){
     // create a new ticket
     var newTicket = {
         init:function() {
-            backFunction = function() { newTicket.back(); };
-
-
-            var reff = getParameterByName("page");
-            if (reff){
-                localStorage.setItem('add_tickets.html_ref', getParameterByName("page"));
-                cleanQuerystring();
-            }
             $("#userCreate").on("click", function(){
                 var user = $("#addTicketUser").val();
                 if (user) localStorage.setItem('add_user_userid', user);
@@ -1081,7 +1075,7 @@ $(document).ready(function(){
                 if (tech) localStorage.setItem('add_user_techid',tech);
                 var account = $("#addTicketAccounts").val();
                 if (account) localStorage.setItem('add_user_accountid',account);
-                window.location = "add_user.html".addUrlParam("page", "add_tickets.html");
+                window.location = "add_user.html";
             });
 
             $("#TechCreate").on("click", function(){
@@ -1092,23 +1086,15 @@ $(document).ready(function(){
                 if (tech) localStorage.setItem('add_user_techid', tech);
                 var account = $("#addTicketAccounts").val();
                 if (account) localStorage.setItem('add_user_accountid',account);
-                window.location = "add_user.html".addUrlParam("page", "add_tickets.html");           
+                window.location = "add_user.html";           
             }); 
 
             this.addTicket();
         },
-        back: function(){
-            var reff = localStorage.getItem('add_tickets.html_ref');
-            localStorage.setItem('add_tickets.html_ref', '');
-            if (!reff)
-                reff = isTech ? "dashboard.html" : "ticket_list.html";
-            localStorage.setItem('addAccountTicket', '');
-            window.location.replace(reff);
-
-        },
         addTicket:function() {
             $("#addTicketAccounts").empty();
             var accountset = localStorage.getItem('addAccountTicket');
+            localStorage.setItem('addAccountTicket', '');
             if(!isTech){
                 $("#addTicketAccounts").parent().hide();
             }
@@ -1247,7 +1233,10 @@ $(document).ready(function(){
                         "tech_id" : $("#addTicketTechs").val()
                     }, "POST");
                     addTicket.then(function (d) {
-                        setTimeout(newTicket.back, 1000);
+                        if (!isTech)
+                            location.replace("ticket_list.html");
+                        else
+                            setTimeout(backFunction, 1000);
                         userMessage.setMessage(true, "Ticket was Succesfully Created :)");
                     },
                     function(e) {
@@ -1440,26 +1429,11 @@ $(document).ready(function(){
 
         }
     };
-
+    
     // add time to an account
     var addExpence = {
         init:function(ticket_id){
             this.addExpence(getParameterByName("ticket"));
-            backFunction = function() { addExpence.back(); };
-            var reff = getParameterByName("page");
-            if (reff){
-                localStorage.setItem('addExpence.html_ref', getParameterByName("page"));
-                cleanQuerystring();
-            }
-        },
-        back: function(){
-            var reff = localStorage.getItem('addExpence.html_ref');
-            localStorage.setItem('addExpence.html_ref', '');
-            if (!reff)
-                history.back();
-            else
-                window.location.replace(reff);
-
         },
         addExpence: function(ticket_id){
             var account_id = localStorage.DetailedAccount ? localStorage.DetailedAccount : -1;
@@ -1540,7 +1514,7 @@ $(document).ready(function(){
                 },'POST').then(function (d) {
                     localStorage.setItem('isMessage','truePos');
                     localStorage.setItem('userMessage','Expense was successfully added <i class="fa fa-money"></i>');
-                    addExpence.back();
+                    backFunction();
                 },
                                function (e, textStatus, errorThrown) {
                     showError(e);
@@ -1555,24 +1529,7 @@ $(document).ready(function(){
 
     // add user to an account
     var addUser = {
-        back: function(){
-            localStorage.setItem('add_user_type', '');
-            var reff = localStorage.getItem('add_user.html_ref');
-            localStorage.setItem('add_user.html_ref', '');
-            if (!reff)
-                history.back();
-            else
-                window.location.replace(reff);
-
-        },
         init:function(){
-            backFunction = function() { addUser.back(); };
-            var reff = getParameterByName("page");
-            if (reff){
-                localStorage.setItem('add_user.html_ref', getParameterByName("page"));
-                cleanQuerystring();
-            }
-
             $(".innerCircle").click(function(){
                 if ($(".innerCircle").hasClass("billFill")) {$("#addTicketPassword").hide(); $("#addTicketConfirmPassword").hide();}
                 else  {$("#addTicketPassword").show(); $("#addTicketConfirmPassword").show();}
@@ -1631,7 +1588,7 @@ $(document).ready(function(){
                                 localStorage.setItem('add_user_userid', d.id);
                                 localStorage.setItem('add_user_name', Firstname + " " + Lastname);
                             }
-                            addUser.back();
+                            backFunction();
                         }); 
                     },
                     function(e) {
@@ -1648,21 +1605,6 @@ $(document).ready(function(){
         init:function(isEdit){
             this.addpicker();
             this.inputTime(isEdit);
-            backFunction = function() { addTime.back(); };
-            var reff = getParameterByName("page");
-            if (reff){
-                localStorage.setItem('add_time.html_ref', getParameterByName("page"));
-                cleanQuerystring();
-            }
-        },
-        back: function(){
-            var reff = localStorage.getItem('add_time.html_ref');
-            localStorage.setItem('add_time.html_ref', '');
-            if (!reff)
-                history.back();
-            else
-                window.location.replace(reff);
-
         },
         addpicker: function(){
             jQuery('#date_start').datetimepicker({
@@ -1954,7 +1896,7 @@ $(document).ready(function(){
                         }, isEdit ? 'PUT' : 'POST').then(function (d) {
                             localStorage.setItem('isMessage','truePos');
                             localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>');
-                            addTime.back();
+                            backFunction();
                         },
                         function (e, textStatus, errorThrown) {
                     showError(e);
@@ -2329,7 +2271,7 @@ $(document).ready(function(){
                     setTimeout(
                         function()
                         {
-                            window.history.back();
+                            backFunction();
                         }, 1000);
                     userMessage.setMessage(true, "Hurray! Invoice sent");
                 },
@@ -2543,7 +2485,7 @@ $(document).ready(function(){
                     function(){
                         //localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
                         //localStorage.setItem('add_user_accountid',account);
-                        window.location.replace("Invoice_List.html?status=unbilled".addUrlParam("page",getPage()[2]));
+                        window.location.replace("Invoice_List.html?status=unbilled");
                     });
             this.listInvoices(accountid, is_unbilled);
         },
@@ -2598,7 +2540,7 @@ $(document).ready(function(){
                 function(){
                     localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
                     localStorage.setItem('add_user_accountid',account);
-                    window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]));
+                    window.location.replace("add_tickets.html");
                 });
         },
 
@@ -3477,11 +3419,11 @@ $(document).ready(function(){
             if ($createButton){
                 $createButton.click(
                     function(){
-                        window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]));
+                        window.location.replace("add_tickets.html");
                     });
             }
             $("#invoiceOption").click(function(){
-                window.location = "Invoice_List.html".addUrlParam("page",getPage()[2]);
+                window.location = "Invoice_List.html";
             });
             // go to complete list of invoice on click
             $("#allInvoice").click(function(){
@@ -3625,6 +3567,7 @@ $(document).ready(function(){
         fullapplink();
         if (typeof navigator.splashscreen !== 'undefined') 
             navigator.splashscreen.hide();
+        
         //Disable for user
         if (!isTech){
             $(".sideNavLinks").children(":not('.user')").hide();
@@ -3711,15 +3654,6 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("invoice.html"))
-            {
-                if (isTime && isInvoice)
-                {
-                    detailedInvoice.init();
-                    //addRecip.init();
-                    return;
-                }
-            }
             if (location.pathname.endsWith("Queues.html"))
             {
                 getQueues.init("#queuesPage");
@@ -3729,6 +3663,45 @@ $(document).ready(function(){
             {
                 getQueueTickets.init();
                 return;
+            }
+            
+            if (location.pathname.endsWith("closedTickets.html"))
+            {
+                // detailedTicket.init();
+                closedTickets.init();
+                return;
+            }
+            //$("#loading").show();
+            if (location.pathname.endsWith("addTicketTime.html"))
+            {
+                if (isTime) { 
+                    addTime.init();
+                    return;
+                }
+
+            }
+            
+            //set page
+            var currPage = getPage()[2]+'_ref';
+            
+            backFunction = function(){
+                if (!localStorage.getItem(currPage))
+                    history.back();
+                else
+                    window.location.replace(localStorage.getItem(currPage));
+
+            };
+            
+            localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
+            
+            if (location.pathname.endsWith("invoice.html"))
+            {
+                if (isTime && isInvoice)
+                {
+                    detailedInvoice.init();
+                    //addRecip.init();
+                    return;
+                }
             }
             if (location.pathname.endsWith("add_time.html"))
             {
@@ -3745,6 +3718,7 @@ $(document).ready(function(){
                 addUser.init();
                 return;
             }
+            
             if (location.pathname.endsWith("addExpence.html"))
             {
                 if (isExpenses)
@@ -3763,20 +3737,12 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("closedTickets.html"))
+            if (location.pathname.endsWith("add_tickets.html"))
             {
-                // detailedTicket.init();
-                closedTickets.init();
+                //window.location.replace(document.referrer);
+                newTicket.init();
+                //accountTimeLogs.init();
                 return;
-            }
-            //$("#loading").show();
-            if (location.pathname.endsWith("addTicketTime.html"))
-            {
-                if (isTime) { 
-                    addTime.init();
-                    return;
-                }
-
             }
         }
         if (location.pathname.endsWith("ticket_list.html"))
