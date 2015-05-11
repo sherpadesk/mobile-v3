@@ -1,8 +1,8 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var appVersion = "21";
-var adMessage = "Invite new user feature";
+var appVersion = "22";
+var adMessage = "Image fixes";
 function updatedFunction ()
 {
     location.reload(true);
