@@ -3669,7 +3669,7 @@ $(document).ready(function(){
             }
             
             //set page
-            var currPage = +'_ref';
+            var currPage = Page+'_ref';
             
             backFunction = function(){
                 if (!localStorage.getItem(currPage))
