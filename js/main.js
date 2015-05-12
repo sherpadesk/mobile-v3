@@ -2471,16 +2471,12 @@ $(document).ready(function(){
             var accountid = localStorage.DetailedAccount;
             //todo localStorage.DetailedAccount = "";
             //cleanQuerystring();
-            if (is_unbilled){
-                $("#invoiceCreate").remove();
-                $("h1.SherpaDesk").html("Create Invoices");
-            }
-            else
+            if (!is_unbilled)
                 $("#invoiceCreate").click(
                     function(){
                         //localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
                         //localStorage.setItem('add_user_accountid',account);
-                        window.location.replace("Invoice_List.html?status=unbilled");
+                        window.location.replace("unInvoice_List.html");
                     });
             this.listInvoices(accountid, is_unbilled);
         },
@@ -3633,7 +3629,7 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (Page=="allInvoice_List.html")
+            if (Page=="allInvoice_List.html" || Page=="Invoice_List.html")
             {
                 if (isTime && isInvoice)
                 {
@@ -3667,7 +3663,6 @@ $(document).ready(function(){
                 }
 
             }
-            
             //set page
             var currPage = Page+'_ref';
             
@@ -3682,15 +3677,11 @@ $(document).ready(function(){
 
             };
             
-            if (Page=="Invoice_List.html")
+            if (Page=="unInvoice_List.html")
             {
                 if (isTime && isInvoice)
                 {
-                    var is_unbilled = getParameterByName("status");
-                    invoiceList.init(is_unbilled);
-                    if (is_unbilled)
-                        if (!localStorage.getItem(currPage))
-                            localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
+                    invoiceList.init("unbilled");
                     return;
                 }
             }
