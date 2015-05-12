@@ -3578,7 +3578,7 @@ $(document).ready(function(){
             //conditional api calls determined by page
             if (Page=="dashboard.html")
             {
-                localStorage.DetailedAccount = '';
+                localStorage.DetailedAccount = localStorage.addAccountTicket = '';
                 var orgName = localStorage.getItem('userOrg');
                 if (orgName)
                     $("#indexTitle").html(orgName);
@@ -3594,7 +3594,7 @@ $(document).ready(function(){
             {
                 if (isAccount)
                 {
-                    localStorage.DetailedAccount = '';
+                    localStorage.DetailedAccount = localStorage.addAccountTicket = '';
                     accountList.init("#fullList");
                     return;
                 }
@@ -3750,6 +3750,7 @@ $(document).ready(function(){
         }
         if (Page=="ticket_list.html")
         {
+            localStorage.DetailedAccount = localStorage.addAccountTicket = '';
             ticketList.init();
             //accountDetailsPageSetup.init();
             return;
