@@ -3670,7 +3670,6 @@ $(document).ready(function(){
             
             //set page
             var currPage = Page+'_ref';
-            var currRef = localStorage.getItem(currPage);
             
             backFunction = function(){
                 if (!currRef)
@@ -3690,12 +3689,12 @@ $(document).ready(function(){
                     var is_unbilled = getParameterByName("status");
                     invoiceList.init(is_unbilled);
                     if (is_unbilled)
-                        if (!currRef)
+                        if (!localStorage.getItem(currPage))
                             localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
                     return;
                 }
             }
-            if (!currRef)
+            if (!localStorage.getItem(currPage))
             localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
             if (Page=="invoice.html")
             {
