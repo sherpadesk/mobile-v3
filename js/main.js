@@ -3590,17 +3590,6 @@ $(document).ready(function(){
                 //reveal();
                 return;
             }
-            if (Page=="account_details.html")
-            {
-                if (isAccount)
-                {
-                    if(!isInvoice) $("#invoiceOption").parent().remove();
-                    accountDetailsPageSetup.init();
-                    //detailedTicket.init();
-                    closedTickets.pageChange();
-                    return;
-                }
-            }
             if (Page=="Account_List.html")
             {
                 if (isAccount)
@@ -3620,16 +3609,7 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (Page=="accountTimes.html")
-            {
-                if (isTime && isAccount)
-                {
-                    accountTimeLogs.init();
-                    //timeLogs.init();
-                    return;
-                }
-            }
-            if (Page=="allInvoice_List.html" || Page=="Invoice_List.html")
+            if (Page=="allInvoice_List.html")
             {
                 if (isTime && isInvoice)
                 {
@@ -3677,8 +3657,37 @@ $(document).ready(function(){
 
             };
             
+            if (!localStorage.getItem(currPage))
             localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
             
+            if (Page=="account_details.html")
+            {
+                if (isAccount)
+                {
+                    if(!isInvoice) $("#invoiceOption").parent().remove();
+                    accountDetailsPageSetup.init();
+                    //detailedTicket.init();
+                    closedTickets.pageChange();
+                    return;
+                }
+            }
+            if (Page=="accountTimes.html")
+            {
+                if (isTime && isAccount)
+                {
+                    accountTimeLogs.init();
+                    //timeLogs.init();
+                    return;
+                }
+            }
+            if (Page=="Invoice_List.html")
+            {
+                if (isTime && isInvoice)
+                {
+                    invoiceList.init();
+                    return;
+                }
+            }
             if (Page=="unInvoice_List.html")
             {
                 if (isTime && isInvoice)
@@ -3687,7 +3696,6 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (!localStorage.getItem(currPage))
 
             if (Page=="invoice.html")
             {
