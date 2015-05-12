@@ -14,8 +14,11 @@ var MobileSite = 'http://m0.' + Site;
 var AppSite = 'https://app.beta.' + Site;
 
 var ApiSite = 'http://api.beta.' + Site;
+var Page = location.pathname.substr(1);
 
-//$( window ).unload(function() { localStorage.setItem("referrer", getPage()[2]); });
+//locally test
+//Page = location.href.match(/(.+\w\/)(.+)/)[2];
+//$( window ).unload(function() { localStorage.setItem("referrer", Page); });
 
 //global config
 var isTech = false,
@@ -94,12 +97,6 @@ function openURL(urlString){
 //open link	in system
 function openURLsystem(urlString){
     window.open(urlString, '_system');
-}
-
-function getPage()
-{
-    var m = location.href.match(/(.+\w\/)(.+)/);
-    return m ? m : ['','',''];
 }
 
 if (typeof String.prototype.addUrlParam !== 'function') {
@@ -237,7 +234,7 @@ function GooglelogOut(mess) {
     mess = !mess ? "" : "?f="+mess;
     if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-        document.location.href = getPage()[1] + "index.html" + mess;
+        document.location.href = MobileSite + "index.html" + mess;
     }
     else
         window.location = "index.html" + mess;
@@ -496,8 +493,7 @@ $(document).ready(function(){
     }
 
     function cleanQuerystring() {
-        var clean_uri = location.protocol + "//" + location.host + location.pathname;
-        window.history.replaceState({}, document.title, clean_uri);
+        window.history.replaceState({}, document.title, MobileSite + Page);
     }
     
     function showError(e){
@@ -603,12 +599,12 @@ $(document).ready(function(){
     var UserLogin = {
         init: function () {
             var loginPage = true;
-            if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/")
+            if (Page != "index.html" && Page != "")
                 loginPage = false;
             userKey = localStorage.getItem("userKey");
             userOrgKey = localStorage.getItem('userOrgKey');
             userInstanceKey = localStorage.getItem('userInstanceKey');
-            if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage && location.pathname.indexOf("org.html")<0 && location.pathname.indexOf("signup.html")<0) {
+            if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage && Page != "org.html" && Page != "signup.html") {
                 logout();
                 return;
             }
@@ -724,7 +720,7 @@ $(document).ready(function(){
     // org signup
     var OrgSignup = {
         init: function () {
-            if (location.pathname.indexOf("signup.html") < 0)
+            if (Page != "signup.html")
                 return;
             var userName = localStorage.getItem('userName');
             if (userName !== null && userName.length > 0)
@@ -3266,7 +3262,7 @@ $(document).ready(function(){
     // organization Ajax call
     var org = {
         init: function () {
-            if (location.pathname.indexOf("org.html") < 0)
+            if (Page != "org.html")
                 return;
             $('.instSelect').hide();
             userKey = localStorage.getItem("userKey");
@@ -3584,7 +3580,7 @@ $(document).ready(function(){
                 $(".expense").hide();
 
             //conditional api calls determined by page
-            if (location.pathname.endsWith("dashboard.html"))
+            if (Page=="dashboard.html")
             {
                 localStorage.DetailedAccount = '';
                 var orgName = localStorage.getItem('userOrg');
@@ -3598,7 +3594,7 @@ $(document).ready(function(){
                 //reveal();
                 return;
             }
-            if (location.pathname.endsWith("account_details.html"))
+            if (Page=="account_details.html")
             {
                 if (isAccount)
                 {
@@ -3609,7 +3605,7 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("Account_List.html"))
+            if (Page=="Account_List.html")
             {
                 if (isAccount)
                 {
@@ -3618,7 +3614,7 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("timelog.html"))
+            if (Page=="timelog.html")
             {
                 if (isTime)
                 {
@@ -3628,7 +3624,7 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("accountTimes.html"))
+            if (Page=="accountTimes.html")
             {
                 if (isTime && isAccount)
                 {
@@ -3637,7 +3633,7 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("allInvoice_List.html"))
+            if (Page=="allInvoice_List.html")
             {
                 if (isTime && isInvoice)
                 {
@@ -3645,25 +3641,25 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("Queues.html"))
+            if (Page=="Queues.html")
             {
                 getQueues.init("#queuesPage");
                 return;
             }
-            if (location.pathname.endsWith("queueTickets.html"))
+            if (Page=="queueTickets.html")
             {
                 getQueueTickets.init();
                 return;
             }
             
-            if (location.pathname.endsWith("closedTickets.html"))
+            if (Page=="closedTickets.html")
             {
                 // detailedTicket.init();
                 closedTickets.init();
                 return;
             }
             //$("#loading").show();
-            if (location.pathname.endsWith("addTicketTime.html"))
+            if (Page=="addTicketTime.html")
             {
                 if (isTime) { 
                     addTime.init();
@@ -3673,7 +3669,7 @@ $(document).ready(function(){
             }
             
             //set page
-            var currPage = getPage()[2]+'_ref';
+            var currPage = +'_ref';
             
             backFunction = function(){
                 if (!localStorage.getItem(currPage))
@@ -3683,20 +3679,19 @@ $(document).ready(function(){
 
             };
             
-            localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
-            
-            if (location.pathname.indexOf("Invoice_List.html") >= 0)
+            if (Page=="Invoice_List.html")
             {
                 if (isTime && isInvoice)
                 {
                     var is_unbilled = getParameterByName("status");
                     invoiceList.init(is_unbilled);
-                    if (!is_unbilled)
-                        backFunction = null;
+                    if (is_unbilled)
+                        localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
                     return;
                 }
             }
-            if (location.pathname.endsWith("invoice.html"))
+            localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
+            if (Page=="invoice.html")
             {
                 if (isTime && isInvoice)
                 {
@@ -3705,7 +3700,7 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("add_time.html"))
+            if (Page=="add_time.html")
             {
                 if (isTime)
                 {
@@ -3714,14 +3709,14 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("add_user.html"))
+            if (Page=="add_user.html")
             {
                 //window.location.replace(document.referrer);
                 addUser.init();
                 return;
             }
             
-            if (location.pathname.endsWith("addExpence.html"))
+            if (Page=="addExpence.html")
             {
                 if (isExpenses)
                 {
@@ -3730,7 +3725,7 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("edit_time.html"))
+            if (Page=="edit_time.html")
             {
                 if (isTime)
                 {
@@ -3739,7 +3734,7 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("add_tickets.html"))
+            if (Page=="add_tickets.html")
             {
                 //window.location.replace(document.referrer);
                 newTicket.init();
@@ -3747,14 +3742,14 @@ $(document).ready(function(){
                 return;
             }
         }
-        if (location.pathname.endsWith("ticket_list.html"))
+        if (Page=="ticket_list.html")
         {
             ticketList.init();
             //accountDetailsPageSetup.init();
             return;
 
         }
-        if (location.pathname.endsWith("ticket_detail.html"))
+        if (Page=="ticket_detail.html")
         {
             detailedTicket.init();
             pickUpTicket.init();
@@ -3764,7 +3759,7 @@ $(document).ready(function(){
             postComment.init();
             return;
         }
-        if (location.pathname.endsWith("add_tickets.html"))
+        if (Page=="add_tickets.html")
         {
             //window.location.replace(document.referrer);
             newTicket.init();
@@ -3786,7 +3781,7 @@ $(document).ready(function(){
         //userInfo.init();
 
         //when user logged in
-        if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/" && location.pathname.indexOf("org.html")<0)
+        if (Page !="index.html" && Page != "" && Page !="org.html")
         {
             var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
                 parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;

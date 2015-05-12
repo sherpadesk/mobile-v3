@@ -577,12 +577,6 @@ var fastClicker = {
 		}
 	};
     
-    function getPage()
-    {
-        var m = location.href.match(/(.+\w\/)(.+)/);
-        return m ? m : ['','',''];
-    }
-    
     if (typeof String.prototype.addUrlParam !== 'function') {
         String.prototype.addUrlParam = function(param, value) {
             if (!value || !param)
@@ -608,7 +602,6 @@ var fastClicker = {
             backButton.init();
         var $create_el = $("#dashboardCreate");
         if ($create_el){
-            var p = getPage()[2];
             $(CREATE_MENU).insertAfter($create_el);
 		createButton.init();
         }
