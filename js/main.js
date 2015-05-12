@@ -3672,10 +3672,10 @@ $(document).ready(function(){
             var currPage = Page+'_ref';
             
             backFunction = function(){
-                if (!currRef)
+                var reff = localStorage.getItem(currPage);
+                if (!reff)
                     history.back();
                 else {
-                    var reff = localStorage.getItem(currPage);
                     localStorage.setItem(currPage, "");
                     window.location.replace(reff);
                 }
