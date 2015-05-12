@@ -3670,12 +3670,16 @@ $(document).ready(function(){
             
             //set page
             var currPage = Page+'_ref';
+            var currRef = localStorage.getItem(currPage);
             
             backFunction = function(){
-                if (!localStorage.getItem(currPage))
+                if (!currRef)
                     history.back();
-                else
-                    window.location.replace(localStorage.getItem(currPage));
+                else {
+                    var reff = localStorage.getItem(currPage);
+                    localStorage.setItem(currPage, "");
+                    window.location.replace(reff);
+                }
 
             };
             
@@ -3686,10 +3690,12 @@ $(document).ready(function(){
                     var is_unbilled = getParameterByName("status");
                     invoiceList.init(is_unbilled);
                     if (is_unbilled)
-                        localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
+                        if (!currRef)
+                            localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
                     return;
                 }
             }
+            if (!currRef)
             localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
             if (Page=="invoice.html")
             {
