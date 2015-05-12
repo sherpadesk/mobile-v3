@@ -2471,8 +2471,7 @@ $(document).ready(function(){
 
     // get a list of invoices both for a specific account as well as a complete list of invoices
     var invoiceList = {
-        init:function(){
-            var is_unbilled = getParameterByName("status");
+        init:function(is_unbilled){
             var accountid = localStorage.DetailedAccount;
             //todo localStorage.DetailedAccount = "";
             //cleanQuerystring();
@@ -3690,7 +3689,10 @@ $(document).ready(function(){
             {
                 if (isTime && isInvoice)
                 {
-                    invoiceList.init();
+                    var is_unbilled = getParameterByName("status");
+                    invoiceList.init(is_unbilled);
+                    if (!is_unbilled)
+                        backFunction = null;
                     return;
                 }
             }
