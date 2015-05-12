@@ -3677,6 +3677,8 @@ $(document).ready(function(){
 
             };
             
+            localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
+            
             if (Page=="unInvoice_List.html")
             {
                 if (isTime && isInvoice)
@@ -3686,7 +3688,7 @@ $(document).ready(function(){
                 }
             }
             if (!localStorage.getItem(currPage))
-            localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
+
             if (Page=="invoice.html")
             {
                 if (isTime && isInvoice)
