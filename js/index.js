@@ -57,7 +57,7 @@ var fastClicker = {
 			$("#goBack").click(function(){
                 if (!window.backFunction)
                     window.history.back();
-                else if (typeof window.backFunction == "function")
+                else
                 window.backFunction(); 
                 }
         );

@@ -3652,6 +3652,8 @@ $(document).ready(function(){
                     history.back();
                 else {
                     localStorage.setItem(currPage, "");
+                    //if (window.backAddFunction)
+                    //    window.backAddFunction(); 
                     window.location.replace(reff);
                 }
 
