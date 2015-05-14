@@ -1,8 +1,8 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var appVersion = "22";
-var adMessage = "Image fixes";
+var appVersion = "23";
+var adMessage = "Add invoices functionality";
 function updatedFunction ()
 {
     location.reload(true);
@@ -14,6 +14,11 @@ var MobileSite = 'http://m.' + Site;
 var AppSite = 'https://app.' + Site;
 
 var ApiSite = 'http://api.' + Site;
+var Page = location.pathname.substr(1);
+
+//locally test
+//Page = location.href.match(/(.+\w\/)(.+)/)[2];
+//$( window ).unload(function() { localStorage.setItem("referrer", Page); });
 
 //global config
 var isTech = false,
@@ -92,12 +97,6 @@ function openURL(urlString){
 //open link	in system
 function openURLsystem(urlString){
     window.open(urlString, '_system');
-}
-
-function getPage()
-{
-    var m = location.href.match(/(.+\w\/)(.+)/);
-    return m ? m : ['','',''];
 }
 
 if (typeof String.prototype.addUrlParam !== 'function') {
@@ -235,7 +234,7 @@ function GooglelogOut(mess) {
     mess = !mess ? "" : "?f="+mess;
     if (window.self === window.top && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-        document.location.href = getPage()[1] + "index.html" + mess;
+        document.location.href = MobileSite + "index.html" + mess;
     }
     else
         window.location = "index.html" + mess;
@@ -373,7 +372,7 @@ function getFileLink(file)
     else
         img = "<img style='float:none;' src='img/file.png'>&nbsp;" + decodeURIComponent(file.split("/").slice(-1)) + "<p></p>";
 
-    return "<p></p><a class=\"comment_image_link\"" + 
+    return "<a class=\"comment_image_link\"" + 
         (isPhonegap ? (" href=# onclick='openURL(\"" +file + "\")'>"+img+"</a>") :
          (" target=\"_blank\" href=\"" +file + "\">"+img+"</a>"));
 }
@@ -494,8 +493,7 @@ $(document).ready(function(){
     }
 
     function cleanQuerystring() {
-        var clean_uri = location.protocol + "//" + location.host + location.pathname;
-        window.history.replaceState({}, document.title, clean_uri);
+        window.history.replaceState({}, document.title, MobileSite + Page);
     }
     
     function showError(e){
@@ -601,12 +599,12 @@ $(document).ready(function(){
     var UserLogin = {
         init: function () {
             var loginPage = true;
-            if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/")
+            if (Page != "index.html" && Page != "")
                 loginPage = false;
             userKey = localStorage.getItem("userKey");
             userOrgKey = localStorage.getItem('userOrgKey');
             userInstanceKey = localStorage.getItem('userInstanceKey');
-            if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage && location.pathname.indexOf("org.html")<0 && location.pathname.indexOf("signup.html")<0) {
+            if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage && Page != "org.html" && Page != "signup.html") {
                 logout();
                 return;
             }
@@ -722,7 +720,7 @@ $(document).ready(function(){
     // org signup
     var OrgSignup = {
         init: function () {
-            if (location.pathname.indexOf("signup.html") < 0)
+            if (Page != "signup.html")
                 return;
             var userName = localStorage.getItem('userName');
             if (userName !== null && userName.length > 0)
@@ -843,7 +841,8 @@ $(document).ready(function(){
                     ticketList.createTicketsList(returnData, "#closedTickets", cacheName1);
                     filterList("closedTickets");
                 },
-                                                                                                      function() {
+                 function(e) {
+                    showError(e);
                     console.log("fail @ closed accounts tickets");
                 });
             }, time); 
@@ -865,22 +864,12 @@ $(document).ready(function(){
                     userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
                     window.location = "ticket_detail.html";
                 },
-                               function (e, textStatus, errorThrown) {
-                    alert(textStatus);
+                               function(e) {
+                    showError(e);
+                    console.log("fail @ pickup");
                 });
 
-                getApi('tickets/'+localStorage.getItem("ticketNumber"),{
-                    "action" : "pickup",
-                    "note_text": ""
-
-                }, 'PUT').then(function (d) {
-                    userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
-                    window.location = "ticket_detail.html";
-                },
-                               function (e, textStatus, errorThrown) {
-                    alert(textStatus);
-                }
-                              );
+            
             });
         }
     };
@@ -911,8 +900,9 @@ $(document).ready(function(){
                     }
                     reveal();
                 },
-                                                     function() {
-                    console.log("fail @ time accounts");
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ listTechs");
                 }
                                                     );
                 // get value
@@ -928,10 +918,10 @@ $(document).ready(function(){
                     }, 'PUT').then(function (d) {
                         location.reload(false);
                     },
-                                   function (e, textStatus, errorThrown) {
-                        alert(textStatus);
-                    }
-                                  );
+                                   function(e) {
+                    showError(e);
+                    console.log("fail @ transferTechs");
+                });
                 });
             });
         }
@@ -978,9 +968,9 @@ $(document).ready(function(){
                         }, 1000);
                 },
                                function (e, textStatus, errorThrown) {
-                    alert(textStatus);
-                }
-                              );
+                    showError(e);
+                    console.log("fail @ ticketNumber");
+                });
             });
         },
 
@@ -1015,8 +1005,11 @@ $(document).ready(function(){
                 userMessage.setMessage(true, "Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
             },
                            function (e, textStatus, errorThrown) {
+                    showError(e);
+                    console.log("fail @ ticket Number");
+                }
                 //alert(textStatus);
-            }
+            
                           );
         },
 
@@ -1033,56 +1026,6 @@ $(document).ready(function(){
                 closeTicket.close($('#closingMessage').val());});
             $('#closeu').click(function() {
                 closeTicket.close($('#commentText').val());});
-        }
-    };
-
-    // send an invoice to recipents
-    var sendInvoice = {
-        init:function(){
-            this.submitInvoice();
-        },
-
-
-        submitInvoice:function(){
-            $("#sendInvoiceButton").click(function(){
-                //alert(localStorage.getItem('invoiceNumber'));
-                if ($(".recipient").children(".closeIcon").length < 1)
-                {
-                    userMessage.showMessage(false, "No accounting contacts added");
-                    return;
-                }
-                var emails = ""; 
-                $.each($(".recipient").children(".closeIcon"), function(){emails+=$(this).attr("id") + ",";}); 
-                
-                var data, number = localStorage.invoiceNumber;
-                var isUnbilled = (number.indexOf(",") != -1);
-                if (isUnbilled)
-                {
-                    number = number.split(",");
-                    data = {"status": "unbilled", "account" : number[0], "project" : number[1]};
-                    number = 'invoices';
-                }
-                else
-                {
-                    data = {"action":"sendEmail"};
-                    number = 'invoices/' +number;
-                }
-                
-                data.recipients = emails;
-                
-                getApi(number, data, isUnbilled ? 'POST' : 'PUT').then(function (d) {
-                    setTimeout(
-                        function()
-                        {
-                            window.history.back();
-                        }, 1000);
-                    userMessage.setMessage(true, "Hurray! Invoice sent");
-                },
-                              function (e, textStatus, errorThrown) {
-                    //alert(textStatus);
-                }
-                             );
-            });
         }
     };
 
@@ -1121,14 +1064,6 @@ $(document).ready(function(){
     // create a new ticket
     var newTicket = {
         init:function() {
-            backFunction = function() { newTicket.back(); };
-
-
-            var reff = getParameterByName("page");
-            if (reff){
-                localStorage.setItem('add_tickets.html_ref', getParameterByName("page"));
-                cleanQuerystring();
-            }
             $("#userCreate").on("click", function(){
                 var user = $("#addTicketUser").val();
                 if (user) localStorage.setItem('add_user_userid', user);
@@ -1136,7 +1071,7 @@ $(document).ready(function(){
                 if (tech) localStorage.setItem('add_user_techid',tech);
                 var account = $("#addTicketAccounts").val();
                 if (account) localStorage.setItem('add_user_accountid',account);
-                window.location = "add_user.html".addUrlParam("page", "add_tickets.html");
+                window.location = "add_user.html";
             });
 
             $("#TechCreate").on("click", function(){
@@ -1147,23 +1082,15 @@ $(document).ready(function(){
                 if (tech) localStorage.setItem('add_user_techid', tech);
                 var account = $("#addTicketAccounts").val();
                 if (account) localStorage.setItem('add_user_accountid',account);
-                window.location = "add_user.html".addUrlParam("page", "add_tickets.html");           
+                window.location = "add_user.html";           
             }); 
 
             this.addTicket();
         },
-        back: function(){
-            var reff = localStorage.getItem('add_tickets.html_ref');
-            localStorage.setItem('add_tickets.html_ref', '');
-            if (!reff)
-                reff = isTech ? "dashboard.html" : "ticket_list.html";
-            localStorage.setItem('addAccountTicket', '');
-            window.location.replace(reff);
-
-        },
         addTicket:function() {
             $("#addTicketAccounts").empty();
             var accountset = localStorage.getItem('addAccountTicket');
+            localStorage.setItem('addAccountTicket', '');
             if(!isTech){
                 $("#addTicketAccounts").parent().hide();
             }
@@ -1185,8 +1112,9 @@ $(document).ready(function(){
                          $("#addTicketAccounts").val(accountset);
                      }
                      reveal();
-                 }, function() {
-                     console.log("fail @ ticket accounts");
+                 }, function(e) {
+                    showError(e);
+                    console.log("fail @ ticket accounts");
                  });
                 }
             }
@@ -1220,9 +1148,9 @@ $(document).ready(function(){
                                "firstname,lastname,email");
                     $("#addTicketUser").val(userid);
                 },
-                           function() {
-                    console.log("fail @ ticket user");
-
+                           function(e) {
+                    showError(e);
+                    console.log("fail @ TicketUser");
                 }
                           );
 
@@ -1252,9 +1180,9 @@ $(document).ready(function(){
                         $("#addTicketTechs").val(techid);
                     }
                 },
-                                 function() {
-                    console.log("fail @ ticket tech");
-
+                                 function(e) {
+                    showError(e);
+                    console.log("fail @ Ticket Techs");
                 }
                                 );
             }
@@ -1301,14 +1229,21 @@ $(document).ready(function(){
                         "tech_id" : $("#addTicketTechs").val()
                     }, "POST");
                     addTicket.then(function (d) {
-                        setTimeout(newTicket.back, 1000);
+                        if (!isTech)
+                            location.replace("ticket_list.html");
+                        else
+                            setTimeout(backFunction, 1000);
                         userMessage.setMessage(true, "Ticket was Succesfully Created :)");
                     },
-                    showError);
-
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ tickets");
                 }
-            });
-        }
+
+                );
+            }
+        });
+    }
     };
 
     // post a comment to a ticket on the ticket details page
@@ -1335,7 +1270,8 @@ $(document).ready(function(){
                     location.reload(false);
                 },
                                 function (e, textStatus, errorThrown) {
-                    alert(textStatus);
+                    showError(e);
+                    console.log("fail @ ticket Number");
                 }
                                );
             });
@@ -1489,26 +1425,11 @@ $(document).ready(function(){
 
         }
     };
-
+    
     // add time to an account
     var addExpence = {
         init:function(ticket_id){
             this.addExpence(getParameterByName("ticket"));
-            backFunction = function() { addExpence.back(); };
-            var reff = getParameterByName("page");
-            if (reff){
-                localStorage.setItem('addExpence.html_ref', getParameterByName("page"));
-                cleanQuerystring();
-            }
-        },
-        back: function(){
-            var reff = localStorage.getItem('addExpence.html_ref');
-            localStorage.setItem('addExpence.html_ref', '');
-            if (!reff)
-                history.back();
-            else
-                window.location.replace(reff);
-
         },
         addExpence: function(ticket_id){
             var account_id = localStorage.DetailedAccount ? localStorage.DetailedAccount : -1;
@@ -1543,9 +1464,9 @@ $(document).ready(function(){
                     reveal();
 
                 },
-                                                                                function() {
-                    console.log("fail @ time accounts");
-
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ time Accounts");
                 }
                                                                                );
             }
@@ -1589,11 +1510,13 @@ $(document).ready(function(){
                 },'POST').then(function (d) {
                     localStorage.setItem('isMessage','truePos');
                     localStorage.setItem('userMessage','Expense was successfully added <i class="fa fa-money"></i>');
-                    addExpence.back();
+                    backFunction();
                 },
                                function (e, textStatus, errorThrown) {
-                    console.log(textStatus);
+                    showError(e);
+                    console.log("fail @ pickup");
                 }
+                
                               );
             });
         }
@@ -1602,24 +1525,7 @@ $(document).ready(function(){
 
     // add user to an account
     var addUser = {
-        back: function(){
-            localStorage.setItem('add_user_type', '');
-            var reff = localStorage.getItem('add_user.html_ref');
-            localStorage.setItem('add_user.html_ref', '');
-            if (!reff)
-                history.back();
-            else
-                window.location.replace(reff);
-
-        },
         init:function(){
-            backFunction = function() { addUser.back(); };
-            var reff = getParameterByName("page");
-            if (reff){
-                localStorage.setItem('add_user.html_ref', getParameterByName("page"));
-                cleanQuerystring();
-            }
-
             $(".innerCircle").click(function(){
                 if ($(".innerCircle").hasClass("billFill")) {$("#addTicketPassword").hide(); $("#addTicketConfirmPassword").hide();}
                 else  {$("#addTicketPassword").show(); $("#addTicketConfirmPassword").show();}
@@ -1678,12 +1584,13 @@ $(document).ready(function(){
                                 localStorage.setItem('add_user_userid', d.id);
                                 localStorage.setItem('add_user_name', Firstname + " " + Lastname);
                             }
-                            addUser.back();
+                            backFunction();
                         }); 
                     },
-                    function (e) {
-                        userMessage.showMessage(false, e.statusText);
-                    }
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ pickup");
+                }
                 );
             });
         }
@@ -1694,21 +1601,6 @@ $(document).ready(function(){
         init:function(isEdit){
             this.addpicker();
             this.inputTime(isEdit);
-            backFunction = function() { addTime.back(); };
-            var reff = getParameterByName("page");
-            if (reff){
-                localStorage.setItem('add_time.html_ref', getParameterByName("page"));
-                cleanQuerystring();
-            }
-        },
-        back: function(){
-            var reff = localStorage.getItem('add_time.html_ref');
-            localStorage.setItem('add_time.html_ref', '');
-            if (!reff)
-                history.back();
-            else
-                window.location.replace(reff);
-
         },
         addpicker: function(){
             jQuery('#date_start').datetimepicker({
@@ -1759,10 +1651,9 @@ $(document).ready(function(){
                         $("#taskTypes").val(task_type_id);
                     reveal();
                 },
-                function() {
-                    //reveal();
-                    console.log("fail @ task types");
-
+                function(e) {
+                    showError(e);
+                    console.log("fail @ task Types");
                 }
             );
         },
@@ -1794,11 +1685,10 @@ $(document).ready(function(){
                             reveal();
 
                         },
-                        function() {
-                            console.log("fail @ time accounts");
-                            reveal();
-
-                        }
+                        function(e) {
+                    showError(e);
+                    console.log("fail @ time Projects");
+                }
                     );
                 }
                 else
@@ -1863,8 +1753,9 @@ $(document).ready(function(){
                     localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>');
                     window.location.replace("ticket_detail.html");
                 },
-                                    function (e, textStatus, errorThrown) {
-                    alert(textStatus);
+                    function (e, textStatus, errorThrown) {
+                    showError(e);
+                    console.log("fail @ pickup");
                 }
                                    );
             });
@@ -1925,10 +1816,11 @@ $(document).ready(function(){
                         reveal();
 
                     },
-                                                                                    function() {
-                        console.log("fail @ time accounts");
-                    }
-                                                                                   );
+                        function() {
+                       showError(e);
+                    console.log("fail @ time accounts");
+                }
+                          );
 
                     $("#timeAccounts").on("change", function(){
                         //console.log(timeLog.task_type_id);
@@ -2000,11 +1892,12 @@ $(document).ready(function(){
                         }, isEdit ? 'PUT' : 'POST').then(function (d) {
                             localStorage.setItem('isMessage','truePos');
                             localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>');
-                            addTime.back();
+                            backFunction();
                         },
-                                                         function (e, textStatus, errorThrown) {
-                            alert(textStatus);
-                        }
+                        function (e, textStatus, errorThrown) {
+                    showError(e);
+                    console.log("fail @ pickup");
+                }
                                                         );
                     }
                 });
@@ -2189,11 +2082,12 @@ $(document).ready(function(){
 
                     reveal();
                 },
-                function() {
+                function(e) {
+                    showError(e);
                     console.log("fail @ Ticket Detail");
-
-                    localStorage.setItem('ticketId', "");
+                    setTimeout(function(){
                     window.location = "ticket_list.html";
+                    }, 2000);
                 }
             );
 
@@ -2239,34 +2133,24 @@ $(document).ready(function(){
             else
                 data = "/"+data;
             
+            var start_date, end_date;
             
             getApi("invoices"+data).then(function(returnData) {
                 ////console.log(returnData);
                 localStorage.setItem("invoiceAccountId",returnData.account_id);
                 localStorage.setItem("invoiceProjectId",returnData.project_id);
+                start_date = returnData.start_date || new Date().toJSON();
+                end_date = returnData.end_date || new Date().toJSON();
                 $("#invoiceNumber").html(returnData.id ? "Invoice  #"+returnData.id : "Create Invoice"); //invoice number            
-                var nameCheck = returnData.customer;
-                nameCheck = createElipse(nameCheck, 0.9, 12);                
+                var nameCheck = createElipse(returnData.customer, 0.9, 12);                
                 $("#customerName").html(nameCheck); // customer name
                 var date = formatDate(returnData.date);
                 $("#invoiceDate").html(date);
                 $("#invoiceHours").html(returnData.total_hours+"<span class='detail3Small'>hrs</span>"); // hours to invoice
-                var amount = 0;
-                var change = ".00";
-                var length = returnData.amount.toString().length;
-                if(returnData.amount.toString().indexOf(".") >= 0)
-                {
-                    amount = returnData.amount.toString().substring(0, length -3);
-                    change = "."+returnData.amount.toString().substring(length-2, length);
-                    if(change.indexOf("..") >= 0)
-                    {
-                        change = "."+returnData.total_cost.toString().substring(length-1, length)+"0";
-                    }
-                }
-                else
-                {
-                    amount = returnData.amount;
-                }
+                var amount = Number(returnData.amount).toFixed(2).toString();
+                var change = amount.substring(amount.length-3, amount.length);
+                var amount = amount.substring(0, amount.length -3);
+                
                 $("#invoiceAmount").html(localStorage.getItem('currency')+amount +"<span class='detail3Small'>"+change+"</span>");  // invoice amount
                 if (!isTravelCosts) {
                     $("#invoiceTravel").parent().parent().hide();
@@ -2303,7 +2187,7 @@ $(document).ready(function(){
                     for(var x = 0; x < returnData.recipients.length; x++)
                     {
                         var email = $.md5(returnData.recipients[x].email);
-                        var insert = "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p>" +
+                        var insert = "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+createElipse(returnData.recipients[x].email, 0.9, 12)+"</p>" +
                             (returnData.recipients[x].is_accounting_contact ? "<img class='plusIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/check.png'> " : "<img class=closeIcon id=\""+ returnData.recipients[x].email +"\" src='img/error.png'>") + "</div></li></ul></li>";
                         $(insert).appendTo("#recipientList");
                     }
@@ -2315,7 +2199,7 @@ $(document).ready(function(){
                     $("#sendInvoiceButton").remove();
                 }
                 //createSpan("#recipientList");
-
+/*
                 // adds timelogs asscoited with this invoice to the invoice timelogs list
                 $("#invoiceLogs").empty();
                 if(returnData.time_logs != null){
@@ -2341,13 +2225,60 @@ $(document).ready(function(){
                         $(insert).appendTo("#expensesList");
                     }
                 }
+                */
                 reveal();
             },
-                                                                           function() {
+                                         function(e) {
+                showError(e);
                 console.log("fail @ Invoice details");
 
             }
-                                                                          );}
+                                                                          );
+        
+            $("#sendInvoiceButton").click(function(){
+                //alert(localStorage.getItem('invoiceNumber'));
+                if ($(".recipient").children(".plusIcon").length < 1)
+                {
+                    userMessage.showMessage(false, "No accounting contacts added");
+                    return;
+                }
+                var emails = ""; 
+                $.each($(".recipient").children(".plusIcon"), function(){emails+=$(this).attr("id") + ",";}); 
+
+                var data, number = localStorage.invoiceNumber;
+                var isUnbilled = (number.indexOf(",") != -1);
+                if (isUnbilled)
+                {
+                    number = number.split(",");
+                    data = {"status": "unbilled", "account" : number[0], "project" : number[1], 
+                            "start_date" : start_date, "end_date" : end_date};
+                    number = 'invoices';
+                }
+                else
+                {
+                    data = {"action":"sendEmail"};
+                    number = 'invoices/' +number;
+                }
+
+                data.recipients = emails;
+
+                getApi(number, data, isUnbilled ? 'POST' : 'PUT').then(function (d) {
+                    setTimeout(
+                        function()
+                        {
+                            backFunction();
+                        }, 1000);
+                    userMessage.setMessage(true, "Hurray! Invoice sent");
+                },
+                                                                       function (e, textStatus, errorThrown) {
+                    //alert(textStatus);
+                    showError(e);
+                    console.log("fail @ storage Account List");
+                }
+
+                                                                      );
+            });
+        }
     };
 
     /*
@@ -2535,23 +2466,16 @@ $(document).ready(function(){
 
     // get a list of invoices both for a specific account as well as a complete list of invoices
     var invoiceList = {
-        init:function(){
-            var is_unbilled = getParameterByName("status");
+        init:function(is_unbilled){
             var accountid = localStorage.DetailedAccount;
             //todo localStorage.DetailedAccount = "";
             //cleanQuerystring();
-            //todo
-            $("#invoiceCreate").remove();
-            if (is_unbilled){
-                $("#invoiceCreate").remove();
-                $("h1.SherpaDesk").html("Create Invoices");
-            }
-            else
+            if (!is_unbilled)
                 $("#invoiceCreate").click(
                     function(){
                         //localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
                         //localStorage.setItem('add_user_accountid',account);
-                        window.location.replace("Invoice_List.html?status=unbilled".addUrlParam("page",getPage()[2]));
+                        window.location.replace("unInvoice_List.html");
                     });
             this.listInvoices(accountid, is_unbilled);
         },
@@ -2574,8 +2498,12 @@ $(document).ready(function(){
                     for(var i = 0; i < returnData.length; i++)
                     {
                         var customer = createElipse(returnData[i].customer, 0.33, 12); // account name
-                        var date = formatDate(returnData[i].date || "Create new");
-                        var id = is_unbilled ? returnData[i].account_id +","+returnData[i].project_id : returnData[i].id;
+                        var date = formatDate(returnData[i].date || returnData[i].end_date || new Date().toJSON());
+                        var id = returnData[i].id;
+                        if (is_unbilled) { 
+                            //date = formatDate(returnData[i].start_date || new Date().toJSON()) + " to " + date;
+                            id = returnData[i].account_id +","+returnData[i].project_id;// +","+(returnData[i].start_date || new Date().toJSON()).slice(0, 10) +","+ (returnData[i].end_date || new Date().toJSON()).slice(0, 10);
+                        }
                         insert += "<ul data-id="+id+" class='invoiceRows item'><li class=user_name>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
                         //if (!accountid) localInvoiceList.push(insert);
                     }
@@ -2585,9 +2513,9 @@ $(document).ready(function(){
                     reveal();
                     filterList("tabpageContainer");
                 },
-                function() {
-                    console.log("fail @ Invoice List");
-
+                function(e) {
+                    showError(e);
+                    console.log("fail @ invoice List");
                 }
             );
         }
@@ -2602,7 +2530,7 @@ $(document).ready(function(){
                 function(){
                     localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
                     localStorage.setItem('add_user_accountid',account);
-                    window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]));
+                    window.location.replace("add_tickets.html");
                 });
         },
 
@@ -2631,9 +2559,9 @@ $(document).ready(function(){
                         }
                     }
                 },
-                function() {
-                    console.log("fail @ Queues tickets");
-
+               function(e) {
+                    showError(e);
+                    console.log("fail @ queue Tickets");
                 }
             );
         }
@@ -2668,9 +2596,10 @@ $(document).ready(function(){
                     reveal();
                     if (!limit) {createSpan(parent);filterList("OptionsList");}
                 },
-                                                                     function() {
+                    function(e) {
+                    showError(e);
                     console.log("fail @ Queues List");
-                });
+             });
             }, time);
         },
 
@@ -2778,8 +2707,9 @@ $(document).ready(function(){
                     ticketList.createTicketsList(returnData, "#techContainer", cacheName1);
                     featureList2 = filterList("techContainer", "", localStorage.getItem("searchItem"));
                 },
-                                                                       function() {
-                    console.log("fail @ tech ticket List");
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ tech Container");
                 }
                                                                       );}, time); 
         },
@@ -2808,10 +2738,11 @@ $(document).ready(function(){
                     reveal();
 
                 },
-                                                                          function() {
+                   function(e) {
+                    showError(e);
                     console.log("fail @ all ticket List");
                 }
-                                                                         );}, time); 
+            );}, time); 
         },
 
         // get alt tech tickets
@@ -2836,8 +2767,9 @@ $(document).ready(function(){
                     ticketList.createTicketsList(returnData, "#altContainer", cacheName1);
                     featureList4 = filterList("altContainer", "", localStorage.getItem("searchItem"));
                 },
-                                                                           function() {
-                    console.log("fail @ alt ticket List");
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ all ticket List");
                 }
                                                                           );}, time); 
         },
@@ -2864,9 +2796,10 @@ $(document).ready(function(){
                     ticketList.createTicketsList(returnData, "#userContainer", cacheName1);
                     featureList5 = filterList("userContainer", "", localStorage.getItem("searchItem"));
                 },
-                                                                              function() {
-                    console.log("fail @ user ticket List");
-                }
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ user Container");
+                    }
                                                                              );}, time); 
         }
     };
@@ -2928,8 +2861,9 @@ $(document).ready(function(){
                 localStorage.setItem("storageAccountList",JSON.stringify(returnData));
                 reveal();
             },
-                                                                     function() {
-                console.log("fail @ listAccounts");
+                 function(e) {
+                    showError(e);
+                    console.log("fail @ Account List");
             }
                                                                     );}, time);
         },
@@ -3051,9 +2985,10 @@ $(document).ready(function(){
                 if (returnData.length > 1)
                     filterList("timelogs");
             },
-                                                 function() {
-                console.log("fail @ timelogs");
-            }
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ time logs");
+                }
                                                 );
         }
     };
@@ -3125,8 +3060,9 @@ $(document).ready(function(){
                         localStorage.setItem("storageAccountList", JSON.stringify(test));
                     }
                 },
-                                                                function() {
-                    console.log("fail @ accounts");
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ storage Account List");
                 }
                                                                );
             }, time);
@@ -3137,10 +3073,10 @@ $(document).ready(function(){
                         ticketList.createTicketsList(returnData, ".AccountDetailsTicketsContainer",'account'+currentDetailedAccount);
                         filterList("AccountDetailsTicketsContainer");
                     },
-                    function() {
-                        console.log("fail @ accounts");
-
-                    }
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ Account");
+                }
                 );
             }, timeTickets);
         }        
@@ -3181,9 +3117,11 @@ $(document).ready(function(){
                 }
 
             },
-                                                     function() {
-                console.log("fail @ timelogs");
-            }
+                    function(e) {
+                    showError(e);
+                    console.log("fail @ accountlogs");
+                }
+            
                                                     );
         }
     };
@@ -3211,9 +3149,10 @@ $(document).ready(function(){
                     reveal();
                     localStorage.setItem("ticketsStat", JSON.stringify(returnData));
                 },
-                                              function() {
+                    function(e) {
+                    showError(e);
                     console.log("fail @ get TicketsCounts");
-                }
+                         }
                                              );
             }, time);
         },
@@ -3278,7 +3217,8 @@ $(document).ready(function(){
             }
         },
                               function (j,t,e) {
-            console.log("fail @ config");
+                     showError(e);
+                    console.log("fail @ config");
             //setTimeout(function () {
             //logout(j.url !== ApiSite + "login", e);
             //}, 1000);
@@ -3305,9 +3245,10 @@ $(document).ready(function(){
                 reveal();
                 window.setTimeout(reveal,500);
             },
-                                                                         function() {
-                console.log("fail @ accounts");
-
+                     function(e) {
+                    showError(e);
+                    console.log("fail @ Account");
+            
             }
                                                                         );
         }
@@ -3316,7 +3257,7 @@ $(document).ready(function(){
     // organization Ajax call
     var org = {
         init: function () {
-            if (location.pathname.indexOf("org.html") < 0)
+            if (Page != "org.html")
                 return;
             $('.instSelect').hide();
             userKey = localStorage.getItem("userKey");
@@ -3468,11 +3409,11 @@ $(document).ready(function(){
             if ($createButton){
                 $createButton.click(
                     function(){
-                        window.location.replace("add_tickets.html".addUrlParam("page",getPage()[2]));
+                        window.location.replace("add_tickets.html");
                     });
             }
             $("#invoiceOption").click(function(){
-                window.location = "Invoice_List.html".addUrlParam("page",getPage()[2]);
+                window.location = "Invoice_List.html";
             });
             // go to complete list of invoice on click
             $("#allInvoice").click(function(){
@@ -3616,12 +3557,33 @@ $(document).ready(function(){
         fullapplink();
         if (typeof navigator.splashscreen !== 'undefined') 
             navigator.splashscreen.hide();
+        
         //Disable for user
-        if (!isTech){
+        if (!isTech)
             $(".sideNavLinks").children(":not('.user')").hide();
+
+        if (Page=="ticket_list.html")
+        {
+            localStorage.DetailedAccount = localStorage.addAccountTicket = '';
+            ticketList.init();
+            //accountDetailsPageSetup.init();
+            return;
+
         }
+        if (Page=="ticket_detail.html")
+        {
+            detailedTicket.init();
+            pickUpTicket.init();
+            transferTicket.init();
+            closeTicket.init();
+            //addTime.init();
+            postComment.init();
+            return;
+        }
+
         //Only for tech
-        else{
+        if (isTech)
+        {
             if(!isAccount)
                 $("#itemAccount").parent().hide();
             if(!isInvoice)
@@ -3633,9 +3595,9 @@ $(document).ready(function(){
                 $(".expense").hide();
 
             //conditional api calls determined by page
-            if (location.pathname.endsWith("dashboard.html"))
+            if (Page=="dashboard.html")
             {
-                localStorage.DetailedAccount = '';
+                localStorage.DetailedAccount = localStorage.addAccountTicket = '';
                 var orgName = localStorage.getItem('userOrg');
                 if (orgName)
                     $("#indexTitle").html(orgName);
@@ -3647,7 +3609,79 @@ $(document).ready(function(){
                 //reveal();
                 return;
             }
-            if (location.pathname.endsWith("account_details.html"))
+            if (Page=="Account_List.html")
+            {
+                if (isAccount)
+                {
+                    localStorage.DetailedAccount = localStorage.addAccountTicket = '';
+                    accountList.init("#fullList");
+                    return;
+                }
+            }
+            if (Page=="timelog.html")
+            {
+                if (isTime)
+                {
+                    //accountTimeLogs.init();
+                    timeLogs.init();
+                    //addTime.init();
+                    return;
+                }
+            }
+            if (Page=="allInvoice_List.html")
+            {
+                if (isTime && isInvoice)
+                {
+                    invoiceList.init();
+                    return;
+                }
+            }
+            if (Page=="Queues.html")
+            {
+                getQueues.init("#queuesPage");
+                return;
+            }
+            if (Page=="queueTickets.html")
+            {
+                getQueueTickets.init();
+                return;
+            }
+
+            if (Page=="closedTickets.html")
+            {
+                // detailedTicket.init();
+                closedTickets.init();
+                return;
+            }
+            //$("#loading").show();
+            if (Page=="addTicketTime.html")
+            {
+                if (isTime) { 
+                    addTime.init();
+                    return;
+                }
+
+            }
+            //set page
+            var currPage = Page+'_ref';
+
+            backFunction = function(){
+                var reff = localStorage.getItem(currPage);
+                if (!reff)
+                    history.back();
+                else {
+                    localStorage.setItem(currPage, "");
+                    //if (window.backAddFunction)
+                    //    window.backAddFunction(); 
+                    window.location.replace(reff);
+                }
+
+            };
+
+            if (!localStorage.getItem(currPage))
+                localStorage.setItem(currPage, document.referrer || localStorage.referrer || "index.html");
+
+            if (Page=="account_details.html")
             {
                 if (isAccount)
                 {
@@ -3658,26 +3692,7 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("Account_List.html"))
-            {
-                if (isAccount)
-                {
-                    localStorage.DetailedAccount = '';
-                    accountList.init("#fullList");
-                    return;
-                }
-            }
-            if (location.pathname.endsWith("timelog.html"))
-            {
-                if (isTime)
-                {
-                    //accountTimeLogs.init();
-                    timeLogs.init();
-                    //addTime.init();
-                    return;
-                }
-            }
-            if (location.pathname.endsWith("accountTimes.html"))
+            if (Page=="accountTimes.html")
             {
                 if (isTime && isAccount)
                 {
@@ -3686,7 +3701,7 @@ $(document).ready(function(){
                     return;
                 }
             }
-            if (location.pathname.endsWith("allInvoice_List.html"))
+            if (Page=="Invoice_List.html")
             {
                 if (isTime && isInvoice)
                 {
@@ -3694,103 +3709,58 @@ $(document).ready(function(){
                     return;
                 }
             }
-            else if (location.pathname.indexOf("Invoice_List.html") >= 0)
+            if (Page=="unInvoice_List.html")
             {
                 if (isTime && isInvoice)
                 {
-                    invoiceList.init();
+                    invoiceList.init("unbilled");
                     return;
                 }
             }
-            if (location.pathname.endsWith("invoice.html"))
+
+            if (Page=="invoice.html")
             {
                 if (isTime && isInvoice)
                 {
                     detailedInvoice.init();
-                    sendInvoice.init();
-                    addRecip.init();
+                    //addRecip.init();
                     return;
                 }
             }
-            if (location.pathname.endsWith("Queues.html"))
-            {
-                getQueues.init("#queuesPage");
-                return;
-            }
-            if (location.pathname.endsWith("queueTickets.html"))
-            {
-                getQueueTickets.init();
-                return;
-            }
-            if (location.pathname.endsWith("add_time.html"))
+            if (Page=="add_time.html")
             {
                 if (isTime)
                 {
-                    //window.location.replace(document.referrer);
                     addTime.init();
                     return;
                 }
             }
-            if (location.pathname.endsWith("add_user.html"))
+            if (Page=="add_user.html")
             {
-                //window.location.replace(document.referrer);
                 addUser.init();
                 return;
             }
-            if (location.pathname.endsWith("addExpence.html"))
+
+            if (Page=="addExpence.html")
             {
                 if (isExpenses)
                 {
-                    //window.location.replace(document.referrer);
                     addExpence.init();
                     return;
                 }
             }
-            if (location.pathname.endsWith("edit_time.html"))
+            if (Page=="edit_time.html")
             {
                 if (isTime)
                 {
-                    //window.location.replace(document.referrer);
                     addTime.init(true);
                     return;
                 }
             }
-            if (location.pathname.endsWith("closedTickets.html"))
-            {
-                // detailedTicket.init();
-                closedTickets.init();
-                return;
-            }
-            //$("#loading").show();
-            if (location.pathname.endsWith("addTicketTime.html"))
-            {
-                if (isTime) { 
-                    addTime.init();
-                    return;
-                }
+        }
 
-            }
-        }
-        if (location.pathname.endsWith("ticket_list.html"))
+        if (Page=="add_tickets.html")
         {
-            ticketList.init();
-            //accountDetailsPageSetup.init();
-            return;
-
-        }
-        if (location.pathname.endsWith("ticket_detail.html"))
-        {
-            detailedTicket.init();
-            pickUpTicket.init();
-            transferTicket.init();
-            closeTicket.init();
-            //addTime.init();
-            postComment.init();
-            return;
-        }
-        if (location.pathname.endsWith("add_tickets.html"))
-        {
-            //window.location.replace(document.referrer);
             newTicket.init();
             //accountTimeLogs.init();
             return;
@@ -3810,7 +3780,7 @@ $(document).ready(function(){
         //userInfo.init();
 
         //when user logged in
-        if (location.pathname.indexOf("index.html") < 0 && location.pathname != "/" && location.pathname.indexOf("org.html")<0)
+        if (Page !="index.html" && Page != "" && Page !="org.html")
         {
             var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
                 parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
