@@ -2142,8 +2142,7 @@ $(document).ready(function(){
                 start_date = returnData.start_date || new Date().toJSON();
                 end_date = returnData.end_date || new Date().toJSON();
                 $("#invoiceNumber").html(returnData.id ? "Invoice  #"+returnData.id : "Create Invoice"); //invoice number            
-                var nameCheck = returnData.customer;
-                nameCheck = createElipse(nameCheck, 0.9, 12);                
+                var nameCheck = createElipse(returnData.customer, 0.9, 12);                
                 $("#customerName").html(nameCheck); // customer name
                 var date = formatDate(returnData.date);
                 $("#invoiceDate").html(date);
@@ -2188,7 +2187,7 @@ $(document).ready(function(){
                     for(var x = 0; x < returnData.recipients.length; x++)
                     {
                         var email = $.md5(returnData.recipients[x].email);
-                        var insert = "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+returnData.recipients[x].email+"</p>" +
+                        var insert = "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p>"+createElipse(returnData.recipients[x].email, 0.9, 12)+"</p>" +
                             (returnData.recipients[x].is_accounting_contact ? "<img class='plusIcon' id=\""+ returnData.recipients[x].email +"\"  src='img/check.png'> " : "<img class=closeIcon id=\""+ returnData.recipients[x].email +"\" src='img/error.png'>") + "</div></li></ul></li>";
                         $(insert).appendTo("#recipientList");
                     }
