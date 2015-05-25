@@ -310,6 +310,37 @@ strong {
   margin-bottom: 4px;
 }
 
+.textInputSmall_Note  {
+  background: rgba(0, 0, 0, .4);
+  box-sizing:border-box;
+    -moz-box-sizing:border-box;
+  border: none;
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 16px;
+  height: 42px;
+  padding: 10px;
+  width: 65%;
+  resize:none;
+  margin-bottom: 4px;
+  float: right;
+  }
+
+.textInputSmall_Date  {
+  background: rgba(0, 0, 0, .4);
+  box-sizing:border-box;
+    -moz-box-sizing:border-box;
+  border: none;
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 16px;
+  height: 42px;
+  padding: 10px;
+  width: 32%;
+  resize:none;
+  margin-bottom: 14px;
+  }
+
 .buttonListdiv {
     list-style-type: none;
     margin-bottom: 10px;
@@ -364,6 +395,37 @@ strong {
    background: url("../img/select_arrow.png") no-repeat #489CD6;
    background-position: top 18px right 18px;
    border-radius: 3px;
+}
+
+.styledSelectSearch {
+   width: 100%;
+   height: 45px;
+   margin-bottom: 15px;
+   overflow: hidden;
+   background: no-repeat #489CD6;
+   background-position: top 18px right 18px;
+   border-radius: 3px;
+}
+
+.styledSelectDate {
+   width: 35%;
+   height: 45px;
+   margin-bottom: 15px;
+   overflow: hidden;
+   background: url("../img/select_arrow.png") no-repeat #489CD6;
+   background-position: top 18px right 18px;
+   border-radius: 3px;
+}
+
+.styledSelect selectDate {
+   background: transparent;
+   color: #ffffff;
+   width: 35%;
+   font-size: 16px;
+   border: none;
+   height: 45px;
+   padding: 0 20px;
+   -webkit-appearance: none;
 }
 
 .smallHeader {
@@ -884,6 +946,12 @@ header {
   float: left;
 }
 
+.searchIconExpandedSearch {
+  height: 23px;
+  margin: 12px 13px;
+  float: right;
+}
+
 .searchCloseExpanded {
   float: left;
   margin-top: -2px;
@@ -1240,6 +1308,13 @@ header {
 
 .plusIconCheck {
   height: 32px;
+  /*display: none;*/
+}
+
+.plusIconbutton_me {
+  height: 40px;
+  float: right;
+  margin-top: -57px;
   /*display: none;*/
 }
 
@@ -1823,7 +1898,6 @@ footer {
 }
 
 .orginalMessageContainer img {
-  float: left;
   margin: 10px -5px 0;
 }
 
@@ -2607,6 +2681,17 @@ br {
   font-size: 16px;
   height: 40px;
   background-color: rgba(0,0,0,0.4);
+  color: #fff;
+  padding-left: 10px;
+}
+
+.inputDate {
+  margin-bottom: 10px;
+  border: 0px;
+  width: 100%;
+  font-size: 16px;
+  height: 40px;
+  background-color: transparent;
   color: #fff;
   padding-left: 10px;
 }

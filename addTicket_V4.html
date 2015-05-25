@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>    
     <title>SherpaDesk</title>
     <!-- Main stylesheet -->
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.min.css" />
     
     <!-- Media query for tablets -->
     <link rel="stylesheet" href="css/tablet.css" />
@@ -22,13 +22,31 @@
     
     <!-- Jquery -->
     <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
-    
+     <link rel="stylesheet" type="text/css" href="js/jquery.datetimepicker.css"/ >
+      <script src="js/jquery.datetimepicker.js"></script>
+    <script> 
+     $(document).ready(function(){
+         jQuery('#date').datetimepicker({
+                timepicker:false,
+                format:'d/m/Y',
+             onShow:function( ct ){
+                 this.setOptions({
+                     minDate: new Date()
+                 });
+             }
+                           
+                
+            });
+     })
+        
+        
+    </script>
     <!-- Jquery UI -->
     
     
     <!-- Main.js -->
     <script src="js/index.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/main.min.js"></script>
     
     
     <script src="js/fastclick.js"></script>
@@ -52,16 +70,23 @@
 <body>
   <div class="bodyContent">
     <div class="CreateInvoiceWrapper"> 
-        <div class="styledSelect">
+       <!--  <div class="styledSelect">
            <select>
               <option value="" disabled selected>Select a End User</option>
               <option value="Sherpadesk">Make Me the User</option>
               <option value="ACME INC">Add New User</option>
            </select>
+        </div>--> 
+        <div class="styledSelectSearch user styledSelectSmall">
+           <img class="searchIconExpandedSearch" src="img/search_icon.png">
+            <!--  <select id="addTicketUser">     
+            </select>--> 
         </div>
-        <div class="styledSelect">
+        <div id="userCreate" class="createButtonSmall1 destroyButtonSmall">
+            <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div> 
+            <div class="styledSelect">
            <select>
-              <option value="" disabled selected>Select an account</option>
+              <option value="" disabled selected>Select an Account</option>
               <option value="Sherpadesk">Sherpadesk</option>
               <option value="ACME INC">ACME INC</option>
            </select>
@@ -84,15 +109,22 @@
            </select>
         </div>
         <div class="selectionGroup"></div>
-        <div class="styledSelect">
+        <!-- <div class="styledSelect">
            <select>
               <option value="" disabled selected>Select a Class</option>
               <option value="Sherpadesk">Help Desk</option>
               <option value="ACME INC">API</option>
               <option value="ACME INC">Website</option>
            </select>
+        </div>-->
+        
+        <div class="styledSelect user styledSelectSmall">
+            <select id="addTicketUser">     
+            </select>
         </div>
-
+        <div id="userCreate" class="createButtonSmall1 destroyButtonSmall">
+            <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div> 
+            
         <div class="styledSelect detailedOption">
            <select>
               <option value="" disabled selected>Select a Level</option>
@@ -109,7 +141,7 @@
               <option value="ACME INC">Bug/Hard Errors</option>
            </select>
         </div>
-        <div class="styledSelect detailedOption">
+        <!-- <div class="styledSelect detailedOption">
            <select>
               <option value="" disabled selected>Select a Technician</option>
               <option value="Sherpadesk">Let The System Choose</option>
@@ -118,8 +150,15 @@
               <option value="ACME INC">Matt</option>
               <option value="ACME INC">John</option>
            </select>
+        </div>-->
+        <div class="styledSelect user styledSelectSmall">
+            <select id="addTicketUser">     
+            </select>
         </div>
-        <div class="styledSelect detailedOption">
+        <div id="userCreate" class="createButtonSmall1 destroyButtonSmall">
+            <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div> 
+            
+        <!-- <div class="styledSelect detailedOption">
            <select>
               <option value="" disabled selected>Select a Alternate Tech</option>
               <option value="Sherpadesk">Let The System Choose</option>
@@ -128,8 +167,15 @@
               <option value="ACME INC">Matt</option>
               <option value="ACME INC">John</option>
             </select>
+        </div>-->
+        
+        <div class="styledSelect user styledSelectSmall detailedOption">
+            <select id="addTicketUser">     
+            </select>
         </div>
-        <div class="selectionGroup"></div>
+        <div id="userCreate" class="createButtonSmall1 destroyButtonSmall detailedOption">
+            <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div> 
+            <div class="selectionGroup"></div>
           <div class="styledSelect detailedOption">
            <select>
               <option value="" disabled selected>Status</option>
@@ -138,7 +184,30 @@
               <option value="ACME INC">Closed</option>
            </select>
         </div>
-        <textarea class="textInputSmall detailedOption" type="text" placeholder="Date 1/16/2014"></textarea>
+         <div class="styledSelect detailedOption">
+           <select>
+              <option value="" disabled selected>Submission Category</option>
+              <option value="Sherpadesk">Email Manual Conversion</option>
+              <option value="ACME INC">Fax</option>
+              <option value="ACME INC">In Person</option>
+              <option value="ACME INC">Postal Mail</option>
+              <option value="ACME INC">Phone</option>
+              <option value="ACME INC">Remote Assistance/Internet Chat</option>
+              <option value="ACME INC">Self Submission</option>
+              <option value="ACME INC">Voice Mail</option>
+          </select>
+        </div>
+             <div class="styledSelect detailedOption">
+           <select>
+              <option value="" disabled selected>Creation Category</option>
+              <option value="Sherpadesk">Fire and Brimstone</option>
+              <option value="ACME INC">General Inquiry</option>
+              <option value="ACME INC">Normal Wear and Tear</option>
+              <option value="ACME INC">Vandalism</option>
+           </select>
+        </div>
+            <input placeholder="Due Date" id="date" class=" textInputSmall_Date detailedOption">
+         <textarea class="textInputSmall_Note detailedOption" type="text" placeholder="Note"></textarea>
         <div class="styledSelect detailedOption">
            <select>
               <option value="" disabled selected>Attach Assets</option>
@@ -148,20 +217,28 @@
         </div>
         <div class="styledSelect detailedOption">
            <select>
+              <option value="" disabled selected>Folder</option>
+              <option value="Sherpadesk"></option>
+              <option value="ACME INC"></option>
+           </select>
+        </div>
+        <div class="styledSelect detailedOption">
+           <select>
               <option value="" disabled selected>ToDo Templates</option>
               <option value="Sherpadesk">New Hire</option>
               <option value="ACME INC">Active Account</option>
            </select>
         </div>
+        <div class="tester" id="details">
+        <i class="fa fa-angle-double-down fa-3x detailsArrowDown"></i>
+        <div class="upArrow">
+        <i class="fa fa-angle-double-up fa-3x detailsArrowUp"></i>
+        </div>
+        </div>
         <textarea class="textInputSmall" type="text" placeholder="Subject"></textarea>
         <textarea class="textInput" type="text" placeholder="Details..."></textarea>
         <a href="selectPayment.html"><button class="greenButton">Add Ticket</button></a>
-        <div class="tester" id="details">
-        <i class="fa fa-angle-double-down fa-4x detailsArrowDown"></i>
-        <div class="upArrow">
-        <i class="fa fa-angle-double-up fa-4x detailsArrowUp"></i>
-        </div>
-        </div>
+        
     </div>
   </div>
 </body>
