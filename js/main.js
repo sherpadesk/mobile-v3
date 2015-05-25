@@ -17,8 +17,8 @@ var ApiSite = 'http://api.beta.' + Site;
 var Page = location.pathname.substr(1);
 
 //locally test
-//Page = location.href.match(/(.+\w\/)(.+)/)[2];
-//$( window ).unload(function() { localStorage.setItem("referrer", Page); });
+Page = location.href.match(/(.+\w\/)(.+)/)[2];
+$( window ).unload(function() { localStorage.setItem("referrer", Page); });
 
 //global config
 var isTech = false,
@@ -372,7 +372,7 @@ function getFileLink(file)
     else
         img = "<img style='float:none;' src='img/file.png'>&nbsp;" + decodeURIComponent(file.split("/").slice(-1)) + "<p></p>";
 
-    return "<a class=\"comment_image_link\"" + 
+    return "<p/><a class=\"comment_image_link\"" + 
         (isPhonegap ? (" href=# onclick='openURL(\"" +file + "\")'>"+img+"</a>") :
          (" target=\"_blank\" href=\"" +file + "\">"+img+"</a>"));
 }
@@ -507,8 +507,11 @@ $(document).ready(function(){
     }
     
     function showError(e){
-        var error = (((e || {}).responseJSON || {}).ResponseStatus || {}).Message;
+        setTimeout(function(e){
+        reveal();
+        var error = e.data || (((e || {}).responseJSON || {}).ResponseStatus || {}).Message;
         userMessage.showMessage(false, error || "Error. Please contact Administrator");
+        }, 1000);
     }
 
     function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
@@ -2126,6 +2129,7 @@ $(document).ready(function(){
     //get info for a specific invoice
     var detailedInvoice = {
         init:function(){
+            $("#loading").show();
             if (localStorage.invoiceNumber.indexOf(",") != -1){
                 $("#sendInvoiceButton").html("Create Invoice"); 
                 $("#invoiceNumber").html("Create Invoice"); 
@@ -2249,7 +2253,7 @@ $(document).ready(function(){
                 //alert(localStorage.getItem('invoiceNumber'));
                 if ($(".recipient").children(".plusIcon").length < 1)
                 {
-                    userMessage.showMessage(false, "No accounting contacts added");
+                    userMessage.showMessage(false, "No accounting contacts selected");
                     return;
                 }
                 var emails = ""; 
@@ -2477,6 +2481,7 @@ $(document).ready(function(){
     // get a list of invoices both for a specific account as well as a complete list of invoices
     var invoiceList = {
         init:function(is_unbilled){
+            $("#loading").show();
             var accountid = localStorage.DetailedAccount;
             //todo localStorage.DetailedAccount = "";
             //cleanQuerystring();
@@ -2561,11 +2566,8 @@ $(document).ready(function(){
                         match = new RegExp('\"' + queueId+',(\\d+)').exec(test);
                         if (match) {
                             test = JSON.parse(test);
-                            retrievedObject = test[Number(match[1])];
-                            if (retrievedObject) {
-                                test[Number(match[1])].tickets_count = returnData.length;
-                                localStorage.setItem("storageQueues", JSON.stringify(test));
-                            }
+                            test[Number(match[1])].tickets_count = returnData.length;
+                            localStorage.setItem("storageQueues", JSON.stringify(test));
                         }
                     }
                 },
@@ -3569,11 +3571,31 @@ $(document).ready(function(){
             navigator.splashscreen.hide();
         
         //Disable for user
-        if (!isTech){
+        if (!isTech)
             $(".sideNavLinks").children(":not('.user')").hide();
+            
+        if (Page=="ticket_list.html")
+        {
+            localStorage.DetailedAccount = localStorage.addAccountTicket = '';
+            ticketList.init();
+            //accountDetailsPageSetup.init();
+            return;
+
         }
+        if (Page=="ticket_detail.html")
+        {
+            detailedTicket.init();
+            pickUpTicket.init();
+            transferTicket.init();
+            closeTicket.init();
+            //addTime.init();
+            postComment.init();
+            return;
+        }
+
         //Only for tech
-        else{
+        if (isTech)
+        {
             if(!isAccount)
                 $("#itemAccount").parent().hide();
             if(!isInvoice)
@@ -3721,14 +3743,12 @@ $(document).ready(function(){
             {
                 if (isTime)
                 {
-                    //window.location.replace(document.referrer);
                     addTime.init();
                     return;
                 }
             }
             if (Page=="add_user.html")
             {
-                //window.location.replace(document.referrer);
                 addUser.init();
                 return;
             }
@@ -3737,7 +3757,6 @@ $(document).ready(function(){
             {
                 if (isExpenses)
                 {
-                    //window.location.replace(document.referrer);
                     addExpence.init();
                     return;
                 }
@@ -3746,45 +3765,18 @@ $(document).ready(function(){
             {
                 if (isTime)
                 {
-                    //window.location.replace(document.referrer);
                     addTime.init(true);
                     return;
                 }
             }
-            if (Page=="add_tickets.html")
-            {
-                //window.location.replace(document.referrer);
-                newTicket.init();
-                //accountTimeLogs.init();
-                return;
-            }
         }
-        if (Page=="ticket_list.html")
-        {
-            localStorage.DetailedAccount = localStorage.addAccountTicket = '';
-            ticketList.init();
-            //accountDetailsPageSetup.init();
-            return;
-
-        }
-        if (Page=="ticket_detail.html")
-        {
-            detailedTicket.init();
-            pickUpTicket.init();
-            transferTicket.init();
-            closeTicket.init();
-            //addTime.init();
-            postComment.init();
-            return;
-        }
+        
         if (Page=="add_tickets.html")
         {
-            //window.location.replace(document.referrer);
             newTicket.init();
             //accountTimeLogs.init();
             return;
         }
-
         //window.location = isTech ? "dashboard.html" : "ticket_list.html";
     }
 
