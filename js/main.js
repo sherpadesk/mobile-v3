@@ -1787,7 +1787,7 @@ $(document).ready(function(){
                     if (!timeLog.billable)
                         $(".innerCircle").removeClass("billFill");
                     $("#noteTime").val(timeLog.note);
-                    $("#addTimeTicket").val(timeLog.hours);
+                    $("#addTimeTicket").val(timeLog.hours || 0);
                     $(".title").html("Time #"+ timeLog.time_id + " by " + timeLog.user_name + " @ " + new Date(timeLog.date).dateFormat("Y/\m/\d H:i"));
                     if (timeLog.start_time)
                         $("#date_start").val(new Date(timeLog.start_time).dateFormat("Y/\m/\d H:i"));
@@ -2915,7 +2915,7 @@ $(document).ready(function(){
                     continue;
                 var nameCheck = returnData[i].name;
                 nameCheck = createElipse(nameCheck, 0.30, 12);
-                var openHours = returnData[i].account_statistics.hours;
+                var openHours = returnData[i].account_statistics.hours || 0;
                 if(openHours > 999){
                     openHours = 999;
                 }
@@ -2971,15 +2971,10 @@ $(document).ready(function(){
                         var text = returnData[i].note;
                         var id = returnData[i].time_id;
                         //check to see if hours are has a decimal
-                        var hours = returnData[i].hours;
-                        hours =hours.toString();
+                        var hours = returnData[i].hours.toString();
                         var nameCheck = returnData[i].user_name;
                         text = createElipse(text, 0.50, 8);
-                        if(hours.indexOf(".") >= 0)
-                        {
-                            // do nothing
-                        }
-                        else
+                        if(hours.indexOf(".") ==  -1)
                         {
                             hours = hours+".00";
                         }
@@ -3115,9 +3110,8 @@ $(document).ready(function(){
                     var email = $.md5(returnData[i].user_email);
                     var text = returnData[i].note;
                     // check for two decimals
-                    var hours = returnData[i].hours;
-                    hours =hours.toString();
-                    if(hours.indexOf(".") < 0)
+                    var hours = returnData[i].hours.toString();
+                    if(hours.indexOf(".") == -1)
                     {
                         hours = hours+".00";
                     }
