@@ -17,8 +17,8 @@ var ApiSite = 'http://api.' + Site;
 var Page = location.pathname.substr(1);
 
 //locally test
-Page = location.href.match(/(.+\w\/)(.+)/)[2] || location.pathname.substr(1);
-$( window ).unload(function() { localStorage.setItem("referrer", Page); });
+//Page = location.href.match(/(.+\w\/)(.+)/)[2] || location.pathname.substr(1);
+//$( window ).unload(function() { localStorage.setItem("referrer", Page); });
 
 //global config
 var isTech = false,
