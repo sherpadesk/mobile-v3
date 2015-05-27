@@ -1,8 +1,8 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var appVersion = "22";
-var adMessage = "Image fixes";
+var appVersion = "23";
+var adMessage = "Invoice improvements";
 function updatedFunction ()
 {
     location.reload(true);
@@ -1106,6 +1106,11 @@ $(document).ready(function(){
             localStorage.setItem('addAccountTicket', '');
             if(!isTech){
                 $("#addTicketAccounts").parent().hide();
+                $("#addTicketUser").parent().hide();
+                $("#userCreate").hide();
+                $("#addTicketTechs").parent().hide();
+                $("#TechCreate").hide();
+                $(".add_class").hide();
             }
             else
             {
@@ -1130,16 +1135,8 @@ $(document).ready(function(){
                     console.log("fail @ ticket accounts");
                  });
                 }
-            }
 
             // list of Users
-            if (!isTech)
-            {
-                $("#addTicketUser").parent().hide();
-                $("#userCreate").hide();
-            }
-            else
-            {
                 var userid = localStorage.getItem('add_user_userid');
                 if (userid) localStorage.setItem('add_user_userid', "");
                 else userid = localStorage.getItem('userId');
@@ -1167,19 +1164,9 @@ $(document).ready(function(){
                 }
                           );
 
-            }
-
             // after an account is choosed it get a list of technicians
 
             // list of Tech
-            if (!isTech)
-            {
-                $("#addTicketTechs").parent().hide();
-                $("#TechCreate").hide();
-
-            }
-            else
-            {
                 var technicians = getApi("technicians?limit=200");
                 technicians.then(function(returnData){
                     //console.log(returnData);
@@ -1198,14 +1185,6 @@ $(document).ready(function(){
                     console.log("fail @ Ticket Techs");
                 }
                                 );
-            }
-
-            if (!isTech)
-            {
-                $(".add_class").hide();
-            }
-            else
-            {
             // after techs are choosen then get a list of classes
             var classes = getApi('classes');
             classes.done(
@@ -2915,10 +2894,7 @@ $(document).ready(function(){
                     continue;
                 var nameCheck = returnData[i].name;
                 nameCheck = createElipse(nameCheck, 0.30, 12);
-                var openHours = returnData[i].account_statistics.hours || 0;
-                if(openHours > 999){
-                    openHours = 999;
-                }
+                var openHours = Math.min(returnData[i].account_statistics.hours || 0, 999);
                 textToInsert.push("<ul class='tableRows clickme' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1 " + (openTks > 99 ? "overflowTickets' style='height: 42px;'>99<sup>+</sup>" : "'>"+openTks) + "</div></li></ul>");
 
                 if(length > 10 && i == 10){
@@ -3009,13 +2985,15 @@ $(document).ready(function(){
             this.pageSetup();
         },
         createAccDetails: function (returnData) {
-            var accountHours = returnData.account_statistics.hours,
-                accountTickets = returnData.account_statistics.ticket_counts.open,
-                accountInvoices = returnData.account_statistics.invoices;
+            var accountHours = Math.min(returnData.account_statistics.hours, 999),
+                accountTickets = Math.min(returnData.account_statistics.ticket_counts.open, 999),
+                accountInvoices = Math.min(returnData.account_statistics.invoices, 999),
+                accountExpenses = Math.min(returnData.account_statistics.expenses, 999);
             $("#AD").html(returnData.name);
-            $("#ticketsOptionTicker").html(accountTickets > 999 ? 999 : accountTickets);
-            $("#invoiceOptionTicker").html(accountInvoices > 999 ? 999 : accountInvoices);
-            $("#timesOptionTicker").html(accountHours > 999 ? 999 : accountHours);
+            $("#ticketsOptionTicker").html(accountTickets);
+            $("#invoiceOptionTicker").html(localStorage.currency + Number(accountInvoices).toFixed(2).toString());
+            $("#timesOptionTicker").html(accountHours);
+            $("#expenseOptionTicker").html(localStorage.currency + Number(accountExpenses).toFixed(2).toString());
         },
         pageSetup: function() {
             var currentDetailedAccount = localStorage.getItem('DetailedAccount');
@@ -3466,10 +3444,7 @@ $(document).ready(function(){
             if(techTicketStats == null){
                 $('.menuTicketsStat').hide();
             }else{
-                if(techTicketStats > 100){
-                    techTicketStats = 99;
-                }
-                $(".menuTicketStatNumber").html(techTicketStats);
+                $(".menuTicketStatNumber").html(Math.min(techTicketStats, 99));
             }
         }
     };
@@ -3514,37 +3489,6 @@ $(document).ready(function(){
     };
 
     function routing(){
-        if (localStorage.getItem('userRole') === "tech")
-            isTech = true;
-        if (localStorage.getItem('projectTracking') === "false")
-            isProject = false;
-        if (localStorage.getItem('timeTracking') === "false")
-            isTime = false;
-        if (localStorage.getItem('accountManager') === "false")
-            isAccount = false;
-        if (localStorage.getItem('ticketLevels') === "false")
-            isLevel = false;
-        if (localStorage.getItem('classTracking') === "false")
-            isClass = false;
-        if (localStorage.getItem('locationTracking') === "false")
-            isLocation = false;
-        if (localStorage.getItem('freshbooks') === "false")
-            isFreshbook = false;
-        if (localStorage.getItem('is_invoice') === "false")
-            isInvoice = false;
-        if (localStorage.getItem('is_expenses') === "false")
-            isExpenses = false;
-        if (localStorage.getItem('is_travel_costs') === "false")
-            isTravelCosts = false;
-        if (localStorage.getItem('sd_is_MultipleOrgInst') === "false")
-        {
-            is_MultipleOrgInst = false;
-            $("#switchOrg").hide();
-        }
-        else
-            $("#switchOrg").show();
-        if (!isTime)
-            $(".time").remove();
         //refresh version
         if (localStorage.appVersion !== appVersion)
         {
@@ -3558,15 +3502,57 @@ $(document).ready(function(){
             }
             else
                 location.reload(true);
+            
+        if (localStorage.getItem('userRole') === "tech")
+            isTech = true;
+        else
+            $(".sideNavLinks").children(":not('.user')").hide();
+            
+        if (localStorage.getItem('projectTracking') === "false")
+            isProject = false;
+        if (localStorage.getItem('timeTracking') === "false")
+        {
+            isTime = false;
+            $(".time").remove();
+        }
+        if (localStorage.getItem('accountManager') === "false")
+        {
+            isAccount = false;
+            $("#itemAccount").hide();
+        }
+        if (localStorage.getItem('ticketLevels') === "false")
+            isLevel = false;
+        if (localStorage.getItem('classTracking') === "false")
+            isClass = false;
+        if (localStorage.getItem('locationTracking') === "false")
+            isLocation = false;
+        if (localStorage.getItem('freshbooks') === "false")
+            isFreshbook = false;
+        if (localStorage.getItem('is_invoice') === "false")
+        {
+            isInvoice = false;
+            $("#itemInvoice").hide();
+            $("#itemUnInvoice").hide();
+        }
+        if (localStorage.getItem('is_expenses') === "false")
+        {
+            isExpenses = false;
+            $(".expense").hide();
+        }
+        if (localStorage.getItem('is_travel_costs') === "false")
+            isTravelCosts = false;
+        if (localStorage.getItem('sd_is_MultipleOrgInst') === "false")
+        {
+            is_MultipleOrgInst = false;
+            $("#switchOrg").hide();
+        }
+        else
+            $("#switchOrg").show();
             //return;
         }
         fullapplink();
         if (typeof navigator.splashscreen !== 'undefined') 
             navigator.splashscreen.hide();
-        
-        //Disable for user
-        if (!isTech)
-            $(".sideNavLinks").children(":not('.user')").hide();
             
         if (Page=="ticket_list.html")
         {
@@ -3590,16 +3576,6 @@ $(document).ready(function(){
         //Only for tech
         if (isTech)
         {
-            if(!isAccount)
-                $("#itemAccount").parent().hide();
-            if(!isInvoice)
-            { 
-                $("#itemInvoice").hide();
-                $("#invoiceFooter").hide();
-            }
-            if (!isExpenses)
-                $(".expense").hide();
-
             //conditional api calls determined by page
             if (Page=="dashboard.html")
             {
