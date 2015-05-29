@@ -1331,9 +1331,9 @@ header {
   border-bottom: 1px solid #ffffff;
   color: #ffffff;
   list-style-type: none;
-  margin-top: 30px;
+  margin-top: 25px;
   overflow: hidden;
-  height: 40px;
+  height: 50px;
 }
 
 .invoiceAccount li:first-child {
