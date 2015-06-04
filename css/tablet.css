@@ -1,4 +1,9 @@
 @media screen and (min-width: 550px)  {
+    
+    .responseBlock li:last-child {
+        margin-top: 0px !important;
+    }
+    
   .ActiveAccountsContainer {
     width: 90%;
     margin-left: 20px;

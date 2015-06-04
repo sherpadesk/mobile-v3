@@ -110,10 +110,6 @@ body, html {
     min-height: 150px;
 }
 
-.page {
-    display: none;
-}
-
 .d0 { display: none; }
 .d1 { display: inline-block; }
 
@@ -1335,9 +1331,9 @@ header {
   border-bottom: 1px solid #ffffff;
   color: #ffffff;
   list-style-type: none;
-  margin-top: 30px;
+  margin-top: 25px;
   overflow: hidden;
-  height: 40px;
+  height: 50px;
 }
 
 .invoiceAccount li:first-child {
@@ -1475,7 +1471,7 @@ header {
   position: absolute;
   top: 0px;
   left: 0%;
-  padding-top: 18px;
+  padding-top: 11px;
   z-index: 5;
   display: none;
 }
@@ -1488,7 +1484,7 @@ header {
   position: absolute;
   top: 0px;
   left: 0%;
-  padding-top: 18px;
+  padding-top: 11px;
   z-index: 5;
   display: none;
 }
@@ -1770,7 +1766,6 @@ footer {
 .buttonShowClosedTickets {
   background:#0099CC;
   border: 0;
-  display: block;
   margin: 30px auto 15px;
   color: #ffffff;
   height: 45px;
@@ -2190,7 +2185,7 @@ font-size: 16px !important;
   font-size: 10px;
 }
 
-.user {
+.white {
   color: #ffffff;
   margin-top: 0px !important;
 }
