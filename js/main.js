@@ -20,13 +20,13 @@ var Page = location.pathname.substr(1);
 var isExtension = window.self !== window.top;
 
 //locally test
-Page = location.href.match(/(.+\w\/)(.+)/);
+/*Page = location.href.match(/(.+\w\/)(.+)/);
 Page = Page ? Page[2] : location.pathname.substr(1);
 $( window ).unload(function() { localStorage.setItem("referrer", Page); });
 //if (isExtension) localStorage.setItem("referrer", Page);
 
 if (Page.length > 20) alert("Set Page!");
-
+*/
 //global config
 var isTech = false,
     isProject = true,
@@ -1946,7 +1946,7 @@ $(document).ready(function(){
                 var time = $("#addTimeTicket").val();
                 var note = htmlEscape($("#noteTimeTicket").val().trim());
                 var tech = localStorage.getItem('techId');
-                var task_type = $("#ticketTaskTypes").val();
+                var task_type = $("#taskTypes").val();
                 if (note.length < 1)
                 {
                     userMessage.showMessage(false, "Please enter note");
@@ -1957,6 +1957,14 @@ $(document).ready(function(){
                     userMessage.showMessage(false, "Note cannot be more than 5000 chars!");
                     return;
                 }
+                if(task_type == '0'){
+                    userMessage.showMessage(false, "Choose a tasktype");
+                    return;
+                }
+                if(time <= 0){
+                    userMessage.showMessage(false, "Oops not enough time");
+                    return;
+                } 
                 // check to see if user check for time to be billable
                 if($(".innerCircle").hasClass("billFill")){
                     isBillable = true;
@@ -2021,15 +2029,18 @@ $(document).ready(function(){
                         $("#date_end").val(new Date(timeLog.stop_time).dateFormat("Y/\m/\d H:i"));
                 }
 
-                var account_id = localStorage.DetailedAccount ? localStorage.DetailedAccount : -1;
+                var account_id = localStorage.DetailedAccount || -1;
                 var project_id = 0;
                 var task_type_id = 0;
+                console.log(account_id + " " + project_id);
+                console.log(timeLog);
                 if (timeLog)
                 {
                     account_id = timeLog.account_id;
                     project_id = timeLog.project_id;
                     task_type_id = timeLog.task_type_id;
                 }
+                console.log(account_id + " " + project_id);
                 if(!isAccount)
                 {
                     $("#timeAccounts").parent().hide();
@@ -2108,13 +2119,19 @@ $(document).ready(function(){
                     if (dat2){
                         edat = JSON.stringify(new Date(dat2));
                     }
-                    if(time === 0){
+                    if(time <= 0){
                         userMessage.showMessage(false, "Oops not enough time");
                         return;
-                    } else if(accountId == '0' && isAccount){
-                        userMessage.showMessage(false, "choose an account");
+                    } 
+                    if(accountId == '0' && isAccount){
+                        userMessage.showMessage(false, "Choose an account");
                         return;
-                    }else{
+                    }
+                    if(taskId == '0'){
+                        userMessage.showMessage(false, "Choose a tasktype");
+                        return;
+                    }
+                    
                         ticketKey = parseInt(isEdit ? timeLog.ticket_id : ticketKey);
                         getApi('time' + (isEdit ? "/" + timeLog.time_id : ""),{
                             "tech_id" : isEdit ? timeLog.user_id : tech,
@@ -2139,7 +2156,6 @@ $(document).ready(function(){
                             console.log("fail @ pickup");
                         }
                                                         );
-                    }
                 });
             }
         }
