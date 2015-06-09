@@ -2032,15 +2032,12 @@ $(document).ready(function(){
                 var account_id = localStorage.DetailedAccount || -1;
                 var project_id = 0;
                 var task_type_id = 0;
-                console.log(account_id + " " + project_id);
-                console.log(timeLog);
                 if (timeLog)
                 {
                     account_id = timeLog.account_id;
                     project_id = timeLog.project_id;
                     task_type_id = timeLog.task_type_id;
                 }
-                console.log(account_id + " " + project_id);
                 if(!isAccount)
                 {
                     $("#timeAccounts").parent().hide();
