@@ -20,13 +20,13 @@ var Page = location.pathname.substr(1);
 var isExtension = window.self !== window.top;
 
 //locally test
-/*Page = location.href.match(/(.+\w\/)(.+)/);
+Page = location.href.match(/(.+\w\/)(.+)/);
 Page = Page ? Page[2] : location.pathname.substr(1);
 $( window ).unload(function() { localStorage.setItem("referrer", Page); });
 //if (isExtension) localStorage.setItem("referrer", Page);
 
 if (Page.length > 20) alert("Set Page!");
-*/
+
 //global config
 var isTech = false,
     isProject = true,
@@ -153,7 +153,7 @@ $( document ).ajaxError(function( event, request, settings ) {
         logout(settings.url !== ApiSite + "login", request.statusText);
     }
     setTimeout(function(){ $("#loading").hide1();
-                          $("body").show1(); 
+                          $("body").show1(); console.log("ajaxError:"+request.statusText + " page: " + settings.url);
                           redirectToPage();}, 1000);
 });
 
@@ -189,7 +189,7 @@ window.onerror = function(msg, url, line, col, error) {
     if (line > 0)
         setTimeout(function(){errorLine("<p onclick='$(\".err\").toggle();'>Click for Error Details:</p><div class=err style='display:none;'>" + msg + "<p>page: " + location.href + "<p>url: " + url + "<p>line: " + line + extra + "</div>");
                               $("#loading").hide1();
-                              $("body").show1();}, 1000);
+                              $("body").show1();console.log("onerror:"+msg + " page: " + location.href + " url: " + url + " line: " + line + extra);}, 1000);
 
     // TODO: Report this error via ajax so you can keep track
     //       of what pages have JS issues
@@ -506,9 +506,9 @@ $(document).ready(function(){
     var selectedEditClass;
 
     function getApi (method, data, type) {
-        var userKey = localStorage.getItem("userKey");
-        var userOrgKey = localStorage.getItem('userOrgKey');
-        var userInstanceKey = localStorage.getItem('userInstanceKey');
+        userKey = localStorage.getItem("userKey");
+        userOrgKey = localStorage.getItem('userOrgKey');
+        userInstanceKey = localStorage.getItem('userInstanceKey');
         if (!userKey || !userOrgKey || !userInstanceKey) {
             console.log("Invalid organization!");
             return;
@@ -642,27 +642,6 @@ $(document).ready(function(){
     // user login
     var UserLogin = {
         init: function () {
-            var loginPage = true;
-            if (Page != "index.html" && Page != "")
-                loginPage = false;
-            userKey = localStorage.getItem("userKey");
-            userOrgKey = localStorage.getItem('userOrgKey');
-            userInstanceKey = localStorage.getItem('userInstanceKey');
-            if ((!userKey || !userOrgKey || !userInstanceKey) && !loginPage && Page != "org.html" && Page != "signup.html") {
-                logout();
-                return;
-            }
-            if (!loginPage)
-                return;
-            if (userKey && userOrgKey && userInstanceKey) {
-                getInstanceConfig(userOrgKey, userInstanceKey);
-                return;
-            }
-            if (userKey) {
-                window.location = "org.html";
-                return;
-            }
-            else {
                 var key = getParameterByName('t');
                 var email = getParameterByName('e');
                 if (key) {
@@ -681,7 +660,6 @@ $(document).ready(function(){
                         userMessage.showMessage(false, error);
                     }
                 }
-            }
             this.login();
         },
         do_login: function () {
@@ -734,7 +712,6 @@ $(document).ready(function(){
         },
         login:function() {
             $("body").show1();
-            userKey = localStorage.getItem("userKey");
             var userName = localStorage.getItem('userName');
             if (userName !== null && userName.length > 0)
                 $("#userName").val(userName);
@@ -763,8 +740,6 @@ $(document).ready(function(){
     // org signup
     var OrgSignup = {
         init: function () {
-            if (Page != "signup.html")
-                return;
             var userName = localStorage.getItem('userName');
             if (userName !== null && userName.length > 0)
                 $("#email").val(userName);
@@ -2746,6 +2721,10 @@ $(document).ready(function(){
         },
 
         listInvoices:function(accountid, is_unbilled){
+            $(document).on("click",".invoiceRows", function(){
+                localStorage.setItem('invoiceNumber',$(this).attr("data-id"));
+                window.location = "invoice.html";
+            });
             var localInvoiceList = [];
             // get list of invoices for a specific account
             getApi("invoices", {"status": is_unbilled, "account" : accountid}).then(
@@ -2830,6 +2809,11 @@ $(document).ready(function(){
     // get complete queue list for the orginization for the Queues list page
     var getQueues = {
         init:function(parent, limit) {
+            $(document).on("click","#queue", function(){
+                localStorage.setItem('currentQueue',$(this).attr("data-id"));
+                localStorage.setItem('currentQueueName',$(this).find(".OptionTitle").text());
+                window.location = "queueTickets.html";
+            });
             cacheName = "storageQueues";
             getQueues.queues(limit, parent);
         },
@@ -2908,6 +2892,10 @@ $(document).ready(function(){
             }
         },
         createTicketsList : function (returnData, parent, cachePrefix){
+            $(document).on("click",".responseBlock", function(){
+                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
+                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
+            });
             var $table = $(parent);
             $table.empty();
             if(!returnData || returnData.length < 1){
@@ -3090,6 +3078,10 @@ $(document).ready(function(){
     //get a complete list of accounts attached to the orginizations
     var accountList = {
         init:function(parent, limit) {
+            $(document).on("click",'.tableRows, .listedAccount', function(){
+                localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
+                window.location = "account_details.html";
+            });
             cacheName = "storageAccountList";
             accountList.listAccounts(parent, limit);
         },
@@ -3252,6 +3244,10 @@ $(document).ready(function(){
         init:function() {
             var ticketAccount = localStorage.getItem('DetailedAccount');
             localStorage.setItem('addAccountTicket', ticketAccount);
+            if(!isInvoice) $("#invoiceOption").parent().remove();
+            else $("#invoiceOption").click(function(){
+                window.location = "Invoice_List.html";
+            });
             this.pageSetup();
         },
         createAccDetails: function (returnData) {
@@ -3416,6 +3412,22 @@ $(document).ready(function(){
                 }
                                              );
             }, time);
+            $(document).on('click','#asUserStat', function(){
+                localStorage.setItem('ticketPage','asUser');
+                window.location = "ticket_list.html";
+            });
+            $(document).on('click','#techStat', function(){
+                localStorage.setItem('ticketPage','asTech');
+                window.location = "ticket_list.html";
+            });
+            $(document).on('click','#asAltTechStat', function(){
+                localStorage.setItem('ticketPage','asAltTech');
+                window.location = "ticket_list.html";
+            });
+            $(document).on('click','#allTicketsStat', function(){
+                localStorage.setItem('ticketPage','allTickets');
+                window.location = "ticket_list.html";
+            });
         },
         setTicketCounts: function (returnData) {
             var allTickets = returnData.open_all;
@@ -3524,17 +3536,7 @@ $(document).ready(function(){
     // organization Ajax call
     var org = {
         init: function () {
-            if (Page != "org.html")
-                return;
             $('.instSelect').hide();
-            userKey = localStorage.getItem("userKey");
-            if (!userKey)
-            {
-                window.location = "index.html";
-                return;
-            }
-            userOrgKey = localStorage.getItem('userOrgKey');
-            userInstanceKey = localStorage.getItem('userInstanceKey');
             //sets user role to user in local storage
             localStorage.setItem('userRole', "user");
             if (userOrgKey && userInstanceKey)
@@ -3549,7 +3551,6 @@ $(document).ready(function(){
         getOrg: function() {
             $("body").show1();
             $("#loading").show1();
-            userKey = localStorage.getItem("userKey");
             $.ajax({
                 type: 'GET',
                 beforeSend: function (xhr) {
@@ -3667,67 +3668,27 @@ $(document).ready(function(){
 
     var miscClicks = {
         init:function() {
-            this.justClicked();
-            //this.menuFunctions();
+            //this.justClicked();
+            this.menuFunctions();
         },
 
         justClicked:function() {
+        },
+
+        menuFunctions:function(){
+            //set ticket amount in menu 
+            //var techTicketStats = localStorage.getItem('techStat');
+            //if(techTicketStats == null){
+            //    $('.menuTicketsStat').hide();
+            //}else{
+            //    $(".menuTicketStatNumber").html(Math.min(techTicketStats, 99));
+            //}
             $createButton = $("#ticketCreate");
             if ($createButton){
                 $createButton.click(
                     function(){
                         window.location.replace("add_tickets.html");
                     });
-            }
-            $("#invoiceOption").click(function(){
-                window.location = "Invoice_List.html";
-            });
-            // go to complete list of invoice on click
-            $("#allInvoice").click(function(){
-                window.location = "allInvoice_List.html";
-            });
-            $(document).on("click",".invoiceRows", function(){
-                localStorage.setItem('invoiceNumber',$(this).attr("data-id"));
-                window.location = "invoice.html";
-            });
-            $(document).on("click",'.tableRows, .listedAccount', function(){
-                localStorage.setItem('DetailedAccount',$(this).attr("data-id"));
-                window.location = "account_details.html";
-            });
-            $(document).on("click",".responseBlock", function(){
-                localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
-                window.location = "ticket_detail.html"; // change page location from ticket list to ticket detail list
-            });
-            $(document).on("click","#queue", function(){
-                localStorage.setItem('currentQueue',$(this).attr("data-id"));
-                localStorage.setItem('currentQueueName',$(this).find(".OptionTitle").text());
-                window.location = "queueTickets.html";
-            });
-            $(document).on('click','#asUserStat', function(){
-                localStorage.setItem('ticketPage','asUser');
-                window.location = "ticket_list.html";
-            });
-            $(document).on('click','#techStat', function(){
-                localStorage.setItem('ticketPage','asTech');
-                window.location = "ticket_list.html";
-            });
-            $(document).on('click','#asAltTechStat', function(){
-                localStorage.setItem('ticketPage','asAltTech');
-                window.location = "ticket_list.html";
-            });
-            $(document).on('click','#allTicketsStat', function(){
-                localStorage.setItem('ticketPage','allTickets');
-                window.location = "ticket_list.html";
-            });
-        },
-
-        menuFunctions:function(){
-            //set ticket amount in menu 
-            var techTicketStats = localStorage.getItem('techStat');
-            if(techTicketStats == null){
-                $('.menuTicketsStat').hide();
-            }else{
-                $(".menuTicketStatNumber").html(Math.min(techTicketStats, 99));
             }
         }
     };
@@ -3772,21 +3733,6 @@ $(document).ready(function(){
     };
 
     function routing(){
-        //refresh version
-        if (localStorage.appVersion !== appVersion)
-        {
-            localStorage.setItem("appVersion", appVersion);
-            console.log("Version updated to " + appVersion);
-            if (adMessage.length > 1)
-            {
-                setTimeout(function(){
-                    userMessage.showMessage(true, adMessage,updatedFunction);
-                }, 3000);
-            }
-            else
-                location.reload(true);
-        }
-
         if (localStorage.getItem('userRole') === "tech")
             isTech = true;
         else
@@ -3833,10 +3779,12 @@ $(document).ready(function(){
         else
             $("#switchOrg").show();
         //return;
+        miscClicks.init();
         fullapplink();
         switchOrg.init();
-        if (typeof navigator.splashscreen !== 'undefined') 
-            navigator.splashscreen.hide();
+        signout.init();
+        //if (typeof navigator.splashscreen !== 'undefined') 
+        //    navigator.splashscreen.hide();
 
         if (Page=="ticket_list.html")
         {
@@ -3951,7 +3899,6 @@ $(document).ready(function(){
             {
                 if (isAccount)
                 {
-                    if(!isInvoice) $("#invoiceOption").parent().remove();
                     accountDetailsPageSetup.init();
                     //detailedTicket.init();
                     closedTickets.pageChange();
@@ -4044,16 +3991,59 @@ $(document).ready(function(){
 
     //Main Method that calls all the functions for the app
     (function () {
+        
+        if (Page == "signup.html"){
+            OrgSignup.init();
+            return;
+        }
+        
         //always active api calls
         userMessage.init();
-        UserLogin.init();
-        org.init();
-        OrgSignup.init();
-        //userInfo.init();
-
-        //when user logged in
-        if (Page !="index.html" && Page != "" && Page !="org.html")
+        //refresh version
+        if (localStorage.appVersion !== appVersion)
         {
+            localStorage.setItem("appVersion", appVersion);
+            console.log("Version updated to " + appVersion);
+            if (adMessage.length > 1)
+            {
+                setTimeout(function(){
+                    userMessage.showMessage(true, adMessage,updatedFunction);
+                }, 3000);
+            }
+            else
+                location.reload(true);
+        }
+        var loginPage = Page == "index.html" || Page == "";
+        userKey = localStorage.getItem("userKey");
+        userOrgKey = localStorage.getItem('userOrgKey');
+        userInstanceKey = localStorage.getItem('userInstanceKey');
+        
+        if (!userOrgKey || !userInstanceKey)
+        {
+            if (userKey) 
+            {
+                if (Page != "org.html") {
+                    window.location = "org.html";
+                }
+                else
+                {
+                    org.init();
+                }
+            }
+            else 
+            {
+                if (!loginPage){
+                    logout();
+                }
+                else
+                    UserLogin.init();
+            }
+            return;
+        }
+        
+        //userInfo.init();
+        
+        //when user logged in
             var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
                 parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
             if (updateStatusBar) {
@@ -4074,8 +4064,6 @@ $(document).ready(function(){
             //$(".navProfile").attr("src","http://www.gravatar.com/avatar/" + $.md5(localStorage.getItem("userName")) + "?d=mm&s=80");
             //$(".navName").show();
             //$(".navProfile").show();
-            signout.init();
-            miscClicks.init();
             //init config
             //refresh version
             if (!localStorage.lastclick)
@@ -4089,7 +4077,6 @@ $(document).ready(function(){
                 return;
             }
             routing();
-        }
     }());
 
 
