@@ -491,7 +491,23 @@ function createSpan(elname){
     }
 }
 
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
 
+function cleanQuerystring() {
+    try {window.history.replaceState({}, document.title, location + Page);}
+    catch (err){}
+}
+
+function showError(e){
+    var error = e.data || (((e || {}).responseJSON || {}).ResponseStatus || {}).Message;
+    setTimeout(function(){
+        reveal();
+        userMessage.showMessage(false, error || "Error. Please contact Administrator");
+    }, 1000);
+}
 
 $(document).ready(function(){
     //preload image
@@ -526,23 +542,6 @@ $(document).ready(function(){
             data: data,
             dataType: "json"
         }).promise();
-    }
-
-    function getParameterByName(name) {
-        var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-    }
-
-    function cleanQuerystring() {
-        window.history.replaceState({}, document.title, MobileSite + Page);
-    }
-
-    function showError(e){
-        var error = e.data || (((e || {}).responseJSON || {}).ResponseStatus || {}).Message;
-        setTimeout(function(){
-            reveal();
-            userMessage.showMessage(false, error || "Error. Please contact Administrator");
-        }, 1000);
     }
 
     function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
@@ -4051,6 +4050,14 @@ $(document).ready(function(){
                 else
                     UserLogin.init();
             }
+            return;
+        }
+        
+        var ticket = getParameterByName('ticket');
+        if (ticket) {
+            cleanQuerystring();
+            localStorage.setItem('ticketNumber', ticket);
+            window.location = "ticket_detail.html";
             return;
         }
         
