@@ -2,8 +2,8 @@
 /*global jQuery, $ */
 
 var year="2015";
-var appVersion = "24";
-var adMessage = "Search update";
+var appVersion = "25";
+var adMessage = "Add ticket time";
 function updatedFunction ()
 {
     location.reload(true);
@@ -23,10 +23,10 @@ var isExtension = window.self !== window.top;
 /*Page = location.href.match(/(.+\w\/)(.+)/);
 Page = Page ? Page[2] : location.pathname.substr(1);
 $( window ).unload(function() { localStorage.setItem("referrer", Page); });
-//if (isExtension) localStorage.setItem("referrer", Page);
+*///if (isExtension) localStorage.setItem("referrer", Page);
 
-if (Page.length > 20) alert("Set Page!");
-*/
+//if (Page.length > 20) alert("Set Page!");
+
 //global config
 var isTech = false,
     isProject = true,
@@ -134,6 +134,10 @@ if (typeof String.prototype.addUrlParam !== 'function') {
     String.prototype.addUrlParam = function(param, value) {
         if (!value || !param)
             return this;
+        var pos = this.indexOf(param + '=');
+        //if parameter exists
+        if (pos != -1)
+            return this.slice(0, pos + param.length) + '=' + value;
         var ch = this.indexOf('?') > 0 ? '&' : '?';
         return this + ch + param + '=' + value;
     };
@@ -275,6 +279,7 @@ function clearStorage()
 {
     var userName = localStorage.userName;
     var appVersion = localStorage.appVersion;
+    var ticket = localStorage.loadTicketNumber;
     localStorage.clear();
     //localStorage.removeItem('userOrgKey');
     //localStorage.removeItem('userOrg');
@@ -282,6 +287,7 @@ function clearStorage()
     //localStorage.removeItem('userKey');
     localStorage.setItem("userName", userName);
     localStorage.appVersion = appVersion;
+    localStorage.loadTicketNumber = ticket;
     //clear also chrome ext if needed
     if (isExtension)
         window.top.postMessage("logout", "*");
@@ -1887,7 +1893,8 @@ $(document).ready(function(){
                     fillSelect(returnData, "#taskTypes", "<option value=0>choose a task type</option>");
                     if (task_type_id > 0)
                         $("#taskTypes").val(task_type_id);
-                    reveal();
+                    if (!$("#timeTicket").length)
+                        reveal();
                 },
                 function(e) {
                     showError(e);
@@ -1906,6 +1913,7 @@ $(document).ready(function(){
                 $("#timeProjects").on("change", function(){
                     var project = $("#timeProjects").val();
                     addTime.getTaskTypes({"account" : account, "project": project}, task_type_id);
+                    addTime.chooseTickets(account, project, 0);
                 });
                 $("#timeProjects").empty();
                 $("<option value=0>choose a project</option>").appendTo("#timeProjects");
@@ -1920,7 +1928,8 @@ $(document).ready(function(){
                             fillSelect(returnData.projects, "#timeProjects");
                             $("#timeProjects").val(project_id);
                             addTime.getTaskTypes({"account" : account, "project": project_id}, task_type_id);
-                            reveal();
+                            addTime.chooseTickets(account, project_id, 0);
+                            //reveal();
 
                         },
                         function(e) {
@@ -1932,11 +1941,49 @@ $(document).ready(function(){
                 else
                     $("#timeProjects").parent().show();
             }
-            else
+            else{
                 addTime.getTaskTypes({"account" : account}, task_type_id);
+                addTime.chooseTickets(account_id, project_id, 0);
+            }
+        },
+        chooseTickets : function (account, project_id, ticket_id){
+            if (!$("#timeTicket").length)
+                return;
+            if (typeof account === "undefined")
+                account = -1;
+            project_id = project_id || 0; 
+            ticket_id = ticket_id || 0;
+            if (!account)
+                account = isAccount ? $("#timeAccounts").val() : -1;
+            
+            
+                $("#timeTicket").empty();
+                    //get projects
+                    $("#loading").fadeIn();
+            getApi("tickets?status=open&limit=100&account="+account+"&project="+project_id).then( 
+                function(returnData) {
+                            ////console.log(returnData);
+                    var len = returnData.length;
+                    if (len <= 0 ) $("<option value=0 disabled>no open tickets found</option>").appendTo("#timeTicket"); 
+                    else {
+                        var insert = "<option value=0>choose a ticket</option>";
+                    for(var i = 0; i < len; i++)
+                    {
+                        insert += "<option value="+returnData[i].number+">#"+ returnData[i].number+"&nbsp;:&nbsp;"+returnData[i].subject+"</option>";
+                    }
+                    $(insert).appendTo("#timeTicket");
+                    //$("#timeTicket").val(ticket_id);
+                    }
+                        setTimeout(reveal, 500);
+
+                        },
+                        function(e) {
+                            showError(e);
+                            console.log("fail @ time Projects");
+                        }
+                    );
         },
         inputTime:function(isEdit){
-            var ticketKey = localStorage.getItem('ticketNumber');
             var isBillable = true;
             var date = new Date().toJSON().slice(0,10);
 
@@ -1946,6 +1993,7 @@ $(document).ready(function(){
                 var note = htmlEscape($("#noteTimeTicket").val().trim());
                 var tech = localStorage.getItem('techId');
                 var task_type = $("#taskTypes").val();
+                var ticketKey = localStorage.getItem('ticketNumber');
                 if (note.length < 1)
                 {
                     userMessage.showMessage(false, "Please enter note");
@@ -2009,7 +2057,7 @@ $(document).ready(function(){
             if ($("#submitTicketTime").length)
             {
                 //get task types
-                addTime.getTaskTypes({"ticket" : ticketKey}, 0);
+                addTime.getTaskTypes({"ticket" : localStorage.getItem('ticketNumber')}, 0);
             }
             else
             {
@@ -2027,19 +2075,24 @@ $(document).ready(function(){
                     if (timeLog.stop_time)
                         $("#date_end").val(new Date(timeLog.stop_time).dateFormat("Y/\m/\d H:i"));
                 }
+                else 
+                    $("#timeTicket").parent().show1();
 
                 var account_id = localStorage.DetailedAccount || -1;
                 var project_id = 0;
                 var task_type_id = 0;
+                var ticket_id = 0;
                 if (timeLog)
                 {
                     account_id = timeLog.account_id;
                     project_id = timeLog.project_id;
                     task_type_id = timeLog.task_type_id;
+                    ticket_id = timeLog.ticket_number;
                 }
+
                 if(!isAccount)
                 {
-                    $("#timeAccounts").parent().hide();
+                    $("#timeAccounts").parent().hide1();
                 }
                 else
                 {
@@ -2059,7 +2112,7 @@ $(document).ready(function(){
                         $("#timeAccounts").val(account_id);
                         //if (parseInt($("#timeAccounts").val()) !== account_id)
                         //    $("#timeAccounts").val(-1);
-                        reveal();
+                        //reveal();
 
                     },
                                                                                     function() {
@@ -2075,7 +2128,7 @@ $(document).ready(function(){
                 }
 
                 if(!isProject)
-                    $("#timeProjects").parent().hide();
+                    $("#timeProjects").parent().hide1();
                 else
                 {
                     var chooseProject = "<option value=0>choose a project</option>";
@@ -2086,11 +2139,13 @@ $(document).ready(function(){
 
                 $("#taskTypes").empty();
                 $("<option value=0>choose a task type</option>").appendTo("#taskTypes");
-                if (!isAccount && !isProject){
-                    reveal();
+                if (!isAccount || !isProject){
+                    //reveal();
                     addTime.getTaskTypes({"account" : account_id, "project": project_id}, task_type_id);
+                    addTime.chooseTickets(account_id, project_id, ticket_id);
                 }
                 // submit time to account
+
                 $("#submitTime").click(function(){
                     //alert(isEdit);
                     var time = $("#addTimeTicket").val();
@@ -2128,13 +2183,13 @@ $(document).ready(function(){
                         return;
                     }
                     
-                        ticketKey = parseInt(isEdit ? timeLog.ticket_id : ticketKey);
+                        ticket_id = ticket_id || Number($("#timeTicket").val());
                         getApi('time' + (isEdit ? "/" + timeLog.time_id : ""),{
                             "tech_id" : isEdit ? timeLog.user_id : tech,
                             "project_id": projectId,
-                            "is_project_log": !ticketKey,
-                            "ticket_id": ticketKey,
-                            "account_id" :accountId,
+                            "is_project_log": !ticket_id,
+                            "ticket_key": ticket_id,
+                            "account_id" : accountId,
                             "note_text": note,
                             "task_type_id":taskId,
                             "hours":time,
@@ -4019,6 +4074,13 @@ $(document).ready(function(){
         
         //always active api calls
         userMessage.init();
+        
+        var ticket = getParameterByName('ticket');
+        if (ticket) {
+            cleanQuerystring();
+            localStorage.setItem('loadTicketNumber', ticket);
+        }
+        
         //refresh version
         if (localStorage.appVersion !== appVersion)
         {
@@ -4061,19 +4123,23 @@ $(document).ready(function(){
             return;
         }
         
-        var ticket = getParameterByName('ticket');
+        ticket = localStorage.loadTicketNumber; 
+        
         if (ticket) {
-            cleanQuerystring();
+            localStorage.loadTicketNumber = '';
             localStorage.setItem('ticketNumber', ticket);
             window.location = "ticket_detail.html";
             return;
         }
         
-        if(loginPage)
+        if(loginPage){
             window.location = localStorage.getItem('userRole') === "tech" ? "dashboard.html" : "ticket_list.html";
-
+            return;
+        }
+        
         if (Page == "org.html") {
             org.init();
+            return;
         }
         //userInfo.init();
         
