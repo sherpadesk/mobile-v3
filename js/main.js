@@ -2130,7 +2130,8 @@ $(document).ready(function(){
                     $(chooseProject).appendTo("#timeProjects");
                     addTime.chooseProjects(account_id, project_id, task_type_id);
                     $("#timeProjects").on("change", function(){
-                            var project = $("#timeProjects").val();
+                        var account = isAccount ? $("#timeAccounts").val() : -1;
+                        var project = $("#timeProjects").val();
                             addTime.getTaskTypes({"account" : account, "project": project}, task_type_id);
                             addTime.chooseTickets(account, project, 0);
                     });
