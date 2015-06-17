@@ -1910,11 +1910,6 @@ $(document).ready(function(){
             if (!account)
                 account = isAccount ? $("#timeAccounts").val() : -1;
             if (isProject){
-                $("#timeProjects").on("change", function(){
-                    var project = $("#timeProjects").val();
-                    addTime.getTaskTypes({"account" : account, "project": project}, task_type_id);
-                    addTime.chooseTickets(account, project, 0);
-                });
                 $("#timeProjects").empty();
                 $("<option value=0>choose a project</option>").appendTo("#timeProjects");
 
@@ -2134,6 +2129,11 @@ $(document).ready(function(){
                     var chooseProject = "<option value=0>choose a project</option>";
                     $(chooseProject).appendTo("#timeProjects");
                     addTime.chooseProjects(account_id, project_id, task_type_id);
+                    $("#timeProjects").on("change", function(){
+                            var project = $("#timeProjects").val();
+                            addTime.getTaskTypes({"account" : account, "project": project}, task_type_id);
+                            addTime.chooseTickets(account, project, 0);
+                    });
                     reveal();
                 }
 
