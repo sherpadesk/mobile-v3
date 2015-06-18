@@ -1938,7 +1938,7 @@ $(document).ready(function(){
             }
             else{
                 addTime.getTaskTypes({"account" : account}, task_type_id);
-                addTime.chooseTickets(account_id, project_id, 0);
+                addTime.chooseTickets(account, project_id, 0);
             }
         },
         chooseTickets : function (account, project_id, ticket_id){
