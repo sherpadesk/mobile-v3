@@ -2980,7 +2980,7 @@ $(document).ready(function(){
                     //the key for this specific ticket
                     returnData[i].index = returnData[i].key +',' + i;
                     var data = returnData[i].key;
-                    subject = createElipse(subject, 0.70, 12);
+                    //subject = createElipse(subject, 0.70, 12);
                     var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
                     // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                     if(initialPost.length > 150)
