@@ -2590,6 +2590,7 @@ display: none;
   -moz-user-select: none;
   user-select: none;
   background: #0099CC; /* old browsers */
+  font-weight: bold;
 }
 
 .TicketTabs ul li:nth-child(2) {
