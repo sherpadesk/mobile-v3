@@ -147,14 +147,14 @@ var fastClicker = {
 
 		menuSize:function() {
 			var windowHeight = $(window).height();
-			if(windowHeight < 500){
+			if(windowHeight < 570){
 				$('.sideNavLinks li').css('height','52');
 				$('.activeNav').css('overflow','scroll');
 				$('.menuTicketsStat').hide();
 			}
 			$(window).on('resize',function(){
 				windowHeight = $(window).height();
-				if(windowHeight < 500){
+				if(windowHeight < 570){
 					$('.sideNavLinks li').css('height','52');
 					$('.activeNav').css('overflow','scroll');
 					$('.menuTicketsStat').hide();
