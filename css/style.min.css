@@ -193,6 +193,17 @@ strong {
   width: 100%;
 }
 
+.blueButtonToDos {
+  background: #0099CC;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  height: 45px;
+  margin-bottom: 10px;
+  width: 100%;
+    margin-top: 15px;
+}
+
 .container {
   margin: 0 auto;
   width: 90%;
@@ -480,6 +491,13 @@ strong {
 
 .bodyContent {
   margin-top: 45px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bodyContentToDos {
+  margin-top: 45px;
+  -webkit-overflow-scrolling: touch;
+}
   -webkit-overflow-scrolling: touch;
 }
 
@@ -1399,6 +1417,15 @@ header {
   margin-bottom: 30px;
 }
 
+.invoiceInfoToDos{
+  list-style-type: none;
+  margin-top: 10px;
+  width: 100%;
+  max-height: 630px;
+  overflow: overlay;
+  margin-bottom: 30px;
+}
+
 .invoiceInfoSmall {
     list-style-type: none;
     margin-top: 24px;
@@ -1439,7 +1466,7 @@ header {
   border-radius: 14px;
   height: 40px;
   padding: 0 20px;
-  width: 92%;
+  /*width: 92%;*/
 }
 
 .recipient p {
@@ -1473,6 +1500,10 @@ header {
 
 .recipientDetail li:last-child {
   width: 85%;
+}
+
+.recipientDetailToDos {
+  margin-top: 10px;
 }
 
 .recipientDetail > li > img {
@@ -1650,6 +1681,12 @@ footer {
   padding-top: 30px;
 }
 
+.ToDosWrapper {
+  width: 90%;
+  margin: 0 auto;
+  overflow: auto;
+  padding-top: 40px;
+}
 /* Select Payment
    ========================================================================== */
 .selectPaymentButton {
