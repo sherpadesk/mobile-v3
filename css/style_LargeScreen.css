@@ -59,14 +59,14 @@
 }
 
 .QueuesTickerContainer {
-  width: 60%;
+  width: 100%;
   margin: 0 auto 25px;
   overflow: auto;
   max-width: 650px;
 }
 
 .ActiveAccountsContainer {
-  width: 60%;
+  width: 100%;
   margin-left: 20px;
   overflow: auto;
   z-index: 1;
