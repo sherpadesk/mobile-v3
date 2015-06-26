@@ -40,7 +40,7 @@
             </li>
             <li></li>
         </ul>
-        <div class="errorMessageNeg">Please enter valid ticket information</div>
+        <div class="errorMessageNeg">Please enter valid ticket information</div> 
         <div class="errorMessagePos">Ticket was Succesfully Created <i class="fa fa-smile-o"></i></div>
     </div>
 </header>
@@ -78,9 +78,64 @@
              <option value="3">Projects</option>
              </select>
            </div>
-            <button id="openIt" class="blueButtonToDos ">Manage templates</button>
+            <!--<button id="openIt" class="blueButtonToDos ">Manage templates</button>-->
        
             
-            <ul id="recipientList" class="invoiceInfoToDos"><li class="recipientParent"><ul class="recipientDetailToDos"></li><div class="recipient"><img class="plusIcon" id="deleted-2014-11-11-ethan@sherpadesk.com" src="img/check.png"></div></ul><li class="recipientParent"><ul class="recipientDetailToDos"></li><div class="recipient"><img class="closeIcon" id="vladimir.gooz@micajah.com" src="img/error.png"></div></li></ul></li><li class="recipientParent"><ul class="recipientDetailToDos"></ul></li></ul>
+            <!--<<ul id="recipientList" class="invoiceInfoToDos"><li class="recipientParent"><ul class="recipientDetailToDos"></li><div class="recipientToDos"></li></ul>
+             </div>
+
+
+<li>
+        <input class="time" type="checkbox" value=" " /> </li>
+
+-->
+             <ul id="recipHeader" class="invoiceAccount">
+          <li>#1319: Checking SLA for priority SLA 0 0</li>
+          <li id="addRecipient" class="detail3Short"><!--img class="addIcon" src="img/check.png"--></li>
+        </ul>
+     <div class="styledSelectToDos ToDosMain">Main</div>
+  
+        <ul id="recipientList" class="invoiceInfoToDos"><li class="recipientParent"><ul class="recipientDetail"><li></li><div class="recipientToDos"><h4><p class="ToDos"><input class="time" type="checkbox" value=" " />1. test see https://u0diuk-b95s6o.beta.sherpadesk.com test see https://u0diuk-b95s6o.beta.sherpadesk.com test see https://u0diuk-b95s6o.beta.sherpadesk.com</p></h4><p class="ToDosData">Michel | 10/10/2015</p></div></li></ul></li>
+          
+                
+            
+  </body>
+</span>
+  </div>
+     </div>     
+              </div>
+           <style>       
+             
+.time {
+  width: 23px;
+  height: 23px;
+  margin-left: -35px;
+  position: fixed;
+  margin-top: 2px;
+}
+               </style>
+              
+         
+          <script>    
+              /*
+	Dropdown with Multiple checkbox select with jQuery - May 27, 2013
+	(c) 2013 @ElmahdiMahmoud
+	license: http://www.opensource.org/licenses/mit-license.php
+*/ 
+
+
+      $('.mutliSelect input[type="checkbox"]').on('click', function ()  {
+        
+          var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
+              title = $(this).val() + ",";
+        
+          if ($(this).is(':checked')) {
+              var html = '<span title="' + title + '">' + title + '</span>';
+              $('.multiSel').html(" ");
+              $(".hida").hide();
+          } 
+         
+      });
+          </script>
             
 </html>

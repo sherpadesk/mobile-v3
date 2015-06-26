@@ -212,13 +212,21 @@ strong {
 }
 
 .ToDosAva {
-   margin-left: 50px;
+   margin-left: 450px;
   color: rgb(72, 156, 214);
-    font-size: 15px;
+    font-size: 12px;
     font-weight: bold;
     padding-top: 5px;
+      text-align: left;
 }
 
+.ToDosData {
+    color: rgb(72, 156, 214);
+    font-size: 12px;
+    font-weight: bold;
+    padding-top: 5px;
+    text-align: right;
+}
 
 .ToDosMain {
   color: white;
@@ -442,13 +450,12 @@ strong {
 
 .styledSelectToDos {
    width: 160px;
-   height: 45px;
-   margin-bottom: 15px;
+height: 45px;
    overflow: hidden;
    background: rgba(224, 224, 224, 0.29);
    background-position: top 18px right 18px;
    height: 60px;
-   margin-top: 50px;
+   /*margin-top: 50px;*/
 }
 
 .styledSelectSearch {
@@ -1471,7 +1478,7 @@ header {
   width: 100%;
   max-height: 630px;
   overflow: overlay;
-  margin-bottom: 30px;
+  margin-top: -60px;
 }
 
 .invoiceInfoSmall {
@@ -1526,15 +1533,13 @@ header {
     -moz-box-sizing:border-box;
     -moz-border-radius: 15px;
   height: 60px;
-  padding: 0 20px;
+  padding: 0 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 70%;
   margin-left: 160px;
-  position: fixed;
-  top: 280px;
-  margin-top: 20px;
+  top: 315px;
+  /*margin-top: 20px;*/
 }
 
 .imgToDos {
@@ -1573,7 +1578,7 @@ header {
 
 .recipientDetail li:last-child {
   width: 85%;
-  margin-right: 20px;
+  /*margin-right: 20px;*/
 }
 
 .recipientDetailToDos {
