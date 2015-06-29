@@ -204,6 +204,38 @@ strong {
     margin-top: 15px;
 }
 
+.ToDos {
+   margin-left: 50px;
+  color: white;
+    font-size: 18px;
+    padding-top: 5px;
+}
+
+.ToDosAva {
+   margin-left: 450px;
+  color: rgb(72, 156, 214);
+    font-size: 12px;
+    font-weight: bold;
+    padding-top: 5px;
+      text-align: left;
+}
+
+.ToDosData {
+    color: rgb(72, 156, 214);
+    font-size: 12px;
+    font-weight: bold;
+    padding-top: 5px;
+    text-align: right;
+}
+
+.ToDosMain {
+  color: white;
+    font-size: 15px;
+    font-weight: bold;
+    padding-top: 20px;
+  text-align: center;
+}
+
 .container {
   margin: 0 auto;
   width: 90%;
@@ -242,7 +274,7 @@ strong {
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
-  margin-top: 12px;
+  /*margin-top: 12px;*/
 }
 
 #queueTickets {
@@ -413,6 +445,17 @@ strong {
    background: url("../img/select_arrow.png") no-repeat #489CD6;
    background-position: top 18px right 18px;
    border-radius: 3px;
+}
+
+
+.styledSelectToDos {
+   width: 160px;
+height: 45px;
+   overflow: hidden;
+   background: rgba(224, 224, 224, 0.29);
+   background-position: top 18px right 18px;
+   height: 60px;
+   /*margin-top: 50px;*/
 }
 
 .styledSelectSearch {
@@ -1192,11 +1235,23 @@ header {
   font-size: 16px;
 }
 
-.taskDescription {
-  color: #ffffff;
-  font-size: 12px;
-  width: 100% !important;
+.lines-to-show: 2;{
 }
+.taskDescription {
+   color: #ffffff;
+   font-size: 12px;
+    width: 100% !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    display: block;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    height: 30px; 
+}
+
+ 
+
 /* account
    ========================================================================== */
 
@@ -1423,7 +1478,7 @@ header {
   width: 100%;
   max-height: 630px;
   overflow: overlay;
-  margin-bottom: 30px;
+  margin-top: -60px;
 }
 
 .invoiceInfoSmall {
@@ -1466,9 +1521,32 @@ header {
   border-radius: 14px;
   height: 40px;
   padding: 0 20px;
+      white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   /*width: 92%;*/
 }
 
+.recipientToDos {
+  background: rgba(0, 0, 0, .4);
+  box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -moz-border-radius: 15px;
+  height: 60px;
+  padding: 0 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-left: 160px;
+  top: 315px;
+  /*margin-top: 20px;*/
+}
+
+.imgToDos {
+    border-radius: 100%;
+  border: 2px solid #fff;
+  height: 40px;
+}
 .recipient p {
   float: left;
   color: #ffffff;
@@ -1500,6 +1578,7 @@ header {
 
 .recipientDetail li:last-child {
   width: 85%;
+  /*margin-right: 20px;*/
 }
 
 .recipientDetailToDos {
@@ -2246,11 +2325,21 @@ font-size: 16px !important;
   font-size: 18px;
 }
 
-.initailPost{
-  font-size: 14px;
-  width: 100%;
+.initailPost {
+  
+    display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
   color: #DADADA;
-  margin-top: 3px;
+   margin-top: 3px;
+    width: 100%;
+  height: 60px; /* Fallback for non-webkit */
+  font-size: 14px;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+   /* line-height: 1.4;*/
+  text-overflow: ellipsis;
+    
 }
 
 .responseImg {
@@ -2494,6 +2583,7 @@ font-size: 16px !important;
 
 .tableRows li:first-child {
   text-align: left;
+    
 }
 
 .tableRows {
@@ -2529,6 +2619,9 @@ padding-right: 17px;
 .tableRows li:first-child {
   text-align: left;
   width: 30%;
+  text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow: hidden;
 }
 
 .overflowTickets {
@@ -2554,6 +2647,9 @@ padding-right: 17px;
   text-align: center;
   margin-bottom: 10px;
   border-bottom: 1px solid #ccc;
+    white-space: nowrap;
+  overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .invoiceRows li:last-child {
@@ -2678,6 +2774,9 @@ display: none;
   line-height: 65px !important;
   padding-left: 5px;
   font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .listedAccount li:last-child {
@@ -2991,3 +3090,24 @@ body {
     transform: translate3d( 0, 50px, 0 );
 }
 /* End Pull down to refresh*/
+
+
+
+
+$font-size: 26px;
+$line-height: 1.4;
+$lines-to-show: 2;
+
+h2 {
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  max-width: 400px;
+  height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+  margin: 0 auto;
+  font-size: $font-size;
+  line-height: $line-height;
+  -webkit-line-clamp: $lines-to-show;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
