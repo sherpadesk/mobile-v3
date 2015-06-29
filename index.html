@@ -9,50 +9,38 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
     <title>SherpaDesk</title>
-    <!-- Main stylesheet -->
-    <link rel="stylesheet" href="css/style.min.css" />
-    <!-- Media query for tablets -->
-    <link rel="stylesheet" href="css/tablet.css" />
-    <!-- Jquery -->
-    <script src="js/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/error.css">
-    <script src="cordova.js"></script>
+    <style>
+        .loginLogo {
+            width: 80%;
+            margin: 0 auto -160px;
+            display: block;
+            max-width: 390px;
+        }
+        body {
+            background: #34495e;
+            background-repeat: no-repeat;
+            margin-left: -3px;
+        }
+        .Absolute-Center {
+            margin: auto;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+        }
+      </style>
+    <!--script src="cordova.js"></script-->
     <!-- Main.js -->
-    <script src="js/index.js"></script>
-    <script src="js/main.min.js"></script>
-    <script src="js/fastclick.js"></script>
-    <!-- Fonts & Icons -->
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <script src="js/initial.js"></script>
   </head>
-    <div class="overflow">
-      <!-- <div class="splashScreen">
+    <body class="">
+    <!--
+<img class=loginLogo src=img/SherpaLogo.png>
+<img class=Absolute-Center src=img/loading2.gif>
+div class="overflow">
+      <div class="splashScreen">
         <div class="splashImgContainer">
           <img class="splashScreenSherpa" src="img/sherpaDesk-logo-final.png">
         </div>
         <img class="splashScreenLogo" src="img/logo.png">
-      </div> -->
-  <body class="loginScreen d0">
-      <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
-      <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
-    <div class="bodyContentCoverLogin">
-    <div class="bodyContent">
-      <img class="loginLogo" src="img/logo.png">
-      <div class="loginContent">
-        <p id="errorMessage"></p>
-      <input id="userName"class="textInputSmall" type="email"  wrap="off" placeholder="email"></input>
-      <input id="password"class="textInputSmall" type="password" wrap="off" placeholder="password"></input>
-      <div id="loginButton" class="loginButton">Login</div>
-      <ul class="googleStripes">
-        <li></li><li></li><li></li><li></li>
-      </ul>
-          <div class="googleButton" id="sign_in_with_google">Sign in with <strong>Google</strong></div>
-        <div class="loginButton" style="background: rgba(52, 152, 219, 0.7)" id="login_signup">Start a New SherpaDesk Organization</div>
       </div>
-      <form class="google_openid" method="POST">  </form>
-    </div>
-    </div>
-  </body>
-    <div id="loading"><div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div></div>
-  </div>
-  </div>
+  </div-->
 </html>
