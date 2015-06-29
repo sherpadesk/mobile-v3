@@ -38,7 +38,11 @@
   border-right: 1px solid rgba(255, 255, 3255, .4);
   padding-top: 15px;
 }
-
+    
+    .centered {
+        top: 23px;
+    }
+    /*
 .sideStats {
   list-style-type: none;
   height: 100%;
@@ -51,12 +55,13 @@
   list-style-type: none;
   height: 100%;
   width: 55%;
-  /* margin-top: 10px; */
+  margin-top: 10px; 
   padding-top: 15px;
   max-width: 396px;
   display: block;
   margin: 10px auto;
 }
+*/
 
 .QueuesTickerContainer {
   width: 100%;
