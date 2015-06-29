@@ -61,43 +61,46 @@ function cleanQuerystring() {
     var userInstanceKey = "";
     var	userKey = "";
 
+function done() {
+    var ticket = getParameterByName('ticket');
+    if (ticket) {
+        cleanQuerystring();
+        localStorage.setItem('loadTicketNumber', ticket);
+    }
+
+    userKey = localStorage.getItem("userKey");
+    userOrgKey = localStorage.getItem('userOrgKey');
+    userInstanceKey = localStorage.getItem('userInstanceKey');
+
+    if (!userOrgKey || !userInstanceKey)
+    {
+        if (userKey) 
+        {
+            window.location = "org.html";
+        }
+        else 
+        {
+            logout();
+            window.location = "login.html";
+        }
+        return;
+    }
+
+    ticket = localStorage.loadTicketNumber; 
+
+    if (ticket) {
+        localStorage.loadTicketNumber = '';
+        localStorage.setItem('ticketNumber', ticket);
+        window.location = "ticket_detail.html";
+        return;
+    }
+
+    window.location = localStorage.getItem('userRole') === "tech" ? "dashboard.html" : "ticket_list.html";
+}
+
 
     //Main Method that calls all the functions for the app
-    (function () {
-return;
-        var ticket = getParameterByName('ticket');
-        if (ticket) {
-            cleanQuerystring();
-            localStorage.setItem('loadTicketNumber', ticket);
-        }
-        
-        userKey = localStorage.getItem("userKey");
-        userOrgKey = localStorage.getItem('userOrgKey');
-        userInstanceKey = localStorage.getItem('userInstanceKey');
-        
-        if (!userOrgKey || !userInstanceKey)
-        {
-            if (userKey) 
-            {
-                window.location = "org.html";
-            }
-            else 
-            {
-                logout();
-                window.location = "login.html";
-            }
-            return;
-        }
-        
-        ticket = localStorage.loadTicketNumber; 
-        
-        if (ticket) {
-            localStorage.loadTicketNumber = '';
-            localStorage.setItem('ticketNumber', ticket);
-            window.location = "ticket_detail.html";
-            return;
-        }
-        
-        window.location = localStorage.getItem('userRole') === "tech" ? "dashboard.html" : "ticket_list.html";
-    }());
-
+if (navigator.userAgent.match(/iphone|ipad|ipod/i))
+    window.onload = function () {setTimeout(done, 1000);};
+else
+    done();
