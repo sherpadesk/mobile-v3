@@ -101,6 +101,6 @@ function done() {
 
     //Main Method that calls all the functions for the app
 if (navigator.userAgent.match(/iphone|ipad|ipod/i))
-    window.onload = function () {setTimeout(done, 1000);};
+    window.onload = function () {setTimeout(done, 200);};
 else
     done();
