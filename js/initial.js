@@ -64,7 +64,7 @@ function cleanQuerystring() {
 
     //Main Method that calls all the functions for the app
     (function () {
-
+return;
         var ticket = getParameterByName('ticket');
         if (ticket) {
             cleanQuerystring();
