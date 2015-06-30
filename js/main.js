@@ -19,6 +19,9 @@ var Page = location.pathname.substr(1);
 
 var isExtension = window.self !== window.top;
 
+var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
+    parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
+
 //locally test
 /*Page = location.href.match(/(.+\w\/)(.+)/);
 Page = Page ? Page[2] : location.pathname.substr(1);
@@ -3448,6 +3451,8 @@ $(document).ready(function(){
                 if (orgName)
                     $("#indexTitle").html(orgName);
                 TicketsCounts.init();
+                if (updateStatusBar)
+                    $("#techStat").css("padding-top", "20px");
                 getQueues.init("#DashBoradQueues", 3);
                 if(isAccount)
                     accountList.init("#activeList", 1);
@@ -3695,8 +3700,6 @@ $(document).ready(function(){
         //userInfo.init();
 
         //when user logged in
-        var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
-            parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
         if (updateStatusBar) {
             var t=document.getElementsByTagName("header")[0];
             if (t){
