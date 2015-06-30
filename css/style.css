@@ -95,7 +95,7 @@ float: right;
 body {
   /*background: url("../img/bg_dark.png");*/
   background: #34495e;
-  /*padding-top: 80px*/;
+  /*padding-top: 80px;*/
   /*background-size: cover;*/
   background-repeat: no-repeat;
 }
@@ -126,7 +126,7 @@ body, html {
     z-index: 10;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(192, 192, 192, 0.5)/*#ffffff*/;
+    background-color: rgba(192, 192, 192, 0.5);/*#ffffff;*/
 }
 
 .loadScreen {
@@ -486,7 +486,7 @@ height: 45px;
 }
 .loginScreen {
   background: url("../img/mountainBG.jpg") center center no-repeat fixed;
-  /*padding-top: 80px*/;
+  /*padding-top: 80px;*/
 
   background-repeat: no-repeat;
   background-position:center;
@@ -1161,10 +1161,6 @@ header {
 .tabActiveHeader {
   border-bottom: 2px solid #ffffff;
   color: #ffffff;
-}
-
-.currentPage {
-  width:
 }
 
 .searchIcon {
@@ -2260,7 +2256,7 @@ footer {
   width: 95%;
   height: 30%;
   text-align: right;
-  margin-top: -8px !important;
+  margin-top: -5px !important;
   color: #cccccc;
   font-size: 10px;
 }
@@ -2317,7 +2313,7 @@ font-size: 16px !important;
   color: #DADADA;
    margin-top: 3px;
     width: 100%;
-  height: 60px; /* Fallback for non-webkit */
+  height: 100%; /* Fallback for non-webkit */
   font-size: 14px;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
