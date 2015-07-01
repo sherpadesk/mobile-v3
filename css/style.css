@@ -485,8 +485,8 @@ height: 45px;
   max-width: 390px;
 }
 .loginScreen {
-  background: url("../img/mountainBG.jpg") center center no-repeat fixed;
-  /*padding-top: 80px;*/
+    /*background: url("../img/mountainBG.jpg") center center no-repeat fixed;
+  padding-top: 80px;*/
 
   background-repeat: no-repeat;
   background-position:center;
