@@ -422,7 +422,7 @@ var fastClicker = {
                 });
         }
         
-		fastClicker.init();
+		//fastClicker.init();
         //largeScreenStlye.init();
         //fullscreen();
         
