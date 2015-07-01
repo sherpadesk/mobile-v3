@@ -426,9 +426,6 @@ var fastClicker = {
         //largeScreenStlye.init();
         //fullscreen();
         
-		if (Page == "edit_time.html")
-        {openTickets.init();}
-        
 		if (Page == "invoice.html")
         {
             addRecip.init();

@@ -293,6 +293,52 @@ function htmlEscape(str) {
     ;
 }
 
+var userMessage = {
+    init:function() {
+        this.showMessage();
+    },
+    setMessage:function(isPos, messageText, func) {
+        localStorage.setItem("userMessage", messageText);
+        localStorage.setItem("isMessage", isPos ? "truePos" : "trueNeg");
+    },
+    showMessage:function(isPos, messageText, func) {
+        if (typeof isPos === "undefined")
+        {
+            var isMessage = localStorage.getItem("isMessage");
+            if(isMessage == "truePos")
+            {isPos = true;localStorage.setItem("isMessage","false");}
+            else if(isMessage == "trueNeg")
+            {isPos = false;localStorage.setItem("isMessage","false");}
+            else
+                return;
+        }
+
+        if (!messageText)
+        {
+            messageText = localStorage.getItem("userMessage");
+        }
+
+        var messageEl = isPos ? ".errorMessagePos" : ".errorMessageNeg";
+        var $messageEl = $(messageEl);
+        if(!$messageEl.length)
+        {
+            alert(messageText);
+            if(typeof func === 'function')
+                func();
+            return;
+        }
+        $messageEl.html(messageText);
+        $messageEl.slideDown(100);
+        setTimeout(
+            function()
+            {
+                $messageEl.slideUp(100);
+                if(typeof func === 'function')
+                    func();
+            }, 3500);
+    }
+};
+
 var FileUrlHelper = {
     ReplaceAll : function (note, find, replace) {
         return note.split(find).join(replace);
@@ -3326,45 +3372,6 @@ $(document).ready(function(){
                     logout();
                 }
             });
-        }
-    };
-
-    var userMessage = {
-        init:function() {
-            this.showMessage();
-        },
-        setMessage:function(isPos, messageText, func) {
-            localStorage.setItem("userMessage", messageText);
-            localStorage.setItem("isMessage", isPos ? "truePos" : "trueNeg");
-        },
-        showMessage:function(isPos, messageText, func) {
-            if (typeof isPos === "undefined")
-            {
-                var isMessage = localStorage.getItem("isMessage");
-                if(isMessage == "truePos")
-                {isPos = true;localStorage.setItem("isMessage","false");}
-                else if(isMessage == "trueNeg")
-                {isPos = false;localStorage.setItem("isMessage","false");}
-                else
-                    return;
-            }
-
-            if (!messageText)
-            {
-                messageText = localStorage.getItem("userMessage");
-            }
-
-            var messageEl = isPos ? ".errorMessagePos" : ".errorMessageNeg";
-
-            $(messageEl).html(messageText);
-            $(messageEl).slideDown(100);
-            setTimeout(
-                function()
-                {
-                    $(messageEl).slideUp(100);
-                    if(typeof func === 'function')
-                        func();
-                }, 3500);
         }
     };
 
