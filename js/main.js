@@ -228,8 +228,8 @@ function GooglelogOut(mess) {
 
 function clearStorage()
 {
-    var userName = localStorage.userName;
-    var appVersion = localStorage.appVersion;
+    var userName = localStorage.userName || "";
+    var appVersion = localStorage.appVersion || "";
     var ticket = localStorage.loadTicketNumber || "";
     localStorage.clear();
     //localStorage.removeItem('userOrgKey');
@@ -682,7 +682,7 @@ $(document).ready(function(){
             });
         },
         login:function() {
-            $("body").show1();
+            //$("body").show1();
             var userName = localStorage.getItem('userName');
             if (userName !== null && userName.length > 0)
                 $("#userName").val(userName);
@@ -1038,9 +1038,9 @@ $(document).ready(function(){
         changeOrg:function(){
             if (is_MultipleOrgInst)
                 $("#switchOrg").click(function(){
-                    var appVersion = localStorage.appVersion;
-                    var userKey = localStorage.userKey;
-                    var userName = localStorage.userName;
+                    var appVersion = localStorage.appVersion || "";
+                    var userKey = localStorage.userKey || "";
+                    var userName = localStorage.userName || "";
                     localStorage.clear();
                     localStorage.userName = userName;
                     localStorage.userKey = userKey;
