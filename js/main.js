@@ -641,7 +641,7 @@ $(document).ready(function(){
                 return;
             }
             //test
-            //localStorage.setItem("userKey",1)
+            localStorage.setItem("userName",userName);
             //localStorage.setItem('userOrgKey',2);
             //localStorage.setItem('userInstanceKey',3);
             //getInfo4Extension();
