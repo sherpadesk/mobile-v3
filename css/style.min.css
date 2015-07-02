@@ -2226,14 +2226,18 @@ footer {
   border: 2px solid #fff;
 }
 
+.expenImg  {
+margin-top: -7px !important;
+}
+
 .responseBlock span {
   float: left;
   z-index: 2;
   width: 100%;
   margin-left: -7px;
-  margin-top: 2px;
-     overflow: hidden;
-    text-overflow: clip;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: clip;
 }
 
 .responseBlock p {
@@ -2279,12 +2283,10 @@ footer {
     
 }
 
-.responseBlockExpenSpan{
- float: left;
-  z-index: 2;
-  width: 100%;
-  margin-top: 2px;
-  margin-left: 7px !important;
+.blockExpen{
+ margin-left: 7px !important;
+ margin-bottom: 20px;
+ margin-top: -15px !important;
 }
 
 .responseText {
@@ -2292,12 +2294,17 @@ footer {
   width: 70%;
   height: 90%;
   z-index: 2;
-  margin-left: 22px !important;
-}
+  }
 
 .latestResponse {
   border-bottom: 0px solid transparent;
 }
+
+.textExpen {
+  margin-left: 22px !important;
+  width: 68% !important;
+}
+
 
 .blockNumberExpen {
   color:#fff;
