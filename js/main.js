@@ -2266,17 +2266,17 @@ $(document).ready(function(){
     var detailedInvoice = {
         init:function(){
             $("#loading").show1();
-            if (localStorage.invoiceNumber.indexOf(",") != -1){
-                $("#sendInvoiceButton").html("Create Invoice"); 
-                $("#invoiceNumber").html("Create Invoice"); 
-            }
-
             this.specifics();        
         },
         specifics:function(){
             var data = localStorage.invoiceNumber;
+            if (!data){
+                backFunction(); 
+            }
             if (data.indexOf(",") != -1)
             {
+                $("#sendInvoiceButton").html("Create Invoice"); 
+                $("#invoiceNumber").html("Create Invoice"); 
                 data = data.split(",");
                 data = "?status=unbilled&account="+data[0]+"&project="+data[1];
             }
