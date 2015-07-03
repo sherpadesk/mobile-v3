@@ -95,7 +95,7 @@ float: right;
 body {
   /*background: url("../img/bg_dark.png");*/
   background: #34495e;
-  /*padding-top: 80px*/;
+  /*padding-top: 80px;*/
   /*background-size: cover;*/
   background-repeat: no-repeat;
 }
@@ -126,7 +126,7 @@ body, html {
     z-index: 10;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(192, 192, 192, 0.5)/*#ffffff*/;
+    background-color: rgba(192, 192, 192, 0.5);/*#ffffff;*/
 }
 
 .loadScreen {
@@ -488,8 +488,8 @@ height: 45px;
   max-width: 390px;
 }
 .loginScreen {
-  /*background: url("../img/mountainBG.jpg") center center no-repeat fixed;
-  padding-top: 80px*/
+    /*background: url("../img/mountainBG.jpg") center center no-repeat fixed;
+  padding-top: 80px;*/
 
   background-repeat: no-repeat;
   background-position:center;
@@ -1164,10 +1164,6 @@ header {
 .tabActiveHeader {
   border-bottom: 2px solid #ffffff;
   color: #ffffff;
-}
-
-.currentPage {
-  width:
 }
 
 .searchIcon {
@@ -2226,22 +2222,22 @@ footer {
   border: 2px solid #fff;
 }
 
-.expenImg  {
-margin-top: -7px !important;
-}
-
 .responseBlock span {
   float: left;
   z-index: 2;
   width: 100%;
   margin-left: -7px;
-  margin-top: 5px;
-  overflow: hidden;
-  text-overflow: clip;
+    margin-top: 5px;
+    overflow: hidden;
+    text-overflow: clip;
 }
 
 .responseBlock p {
   width: 102%;
+}
+
+.expenImg  {
+    margin-top: -7px !important;
 }
 
 .nameNtech {
@@ -2269,7 +2265,7 @@ margin-top: -7px !important;
   width: 95%;
   height: 30%;
   text-align: right;
-  margin-top: -8px !important;
+  margin-top: -5px !important;
   color: #cccccc;
   font-size: 10px;
 }
@@ -2284,9 +2280,9 @@ margin-top: -7px !important;
 }
 
 .blockExpen{
- margin-left: 7px !important;
- margin-bottom: 20px;
- margin-top: -15px !important;
+    margin-left: 7px !important;
+    margin-bottom: 20px;
+    margin-top: -15px !important;
 }
 
 .responseText {
@@ -2294,17 +2290,16 @@ margin-top: -7px !important;
   width: 70%;
   height: 90%;
   z-index: 2;
-  }
+}
+
+.textExpen {
+    margin-left: 22px !important;
+    width: 68% !important;
+}
 
 .latestResponse {
   border-bottom: 0px solid transparent;
 }
-
-.textExpen {
-  margin-left: 22px !important;
-  width: 68% !important;
-}
-
 
 .blockNumberExpen {
   color:#fff;
@@ -2330,7 +2325,7 @@ font-size: 16px !important;
   color: #DADADA;
    margin-top: 3px;
     width: 100%;
-  height: 60px; /* Fallback for non-webkit */
+  height: 100%; /* Fallback for non-webkit */
   font-size: 14px;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;

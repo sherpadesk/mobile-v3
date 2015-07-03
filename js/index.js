@@ -3,15 +3,6 @@
 
 $(document).ready(function() {
 
-function fullscreen() {
-    $('a').click(function() {
-        if(!$(this).hasClass('noeffect')) {
-            window.location = $(this).attr('href');
-            return false;
-        }
-    });
-}
-
 var fastClicker = {
 	init:function() {
 		this.clickFast();
@@ -24,33 +15,6 @@ var fastClicker = {
 		}, false);
 	}
 };
-
-
-	var homePage = {
-		init: function() {
-			this.tabDashboard();
-		},
-
-		tabDashboard: function() {
-			// Default selected
-			$(".navCircle:first").css("background","#ffffff");
-			// Newly selected
-			$(".navCircle").click(function() {
-				$(this).siblings().animate({
-					backgroundColor: "rgba(0,0,0,0)"
-				}, 300);
-				$(this).animate({
-					backgroundColor: "#ffffff"
-				}, 300);
-				if ($(this).attr("data-dashboard") == "2") {
-					$(".dashboardContainer").hide("slide", { direction: "left"}, 300);
-				} else {
-					$(".dashboardContainer").show("slide", { direction: "left"}, 300);
-				}
-			});
-			// Need to figure out next slide
-		}
-	};
 
 	var backButton = {
 		init:function() {
@@ -147,14 +111,14 @@ var fastClicker = {
 
 		menuSize:function() {
 			var windowHeight = $(window).height();
-			if(windowHeight < 500){
+			if(windowHeight < 570){
 				$('.sideNavLinks li').css('height','52');
 				$('.activeNav').css('overflow','scroll');
 				$('.menuTicketsStat').hide();
 			}
 			$(window).on('resize',function(){
 				windowHeight = $(window).height();
-				if(windowHeight < 500){
+				if(windowHeight < 570){
 					$('.sideNavLinks li').css('height','52');
 					$('.activeNav').css('overflow','scroll');
 					$('.menuTicketsStat').hide();
@@ -372,72 +336,6 @@ var fastClicker = {
 						break;
 				}
 			},
-        /*
-		addResponse: function() {
-			$(".replyButton").click(function(e) {
-				e.preventDefault();
-				var userInput = $(".textInput").val();
-				var prependVal = "<ul class='responseBlock'><li><img src='img/profile_3.png' class='responseImg'><span>Response</span></li><li class=' responseText'><h3>Max Kent</h3><p>" + userInput + "</p></li><li>Just now</li></ul>";
-				$(prependVal).hide().prependTo("#tabpage_reply .orginalMessageContainer").slideDown(200);
-				$(".textInput").val("");
-				var responseBumbed = $(".latestResponse");
-				$(".latestResponse").remove();
-				$(responseBumbed).hide().prependTo("#tabpage_reply .tabpageContainer").slideDown(200);
-				$(".latestResponse").removeClass("latestResponse");
-				$(".orginalMessageContainer .responseBlock").addClass("latestResponse");
-			});
-		},
-        */
-        /*
-		scrollResponse: function() {
-			$(window).scroll(function(e) {
-				$("body").bind("touchmove", function(e) {
-					if ($(window).scrollTop() >= 196.5) {
-						$(".tabs").css({
-							position: "fixed",
-							top: "0",
-							margin: "45px 0 0 0"
-						});
-					} else {
-						$(".tabs").css({
-							position: "relative",
-							margin: "0"
-						}, 300);
-					}
-				});
-			});
-		}
-        */
-	};
-
-	var footer = {
-		init: function() {
-			this.dropFooter();
-		},
-
-		dropFooter: function() {
-			var previousScroll = 0;
-
-    $(window).scroll(function(){
-       var currentScroll = $(this).scrollTop();
-       if (currentScroll > previousScroll){
-           $("footer").fadeOut(100);
-       } else {
-          $("footer").fadeIn(100);
-       }
-       previousScroll = currentScroll;
-    });
-		}
-	};
-
-	var hideFooter = {
-		init: function() {
-			this.hide();
-		},
-
-		hide: function() {
-			$(".hideFooter").hide();
-		}
 	};
 
 	var showExtendedDetails = {
@@ -473,72 +371,7 @@ var fastClicker = {
 		}
 
 	};
-
-	var StickRecentTickets = {
-		init: function() {
-			this.stickTitle();
-		},
-
-		stickTitle: function() {
-			$(window).scroll(function(){
-				var top = $(this).scrollTop();
-
-				if(top > 225)
-				{
-					 $(".AccountDetailsTicketsContainer").addClass("recentTicketsStick");
-				}
-				else
-				{
-					$(".AccountDetailsTicketsContainer").removeClass("recentTicketsStick");
-				}
-			});
-		}
-	};
-
-	var openTickets = {
-		init:function() {
-			this.slideDown();
-		},
-		slideDown:function(){
-		$("#openTicketslink").click(function(){
-			$('html,body').animate({ scrollTop: $('#openTickets').offset().top }, '400');
-		});
-	}
-
-	};
-
-	var largeScreenStlye = {
-		init:function() {
-			this.changeStyle();
-		},
-
-		changeStyle:function() {
-
-			if($(window).width() >=800)
-				{
-					//add the large style sheet
-					var insert = '<link id="largeCss" rel="stylesheet" href="css/style_LargeScreen.css" />';
-					$(insert).appendTo('head');
-				}else {
-					$(".addTimePanel").hide();
-					$(".plusIconHeader").show();
-				}
-			$(window).resize(function(){
-				if($(window).width() >=800)
-				{
-					//add the large style sheet
-					var insert = '<link id="largeCss" rel="stylesheet" href="css/style_LargeScreen.css" />';
-					$(insert).appendTo('head');
-					$(".addTimePanel").show();
-
-				}else{
-					$("#largeCss").remove();
-					$(".addTimePanel").hide();
-				}
-			});
-		}
-	};
-
+    
 	var createButton = {
 		init:function() {
 			this.expandOptions();
@@ -560,41 +393,6 @@ var fastClicker = {
 		}
 	};
 
-
-	var splashScreen ={
-		init:function(){
-			this.Splash();
-		},
-
-		Splash:function(){
-			if (location.pathname.indexOf("index.html") >= 0){
-				$('.bodyContent').hide();
-				setTimeout(function(){
-					$('.bodyContent').show();
-				 $('.splashScreenSherpa').animate({
-               		'opacity':0,
-               	  },1000);
-				 },500);
-               setTimeout(function(){
-               	$('.splashScreenLogo').animate({
-               		'margin-top':'-404.5px'
-               	},1000);
-               },500);
-               setTimeout(function(){
-               	$('.splashScreen').fadeOut();
-               },1500);
-            }
-		}
-	};
-    
-    if (typeof String.prototype.addUrlParam !== 'function') {
-        String.prototype.addUrlParam = function(param, value) {
-            if (!value || !param)
-                return this;
-            var ch = this.indexOf('?') > 0 ? '&' : '?';
-            return this + ch + param + '=' + value;
-        };
-    }
     
     var NAV_MENU="<div class='activeNav'><div class='fold'><i class='fa a-angle-double-left fa-2x'></i></div><img class='navProfile' src='img/profile_3.png'><h2 class='navName'>NO USER DATA</h2><ul class='sideNavLinks'><a href='dashboard.html'><li id='itemDash'><a href='dashboard.html'><div class='iconCircle'><i class='fa fa-tachometer'></i></div><h3>Dashboard</h3></a></li></a> <a class='user' href='ticket_list.html'><li id='itemTickets'><div class='iconCircle'><i class='fa fa-ticket'></i></div><h3>Tickets</h3><div class='menuTicketsStat'><p class='menuTicketStatNumber'>0</p></div></li></a> <a class='time' href='timelog.html'><li id='itemTimelog'><div class='iconCircle'><i class='fa fa-clock-o'></i></div><h3>Timelogs</h3></li></a> <a href='Account_List.html'><li id='itemAccount'><div class='iconCircle'><i class='fa fa-users'></i></div><h3>Accounts</h3></li></a><a href='allInvoice_List.html'><li class='time' id='itemInvoice'><div class='iconCircle'><i class='fa fa-credit-card'></i></div><h3 id='allInvoice'>Invoices</h3></li></a><a href='Queues.html'><li id='itemQueues'><div class='iconCircle'><i class='fa fa-sort-amount-asc'></i></div><h3>Queues</h3></li></a><li class='user' id='switchOrg'><div class='iconCircle'><i class='fa fa-list'></i></div><h3>Switch Org</h3></li><li class='user' id='signOut'><div class='iconCircle'><i class='fa fa-sign-in'></i></div><h3>Signout</h3></li><a class='fullapplink user' href='#'><li><div class='iconCircle'><i class='fa fa-external-link'></i></div><h3>Full App</h3></li></a></ul></div>";
     
@@ -616,15 +414,19 @@ var fastClicker = {
 		createButton.init();
         }
         
+        $createButton = $("#ticketCreate");
+        if ($createButton){
+            $createButton.click(
+                function(){
+                    window.location.replace("add_tickets.html");
+                });
+        }
         
 		fastClicker.init();
         //largeScreenStlye.init();
         //fullscreen();
         
-		if (location.pathname.endsWith("edit_time.html"))
-        {openTickets.init();}
-        
-		if (location.pathname.endsWith("invoice.html"))
+		if (Page == "invoice.html")
         {
             addRecip.init();
         }
@@ -643,7 +445,7 @@ var fastClicker = {
 		billEm.init();
 		//footer.init();
         		
-        if (location.pathname.endsWith("addTicket_V4.html"))
+        if (Page == "addTicket_V4.html")
         {showExtendedDetails.init();}
 		//if($(window).width() < 478){footer.init();}
 		//homePage.init();

@@ -86,11 +86,16 @@ z-index: 7;
 float: right;
 }
 
+.Absolute-Center {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
 
 body {
   /*background: url("../img/bg_dark.png");*/
   background: #34495e;
-  /*padding-top: 80px*/;
+  /*padding-top: 80px;*/
   /*background-size: cover;*/
   background-repeat: no-repeat;
 }
@@ -121,50 +126,22 @@ body, html {
     z-index: 10;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(192, 192, 192, 0.5)/*#ffffff*/;
-    /*background-image: url(../img/loader.gif);*/
-    background-repeat: no-repeat;
-    background-position: center;
+    background-color: rgba(192, 192, 192, 0.5);/*#ffffff;*/
 }
 
 .loadScreen {
     color: #fff;
     width: 50px;
     height: 50px;
-    margin: 25% auto;
     text-align: center;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
 }
 
 strong {
   font-size: 20px;
   font-weight: 650;
-}
-
-.splashScreen {
-  width: 100%;
-  height: 100%;
-  /*background: url("../img/mountainBG.jpg") center center no-repeat fixed;*/
-  position: absolute;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  margin-left: 2px;
-}
-
-.splashScreenLogo {
-  display: block;
-  margin: 0px auto;
-  width: 80%;
-}
-
-.splashScreenSherpa {
-  margin-left: 50px;
-}
-
-.splashImgContainer {
-  display: block;
-  width: 400px;
-  height: 325px;
-  margin: 25px auto 100px;
 }
 
 .backIcon {
@@ -191,6 +168,49 @@ strong {
   height: 45px;
   margin-bottom: 15px;
   width: 100%;
+}
+
+.blueButtonToDos {
+  background: #0099CC;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  height: 45px;
+  margin-bottom: 10px;
+  width: 100%;
+    margin-top: 15px;
+}
+
+.ToDos {
+   margin-left: 50px;
+  color: white;
+    font-size: 18px;
+    padding-top: 5px;
+}
+
+.ToDosAva {
+   margin-left: 450px;
+  color: rgb(72, 156, 214);
+    font-size: 12px;
+    font-weight: bold;
+    padding-top: 5px;
+      text-align: left;
+}
+
+.ToDosData {
+    color: rgb(72, 156, 214);
+    font-size: 12px;
+    font-weight: bold;
+    padding-top: 5px;
+    text-align: right;
+}
+
+.ToDosMain {
+  color: white;
+    font-size: 15px;
+    font-weight: bold;
+    padding-top: 20px;
+  text-align: center;
 }
 
 .container {
@@ -231,7 +251,7 @@ strong {
   color: #ffffff;
   font-size: 14px;
   font-weight: 600;
-  margin-top: 12px;
+  /*margin-top: 12px;*/
 }
 
 #queueTickets {
@@ -242,6 +262,17 @@ strong {
   color: #ffffff;
   display: inline;
   font-size: 12px;
+}
+
+.feedTimeExpen {
+  margin-top: -70px;
+  font-size: 25px;
+    color: #ffffff;
+}
+
+.DateExpen {
+  margin-top: -70px;
+  
 }
 
 .plusIconHeader {
@@ -379,6 +410,9 @@ strong {
    height: 45px;
    padding: 0 20px;
    -webkit-appearance: none;
+    text-overflow: clip;
+    white-space: nowrap;
+    width: 92%;
 }
 
 .styledSelect option:not(:checked) { color: black}
@@ -391,6 +425,17 @@ strong {
    background: url("../img/select_arrow.png") no-repeat #489CD6;
    background-position: top 18px right 18px;
    border-radius: 3px;
+}
+
+
+.styledSelectToDos {
+   width: 160px;
+height: 45px;
+   overflow: hidden;
+   background: rgba(224, 224, 224, 0.29);
+   background-position: top 18px right 18px;
+   height: 60px;
+   /*margin-top: 50px;*/
 }
 
 .styledSelectSearch {
@@ -443,8 +488,8 @@ strong {
   max-width: 390px;
 }
 .loginScreen {
-  background: url("../img/mountainBG.jpg") center center no-repeat fixed;
-  /*padding-top: 80px*/;
+    /*background: url("../img/mountainBG.jpg") center center no-repeat fixed;
+  padding-top: 80px;*/
 
   background-repeat: no-repeat;
   background-position:center;
@@ -469,6 +514,13 @@ strong {
 
 .bodyContent {
   margin-top: 45px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bodyContentToDos {
+  margin-top: 45px;
+  -webkit-overflow-scrolling: touch;
+}
   -webkit-overflow-scrolling: touch;
 }
 
@@ -968,6 +1020,14 @@ header {
   padding-top: 7px;
 }
 
+.centered {
+    position: absolute;
+    top: 11px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
 .dashboardContainer {
   height: 170px;
   margin: 0 auto;
@@ -979,7 +1039,7 @@ header {
 .dashboardLeft, .dashboardRight {
   float: left;
   height: 100%;
-  margin-bottom: 10px;
+  position: relative;
   width: 50%;
 }
 
@@ -994,14 +1054,13 @@ header {
   font-size: 84px;
   font-weight: 400;
   text-align: center;
-  margin-top: 12px;
 }
 
 .mainStatTitle {
   color: #ffffff;
   font-size: 18px;
   text-align: center;
-  margin-top: -10px;
+  margin-top: -17px;
 }
 
 .navCircle {
@@ -1022,7 +1081,6 @@ header {
   list-style-type: none;
   height: 100%;
   width: 100%;
-  margin-top: 10px;
 }
 
 .sideStats img {
@@ -1108,10 +1166,6 @@ header {
   color: #ffffff;
 }
 
-.currentPage {
-  width:
-}
-
 .searchIcon {
   height: 20px;
   margin-top:5px;
@@ -1129,6 +1183,13 @@ header {
   margin: 0 auto;
   border-top: 1px solid #cccccc;
 }
+
+.AccountExpen {
+  overflow: auto;
+  margin: 0 auto;
+}
+
+
 
 .recentTicketsStick {
 
@@ -1158,10 +1219,20 @@ header {
 }
 
 .taskDescription {
-  color: #ffffff;
-  font-size: 12px;
-  width: 100% !important;
+   color: #ffffff;
+   font-size: 12px;
+    width: 100% !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    display: block;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    height: 30px; 
 }
+
+ 
+
 /* account
    ========================================================================== */
 
@@ -1331,11 +1402,20 @@ header {
   border-bottom: 1px solid #ffffff;
   color: #ffffff;
   list-style-type: none;
-  margin-top: 25px;
+  margin-top: 35px;
   overflow: hidden;
-  height: 50px;
+  height: 30px;
 }
 
+.invoiceAccount2 {
+ /* border-bottom: 1px solid #ffffff;*/
+  color: #ffffff;
+  list-style-type: none;
+  margin-top: 25px;
+  overflow: hidden;
+  height: 25px;
+  font-size: 18px;
+}
 .invoiceAccount li:first-child {
   float: left;
   font-size: 18px;
@@ -1371,6 +1451,15 @@ header {
   max-height: 630px;
   overflow: overlay;
   margin-bottom: 30px;
+}
+
+.invoiceInfoToDos{
+  list-style-type: none;
+  margin-top: 10px;
+  width: 100%;
+  max-height: 630px;
+  overflow: overlay;
+  margin-top: -60px;
 }
 
 .invoiceInfoSmall {
@@ -1413,9 +1502,26 @@ header {
   border-radius: 14px;
   height: 40px;
   padding: 0 20px;
-  width: 92%;
+  /*width: 92%;*/
 }
 
+.recipientToDos {
+  background: rgba(0, 0, 0, .4);
+  box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -moz-border-radius: 15px;
+  height: 60px;
+  padding: 0 5px;
+  margin-left: 160px;
+  top: 315px;
+  /*margin-top: 20px;*/
+}
+
+.imgToDos {
+    border-radius: 100%;
+  border: 2px solid #fff;
+  height: 40px;
+}
 .recipient p {
   float: left;
   color: #ffffff;
@@ -1442,11 +1548,16 @@ header {
 }
 
 .recipientDetail li:first-child {
-  width: 13%;
+  width: 15%;
 }
 
 .recipientDetail li:last-child {
   width: 85%;
+  /*margin-right: 20px;*/
+}
+
+.recipientDetailToDos {
+  margin-top: 10px;
 }
 
 .recipientDetail > li > img {
@@ -1624,6 +1735,12 @@ footer {
   padding-top: 30px;
 }
 
+.ToDosWrapper {
+  width: 90%;
+  margin: 0 auto;
+  overflow: auto;
+  padding-top: 40px;
+}
 /* Select Payment
    ========================================================================== */
 .selectPaymentButton {
@@ -1660,6 +1777,11 @@ footer {
   padding-top: 30px;
 }
 
+.accountDetailsContainerExpen {
+  width: 90%;
+  margin: 0 auto;
+}
+
 .QueuesTickerContainer {
   width: 90%;
   margin: 0 auto 0;
@@ -1678,8 +1800,9 @@ footer {
   color: #ffffff;
   float: left;
   line-height: 45px;
-  text-align: center;
+  /*text-align: center;*/
   padding-left: 17px;
+    width: 100%;
 }
 
 .OptionsListAccountDetail {
@@ -1902,6 +2025,13 @@ footer {
   margin-top: 7px;
   width: 70%;
   margin-bottom: 15px;
+    display: block; /* Fallback for non-webkit */
+    display: -webkit-box;
+    height: 54px; /* Fallback for non-webkit */
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;    
 }
 
 .shortInfo {
@@ -1989,7 +2119,8 @@ footer {
 .commentImg {
   float: left;
   /* margin-left: 5px; */
-  margin-top: -10px;
+  margin-top: -10px !important;
+    margin-left: 5px !important; 
   z-index: 1;
   border-radius: 100%;
   border: 2px solid #fff;
@@ -2095,12 +2226,18 @@ footer {
   float: left;
   z-index: 2;
   width: 100%;
-  margin-left: -7px !important;
-  margin-top: 2px;
+  margin-left: -7px;
+    margin-top: 5px;
+    overflow: hidden;
+    text-overflow: clip;
 }
 
 .responseBlock p {
   width: 102%;
+}
+
+.expenImg  {
+    margin-top: -7px !important;
 }
 
 .nameNtech {
@@ -2128,9 +2265,24 @@ footer {
   width: 95%;
   height: 30%;
   text-align: right;
+  margin-top: -5px !important;
+  color: #cccccc;
+  font-size: 10px;
+}
+
+.responseBlockExpen {
+  height: 30%;
   margin-top: -8px !important;
   color: #cccccc;
   font-size: 10px;
+    padding-bottom: 9px;
+    
+}
+
+.blockExpen{
+    margin-left: 7px !important;
+    margin-bottom: 20px;
+    margin-top: -15px !important;
 }
 
 .responseText {
@@ -2140,31 +2292,47 @@ footer {
   z-index: 2;
 }
 
+.textExpen {
+    margin-left: 22px !important;
+    width: 68% !important;
+}
+
 .latestResponse {
   border-bottom: 0px solid transparent;
 }
 
-.blockNumber {
-  margin-left: -6px;
+.blockNumberExpen {
   color:#fff;
-  margin-top: -8px;
+    font-weight: 600;
+    font-size: 16px !important;
 }
 
 .numberStyle {
   margin-top: -7px;
 font-weight: 600;
 font-size: 16px !important;
+    margin-left: -8px;
 }
 
 .responseText h3 {
   font-size: 18px;
 }
 
-.initailPost{
-  font-size: 14px;
-  width: 100%;
+.initailPost {
+  
+    display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
   color: #DADADA;
-  margin-top: 3px;
+   margin-top: 3px;
+    width: 100%;
+  height: 100%; /* Fallback for non-webkit */
+  font-size: 14px;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+   /* line-height: 1.4;*/
+  text-overflow: ellipsis;
+    
 }
 
 .responseImg {
@@ -2214,10 +2382,13 @@ font-size: 16px !important;
   font-size: 18px;
   font-weight: 600;
   margin-top: -9px;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
+.dots{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /* DashBoard Slider css */
 
@@ -2407,6 +2578,7 @@ font-size: 16px !important;
 
 .tableRows li:first-child {
   text-align: left;
+    
 }
 
 .tableRows {
@@ -2442,6 +2614,9 @@ padding-right: 17px;
 .tableRows li:first-child {
   text-align: left;
   width: 30%;
+  text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow: hidden;
 }
 
 .overflowTickets {
@@ -2541,6 +2716,7 @@ display: none;
   -moz-user-select: none;
   user-select: none;
   background: #0099CC; /* old browsers */
+  font-weight: bold;
 }
 
 .TicketTabs ul li:nth-child(2) {
@@ -2590,6 +2766,9 @@ display: none;
   line-height: 65px !important;
   padding-left: 5px;
   font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .listedAccount li:last-child {
