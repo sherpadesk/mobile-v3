@@ -2023,6 +2023,10 @@ $(document).ready(function(){
                         userMessage.showMessage(false, "Choose a tasktype");
                         return;
                     }
+                    if(note.length == 0){
+                        userMessage.showMessage(false, "Enter note");
+                        return;
+                    }
 
                     ticket_id = ticket_id || $("#timeTicket").val();
                     getApi('time' + (isEdit ? "/" + timeLog.time_id : ""),{
