@@ -25,9 +25,9 @@ function logout(isRedirect, mess) {
 
 function clearStorage()
 {
-    var userName = localStorage.userName;
-    var appVersion = localStorage.appVersion;
-    var ticket = localStorage.loadTicketNumber;
+    var userName = localStorage.userName || "";
+    var appVersion = localStorage.appVersion || "";
+    var ticket = localStorage.loadTicketNumber || "";
     localStorage.clear();
     //localStorage.removeItem('userOrgKey');
     //localStorage.removeItem('userOrg');
