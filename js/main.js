@@ -1799,9 +1799,9 @@ $(document).ready(function(){
                 function(returnData) {
                     ////console.log(returnData);
                     var len = returnData.length;
-                    if (len <= 0 ) $("<option value=0 disabled>no open tickets found</option>").appendTo("#timeTicket"); 
+                    if (len <= 0 ) $("<option value= disabled>no open tickets found</option>").appendTo("#timeTicket"); 
                     else {
-                        var insert = "<option value=0>choose a ticket</option>";
+                        var insert = "<option value=>choose a ticket</option>";
                         for(var i = 0; i < len; i++)
                         {
                             insert += "<option value="+returnData[i].number+">#"+ returnData[i].number+"&nbsp;:&nbsp;"+returnData[i].subject+"</option>";
@@ -1916,7 +1916,7 @@ $(document).ready(function(){
                 var account_id = localStorage.DetailedAccount || -1;
                 var project_id = 0;
                 var task_type_id = 0;
-                var ticket_id = 0;
+                var ticket_id = "";
                 if (timeLog)
                 {
                     account_id = timeLog.account_id;
@@ -2024,7 +2024,7 @@ $(document).ready(function(){
                         return;
                     }
 
-                    ticket_id = ticket_id || Number($("#timeTicket").val());
+                    ticket_id = ticket_id || $("#timeTicket").val();
                     getApi('time' + (isEdit ? "/" + timeLog.time_id : ""),{
                         "tech_id" : isEdit ? timeLog.user_id : tech,
                         "project_id": projectId,
