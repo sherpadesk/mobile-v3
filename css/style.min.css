@@ -61,8 +61,12 @@ a {
 
 .styledSelectSmall{
     width: 83% !important;
-float: left;
+    float: left;
 }
+
+.styledSelectGroup {
+    width: 100%;
+    display: inline-block; }
 
 .textInputSmallLightS {
   background: rgba(0, 0, 0, .4);
@@ -359,6 +363,7 @@ strong {
     text-overflow: clip;
     white-space: nowrap;
     width: 92%;
+    -moz-appearance:none;
 }
 
 .styledSelect option:not(:checked) { color: black}
@@ -2145,6 +2150,9 @@ footer {
   width: 100%;
 }
 
+.tabpage {
+    margin-top: 30px; }
+
 #tabpage_info, #tabpage_options,#tabpage_all {
   display: none;
 }
@@ -2685,11 +2693,11 @@ footer {
   background-color: #25B0E6;
 }
 
-/* Ticket List update   
+/* Ticket List update */ 
 .TicketTabs {
-display: none;
+height: 30px;
 }
-*/
+
 
 .TicketTabs ul {
   font-size: 15px;
