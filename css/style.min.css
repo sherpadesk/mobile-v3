@@ -115,7 +115,7 @@ body, html {
   min-height: 150px;
 }
 
-.d0 { display: none; }
+/*.d0 { display: none; }*/
 .d1 { display: inline-block; }
 
 #loading {
@@ -409,6 +409,14 @@ strong {
   font-size: 18px;
   margin: 20px 0 5px 0;
 }
+
+
+.Absolute-Center {
+            margin: auto;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+        }
+
 
 /* SideNav
    ========================================================================== */
@@ -1257,7 +1265,7 @@ header {
 
 .textExpen {
   margin-left: 22px !important;
-  width: 68% !important;
+  width: 67% !important;
 }
 
 .responseBlockExpen {
@@ -1270,8 +1278,8 @@ header {
 
 .blockExpen {
   margin-left: 7px !important;
-  margin-bottom: 20px;
-  margin-top: -15px !important;
+  margin-bottom: 30px;
+  margin-top: -16px !important;
 }
 
 .accountDetailsContainerExpen {
@@ -1545,7 +1553,7 @@ header {
 }
 
 .styledSelectToDos {
-  width: 160px;
+  width: 150px;
   height: 45px;
   overflow: hidden;
   background: rgba(224, 224, 224, 0.29);
@@ -1578,9 +1586,9 @@ header {
   -moz-border-radius: 15px;
   height: 60px;
   padding: 0 5px;
-  margin-left: 160px;
+  margin-left: 150px;
   top: 315px;
-  /*margin-top: 20px;*/
+  margin-top: -60px;
 }
 
 
@@ -2349,7 +2357,7 @@ footer {
   width: 100%;
   height: 100%; /* Fallback for non-webkit */
   font-size: 14px;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   /* line-height: 1.4;*/
@@ -2552,12 +2560,14 @@ footer {
   color: #ccc;
   opacity: 0.5;
   text-align: center;
+  margin-bottom: 7px;
  }
 
 .detailsArrowUp {
   color: #ccc;
   opacity: 0.5;
   text-align: center;
+  margin-bottom: 7px;
  }
 
 .tester {
