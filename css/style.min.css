@@ -119,7 +119,7 @@ body, html {
   min-height: 150px;
 }
 
-/*.d0 { display: none; }*/
+.d0 { display: none; }
 .d1 { display: inline-block; }
 
 #loading {
@@ -1293,7 +1293,7 @@ header {
 
 .expenLi  {
   list-style-type: none;
-  padding-top: 20px;
+    cursor: pointer;
 }
 
 .expen  {

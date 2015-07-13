@@ -90,14 +90,14 @@
                                 </ul>
                                 <hr class="invoiceTotalHr">
                                 <h4 class="invoiceTotal clearfix">$0<span class="detail3Small">.00</span></h4>
-<div class=d0>
+<div id=TimeLogs class=d0>
                                 <ul id="recipHeader" class="invoiceAccount2">
                                     <li>Time Logs</li>
                                 </ul>
                                 <dl class="dropdown"> 
 
                                     <dt>
-                                        <a href="#">
+                                        <a id=a1 href="#">
                                             <span class="hida"> </span>    
                                             <p class=" multiSel"></p>  
                                         </a>
@@ -105,18 +105,15 @@
 
                                     <dd>
                                         <div class="mutliSelect">
-                                            <ul>
-                                                <li>
-                                                    <input class="time" type="checkbox" value=" " /> </li>
-                                                <li>
-                                                    <input class="time"type="checkbox" value=" " /> </li>
-                                                <li>
-
+                                            <ul id=timelog>  
                                             </ul>
 
                                         </div>
                                     </dd>
+    </dl>
+                                </div>
 
+<div id=TravelLogs class=d0>
                                     <ul id="recipHeader" class="invoiceAccount2">
                                         <li>Travel Logs</li>
                                     </ul>
@@ -131,19 +128,16 @@
 
                                         <dd>
                                             <div class="mutliSelect">
-                                                <ul>
-                                                    <li>
-                                                        <input class="time" type="checkbox" value=" " /> </li>
-                                                    <li>
-                                                        <input class="time"type="checkbox" value=" " /> </li>
-                                                    <li>
-
+                                                <ul id=travellog>
                                                 </ul>
 
                                             </div>
                                         </dd>
 
-
+                                    </dl>
+                                </div>
+                                
+<div id=expenses class=d0>
                                         <ul id="recipHeader" class="invoiceAccount2">
                                             <li>Expenses</li>
                                         </ul>
@@ -158,18 +152,14 @@
 
                                             <dd>
                                                 <div class="mutliSelect">
-                                                    <ul>
-                                                        <li>
-                                                            <input class="time" type="checkbox" value=" " /> </li>
-                                                        <li>
-                                                            <input class="time"type="checkbox" value=" " /> </li>
-                                                        <li>
-
+                                                    <ul id=expenseslog>
                                                     </ul>
 
                                                 </div>
                                             </dd>
-                                            </div>
+                                    </dl>
+                                </div>
+                                          
 
                                         <ul id="recipHeader" class="invoiceAccount">
                                             <li>Recipients</li>
@@ -296,22 +286,22 @@
 */ 
 
                         $(".dropdown dt a").on('click', function () {
-                            $(".dropdown dd ul").slideToggle('fast');
+                            $(this).parent().next().find("ul").slideToggle('fast');
                         });
 
                         $(".dropdown dd ul li a").on('click', function () {
-                            $(".dropdown dd ul").hide();
+                             $(this).parent().next().find("ul").hide();
                         });
 
                         function getSelectedValue(id) {
                             return $("#" + id).find("dt a span.value").html();
                         }
 
-                        $(document).bind('click', function (e) {
+                        /*$(document).bind('click', function (e) {
                             var $clicked = $(e.target);
                             if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
                         });
-
+*/
 
                         $('.mutliSelect input[type="checkbox"]').on('click', function ()  {
 
