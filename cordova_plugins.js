@@ -1,6 +1,20 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/com.bez4pieci.cookies/www/cookies.js",
+        "id": "com.bez4pieci.cookies.cookies",
+        "clobbers": [
+            "cookies"
+        ]
+    },
+    {
+        "file": "plugins/nl.x-services.plugins.launchmyapp/www/ios/LaunchMyApp.js",
+        "id": "nl.x-services.plugins.launchmyapp.LaunchMyApp",
+        "clobbers": [
+            "window.plugins.launchmyapp"
+        ]
+    },
+    {
         "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
         "id": "org.apache.cordova.inappbrowser.inappbrowser",
         "clobbers": [
@@ -23,24 +37,10 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.device/www/device.js",
-        "id": "org.apache.cordova.device.device",
+        "file": "plugins/com.telerik.plugins.wkwebview/www/wkwebview.js",
+        "id": "com.telerik.plugins.wkwebview.wkwebview",
         "clobbers": [
-            "device"
-        ]
-    },
-    {
-        "file": "plugins/de.appplant.cordova.plugin.local-notification/www/local-notification.js",
-        "id": "de.appplant.cordova.plugin.local-notification.LocalNotification",
-        "clobbers": [
-            "plugin.notification.local"
-        ]
-    },
-    {
-        "file": "plugins/com.bez4pieci.cookies/www/cookies.js",
-        "id": "com.bez4pieci.cookies.cookies",
-        "clobbers": [
-            "cookies"
+            "wkwebview"
         ]
     },
     {
@@ -55,12 +55,13 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "org.apache.cordova.inappbrowser": "0.3.3",
-    "org.apache.cordova.network-information": "0.2.7",
-    "org.apache.cordova.device": "0.2.8",
-    "de.appplant.cordova.plugin.local-notification": "0.7.4",
     "com.bez4pieci.cookies": "0.0.1",
-    "de.appplant.cordova.plugin.badge": "0.5.3"
+    "nl.x-services.plugins.launchmyapp": "3.2.0",
+    "org.apache.cordova.inappbrowser": "0.5.2",
+    "org.apache.cordova.network-information": "0.2.12",
+    "com.telerik.plugins.wkwebview": "0.2.5",
+    "de.appplant.cordova.plugin.badge": "0.6.4",
+    "de.appplant.cordova.common.registerusernotificationsettings": "1.0.1"
 }
 // BOTTOM OF METADATA
 });
