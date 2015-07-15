@@ -1439,6 +1439,7 @@ header {
   max-height: 630px;
   overflow: overlay;
   margin-bottom: 30px;
+  height: 192px
 }
 
 .invoiceInfoSmall {

@@ -97,15 +97,17 @@
                                 <dl class="dropdown"> 
 
                                     <dt>
-                                        <a id=a1 href="#">
-                                            <span class="hida"> </span>    
+                                        <a href="#">
+                   <input type="checkbox" id="checkAll" class="timeBig">
+        <span class="hida textInvoice">Recipients | $1230</span>
                                             <p class=" multiSel"></p>  
                                         </a>
                                     </dt>
 
                                     <dd>
                                         <div class="mutliSelect">
-                                            <ul id=timelog>  
+                        <ul id=timelog class="timeLogInvoice">  
+         <input type="checkbox" id="checkItem"  value="">
                                             </ul>
 
                                         </div>
@@ -121,14 +123,16 @@
 
                                         <dt>
                                             <a href="#">
-                                                <span class="hida"> </span>    
-                                                <p class=" multiSel"></p>  
-                                            </a>
-                                        </dt>
+     <input type="checkbox" id="checkAll" class="timeBig">
+            <span class="hida textInvoice">Recipients | $1230</span>
+                <p class=" multiSel"></p>  
+                  </a>
+                        </dt>
 
-                                        <dd>
-                                            <div class="mutliSelect">
-                                                <ul id=travellog>
+                <dd>
+       <div class="mutliSelect">
+   <ul id=travellog class="travelInvoice">
+        <input type="checkbox" id="checkItem" value="">
                                                 </ul>
 
                                             </div>
@@ -138,21 +142,23 @@
                                 </div>
                                 
 <div id=expenses class=d0>
-                                        <ul id="recipHeader" class="invoiceAccount2">
-                                            <li>Expenses</li>
-                                        </ul>
-                                        <dl class="dropdown"> 
+          <ul id="recipHeader" class="invoiceAccount2">
+             <li>Expenses</li>
+               </ul>
+                     <dl class="dropdown"> 
+                      <dt>
+    <a href="#">
+       <input type="checkbox" id="checkAll" class="timeBig">
+           <span class="hida textInvoice">Recipients | $1230</span>
+                <p class=" multiSel"></p>  
+                       </a>
+                </dt>
 
-                                            <dt>
-                                                <a href="#">
-                                                    <span class="hida"> </span>    
-                                                    <p class=" multiSel"></p>  
-                                                </a>
-                                            </dt>
-
-                                            <dd>
-                                                <div class="mutliSelect">
-                                                    <ul id=expenseslog>
+                      <dd>
+                                        <div class="mutliSelect">
+     <ul id=expenseslog class="expensesInvoice">
+       <li><input type="checkbox" id="checkItem" class="timeBig" value="">
+           <span class="textBox"></span></li>
                                                     </ul>
 
                                                 </div>
@@ -161,7 +167,7 @@
                                 </div>
                                           
 
-                                        <ul id="recipHeader" class="invoiceAccount">
+                 <ul id="recipHeader" class="invoiceAccount">
                                             <li>Recipients</li>
                                             <li id="addRecipient" class="detail3Short"><!--img class="addIcon" src="img/check.png"--></li>
                                         </ul>
@@ -197,6 +203,12 @@
                         a {
                             color:#fff;
                         }
+                        
+                         .invoiceLi {
+                              padding-top: 10px;
+                        }
+
+                        
                         .dropdown dd, .dropdown dt {
                             margin:0px;
                             padding:0px;
@@ -220,7 +232,7 @@
                         .dropdown dt a {
                             background-color:#489CD6;
                             display:block;
-                            padding: 8px 20px 5px 10px;
+                            padding: 8px 20px 5px 6px;
                             min-height: 25px;
                             line-height: 24px;
                             overflow: hidden;
@@ -231,11 +243,12 @@
                             height: 45px;
 
                         }
-                        .dropdown dt a span, .multiSel span {
+                        .dropdown dt a, span .multiSel spans {
                             cursor:pointer;
                             display:inline-block;
-                            padding: 0 3px 2px 0;
+                            /*padding: 0 3px 2px 0;*/
                         }
+                        
                         .dropdown dd ul {
                             background-color: #1F2B38;
                             border:0;
@@ -244,14 +257,17 @@
                             left:0px;
                             padding: 2px 15px 2px 5px;
                             position:absolute;
-                            top:2px;
+                            top:-4px;
                             width:100%;
                             list-style:none;
-                            /*height: 100px;*/
+                            /*height: 122px;*/
                             overflow: auto;
+                            z-index: 2;
                         }
-                        .dropdown span.value {
-                            display:none;
+                        
+                        
+                       /* .dropdown span.value {
+                            display:none;*/
                         }
                         .dropdown dd ul li a {
                             padding:5px;
@@ -270,12 +286,50 @@
                             color: #fff;
                             font-weight: bold;
                         }
+                        
                         .time {
-                            width: 25px;
-                            height: 25px;
-
+                            width: 37px;
+                            height: 23px;
+                           margin-top: 5px;
                         }
-                    </style>
+                        
+                        .timeBig {
+                            width: 25px;
+                            height: 30px;
+                            opacity: 0.6;
+                            margin-left: 4px;
+                            vertical-align: text-bottom
+                        }
+                        
+                        .textBox {
+                              vertical-align: 5px;
+                              font-size: 15px;
+                        }
+                        
+                        .timeLogInvoice{
+                        height: 237px;
+                        }
+                        
+                        .travelInvoice{
+                        height: 48px;
+                        }
+                        
+                         .expensesInvoice{
+                        height: 287px;
+                        }
+                        
+                        .textInvoice{
+                        font-size: 16px;
+                        font-weight: 600;
+                        padding: 5px;
+                        vertical-align: super;
+                        }
+                    
+            
+                        .invLi {
+	                     padding-top: 2px;
+                        }
+            </style>
 
 
                     <script>    
@@ -320,6 +374,11 @@
 
                             }
                         });
+                        
+                        $("#checkAll").click(function () {
+     $('input:checkbox').not(this).prop('checked', this.checked);
+ });
+                        
                     </script>
                     </html>
 
