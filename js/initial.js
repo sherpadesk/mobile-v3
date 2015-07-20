@@ -99,11 +99,19 @@ function done() {
         window.location = "ticket_detail.html";
         return;
     }
-
+    
+    var ios_action = localStorage.getItem('ios_action');
+    
+    if (ios_action){
+        localStorage.setItem('ios_action', "");
+        window.location = ios_action;
+    }
+    
     window.location = localStorage.getItem('userRole') === "tech" ? "dashboard.html" : "ticket_list.html";
 }
 
 function handleOpenURL(url) {
+    localStorage.setItem('ios_action', url.substring(13));
     alert("initial url: " + url);
 }
 
