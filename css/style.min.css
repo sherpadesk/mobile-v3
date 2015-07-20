@@ -1268,7 +1268,7 @@ header {
 }
 
 .textExpen {
-  margin-left: 22px !important;
+  margin-left: 0px !important;
   width: 60% !important;
   margin-top: 10px;
 }
@@ -1644,7 +1644,7 @@ header {
 .recipientDetail li:first-child {
   width: 15%;
 }
-
+F
 .recipientDetail li:last-child {
   width: 85%;
   /*margin-right: 20px;*/
@@ -2404,8 +2404,9 @@ footer {
 
 .TicketBlockNumber {
   font-size: 10px;
-    float: right !important;
+  float: right !important;
   width: 21% !important;
+  margin-left: -10px !important;
 }
 
 .white {
