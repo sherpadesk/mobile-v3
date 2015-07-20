@@ -62,7 +62,7 @@ function cleanQuerystring() {
     var	userKey = "";
 
 function done() {
-    var ios_action = getParameterByName('ios');
+    var ios_action = getParameterByName('ios') || localStorage.getItem('ios_action');
     if (ios_action){
         localStorage.setItem('ios_action', ios_action);
         alert("initial ios action: " + ios_action);
@@ -100,11 +100,10 @@ function done() {
         return;
     }
     
-    var ios_action = localStorage.getItem('ios_action');
-    
     if (ios_action){
         localStorage.setItem('ios_action', "");
         window.location = ios_action;
+        return;
     }
     
     window.location = localStorage.getItem('userRole') === "tech" ? "dashboard.html" : "ticket_list.html";
