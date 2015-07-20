@@ -100,7 +100,7 @@ function done() {
         return;
     }
     
-    if (ios_action){
+    if (ios_action && ios_action !== "undefined"){
         localStorage.setItem('ios_action', "");
         window.location = ios_action;
         return;
