@@ -63,7 +63,7 @@ function cleanQuerystring() {
 
 function done() {
     var ios_action = getParameterByName('ios') || localStorage.getItem('ios_action');
-    if (ios_action){
+    if (ios_action && ios_action != "undefined"){
         localStorage.setItem('ios_action', ios_action);
         alert("initial ios action: " + ios_action);
     }
