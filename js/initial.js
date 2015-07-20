@@ -62,6 +62,11 @@ function cleanQuerystring() {
     var	userKey = "";
 
 function done() {
+    var ios_action = getParameterByName('ios');
+    if (ios_action){
+        localStorage.setItem('ios_action', ios_action);
+        alert("initial ios action: " + ios_action);
+    }
     var ticket = getParameterByName('ticket');
     if (ticket) {
         cleanQuerystring();
@@ -96,6 +101,10 @@ function done() {
     }
 
     window.location = localStorage.getItem('userRole') === "tech" ? "dashboard.html" : "ticket_list.html";
+}
+
+function handleOpenURL(url) {
+    alert("initial url: " + url);
 }
 
 
