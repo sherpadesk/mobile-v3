@@ -1654,6 +1654,17 @@ header {
   height: 40px;
 }
 
+.timeTodos {
+  width: 23px;
+  height: 23px;
+  margin-left: -35px;
+  /*position: fixed;*/
+  margin-top: 2px;
+}
+
+
+
+
 /* Timelog
    ========================================================================== */
 
