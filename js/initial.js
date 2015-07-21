@@ -62,8 +62,8 @@ function cleanQuerystring() {
     var	userKey = "";
 
 function done() {
-    var ios_action = getParameterByName('ios');
-    if (ios_action){
+    var ios_action = getParameterByName('ios') || localStorage.getItem('ios_action');
+    if (ios_action && ios_action != "undefined"){
         localStorage.setItem('ios_action', ios_action);
         alert("initial ios action: " + ios_action);
     }
@@ -99,11 +99,18 @@ function done() {
         window.location = "ticket_detail.html";
         return;
     }
-
+    
+    if (ios_action && ios_action !== "undefined"){
+        localStorage.setItem('ios_action', "");
+        window.location = ios_action;
+        return;
+    }
+    
     window.location = localStorage.getItem('userRole') === "tech" ? "dashboard.html" : "ticket_list.html";
 }
 
 function handleOpenURL(url) {
+    localStorage.setItem('ios_action', url.substring(13));
     alert("initial url: " + url);
 }
 

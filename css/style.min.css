@@ -2963,9 +2963,8 @@ br {
 
 .createActionsList {
   list-style-type: none;
-  width: 360px;
-  height: 100%;
-  margin: 0 auto;
+  width: 320px;
+  height: 320px;
 }
 
 .createActions li {
