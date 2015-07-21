@@ -1656,9 +1656,10 @@ F
 
 .timeTodos {
   width: 23px;
-  height: 23px;
+  height: 22px;
   vertical-align: text-bottom;
   margin-right: 8px;
+  -webkit-transform: scale(1.2);
 }
 
 
