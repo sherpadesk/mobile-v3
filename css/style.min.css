@@ -1531,6 +1531,8 @@ header {
   color: white;
   font-size: 18px;
   padding-top: 8px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .ToDosAva {
