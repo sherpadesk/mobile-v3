@@ -1268,7 +1268,7 @@ header {
 }
 
 .textExpen {
-  margin-left: 22px !important;
+  margin-left: 0px !important;
   width: 60% !important;
   margin-top: 10px;
 }
@@ -1527,10 +1527,10 @@ header {
 }
 
 .ToDos {
-  margin-left: 50px;
+  margin-left: 8px;
   color: white;
   font-size: 18px;
-  padding-top: 5px;
+  padding-top: 8px;
 }
 
 .ToDosAva {
@@ -1564,7 +1564,7 @@ header {
 }
 
 .styledSelectToDos {
-  width: 150px;
+  width: 118px;
   height: 45px;
   overflow: hidden;
   background: rgba(224, 224, 224, 0.29);
@@ -1597,7 +1597,7 @@ header {
   -moz-border-radius: 15px;
   height: 60px;
   padding: 0 5px;
-  margin-left: 150px;
+  margin-left: 118px;
   top: 315px;
   margin-top: -60px;
 }
@@ -1644,7 +1644,7 @@ header {
 .recipientDetail li:first-child {
   width: 15%;
 }
-
+F
 .recipientDetail li:last-child {
   width: 85%;
   /*margin-right: 20px;*/
@@ -1653,6 +1653,16 @@ header {
 .recipientDetail > li > img {
   height: 40px;
 }
+
+.timeTodos {
+  width: 23px;
+  height: 23px;
+  vertical-align: text-bottom;
+  margin-right: 8px;
+}
+
+
+
 
 /* Timelog
    ========================================================================== */
@@ -2393,8 +2403,9 @@ footer {
 
 .TicketBlockNumber {
   font-size: 10px;
-    float: right !important;
+  float: right !important;
   width: 21% !important;
+  margin-left: -10px !important;
 }
 
 .white {
@@ -2952,9 +2963,8 @@ br {
 
 .createActionsList {
   list-style-type: none;
-  width: 360px;
-  height: 100%;
-  margin: 0 auto;
+  width: 320px;
+  height: 320px;
 }
 
 .createActions li {
