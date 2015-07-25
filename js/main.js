@@ -22,8 +22,8 @@ var isExtension = window.self !== window.top;
 var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
     parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
 
-//locally test
-/*Page = location.href.match(/(.+\w\/)(.+)/);
+/*/locally test
+Page = location.href.match(/(.+\w\/)(.+)/);
 Page = Page ? Page[2] : location.pathname.substr(1);
 $( window ).unload(function() { localStorage.setItem("referrer", Page); });
 *///if (isExtension) localStorage.setItem("referrer", Page);
@@ -2239,7 +2239,10 @@ $(document).ready(function(){
                     console.log("fail @ Ticket Detail");
                     userMessage.showMessage(false, "No ticket found. Going back to a list.");
                     setTimeout(function(){
-                        history.back();//window.location = "ticket_list.html";
+                        if (history.length < 3)
+                            window.location = "ticket_list.html";
+                        else
+                            history.back();
                     }, 4000);
                 }
             );
@@ -3530,7 +3533,12 @@ $(document).ready(function(){
             backFunction = function(){
                 var reff = localStorage.getItem(currPage);
                 if (!reff)
-                    history.back();
+                {
+                    if (history.length < 3)
+                        window.location = "index.html"; 
+                    else
+                        history.back();
+                }
                 else {
                     localStorage.setItem(currPage, "");
                     //if (window.backAddFunction)
@@ -3706,6 +3714,15 @@ $(document).ready(function(){
 
         if (Page == "org.html") {
             org.init();
+            return;
+        }
+        
+        var ticket = localStorage.loadTicketNumber; 
+
+        if (ticket && ticket != "undefined") {
+            localStorage.loadTicketNumber = '';
+            localStorage.setItem('ticketNumber', ticket);
+            window.location = "ticket_detail.html";
             return;
         }
         //userInfo.init();

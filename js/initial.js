@@ -63,9 +63,14 @@ function cleanQuerystring() {
 
 function done() {
     var ticket = getParameterByName('ticket');
+    var org = getParameterByName('org');
     if (ticket) {
         cleanQuerystring();
         localStorage.setItem('loadTicketNumber', ticket);
+    }
+    if (org) {
+        cleanQuerystring();
+        localStorage.setItem('userOrgKey', org);
     }
 
     userKey = localStorage.getItem("userKey");
