@@ -1639,6 +1639,7 @@ header {
 
 .recipientDetail li {
   float: left;
+    width: 80%;
 }
 
 .recipientDetail li:first-child {
