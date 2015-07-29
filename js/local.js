@@ -2,7 +2,6 @@
 /*global jQuery, $ */
 
 var Page = location.href.match(/(.+\w\/)(.+)/)[2];
-$( window ).unload(function() { localStorage.setItem("referrer", Page); });
 
 var isExtension = false;
 

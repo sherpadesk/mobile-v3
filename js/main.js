@@ -463,7 +463,7 @@ function getParameterByName(name) {
 }
 
 function cleanQuerystring() {
-    try {window.history.replaceState({}, document.title, location + Page);}
+    try {window.history.replaceState({}, document.title);}
     catch (err){}
 }
 
@@ -1784,11 +1784,15 @@ $(document).ready(function(){
             taskTypes.then(
                 function(returnData) {
                     ////console.log(returnData);
+                    if (returnData.length > 0){
                     $("#taskTypes").empty();
                     // add task types to list
                     fillSelect(returnData, "#taskTypes", "<option value=0>choose a task type</option>");
                     if (task_type_id > 0)
                         $("#taskTypes").val(task_type_id);
+                    else
+                        $("#taskTypes").prop("selectedIndex",1);
+                    }
                     if (!$("#timeTicket").length)
                         reveal();
                 },
@@ -1855,7 +1859,7 @@ $(document).ready(function(){
                 function(returnData) {
                     ////console.log(returnData);
                     var len = returnData.length;
-                    if (len <= 0 ) $("<option value= disabled>no open tickets found</option>").appendTo("#timeTicket"); 
+                    if (len <= 0 ) $("<option disabled=disabled value=>no open tickets found</option>").appendTo("#timeTicket"); 
                     else {
                         var insert = "<option value=>choose a ticket</option>";
                         for(var i = 0; i < len; i++)
@@ -2295,7 +2299,10 @@ $(document).ready(function(){
                     console.log("fail @ Ticket Detail");
                     userMessage.showMessage(false, "No ticket found. Going back to a list.");
                     setTimeout(function(){
-                        history.back();//window.location = "ticket_list.html";
+                        if (history.length < 3)
+                            window.location = "ticket_list.html";
+                        else
+                            history.back();
                     }, 4000);
                 }
             );
@@ -3819,7 +3826,12 @@ $(document).ready(function(){
             backFunction = function(){
                 var reff = localStorage.getItem(currPage);
                 if (!reff)
-                    history.back();
+                {
+                    if (history.length < 3)
+                        window.location = "index.html"; 
+                    else
+                        history.back();
+                }
                 else {
                     localStorage.setItem(currPage, "");
                     //if (window.backAddFunction)
@@ -4013,6 +4025,15 @@ $(document).ready(function(){
         if (ios_action  && ios_action !== "undefined"){
             localStorage.setItem('ios_action', "");
             window.location = ios_action;
+            return;
+        }
+        
+        var ticket = localStorage.loadTicketNumber; 
+
+        if (ticket && ticket != "undefined") {
+            localStorage.loadTicketNumber = '';
+            localStorage.setItem('ticketNumber', ticket);
+            window.location = "ticket_detail.html";
             return;
         }
         

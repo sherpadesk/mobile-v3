@@ -4,13 +4,6 @@
 var year="2015";
 var appVersion = "25";
 
-//Root Names
-var Site = 'sherpadesk.com/';
-var MobileSite = 'http://m0.' + Site;
-var AppSite = 'https://app.beta.' + Site;
-
-var isExtension = window.self !== window.top;
-
 //global helper functions
 function logout(isRedirect, mess) {
     clearStorage();
@@ -49,7 +42,7 @@ function getParameterByName(name) {
 }
 
 function cleanQuerystring() {
-    try {window.history.replaceState({}, document.title, location + Page);}
+    try {window.history.replaceState({}, document.title);}
     catch (err){}
 }
 
@@ -72,6 +65,7 @@ function done() {
         cleanQuerystring();
         localStorage.setItem('loadTicketNumber', ticket);
     }
+    var org = getParameterByName('org');
 
     userKey = localStorage.getItem("userKey");
     userOrgKey = localStorage.getItem('userOrgKey');
@@ -98,6 +92,10 @@ function done() {
         localStorage.setItem('ticketNumber', ticket);
         window.location = "ticket_detail.html";
         return;
+    }
+    if (org) {
+        cleanQuerystring();
+        localStorage.setItem('userOrgKey', org);
     }
     
     if (ios_action && ios_action !== "undefined"){

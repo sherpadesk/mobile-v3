@@ -19,8 +19,12 @@ var fastClicker = {
 	var backButton = {
 		init:function() {
 			$("#goBack").click(function(){
-                if (!window.backFunction)
-                    window.history.back();
+                if (!window.backFunction){
+                    if (history.length < 3)
+                        window.location = "ticket_list.html";
+                    else
+                        history.back();
+                }
                 else
                 window.backFunction(); 
                 }
