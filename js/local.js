@@ -13,3 +13,9 @@ function default_redirect (is_tech)
 
 function googleTag() {}
 
+//Root Names
+var Site = 'sherpadesk.com/';
+var MobileSite = 'http://m0.' + Site;
+var AppSite = 'https://app.beta.' + Site;
+var ApiSite = 'http://api.beta.' + Site;
+

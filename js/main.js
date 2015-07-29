@@ -9,12 +9,6 @@ function updatedFunction ()
     location.reload(true);
 }
 
-//Root Names
-var Site = 'sherpadesk.com/';
-var MobileSite = 'http://m0.' + Site;
-var AppSite = 'https://app.beta.' + Site;
-var ApiSite = 'http://api.beta.' + Site;
-
 var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
     parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
 

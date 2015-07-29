@@ -1,0 +1,15 @@
+{
+    "jscompiler": {
+        "outputs": [
+            {
+                "inputs": [
+                    
+                ],
+                "output": "",
+                "generateMap": false,
+                "mangle": true,
+                "isolate": false
+            }
+        ]
+    }
+}
