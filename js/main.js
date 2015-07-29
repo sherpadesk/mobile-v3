@@ -2423,11 +2423,11 @@ $(document).ready(function(){
                 //createSpan("#recipientList");
                 
                 // adds timelogs asscoited with this invoice to the invoice timelogs list
-                
+                /*
                 $("#timelog").empty();
                if(returnData.time_logs){
-                if(returnData.time_logs.length){                                $("#TimeLogs").show1();
-                 
+                if(returnData.time_logs.length){             
+                    $("#TimeLogs").show1();
                     var string = returnData.time_logs.length+" Timelogs "+ "|" + " $"+returnData.amount.toFixed(2).toString();
                  $("#timeSumma").text(string);
                     for(var u = 0; u < returnData.time_logs.length; u++)
@@ -2501,6 +2501,7 @@ $(document).ready(function(){
                     }
                     }
                 }
+                */
                 
                 reveal();
             },
@@ -3015,7 +3016,7 @@ $(document).ready(function(){
             getApi('expenses', {"account": account, "limit" : 200}).then(function(returnData) {
                 $(".accountDetailsContainerExpen").empty();
                 var noninvoiced = false;
-                if (returnData.length > 1){
+                if (returnData.length > 0){
                     //add timelogs to list
                     for(var i = 0; i < returnData.length; i++)
                     {
