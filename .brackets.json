@@ -1,0 +1,16 @@
+{
+    "jscompiler": {
+        "outputs": [
+            {
+                "inputs": [
+                    "js/server.js",
+                    "js/main.js"
+                ],
+                "output": "js/main.min.js",
+                "generateMap": false,
+                "mangle": true,
+                "isolate": false
+            }
+        ]
+    }
+}

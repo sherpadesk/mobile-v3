@@ -7,6 +7,13 @@
 "js/local.js",
 "js/main.js"
 ]
+},
+{
+"output": "js/initial.min.js",
+"files": [
+"js/local.js",
+"js/initial.js"
+]
 }
 ]
 }
