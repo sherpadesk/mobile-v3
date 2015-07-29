@@ -66,6 +66,10 @@ function done() {
         localStorage.setItem('loadTicketNumber', ticket);
     }
     var org = getParameterByName('org');
+    if (org) {
+        cleanQuerystring();
+        localStorage.setItem('userOrgKey', org);
+    }
 
     userKey = localStorage.getItem("userKey");
     userOrgKey = localStorage.getItem('userOrgKey');
@@ -92,10 +96,6 @@ function done() {
         localStorage.setItem('ticketNumber', ticket);
         window.location = "ticket_detail.html";
         return;
-    }
-    if (org) {
-        cleanQuerystring();
-        localStorage.setItem('userOrgKey', org);
     }
     
     if (ios_action && ios_action !== "undefined"){
