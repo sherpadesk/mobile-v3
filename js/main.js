@@ -9,26 +9,8 @@ function updatedFunction ()
     location.reload(true);
 }
 
-//Root Names
-var Site = 'sherpadesk.com/';
-var MobileSite = 'http://m.' + Site;
-var AppSite = 'https://app.' + Site;
-
-var ApiSite = 'http://api.' + Site;
-var Page = location.pathname.substr(1);
-
-var isExtension = window.self !== window.top;
-
 var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
     parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
-
-/*/locally test
-Page = location.href.match(/(.+\w\/)(.+)/);
-Page = Page ? Page[2] : location.pathname.substr(1);
-$( window ).unload(function() { localStorage.setItem("referrer", Page); });
-*///if (isExtension) localStorage.setItem("referrer", Page);
-
-//if (Page.length > 20) alert("Set Page!");
 
 //global config
 var isTech = false,
@@ -3642,20 +3624,11 @@ $(document).ready(function(){
             return;
         }
 
-        window.location = isTech ? "dashboard.html" : "ticket_list.html";
+        default_redirect(isTech);
     }
 
     //Main Method that calls all the functions for the app
     (function () {
-
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-                                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-998328-15', 'auto');
-        ga('send', 'pageview');
-
 
         if (Page == "signup.html"){
             OrgSignup.init();
@@ -3726,6 +3699,8 @@ $(document).ready(function(){
             return;
         }
         //userInfo.init();
+        
+        googleTag();
 
         //when user logged in
         if (updateStatusBar) {
