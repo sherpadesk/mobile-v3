@@ -1,0 +1,12 @@
+{
+"combineOnSave": true,
+"combine": [
+{
+"output": "js/main.min.js",
+"files": [
+"js/local.js",
+"js/main.js"
+]
+}
+]
+}
