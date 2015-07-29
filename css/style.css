@@ -61,35 +61,39 @@ a {
 
 .styledSelectSmall{
     width: 83% !important;
-float: left;
+    float: left;
 }
 
+.styledSelectGroup {
+    width: 100%;
+    display: inline-block; }
+
 .textInputSmallLightS {
-    background: rgba(0, 0, 0, .4);
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    border: none;
-    overflow: hidden;
-    color: #ffffff;
-    font-size: 16px;
-    height: 40px;
-    padding: 10px;
-    width: 90%;
-    resize: none;
-    margin-bottom: 4px;
+  background: rgba(0, 0, 0, .4);
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border: none;
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 16px;
+  height: 40px;
+  padding: 10px;
+  width: 90%;
+  resize: none;
+  margin-bottom: 4px;
 }
 
 .createButtonSmall1 {
-width: 45px;
-height: 40px;
-z-index: 7;
-float: right;
+  width: 45px;
+  height: 40px;
+  z-index: 7;
+  float: right;
 }
 
 .Absolute-Center {
-    margin: auto;
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
 }
 
 body {
@@ -105,38 +109,38 @@ body, html {
   width: 100%;
   position: relative;
   overflow: hidden;
-    height: 100%;*/
+  height: 100%;*/
   margin-left: -3px;
 }
 
 .spinner,
 .content.spinner {
-    background: url(../img/loader.gif) center 75px no-repeat;
-    min-height: 150px;
+  background: url(../img/loader.gif) center 75px no-repeat;
+  min-height: 150px;
 }
 
 .d0 { display: none; }
 .d1 { display: inline-block; }
 
 #loading {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(192, 192, 192, 0.5);/*#ffffff;*/
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(192, 192, 192, 0.5);/*#ffffff;*/
 }
 
 .loadScreen {
-    color: #fff;
-    width: 50px;
-    height: 50px;
-    text-align: center;
-    margin: auto;
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
 }
 
 strong {
@@ -168,49 +172,6 @@ strong {
   height: 45px;
   margin-bottom: 15px;
   width: 100%;
-}
-
-.blueButtonToDos {
-  background: #0099CC;
-  border: none;
-  color: #ffffff;
-  font-size: 16px;
-  height: 45px;
-  margin-bottom: 10px;
-  width: 100%;
-    margin-top: 15px;
-}
-
-.ToDos {
-   margin-left: 50px;
-  color: white;
-    font-size: 18px;
-    padding-top: 5px;
-}
-
-.ToDosAva {
-   margin-left: 450px;
-  color: rgb(72, 156, 214);
-    font-size: 12px;
-    font-weight: bold;
-    padding-top: 5px;
-      text-align: left;
-}
-
-.ToDosData {
-    color: rgb(72, 156, 214);
-    font-size: 12px;
-    font-weight: bold;
-    padding-top: 5px;
-    text-align: right;
-}
-
-.ToDosMain {
-  color: white;
-    font-size: 15px;
-    font-weight: bold;
-    padding-top: 20px;
-  text-align: center;
 }
 
 .container {
@@ -264,17 +225,6 @@ strong {
   font-size: 12px;
 }
 
-.feedTimeExpen {
-  margin-top: -70px;
-  font-size: 25px;
-    color: #ffffff;
-}
-
-.DateExpen {
-  margin-top: -70px;
-  
-}
-
 .plusIconHeader {
   height: 23px;
   margin-top: 22px;
@@ -325,7 +275,7 @@ strong {
 .textInputSmall {
   background: rgba(0, 0, 0, .6);
   box-sizing:border-box;
-    -moz-box-sizing:border-box;
+  -moz-box-sizing:border-box;
   border: none;
   overflow: hidden;
   color: #ffffff;
@@ -340,7 +290,7 @@ strong {
 .textInputSmall_Note  {
   background: rgba(0, 0, 0, .4);
   box-sizing:border-box;
-    -moz-box-sizing:border-box;
+  -moz-box-sizing:border-box;
   border: none;
   overflow: hidden;
   color: #ffffff;
@@ -356,7 +306,7 @@ strong {
 .textInputSmall_Date  {
   background: rgba(0, 0, 0, .4);
   box-sizing:border-box;
-    -moz-box-sizing:border-box;
+  -moz-box-sizing:border-box;
   border: none;
   overflow: hidden;
   color: #ffffff;
@@ -377,7 +327,7 @@ strong {
 .textInputSmallLight {
   background: rgba(0, 0, 0, .4);
   box-sizing:border-box;
-    -moz-box-sizing:border-box;
+  -moz-box-sizing:border-box;
   border: none;
   overflow: hidden;
   color: #ffffff;
@@ -413,6 +363,7 @@ strong {
     text-overflow: clip;
     white-space: nowrap;
     width: 92%;
+    -moz-appearance:none;
 }
 
 .styledSelect option:not(:checked) { color: black}
@@ -425,17 +376,6 @@ strong {
    background: url("../img/select_arrow.png") no-repeat #489CD6;
    background-position: top 18px right 18px;
    border-radius: 3px;
-}
-
-
-.styledSelectToDos {
-   width: 160px;
-height: 45px;
-   overflow: hidden;
-   background: rgba(224, 224, 224, 0.29);
-   background-position: top 18px right 18px;
-   height: 60px;
-   /*margin-top: 50px;*/
 }
 
 .styledSelectSearch {
@@ -474,6 +414,14 @@ height: 45px;
   font-size: 18px;
   margin: 20px 0 5px 0;
 }
+
+
+.Absolute-Center {
+            margin: auto;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+        }
+
 
 /* SideNav
    ========================================================================== */
@@ -514,13 +462,6 @@ height: 45px;
 
 .bodyContent {
   margin-top: 45px;
-  -webkit-overflow-scrolling: touch;
-}
-
-.bodyContentToDos {
-  margin-top: 45px;
-  -webkit-overflow-scrolling: touch;
-}
   -webkit-overflow-scrolling: touch;
 }
 
@@ -630,11 +571,11 @@ header, .bodyContent {
 }
 
 nav i {
-float: right;
-margin-right: 8px;
-/* margin-top: 5px; */
-line-height: 40px !important;
-display: block !important;
+  float: right;
+  margin-right: 8px;
+  /* margin-top: 5px; */
+  line-height: 40px !important;
+  display: block !important;
 }
 
 .fa-tachometer {
@@ -647,23 +588,23 @@ display: block !important;
 }
 
 .fa-ticket{
-margin-right: 6px !important;
-font-size: 23px;
-margin-top: -2px;
+  margin-right: 6px !important;
+  font-size: 23px;
+  margin-top: -2px;
 }
 
 .fa-sign-in {
-margin-right: 10px !important;
+  margin-right: 10px !important;
 }
 
 .fa-exterbak-link {
-margin-right: 7px !important;
+  margin-right: 7px !important;
 }
 
 .fa-sort-amount-asc {
-font-size: 18px;
-margin-top: -2px;
-margin-right: 8px;
+  font-size: 18px;
+  margin-top: -2px;
+  margin-right: 8px;
 }
 
 nav {
@@ -783,7 +724,7 @@ nav h3 {
   background: none;
 
   box-sizing:border-box;
-    -moz-box-sizing:border-box;
+  -moz-box-sizing:border-box;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
@@ -964,7 +905,7 @@ header {
   -moz-border-radius: 6px;
   border-radius: 6px;
   box-sizing:border-box;
-    -moz-box-sizing:border-box;
+  -moz-box-sizing:border-box;
   height: 30px;
   margin-top: 13px;
   float: right;
@@ -1021,11 +962,11 @@ header {
 }
 
 .centered {
-    position: absolute;
-    top: 11px;
-    left: 0;
-    bottom: 0;
-    right: 0;
+  position: absolute;
+  top: 11px;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .dashboardContainer {
@@ -1045,7 +986,7 @@ header {
 
 .dashboardLeft {
   box-sizing:border-box;
-    -moz-box-sizing:border-box;
+  -moz-box-sizing:border-box;
   border-right: 1px solid rgba(255, 255, 3255, .4);
 }
 
@@ -1067,7 +1008,7 @@ header {
   background: none;
   border: 1px solid #ffffff;
   box-sizing:border-box;
-    -moz-box-sizing:border-box;
+  -moz-box-sizing:border-box;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
@@ -1089,7 +1030,7 @@ header {
 }
 .sideStats li {
   box-sizing:border-box;
-    -moz-box-sizing:border-box;
+  -moz-box-sizing:border-box;
   padding: 0 15px;
   width: 100%;
 }
@@ -1184,13 +1125,6 @@ header {
   border-top: 1px solid #cccccc;
 }
 
-.AccountExpen {
-  overflow: auto;
-  margin: 0 auto;
-}
-
-
-
 .recentTicketsStick {
 
 }
@@ -1219,16 +1153,16 @@ header {
 }
 
 .taskDescription {
-   color: #ffffff;
-   font-size: 12px;
-    width: 100% !important;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    -webkit-line-clamp: 2;
-    display: block;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    height: 30px; 
+  color: #ffffff;
+  font-size: 12px;
+  width: 100% !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  display: block;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  height: 35px; 
 }
 
  
@@ -1261,14 +1195,14 @@ header {
 }
 
 .buttonListdiv input {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,.4);
-    border: 0;
-    color:#fff;
-    font-size: 20px;
-    overflow: hidden;
-    text-align: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.4);
+  border: 0;
+  color:#fff;
+  font-size: 20px;
+  overflow: hidden;
+  text-align: center;
 }
 
 
@@ -1299,14 +1233,14 @@ header {
 
    }
 
-   .styled-select {
+.styled-select {
    width: 83.5%;
    height: 40px;
    overflow: hidden;
    margin-left: 8%;
    }
 
-   .textArea {
+.textArea {
     margin-left: 8%;
     width: 83.5%;
     height: 120px;
@@ -1317,8 +1251,58 @@ header {
    }
 
 
+/* Expen
+   ========================================================================== */
+.AccountExpen {
+  overflow: auto;
+  margin: 0 auto;
+}
 
+.feedTimeExpen {
+  font-size: 25px;
+  color: #ffffff;
+}
 
+.DateExpen {
+  margin-top: -70px;
+}
+
+.textExpen {
+  margin-left: 0px !important;
+  width: 60% !important;
+  margin-top: 10px;
+}
+
+.responseBlockExpen {
+  height: 30%;
+  color: #cccccc;
+  font-size: 10px;
+  padding-bottom: 9px;
+}
+
+.accountDetailsContainerExpen {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.blockNumberExpen {
+  color:#fff;
+  font-weight: 600;
+  font-size: 16px !important;
+}
+
+.expenLi  {
+  list-style-type: none;
+    /*cursor: pointer;*/
+}
+
+.expen  {
+  padding-top: 20px;
+  margin-top: -20px !important;
+  max-width: 55px !important;
+    
+    
+}
 
 /* Invoice
    ========================================================================== */
@@ -1339,7 +1323,8 @@ header {
 
 .detail3 {
   font-size: 16px;
-  width: 35% !important;
+  width: 32% !important;
+  margin-right: 2px;
 }
 
 .detail3Small {
@@ -1352,6 +1337,7 @@ header {
   font-size: 16px;
   text-align: right;
   width: 10%;
+  margin-left: 4px;
 }
 
 .detail1Short {
@@ -1365,12 +1351,14 @@ header {
 
 .detail2Short {
   font-size: 16px;
-  width: 20% !important;
+  width: 17% !important;
+  margin-right: 2px;
 }
 
 .detail3Short {
   font-size: 16px;
   width: 10%;
+  margin-left: 4px;
 }
 
 .plusIconCheck {
@@ -1451,23 +1439,15 @@ header {
   max-height: 630px;
   overflow: overlay;
   margin-bottom: 30px;
-}
-
-.invoiceInfoToDos{
-  list-style-type: none;
-  margin-top: 10px;
-  width: 100%;
-  max-height: 630px;
-  overflow: overlay;
-  margin-top: -60px;
+  height: 192px
 }
 
 .invoiceInfoSmall {
-    list-style-type: none;
-    margin-top: 24px;
-    width: 100%;
-    max-height: 500px;
-    overflow: overlay;
+  list-style-type: none;
+  margin-top: 24px;
+  width: 100%;
+  max-height: 500px;
+  overflow: overlay;
 }
 
 .invoiceInfo li {
@@ -1493,10 +1473,143 @@ header {
   margin-bottom: 8px;
 }
 
+#invoiceList {
+  overflow: visible !important;
+  margin-top: 25px;
+}
+
+.invoiceRows {
+  list-style-type: none;
+  color: #fff;
+  width: 100%;
+  overflow: auto;
+  z-index: 5;
+}
+
+.invoiceRows li {
+  float: left;
+  width: 33.33%;
+  height: 40px;
+  text-align: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.invoiceRows li:last-child {
+  text-align: right;
+}
+
+.invoiceRows li:nth-child(2) {
+  font-size: 13px;
+  line-height: 22px;
+  padding-left: 14px;
+  color: #E4E4E4;
+}
+
+.invoiceRows li:first-child {
+  text-align: left;
+}
+
+
+
+/* ToDos
+   ========================================================================== */
+
+.blueButtonToDos {
+  background: #0099CC;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  height: 45px;
+  margin-bottom: 10px;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.ToDos {
+  margin-left: 8px;
+  color: white;
+  font-size: 18px;
+  padding-top: 8px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ToDosAva {
+  margin-left: 450px;
+  color: rgb(72, 156, 214);
+  font-size: 12px;
+  font-weight: bold;
+  padding-top: 5px;
+  text-align: left;
+}
+
+.ToDosData {
+  color: rgb(72, 156, 214);
+  font-size: 12px;
+  font-weight: bold;
+  padding-top: 5px;
+  text-align: right;
+}
+
+.ToDosMain {
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.bodyContentToDos {
+  margin-top: 45px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.styledSelectToDos {
+  width: 118px;
+  height: 45px;
+  overflow: hidden;
+  background: rgba(224, 224, 224, 0.29);
+  background-position: top 18px right 18px;
+  height: 60px;
+  /*margin-top: 50px;*/
+}
+
+.ToDosWrapper {
+  width: 90%;
+  margin: 0 auto;
+  overflow: auto;
+  padding-top: 40px;
+}
+
+.imgToDos {
+  border-radius: 100%;
+  border: 2px solid #fff;
+  height: 40px;
+}
+
+.recipientDetailToDos {
+  margin-top: 10px;
+}
+
+.recipientToDos {
+  background: rgba(0, 0, 0, .4);
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -moz-border-radius: 15px;
+  height: 60px;
+  padding: 0 5px;
+  margin-left: 118px;
+  top: 315px;
+  margin-top: -60px;
+}
+
+
+
 .recipient {
   background: rgba(0, 0, 0, .4);
   box-sizing:border-box;
-    -moz-box-sizing:border-box;
+  -moz-box-sizing:border-box;
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
   border-radius: 14px;
@@ -1505,23 +1618,6 @@ header {
   /*width: 92%;*/
 }
 
-.recipientToDos {
-  background: rgba(0, 0, 0, .4);
-  box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    -moz-border-radius: 15px;
-  height: 60px;
-  padding: 0 5px;
-  margin-left: 160px;
-  top: 315px;
-  /*margin-top: 20px;*/
-}
-
-.imgToDos {
-    border-radius: 100%;
-  border: 2px solid #fff;
-  height: 40px;
-}
 .recipient p {
   float: left;
   color: #ffffff;
@@ -1545,24 +1641,31 @@ header {
 
 .recipientDetail li {
   float: left;
+    width: 80%;
 }
 
 .recipientDetail li:first-child {
   width: 15%;
 }
-
+F
 .recipientDetail li:last-child {
   width: 85%;
   /*margin-right: 20px;*/
 }
 
-.recipientDetailToDos {
-  margin-top: 10px;
-}
-
 .recipientDetail > li > img {
   height: 40px;
 }
+
+.timeTodos {
+  width: 23px;
+  height: 23px;
+  vertical-align: text-bottom;
+  margin-right: 8px;
+}
+
+
+
 
 /* Timelog
    ========================================================================== */
@@ -1615,7 +1718,7 @@ header {
 
 .timelog {
   list-style-type: none;
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .timelog li {
@@ -1735,12 +1838,6 @@ footer {
   padding-top: 30px;
 }
 
-.ToDosWrapper {
-  width: 90%;
-  margin: 0 auto;
-  overflow: auto;
-  padding-top: 40px;
-}
 /* Select Payment
    ========================================================================== */
 .selectPaymentButton {
@@ -1777,11 +1874,6 @@ footer {
   padding-top: 30px;
 }
 
-.accountDetailsContainerExpen {
-  width: 90%;
-  margin: 0 auto;
-}
-
 .QueuesTickerContainer {
   width: 90%;
   margin: 0 auto 0;
@@ -1802,7 +1894,7 @@ footer {
   line-height: 45px;
   /*text-align: center;*/
   padding-left: 17px;
-    width: 100%;
+  width: 100%;
 }
 
 .OptionsListAccountDetail {
@@ -1811,13 +1903,13 @@ footer {
   width: 100%;
 }
 .OptionsListAccountDetail > li{
- margin:0 0 10px 0;
- height: 45px;
+  margin:0 0 10px 0;
+  height: 45px;
 }
 
 .OptionsList > li{
- margin:0 0 10px 0;
- height: 45px;
+  margin:0 0 10px 0;
+  height: 45px;
 }
 
 .OptionWrapper {
@@ -1830,20 +1922,20 @@ footer {
 }
 
 .OptionWrapper1 {
-    width: 100%;
-    background-color: #489CD6;
-    height: 100%;
-    float: left;
-    line-height: 45px;
+   width: 100%;
+   background-color: #489CD6;
+   height: 100%;
+   float: left;
+   line-height: 45px;
 
 }
 
 .OptionWrapper2 {
-    width: 100%;
-    background-color: #0099CC;
-    height: 100%;
-    float: left;
-    line-height: 45px;
+   width: 100%;
+   background-color: #0099CC;
+   height: 100%;
+   float: left;
+   line-height: 45px;
 
 }
 
@@ -1855,7 +1947,6 @@ footer {
   color: #ffffff;
   line-height: 45px;
   text-align: center;
-
 }
 
 .NotificationWrapperAccountDetail {
@@ -1867,8 +1958,6 @@ footer {
   line-height: 45px;
   text-align: center;
 }
-
-
 
 .openTicketTitle {
   text-align: center;
@@ -2088,6 +2177,9 @@ footer {
   width: 100%;
 }
 
+.tabpage {
+    margin-top: 30px; }
+
 #tabpage_info, #tabpage_options,#tabpage_all {
   display: none;
 }
@@ -2120,7 +2212,7 @@ footer {
   float: left;
   /* margin-left: 5px; */
   margin-top: -10px !important;
-    margin-left: 5px !important; 
+  margin-left: 5px !important; 
   z-index: 1;
   border-radius: 100%;
   border: 2px solid #fff;
@@ -2185,11 +2277,6 @@ footer {
   font-size: 10px;
 }
 
-#invoiceList {
-  overflow: visible !important;
-  margin-top: 25px;
-}
-
 .commentText {
   color: #ffffff;
   width: 100%;
@@ -2227,17 +2314,13 @@ footer {
   z-index: 2;
   width: 100%;
   margin-left: -7px;
-    margin-top: 5px;
-    overflow: hidden;
-    text-overflow: clip;
+  margin-top: 5px;
+  overflow: hidden;
+  text-overflow: clip;
 }
 
 .responseBlock p {
   width: 102%;
-}
-
-.expenImg  {
-    margin-top: -7px !important;
 }
 
 .nameNtech {
@@ -2245,7 +2328,7 @@ footer {
 }
 .responseBlock li {
   float: left;
-  margin-top: 10px !important;
+  margin-top: 10px;
   margin-left: 10px;
   width: 75%;
   z-index: 2;
@@ -2270,20 +2353,6 @@ footer {
   font-size: 10px;
 }
 
-.responseBlockExpen {
-  height: 30%;
-  margin-top: -8px !important;
-  color: #cccccc;
-  font-size: 10px;
-    padding-bottom: 9px;
-    
-}
-
-.blockExpen{
-    margin-left: 7px !important;
-    margin-bottom: 20px;
-    margin-top: -15px !important;
-}
 
 .responseText {
   color: #ffffff;
@@ -2292,26 +2361,15 @@ footer {
   z-index: 2;
 }
 
-.textExpen {
-    margin-left: 22px !important;
-    width: 68% !important;
-}
-
 .latestResponse {
   border-bottom: 0px solid transparent;
 }
 
-.blockNumberExpen {
-  color:#fff;
-    font-weight: 600;
-    font-size: 16px !important;
-}
-
 .numberStyle {
   margin-top: -7px;
-font-weight: 600;
-font-size: 16px !important;
-    margin-left: -8px;
+  font-weight: 600;
+  font-size: 16px !important;
+  margin-left: -8px;
 }
 
 .responseText h3 {
@@ -2319,20 +2377,18 @@ font-size: 16px !important;
 }
 
 .initailPost {
-  
-    display: block; /* Fallback for non-webkit */
+  display: block; /* Fallback for non-webkit */
   display: -webkit-box;
   color: #DADADA;
-   margin-top: 3px;
-    width: 100%;
+  margin-top: 3px;
+  width: 100%;
   height: 100%; /* Fallback for non-webkit */
   font-size: 14px;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-   /* line-height: 1.4;*/
+  /* line-height: 1.4;*/
   text-overflow: ellipsis;
-    
 }
 
 .responseImg {
@@ -2343,7 +2399,6 @@ font-size: 16px !important;
 /* update css */
 
 
-
 .TicketBlockFace {
   width: 50px;
   height: 50px;
@@ -2351,6 +2406,9 @@ font-size: 16px !important;
 
 .TicketBlockNumber {
   font-size: 10px;
+  float: right !important;
+  width: 21% !important;
+  margin-left: -10px !important;
 }
 
 .white {
@@ -2362,6 +2420,7 @@ font-size: 16px !important;
   color: #ffffff;
   margin-top: 35px;
 }
+
 .noDataMessage{
   color: #fff;
   text-align: center;
@@ -2385,9 +2444,9 @@ font-size: 16px !important;
 }
 
 .dots{
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* DashBoard Slider css */
@@ -2398,13 +2457,14 @@ font-size: 16px !important;
   color: #fff;
   text-align: center;
 }
-.first-slide {
 
+.first-slide {
 }
 
 .second-slide {
 
 }
+
 .second-slide ul {
   list-style-type: none;
   margin-left: 10%;
@@ -2421,6 +2481,7 @@ font-size: 16px !important;
   float: left;
   font-size: 14px;
 }
+
 .graphKeyRed {
   height: 15px;
   width: 15px;
@@ -2474,6 +2535,7 @@ font-size: 16px !important;
   bottom: 10px;
   display: none;
 }
+
 .swiper-pagination-switch {
   display: inline-block;
   width: 8px;
@@ -2485,9 +2547,11 @@ font-size: 16px !important;
   border: 1px solid #fff;
   cursor: pointer;
 }
+
 .swiper-visible-switch {
   background: #aaa;
 }
+
 .swiper-active-switch {
   background: #fff;
 }
@@ -2500,6 +2564,7 @@ font-size: 16px !important;
 #closingMessage {
   display: none;
 }
+
 #closeMessageButton {
   display: none;
   margin-left: 0px;
@@ -2521,16 +2586,18 @@ font-size: 16px !important;
   display: none;
 }
 
- .detailsArrowDown {
+.detailsArrowDown {
   color: #ccc;
   opacity: 0.5;
   text-align: center;
+  margin-bottom: 7px;
  }
 
- .detailsArrowUp {
+.detailsArrowUp {
   color: #ccc;
   opacity: 0.5;
   text-align: center;
+  margin-bottom: 7px;
  }
 
 .tester {
@@ -2571,6 +2638,7 @@ font-size: 16px !important;
 .tableHeader li:nth-child(3){
   padding-left: 8px;
 }
+
 .tableHeader li:nth-child(4){
   text-align: right !important;
   padding-right: 20px;
@@ -2578,7 +2646,6 @@ font-size: 16px !important;
 
 .tableRows li:first-child {
   text-align: left;
-    
 }
 
 .tableRows {
@@ -2600,7 +2667,6 @@ font-size: 16px !important;
   text-align: center;
   margin-bottom: 10px;
   line-height: 50px;
-
 }
 
 .tableRows li:last-child {
@@ -2608,56 +2674,23 @@ font-size: 16px !important;
 }
 
 .tableRows li:nth-child(2) {
-padding-right: 17px;
+  padding-right: 17px;
 }
 
 .tableRows li:first-child {
   text-align: left;
   width: 30%;
   text-overflow: ellipsis;
-   white-space: nowrap;
-   overflow: hidden;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .overflowTickets {
-    margin-top: 4px !important;
+  margin-top: 4px !important;
 }
 
 .headerOverflowTickets {
-    margin-top: -2px  !important;
-}
-
-.invoiceRows {
-  list-style-type: none;
-  color: #fff;
-  width: 100%;
-  overflow: auto;
-  z-index: 5;
-}
-
-.invoiceRows li {
-  float: left;
-  width: 33.33%;
-  height: 40px;
-  text-align: center;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #ccc;
-}
-
-.invoiceRows li:last-child {
-  text-align: right;
-
-}
-
-.invoiceRows li:nth-child(2) {
-  font-size: 13px;
-  line-height: 22px;
-  padding-left: 14px;
-  color: #E4E4E4;
-}
-
-.invoiceRows li:first-child {
-  text-align: left;
+  margin-top: -2px  !important;
 }
 
 .billable {
@@ -2671,33 +2704,33 @@ padding-right: 17px;
   float: left;
 }
 
-  .billTag {
-    color: #ccc;
-    float: left;
-    display: block;
-    margin-left: 7px;
-    font-size: 14px;
-    margin-top:13px;
-  }
+.billTag {
+  color: #ccc;
+  float: left;
+  display: block;
+  margin-left: 7px;
+  font-size: 14px;
+  margin-top:13px;
+}
 
-  .innerCircle {
-    width: 15px;
+.innerCircle {
+  width: 15px;
   height: 15px;
   background-color:rgba(189, 195, 199,.5);
   border-radius: 100%;
   margin: 3px auto;
-  }
+}
 
-  .billFill {
+.billFill {
   background-color: #25B0E6;
-
 }
 
-/* Ticket List update   
+/* Ticket List update */ 
 .TicketTabs {
-display: none;
+height: 30px;
 }
-*/
+
+
 .TicketTabs ul {
   font-size: 15px;
   list-style: none;
@@ -2787,10 +2820,7 @@ display: none;
   text-align: center;
   line-height: 35px;
   margin: 15px 18px;
-
 }
-
-
 
 .tks1 {
   width: 40px;
@@ -2804,11 +2834,10 @@ display: none;
   margin-right: 17px;
 }
 
-
 .toManyTks {
   /*line-height: 27px !important;
   font-size: 19px !important;
-    padding-top: 6px;*/
+  padding-top: 6px;*/
   position: relative;
 }
 
@@ -2881,49 +2910,46 @@ br {
 }
 
 #reload {
-    bottom: 80px;
-    background-color: #25B0E6;
-    padding-left: 13px;
+  bottom: 80px;
+  background-color: #25B0E6;
+  padding-left: 13px;
 }
 
-.fa-b
-{
+.fa-b{
   font-size: 49px;
   padding: 2px; 
   color: whitesmoke;
 }
 
-.fa-f
-{
-    font-size: 60px;
-    color: rgba(66, 189, 65, 1);
+.fa-f{
+  font-size: 60px;
+  color: rgba(66, 189, 65, 1);
 }
 
 .createButton {
-width: 55px;
-height: 50px;
-z-index: 7;
-position: fixed;
-bottom: 7px;
+  width: 55px;
+  height: 50px;
+  z-index: 7;
+  position: fixed;
+  bottom: 7px;
 /* left: 83%; */
-right: 20px;
+  right: 20px;
 /* float: right; */
   -webkit-transition: -webkit-transform .2s ease-in; /* Changed here */
-     -moz-transition: -moz-transform .2s ease-in;
-       -o-transition: -o-transform .2s ease-in;
-          transition: transform .2s ease-in;
-          transition:all .2s;
-          -webkit-transition:all .5s; /* For Safari */
+  -moz-transition: -moz-transform .2s ease-in;
+  -o-transition: -o-transform .2s ease-in;
+  transition: transform .2s ease-in;
+  transition:all .2s;
+  -webkit-transition:all .5s; /* For Safari */
 }
 
 .destroyButton {
   -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-transform-origin: 55% 25%;
-
+  -moz-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  transform-origin: 55% 25%;
 }
 
 .createActions {
@@ -2940,9 +2966,8 @@ transform-origin: 55% 25%;
 
 .createActionsList {
   list-style-type: none;
-  width: 360px;
-  height: 100%;
-  margin: 0 auto;
+  width: 320px;
+  height: 320px;
 }
 
 .createActions li {
@@ -2982,42 +3007,44 @@ transform-origin: 55% 25%;
   text-align: center;
   line-height: 45px;
   font-weight: 300 !important;
-    padding-left: 1px;
+  padding-left: 1px;
 }
 
 body {
-    -webkit-user-select:none;
+  -webkit-user-select:none;
 }
 
 /* Pull down to refresh*/
 #ptr {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    color: #fff;
-    z-index: 5;
-    text-align: center;
-    height: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  z-index: 5;
+  text-align: center;
+  height: 10px;
 }
 
 #ptr .genericon {
-    opacity: .6;
-    font-size: 34px;
-    width: auto;
-    height: auto;
-    transition: all .25s ease;
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
-    margin-top: 5px;
+  opacity: .6;
+  font-size: 34px;
+  width: auto;
+  height: auto;
+  transition: all .25s ease;
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+  margin-top: 5px;
 }
+
 .ptr-refresh #ptr .genericon {
-    -webkit-transform: rotate(270deg);
-    transform: rotate(270deg);
+   -webkit-transform: rotate(270deg);
+   transform: rotate(270deg);
 }
+
 .ptr-loading #ptr .genericon,
 .ptr-reset #ptr .genericon {
-    display: none;
+   display: none;
 }
 
 @-webkit-keyframes ptr-loading {
@@ -3051,34 +3078,34 @@ body {
 }
 
 #content {
-    min-height: 95%;
-    z-index: 5;
-    -webkit-backface-visibility: hidden;
-    -webkit-perspective: 1000;
-    /*text-align: center;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 24px;
-    font-weight: 200;
-    color: #555;
-    box-sizing: border-box;*/
-    -webkit-touch-callout:none;
-    -webkit-tap-highlight-color:rgba(0,0,0,0);
-    width:100%;
-    padding:0;
+  min-height: 95%;
+  z-index: 5;
+  -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  /*text-align: center;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 200;
+  color: #555;
+  box-sizing: border-box;*/
+  -webkit-touch-callout:none;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  width:100%;
+  padding:0;
 }
 
 .ptr-loading #content, .ptr-reset #content,
 .ptr-loading #ptr, .ptr-reset #ptr {
-    transition: all .25s ease;
+  transition: all .25s ease;
 }
 
 .ptr-reset #content {
-    -webkit-transform: translate3d( 0, 0, 0 );
-    transform: translate3d( 0, 0, 0 );
+  -webkit-transform: translate3d( 0, 0, 0 );
+  transform: translate3d( 0, 0, 0 );
 }
 
 .ptr-loading #content {
-    -webkit-transform: translate3d( 0, 50px, 0 );
-    transform: translate3d( 0, 50px, 0 );
+  -webkit-transform: translate3d( 0, 50px, 0 );
+  transform: translate3d( 0, 50px, 0 );
 }
 /* End Pull down to refresh*/

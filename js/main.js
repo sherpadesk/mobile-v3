@@ -266,6 +266,11 @@ function fullapplink (){
 
 function htmlEscape(str) {
     return String(str)
+        .replace(/&/g, '&amp;amp;')
+        .replace(/&quot;/g, '&amp;quot;')
+        .replace(/&apos;/g, '&amp;apos;')
+        .replace(/&lt;/g, '&amp;lt;')
+        .replace(/&gt;/g, '&amp;gt;')
         .replace(/&/g, '&amp;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&apos;')
@@ -445,13 +450,21 @@ function createSpan(elname){
     }
 }
 
+/*
+t -
+e -
+f -
+ticket -
+ios - 
+org - 
+*/
 function getParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
 function cleanQuerystring() {
-    try {window.history.replaceState({}, document.title, location + Page);}
+    try {window.history.replaceState({}, document.title);}
     catch (err){}
 }
 
@@ -1355,6 +1368,16 @@ $(document).ready(function(){
                     function(locationResults){
                         fillSelect(locationResults, "#ticketLocation", "");
                     });
+                
+                  // ToDo Templates
+                var templates = getApi('todos');
+                templates.done(
+                    function(templatesResults){
+                        fillSelect(templatesResults, "#addTicketToDos", "");
+                    });
+                
+                
+                
 
                 $("#ticketLevel").empty();
                 if (!isLevel) $("#ticketLevel").parent().hide();
@@ -1586,6 +1609,58 @@ $(document).ready(function(){
         }
     };
 
+    
+    
+    // adjustment at invoice
+    var Adjust = {
+        init:function(){
+           this.Adjustment();
+        },
+     Adjustment: function(){
+            //add adjustment
+            $("#addAdjustment").click(function(){
+                var currency=$("#adjustVal").val();
+                if (!currency)
+                {
+                    userMessage.showMessage(false, "Please enter amount");
+                    return;
+                }
+                var note= htmlEscape($("#adjustNote").val()).trim();
+                if (note.length < 1)
+                {
+                    userMessage.showMessage(false, "Please enter note");
+                    return;
+                }
+                getApi('Adjustment',{
+                    "note": note,
+                    "adjustment": currency,
+                    "is_billable": $(".innerCircle").hasClass("billFill"),
+                    //"markup": 
+                },'POST').then(function (d) {
+                    localStorage.setItem('isMessage','truePos');
+                    localStorage.setItem('userMessage','Adjustment was successfully added <i class="fa fa-money"></i>');
+                    backFunction();
+                },
+                               function (e, textStatus, errorThrown) {
+                    showError(e);
+                    console.log("fail @ pickup");
+                }
+
+                              );
+            });
+        }
+    };
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     // add user to an account
     var addUser = {
@@ -1832,7 +1907,7 @@ $(document).ready(function(){
                 if(time <= 0){
                     userMessage.showMessage(false, "Oops not enough time");
                     return;
-                } 
+                }
                 // check to see if user check for time to be billable
                 if($(".innerCircle").hasClass("billFill")){
                     isBillable = true;
@@ -2263,6 +2338,7 @@ $(document).ready(function(){
         },
         specifics:function(){
             var data = localStorage.invoiceNumber;
+            
             if (!data){
                 backFunction(); 
             }
@@ -2271,10 +2347,11 @@ $(document).ready(function(){
                 $("#sendInvoiceButton").html("Create Invoice"); 
                 $("#invoiceNumber").html("Create Invoice"); 
                 data = data.split(",");
-                data = "?status=unbilled&account="+data[0]+"&project="+data[1];
+                data = "?status=unbilled&account="+data[0]+"&project="+data[1] + "&is_detailed=true";
             }
             else
-                data = "/"+data;
+                data = "/"+data + "?is_detailed=true";
+            
 
             var start_date, end_date;
 
@@ -2285,7 +2362,7 @@ $(document).ready(function(){
                 start_date = returnData.start_date || new Date().toJSON();
                 end_date = returnData.end_date || new Date().toJSON();
                 $("#invoiceNumber").html(returnData.id ? "Invoice  #"+returnData.id : "Create Invoice"); //invoice number            
-                var nameCheck = returnData.customer; //createElipse(returnData.customer, 0.9, 12);                 
+                var nameCheck = returnData.customer; //createElipse(returnData.customer, 0.9, 12);                
                 $("#customerName").html(nameCheck); // customer name
                 var date = (start_date != end_date ? (formatDate(start_date) + "&nbsp;-&nbsp;") : "") + formatDate(end_date);
                 $("#invoiceDate").html(date);
@@ -2298,6 +2375,7 @@ $(document).ready(function(){
                 }
                 else {
                     amount = returnData.travel_cost.toFixed(2).toString().split(".");
+                   
                     $("#invoiceTravel").html(localStorage.getItem('currency') + amount[0] + "<span class='detail3Small'>."+amount[1]+"</span>");
                 }
                 // travel expenses amount
@@ -2314,6 +2392,7 @@ $(document).ready(function(){
                 }
                 // adjustments
                 $("#invoiceAdjustments").html(localStorage.getItem('currency') + "0<span class='detail3Small'>.00</span>");
+                 
                 //$(".invoiceTotal").html("$"+returnData.total_cost+"<span class='detail3Small'>.00</span>");
                 //console.log(Number(returnData.total_cost).toFixed(2).toString());
                 amount = Number(returnData.total_cost).toFixed(2).toString().split(".");
@@ -2330,8 +2409,7 @@ $(document).ready(function(){
                     for(var x = 0; x < recl; x++)
                     {
                         var email = $.md5(rec[x].email);
-                        insert += "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient dots'><p>"+rec[x].email /*createElipse(rec[x].email, 0.9, 12)*/+"</p>" +
-                            (rec[x].is_accounting_contact ? "<img class='plusIcon' id=\""+ rec[x].email +"\"  src='img/check.png'> " : "<img class=closeIcon id=\""+ rec[x].email +"\" src='img/error.png'>") + "</div></li></ul></li>";
+                        insert += "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p class=dots>"+rec[x].email /*createElipse(rec[x].email, 0.9, 12)*/+"</p>" + (rec[x].is_accounting_contact ? "<img class='plusIcon' id=\""+ rec[x].email +"\"  src='img/check.png'> " : "<img class=closeIcon id=\""+ rec[x].email +"\" src='img/error.png'>") + "</div></li></ul></li>";
                     }
                     $("#recipientList").html(insert);
                 }
@@ -2339,33 +2417,91 @@ $(document).ready(function(){
                 {
                     $("<li><h3 class=noDataMessage>No accounting contacts found.<p>&nbsp;</p></h3></li>").appendTo("#recipientList"); 
                     $("#sendInvoiceButton").remove();
+                    
                 }
+               
                 //createSpan("#recipientList");
-                /*
+                
                 // adds timelogs asscoited with this invoice to the invoice timelogs list
-                $("#invoiceLogs").empty();
-                if(returnData.time_logs != null){
+                
+                $("#timelog").empty();
+               if(returnData.time_logs){
+                if(returnData.time_logs.length){                                $("#TimeLogs").show1();
+                 
+                    var string = returnData.time_logs.length+" Timelogs "+ "|" + " $"+returnData.amount.toFixed(2).toString();
+                 $("#timeSumma").text(string);
                     for(var u = 0; u < returnData.time_logs.length; u++)
                     {
                         var name = returnData.time_logs[u].name;
-                        var log = returnData.time_logs[u].total;
+                        //var log = returnData.time_logs[u].total;
                         var date = formatDate(returnData.time_logs[u].date);
-                        var logID = returnData.time_logs[u].id;
-                        var insert = "<li><ul id='invoiceTimelog' data-id='"+logID+"' data-info='"+JSON.stringify(returnData.time_logs[u]).replace(/'/g, "")+"'  class='timelog'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><img class='feedClock' src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+log+"</span></h3></li></ul></li>";
-                        $(insert).appendTo("#invoiceLogs");
+                       //var logID = returnData.time_logs[u].id;
+                        //6 hours by Igor in #567 at 23 Jul
+                        
+                        var ticketNumber = " " ;
+                        if (returnData.time_logs[u].ticket_id>0) {
+                            ticketNumber = " in #" + returnData.time_logs[u].ticket_id;
+                        
+                        }
+                        
+                        var insert = "<li><input class=time type=checkbox value=><span class=textBox>" + returnData.time_logs[u].hours + " hours by " + name + ticketNumber + " at " + date + "</span></li>";
+                        $(insert).appendTo("#timelog");
                     }
                 }
-                    $("#expensesList").empty();
+               }
+                
+                 $("#travellog").empty();
+               if(returnData.travel_logs){
+                if(returnData.travel_logs.length>0){
+                    $("#TravelLogs").show1();
+                    var string = returnData.travel_logs.length+" Travellogs "+ "|" + " $"+returnData.travel_cost.toFixed(2).toString();
+                 $("#textInvoice").text(string);
+                    for(var m = 0; m < returnData.travel_logs.length; m++)
+                    {
+                        var name = "";
+                           if (returnData.travel_logs[m].name) {
+                        name = " by " + returnData.travel_logs[m].name;
+                        }
+                        
+                        var date = formatDate(returnData.travel_logs[m].date);
+                       
+                        var ticketString = " " ;
+                        if (returnData.travel_logs[m].ticket_id>0) {
+                            ticketString = " in #" + returnData.travel_logs[m].ticket_id;
+                        }
+                         
+                        var total = returnData.travel_logs[m].total;
+                      
+                        var insert = "<li><input class=time type=checkbox value=>" + total + "$" + name + ticketString + " at " + date + "</li>";
+                        $(insert).appendTo("#travellog");
+                    }
+                }
+               }
+               
+                $("#expenseslog").empty();
+                if(returnData.expenses){
+                if(returnData.expenses.length >0) {
+                    $("#expenses").show1();
+                     var string = returnData.expenses.length+" Expenses "+ "|" + " $"+returnData.misc_cost.toFixed(2).toString();
+                 $("#expensesSumma").text(string);
                     for(var c = 0; c < returnData.expenses.length; c++)
                     {
-                        var name = returnData.expenses[c].name;
+                        var name = "";
+                        if (returnData.expenses[c].name.length >0)
+                            name = " by " + returnData.expenses[c].name; 
                         var log = returnData.expenses[c].total;
                         var date = formatDate(returnData.expenses[c].date);
-                        var logID = returnData.expenses[c].id;
-                        var insert = "<li><ul id='invoiceExpense' class='timelog1'><li><div class='billable timeLogAddButton' data-id='"+logID+"'><div class='innerCircle billFill'></div></div></li><li><h2 class='feedName'>"+name+"</h2><p class='taskDescription'>"+date+"</p></li><li><h3 class='feedTime expenceCost'><span>$"+log+"</span></h3></li></ul></li>";
-                        $(insert).appendTo("#expensesList");
+                            var ticketNumber = "";
+                            if (returnData.expenses[c].ticket_id >0) {
+                             ticketNumber = " in #" + returnData.expenses[c].ticket_id; 
+                            }
+                      
+                        var insert = "<li><input class=time type=checkbox value=>" + log + "$" + name + ticketNumber + " at " + date + "</li>";
+                        $(insert).appendTo("#expenseslog");
                     }
-                */
+                    }
+                }
+                
                 reveal();
             },
                                          function(e) {
@@ -2373,7 +2509,7 @@ $(document).ready(function(){
                 console.log("fail @ Invoice details");
 
             }
-                                        );
+                                    );
 
             $("#sendInvoiceButton").click(function(){
                 //alert(localStorage.getItem('invoiceNumber'));
@@ -2867,6 +3003,84 @@ $(document).ready(function(){
         localStorage.setItem('timeNumber', $(this).attr("data-info")); //set local storage variable to the ticket id of the ticket block from the ticket list
         window.location = "edit_time.html"; // change page location from ticket list to ticket detail list
     });
+    
+    //expenses
+    var expenses = {
+        init:function() {
+            this.getLogs();
+        },
+
+        getLogs:function() {
+            var account = localStorage.getItem('DetailedAccount');
+            getApi('expenses', {"account": account, "limit" : 200}).then(function(returnData) {
+                $(".accountDetailsContainerExpen").empty();
+                var noninvoiced = false;
+                if (returnData.length > 1){
+                    //add timelogs to list
+                    for(var i = 0; i < returnData.length; i++)
+                    {
+                        if (returnData[i].invoice_id)
+                            continue;
+                        noninvoiced = true;
+                        //get users email for gravitar
+                        var email = $.md5(returnData[i].user_email);
+                        var text = returnData[i].note;
+                        
+                        //check to see if hours are has a decimal
+                        var nameCheck = returnData[i].user_name;
+                        //text = createElipse(text, 0.50, 8)
+                
+                        
+                        var amount = "";
+                        if (returnData[i].amount.toString().indexOf(".") >0) {
+                           amount = returnData[i].amount.toFixed(2).toString(); 
+                        }    
+                        else { 
+                            amount = returnData[i].amount.toString();
+                             }
+                            
+                        
+                            
+                        var expenDate = formatDate(returnData[i].date);
+                        var ticketNumber = "";
+                        if (returnData[i].ticket_number>0) {
+                            ticketNumber = "#" + returnData[i].ticket_number + ": " + returnData[i].ticket_subject;
+                        }
+                        // Project: sdfsaf
+                        else if (returnData[i].project_id >0) {
+                            ticketNumber = "Project: " + returnData [i].project_name; 
+                        }
+                        // Account: dskjlsdkajgl
+                        else
+                        {
+                            ticketNumber = "Account: " + returnData[i].account_name;
+                        }
+                        
+                        log = '<li class="expenLi"><ul class="responseBlock item responseBlockExpen"> <li class="expen"><img class="TicketBlockFace expenImg" src="http://www.gravatar.com/avatar/'+email+'d=mm&amp;s=80"><span class="user_name">'+nameCheck+'</span></li><li class="responseText textExpen"><h4><p class="blockNumberExpen dots">'+ticketNumber+'</p></h4><p class="initailPost">'+text+'</p></li><li class="TicketBlockNumber"><h3 class="feedTimeExpen"><span>$'+amount+'</span></h3><span class="DateExpen">'+expenDate+'</span></li></ul></li>';
+
+         $(log).appendTo(".accountDetailsContainerExpen");
+                        if (i==9)
+                            reveal();
+                        //localTimelogs.push(log);
+                    }
+                }
+                if (!noninvoiced)
+                    $('<h1 class="noTicketMessage">No Expenses</h1>').appendTo(".accountDetailsContainerExpen");
+                
+                createSpan("#accountDetailsContainerExpen");
+                reveal();
+                //localStorage.setItem("storageTimeLogs",LZString.compressToUTF16(JSON.stringify(localTimelogs)));
+                //if (returnData.length > 1)
+                //    filterList("timelogs");
+            },
+                                                 function(e) {
+                showError(e);
+                console.log("fail @ time logs");
+            }
+                                                );
+        }
+    };
+
 
     // get complete list of timelogs for the orginization
     var timeLogs = {
@@ -2907,13 +3121,25 @@ $(document).ready(function(){
                         //check to see if hours are has a decimal
                         var hours = returnData[i].hours.toString();
                         var nameCheck = returnData[i].user_name;
+                        var date = formatDate(returnData[i].date);
                         //text = createElipse(text, 0.50, 8);
+
+                    if (!returnData[i].is_project_log)
+                        {
+                          //  #123: test me
+                           var ticketNumber = "#"+returnData[i].ticket_number+": "+returnData[i].ticket_subject;
+                           if (text != "" )
+                            ticketNumber = "<span style='display: block;'>" + ticketNumber+ "</span>";
+                            
+                           text = text + ticketNumber;
+                        }
                         if(hours.indexOf(".") ==  -1)
                         {
                             hours = hours+".00";
                         }
                         //nameCheck = createElipse(nameCheck, 0.50, 12);
-                        var log = "<li class=item><ul class='timelog' data-id="+id+" data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName dots user_name'>"+nameCheck+"</h2><p class='taskDescription responseText'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
+                        
+                        var log = "<li class=item><ul class='timelog' data-id="+id+" data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName dots user_name'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span><p> "+date+"</p></h3></li></ul></li>";
                         $(log).appendTo("#timelogs");
                         if (i==9)
                             reveal();
@@ -2934,6 +3160,80 @@ $(document).ready(function(){
         }
     };
 
+    
+    
+     // get complete list of todos 
+    var todos = {
+        init:function() {
+            this.getTodoList();
+        },
+ 
+        getTodoList:function() {
+            
+            getApi('todos', {"limit" : 200}).then(function(returnData) {
+                $("#todoList").empty();
+                if (returnData.length < 1){
+                    var insert = '<h1 class="noTicketMessage">No Todos</h1>';
+                     
+                    $(insert).appendTo("#todoList");
+                }
+                else {
+                    for(var i = 0; i < returnData.length; i++)
+                    {    
+        var ticket_string = " ";
+            if(returnData[i].ticket_id>0){
+        ticket_string = "#" + returnData[i].ticket_id;
+            }
+        else 
+            if(returnData[i].project_id>0) {
+              ticket_string = returnData[i].project_id;
+            }
+                        else {
+            ticket_string = " ";
+                }
+                var date = "";
+                if(returnData[i].due_date>0){
+            date = formatDate(returnData[i].due_date);
+                }
+                            
+                        var log = "<ul id='recipHeader' class='invoiceAccount'><li>"+ticket_string+"</li><li id='addRecipient' class='detail3Short'><!--img class='addIcon' src='img/check.png'--></li></ul><div class='styledSelectToDos ToDosMain'>"+ returnData[i].name+"</div><ul id='recipientList' class='recipientToDos dots'><h4><p class='ToDos'><input class='timeTodos' type='checkbox' value=''>"+ returnData[i].text+"</p></h4><p class='ToDosData'>"+ returnData[i].assigned_name+ " "+date+"</p></div></ul>";
+                        
+                        
+                         $(log).appendTo("#todoList");
+                        if (i==9)
+                            reveal();
+                    }
+                }
+                
+                var users = getApi("users?limit=2000");
+                users.then(function(returnData){
+                    //console.log(returnData);
+                    // add techs to option select list
+                    fillSelect(returnData, "#addTicketUser", "", "",
+                               "firstname,lastname,email");
+                   var userid = localStorage.getItem('userId');
+                    $("#addTicketUser").val(userid);
+                },
+                           function(e) {
+                    showError(e);
+                    console.log("fail @ TicketUser");
+                }
+                          );
+                
+                createSpan("#todoList");
+                reveal();
+                
+                if (returnData.length > 1) ;
+                    //filterList("todoList");
+            },
+                                                 function(e) {
+                showError(e);
+                console.log("fail @ todos");
+            }
+                                                );
+        }
+    };
+    
 
     // calls and methods to propagate the account details page
     var accountDetailsPageSetup = {
@@ -3479,6 +3779,14 @@ $(document).ready(function(){
                     return;
                 }
             }
+            
+            if (Page=="todos.html")
+          
+                {
+                    todos.init();
+                    return;
+                }
+            
             if (Page=="allInvoice_List.html")
             {
                 if (isTime && isInvoice)
@@ -3556,6 +3864,15 @@ $(document).ready(function(){
                     return;
                 }
             }
+            if (Page=="expen.html")
+            {
+                if (isTime)
+                {
+                    expenses.init();
+                    //timeLogs.init();
+                    return;
+                }
+            }
             if (Page=="Invoice_List.html")
             {
                 if (isTime && isInvoice)
@@ -3604,6 +3921,13 @@ $(document).ready(function(){
                     return;
                 }
             }
+            
+            if (Page=="adjustment.html")
+                {
+                    Adjust.init();
+                    return;
+                }
+            
             if (Page=="edit_time.html")
             {
                 if (isTime)
@@ -3633,7 +3957,12 @@ $(document).ready(function(){
 
     //Main Method that calls all the functions for the app
     (function () {
-
+        
+        var ios_action = localStorage.getItem('ios_action');
+        if (ios_action){
+            alert("main ios action: " + ios_action);
+        }
+        
         if (Page == "signup.html"){
             OrgSignup.init();
             return;
@@ -3702,9 +4031,16 @@ $(document).ready(function(){
             window.location = "ticket_detail.html";
             return;
         }
-        //userInfo.init();
+        
+        if (ios_action  && ios_action !== "undefined"){
+            localStorage.setItem('ios_action', "");
+            window.location = ios_action;
+            return;
+        }
+        
         
         googleTag();
+        //userInfo.init();
 
         //when user logged in
         if (updateStatusBar) {
@@ -3742,3 +4078,15 @@ $(document).ready(function(){
 
 
 });
+
+function handleOpenURL(url) { 
+    var ios_action = url.substring(13);
+    alert("main url: " + ios_action + " loc:" + location.href.substring(location.origin.length+1));
+    if (location.href.substring(location.origin.length+1) == ios_action)
+        return;
+    localStorage.setItem('ios_action', ios_action);
+    if (ios_action)
+    location.reload(true);
+    //localStorage.setItem('ios_action', "");
+    //window.location = ios_action;
+}

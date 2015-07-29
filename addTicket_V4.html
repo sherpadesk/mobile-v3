@@ -76,112 +76,76 @@
               <option value="Sherpadesk">Make Me the User</option>
               <option value="ACME INC">Add New User</option>
            </select>
-        </div>--> 
+        </div>
         <div class="styledSelectSearch user styledSelectSmall">
            <img class="searchIconExpandedSearch" src="img/search_icon.png">
-            <!--  <select id="addTicketUser">     
-            </select>--> 
+              <select id="addTicketUser">     
+            </select>
+        </div>--> 
+         <div id=istech>
+       <div class="styledSelectGroup"><div class="styledSelect user styledSelectSmall">
+            <select id="addTicketUser">     
+            </select>
         </div>
         <div id="userCreate" class="createButtonSmall1 destroyButtonSmall">
-            <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div> 
+            <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div></div> 
             <div class="styledSelect">
-           <select>
-              <option value="" disabled selected>Select an Account</option>
-              <option value="Sherpadesk">Sherpadesk</option>
-              <option value="ACME INC">ACME INC</option>
+           <select id="addTicketAccounts">
+              <!--<option value="+value+">"+task+"</option>-->
            </select>
         </div>
         <div class="styledSelect detailedOption">
-           <select>
-              <option value="" disabled selected>Select a Location</option>
-              <option value="Sherpadesk">Current Location</option>
-              <option value="ACME INC">SherpaDesk LA</option>
-              <option value="ACME INC">SherpaDesk Atlanta</option>
-              <option value="ACME INC">SherpaDesk Russia</option>
-           </select>
+           <div id="location" class="styledSelect">
+           <select id="ticketLocation">
+             </select>
+        </div>
         </div>
         <div class="styledSelect detailedOption">
-           <select>
-              <option value="" disabled selected>Select a Project</option>
-              <option value="Sherpadesk">Mobile</option>
-              <option value="ACME INC">Chrome Extension</option>
-              <option value="ACME INC">Email Invoice</option>
+           <select id=ticketProject>
            </select>
         </div>
         <div class="selectionGroup"></div>
-        <!-- <div class="styledSelect">
-           <select>
-              <option value="" disabled selected>Select a Class</option>
-              <option value="Sherpadesk">Help Desk</option>
-              <option value="ACME INC">API</option>
-              <option value="ACME INC">Website</option>
+        <div class="add_class">
+        <div class="styledSelect">
+           <select id="classTicketOptions">
+              <!--<option value="+classId+">"+className+"</option>-->
            </select>
-        </div>-->
-        
-        <div class="styledSelect user styledSelectSmall">
-            <select id="addTicketUser">     
-            </select>
         </div>
-        <div id="userCreate" class="createButtonSmall1 destroyButtonSmall">
-            <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div> 
             
-        <div class="styledSelect detailedOption">
-           <select>
-              <option value="" disabled selected>Select a Level</option>
-              <option value="Sherpadesk">1-First Resolution</option>
-              <option value="ACME INC">2-Pre Development</option>
-              <option value="ACME INC">3-Activity Plate</option>
-              v<option value="ACME INC">4-ready for Testing</option>
-           </select>
+            
+            <div class="sub_class1 d0"><div class="styledSelect"><select id="sub_class1"></select></div></div>
+        <div class="sub_class2 d0"><div class="styledSelect"><select id="sub_class2"></select></div></div>
+        </div>
+                  
+         <div class="styledSelect detailedOption">
+           <select id="ticketLevel">
+             </select>
         </div>
         <div class="styledSelect detailedOption">
-           <select>
-              <option value="" disabled selected>Select a Priority</option>
-              <option value="Sherpadesk">General Inquiry</option>
-              <option value="ACME INC">Bug/Hard Errors</option>
+          <select id="ticketPriority">
+                </select>
+        </div>
+        <div class="styledSelectGroup"><div class="styledSelect styledSelectSmall">
+           <select id="addTicketTechs">     
            </select>
         </div>
-        <!-- <div class="styledSelect detailedOption">
-           <select>
-              <option value="" disabled selected>Select a Technician</option>
-              <option value="Sherpadesk">Let The System Choose</option>
-              <option value="ACME INC">Pat</option>
-              <option value="ACME INC">Ethan</option>
-              <option value="ACME INC">Matt</option>
-              <option value="ACME INC">John</option>
-           </select>
-        </div>-->
-        <div class="styledSelect user styledSelectSmall">
-            <select id="addTicketUser">     
-            </select>
-        </div>
-        <div id="userCreate" class="createButtonSmall1 destroyButtonSmall">
-            <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div> 
-            
-        <!-- <div class="styledSelect detailedOption">
-           <select>
-              <option value="" disabled selected>Select a Alternate Tech</option>
-              <option value="Sherpadesk">Let The System Choose</option>
-              <option value="ACME INC">Pat</option>
-              <option value="ACME INC">Ethan</option>
-              <option value="ACME INC">Matt</option>
-              <option value="ACME INC">John</option>
-            </select>
-        </div>-->
         
-        <div class="styledSelect user styledSelectSmall detailedOption">
-            <select id="addTicketUser">     
-            </select>
+            <div id="TechCreate" class="createButtonSmall1 destroyButtonSmall"> <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div></div>
+             <div class="selectionGroup"></div>
+        
+             <div class="styledSelectGroup"><div class="styledSelect styledSelectSmall">
+           <select id="addTicketAltTechs">     
+           </select>
         </div>
-        <div id="userCreate" class="createButtonSmall1 destroyButtonSmall detailedOption">
-            <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div> 
+        
+                 <div id="TechCreate" class="createButtonSmall1 destroyButtonSmall"> <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div></div>
             <div class="selectionGroup"></div>
           <div class="styledSelect detailedOption">
            <select>
               <option value="" disabled selected>Status</option>
-              <option value="Sherpadesk">Open</option>
-              <option value="ACME INC">On Hold</option>
-              <option value="ACME INC">Closed</option>
+              <option value="Open">Open</option>
+              <option value="On Hold">On Hold</option>
+              <option value="Closed">Closed</option>
            </select>
         </div>
          <div class="styledSelect detailedOption">
@@ -223,7 +187,7 @@
            </select>
         </div>
         <div class="styledSelect detailedOption">
-           <select>
+           <select id=addTicketToDos>
               <option value="" disabled selected>ToDo Templates</option>
               <option value="Sherpadesk">New Hire</option>
               <option value="ACME INC">Active Account</option>
