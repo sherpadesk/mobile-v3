@@ -4021,6 +4021,8 @@ $(document).ready(function(){
             window.location = ios_action;
             return;
         }
+        
+        googleTag();
         //userInfo.init();
 
         //when user logged in
