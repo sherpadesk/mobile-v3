@@ -1710,11 +1710,15 @@ $(document).ready(function(){
             taskTypes.then(
                 function(returnData) {
                     ////console.log(returnData);
+                    if (returnData.length > 0){
                     $("#taskTypes").empty();
                     // add task types to list
                     fillSelect(returnData, "#taskTypes", "<option value=0>choose a task type</option>");
                     if (task_type_id > 0)
                         $("#taskTypes").val(task_type_id);
+                    else
+                        $("#taskTypes").prop("selectedIndex",1);
+                    }
                     if (!$("#timeTicket").length)
                         reveal();
                 },
@@ -1781,7 +1785,7 @@ $(document).ready(function(){
                 function(returnData) {
                     ////console.log(returnData);
                     var len = returnData.length;
-                    if (len <= 0 ) $("<option value= disabled>no open tickets found</option>").appendTo("#timeTicket"); 
+                    if (len <= 0 ) $("<option disabled=disabled value=>no open tickets found</option>").appendTo("#timeTicket"); 
                     else {
                         var insert = "<option value=>choose a ticket</option>";
                         for(var i = 0; i < len; i++)
