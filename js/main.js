@@ -4023,12 +4023,6 @@ $(document).ready(function(){
             return;
         }
         
-        if (ios_action  && ios_action !== "undefined"){
-            localStorage.setItem('ios_action', "");
-            window.location = ios_action;
-            return;
-        }
-        
         var ticket = localStorage.loadTicketNumber; 
 
         if (ticket && ticket != "undefined") {
@@ -4037,6 +4031,13 @@ $(document).ready(function(){
             window.location = "ticket_detail.html";
             return;
         }
+        
+        if (ios_action  && ios_action !== "undefined"){
+            localStorage.setItem('ios_action', "");
+            window.location = ios_action;
+            return;
+        }
+        
         
         googleTag();
         //userInfo.init();

@@ -68,7 +68,7 @@ function done() {
     var org = getParameterByName('org');
     if (org) {
         cleanQuerystring();
-        localStorage.setItem('userOrgKey', org);
+        localStorage.setItem('loadOrgKey', org);
     }
 
     userKey = localStorage.getItem("userKey");
