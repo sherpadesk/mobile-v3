@@ -1379,7 +1379,7 @@ $(document).ready(function(){
                 var location = getApi('locations');
                 location.done(
                     function(locationResults){
-                        fillSelect(locationResults, "#ticketLocation", "");
+                        fillSelect(locationResults, "#ticketLocation", "<option value=0 disabled selected>choose a location</option>");
                     });
                 
                   // ToDo Templates
@@ -1389,9 +1389,7 @@ $(document).ready(function(){
                         fillSelect(templatesResults, "#addTicketToDos", "");
                     });
                 
-                
-                
-
+            
                 $("#ticketLevel").empty();
                 if (!isLevel) $("#ticketLevel").parent().hide();
                 else{
