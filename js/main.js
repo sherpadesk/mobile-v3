@@ -1074,6 +1074,16 @@ $(document).ready(function(){
 
             this.addTicket();
         },
+        getLocations: function(account){
+            $("#ticket_Location").empty();
+                $("<option value=0>choose a location</option>").appendTo("#ticket_Location");
+             var location = getApi('locations?account='+account);
+                location.done(
+                    function(locationResults){
+                        fillSelect(locationResults, "#ticket_Location", "");
+                        reveal();
+                    });
+        },
         addTicket:function() {
             $("#addTicketAccounts").empty();
             var accountset = localStorage.getItem('addAccountTicket');
@@ -1090,20 +1100,46 @@ $(document).ready(function(){
             }
             else
             {
-                if(!isAccount) {$("#addTicketAccounts").parent().hide1();reveal();}
+                if (!isLocation)
+                    $("#ticket_Location").parent().hide1();
+                
+                if(!isAccount) {
+                     // ticket Location_add_Ticket
+                
+                if (isLocation)
+                {
+                    newTicket.getLocations(localStorage.getItem("account_id") || -1);
+                }
+                    
+                    $("#addTicketAccounts").parent().hide1();
+                    reveal();
+                }
                 else
-                { var accounts = getApi("accounts?limit=300", {"is_with_statistics":false});
+                { 
+                    var accounts = getApi("accounts?limit=300", {"is_with_statistics":false});
                  accounts.then(function(returnData) {
                      //console.log(returnData);
                      // get list of accounts add them to option select list
                      $("#addTicketAccounts").empty();
                      fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
-                     var account =  localStorage.getItem('add_user_accountid');
+                     var account = localStorage.getItem('add_user_accountid') || localStorage.getItem("account_id");
                      accountset  = accountset ? accountset : account; 
                      if (accountset){
                          localStorage.setItem('add_user_accountid', '');
                          $("#addTicketAccounts").val(accountset);
                      }
+                      // ticket Location_add_Ticket
+                if (isLocation)
+                {
+                    $("#loading").show();
+                newTicket.getLocations(accountset);
+                    $("#addTicketAccounts").on("change", function(){
+                        $("#loading").show();
+                        //console.log(timeLog.task_type_id);
+                        newTicket.getLocations($("#addTicketAccounts").val());
+                    });
+                }
+                     
                      reveal();
                  }, function(e) {
                      showError(e);
@@ -1140,7 +1176,6 @@ $(document).ready(function(){
                           );
 
                 // after an account is choosed it get a list of technicians
-
                 // list of Tech
                 var technicians = getApi("technicians?limit=200");
                 technicians.then(function(returnData){
@@ -1191,7 +1226,10 @@ $(document).ready(function(){
                         "subject" : subject,
                         "initial_post" : post,
                         "class_id" : selectedEditClass,
-                        "account_id" : $("#addTicketAccounts").val(),
+                        "account_id" :
+                        $("#addTicketAccounts").val(),
+                        "location_id":
+                        $("#ticket_Location").val(),
                         "user_id" : isTech ? $("#addTicketUser").val() : localStorage.getItem('userId'),
                         "tech_id" : $("#addTicketTechs").val()
                     }, "POST");
@@ -1264,7 +1302,7 @@ $(document).ready(function(){
                      // get list of accounts add them to option select list
                      $("#addTicketAccounts").empty();
                      fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
-                     var account =  localStorage.getItem('add_user_accountid');
+                     var account =  localStorage.getItem('add_user_accountid') || localStorage.getItem("account_id");
                      accountset  = accountset ? accountset : account; 
                      if (accountset){
                          localStorage.setItem('add_user_accountid', '');
@@ -1276,6 +1314,9 @@ $(document).ready(function(){
                      console.log("fail @ ticket accounts");
                  });
                 }
+                
+               
+                      
 
                 // list of Users
                 var userid = localStorage.getItem('add_user_userid');
@@ -1362,11 +1403,11 @@ $(document).ready(function(){
                         fillClasses(classResults, "#classTicketOptions", "");
                     });
 
-                // ticket Location
+                // ticket Location_add_Ticket_V4
                 var location = getApi('locations');
                 location.done(
                     function(locationResults){
-                        fillSelect(locationResults, "#ticketLocation", "");
+                        fillSelect(locationResults, "#ticketLocation", "<option value=0 disabled selected>choose a location</option>");
                     });
                 
                   // ToDo Templates
@@ -1376,9 +1417,7 @@ $(document).ready(function(){
                         fillSelect(templatesResults, "#addTicketToDos", "");
                     });
                 
-                
-                
-
+            
                 $("#ticketLevel").empty();
                 if (!isLevel) $("#ticketLevel").parent().hide();
                 else{
@@ -1396,6 +1435,7 @@ $(document).ready(function(){
             // make api post call when submit ticket button is clicked
 
             $("#submitNewTicket").click(function(){
+          
                 var subject = htmlEscape($("#addTicketSubject").val().trim());
                 var post = htmlEscape($("#addTicketInitPost").val().trim());
                 if(subject === "" || $("#addTicketTechs").val() === "" || selectedEditClass < 1)
@@ -1419,7 +1459,7 @@ $(document).ready(function(){
                         $("#addTicketAccounts").val(),
                         "location_id": 
                         $("#ticketLocation").val(),
-                        "project_id": 
+                        "project_id":  
                         $("#ticketProject").val(),
                         "level":
                         $("#ticketLevel").val(),
@@ -2423,11 +2463,11 @@ $(document).ready(function(){
                 //createSpan("#recipientList");
                 
                 // adds timelogs asscoited with this invoice to the invoice timelogs list
-                /*
+                
                 $("#timelog").empty();
                if(returnData.time_logs){
-                if(returnData.time_logs.length){             
-                    $("#TimeLogs").show1();
+                if(returnData.time_logs.length){                                $("#TimeLogs").show1();
+                 
                     var string = returnData.time_logs.length+" Timelogs "+ "|" + " $"+returnData.amount.toFixed(2).toString();
                  $("#timeSumma").text(string);
                     for(var u = 0; u < returnData.time_logs.length; u++)
@@ -2501,7 +2541,6 @@ $(document).ready(function(){
                     }
                     }
                 }
-                */
                 
                 reveal();
             },
@@ -3479,6 +3518,7 @@ $(document).ready(function(){
             localStorage.setItem('currency', returnData.currency);
             localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
             localStorage.setItem('userId', returnData.user.user_id);
+            localStorage.setItem('account_id', returnData.user.account_id);
             if (paramFunc && (typeof paramFunc == "function"))
                 paramFunc(); 
             //success login only
