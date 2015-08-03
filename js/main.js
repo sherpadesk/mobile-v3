@@ -1409,7 +1409,7 @@ $(document).ready(function(){
             // make api post call when submit ticket button is clicked
 
             $("#submitNewTicket").click(function(){
-           console.log(1);
+          
                 var subject = htmlEscape($("#addTicketSubject").val().trim());
                 var post = htmlEscape($("#addTicketInitPost").val().trim());
                 if(subject === "" || $("#addTicketTechs").val() === "" || selectedEditClass < 1)
