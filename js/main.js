@@ -1141,6 +1141,13 @@ $(document).ready(function(){
 
                 // after an account is choosed it get a list of technicians
 
+                  // ticket Location_add_Ticket
+                var location = getApi('locations');
+                location.done(
+                    function(locationResults){
+                        fillSelect(locationResults, "#ticket_Location", "<option value=0 disabled selected>choose a location</option>");
+                    });
+                
                 // list of Tech
                 var technicians = getApi("technicians?limit=200");
                 technicians.then(function(returnData){
@@ -1191,7 +1198,10 @@ $(document).ready(function(){
                         "subject" : subject,
                         "initial_post" : post,
                         "class_id" : selectedEditClass,
-                        "account_id" : $("#addTicketAccounts").val(),
+                        "account_id" :
+                        $("#addTicketAccounts").val(),
+                        "location_id":
+                        $("#ticket_Location").val(),
                         "user_id" : isTech ? $("#addTicketUser").val() : localStorage.getItem('userId'),
                         "tech_id" : $("#addTicketTechs").val()
                     }, "POST");
@@ -1276,6 +1286,9 @@ $(document).ready(function(){
                      console.log("fail @ ticket accounts");
                  });
                 }
+                
+               
+                      
 
                 // list of Users
                 var userid = localStorage.getItem('add_user_userid');
@@ -1362,7 +1375,7 @@ $(document).ready(function(){
                         fillClasses(classResults, "#classTicketOptions", "");
                     });
 
-                // ticket Location
+                // ticket Location_add_Ticket_V4
                 var location = getApi('locations');
                 location.done(
                     function(locationResults){
@@ -1396,6 +1409,7 @@ $(document).ready(function(){
             // make api post call when submit ticket button is clicked
 
             $("#submitNewTicket").click(function(){
+           console.log(1);
                 var subject = htmlEscape($("#addTicketSubject").val().trim());
                 var post = htmlEscape($("#addTicketInitPost").val().trim());
                 if(subject === "" || $("#addTicketTechs").val() === "" || selectedEditClass < 1)
@@ -1419,7 +1433,7 @@ $(document).ready(function(){
                         $("#addTicketAccounts").val(),
                         "location_id": 
                         $("#ticketLocation").val(),
-                        "project_id": 
+                        "project_id":  
                         $("#ticketProject").val(),
                         "level":
                         $("#ticketLevel").val(),
