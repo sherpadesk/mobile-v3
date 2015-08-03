@@ -536,8 +536,6 @@ strong {
 }
 
 .bodyLock {
-  /*overflow-x: hidden;
-  overflow-y: hidden;*/
   z-index: 1;
 }
 
@@ -2413,8 +2411,7 @@ footer {
 }
 
 .ticketlocation {
-  font-size: 9px !important; 
-  /*color: #25B0E6;*/
+  margin-left: 0px !important;
 }
 
 .white {
