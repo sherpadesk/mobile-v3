@@ -2147,13 +2147,15 @@ $(document).ready(function(){
                     ticketLevel = $("#ticketLevel").val(),
                     ticketPriority = $("#ticketPriority").val(),
                     ticketProject = $("#ticketProject").val();
+                ticketLocation = $("#ticketLocation").val();
 
                 var response = {
                     //"account_id" : ticketAccount,
                     "class_id" : ticketClass,
                     "level_id" : ticketLevel,
                     "priority_id" : ticketPriority,
-                    "project_id" : ticketProject
+                    "project_id" : ticketProject,
+                    "location_id" : ticketLocation
                 };
 
                 getApi('tickets/' + localStorage.getItem('ticketId'), response, 'PUT').then(function(results){
@@ -2271,7 +2273,19 @@ $(document).ready(function(){
                     }
                     $(insert).appendTo("#ticketTechs");
 
-                    $("#location").remove();
+                 
+                    $("#ticketLocation").empty();
+                    getApi('locations').done(
+                        function(locationResults){
+                            //Init ticket class if not changed
+                            selectedEditlocation = returnData.location_id;
+                            fillSelect(locationResults, "#ticketLocation", "<option data-locationId="+returnData.location_id+" value="+returnData.location_id+">"+returnData.location_name+"</option>");
+
+                        }); 
+                    
+            
+                
+                   // $("#location").remove();
 
                     if (!isProject)
                         $("#project").hide();
