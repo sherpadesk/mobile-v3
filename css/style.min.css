@@ -536,8 +536,8 @@ strong {
 }
 
 .bodyLock {
-  overflow-x: hidden;
-  overflow-y: hidden;
+  /*overflow-x: hidden;
+  overflow-y: hidden;*/
   z-index: 1;
 }
 
@@ -995,6 +995,7 @@ header {
   font-size: 84px;
   font-weight: 400;
   text-align: center;
+    padding-top: 3px !important;
 }
 
 .mainStatTitle {
@@ -2314,7 +2315,7 @@ footer {
   z-index: 2;
   width: 100%;
   margin-left: -7px;
-  margin-top: 5px;
+  margin-top: 3px;
   overflow: hidden;
   text-overflow: clip;
 }
@@ -2407,8 +2408,13 @@ footer {
 .TicketBlockNumber {
   font-size: 10px;
   float: right !important;
-  width: 21% !important;
+  width: 50% !important;
   margin-left: -10px !important;
+}
+
+.ticketlocation {
+  font-size: 9px !important; 
+  /*color: #25B0E6;*/
 }
 
 .white {
