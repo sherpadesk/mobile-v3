@@ -1268,7 +1268,7 @@ header {
 
 .textExpen {
   margin-left: 0px !important;
-  width: 60% !important;
+  width: 56% !important;
   margin-top: 10px;
 }
 
@@ -1303,6 +1303,7 @@ header {
 
 .expenE {
     margin-top: 15px !important;
+    margin-left: 0px !important;
     }
 
 
@@ -2409,7 +2410,7 @@ footer {
 .TicketBlockNumber {
   font-size: 10px;
   float: right !important;
-  width: 20% !important;
+  width: 19% !important;
 }
 
 .ticketlocation {
