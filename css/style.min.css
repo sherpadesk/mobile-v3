@@ -2410,7 +2410,7 @@ footer {
 .TicketBlockNumber {
   font-size: 10px;
   float: right !important;
-  width: 19% !important;
+width: 19% !important;
 }
 
 .ticketlocation {
