@@ -1268,7 +1268,7 @@ header {
 
 .textExpen {
   margin-left: 0px !important;
-  width: 60% !important;
+  width: 56% !important;
   margin-top: 10px;
 }
 
@@ -1303,6 +1303,7 @@ header {
 
 .expenE {
     margin-top: 15px !important;
+    margin-left: 0px !important;
     }
 
 
@@ -2347,7 +2348,7 @@ footer {
 }
 
 .responseBlock li:last-child {
-  width: 95%;
+  width: 86%;
   height: 30%;
   text-align: right;
   /*margin-top: -5px !important;*/
@@ -2409,7 +2410,7 @@ footer {
 .TicketBlockNumber {
   font-size: 10px;
   float: right !important;
-  width: 20% !important;
+width: 50% !important;
 }
 
 .ticketlocation {
@@ -2417,7 +2418,7 @@ footer {
   }
 
 .locationtick{
-float: right !important;
+ float: right !important;
 }
 
 .accountTicket{
@@ -2425,9 +2426,15 @@ margin-bottom: 0px !important;
 }
 
 .ticketLo{
- padding-top: 13px;
+ padding-top: 7px;
  float: right !important;
  width: 50% !important;
+}
+
+.ticketblok{
+  float: right !important;
+  clear: both;
+  margin-top: -11px !important;
 }
 
 .white {
