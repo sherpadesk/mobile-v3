@@ -4022,7 +4022,7 @@ $(document).ready(function(){
         
         var ios_action = localStorage.getItem('ios_action');
         if (ios_action){
-            alert("main ios action: " + ios_action);
+            console.log("main ios action: " + ios_action);
         }
         
         if (Page == "signup.html"){
@@ -4142,8 +4142,9 @@ $(document).ready(function(){
 });
 
 function handleOpenURL(url) { 
-    var ios_action = url.substring(13);
-    alert("main url: " + ios_action + " loc:" + location.href.substring(location.origin.length+1));
+    var ios_action = url.substring(13).replace('#', "?");
+    ios_action = ios_action.replace('#', '?');
+    console.log("main url: " + ios_action + " loc:" + location.href.substring(location.origin.length+1));
     if (location.href.substring(location.origin.length+1) == ios_action)
         return;
     localStorage.setItem('ios_action', ios_action);
