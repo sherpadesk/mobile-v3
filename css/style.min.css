@@ -2410,7 +2410,7 @@ footer {
 .TicketBlockNumber {
   font-size: 10px;
   float: right !important;
-width: 50% !important;
+  width: 20% !important;
 }
 
 .ticketlocation {
@@ -2426,7 +2426,7 @@ margin-bottom: 0px !important;
 }
 
 .ticketLo{
- padding-top: 7px;
+ /*padding-top: 7px;*/
  float: right !important;
  width: 50% !important;
 }
@@ -2434,7 +2434,7 @@ margin-bottom: 0px !important;
 .ticketblok{
   float: right !important;
   clear: both;
-  margin-top: -11px !important;
+  margin-top: -24px !important;
 }
 
 .white {
