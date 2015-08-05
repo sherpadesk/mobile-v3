@@ -109,7 +109,7 @@ function done() {
 
 function handleOpenURL(url) {
     localStorage.setItem('ios_action', url.substring(13));
-    console.log("initial url: " + url);
+    alert("initial url: " + url);
 }
 
 
