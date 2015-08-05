@@ -1,10 +1,11 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
-        "id": "org.apache.cordova.inappbrowser.inappbrowser",
+        "file": "plugins/de.appplant.cordova.plugin.badge/www/badge.js",
+        "id": "de.appplant.cordova.plugin.badge.Badge",
         "clobbers": [
-            "window.open"
+            "plugin.notification.badge",
+            "cordova.plugins.notification.badge"
         ]
     },
     {
@@ -23,44 +24,37 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.device/www/device.js",
-        "id": "org.apache.cordova.device.device",
+        "file": "plugins/nl.x-services.plugins.launchmyapp/www/ios/LaunchMyApp.js",
+        "id": "nl.x-services.plugins.launchmyapp.LaunchMyApp",
         "clobbers": [
-            "device"
+            "window.plugins.launchmyapp"
         ]
     },
     {
-        "file": "plugins/de.appplant.cordova.plugin.local-notification/www/local-notification.js",
-        "id": "de.appplant.cordova.plugin.local-notification.LocalNotification",
+        "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
+        "id": "org.apache.cordova.inappbrowser.inappbrowser",
         "clobbers": [
-            "plugin.notification.local"
+            "window.open"
         ]
     },
     {
-        "file": "plugins/com.bez4pieci.cookies/www/cookies.js",
-        "id": "com.bez4pieci.cookies.cookies",
+        "file": "plugins/com.triarc.cookies/www/cookies.js",
+        "id": "com.triarc.cookies.cookies",
         "clobbers": [
             "cookies"
-        ]
-    },
-    {
-        "file": "plugins/de.appplant.cordova.plugin.badge/www/badge.js",
-        "id": "de.appplant.cordova.plugin.badge.Badge",
-        "clobbers": [
-            "plugin.notification.badge",
-            "cordova.plugins.notification.badge"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "org.apache.cordova.inappbrowser": "0.3.3",
-    "org.apache.cordova.network-information": "0.2.7",
-    "org.apache.cordova.device": "0.2.8",
-    "de.appplant.cordova.plugin.local-notification": "0.7.4",
-    "com.bez4pieci.cookies": "0.0.1",
-    "de.appplant.cordova.plugin.badge": "0.5.3"
+    "cordova-plugin-whitelist": "1.0.0",
+    "de.appplant.cordova.plugin.badge": "0.6.4",
+    "org.apache.cordova.network-information": "0.2.15",
+    "nl.x-services.plugins.launchmyapp": "3.2.2",
+    "org.apache.cordova.inappbrowser": "0.6.0",
+    "com.triarc.cookies": "0.0.1",
+    "de.appplant.cordova.common.registerusernotificationsettings": "1.0.1"
 }
 // BOTTOM OF METADATA
 });
