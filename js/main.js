@@ -3892,6 +3892,8 @@ $(document).ready(function(){
         }
             //set page
             var currPage = Page+'_ref';
+            if (!localStorage.getItem(currPage))
+            localStorage.setItem(currPage, document.referrer || localStorage.referrer || "login.html");
 
             backFunction = function(){
                 var reff = localStorage.getItem(currPage);
@@ -3903,20 +3905,13 @@ $(document).ready(function(){
                         history.back();
                 }
                 else {
-                    alert("reff=" + reff.substring(0,reff.indexOf('?')) + " : len=" + history.length);
                     localStorage.setItem(currPage, "");
-                    //if (window.backAddFunction)
-                    //    window.backAddFunction(); 
-                    window.location.replace(reff.substring(0,reff.indexOf('?')));
+                    window.location.replace(reff);
                 }
 
             };
         
         if (isTech){
-
-            if (!localStorage.getItem(currPage))
-                localStorage.setItem(currPage, document.referrer || localStorage.referrer || "login.html");
-
             if (Page=="account_details.html")
             {
                 if (isAccount)
