@@ -3903,6 +3903,7 @@ $(document).ready(function(){
                         history.back();
                 }
                 else {
+                    alert("reff=" + reff.substring(0,reff.indexOf('?')) + " : len=" + history.length);
                     localStorage.setItem(currPage, "");
                     //if (window.backAddFunction)
                     //    window.backAddFunction(); 
