@@ -20,7 +20,6 @@ var fastClicker = {
 		init:function() {
 			$("#goBack").click(function(){
                 if (!window.backFunction){
-                    alert("index len=" + history.length);
                     if (history.length < 3)
                         window.location = "ticket_list.html";
                     else
