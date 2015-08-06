@@ -3889,7 +3889,7 @@ $(document).ready(function(){
 
             backFunction = function(){
                 var reff = localStorage.getItem(currPage);
-                alert("reff" = reff + " : len=" + history.length);
+                alert("reff=" + reff + " : len=" + history.length);
                 if (!reff)
                 {
                     if (history.length < 3)
