@@ -37,7 +37,7 @@ function clearStorage()
 
 
 function getParameterByName(name) {
-    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.href);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
@@ -57,16 +57,17 @@ function cleanQuerystring() {
 function done() {
     var ios_action = getParameterByName('ios_action') || localStorage.getItem('ios_action');
     if (ios_action && ios_action != "undefined"){
+        cleanQuerystring();
         ios_action = ios_action.replace('#', '?');
         localStorage.setItem('ios_action', ios_action);
         console.log("initial ios action: " + ios_action);
     }
     var ticket = getParameterByName('ticket');
+    var org = getParameterByName('org');
     if (ticket) {
         cleanQuerystring();
         localStorage.setItem('loadTicketNumber', ticket);
     }
-    var org = getParameterByName('org');
     if (org) {
         cleanQuerystring();
         localStorage.setItem('loadOrgKey', org);
@@ -89,21 +90,19 @@ function done() {
         }
         return;
     }
+    
+    if (ios_action && ios_action !== "undefined"){
+        localStorage.setItem('ios_action', "");
+        window.location = ios_action;
+        return;
+    }
 
     ticket = localStorage.loadTicketNumber; 
 
     if (ticket) {
         localStorage.loadTicketNumber = '';
         localStorage.setItem('ticketNumber', ticket);
-        cleanQuerystring();
         window.location = "ticket_detail.html";
-        return;
-    }
-    
-    if (ios_action && ios_action !== "undefined"){
-        localStorage.setItem('ios_action', "");
-        cleanQuerystring();
-        window.location = ios_action;
         return;
     }
     

@@ -464,7 +464,7 @@ ios -
 org - 
 */
 function getParameterByName(name) {
-    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.href);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
@@ -2794,13 +2794,30 @@ $(document).ready(function(){
     // Ajax calls to get open tickets for the app user, tickets include (as tech, as user, as alt tech, all tickets)
     var ticketList = {
         init:function() {
+            var tab = getParameterByName('tab');
+            if (tab){
+                cleanQuerystring();
+                $('.TicketTabs > ul > li, .tabs > ul > li').css('color','rgba(255, 255, 255, 0.55)');
+                if(tab == "my")
+                {
+                    $("li.tabHeader[data-id=tech]").css('color','#ffffff');
+                    $("#tabpage_info").show();
+                    localStorage.setItem('ticketPage','asTech');
+                }
+                else if (tab == "all")
+                {
+                    $("li.tabHeader[data-id=all]").css('color','#ffffff');
+                    $("#tabpage_all").show();
+                    localStorage.setItem('ticketPage','allTickets');
+                }
+            }
             if (!isTech){
                 this.userTickets(); 
                 $('#userContainer').css('padding-top', '20px');
                 $('#tabpage_reply').fadeIn();
             }
             else
-            {
+            {                
                 var searchItem = localStorage.getItem("searchItem");
                 localStorage.setItem("searchItem",'');
                 this.userTickets(searchItem);
@@ -4025,12 +4042,7 @@ $(document).ready(function(){
 
     //Main Method that calls all the functions for the app
     (function () {
-        
-        var ios_action = localStorage.getItem('ios_action');
-        if (ios_action){
-            console.log("main ios action: " + ios_action);
-        }
-        
+    
         if (Page == "signup.html"){
             OrgSignup.init();
             return;
@@ -4093,20 +4105,20 @@ $(document).ready(function(){
             return;
         }
         
+        var ios_action = localStorage.getItem('ios_action');
+        
+        if (ios_action && ios_action !== "undefined"){
+            localStorage.setItem('ios_action', "");
+            window.location = ios_action;
+            return;
+        }
+        
         var ticket = localStorage.loadTicketNumber; 
 
         if (ticket && ticket != "undefined") {
             localStorage.loadTicketNumber = '';
             localStorage.setItem('ticketNumber', ticket);
-            cleanQuerystring();
             window.location = "ticket_detail.html";
-            return;
-        }
-        
-        if (ios_action && ios_action !== "undefined"){
-            localStorage.setItem('ios_action', "");
-            cleanQuerystring();
-            window.location = ios_action;
             return;
         }
         
