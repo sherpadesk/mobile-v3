@@ -1378,7 +1378,7 @@ $(document).ready(function(){
                     var projects = getApi('projects');
                     projects.done(
                         function(projectResults){
-                            fillSelect(projectResults, "#ticketProject", "<option value='null' disabled selected>Project</option>");
+                            fillSelect(projectResults, "#ticketProject", "<option value='null' disabled selected>choose a project</option>");
                         }
                     );
                 }
@@ -1400,7 +1400,7 @@ $(document).ready(function(){
                 var classes = getApi('classes');
                 classes.done(
                     function(classResults){
-                        fillClasses(classResults, "#classTicketOptions", "");
+                        fillClasses(classResults, "#classTicketOptions", "<option value=0 disabled selected>choose a class</option>");
                     });
 
                 // ticket Location_add_Ticket_V4
@@ -2832,13 +2832,13 @@ $(document).ready(function(){
                         initialPost = initialPost.substring(0,400)+"...";
                     }
                     initialPost = $("<span />", { html: initialPost.replace(/<br\s*[\/]?>/gi, "\n") }).text();
-<<<<<<< HEAD
-                    textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4 class=dots>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li class='ticketLo'><span class='ticketlocation'>"+ returnData[i].location_name+"</span><p class='locationtick'>"+returnData[i].class_name+"</p></li></ul>");
-                                                   
-=======
+//<<<<<<< HEAD
+                   textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4 class=dots>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li class='ticketLo'><span class='ticketlocation'>"+ returnData[i].location_name+"</span><p class='locationtick'>"+returnData[i].class_name+"</p></li></ul>");
+                                                
+//=======
                     textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4 class=dots>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li class='ticketblok'><p class='TicketBlockNumber'>"+returnData[i].class_name+"</p></li></ul>");
                     
->>>>>>> cf070ca68f20e2c126d68c7a3f1db4e143c33f83
+//>>>>>>> cf070ca68f20e2c126d68c7a3f1db4e143c33f83
                     if(length>10 && i==10){
                         $table.html(textToInsert.join(''));
                         textToInsert =  [];
@@ -3308,6 +3308,7 @@ $(document).ready(function(){
             else $("#invoiceOption").click(function(){
                 window.location = "Invoice_List.html";
             });
+           
             this.pageSetup();
             this.slideDown();
         },
@@ -3315,10 +3316,14 @@ $(document).ready(function(){
             $("#openTicketslink").click(function(){
                 $('html,body').animate({ scrollTop: $('#openTickets').offset().top }, '400');
             });
+             
         },
+        
         createAccDetails: function (returnData) {
-            if (returnData.account_statistics.ticket_counts.closed > 0)
+        if (returnData && returnData.account_statistics && returnData.account_statistics.ticket_counts){
+            if (returnData.account_statistics.ticket_counts.closed)
                 $(".buttonShowClosedTickets").show();
+          
             var accountHours = Math.min(returnData.account_statistics.hours, 999),
                 accountTickets = Math.min(returnData.account_statistics.ticket_counts.open, 999),
                 accountInvoices = Math.min(returnData.account_statistics.invoices, 999),
@@ -3328,7 +3333,9 @@ $(document).ready(function(){
             $("#invoiceOptionTicker").html(accountInvoices);
             $("#timesOptionTicker").html(accountHours);
             $("#expenseOptionTicker").html(localStorage.currency + Number(accountExpenses).toFixed(2).toString());
-        },
+      
+      }
+         },
         pageSetup: function() {
             var currentDetailedAccount = localStorage.getItem('DetailedAccount');
             var accountHours;
