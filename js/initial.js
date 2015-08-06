@@ -21,14 +21,14 @@ function clearStorage()
     var userName = localStorage.userName || "";
     var appVersion = localStorage.appVersion || "";
     var ticket = localStorage.loadTicketNumber || "";
+    var ios_action = localStorage.ios_action || "";
+    var loadOrgKey = localStorage.loadOrgKey || "";
     localStorage.clear();
-    //localStorage.removeItem('userOrgKey');
-    //localStorage.removeItem('userOrg');
-    //localStorage.removeItem('userInstanceKey');
-    //localStorage.removeItem('userKey');
     localStorage.setItem("userName", userName);
     localStorage.appVersion = appVersion;
     localStorage.loadTicketNumber = ticket;
+    localStorage.ios_action = ios_action;
+    localStorage.loadOrgKey = loadOrgKey;
     //clear also chrome ext if needed
     if (isExtension)
         window.top.postMessage("logout", "*");
@@ -95,6 +95,7 @@ function done() {
     if (ticket) {
         localStorage.loadTicketNumber = '';
         localStorage.setItem('ticketNumber', ticket);
+        cleanQuerystring();
         window.location = "ticket_detail.html";
         return;
     }
@@ -102,6 +103,7 @@ function done() {
     if (ios_action && ios_action !== "undefined"){
         localStorage.setItem('ios_action', "");
         alert("initial load ios_action" + ios_action);
+        cleanQuerystring();
         window.location = ios_action;
         return;
     }
