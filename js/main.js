@@ -2358,6 +2358,7 @@ $(document).ready(function(){
                     console.log("fail @ Ticket Detail");
                     userMessage.showMessage(false, "No ticket found. Going back to a list.");
                     setTimeout(function(){
+                        alert("ticket len=" + history.length);
                         if (history.length < 3)
                             window.location = "ticket_list.html";
                         else
@@ -3888,6 +3889,7 @@ $(document).ready(function(){
 
             backFunction = function(){
                 var reff = localStorage.getItem(currPage);
+                alert("reff" = reff + " : len=" + history.length);
                 if (!reff)
                 {
                     if (history.length < 3)
@@ -4034,7 +4036,9 @@ $(document).ready(function(){
         userMessage.init();
 
         //refresh version
-        if (localStorage.appVersion !== appVersion)
+        if (!localStorage.appVersion)
+            localStorage.setItem("appVersion", appVersion);
+        else if (localStorage.appVersion !== appVersion)
         {
             localStorage.setItem("appVersion", appVersion);
             console.log("Version updated to " + appVersion);
@@ -4094,8 +4098,9 @@ $(document).ready(function(){
             return;
         }
         
-        if (ios_action  && ios_action !== "undefined"){
+        if (ios_action && ios_action !== "undefined"){
             localStorage.setItem('ios_action', "");
+            alert("main load ios_action" + ios_action);
             window.location = ios_action;
             return;
         }

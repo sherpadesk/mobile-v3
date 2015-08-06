@@ -101,6 +101,7 @@ function done() {
     
     if (ios_action && ios_action !== "undefined"){
         localStorage.setItem('ios_action', "");
+        alert("initial load ios_action" + ios_action);
         window.location = ios_action;
         return;
     }
