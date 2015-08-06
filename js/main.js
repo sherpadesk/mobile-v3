@@ -469,7 +469,7 @@ function getParameterByName(name) {
 }
 
 function cleanQuerystring() {
-    try {window.history.replaceState({}, document.title);}
+    try {window.history.replaceState( {} , '', location.origin + location.pathname );}
     catch (err){}
 }
 
@@ -3889,12 +3889,12 @@ $(document).ready(function(){
                 }
 
             }
+        }
             //set page
             var currPage = Page+'_ref';
 
             backFunction = function(){
                 var reff = localStorage.getItem(currPage);
-                alert("reff=" + reff + " : len=" + history.length);
                 if (!reff)
                 {
                     if (history.length < 3)
@@ -3906,10 +3906,12 @@ $(document).ready(function(){
                     localStorage.setItem(currPage, "");
                     //if (window.backAddFunction)
                     //    window.backAddFunction(); 
-                    window.location.replace(reff);
+                    window.location.replace(reff.substring(0,reff.indexOf('?')));
                 }
 
             };
+        
+        if (isTech){
 
             if (!localStorage.getItem(currPage))
                 localStorage.setItem(currPage, document.referrer || localStorage.referrer || "login.html");

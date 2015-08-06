@@ -42,7 +42,7 @@ function getParameterByName(name) {
 }
 
 function cleanQuerystring() {
-    try {window.history.replaceState({}, document.title);}
+    try {window.history.replaceState( {} , '', location.origin + location.pathname );}
     catch (err){}
 }
 
@@ -102,7 +102,6 @@ function done() {
     
     if (ios_action && ios_action !== "undefined"){
         localStorage.setItem('ios_action', "");
-        alert("initial load ios_action" + ios_action);
         cleanQuerystring();
         window.location = ios_action;
         return;
