@@ -3892,8 +3892,9 @@ $(document).ready(function(){
         }
             //set page
             var currPage = Page+'_ref';
-            if (!localStorage.getItem(currPage))
-            localStorage.setItem(currPage, document.referrer || localStorage.referrer || "login.html");
+            var test = localStorage.getItem(currPage);
+            if (!test || test === location.href)
+                localStorage.setItem(currPage, document.referrer || localStorage.referrer || "login.html");
 
             backFunction = function(){
                 var reff = localStorage.getItem(currPage);
