@@ -35,8 +35,12 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
 {
     color: white;
     font-size: 30px;
-    padding-top: 7px;
+   /*padding-top: 7px;*/
     padding-left: 10px;
+    position: relative;
+    -webkit-transform: translateY(3%);
+    -ms-transform: translateY(3%);
+    transform: translateY(3%);
 }
 
 a {
@@ -842,9 +846,14 @@ header {
 }
 
 .headerNavIcon {
-  margin-top: 18px;
+  /*margin-top: 18px;*/
   margin-left: 15px;
   height: 16px;
+  position: relative;
+  top: 6%;
+  -webkit-transform: translateY(73%);
+   -ms-transform: translateY(73%);
+   transform: translateY(73%);
 }
 
 .topHeader {
@@ -877,7 +886,7 @@ header {
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
-  line-height: 55px;
+  line-height: 48px;
   text-align: center;
   vertical-align: middle;
 }
@@ -956,12 +965,15 @@ header {
   max-width: 650px;
   display: block;
   margin: 0 auto;
-  padding-top: 7px;
+  /*padding-top: 4px;*/
+  -webkit-transform: translateY(4%);
+  -ms-transform: translateY(4%);
+  transform: translateY(4%);
 }
 
 .centered {
   position: absolute;
-  top: 11px;
+  top: 13px;
   left: 0;
   bottom: 0;
   right: 0;
@@ -1487,6 +1499,7 @@ header {
   width: 100%;
   overflow: auto;
   z-index: 5;
+  line-height: 30px;
 }
 
 .invoiceRows li {
@@ -1504,7 +1517,7 @@ header {
 
 .invoiceRows li:nth-child(2) {
   font-size: 13px;
-  line-height: 22px;
+  line-height: 30px;
   padding-left: 14px;
   color: #E4E4E4;
 }
@@ -1734,7 +1747,7 @@ F
 }
 
 .timelog > li:last-child {
-  margin-top: 12px;
+ /* margin-top: 12px;*/
   width: 20%;
   text-align: center;
 }
@@ -2089,9 +2102,9 @@ footer {
 
 .TDSListWrapper {
   width: 90%;
-  height: 60px;
-  margin: 10px auto;
-  padding-top: 10px;
+  height: 62px;
+  margin: 5px auto;
+  padding-top: 5px;
   color: #ffffff;
 }
 
@@ -2170,7 +2183,7 @@ footer {
   color: #ccc;
   list-style-type: none;
   font-size: 10px;
-  padding-bottom: 1px;
+  padding-bottom: 2px;
   width: 95%;
 }
 
