@@ -1572,7 +1572,7 @@ header {
   color: white;
   font-size: 15px;
   font-weight: bold;
-  padding-top: 20px;
+  padding-top: 9px;
   text-align: center;
 }
 
@@ -1582,13 +1582,13 @@ header {
 }
 
 .styledSelectToDos {
-  width: 118px;
-  height: 45px;
+  width: 25%;
+  height: 55px;
   overflow: hidden;
   background: rgba(224, 224, 224, 0.29);
-  background-position: top 18px right 18px;
-  height: 60px;
+  /*background-position: top 18px right 18px;*/
   /*margin-top: 50px;*/
+    float: left;
 }
 
 .ToDosWrapper {
@@ -1613,11 +1613,18 @@ header {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   -moz-border-radius: 15px;
-  height: 60px;
+  height: 55px;
   padding: 0 5px;
-  margin-left: 118px;
-  top: 315px;
-  margin-top: -60px;
+  width: 75%;
+  float: right;;    
+}
+
+.lineTodos {
+  border-bottom: 1px solid #ffffff;
+  color: #ffffff;
+  list-style-type: none;
+  margin-top: 48px;
+  height: 30px;
 }
 
 

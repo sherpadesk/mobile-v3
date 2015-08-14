@@ -3280,7 +3280,7 @@ $(document).ready(function(){
             date = formatDate(returnData[i].due_date);
                 }
                             
-                        var log = "<ul id='recipHeader' class='invoiceAccount'><li>"+ticket_string+"</li><li id='addRecipient' class='detail3Short'><!--img class='addIcon' src='img/check.png'--></li></ul><div class='styledSelectToDos ToDosMain'>"+ returnData[i].name+"</div><ul id='recipientList' class='recipientToDos dots'><h4><p class='ToDos'><input class='timeTodos' type='checkbox' value=''>"+ returnData[i].text+"</p></h4><p class='ToDosData'>"+ returnData[i].assigned_name+ " "+date+"</p></div></ul>";
+                        var log = "<ul id='recipHeader' class='lineTodos'><li>"+ticket_string+"</li><li id='addRecipient' class='detail3Short'><!--img class='addIcon' src='img/check.png'--></li></ul><div class='styledSelectToDos ToDosMain'>"+ returnData[i].name+"</div><ul id='recipientList' class='recipientToDos dots'><h4><p class='ToDos'><input class='timeTodos' type='checkbox' value=''>"+ returnData[i].text+"</p></h4><p class='ToDosData'>"+ returnData[i].assigned_name+ " "+date+"</p></div></ul>";
                         
                         
                          $(log).appendTo("#todoList");
