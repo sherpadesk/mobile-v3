@@ -24,7 +24,8 @@ var isTech = false,
     isExpenses = true,
     isTravelCosts = true,
     isInvoice = true,
-    is_MultipleOrgInst = true;
+    is_MultipleOrgInst = true,
+    isLimitAssignedTkts = true;
 
 var formatDate=function(a){if (!a || a.length < 12) return a;  var y=a.substring(0,4),e=a.substring(5,7),r=a.substring(8,10);switch(e){case"01":e="Jan";break;case"02":e="Feb";break;case"03":e="Mar";break;case"04":e="Apr";break;case"05":e="May";break;case"06":e="Jun";break;case"07":e="Jul";break;case"08":e="Aug";break;case"09":e="Sep";break;case"10":e="Oct";break;case"11":e="Nov";break;case"12":e="Dec";break;default:e="nul";}return e+"&nbsp;"+r + (year != y ? ("&nbsp;/&nbsp;" + y) : "");};
 
@@ -2788,7 +2789,11 @@ $(document).ready(function(){
                 this.userTickets(searchItem);
                 this.techTickets(searchItem);
                 this.altTickets(searchItem);
+                if (!isLimitAssignedTkts){
                 this.allTickets(searchItem);
+                }
+                else
+                    $("#openTab").empty();
             }
         },
         createTicketsList : function (returnData, parent, cachePrefix){
@@ -3472,10 +3477,14 @@ $(document).ready(function(){
                 localStorage.setItem('ticketPage','asAltTech');
                 window.location = "ticket_list.html";
             });
+            if (!isLimitAssignedTkts){
             $(document).on('click','#allTicketsStat', function(){
                 localStorage.setItem('ticketPage','allTickets');
                 window.location = "ticket_list.html";
             });
+            }
+            else
+                $("#allTicketsStat").empty();
         },
         setTicketCounts: function (returnData) {
             var allTickets = returnData.open_all;
@@ -3525,6 +3534,7 @@ $(document).ready(function(){
             localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
             localStorage.setItem('userId', returnData.user.user_id);
             localStorage.setItem('account_id', returnData.user.account_id);
+            localStorage.setItem('is_limit_assigned_tkts', returnData.user.is_limit_assigned_tkts);
             if (paramFunc && (typeof paramFunc == "function"))
                 paramFunc(); 
             //success login only
@@ -3754,6 +3764,8 @@ $(document).ready(function(){
         }
         if (localStorage.getItem('is_travel_costs') === "false")
             isTravelCosts = false;
+        if (localStorage.getItem('is_limit_assigned_tkts') === "false")
+            isLimitAssignedTkts = false;
         if (localStorage.getItem('sd_is_MultipleOrgInst') === "false")
         {
             is_MultipleOrgInst = false;
