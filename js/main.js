@@ -2281,6 +2281,11 @@ $(document).ready(function(){
                     // add select options to priority option box
                     priorities.done(
                         function(prioritiesResults){
+                            if (prioritiesResults.length === 0)
+                            {
+                                $("#ticketPriority").parent().hide1();
+                                return;
+                            }
                             var priorityInsert = "";
                             for(var b = 0; b < prioritiesResults.length; b++)
                             {
@@ -4051,6 +4056,7 @@ $(document).ready(function(){
                 else
                     UserLogin.init();
             }
+            googleTag();
             return;
         }
 
@@ -4061,6 +4067,7 @@ $(document).ready(function(){
 
         if (Page == "org.html") {
             org.init();
+            googleTag();
             return;
         }
         
