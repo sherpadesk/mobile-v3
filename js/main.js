@@ -3097,7 +3097,7 @@ $(document).ready(function(){
         getLogs:function() {
             var account = localStorage.getItem('DetailedAccount');
             getApi('expenses', {"account": account, "limit" : 200}).then(function(returnData) {
-                $(".accountDetailsContainerExpen").empty();
+                $(".accountContainerExpen").empty();
                 var noninvoiced = false;
                 if (returnData.length > 0){
                     //add timelogs to list
@@ -3140,18 +3140,18 @@ $(document).ready(function(){
                             ticketNumber = "Account: " + returnData[i].account_name;
                         }
                         
-                        log = '<li class="expenLi"><ul class="responseBlock item responseBlockExpen"> <li class="expen"><img class="TicketBlockFace expenImg" src="http://www.gravatar.com/avatar/'+email+'d=mm&amp;s=80"><span class="user_name">'+nameCheck+'</span></li><li class="responseText textExpen"><h4><p class="blockNumberExpen dots">'+ticketNumber+'</p></h4><p class="initailPost">'+text+'</p></li><li class="TicketBlockNumber expenE"><h3 class="feedTimeExpen"><span>$'+amount+'</span></h3><span class="DateExpen">'+expenDate+'</span></li></ul></li>';
+                        log = '<li class="expenLi"><ul class="responseBlock item responseBlockExpen"> <li class="expen"><img class="TicketBlockFace expenImg" src="http://www.gravatar.com/avatar/'+email+'d=mm&amp;s=80"><span class="user_name">'+nameCheck+'</span></li><li class="textExpen"><h4><p class="subjectExpen dots">'+ticketNumber+'</p></h4><p class="initailPost">'+text+'</p></li><li class="TicketBlockNumber expenE"><h3 class="feedTimeExpen"><span>$'+amount+'</span></h3><span>'+expenDate+'</span></li></ul></li>';
 
-         $(log).appendTo(".accountDetailsContainerExpen");
+         $(log).appendTo(".accountContainerExpen");
                         if (i==9)
                             reveal();
                         //localTimelogs.push(log);
                     }
                 }
                 if (!noninvoiced)
-                    $('<h1 class="noTicketMessage">No Expenses</h1>').appendTo(".accountDetailsContainerExpen");
+                    $('<h1 class="noTicketMessage">No Expenses</h1>').appendTo(".accountContainerExpen");
                 
-                createSpan("#accountDetailsContainerExpen");
+                createSpan("#accountContainerExpen");
                 reveal();
                 //localStorage.setItem("storageTimeLogs",LZString.compressToUTF16(JSON.stringify(localTimelogs)));
                 //if (returnData.length > 1)
@@ -3280,7 +3280,7 @@ $(document).ready(function(){
             date = formatDate(returnData[i].due_date);
                 }
                             
-                        var log = "<ul id='recipHeader' class='lineTodos'><li>"+ticket_string+"</li><li id='addRecipient' class='detail3Short'><!--img class='addIcon' src='img/check.png'--></li></ul><div class='styledSelectToDos ToDosMain'>"+ returnData[i].name+"</div><ul id='recipientList' class='recipientToDos dots'><h4><p class='ToDos'><input class='timeTodos' type='checkbox' value=''>"+ returnData[i].text+"</p></h4><p class='ToDosData'>"+ returnData[i].assigned_name+ " "+date+"</p></div></ul>";
+                        var log = "<ul id='recipHeader' class='lineTodos'><li>"+ticket_string+"</li><li id='addRecipient' class='detail3Short'><!--img class='addIcon' src='img/check.png'--></li></ul><div class='styleMain ToDosMainText'>"+ returnData[i].name+"</div><ul id='recipientList' class='recipientToDos dots'><h4><p class='ToDos'><input class='timeTodos' type='checkbox' value=''>"+ returnData[i].text+"</p></h4><p class='ToDosData'>"+ returnData[i].assigned_name+ " "+date+"</p></div></ul>";
                         
                                                 
                          $(log).appendTo("#todoList");
