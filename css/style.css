@@ -2404,19 +2404,38 @@ footer {
 }
 
 .TicketBlockNumber {
-  font-size: 10px;
-  float: right !important;
-  width: 50% !important;
-  margin-left: -10px !important;
+    font-size: 10px;
+    float: right !important;
+    width: 20% !important;
 }
 
 .ticketlocation {
-  margin-left: 0px !important;
+    margin-left: 0px !important;
+}
+
+.locationtick{
+    float: right !important;
+}
+
+.accountTicket{
+    margin-bottom: 0px !important;
+}
+
+.ticketLo{
+    /*padding-top: 7px;*/
+    float: right !important;
+    width: 50% !important;
+}
+
+.ticketblok{
+    float: right !important;
+    clear: both;
+    margin-top: -24px !important;
 }
 
 .white {
-  color: #ffffff;
-  margin-top: 25px !important;
+    color: #ffffff;
+    margin-top: 25px !important;
 }
 
 .userStat {
