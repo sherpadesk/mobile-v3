@@ -38,9 +38,9 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
    /*padding-top: 7px;*/
     padding-left: 10px;
     position: relative;
-    -webkit-transform: translateY(3%);
-    -ms-transform: translateY(3%);
-    transform: translateY(3%);
+    -webkit-transform: translateY(-1%);
+    -ms-transform: translateY(-1%);
+    transform: translateY(-1%);
 }
 
 a {
@@ -850,10 +850,10 @@ header {
   margin-left: 15px;
   height: 16px;
   position: relative;
-  top: 6%;
-  -webkit-transform: translateY(73%);
-   -ms-transform: translateY(73%);
-   transform: translateY(73%);
+  top: 7%;
+  -webkit-transform: translateY(59%);
+   -ms-transform: translateY(59%);
+   transform: translateY(59%);
 }
 
 .topHeader {
@@ -886,7 +886,7 @@ header {
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
-  line-height: 48px;
+  line-height: 2.6;
   text-align: center;
   vertical-align: middle;
 }
@@ -901,7 +901,7 @@ header {
   box-sizing:border-box;
     -moz-box-sizing:border-box;
   color: #ffffff;
-  height: 30px;
+  height: 36px;
   float: left;
   padding: 5px 5px 0 10px;
   width: 216px;
@@ -914,7 +914,7 @@ header {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   height: 30px;
-  margin-top: 13px;
+  margin-top: 8px;
   float: right;
   /*background: #0099CC;*/
   background-color: #25B0E6;
@@ -938,7 +938,7 @@ header {
 
 .searchIconExpanded {
   height: 23px;
-  margin: 4px 0 0 6px;
+  margin: 6px 0 0 6px;
   float: left;
 }
 
@@ -1740,7 +1740,7 @@ F
 .accountContainer {
   margin: 0 auto;
   width: 90%;
-  overflow:auto;
+  overflow:hidden;
 }
 
 .buttonList {
