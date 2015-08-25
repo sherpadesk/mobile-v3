@@ -26,7 +26,7 @@ function googleTag() {
 function googleConversion()
 {
     var img = new Image();
-    var div = document.getElementById('bodyContent');
+    var div = document.getElementById('body');
 
     img.onload = function() {
         div.appendChild(img);
