@@ -32,7 +32,7 @@ function googleConversion()
         div.appendChild(img);
     };
 
-    img.src = '//www.googleadservices.com/pagead/conversion/1040470683/?value=1.00&amp;currency_code=USD&amp;label=KRf-CIfZrQQQm6WR8AM&amp;guid=ON&amp;script=0';
+    img.src = 'http://www.googleadservices.com/pagead/conversion/1040470683/?value=1.00&currency_code=USD&label=KRf-CIfZrQQQm6WR8AM&guid=ON&script=0';
 }
 
 //Root Names
