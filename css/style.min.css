@@ -791,6 +791,7 @@ nav h3 {
   z-index: 3;
   margin-left: 10px;
 }
+
 /* Header
    ========================================================================== */
 
@@ -818,7 +819,6 @@ nav h3 {
   line-height: 35px;
   vertical-align: middle;
 }
-
 
 
 .bottomHeader li:nth-child(2) {
@@ -965,10 +965,9 @@ header {
   max-width: 650px;
   display: block;
   margin: 0 auto;
-  /*padding-top: 4px;*/
-  -webkit-transform: translateY(4%);
-  -ms-transform: translateY(4%);
-  transform: translateY(4%);
+  -webkit-transform: translateY(5%);
+  -ms-transform: translateY(5%);
+  transform: translateY(5%);
 }
 
 .centered {
@@ -1227,7 +1226,6 @@ header {
   height: 30px;
   padding-bottom: 10%;
   margin: 20%;
-
 }
 
 .styled-select select {
@@ -1513,6 +1511,9 @@ header {
   text-align: left;
 }
 
+.spacer {
+  height: 17px;
+}
 
 
 /* ToDos
@@ -1600,7 +1601,7 @@ header {
 }
 
 
-
+/* Resipient */
 
 .recipient {
   background: rgba(0, 0, 0, .4);
@@ -1654,16 +1655,7 @@ F
 }
 
 
-
-
-/* Timelog
-   ========================================================================== */
-
-.timelogContainer {
-  overflow: auto;
-  margin: 0 auto;
-  width: 90%;
-}
+/* error */
 
 .errorMessageNeg {
   width: 100%;
@@ -1691,6 +1683,17 @@ F
   padding-top: 11px;
   z-index: 5;
   display: none;
+}
+
+
+
+/* Timelog
+   ========================================================================== */
+
+.timelogContainer {
+  overflow: auto;
+  margin: 0 auto;
+  width: 90%;
 }
 
 .timelogs {
@@ -1809,6 +1812,7 @@ footer {
   margin-top: -3px;
 }
 
+
 /* Tickets
    ========================================================================== */
 
@@ -1868,15 +1872,12 @@ footer {
   width: 90%;
   margin: 0 auto 0;
   overflow: auto;
-
 }
 
 .OptionsList {
   list-style-type: none;
   margin-top: 20px;
 }
-
-
 
 .OptionTitle {
   color: #ffffff;
@@ -1908,7 +1909,6 @@ footer {
   height: 100%;
   float: left;
   line-height: 45px;
-
 }
 
 .OptionWrapper1 {
@@ -1917,7 +1917,6 @@ footer {
    height: 100%;
    float: left;
    line-height: 45px;
-
 }
 
 .OptionWrapper2 {
@@ -1926,7 +1925,6 @@ footer {
    height: 100%;
    float: left;
    line-height: 45px;
-
 }
 
 .NotificationWrapper {
@@ -1962,6 +1960,7 @@ footer {
   height: 100%;
   float: left;
 }
+
 /* Account_details
    ========================================================================== */
 
@@ -2058,6 +2057,7 @@ footer {
   color: #ccc;
   text-align: right;
 }
+
 /* Ticket Detials
    ========================================================================== */
 .ticketDetailsHeader {
@@ -2069,6 +2069,7 @@ footer {
 .ticketDetailsHeader h3 {
   margin-bottom: 5px;
 }
+
 .ticketDetailsInfoText {
   font-size: 13px;
   color: #ffffff;
@@ -2280,6 +2281,9 @@ footer {
   resize:none;
 }
 
+
+/*ticket_list*/
+
 .responseBlock {
   list-style: none;
   overflow: hidden !important;
@@ -2288,7 +2292,6 @@ footer {
   padding-top: 5px;
   z-index: 5;
 }
-
 
 
 .responseBlock img {
@@ -2387,6 +2390,7 @@ footer {
   height: 60px;
 }
 
+
 /* update css */
 
 
@@ -2430,6 +2434,8 @@ footer {
   margin-top: 25px !important;
 }
 
+
+
 .userStat {
   color: #ffffff;
   margin-top: 35px;
@@ -2451,6 +2457,7 @@ footer {
   display: block;
   margin: 25px auto;
 }
+
 .responseBlock h4 {
   font-size: 18px;
   font-weight: 600;
@@ -2515,6 +2522,7 @@ footer {
   height: 100%;
   color: #ffffff !important;
 }
+
 .third-slide {
  color: #ffffff !important;
 }
@@ -2586,7 +2594,7 @@ footer {
   margin-bottom: 35px;
 }
 
-/* Add Tickets Update  */
+/* Add Tickets Update (addTicket_V4) */
 
 .detailedOption {
   display: none;
@@ -2707,6 +2715,9 @@ footer {
   margin-top: -2px  !important;
 }
 
+
+/*button bilable*/
+
 .billable {
   width: 25px;
   height: 25px;
@@ -2739,11 +2750,11 @@ footer {
   background-color: #25B0E6;
 }
 
+
 /* Ticket List update */ 
 .TicketTabs {
 height: 30px;
 }
-
 
 .TicketTabs ul {
   font-size: 15px;
@@ -2867,10 +2878,6 @@ br {
 .innerContainer {
   overflow: scroll;
   width: 100%;
-}
-
-.spacer {
-  height: 17px;
 }
 
 .recipientDetail li:first-child img {
