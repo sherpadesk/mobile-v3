@@ -23,6 +23,18 @@ function googleTag() {
     })();
 }
 
+function googleConversion()
+{
+    var img = new Image();
+    var div = document.getElementById('bodyContent');
+
+    img.onload = function() {
+        div.appendChild(img);
+    };
+
+    img.src = '//www.googleadservices.com/pagead/conversion/1040470683/?value=1.00&amp;currency_code=USD&amp;label=KRf-CIfZrQQQm6WR8AM&amp;guid=ON&amp;script=0';
+}
+
 //Root Names
 var Site = 'sherpadesk.com/';
 var MobileSite = 'http://m.' + Site;

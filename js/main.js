@@ -627,6 +627,8 @@ $(document).ready(function(){
                     userMessage.showMessage(false, error);
                 }
             }
+            if(isPhonegap)
+                googleConversion();
             this.login();
         },
         do_login: function () {
@@ -3782,6 +3784,8 @@ $(document).ready(function(){
 
         if (Page=="ticket_list.html")
         {
+            if(isPhonegap && !isTech)
+                googleConversion();
             localStorage.DetailedAccount = localStorage.addAccountTicket = '';
             ticketList.init();
             //accountDetailsPageSetup.init();
@@ -3805,6 +3809,8 @@ $(document).ready(function(){
             //conditional api calls determined by page
             if (Page=="dashboard.html")
             {
+                if(isPhonegap)
+                    googleConversion();
                 localStorage.DetailedAccount = localStorage.addAccountTicket = '';
                 var orgName = localStorage.getItem('userOrg');
                 if (orgName)
