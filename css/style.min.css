@@ -978,6 +978,19 @@ header {
   right: 0;
 }
 
+/*.centered: before {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;   
+ }
+
+.centered h1 h2 {
+  display: inline-block;
+  vertical-align: middle;   
+ }*/
+
+
 .dashboardContainer {
   height: 170px;
   margin: 0 auto;
@@ -2186,7 +2199,7 @@ footer {
   font-size: 14px;
   text-align: center;
   display: block;
-  margin-right: 35px;
+  margin-right: 17px;
   margin-top: 10px;
   max-width: 180px;
 }
@@ -2212,9 +2225,9 @@ footer {
 }
 
 .commentBlock span {
-  float: left;
+  float: right;
   z-index: 2;
-  width: 121%;
+  width: 91%;
   margin: 0 auto;
 }
 
@@ -2251,22 +2264,23 @@ footer {
   color: #cccccc;
   font-size: 12px;
   text-align: right;
-  padding-right: 8px;
+  float: right;
 }
 
 .commentBlock li:nth-child(4) {
   width: 90%;
-  margin-top: 20px;
+  margin-top: 15px;
   soverflow-x: hidden;
 }
 
 .commentBlock li:last-child {
-  width: 95%;
+  width: 27%;
   height: 30%;
   text-align: right;
   margin-top: -6px;
   color: #cccccc;
   font-size: 10px;
+  float: right;
 }
 
 .commentText {
