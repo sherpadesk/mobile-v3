@@ -2483,7 +2483,7 @@ $(document).ready(function(){
                 //createSpan("#recipientList");
                 
                 // adds timelogs asscoited with this invoice to the invoice timelogs list
-                
+                /*
                 $("#timelog").empty();
                if(returnData.time_logs){
                 if(returnData.time_logs.length){                                $("#TimeLogs").show1();
@@ -2561,7 +2561,7 @@ $(document).ready(function(){
                     }
                     }
                 }
-                
+                */
                 reveal();
             },
                                          function(e) {
