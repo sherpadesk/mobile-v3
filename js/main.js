@@ -55,6 +55,19 @@ function checkURL(url) {
     return(url.trim().match(/(jpeg|jpg|gif|png)$/i) !== null);
 }
 
+if (typeof String.prototype.addUrlParam !== 'function') {
+    String.prototype.addUrlParam = function(param, value) {
+        if (!value || !param)
+            return this;
+        var pos = this.indexOf(param + '=');
+        //if parameter exists
+        if (pos != -1)
+            return this.slice(0, pos + param.length) + '=' + value;
+        var ch = this.indexOf('?') > 0 ? '&' : '?';
+        return this + ch + param + '=' + value;
+    };
+}
+
 //Phonegap specific
 var isPhonegap = false;
 var isOnline = true;
@@ -196,14 +209,13 @@ function logout(isRedirect, mess) {
         GooglelogOut();
     }
     else if (isRedirect || true)
-        window.location = "login.html" + (!mess ? "" : "?f="+mess);
+        window.location = "login.html".addUrlParam("f",mess);
 }
 
 function GooglelogOut(mess) {
-    mess = !mess ? "" : "?f="+mess;
     if (!isExtension && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-        document.location.href = MobileSite + "login.html" + mess;
+        document.location.href = MobileSite + "login.html".addUrlParam("f",mess);
     }
     else
         window.location = "login.html" + mess;
@@ -2165,8 +2177,7 @@ $(document).ready(function(){
     var detailedTicket = {
         init:function(){
             if (!isTech){ $(".tabs").hide();
-                         $("#closeu").show(); }
-            else { $("#closeu").hide();}
+                         $("#closeu").show1(); }
 
             this.showTicket();
             this.updateTicket();
@@ -4037,7 +4048,9 @@ $(document).ready(function(){
         userMessage.init();
 
         //refresh version
-        if (localStorage.appVersion !== appVersion)
+        if (!localStorage.appVersion)
+            localStorage.setItem("appVersion", appVersion);
+        else if (localStorage.appVersion !== appVersion)
         {
             localStorage.setItem("appVersion", appVersion);
             console.log("Version updated to " + appVersion);
