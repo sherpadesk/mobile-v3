@@ -35,8 +35,12 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
 {
     color: white;
     font-size: 30px;
-    padding-top: 7px;
+   /*padding-top: 7px;*/
     padding-left: 10px;
+    position: relative;
+    -webkit-transform: translateY(-1%);
+    -ms-transform: translateY(-1%);
+    transform: translateY(-1%);
 }
 
 a {
@@ -787,6 +791,7 @@ nav h3 {
   z-index: 3;
   margin-left: 10px;
 }
+
 /* Header
    ========================================================================== */
 
@@ -816,7 +821,6 @@ nav h3 {
 }
 
 
-
 .bottomHeader li:nth-child(2) {
   width: 8.5%;
 }
@@ -842,9 +846,14 @@ header {
 }
 
 .headerNavIcon {
-  margin-top: 18px;
+  /*margin-top: 18px;*/
   margin-left: 15px;
   height: 16px;
+  position: relative;
+  top: 7%;
+  -webkit-transform: translateY(59%);
+   -ms-transform: translateY(59%);
+   transform: translateY(59%);
 }
 
 .topHeader {
@@ -877,7 +886,7 @@ header {
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
-  line-height: 55px;
+  line-height: 2.6;
   text-align: center;
   vertical-align: middle;
 }
@@ -892,7 +901,7 @@ header {
   box-sizing:border-box;
     -moz-box-sizing:border-box;
   color: #ffffff;
-  height: 30px;
+  height: 36px;
   float: left;
   padding: 5px 5px 0 10px;
   width: 216px;
@@ -905,7 +914,7 @@ header {
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   height: 30px;
-  margin-top: 13px;
+  margin-top: 8px;
   float: right;
   /*background: #0099CC;*/
   background-color: #25B0E6;
@@ -929,7 +938,7 @@ header {
 
 .searchIconExpanded {
   height: 23px;
-  margin: 4px 0 0 6px;
+  margin: 6px 0 0 6px;
   float: left;
 }
 
@@ -956,16 +965,31 @@ header {
   max-width: 650px;
   display: block;
   margin: 0 auto;
-  padding-top: 7px;
+  -webkit-transform: translateY(5%);
+  -ms-transform: translateY(5%);
+  transform: translateY(5%);
 }
 
 .centered {
   position: absolute;
-  top: 11px;
+  top: 13px;
   left: 0;
   bottom: 0;
   right: 0;
 }
+
+/*.centered: before {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;   
+ }
+
+.centered h1 h2 {
+  display: inline-block;
+  vertical-align: middle;   
+ }*/
+
 
 .dashboardContainer {
   height: 170px;
@@ -1215,7 +1239,6 @@ header {
   height: 30px;
   padding-bottom: 10%;
   margin: 20%;
-
 }
 
 .styled-select select {
@@ -1252,18 +1275,10 @@ header {
 
 /* Expen
    ========================================================================== */
-.AccountExpen {
-  overflow: auto;
-  margin: 0 auto;
-}
 
 .feedTimeExpen {
   font-size: 25px;
   color: #ffffff;
-}
-
-.DateExpen {
-  margin-top: -70px;
 }
 
 .textExpen {
@@ -1279,12 +1294,12 @@ header {
   padding-bottom: 9px;
 }
 
-.accountDetailsContainerExpen {
+.accountContainerExpen {
   width: 90%;
   margin: 0 auto;
 }
 
-.blockNumberExpen {
+.subjectExpen {
   color:#fff;
   font-weight: 600;
   font-size: 16px !important;
@@ -1304,7 +1319,9 @@ header {
 .expenE {
     margin-top: 15px !important;
     margin-left: 0px !important;
-    }
+}
+
+
 
 
 /* Invoice
@@ -1366,13 +1383,6 @@ header {
 
 .plusIconCheck {
   height: 32px;
-  /*display: none;*/
-}
-
-.plusIconbutton_me {
-  height: 40px;
-  float: right;
-  margin-top: -57px;
   /*display: none;*/
 }
 
@@ -1487,6 +1497,7 @@ header {
   width: 100%;
   overflow: auto;
   z-index: 5;
+  line-height: 30px;
 }
 
 .invoiceRows li {
@@ -1504,7 +1515,7 @@ header {
 
 .invoiceRows li:nth-child(2) {
   font-size: 13px;
-  line-height: 22px;
+  line-height: 30px;
   padding-left: 14px;
   color: #E4E4E4;
 }
@@ -1513,23 +1524,15 @@ header {
   text-align: left;
 }
 
+.spacer {
+  height: 17px;
+}
 
 
 /* ToDos
    ========================================================================== */
 
-.blueButtonToDos {
-  background: #0099CC;
-  border: none;
-  color: #ffffff;
-  font-size: 16px;
-  height: 45px;
-  margin-bottom: 10px;
-  width: 100%;
-  margin-top: 15px;
-}
-
-.ToDos {
+.todos {
   margin-left: 8px;
   color: white;
   font-size: 18px;
@@ -1538,16 +1541,16 @@ header {
   overflow: hidden;
 }
 
-.ToDosAva {
+/*.toDosAva {
   margin-left: 450px;
   color: rgb(72, 156, 214);
   font-size: 12px;
   font-weight: bold;
   padding-top: 5px;
   text-align: left;
-}
+}*/
 
-.ToDosData {
+.todosData {
   color: rgb(72, 156, 214);
   font-size: 12px;
   font-weight: bold;
@@ -1555,59 +1558,63 @@ header {
   text-align: right;
 }
 
-.ToDosMain {
+.todosMainText {
   color: white;
   font-size: 15px;
   font-weight: bold;
-  padding-top: 20px;
+  padding-top: 9px;
   text-align: center;
 }
 
-.bodyContentToDos {
+.bodyContentTodos {
   margin-top: 45px;
   -webkit-overflow-scrolling: touch;
 }
 
-.styledSelectToDos {
-  width: 118px;
-  height: 45px;
+.styleMain {
+  width: 25%;
+  height: 55px;
   overflow: hidden;
   background: rgba(224, 224, 224, 0.29);
-  background-position: top 18px right 18px;
-  height: 60px;
-  /*margin-top: 50px;*/
+  float: left;
 }
 
-.ToDosWrapper {
+.todosWrapper {
   width: 90%;
   margin: 0 auto;
   overflow: auto;
   padding-top: 40px;
 }
 
-.imgToDos {
-  border-radius: 100%;
-  border: 2px solid #fff;
-  height: 40px;
-}
 
-.recipientDetailToDos {
-  margin-top: 10px;
-}
-
-.recipientToDos {
+ .recipientTodos {
   background: rgba(0, 0, 0, .4);
   box-sizing:border-box;
   -moz-box-sizing:border-box;
   -moz-border-radius: 15px;
-  height: 60px;
+  height: 55px;
   padding: 0 5px;
-  margin-left: 118px;
-  top: 315px;
-  margin-top: -60px;
+  width: 75%;
+  float: right;;    
+}
+
+.lineTodos {
+  border-bottom: 1px solid #ffffff;
+  color: #ffffff;
+  list-style-type: none;
+  margin-top: 48px;
+  height: 30px;
+}
+
+.timeTodos {
+  width: 23px;
+  height: 23px;
+  vertical-align: text-bottom;
+  margin-right: 8px;
 }
 
 
+/* Resipient */
 
 .recipient {
   background: rgba(0, 0, 0, .4);
@@ -1660,24 +1667,8 @@ F
   height: 40px;
 }
 
-.timeTodos {
-  width: 23px;
-  height: 23px;
-  vertical-align: text-bottom;
-  margin-right: 8px;
-}
 
-
-
-
-/* Timelog
-   ========================================================================== */
-
-.timelogContainer {
-  overflow: auto;
-  margin: 0 auto;
-  width: 90%;
-}
+/* error */
 
 .errorMessageNeg {
   width: 100%;
@@ -1692,6 +1683,7 @@ F
   z-index: 5;
   display: none;
 }
+
 .errorMessagePos {
   width: 100%;
   height: 63px;
@@ -1704,6 +1696,17 @@ F
   padding-top: 11px;
   z-index: 5;
   display: none;
+}
+
+
+
+/* Timelog
+   ========================================================================== */
+
+.timelogContainer {
+  overflow: auto;
+  margin: 0 auto;
+  width: 90%;
 }
 
 .timelogs {
@@ -1734,7 +1737,7 @@ F
 }
 
 .timelog > li:last-child {
-  margin-top: 12px;
+ /* margin-top: 12px;*/
   width: 20%;
   text-align: center;
 }
@@ -1753,7 +1756,7 @@ F
 .accountContainer {
   margin: 0 auto;
   width: 90%;
-  overflow:auto;
+  overflow:hidden;
 }
 
 .buttonList {
@@ -1822,6 +1825,7 @@ footer {
   margin-top: -3px;
 }
 
+
 /* Tickets
    ========================================================================== */
 
@@ -1881,15 +1885,12 @@ footer {
   width: 90%;
   margin: 0 auto 0;
   overflow: auto;
-
 }
 
 .OptionsList {
   list-style-type: none;
   margin-top: 20px;
 }
-
-
 
 .OptionTitle {
   color: #ffffff;
@@ -1921,7 +1922,6 @@ footer {
   height: 100%;
   float: left;
   line-height: 45px;
-
 }
 
 .OptionWrapper1 {
@@ -1930,7 +1930,6 @@ footer {
    height: 100%;
    float: left;
    line-height: 45px;
-
 }
 
 .OptionWrapper2 {
@@ -1939,7 +1938,6 @@ footer {
    height: 100%;
    float: left;
    line-height: 45px;
-
 }
 
 .NotificationWrapper {
@@ -1975,6 +1973,7 @@ footer {
   height: 100%;
   float: left;
 }
+
 /* Account_details
    ========================================================================== */
 
@@ -2071,6 +2070,7 @@ footer {
   color: #ccc;
   text-align: right;
 }
+
 /* Ticket Detials
    ========================================================================== */
 .ticketDetailsHeader {
@@ -2082,6 +2082,7 @@ footer {
 .ticketDetailsHeader h3 {
   margin-bottom: 5px;
 }
+
 .ticketDetailsInfoText {
   font-size: 13px;
   color: #ffffff;
@@ -2089,9 +2090,9 @@ footer {
 
 .TDSListWrapper {
   width: 90%;
-  height: 60px;
-  margin: 10px auto;
-  padding-top: 10px;
+  height: 62px;
+  margin: 5px auto;
+  padding-top: 5px;
   color: #ffffff;
 }
 
@@ -2166,11 +2167,12 @@ footer {
 #closedTickets {
   padding-top: 10px;
 }
+
 .slaInfo {
   color: #ccc;
   list-style-type: none;
   font-size: 10px;
-  padding-bottom: 1px;
+  padding-bottom: 2px;
   width: 95%;
 }
 
@@ -2197,7 +2199,7 @@ footer {
   font-size: 14px;
   text-align: center;
   display: block;
-  margin-right: 35px;
+  margin-right: 17px;
   margin-top: 10px;
   max-width: 180px;
 }
@@ -2223,9 +2225,9 @@ footer {
 }
 
 .commentBlock span {
-  float: left;
+  float: right;
   z-index: 2;
-  width: 121%;
+  width: 91%;
   margin: 0 auto;
 }
 
@@ -2262,22 +2264,23 @@ footer {
   color: #cccccc;
   font-size: 12px;
   text-align: right;
-  padding-right: 8px;
+  float: right;
 }
 
 .commentBlock li:nth-child(4) {
   width: 90%;
-  margin-top: 20px;
+  margin-top: 15px;
   soverflow-x: hidden;
 }
 
 .commentBlock li:last-child {
-  width: 95%;
+  width: 27%;
   height: 30%;
   text-align: right;
   margin-top: -6px;
   color: #cccccc;
   font-size: 10px;
+  float: right;
 }
 
 .commentText {
@@ -2292,6 +2295,9 @@ footer {
   resize:none;
 }
 
+
+/*ticket_list*/
+
 .responseBlock {
   list-style: none;
   overflow: hidden !important;
@@ -2300,7 +2306,6 @@ footer {
   padding-top: 5px;
   z-index: 5;
 }
-
 
 
 .responseBlock img {
@@ -2329,6 +2334,7 @@ footer {
 .nameNtech {
   list-style-type: none;
 }
+
 .responseBlock li {
   float: left;
   margin-top: 10px;
@@ -2344,7 +2350,6 @@ footer {
   font-size: 12px;
   text-align: center;
   max-width: 46px;
-
 }
 
 .responseBlock li:last-child {
@@ -2399,6 +2404,7 @@ footer {
   height: 60px;
 }
 
+
 /* update css */
 
 
@@ -2410,7 +2416,7 @@ footer {
 .TicketBlockNumber {
   font-size: 10px;
   float: right !important;
-width: 50% !important;
+  width: 20% !important;
 }
 
 .ticketlocation {
@@ -2422,11 +2428,11 @@ width: 50% !important;
 }
 
 .accountTicket{
-margin-bottom: 0px !important;
+ margin-bottom: 0px !important;
 }
 
 .ticketLo{
- padding-top: 7px;
+ /*padding-top: 7px;*/
  float: right !important;
  width: 50% !important;
 }
@@ -2434,13 +2440,15 @@ margin-bottom: 0px !important;
 .ticketblok{
   float: right !important;
   clear: both;
-  margin-top: -11px !important;
+  margin-top: -24px !important;
 }
 
 .white {
   color: #ffffff;
   margin-top: 25px !important;
 }
+
+
 
 .userStat {
   color: #ffffff;
@@ -2463,6 +2471,7 @@ margin-bottom: 0px !important;
   display: block;
   margin: 25px auto;
 }
+
 .responseBlock h4 {
   font-size: 18px;
   font-weight: 600;
@@ -2527,6 +2536,7 @@ margin-bottom: 0px !important;
   height: 100%;
   color: #ffffff !important;
 }
+
 .third-slide {
  color: #ffffff !important;
 }
@@ -2598,7 +2608,7 @@ margin-bottom: 0px !important;
   margin-bottom: 35px;
 }
 
-/* Add Tickets Update  */
+/* Add Tickets Update (addTicket_V4) */
 
 .detailedOption {
   display: none;
@@ -2719,6 +2729,9 @@ margin-bottom: 0px !important;
   margin-top: -2px  !important;
 }
 
+
+/*button bilable*/
+
 .billable {
   width: 25px;
   height: 25px;
@@ -2751,11 +2764,11 @@ margin-bottom: 0px !important;
   background-color: #25B0E6;
 }
 
+
 /* Ticket List update */ 
 .TicketTabs {
 height: 30px;
 }
-
 
 .TicketTabs ul {
   font-size: 15px;
@@ -2879,10 +2892,6 @@ br {
 .innerContainer {
   overflow: scroll;
   width: 100%;
-}
-
-.spacer {
-  height: 17px;
 }
 
 .recipientDetail li:first-child img {
