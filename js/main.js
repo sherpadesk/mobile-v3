@@ -2846,9 +2846,9 @@ $(document).ready(function(){
                 }
                 $table.append(textToInsert.join(''));
                 createSpan(parent);
-                if (cachePrefix){
-                    localStorage.setItem(cachePrefix+'tickets',JSON.stringify(returnData));
                 }
+            if (cachePrefix){
+                localStorage.setItem(cachePrefix+'tickets',JSON.stringify(returnData));
             }
         },
         //get tickets as tech
