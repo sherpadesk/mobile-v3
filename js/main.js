@@ -1096,7 +1096,7 @@ $(document).ready(function(){
         },
         getLocations: function(account){
             $("#ticket_Location").empty();
-                $("<option value=0>choose a location</option>").appendTo("#ticket_Location");
+                $("<option value=0 selected>choose a location</option>").appendTo("#ticket_Location");
              var location = getApi('locations?account='+account);
                 location.done(
                     function(locationResults){
@@ -2203,7 +2203,7 @@ $(document).ready(function(){
                     "level_id" : ticketLevel,
                     "priority_id" : ticketPriority,
                     "project_id" : ticketProject,
-                    "account_location_id" : ticketLocation,
+                    "location_id" : ticketLocation,
                     "account_id": $("#inputAccountId").val()
                 };
 
@@ -2332,13 +2332,17 @@ $(document).ready(function(){
 
                  
                     $("#ticketLocation").empty();
+                    if (isLocation){
                     getApi('locations?account='+returnData.account_id).done(
                         function(locationResults){
                             //Init ticket class if not changed
                             selectedEditlocation = returnData.location_id;
-                            fillSelect(locationResults, "#ticketLocation", "<option data-locationId="+returnData.location_id+" value="+returnData.location_id+">"+returnData.location_name+"</option>");
+                            fillSelect(locationResults, "#ticketLocation", "<option data-locationId="+returnData.location_id+" value="+returnData.location_id+">"+(returnData.location_name || "Location") +"</option>");
 
                         }); 
+                    }
+                    else
+                        $("#location").hide1();
                     
             
                 

@@ -65,6 +65,8 @@ Object.toType = (function toType(global) {
     };
 })(this);
 
+var imagesOn = (function(){var i=new Image();i.src='data:image/gif,GIF89a%01%00%01%00%80%00%00%00%00%00%FF%FF%FF!%F9%04%01%00%00%00%00%2C%00%00%00%00%01%00%01%00%00%02%01D%00%3B';return!!i.width})();
+
 if (typeof String.prototype.addUrlParam !== 'function') {
     String.prototype.addUrlParam = function(param, value) {
         if (!value || !param)
