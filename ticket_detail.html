@@ -97,8 +97,8 @@
               </div>  
           <!--form class="textInputContainer"-->
                 <textarea id="commentText" class="textInput" type="text" placeholder="Add Response"></textarea>
-            <button id="closeu" class="replyButton d0">Reply & Close</button>
             <button id="reply" class="replyButton">Reply</button>
+            <button id="closeu" class="replyButton d0">Reply & Close</button>
             <!--/form-->       
             <div id="comments" class="tabpageContainer">              
             </div>
@@ -125,17 +125,16 @@
               <!--<option value="+returnData.priority_id+">Priority "+returnData.priority+"</option>-->
             </select>
         </div>
-             <div id="location" class="styledSelect">
-           <select id="ticketLocation">
-              <!--<option value="+returnData.location_id+">"+returnData.location_name+"</option>-->
-           </select>
-        </div>   
         <div class="styledSelect">
            <select id="ticketTechs">
               <!--<option value="+techId+">"+techName+"</option>-->
            </select>
         </div>
-        
+        <div id="location" class="styledSelect">
+           <select id="ticketLocation">
+              <!--<option value="+returnData.location_id+">"+returnData.location_name+"</option>-->
+           </select>
+        </div>
         <div id="project" class="styledSelect">
            <select id="ticketProject">
               <!--<option value="+returnData.project_id+">"+returnData.project_name+"</option>-->
@@ -166,7 +165,6 @@
         </div>
     </div>
   </div>
-    <input type=hidden id=inputAccountId>
 </body>
       <div id="loading" style="background-color:#34495e;"><div class="loadScreen">Loading...<br><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div></div>
 </span>

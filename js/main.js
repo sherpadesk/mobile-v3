@@ -24,7 +24,8 @@ var isTech = false,
     isExpenses = true,
     isTravelCosts = true,
     isInvoice = true,
-    is_MultipleOrgInst = true;
+    is_MultipleOrgInst = true,
+    isLimitAssignedTkts = true;
 
 var formatDate=function(a){if (!a || a.length < 12) return a;  var y=a.substring(0,4),e=a.substring(5,7),r=a.substring(8,10);switch(e){case"01":e="Jan";break;case"02":e="Feb";break;case"03":e="Mar";break;case"04":e="Apr";break;case"05":e="May";break;case"06":e="Jun";break;case"07":e="Jul";break;case"08":e="Aug";break;case"09":e="Sep";break;case"10":e="Oct";break;case"11":e="Nov";break;case"12":e="Dec";break;default:e="nul";}return e+"&nbsp;"+r + (year != y ? ("&nbsp;/&nbsp;" + y) : "");};
 
@@ -52,6 +53,19 @@ function checkEmail(email) {
 
 function checkURL(url) {
     return(url.trim().match(/(jpeg|jpg|gif|png)$/i) !== null);
+}
+
+if (typeof String.prototype.addUrlParam !== 'function') {
+    String.prototype.addUrlParam = function(param, value) {
+        if (!value || !param)
+            return this;
+        var pos = this.indexOf(param + '=');
+        //if parameter exists
+        if (pos != -1)
+            return this.slice(0, pos + param.length) + '=' + value;
+        var ch = this.indexOf('?') > 0 ? '&' : '?';
+        return this + ch + param + '=' + value;
+    };
 }
 
 //Phonegap specific
@@ -195,14 +209,13 @@ function logout(isRedirect, mess) {
         GooglelogOut();
     }
     else if (isRedirect || true)
-        window.location = "login.html" + (!mess ? "" : "?f="+mess);
+        window.location = "login.html".addUrlParam("f",mess);
 }
 
 function GooglelogOut(mess) {
-    mess = !mess ? "" : "?f="+mess;
     if (!isExtension && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
-        document.location.href = MobileSite + "login.html" + mess;
+        document.location.href = MobileSite + "login.html".addUrlParam("f",mess);
     }
     else
         window.location = "login.html" + mess;
@@ -631,6 +644,8 @@ $(document).ready(function(){
                     userMessage.showMessage(false, error);
                 }
             }
+            if(isPhonegap)
+                googleConversion();
             this.login();
         },
         do_login: function () {
@@ -2292,6 +2307,11 @@ $(document).ready(function(){
                     // add select options to priority option box
                     priorities.done(
                         function(prioritiesResults){
+                            if (prioritiesResults.length === 0)
+                            {
+                                $("#ticketPriority").parent().hide1();
+                                return;
+                            }
                             var priorityInsert = "";
                             for(var b = 0; b < prioritiesResults.length; b++)
                             {
@@ -2363,7 +2383,6 @@ $(document).ready(function(){
                     console.log("fail @ Ticket Detail");
                     userMessage.showMessage(false, "No ticket found. Going back to a list.");
                     setTimeout(function(){
-                        alert("ticket len=" + history.length);
                         if (history.length < 3)
                             window.location = "ticket_list.html";
                         else
@@ -2487,7 +2506,7 @@ $(document).ready(function(){
                 //createSpan("#recipientList");
                 
                 // adds timelogs asscoited with this invoice to the invoice timelogs list
-                
+                /*
                 $("#timelog").empty();
                if(returnData.time_logs){
                 if(returnData.time_logs.length){                                $("#TimeLogs").show1();
@@ -2565,7 +2584,7 @@ $(document).ready(function(){
                     }
                     }
                 }
-                
+                */
                 reveal();
             },
                                          function(e) {
@@ -2856,9 +2875,6 @@ $(document).ready(function(){
                     }
                     initialPost = $("<span />", { html: initialPost.replace(/<br\s*[\/]?>/gi, "\n") }).text();
                     textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4 class=dots>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li class='ticketLo ticketblok'><span class='ticketlocation'>"+ returnData[i].location_name+"</span><p class='locationtick'>"+returnData[i].class_name+"</p></li></ul>");
-                    
-                                                   
-
                     if(length>10 && i==10){
                         $table.html(textToInsert.join(''));
                         textToInsert =  [];
@@ -2866,9 +2882,9 @@ $(document).ready(function(){
                 }
                 $table.append(textToInsert.join(''));
                 createSpan(parent);
-                if (cachePrefix){
-                    localStorage.setItem(cachePrefix+'tickets',JSON.stringify(returnData));
                 }
+            if (cachePrefix){
+                localStorage.setItem(cachePrefix+'tickets',JSON.stringify(returnData));
             }
         },
         //get tickets as tech
@@ -3512,10 +3528,14 @@ $(document).ready(function(){
                 localStorage.setItem('ticketPage','asAltTech');
                 window.location = "ticket_list.html";
             });
+            if (!isLimitAssignedTkts){
             $(document).on('click','#allTicketsStat', function(){
                 localStorage.setItem('ticketPage','allTickets');
                 window.location = "ticket_list.html";
             });
+            }
+            else
+                $("#allTicketsStat").empty();
         },
         setTicketCounts: function (returnData) {
             var allTickets = returnData.open_all;
@@ -3565,6 +3585,7 @@ $(document).ready(function(){
             localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
             localStorage.setItem('userId', returnData.user.user_id);
             localStorage.setItem('account_id', returnData.user.account_id);
+            localStorage.setItem('is_limit_assigned_tkts', returnData.user.is_limit_assigned_tkts);
             if (paramFunc && (typeof paramFunc == "function"))
                 paramFunc(); 
             //success login only
@@ -3794,6 +3815,8 @@ $(document).ready(function(){
         }
         if (localStorage.getItem('is_travel_costs') === "false")
             isTravelCosts = false;
+        if (localStorage.getItem('is_limit_assigned_tkts') === "false")
+            isLimitAssignedTkts = false;
         if (localStorage.getItem('sd_is_MultipleOrgInst') === "false")
         {
             is_MultipleOrgInst = false;
@@ -3810,6 +3833,8 @@ $(document).ready(function(){
 
         if (Page=="ticket_list.html")
         {
+            if(isPhonegap && !isTech)
+                googleConversion();
             localStorage.DetailedAccount = localStorage.addAccountTicket = '';
             ticketList.init();
             //accountDetailsPageSetup.init();
@@ -3833,6 +3858,8 @@ $(document).ready(function(){
             //conditional api calls determined by page
             if (Page=="dashboard.html")
             {
+                if(isPhonegap)
+                    googleConversion();
                 localStorage.DetailedAccount = localStorage.addAccountTicket = '';
                 var orgName = localStorage.getItem('userOrg');
                 if (orgName)
@@ -4094,6 +4121,7 @@ $(document).ready(function(){
                 else
                     UserLogin.init();
             }
+            googleTag();
             return;
         }
 
@@ -4104,14 +4132,7 @@ $(document).ready(function(){
 
         if (Page == "org.html") {
             org.init();
-            return;
-        }
-        
-        var ios_action = localStorage.getItem('ios_action');
-        
-        if (ios_action && ios_action !== "undefined"){
-            localStorage.setItem('ios_action', "");
-            window.location = ios_action;
+            googleTag();
             return;
         }
         
@@ -4121,6 +4142,12 @@ $(document).ready(function(){
             localStorage.loadTicketNumber = '';
             localStorage.setItem('ticketNumber', ticket);
             window.location = "ticket_detail.html";
+            return;
+        }
+        
+        if (ios_action  && ios_action !== "undefined"){
+            localStorage.setItem('ios_action', "");
+            window.location = ios_action;
             return;
         }
         

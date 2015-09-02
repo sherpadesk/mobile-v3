@@ -21,9 +21,14 @@ function clearStorage()
     var userName = localStorage.userName || "";
     var appVersion = localStorage.appVersion || "";
     var ticket = localStorage.loadTicketNumber || "";
+    var ticket = localStorage.loadTicketNumber || "";
     var ios_action = localStorage.ios_action || "";
     var loadOrgKey = localStorage.loadOrgKey || "";
     localStorage.clear();
+    //localStorage.removeItem('userOrgKey');
+    //localStorage.removeItem('userOrg');
+    //localStorage.removeItem('userInstanceKey');
+    //localStorage.removeItem('userKey');
     localStorage.setItem("userName", userName);
     localStorage.appVersion = appVersion;
     localStorage.loadTicketNumber = ticket;

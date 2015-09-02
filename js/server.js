@@ -13,6 +13,8 @@ function default_redirect (is_tech)
 
 function googleTag() {}
 
+function googleConversion() {}
+
 //Root Names
 var Site = 'sherpadesk.com/';
 var MobileSite = 'http://m0.' + Site;
