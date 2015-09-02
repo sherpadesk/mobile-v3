@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" href="img/icon.png"/>
+    <link rel="apple-touch-startup-image" href="img/profile_2.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>    
+    <title>SherpaDesk</title>
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="css/style.min.css" />
+    <!-- Media query for tablets -->
+    <link rel="stylesheet" href="css/tablet.css" />
+    <!-- Media query for large Screen -->
+    <link rel="stylesheet" href="css/style_LargeScreen.css" />
+    <!-- Fonts -->
+    
+    <!-- Jquery -->
+    <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
+    <!-- Main.js -->
+    <script src="js/index.js"></script>
+    <script src="js/main.min.js"></script>
+    
+    <script src="js/fastclick.js"></script>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+  </head>
+<div class="maxSize">
+  <span id="fastclick">
+<header>
+    <div class="headerContainer">
+        <ul class="topHeader">
+            <li id=goBack><i class="fa fa-arrow-left"></i></li>
+            <li>
+                <h1 class="SherpaDesk">ToDos</h1>
+            </li>
+            <li></li>
+        </ul>
+        <div class="errorMessageNeg">Please enter valid ticket information</div> 
+        <div class="errorMessagePos">Ticket was Succesfully Created <i class="fa fa-smile-o"></i></div>
+    </div>
+</header>
+
+<body>
+  <div class="bodyContentToDos">
+    <div class="ToDosWrapper"> 
+        <div id=istech>
+        <div class="styledSelect user">
+            <select id="addTicketUser">     
+            </select>
+        </div>
+                
+            <div class="styledSelect">
+                <select id="taskTypes">
+                <!-- <option value="+value+">"+task+"</option> -->
+            <option value="0">Due</option>
+             <option value="1">All</option>
+             <option value="2">Today</option>
+             <option value="3">Tomorrow</option>
+            <option value="4">This Week</option>
+            <option value="5">Next Week</option>
+            <option value="6">In the Future</option>
+             <option value="7">Overdue</option>
+            <option value="8">(No Date Set)</option>
+             </select>
+           </div>
+        
+            <div class="styledSelect">
+                <select id="taskTypes">
+                <!-- <option value="+value+">"+task+"</option> -->
+            <option value="0">Relationship</option>
+             <option value="1">All</option>
+             <option value="2">Ticket</option>
+             <option value="3">Projects</option>
+             </select>
+           </div>
+            <!--<button id="openIt" class="blueButtonToDos ">Manage templates</button>-->
+       
+            
+            <!--<<ul id="recipientList" class="invoiceInfoToDos"><li class="recipientParent"><ul class="recipientDetailToDos"></li><div class="recipientToDos"></li></ul>
+             </div>
+
+
+<li>
+        <input class="time" type="checkbox" value=" " /> </li>
+
+-->
+            <div id=todoList>
+             <ul id="recipHeader" class="invoiceAccount">
+          <li>#1319: Checking SLA for priority SLA 0 0</li>
+          <li id="addRecipient" class="detail3Short"><!--img class="addIcon" src="img/check.png"--></li>
+        </ul>
+     <div class="styledSelectToDos ToDosMain">Main</div>
+  
+            <ul id="recipientList" class="invoiceInfoToDos"><li><ul class="recipientDetail"><div class="recipientToDos dots"><h4><p class="ToDos"><input class="timeTodos" type="checkbox" value=" " />1. test see https://u0diuk-b95s6o.beta.sherpadesk.com test see https://u0diuk-b95s6o.beta.sherpadesk.com test see https://u0diuk-b95s6o.beta.sherpadesk.com</p></h4><p class="ToDosData">Michel | 10/10/2015</p></div></li></ul></li></ul></div>
+         </div>     
+              </div> 
+      
+                
+            
+  </body>
+</span>
+  </div>
+
+  <!--         <style>       
+             
+
+               .timeTodos {
+  width: 23px;
+  height: 23px;
+  margin-left: -35px;
+  /*position: fixed;*/
+  margin-top: 2px;
+} 
+               
+               </style>-->
+              
+         
+          <script>    
+              /*
+	Dropdown with Multiple checkbox select with jQuery - May 27, 2013
+	(c) 2013 @ElmahdiMahmoud
+	license: http://www.opensource.org/licenses/mit-license.php
+*/ 
+
+
+      $('.mutliSelect input[type="checkbox"]').on('click', function ()  {
+        
+          var title = $(this).closest('.mutliSelect').find('input[type="checkbox"]').val(),
+              title = $(this).val() + ",";
+        
+          if ($(this).is(':checked')) {
+              var html = '<span title="' + title + '">' + title + '</span>';
+              $('.multiSel').html(" ");
+              $(".hida").hide();
+          } 
+         
+      });
+          </script>
+            
+</html>
