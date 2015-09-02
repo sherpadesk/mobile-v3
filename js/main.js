@@ -3567,6 +3567,7 @@ $(document).ready(function(){
         if (!_userOrgKey || !_userInstanceKey) {
             return;
         }
+        
         //get instance config
         getApi("config").then(function (returnData) {            
             localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
@@ -4145,6 +4146,14 @@ $(document).ready(function(){
             return;
         }
         
+        var ios_action = localStorage.getItem('ios_action');
+
+        if (ios_action && ios_action !== "undefined"){
+            localStorage.setItem('ios_action', "");
+            window.location = ios_action;
+            return;
+        }
+        
         if (ios_action  && ios_action !== "undefined"){
             localStorage.setItem('ios_action', "");
             window.location = ios_action;
@@ -4176,6 +4185,7 @@ $(document).ready(function(){
         //$(".navProfile").show();
         //init config
         //refresh version
+        
         if (!localStorage.lastclick)
         {
             localStorage.lastclick = new Date();
