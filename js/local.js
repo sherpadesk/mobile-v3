@@ -1,7 +1,7 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var Page = location.href.match(/(.+\w\/)(.*)/)[2];
+var Page = location.href.match(/(.+\w\/)([^\?]+)/)[2];
 
 var isExtension = false;
 
@@ -11,6 +11,8 @@ function default_redirect (is_tech)
 }
 
 function googleTag() {}
+
+function googleConversion() {}
 
 //Root Names
 var Site = 'sherpadesk.com/';

@@ -65,6 +65,9 @@
             <li></li>
         </ul>
     </div>
+    <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
+          <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
+    
 </header>
 
 <body>
@@ -95,7 +98,7 @@
            </select>
         </div>
         <div class="styledSelect detailedOption">
-           <div id="location" class="styledSelect">
+           <div>
            <select id="ticketLocation">
              </select>
         </div>
@@ -199,9 +202,10 @@
         <i class="fa fa-angle-double-up fa-3x detailsArrowUp"></i>
         </div>
         </div>
-        <textarea class="textInputSmall" type="text" placeholder="Subject"></textarea>
-        <textarea class="textInput" type="text" placeholder="Details..."></textarea>
-        <a href="selectPayment.html"><button class="greenButton">Add Ticket</button></a>
+        <textarea class="textInputSmall" type="text" placeholder="Subject" id="addTicketSubject"></textarea>
+        <textarea class="textInput" type="text" placeholder="Details..." id="addTicketInitPost"></textarea>
+<!--        <a href="selectPayment.html"></a>-->
+             <button id="submitNewTicket" class="greenButton" >Add Ticket</button>
         
     </div>
   </div>
