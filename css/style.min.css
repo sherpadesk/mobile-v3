@@ -1686,13 +1686,15 @@ F
 
 /* error */
 
+.expired {color: black !important}
+
 .errorMessageNeg {
     width: 100%;
     min-height: 63px;
     background-color: rgba(228, 49, 49, 0.86);
     color: rgba(253, 250, 250, 1);
     text-align: center;
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0%;
     padding-top: 16px;
@@ -1706,7 +1708,7 @@ F
     background-color: rgba(75, 178, 77, 0.89);
     color: rgba(253, 250, 250, 1);
     text-align: center;
-    position: absolute;
+    position: fixed;
     top: 0px;
     left: 0%;
     padding-top: 16px;

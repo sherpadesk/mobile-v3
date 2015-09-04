@@ -3683,13 +3683,23 @@ $(document).ready(function(){
                         localStorage.setItem('sd_is_MultipleOrgInst', 'true');
                         var orglistitem = results;
                         for (var i = 0; i < orglistitem.length; i++) {
-                            var insert = "<li class=item><div id='org' data-id="+i+" class='OptionWrapper1'><h3 class='OptionTitle dots user_name'>"+orglistitem[i].name+"</h3></div></li>";
+                            var expired = "", expiredclass="";
+                            if (orglistitem[i].is_expired){
+                            expired =  " <font color=black>(Expired)</font>";
+                                expiredclass = "expired";
+                            }
+                            var insert = "<li class=item><div id='org' data-id="+i+" class='OptionWrapper1'><h3 class='OptionTitle dots user_name "+expiredclass+"'>"+orglistitem[i].name+expired+"</h3></div></li>";
                             $('#orgsPage').append(insert);
                         }
                         $(document).on("click","#org", function () {
                             var index_number = $(this).attr("data-id");
                             userOrgKey = results[index_number].key;
                             userOrg = results[index_number].name;
+                            if ($(this).find("h3.expired").length)
+                            {
+                                userMessage.showMessage(false, userOrg + " has expired. Contact SherpaDesk for assistance. Email: support@sherpadesk.com Phone: +1 (866) 996-1200, then press 2");
+                                return;
+                            }
                             var instances = results[index_number].instances;
                             localStorage.setItem('userOrgKey', userOrgKey);
                             localStorage.setItem('userOrg', userOrg);
@@ -3712,12 +3722,22 @@ $(document).ready(function(){
                                 $("div.OptionWrapper1[data-id!='"+index_number+"']").parent().remove();
                                 //$('#orgsPage').find('option:gt(0)').remove();
                                 for (var i = 0; i < instances.length; i++) {
-                                    var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle dots user_name'>"+instances[i].name+"</h3></div></li>";
+                                    var expired = "", expiredclass="";
+                                    if (instances[i].is_expired){
+                            expired =  " <font color=black>(Expired)</font>";
+                                expiredclass = "expired";
+                            }
+                                    var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle dots user_name"+expiredclass+"'>"+instances[i].name+expired+"</h3></div></li>";
                                     $('#instsPage').append(insert);
                                 }
                                 $('.instSelect').show();
                                 // listen for Instance selection
                                 $(document).on("click","#inst", function () {
+                                    if ($(this).find("h3.expired").length)
+                            {
+                                userMessage.showMessage(false, instances[$(this).attr("data-id")].name + " has expired. Contact SherpaDesk for assistance. Email: support@sherpadesk.com Phone: +1 (866) 996-1200, then press 2");
+                                return;
+                            }
                                     var userInstanceKey = instances[$(this).attr("data-id")].key;
                                     localStorage.setItem('userInstanceKey', userInstanceKey);
                                     localStorage.setItem('sd_is_MultipleOrgInst', 'true');
@@ -3749,12 +3769,22 @@ $(document).ready(function(){
                             $('#instsPage').empty();
                             // If there is MORE than one instance on the selected org
                             for (var i = 0; i < instances.length; i++) {
-                                var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle dots user_name'>"+instances[i].name+"</h3></div></li>";
+                                 var expired = "", expiredclass="";
+                                    if (instances[i].is_expired){
+                            expired =  " <font color=black>(Expired)</font>";
+                                expiredclass = "expired";
+                            }
+                                    var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle dots user_name"+expiredclass+"'>"+instances[i].name+expired+"</h3></div></li>";
                                 $('#instsPage').append(insert);
                             }
                             $('.instSelect').show();
                             // listen for Instance selection
                             $(document).on("click","#inst", function () {
+                                if ($(this).find("h3.expired").length)
+                            {
+                                userMessage.showMessage(false, instances[$(this).attr("data-id")].name + " has expired. Contact SherpaDesk for assistance. Email: support@sherpadesk.com Phone: +1 (866) 996-1200, then press 2");
+                                return;
+                            }
                                 var userInstanceKey = instances[$(this).attr("data-id")].key;
                                 localStorage.setItem('userInstanceKey', userInstanceKey);
                                 localStorage.setItem('sd_is_MultipleOrgInst', 'true');
