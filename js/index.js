@@ -204,7 +204,7 @@ var fastClicker = {
             if ($(".headerSearchIcon")){
                 var parent = $(".headerSearchIcon").parent();
                 //console.log(parent);
-                var insert = "<div id='searchThis' class='headerSearchContainer'><img class='searchIconExpanded' src='img/search_icon.png'><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><img class='searchCloseExpanded' src='img/close_search.png'></div>";
+                var insert = "<div id='searchThis' class='headerSearchContainer'><span class='searchIconExpanded'><i class='fa fa-search'></i></span><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><span class='searchCloseExpanded'> <i class='fa fa-times'></i></span></div>";
 				$(parent).empty();
 				$(insert).appendTo( $( parent ) );
                 if (localStorage.getItem("searchItem")){
