@@ -3598,8 +3598,7 @@ $(document).ready(function(){
         
         //get instance config
         getApi("config").then(function (returnData) {  
-            alert(isPhonegap);
-            if (isPhonegap)
+            if (is_redirect && isPhonegap)
                 initPreferences();
             
             localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
@@ -4277,7 +4276,8 @@ function handleOpenURL(url) {
     //window.location = ios_action;
 }
 
-function ok (value) { alert(value); }
+function ok (value) { //alert(value); 
+}
 function fail (error) {alert(error);}
 
 function initPreferences()
