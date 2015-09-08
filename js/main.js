@@ -3599,7 +3599,7 @@ $(document).ready(function(){
         //get instance config
         getApi("config").then(function (returnData) {  
             
-            if (is_redirect && isPhonegap)
+            if (isPhonegap)
                 initPreferences();
             
             localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
