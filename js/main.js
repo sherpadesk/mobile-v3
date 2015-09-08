@@ -203,6 +203,7 @@ window.onload = function() { if (typeof WebPullToRefresh === 'object') WebPullTo
 //global helper functions
 function logout(isRedirect, mess) {
     if (isPhonegap){
+        var prefs = plugins.appPreferences;
         var suitePrefs = prefs.iosSuite ("group.io.sherpadesk.mobile");
         suitePrefs.store (ok, fail, 'org', '');
     }
@@ -4281,7 +4282,7 @@ function fail (error) {alert(error);}
 
 function initPreferences()
 {
-    //var prefs = plugins.appPreferences;
+    var prefs = plugins.appPreferences;
     //var org = "u0diuk";
     //var inst = "b95s6o";
     //var key = "fzo3fkthioj5xi696jzocabuojekpb5o";
