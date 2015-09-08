@@ -202,6 +202,10 @@ window.onload = function() { if (typeof WebPullToRefresh === 'object') WebPullTo
 
 //global helper functions
 function logout(isRedirect, mess) {
+    if (isPhonegap){
+        var suitePrefs = prefs.iosSuite ("group.io.sherpadesk.mobile");
+        suitePrefs.store (ok, fail, 'org', '');
+    }
     clearStorage();
     if (localStorage.is_google) {
         localStorage.removeItem('userName');
@@ -3592,7 +3596,11 @@ $(document).ready(function(){
         }
         
         //get instance config
-        getApi("config").then(function (returnData) {            
+        getApi("config").then(function (returnData) {  
+            
+            if (isPhonegap)
+                initPreferences();
+            
             localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
             isTech = returnData.user.is_techoradmin;
             localStorage.setItem('projectTracking', returnData.is_project_tracking);
@@ -4267,3 +4275,22 @@ function handleOpenURL(url) {
     //localStorage.setItem('ios_action', "");
     //window.location = ios_action;
 }
+
+function ok (value) { }
+function fail (error) {alert("error");}
+
+function initPreferences()
+{
+    //var prefs = plugins.appPreferences;
+    //var org = "u0diuk";
+    //var inst = "b95s6o";
+    //var key = "fzo3fkthioj5xi696jzocabuojekpb5o";
+    var full = localStorage.getItem('userOrgKey') + "-" + localStorage.getItem('userInstanceKey') + ":" + localStorage.getItem("userKey");
+    //"u0diuk-b95s6o:fzo3fkthioj5xi696jzocabuojekpb5o";
+    // cordova interface
+    // store key => value pair
+    // support for iOS suites (untested)
+    var suitePrefs = prefs.iosSuite ("group.io.sherpadesk.mobile");
+    suitePrefs.store (ok, fail, 'org', full);
+}
+
