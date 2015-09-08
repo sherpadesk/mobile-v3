@@ -4276,7 +4276,7 @@ function handleOpenURL(url) {
     //window.location = ios_action;
 }
 
-function ok (value) { }
+function ok (value) { alert(value); }
 function fail (error) {alert(error);}
 
 function initPreferences()
@@ -4290,7 +4290,7 @@ function initPreferences()
     // cordova interface
     // store key => value pair
     // support for iOS suites (untested)
-    var suitePrefs = prefs.iosSuite ("group.io.sherpadesk.mobile");
+    var suitePrefs = prefs.iosSuite("group.io.sherpadesk.mobile");
     suitePrefs.store (ok, fail, 'org', full);
 }
 
