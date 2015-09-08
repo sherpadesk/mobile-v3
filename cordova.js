@@ -1042,6 +1042,15 @@ function pokeNativeViaIframe() {
         }
         execHashIframe.contentWindow.location.hash = hashValue;
     } else {
+        var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+        // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
+        var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+        // At least Safari 3+: "[object HTMLElementConstructor]"
+        var isIE = /*@cc_on!@*/false || !!document.documentMode; // At least IE6
+        var isFirefox = typeof InstallTrigger !== 'undefined';   // Firefox 1.0+
+        var isChrome = !!window.chrome && !isOpera; 
+        if (isOpera || isSafari || isIE || isFirefox || isChrome)
+            return;
         // Check if they've removed it from the DOM, and put it back if so.
         if (execIframe && execIframe.contentWindow) {
             execIframe.contentWindow.location = 'gap://ready';
