@@ -3598,7 +3598,7 @@ $(document).ready(function(){
         
         //get instance config
         getApi("config").then(function (returnData) {  
-            
+            alert(isPhonegap);
             if (isPhonegap)
                 initPreferences();
             
