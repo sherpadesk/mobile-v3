@@ -51,6 +51,7 @@ function initOrgPreferences(value)
 {
     var prefs = plugins.appPreferences;
     var suitePrefs = prefs.iosSuite("group.io.sherpadesk.mobile");
+    alert(value);
     suitePrefs.store (ok, fail, 'org', value);
 }
 
