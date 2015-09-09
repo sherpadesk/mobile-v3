@@ -1022,13 +1022,7 @@ $(document).ready(function(){
         changeOrg:function(){
             if (is_MultipleOrgInst)
                 $("#switchOrg").click(function(){
-                    var appVersion = localStorage.appVersion || "";
-                    var userKey = localStorage.userKey || "";
-                    var userName = localStorage.userName || "";
-                    localStorage.clear();
-                    localStorage.userName = userName;
-                    localStorage.userKey = userKey;
-                    localStorage.appVersion = appVersion;
+                    clearStorage(true);
                     window.location = "org.html";
                 });
         }
@@ -2852,7 +2846,7 @@ $(document).ready(function(){
                         initialPost = initialPost.substring(0,400)+"...";
                     }
                    initialPost=symbolEscape(initialPost);
-                    textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4 class=dots>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li class='ticketLo ticketblok'><span class='ticketlocation'>"+ returnData[i].location_name+"</span><p class='locationtick'>"+returnData[i].class_name+"</p></li></ul>");
+                    textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4 class=dots>"+newMessage+subject+"</h4><div class ='initailPost'>"+initialPost+"</div></li><li class='ticketLo ticketblok'><span class='ticketlocation'>"+ returnData[i].location_name+"</span><p class='locationtick'>"+returnData[i].class_name+"</p></li></ul>");
                     if(length>10 && i==10){
                         $table.html(textToInsert.join(''));
                         textToInsert =  [];
@@ -3134,7 +3128,7 @@ $(document).ready(function(){
                             ticketNumber = "Account: " + returnData[i].account_name;
                         }
                         
-                        log = '<li class="expenLi"><ul class="responseBlock item responseBlockExpen"> <li class="expen"><img class="TicketBlockFace expenImg" src="http://www.gravatar.com/avatar/'+email+'d=mm&amp;s=80"><span class="user_name">'+nameCheck+'</span></li><li class="textExpen"><h4><p class="subjectExpen dots">'+ticketNumber+'</p></h4><p class="initailPost">'+text+'</p></li><li class="TicketBlockNumber expenE"><h3 class="feedTimeExpen"><span>$'+amount+'</span></h3><span>'+expenDate+'</span></li></ul></li>';
+                        log = '<li class="expenLi"><ul class="responseBlock item responseBlockExpen"> <li class="expen"><img class="TicketBlockFace expenImg" src="http://www.gravatar.com/avatar/'+email+'d=mm&amp;s=80"><span class="user_name">'+nameCheck+'</span></li><li class="textExpen"><h4><p class="subjectExpen dots">'+ticketNumber+'</p></h4><div class="initailPost">'+text+'</div></li><li class="TicketBlockNumber expenE"><h3 class="feedTimeExpen"><span>$'+amount+'</span></h3><span>'+expenDate+'</span></li></ul></li>';
 
                         $(log).appendTo(".accountContainerExpen");
                         if (i==9)
