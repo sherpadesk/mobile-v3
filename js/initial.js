@@ -12,6 +12,7 @@ var isPhonegap = false;
 
 function done() {
     localStorage.isPhonegap = !!RegExp('[?&]ios_action=').exec(window.location.href);
+    alert("localStorage.isPhonegap="+localStorage.isPhonegap);
     var ios_action = getParameterByName('ios_action') || localStorage.getItem('ios_action');
     if (ios_action && ios_action != "undefined"){
         cleanQuerystring();
