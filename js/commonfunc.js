@@ -18,6 +18,7 @@ function logout(isRedirect, mess) {
 
 function clearStorage(keepOrg)
 {
+    alert('phone'+isPhonegap);
     if (isPhonegap){
         initOrgPreferences("");
     }
@@ -53,11 +54,14 @@ function initOrgPreferences(value)
     var suitePrefs = prefs.iosSuite("group.io.sherpadesk.mobile");
     if (value)
         suitePrefs.store (ok, fail, 'org', value);
-    else
+    else{
+        alert('remove');
+        suitePrefs.store (ok, fail, 'org', value);
         suitePrefs.remove (ok, fail, 'org');
+    }
 }
 
-function ok (value) { alert(value); 
+function ok (value) { //alert(value); 
 }
 function fail (error) {alert(error);}
 
