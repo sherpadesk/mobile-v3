@@ -1,8 +1,6 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var year="2015";
-var appVersion = "25";
 var adMessage = "Add ticket time";
 function updatedFunction ()
 {
@@ -201,17 +199,6 @@ window.onload = function() { if (typeof WebPullToRefresh === 'object') WebPullTo
     location.reload(false);}});};
 
 //global helper functions
-function logout(isRedirect, mess) {
-    clearStorage();
-    if (localStorage.is_google) {
-        localStorage.removeItem('userName');
-        localStorage.removeItem('is_google');
-        GooglelogOut();
-    }
-    else if (isRedirect || true)
-        window.location = "login.html".addUrlParam("f",mess);
-}
-
 function GooglelogOut(mess) {
     if (!isExtension && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
@@ -221,29 +208,6 @@ function GooglelogOut(mess) {
         window.location = "login.html" + mess;
 }
 
-function clearStorage()
-{
-    var userName = localStorage.userName || "";
-    var appVersion = localStorage.appVersion || "";
-    var ticket = localStorage.loadTicketNumber || "";
-    var ticket = localStorage.loadTicketNumber || "";
-    var ios_action = localStorage.ios_action || "";
-    var loadOrgKey = localStorage.loadOrgKey || "";
-    localStorage.clear();
-    //localStorage.removeItem('userOrgKey');
-    //localStorage.removeItem('userOrg');
-    //localStorage.removeItem('userInstanceKey');
-    //localStorage.removeItem('userKey');
-    localStorage.setItem("userName", userName);
-    localStorage.appVersion = appVersion;
-    localStorage.loadTicketNumber = ticket;
-    localStorage.ios_action = ios_action;
-    localStorage.loadOrgKey = loadOrgKey;
-    //clear also chrome ext if needed
-    if (isExtension)
-        window.top.postMessage("logout", "*");
-
-}
 
 function getInfo4Extension()
 {
@@ -492,15 +456,6 @@ ticket -
 ios - 
 org - 
 */
-function getParameterByName(name) {
-    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.href);
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-}
-
-function cleanQuerystring() {
-    try {window.history.replaceState( {} , '', location.origin + location.pathname );}
-    catch (err){}
-}
 
 function showError(e){
     var error = e.data || (((e || {}).responseJSON || {}).ResponseStatus || {}).Message;
@@ -1069,13 +1024,7 @@ $(document).ready(function(){
         changeOrg:function(){
             if (is_MultipleOrgInst)
                 $("#switchOrg").click(function(){
-                    var appVersion = localStorage.appVersion || "";
-                    var userKey = localStorage.userKey || "";
-                    var userName = localStorage.userName || "";
-                    localStorage.clear();
-                    localStorage.userName = userName;
-                    localStorage.userKey = userKey;
-                    localStorage.appVersion = appVersion;
+                    clearStorage(true);
                     window.location = "org.html";
                 });
         }
@@ -2904,7 +2853,7 @@ $(document).ready(function(){
                         initialPost = initialPost.substring(0,400)+"...";
                     }
                    initialPost=symbolEscape(initialPost);
-                    textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4 class=dots>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li class='ticketLo ticketblok'><span class='ticketlocation'>"+ returnData[i].location_name+"</span><p class='locationtick'>"+returnData[i].class_name+"</p></li></ul>");
+                    textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4 class=dots>"+newMessage+subject+"</h4><div class ='initailPost'>"+initialPost+"</div></li><li class='ticketLo ticketblok'><span class='ticketlocation'>"+ returnData[i].location_name+"</span><p class='locationtick'>"+returnData[i].class_name+"</p></li></ul>");
                     if(length>10 && i==10){
                         $table.html(textToInsert.join(''));
                         textToInsert =  [];
@@ -3186,7 +3135,7 @@ $(document).ready(function(){
                             ticketNumber = "Account: " + returnData[i].account_name;
                         }
                         
-                        log = '<li class="expenLi"><ul class="responseBlock item responseBlockExpen"> <li class="expen"><img class="TicketBlockFace expenImg" src="http://www.gravatar.com/avatar/'+email+'d=mm&amp;s=80"><span class="user_name">'+nameCheck+'</span></li><li class="textExpen"><h4><p class="subjectExpen dots">'+ticketNumber+'</p></h4><p class="initailPost">'+text+'</p></li><li class="TicketBlockNumber expenE"><h3 class="feedTimeExpen"><span>$'+amount+'</span></h3><span>'+expenDate+'</span></li></ul></li>';
+                        log = '<li class="expenLi"><ul class="responseBlock item responseBlockExpen"> <li class="expen"><img class="TicketBlockFace expenImg" src="http://www.gravatar.com/avatar/'+email+'d=mm&amp;s=80"><span class="user_name">'+nameCheck+'</span></li><li class="textExpen"><h4><p class="subjectExpen dots">'+ticketNumber+'</p></h4><div class="initailPost">'+text+'</div></li><li class="TicketBlockNumber expenE"><h3 class="feedTimeExpen"><span>$'+amount+'</span></h3><span>'+expenDate+'</span></li></ul></li>';
 
                         $(log).appendTo(".accountContainerExpen");
                         if (i==9)
@@ -3599,7 +3548,10 @@ $(document).ready(function(){
         }
         
         //get instance config
-        getApi("config").then(function (returnData) {            
+        getApi("config").then(function (returnData) {  
+            if (is_redirect && isPhonegap)
+                initOrgPreferences(localStorage.getItem('userOrgKey') + "-" + localStorage.getItem('userInstanceKey') + ":" + localStorage.getItem("userKey"));
+            
             localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
             isTech = returnData.user.is_techoradmin;
             localStorage.setItem('projectTracking', returnData.is_project_tracking);
@@ -4008,7 +3960,7 @@ $(document).ready(function(){
                 if (!reff)
                 {
                     if (history.length < 3)
-                        window.location = "index.html"; 
+                        window.location = "login.html"; 
                     else
                         history.back();
                 }
@@ -4274,3 +4226,4 @@ function handleOpenURL(url) {
     //localStorage.setItem('ios_action', "");
     //window.location = ios_action;
 }
+
