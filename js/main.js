@@ -3543,7 +3543,7 @@ $(document).ready(function(){
         //get instance config
         getApi("config").then(function (returnData) {  
             if (is_redirect && isPhonegap)
-                initPreferences();
+                initOrgPreferences(localStorage.getItem('userOrgKey') + "-" + localStorage.getItem('userInstanceKey') + ":" + localStorage.getItem("userKey"));
             
             localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
             isTech = returnData.user.is_techoradmin;
@@ -3953,7 +3953,7 @@ $(document).ready(function(){
                 if (!reff)
                 {
                     if (history.length < 3)
-                        window.location = "index.html"; 
+                        window.location = "login.html"; 
                     else
                         history.back();
                 }
@@ -4218,24 +4218,5 @@ function handleOpenURL(url) {
     location.reload(true);
     //localStorage.setItem('ios_action', "");
     //window.location = ios_action;
-}
-
-function ok (value) { //alert(value); 
-}
-function fail (error) {alert(error);}
-
-function initPreferences()
-{
-    var prefs = plugins.appPreferences;
-    //var org = "u0diuk";
-    //var inst = "b95s6o";
-    //var key = "fzo3fkthioj5xi696jzocabuojekpb5o";
-    var full = localStorage.getItem('userOrgKey') + "-" + localStorage.getItem('userInstanceKey') + ":" + localStorage.getItem("userKey");
-    //"u0diuk-b95s6o:fzo3fkthioj5xi696jzocabuojekpb5o";
-    // cordova interface
-    // store key => value pair
-    // support for iOS suites (untested)
-    var suitePrefs = prefs.iosSuite("group.io.sherpadesk.mobile");
-    suitePrefs.store (ok, fail, 'org', full);
 }
 
