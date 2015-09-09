@@ -28,7 +28,7 @@ function clearStorage(keepOrg)
     var ticket = localStorage.loadTicketNumber || "";
     var ios_action = localStorage.ios_action || "";
     var loadOrgKey = localStorage.loadOrgKey || "";
-    var isPhonegap = localStorage.isPhonegap || "";
+    var loadPhonegap = localStorage.isPhonegap || "";
     var userKey = localStorage.userKey || "";
     localStorage.clear();
     //localStorage.removeItem('userOrgKey');
@@ -40,7 +40,7 @@ function clearStorage(keepOrg)
     localStorage.loadTicketNumber = ticket;
     localStorage.ios_action = ios_action;
     localStorage.loadOrgKey = loadOrgKey; 
-    localStorage.isPhonegap = isPhonegap;
+    localStorage.isPhonegap = loadPhonegap;
     if (keepOrg)
         localStorage.userKey = userKey;
     //clear also chrome ext if needed
