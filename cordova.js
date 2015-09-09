@@ -19,6 +19,10 @@
  under the License.
 */
 ;(function() {
+    
+if (localStorage.isPhonegap !== "true")
+    return;
+    
 var PLATFORM_VERSION_BUILD_LABEL = '3.8.0';
 // file: src/scripts/require.js
 
@@ -1049,8 +1053,8 @@ function pokeNativeViaIframe() {
         var isIE = /*@cc_on!@*/false || !!document.documentMode; // At least IE6
         var isFirefox = typeof InstallTrigger !== 'undefined';   // Firefox 1.0+
         var isChrome = !!window.chrome && !isOpera; 
-        if (isOpera || isIE || isFirefox || isChrome)
-            return;
+        //if (isOpera || isIE || isFirefox || isChrome)
+        //    return;
         // Check if they've removed it from the DOM, and put it back if so.
         if (execIframe && execIframe.contentWindow) {
             execIframe.contentWindow.location = 'gap://ready';

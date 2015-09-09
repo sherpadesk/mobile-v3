@@ -1,56 +1,7 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var year="2015";
-var appVersion = "25";
-
-//global helper functions
-function logout(isRedirect, mess) {
-    clearStorage();
-    if (localStorage.is_google) {
-        localStorage.removeItem('userName');
-        localStorage.removeItem('is_google');
-        GooglelogOut();
-    }
-    else if (isRedirect || true)
-        window.location = "login.html" + (!mess ? "" : "?f="+mess);
-}
-
-function clearStorage()
-{
-    var userName = localStorage.userName || "";
-    var appVersion = localStorage.appVersion || "";
-    var ticket = localStorage.loadTicketNumber || "";
-    var ticket = localStorage.loadTicketNumber || "";
-    var ios_action = localStorage.ios_action || "";
-    var loadOrgKey = localStorage.loadOrgKey || "";
-    localStorage.clear();
-    //localStorage.removeItem('userOrgKey');
-    //localStorage.removeItem('userOrg');
-    //localStorage.removeItem('userInstanceKey');
-    //localStorage.removeItem('userKey');
-    localStorage.setItem("userName", userName);
-    localStorage.appVersion = appVersion;
-    localStorage.loadTicketNumber = ticket;
-    localStorage.ios_action = ios_action;
-    localStorage.loadOrgKey = loadOrgKey;
-    //clear also chrome ext if needed
-    if (isExtension)
-        window.top.postMessage("logout", "*");
-
-}
-
-
-function getParameterByName(name) {
-    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.href);
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-}
-
-function cleanQuerystring() {
-    try {window.history.replaceState( {} , '', location.origin + location.pathname );}
-    catch (err){}
-}
-
+var isPhonegap = false;
 
     //var img = new Image();
     //img.src = MobileSite + "img/error-background.png";
@@ -60,6 +11,7 @@ function cleanQuerystring() {
     var	userKey = "";
 
 function done() {
+    localStorage.isPhonegap = !!RegExp('[?&]ios_action=').exec(window.location.href);
     var ios_action = getParameterByName('ios_action') || localStorage.getItem('ios_action');
     if (ios_action && ios_action != "undefined"){
         cleanQuerystring();
@@ -90,7 +42,7 @@ function done() {
         }
         else 
         {
-            logout();
+            //logout();
             window.location = "login.html";
         }
         return;
@@ -121,7 +73,7 @@ function handleOpenURL(url) {
 
 
     //Main Method that calls all the functions for the app
-if (navigator.userAgent.match(/iphone|ipad|ipod/i))
+if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
     window.onload = function () {setTimeout(done, 200);};
 else
     done();
