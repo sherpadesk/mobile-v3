@@ -11,7 +11,8 @@ var isPhonegap = false;
     var	userKey = "";
 
 function done() {
-    localStorage.isPhonegap = !!RegExp('[?&]ios_action=').exec(window.location.href);
+    if (localStorage.isPhonegap !== "true")
+        localStorage.isPhonegap = !!RegExp('[?&]ios_action=').exec(window.location.href);
     var ios_action = getParameterByName('ios_action') || localStorage.getItem('ios_action');
     if (ios_action && ios_action != "undefined"){
         cleanQuerystring();
