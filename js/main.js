@@ -1,9 +1,7 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var year="2015";
-var appVersion = "25";
-var adMessage = "Add ticket time";
+var adMessage = "Improved perfomance";
 function updatedFunction ()
 {
     location.reload(true);
@@ -107,8 +105,7 @@ $( document ).ajaxError(function( event, request, settings ) {
     //    alert(settings.url);
     if ((request.status == 403 && settings.url !== ApiSite + "organizations") || (request.status == 404 && settings.url === ApiSite + "config"))
     {
-        logout(
-            settings.url !== ApiSite + "login", request.statusText);
+        logout(settings.url !== ApiSite + "login", request.statusText);
     }
     setTimeout(function(){ $("#loading").hide1();
                           $("body").show1(); console.log("ajaxError:"+request.statusText + " page: " + settings.url);
@@ -202,17 +199,6 @@ window.onload = function() { if (typeof WebPullToRefresh === 'object') WebPullTo
     location.reload(false);}});};
 
 //global helper functions
-function logout(isRedirect, mess) {
-    clearStorage();
-    if (localStorage.is_google) {
-        localStorage.removeItem('userName');
-        localStorage.removeItem('is_google');
-        GooglelogOut();
-    }
-    else if (isRedirect || true)
-        window.location = "login.html".addUrlParam("f",mess);
-}
-
 function GooglelogOut(mess) {
     if (!isExtension && !confirm("Do you want to stay logged in Google account?")) {
         var logoutUrl = "https://www.google.com/accounts/Logout?continue=https://appengine.google.com/_ah/logout?continue=" + MobileSite;
@@ -222,28 +208,6 @@ function GooglelogOut(mess) {
         window.location = "login.html" + mess;
 }
 
-function clearStorage()
-{
-    var userName = localStorage.userName || "";
-    var appVersion = localStorage.appVersion || "";
-    var ticket = localStorage.loadTicketNumber || "";
-    var ios_action = localStorage.ios_action || "";
-    var loadOrgKey = localStorage.loadOrgKey || "";
-    localStorage.clear();
-    //localStorage.removeItem('userOrgKey');
-    //localStorage.removeItem('userOrg');
-    //localStorage.removeItem('userInstanceKey');
-    //localStorage.removeItem('userKey');
-    localStorage.setItem("userName", userName);
-    localStorage.appVersion = appVersion;
-    localStorage.loadTicketNumber = ticket;
-    localStorage.ios_action = ios_action;
-    localStorage.loadOrgKey = loadOrgKey;
-    //clear also chrome ext if needed
-    if (isExtension)
-        window.top.postMessage("logout", "*");
-
-}
 
 function getInfo4Extension()
 {
@@ -282,6 +246,8 @@ function fullapplink (){
     return urlString;
 }
 
+
+
 function htmlEscape(str) {
     return String(str)
         .replace(/&/g, '&amp;amp;')
@@ -296,6 +262,18 @@ function htmlEscape(str) {
         .replace(/>/g, '&gt;')
     //.replace(/\n/g, "<br />")
     ;
+}
+
+function symbolEscape(str) {
+    return String(str)
+        //.replace(/&lt;/g, '<')
+       // .replace(/&gt;/g, '>')
+       // .replace(/&quot;/g, '"')
+       // .replace(/&apos;/g, "'")
+       // .replace(/&/g, '&amp;')
+        .replace(/<br\s*[\/]?>/gi, "\n")
+        .replace(/\n/g, "<p></p>");
+    
 }
 
 var userMessage = {
@@ -411,6 +389,8 @@ var FileUrlHelper = {
         else
             img = "<img style='float:none;' src='img/file.png'>&nbsp;" + decodeURIComponent(file.split("/").slice(-1)) + "<p></p>";
 
+        
+        
         return "<p/><a class=\"comment_image_link\"" + 
             (isPhonegap ? (" href=# onclick='openURL(\"" +file + "\")'>"+img+"</a>") :
              (" target=\"_blank\" href=\"" +file + "\">"+img+"</a>"));
@@ -476,15 +456,6 @@ ticket -
 ios - 
 org - 
 */
-function getParameterByName(name) {
-    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.href);
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-}
-
-function cleanQuerystring() {
-    try {window.history.replaceState( {} , '', location.origin + location.pathname );}
-    catch (err){}
-}
 
 function showError(e){
     var error = e.data || (((e || {}).responseJSON || {}).ResponseStatus || {}).Message;
@@ -685,7 +656,7 @@ $(document).ready(function(){
                     if(userName && userName.indexOf("@gmail.com") != -1){
                         userMessage.showMessage(false, "Wrong Password, Google sign password is not neeeded");
                     }else{
-                        //userMessage.showMessage(false, "There was a problem with your login.  Please try again.");
+                        userMessage.showMessage(false, "There was a problem with your login.  Please try again.");
                         $("#password").val("");
                     }
                     // if (userName && userName.indexOf("@gmail.com") != -1)
@@ -1053,13 +1024,7 @@ $(document).ready(function(){
         changeOrg:function(){
             if (is_MultipleOrgInst)
                 $("#switchOrg").click(function(){
-                    var appVersion = localStorage.appVersion || "";
-                    var userKey = localStorage.userKey || "";
-                    var userName = localStorage.userName || "";
-                    localStorage.clear();
-                    localStorage.userName = userName;
-                    localStorage.userKey = userKey;
-                    localStorage.appVersion = appVersion;
+                    clearStorage(true);
                     window.location = "org.html";
                 });
         }
@@ -2023,7 +1988,7 @@ $(document).ready(function(){
                     timeLog = JSON.parse(timeEntry);
                     if (!timeLog.billable)
                         $(".innerCircle").removeClass("billFill");
-                    $("#noteTime").val(timeLog.note);
+                    $("#noteTime").val(timeLog.note. replace(/<br\s*[\/]?>/gi, "\n"));
                     $("#addTimeTicket").val(timeLog.hours || 0);
                     $(".title").html("Time #"+ timeLog.time_id + " by " + timeLog.user_name + " @ " + new Date(timeLog.date).dateFormat("Y/\m/\d H:i"));
                     if (timeLog.start_time)
@@ -2179,6 +2144,7 @@ $(document).ready(function(){
     };
 
     // needed methods to propogate a ticket detailed page
+   
     var detailedTicket = {
         init:function(){
             if (!isTech){ $(".tabs").hide();
@@ -2196,7 +2162,7 @@ $(document).ready(function(){
                     ticketPriority = $("#ticketPriority").val(),
                     ticketProject = $("#ticketProject").val(),
                 ticketLocation = $("#ticketLocation").val();
-
+ 
                 var response = {
                     //"account_id" : ticketAccount,
                     "class_id" : ticketClass,
@@ -2220,7 +2186,8 @@ $(document).ready(function(){
                 });
             });
         },
-        showTicket:function(){
+        
+        showTicket:function(showTicketMessage){
             if(localStorage.getItem("isMessage") == "truePos")
             {
                 userMessage.showMessage(true);
@@ -2250,8 +2217,13 @@ $(document).ready(function(){
                         $('#openIt').hide();
                     }
                     // update page variables with correct ticket information
-                    var ticketHours = returnData.total_hours;
-                    $("#ticketNumber").html(returnData.status+" | "+returnData.number);
+                    var ticketHours = returnData.total_hours;     
+                     var line = AppSite.addUrlParam("tkt",localStorage.getItem("ticketNumber"))
+        .addUrlParam("dept",userInstanceKey)
+        .addUrlParam("org",userOrgKey);
+                   var number =  "<a href='"+line+"' target='_blank'>"+returnData.number+"</a>";
+                   
+                   $("#ticketNumber").html(returnData.status+" | "+number);  
                     $("#ticketSubject").html(returnData.subject);
                     $("#ticketClass").html(returnData.class_name);
                     $("#ticket_locations").html(returnData.location_name);
@@ -2378,6 +2350,7 @@ $(document).ready(function(){
                     if (logslen > 1){
                         $("#comments").empty();
                         detailedTicket.createLogs(returnData.ticketlogs, "#comments", files);
+                        
                     }
 
                     reveal();
@@ -2396,6 +2369,7 @@ $(document).ready(function(){
             );
 
         },
+        
         createLogs: function (logs, parent, files){
             var len = logs.length,
                 insert =[],
@@ -2406,11 +2380,12 @@ $(document).ready(function(){
                 var email = $.md5(logs[c].user_email);
                 var type = logs[c].log_type;
                 var userName = logs[c].user_firstname+" "+logs[c].user_lastname;
-                var note = logs[c].note;
+                var note = logs[c].note.trim();
+                note=symbolEscape(note);
                 var date = formatDate(logs[c].record_date);
 
                 // comment insert
-                insert[c] = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3 class=dots>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+ $("<span />", { html: note.replace(/<br\s*[\/]?>/gi, "\n") }).text().replace(/\n/g, "<p></p>")+"</p></li><li>"+type+"</li></ul>";
+                insert[c] = "<ul class='commentBlock'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='commentImg'></li><li class='commentText'><h3 class=dots>"+userName+"</h3></li><li><span>"+date+"</span></li><li class='commentText'><p>"+note+"</p></li><li>"+type+"</li></ul>";
             }
             var notes = FileUrlHelper.addUrls(insert.join(''), files);
             $table.html(notes);
@@ -2877,8 +2852,8 @@ $(document).ready(function(){
                     {
                         initialPost = initialPost.substring(0,400)+"...";
                     }
-                    initialPost = $("<span />", { html: initialPost.replace(/<br\s*[\/]?>/gi, "\n") }).text();
-                    textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4 class=dots>"+newMessage+subject+"</h4><p class ='initailPost'>"+initialPost+"</p></li><li class='ticketLo ticketblok'><span class='ticketlocation'>"+ returnData[i].location_name+"</span><p class='locationtick'>"+returnData[i].class_name+"</p></li></ul>");
+                   initialPost=symbolEscape(initialPost);
+                    textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4 class=dots>"+newMessage+subject+"</h4><div class ='initailPost'>"+initialPost+"</div></li><li class='ticketLo ticketblok'><span class='ticketlocation'>"+ returnData[i].location_name+"</span><p class='locationtick'>"+returnData[i].class_name+"</p></li></ul>");
                     if(length>10 && i==10){
                         $table.html(textToInsert.join(''));
                         textToInsert =  [];
@@ -3160,7 +3135,7 @@ $(document).ready(function(){
                             ticketNumber = "Account: " + returnData[i].account_name;
                         }
                         
-                        log = '<li class="expenLi"><ul class="responseBlock item responseBlockExpen"> <li class="expen"><img class="TicketBlockFace expenImg" src="http://www.gravatar.com/avatar/'+email+'d=mm&amp;s=80"><span class="user_name">'+nameCheck+'</span></li><li class="textExpen"><h4><p class="subjectExpen dots">'+ticketNumber+'</p></h4><p class="initailPost">'+text+'</p></li><li class="TicketBlockNumber expenE"><h3 class="feedTimeExpen"><span>$'+amount+'</span></h3><span>'+expenDate+'</span></li></ul></li>';
+                        log = '<li class="expenLi"><ul class="responseBlock item responseBlockExpen"> <li class="expen"><img class="TicketBlockFace expenImg" src="http://www.gravatar.com/avatar/'+email+'d=mm&amp;s=80"><span class="user_name">'+nameCheck+'</span></li><li class="textExpen"><h4><p class="subjectExpen dots">'+ticketNumber+'</p></h4><div class="initailPost">'+text+'</div></li><li class="TicketBlockNumber expenE"><h3 class="feedTimeExpen"><span>$'+amount+'</span></h3><span>'+expenDate+'</span></li></ul></li>';
 
                         $(log).appendTo(".accountContainerExpen");
                         if (i==9)
@@ -3573,7 +3548,10 @@ $(document).ready(function(){
         }
         
         //get instance config
-        getApi("config").then(function (returnData) {            
+        getApi("config").then(function (returnData) {  
+            if (is_redirect && isPhonegap)
+                initOrgPreferences(localStorage.getItem('userOrgKey') + "-" + localStorage.getItem('userInstanceKey') + ":" + localStorage.getItem("userKey"));
+            
             localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
             isTech = returnData.user.is_techoradmin;
             localStorage.setItem('projectTracking', returnData.is_project_tracking);
@@ -3982,7 +3960,7 @@ $(document).ready(function(){
                 if (!reff)
                 {
                     if (history.length < 3)
-                        window.location = "index.html"; 
+                        window.location = "login.html"; 
                     else
                         history.back();
                 }
@@ -4248,3 +4226,4 @@ function handleOpenURL(url) {
     //localStorage.setItem('ios_action', "");
     //window.location = ios_action;
 }
+
