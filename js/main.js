@@ -1670,7 +1670,7 @@ $(document).ready(function(){
                     //"markup": 
                 },'POST').then(function (d) {
                     localStorage.setItem('isMessage','truePos');
-                    localStorage.setItem('userMessage','Expense was successfully added <i class="fa fa-money"></i>');
+                    localStorage.setItem('userMessage','Expense was successfully added <i class="ion-cash"></i>');
                     backFunction();
                 },
                                function (e, textStatus, errorThrown) {
@@ -1712,7 +1712,7 @@ $(document).ready(function(){
                     //"markup": 
                 },'POST').then(function (d) {
                     localStorage.setItem('isMessage','truePos');
-                    localStorage.setItem('userMessage','Adjustment was successfully added <i class="fa fa-money"></i>');
+                    localStorage.setItem('userMessage','Adjustment was successfully added <i class="ion-cash"></i>');
                     backFunction();
                 },
                                function (e, textStatus, errorThrown) {
