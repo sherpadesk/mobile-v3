@@ -2454,7 +2454,7 @@ footer {
     color: #DADADA;
     margin-top: 3px;
     width: 100%;
-    height: 100%; /* Fallback for non-webkit */
+    height: 60px; /* Fallback for non-webkit */
     font-size: 14px;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
