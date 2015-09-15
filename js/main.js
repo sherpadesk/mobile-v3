@@ -4228,8 +4228,9 @@ $(document).ready(function(){
         //refresh version
         
         //update badge every 2 min 
+        alert(isPhonegap);
         if (isPhonegap)
-            setInterval(function () { getQueues.queues(4, ''); }, 2*60*1000);
+            setInterval(function () { alert(1); getQueues.queues(4, ''); }, 1*60*1000);
         
         if (!localStorage.lastclick)
         {
