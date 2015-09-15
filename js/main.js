@@ -271,6 +271,7 @@ function symbolEscape(str) {
        // .replace(/&quot;/g, '"')
        // .replace(/&apos;/g, "'")
        // .replace(/&/g, '&amp;')
+        .replace(/&lt;br&gt;/gi, "\n")
         .replace(/<br\s*[\/]?>/gi, "\n")
         .replace(/\n/g, "<p></p>");
     
@@ -1988,7 +1989,7 @@ $(document).ready(function(){
                     timeLog = JSON.parse(timeEntry);
                     if (!timeLog.billable)
                         $(".innerCircle").removeClass("billFill");
-                    $("#noteTime").val(timeLog.note. replace(/<br\s*[\/]?>/gi, "\n"));
+                    $("#noteTime").val(timeLog.note.replace(/&lt;br&gt;/gi, "\n").replace(/<br\s*[\/]?>/gi, "\n"));
                     $("#addTimeTicket").val(timeLog.hours || 0);
                     $(".title").html("Time #"+ timeLog.time_id + " by " + timeLog.user_name + " @ " + new Date(timeLog.date).dateFormat("Y/\m/\d H:i"));
                     if (timeLog.start_time)
