@@ -3867,10 +3867,9 @@ $(document).ready(function(){
         else
             $("#switchOrg").show();
         //return;
-        //update badge every 2 min 
-        alert(isPhonegap);
+        //update badge every 1 min 
         if (isPhonegap)
-            setInterval(function () { alert(1); getQueues.queues(4, ''); }, 2*60*1000);
+            setInterval(function () { getQueues.queues(4, ''); }, 2*60*1000);
         fullapplink();
         switchOrg.init();
         signout.init();
