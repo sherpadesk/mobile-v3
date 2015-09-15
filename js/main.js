@@ -74,15 +74,19 @@ document.addEventListener("deviceready", onDeviceReady, false);
 document.addEventListener("offline", offLine,false);
 document.addEventListener("online", onLine ,false);
 
-function onDeviceReady() {
-    //alert("gap init");
-    isPhonegap = true;
+function updateBadge() {
     if (cordova.plugins.notification.badge){
         if (localStorage.badge > 0){
             cordova.plugins.notification.badge.set(localStorage.badge);
         }
         else
-            cordova.plugins.notification.badge.clear();}
+            cordova.plugins.notification.badge.clear();
+    }
+}
+
+function onDeviceReady() {
+    //alert("gap init");
+    isPhonegap = true;
 }
 
 //open link	in blank
@@ -2731,18 +2735,22 @@ $(document).ready(function(){
     // get complete queue list for the orginization for the Queues list page
     var getQueues = {
         init:function(parent, limit) {
-            $(document).on("click","#queue", function(){
+            if (parent) 
+            {$(document).on("click","#queue", function(){
                 localStorage.setItem('currentQueue',$(this).attr("data-id"));
                 localStorage.setItem('currentQueueName',$(this).find(".OptionTitle").text());
                 window.location = "queueTickets.html";
             });
+            }
             cacheName = "storageQueues";
             getQueues.queues(limit, parent);
         },
 
         queues:function(limit, parent) {
-            var retrievedObject = localStorage.getItem("storageQueues");
             var time = cacheTime;
+            if (parent) 
+            {
+            var retrievedObject = localStorage.getItem("storageQueues");
             if (retrievedObject)
                 retrievedObject = JSON.parse(retrievedObject);
             if (!retrievedObject || retrievedObject.length == 0)
@@ -2755,12 +2763,30 @@ $(document).ready(function(){
                 getQueues.createQueuesList(parent, retrievedObject, limit);
                 if (!limit) createSpan(parent);
             }
+            }
+            else
+                time = 10;
+            
             setTimeout(function(){
                 getApi("queues", {"sort_by" : "tickets_count"}).then(function(returnData) {
-                    getQueues.createQueuesList(parent, returnData, limit);
+                    if (isPhonegap)
+                    {
+                        var badge = 0;
+                        for (var i = 0; i<length; i += 1) {
+                            if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
+                                badge = returnData[i].tickets_count;
+                        }
+                        localStorage.badge = badge;
+                        updateBadge();
+                    }
+                    if (parent) 
+                    {
+                        getQueues.createQueuesList(parent, returnData, limit);
                     localStorage.setItem("storageQueues",JSON.stringify(returnData));
                     reveal();
                     if (!limit) {createSpan(parent);filterList("OptionsList");}
+                    }
+
                 },
                                                                      function(e) {
                     showError(e);
@@ -2771,13 +2797,11 @@ $(document).ready(function(){
 
         createQueuesList : function (parent, returnData, limit){
             // add queues to the queues list
-            var badge=0, activeQueues=0;
+            var activeQueues=0;
             var textToInsert =  [],
                 length = returnData.length,
                 $table = $(parent);
             for (var i = 0; i<length; i += 1) {
-                if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
-                    badge = returnData[i].tickets_count;
                 returnData[i].index = returnData[i].id +',' + i;
                 if (limit && returnData[i].tickets_count < 1)
                     continue;
@@ -2791,7 +2815,6 @@ $(document).ready(function(){
                 activeQueues += 1;
             }
             $table.html(textToInsert.join(''));
-            localStorage.badge = badge;
         }
     };
 
@@ -4203,6 +4226,10 @@ $(document).ready(function(){
         //$(".navProfile").show();
         //init config
         //refresh version
+        
+        //update badge every 2 min 
+        if (isPhonegap)
+            setInterval(function () { getQueues.queues(4, ''); }, 2*60*1000);
         
         if (!localStorage.lastclick)
         {
