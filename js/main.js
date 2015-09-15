@@ -705,7 +705,7 @@ $(document).ready(function(){
             $(document).on("change", "#name", function (e) {
                 var t=$("#name").val();
                 if (t)
-                    $("#url").val(t.replace(/[^a-zA-Z 0-9]+|[\s]+/g, '').toLowerCase());
+                    $("#url").val(t.toLowerCase().replace(/[^a-zA-Z0-9-]/g, ''));
             });
             $("#is_force_registration").prop("checked", false);
             reveal();   
@@ -713,18 +713,22 @@ $(document).ready(function(){
         add: function () {
             var name = $("#name").val();
             var email = $("#email").val();
-            var url = $("#url").val();
+            var url = $("#url").val().toLowerCase().replace(/[^a-zA-Z0-9-]/g, '');
             var firstname = $("#firstname").val();
             var lastname = $("#lastname").val();
             var password = $("#password").val();
             var password_confirm = $("#password_confirm").val();
             var how = $("#how").val();
-            if (name === '' || email === '' || url === '' || firstname === '' || lastname === '' || password === '' || password_confirm  === '') {
+            /*if (name === '' || email === '' || url === '' || firstname === '' || lastname === '' || password === '' || password_confirm  === '') {
                 userMessage.showMessage(false, "Please enter all fields!");
                 return;
-            }
+            }*/
             if (password != password_confirm) {
                 userMessage.showMessage(false, "Passwords do not match!");
+                return;
+            }
+            if (password.length < 5) {
+                userMessage.showMessage(false, "Password too weak! Must be more that 5 letters");
                 return;
             }
             $.ajax({
@@ -740,7 +744,7 @@ $(document).ready(function(){
                        "password":password,
                        "password_confirm": password_confirm,
                        "how_did_you_hear_about_us": how,
-                       "note": isPhonegap ? "registered by iPhone" : "registered from mobile site"
+                       "note": isPhonegap ? "registered by iPhone app" : "registered from m.sherpadesk.com"
                       },
                 success: function (returnData) {
                     if (!returnData.api_token)
@@ -760,7 +764,7 @@ $(document).ready(function(){
 
                     //sets user role to user in local storage
                     localStorage.setItem('userRole', "user");
-                    getInstanceConfig(returnData.organization, returnData.instance);
+                    userMessage.showMessage(true, "Thanks for registration! You are redirected to new org now ...",                      function(){getInstanceConfig(returnData.organization, returnData.instance);});
                 },
                 error: function ( event ) {
                     //"User already have one registered organization. Please set is_force_registration=true to continue."
@@ -773,7 +777,8 @@ $(document).ready(function(){
                         $("#signupButton").text("Create New Organization");
                         return;
                     }
-                    userMessage.showMessage(false, event.statusText);
+                    //var note = ((results.data || {}).ResponseStatus || {}).Message || results.data || 'Sorry, there was a problem processing your registration.  Please try again.';
+                    userMessage.showMessage(false, event.responseText);
                 }
             });
         }
