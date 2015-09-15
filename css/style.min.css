@@ -34,7 +34,7 @@ line-height: 50px !important;
 #goBack
 {
     color: white;
-    font-size: 30px;
+    font-size: 40px;
     /*padding-top: 7px;*/
     padding-left: 10px;
     position: relative;
@@ -50,7 +50,7 @@ a {
 
 .fa-bs
 {
-    font-size: 36px;
+    font-size: 38px;
     padding: 2px; 
     color: whitesmoke;
     line-height: 1 !important;
@@ -76,6 +76,37 @@ a {
 .fa-arrow-left:before {
   content: "\f060";
     line-height: 1.8;
+}
+
+.circle {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.circlePlus{
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+}
+
+.loadSpin {
+  -webkit-animation: spin 1s infinite linear;
+  -moz-animation: spin 1s infinite linear;
+  -o-animation: spin 1s infinite linear;
+  animation: spin 1s infinite linear;
+}
+
+.ion-3x {
+  font-size: 3em;
+}
+
+.ionFont{
+   font-size: 26px;
 }
 
 .styledSelectSmall{
@@ -162,7 +193,10 @@ body, html {
     top: 0; left: 0; bottom: 0; right: 0;
 }
 
-strong {
+.icon ion-loading-c:before {
+}
+
+.strong {
     font-size: 20px;
     font-weight: 650;
 }
@@ -589,9 +623,8 @@ header, .bodyContent {
 
 nav i {
     float: right;
-    margin-right: 8px;
-    /* margin-top: 5px; */
-    line-height: 40px !important;
+    margin-right: 7px;
+    line-height: 37px !important;
     display: block !important;
 }
 
@@ -623,6 +656,13 @@ nav i {
     margin-top: -2px;
     margin-right: 8px;
 }
+
+.ionCash{
+    font-size: 139px !important;
+    right: -38px !important;
+    top: 9px !important;
+}
+
 
 nav {
     z-index: 4;
@@ -878,7 +918,7 @@ header {
 }
 
 .topHeader span {
-    font-size: 24px;
+    font-size: 37px;
     color: #ffffff;
 }
 
@@ -968,6 +1008,7 @@ header {
     float: left;
     padding-left: 10px;
     line-height: 2.2;
+    font-size: 24px !important;
 }
 
 /* Dashboard
@@ -2106,6 +2147,11 @@ footer {
     color: #ffffff;
 }
 
+.ionShare{
+/*     line-height: 1;*/
+    float: right;
+}
+
 .TDSListWrapper {
     width: 90%;
     height: 62px;
@@ -2994,7 +3040,7 @@ input[type=number] {
     height: 50px;
     z-index: 7;
     position: fixed;
-    bottom: 7px;
+    bottom: 16px;
     /* left: 83%; */
     right: 20px;
     /* float: right; */
@@ -3056,12 +3102,12 @@ input[type=number] {
 
 .createActions i {
     color: rgba(255, 255, 255, 0.87);
-    font-size: 120px;
+    font-size: 129px;
     text-align: center;
     /* display: block; */
     position: absolute;
-    top: 37px;
-    right: -28px;
+    top: 8px;
+    right: -17px;
 }
 
 .createButton p {
