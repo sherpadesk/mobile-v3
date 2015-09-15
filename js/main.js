@@ -271,6 +271,7 @@ function symbolEscape(str) {
        // .replace(/&quot;/g, '"')
        // .replace(/&apos;/g, "'")
        // .replace(/&/g, '&amp;')
+        .replace(/&lt;br&gt;/gi, "\n")
         .replace(/<br\s*[\/]?>/gi, "\n")
         .replace(/\n/g, "<p></p>");
     
