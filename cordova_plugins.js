@@ -50,6 +50,21 @@ module.exports = [
         "clobbers": [
             "plugins.appPreferences"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-device/www/device.js",
+        "id": "cordova-plugin-device.device",
+        "clobbers": [
+            "device"
+        ]
+    },
+    {
+        "file": "plugins/de.appplant.cordova.plugin.background-mode/www/background-mode.js",
+        "id": "de.appplant.cordova.plugin.background-mode.BackgroundMode",
+        "clobbers": [
+            "cordova.plugins.backgroundMode",
+            "plugin.backgroundMode"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -62,6 +77,8 @@ module.exports.metadata =
     "org.apache.cordova.inappbrowser": "0.6.0",
     "com.triarc.cookies": "0.0.1",
     "cordova-plugin-app-preferences": "0.7.1",
+    "cordova-plugin-device": "1.0.1",
+    "de.appplant.cordova.plugin.background-mode": "0.6.4",
     "de.appplant.cordova.common.registerusernotificationsettings": "1.0.1"
 }
 // BOTTOM OF METADATA
