@@ -164,7 +164,7 @@ var fastClicker = {
 				$(insert).appendTo("#recipHeader");
 				$(".headerSearchContainer").animate({
 					width: "200px"
-				}, 300);
+				}, 10);
 			});
             /*$("ul.recipientDetail").click(function() {
 
@@ -180,7 +180,7 @@ var fastClicker = {
 			$(document).on("click",".searchCloseExpandedR", function(){
 				$(".headerSearchContainer").animate({
 					width: "0px"
-				}, 300);
+				}, 10);
 				var insert = "<li id='addRecipient' class='detail3Short'><img class='plusIcon' src='img/plus_icon.png'></li>";
 				setTimeout(
   				function()
@@ -217,7 +217,7 @@ var fastClicker = {
                 else{
 				$(".headerSearchContainer").animate({
 					width: "45px"
-				}, 300);
+				}, 10);
                 }
             }
 			//});
@@ -242,7 +242,7 @@ var fastClicker = {
 				},200);
 				$('.headerSearchContainer').animate({
 					width:'285px'
-				},300);
+				},10);
                 $("input.search").focus();
 			});
 			$('.searchCloseExpanded').click(function(){
@@ -251,7 +251,7 @@ var fastClicker = {
 				},200);
 				$('.headerSearchContainer').animate({
 					width:'45px'
-				},300);
+				},10);
 			});
 		}
 	};
