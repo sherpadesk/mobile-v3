@@ -210,7 +210,6 @@ var fastClicker = {
                 if (localStorage.getItem("searchItem")){
                     $('.SherpaDesk').css('opacity','0.2');
                     $('.headerSearchContainer').css({
-                        backgroundColor:'#0099CC',
                         width:'285px'
                     });
                     $("input.search").focus();
@@ -242,7 +241,6 @@ var fastClicker = {
 					'opacity':'0.2'
 				},200);
 				$('.headerSearchContainer').animate({
-					'backgroundColor':'#0099CC',
 					width:'285px'
 				},300);
                 $("input.search").focus();
@@ -252,7 +250,6 @@ var fastClicker = {
 					'opacity':'1'
 				},200);
 				$('.headerSearchContainer').animate({
-					'backgroundColor':'#25B0E6',
 					width:'45px'
 				},300);
 			});
