@@ -36,7 +36,6 @@ line-height: 50px !important;
     color: white;
     font-size: 40px;
     /*padding-top: 7px;*/
-    padding-left: 10px;
     position: relative;
     -webkit-transform: translateY(-6%);
     -ms-transform: translateY(-6%);
@@ -95,10 +94,31 @@ a {
 }
 
 .loadSpin {
-  -webkit-animation: spin 1s infinite linear;
-  -moz-animation: spin 1s infinite linear;
-  -o-animation: spin 1s infinite linear;
-  animation: spin 1s infinite linear;
+      -webkit-animation: preloader 1.5s infinite linear;
+    -moz-animation: preloader 1.5s infinite linear;
+    -ms-animation: preloader 1.5s infinite linear;
+    -o-animation: preloader 1.5s infinite linear;
+    animation: preloader 1.5s infinite linear;
+}
+
+@-webkit-keyframes preloader {
+    to { -webkit-transform: rotate(360deg); }
+}
+
+@-moz-keyframes preloader {
+    to { -moz-transform: rotate(360deg); }
+}
+
+@-ms-keyframes preloader {
+    to { -ms-transform: rotate(360deg); }
+}
+
+@-o-keyframes preloader {
+    to { -o-transform: rotate(360deg); }
+}
+
+@keyframes preloader {
+    to { transform: rotate(360deg); }
 }
 
 .ion-3x {
@@ -256,9 +276,10 @@ body, html {
 }
 
 .feedClock {
-    height: 12px;
+/*    height: 12px;
     display: inline;
-    margin-right: 7px;
+    margin-right: 7px;*/
+        color: white;
 }
 
 .feedName {
@@ -276,6 +297,7 @@ body, html {
     color: #ffffff;
     display: inline;
     font-size: 12px;
+    margin-left: 7px;
 }
 
 .plusIconHeader {
@@ -426,9 +448,18 @@ body, html {
     height: 45px;
     margin-bottom: 11px;
     overflow: hidden;
-    background: url("../img/select_arrow.png") no-repeat #489CD6;
+    background:#489CD6;
     background-position: top 18px right 18px;
     border-radius: 3px;
+}
+
+.arrowDown{
+   list-style-type: none;
+    float: right;
+    line-height: 1.65;
+    font-size: 30px;
+    color: white;
+    padding-right: 20px;
 }
 
 .styledSelectSearch {
@@ -918,7 +949,7 @@ header {
 }
 
 .topHeader span {
-    font-size: 37px;
+    font-size: 36px;
     color: #ffffff;
 }
 
@@ -1390,7 +1421,7 @@ vertical-align: middle;
     font-weight: 600;
     text-align: left !important;
     width: 35%;
-    padding: 5px
+    padding: 6px
 }
 
 .detail2 {
@@ -1413,8 +1444,7 @@ vertical-align: middle;
 .detail4 {
     font-size: 16px;
     text-align: right;
-    width: 10%;
-    margin-left: 4px;
+    width: 11%;
 }
 
 .detail1Short {
@@ -1423,7 +1453,7 @@ vertical-align: middle;
     font-weight: 600;
     text-align: left !important;
     width: 70%;
-    padding: 5px
+    padding: 6px
 }
 
 .detail2Short {
@@ -1448,6 +1478,17 @@ vertical-align: middle;
 
     /*display: none;*/
 }
+
+
+.circlePencil{
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+}
+
 
 #sendInvoiceButton {
     width: 90%;
@@ -1517,7 +1558,7 @@ vertical-align: middle;
     margin-top: 24px;
     width: 100%;
     max-height: 500px;
-    overflow: overlay;
+/*    overflow: overlay;*/
 }
 
 .invoiceInfo li {
@@ -1585,6 +1626,26 @@ vertical-align: middle;
     height: 17px;
 }
 
+.editPencil{
+    float: right !important;;
+    margin-top: 2px;
+    padding-right: 3px;
+}
+
+.ionPencil{
+    font-size: 23px;
+    color: rgb(37, 176, 230);
+}
+
+.ionP{
+    font-size: 36px;
+}
+
+.circleIn {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
 
 /* ToDos
 ========================================================================== */
@@ -2145,6 +2206,16 @@ footer {
 .ticketDetailsInfoText {
     font-size: 13px;
     color: #ffffff;
+}
+
+.shareTicket {
+    color: white;
+    line-height: 1;
+}
+
+.alignOpen {
+/*    height: 0px !important; */
+    width: 119px !important;
 }
 
 .ionShare{
