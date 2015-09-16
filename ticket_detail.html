@@ -41,13 +41,15 @@
     <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
     <div class="headerContainer maxSize">
         <ul class="topHeader">
-            <li id=goBack><i class="ion-android-arrow-back"></i></li>
-            <span class="headerNavIcon ionShare"><i class="ion-share"></i></span></li>
-            <li>
-                <h1 id="ticketNumber" class="SherpaDesk"> Open | 1383 </h1>
+            <li id=goBack style="
+    width: 32%;"><i class="ion-android-arrow-back"></i>
+            <span class="headerNavIcon ionShare"></span>
             </li>
-            <li></li>
-        </ul>
+            <li style="width:138px !important;" class="alignOpen">
+      <h1 id="ticketNumber" class="SherpaDesk"> Open | 1383 </h1>
+              </li>
+            <i class="shareTicket ion-share ion-3x"></i>
+          </ul>
     </div>
 </header>
 <body class="bodyContent">
@@ -109,35 +111,45 @@
             <div class="tabpageContainer shrinker white">
                    <div class="add_class">
         <div class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="classOptions">
               <!--<option value="+classId+">"+className+"</option>-->
            </select>
         </div>
-            <div class="sub_class1 d0"><div class="styledSelect"><select id="sub_class1"></select></div></div>
-        <div class="sub_class2 d0"><div class="styledSelect"><select id="sub_class2"></select></div></div>
+            <div class="sub_class1 d0"><div class="styledSelect">
+                <li class="arrowDown ion-ios-arrow-down"></li>
+                <select id="sub_class1"></select></div></div>
+        <div class="sub_class2 d0"><div class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
+            <select id="sub_class2"></select></div></div>
         </div>
         <div class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="ticketLevel">
               <!--<option value="+returnData.level+">Level "+returnData.level+" "+returnData.level_name+"</option>-->
            </select>
         </div>
         <div class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="ticketPriority">
               <!--<option value="+returnData.priority_id+">Priority "+returnData.priority+"</option>-->
             </select>
         </div>
         <div class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="ticketTechs">
               <!--<option value="+techId+">"+techName+"</option>-->
            </select>
         </div>
                 <input type="hidden" id=inputAccountId />
         <div id="location" class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="ticketLocation">
               <!--<option value="+returnData.location_id+">"+returnData.location_name+"</option>-->
            </select>
         </div>
         <div id="project" class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="ticketProject">
               <!--<option value="+returnData.project_id+">"+returnData.project_name+"</option>-->
            </select>
@@ -153,6 +165,7 @@
                 <a href="invoice.html" class="send time">Create Invoice</a>
               <button id="transfer" class="blueButton">Transfer Ticket</button>
               <div id="transferSelect" class="styledSelect">
+                  <li class="arrowDown ion-ios-arrow-down"></li>
                  <select id="transferTechs">
                   <!-- <option value="+value+">"+task+"</option> -->
                 </select>
