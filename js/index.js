@@ -145,14 +145,12 @@ var fastClicker = {
 		slideOut: function() {
             $(document).on("click",".plusIcon",function(){
                 var email = $(this).attr("id");
-				$(this).attr("src", 'img/error.png');
-                $(this).removeClass().addClass("closeIcon");
+				$(this).removeClass().addClass("closeIcon ion-close-circled circleInvoice");
                 $(this).parents(".recipientParent").appendTo("#recipientList");
 			});
 			$(document).on("click",".closeIcon",function(){
                 var email = $(this).attr("id");
-				$(this).attr("src", 'img/check.png');
-                $(this).removeClass().addClass("plusIcon");
+				$(this).removeClass().addClass("plusIcon ion-checkmark-circled circleInvoice");
                 $(this).parents(".recipientParent").prependTo('#recipientList');
 			});
 			$(document).on("click","#addRecipient", function(){
@@ -164,7 +162,7 @@ var fastClicker = {
 				$(insert).appendTo("#recipHeader");
 				$(".headerSearchContainer").animate({
 					width: "200px"
-				}, 300);
+				}, 10);
 			});
             /*$("ul.recipientDetail").click(function() {
 
@@ -180,8 +178,8 @@ var fastClicker = {
 			$(document).on("click",".searchCloseExpandedR", function(){
 				$(".headerSearchContainer").animate({
 					width: "0px"
-				}, 300);
-				var insert = "<li id='addRecipient' class='detail3Short'><img class='plusIcon' src='img/plus_icon.png'></li>";
+				}, 10);
+				var insert = "<li id='addRecipient' class='detail3Short'><i class='plusIcon ion-checkmark-circled circleInvoice></i>";
 				setTimeout(
   				function()
   				{
@@ -210,7 +208,6 @@ var fastClicker = {
                 if (localStorage.getItem("searchItem")){
                     $('.SherpaDesk').css('opacity','0.2');
                     $('.headerSearchContainer').css({
-                        backgroundColor:'#0099CC',
                         width:'285px'
                     });
                     $("input.search").focus();
@@ -218,7 +215,7 @@ var fastClicker = {
                 else{
 				$(".headerSearchContainer").animate({
 					width: "45px"
-				}, 300);
+				}, 10);
                 }
             }
 			//});
@@ -242,9 +239,8 @@ var fastClicker = {
 					'opacity':'0.2'
 				},200);
 				$('.headerSearchContainer').animate({
-					'backgroundColor':'#0099CC',
 					width:'285px'
-				},300);
+				},10);
                 $("input.search").focus();
 			});
 			$('.searchCloseExpanded').click(function(){
@@ -252,9 +248,8 @@ var fastClicker = {
 					'opacity':'1'
 				},200);
 				$('.headerSearchContainer').animate({
-					'backgroundColor':'#25B0E6',
 					width:'45px'
-				},300);
+				},10);
 			});
 		}
 	};
@@ -398,7 +393,7 @@ var fastClicker = {
 	};
 
     
-    var NAV_MENU="<div class='activeNav'><div class='fold'><i class='fa a-angle-double-left fa-2x'></i></div><img class='navProfile' src='img/profile_3.png'><h2 class='navName'>NO USER DATA</h2><ul class='sideNavLinks'><a href='dashboard.html'><li id='itemDash'><a href='dashboard.html'><div class='iconCircle'><i class='ion-ios-speedometer ionFont'></i></div><h3>Dashboard</h3></a></li></a> <a class='user' href='ticket_list.html'><li id='itemTickets'><div class='iconCircle'><i class='ion-compose ionFont'></i></div><h3>Tickets</h3><div class='menuTicketsStat'><p class='menuTicketStatNumber'>0</p></div></li></a> <a class='time' href='timelog.html'><li id='itemTimelog'><div class='iconCircle'><i class='ion-android-time ionFont'></i></div><h3>Timelogs</h3></li></a> <a href='Account_List.html'><li id='itemAccount'><div class='iconCircle'><i class='ion-ios-people ionFont'></i></div><h3>Accounts</h3></li></a><a href='allInvoice_List.html'><li class='time' id='itemInvoice'><div class='iconCircle'><i class='ion-card ionFont'></i></div><h3 id='allInvoice'>Invoices</h3></li></a><a href='Queues.html'><li id='itemQueues'><div class='iconCircle'><i class='ion-ios-list-outline ionFont'></i></div><h3>Queues</h3></li></a><li class='user' id='switchOrg'><div class='iconCircle'><i class='fa fa-list'></i></div><h3>Switch Org</h3></li><li class='user' id='signOut'><div class='iconCircle'><i class='ion-log-in ionFont'></i></div><h3>Signout</h3></li><a class='fullapplink user' href='#'><li><div class='iconCircle'><i class='ion-share ionFont'></i></div><h3>Full App</h3></li></a></ul></div>";
+    var NAV_MENU="<div class='activeNav'><div class='fold'><i class='fa a-angle-double-left fa-2x'></i></div><img class='navProfile' src='img/profile_3.png'><h2 class='navName'>NO USER DATA</h2><ul class='sideNavLinks'><a href='dashboard.html'><li id='itemDash'><a href='dashboard.html'><div class='iconCircle'><i class='ion-ios-speedometer ionFont'></i></div><h3>Dashboard</h3></a></li></a> <a class='user' href='ticket_list.html'><li id='itemTickets'><div class='iconCircle'><i class='ion-compose ionFont'></i></div><h3>Tickets</h3><div class='menuTicketsStat'><p class='menuTicketStatNumber'>0</p></div></li></a> <a class='time' href='timelog.html'><li id='itemTimelog'><div class='iconCircle'><i class='ion-android-time ionFont'></i></div><h3>Timelogs</h3></li></a> <a href='Account_List.html'><li id='itemAccount'><div class='iconCircle'><i class='ion-ios-people ionFont'></i></div><h3>Accounts</h3></li></a><a href='allInvoice_List.html'><li class='time' id='itemInvoice'><div class='iconCircle'><i class='ion-card ionFont'></i></div><h3 id='allInvoice'>Invoices</h3></li></a><a href='Queues.html'><li id='itemQueues'><div class='iconCircle'><i class='ion-ios-list-outline ionFont'></i></div><h3>Queues</h3></li></a><li class='user' id='switchOrg'><div class='iconCircle'><i class='ion-arrow-swap ionFont'></i></div><h3>Switch Org</h3></li><li class='user' id='signOut'><div class='iconCircle'><i class='ion-log-in ionFont'></i></div><h3>Signout</h3></li><a class='fullapplink user' href='#'><li><div class='iconCircle'><i class='ion-share ionFont'></i></div><h3>Full App</h3></li></a></ul></div>";
     
     var CREATE_MENU="<div class='createActions'><ul class='createActionsList Absolute-Center'><li onclick='window.location.replace(\"add_tickets.html\");'><i class='ion-compose ionFont'></i><p>Add Ticket</p></li><li class='time' onclick='window.location.replace(\"add_time.html\");'><i class='ion-android-time ionFont'></i><p>Add Time</p></li><li id='itemUnInvoice'  onclick='window.location.replace(\"unInvoice_List.html\");'><i class='ion-card ionFont'></i><p>Add Invoice</p></li><li class='expense' onclick='window.location.replace(\"addExpence.html\");'><i class='ion-cash ionCash'></i><p>Add Expense</p></li></ul></div>";
 

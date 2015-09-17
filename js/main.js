@@ -7,6 +7,18 @@ function updatedFunction ()
     location.reload(true);
 }
 
+function getDateTime(date)
+{
+  return new Date(date).dateFormat(getDateTimeFormat());   
+}
+
+function getDateTimeFormat()
+{ 
+    return (localStorage.dateformat !== "1" ? "m/d/Y" : "d/m/Y") + (localStorage.timeformat !== "1" ? " h:i A" : " H:i");
+}
+
+
+
 var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
     parseInt(navigator.appVersion.match(/OS (\d)/)[1], 10) >= 7;
 
@@ -392,7 +404,7 @@ var FileUrlHelper = {
         if (checkURL(file))
             img = "<img class=\"attachment\" src=\"" + file + "\">";
         else
-            img = "<img style='float:none;' src='img/file.png'>&nbsp;" + decodeURIComponent(file.split("/").slice(-1)) + "<p></p>";
+            img = "<i class='ion-android-document ion-3x ionColor'></i> &nbsp;" + decodeURIComponent(file.split("/").slice(-1)) + "<p></p>";
 
         
         
@@ -1780,6 +1792,7 @@ $(document).ready(function(){
         },
         addpicker: function(){
             jQuery('#date_start').datetimepicker({
+                format: getDateTimeFormat(),
                 mask: false,
                 step:5,
                 onShow:function( ct ){
@@ -1795,6 +1808,7 @@ $(document).ready(function(){
                 }
             });
             jQuery('#date_end').datetimepicker({
+                format: getDateTimeFormat(),
                 mask: false,
                 step:5,
                 onShow:function( ct ){
@@ -1916,7 +1930,7 @@ $(document).ready(function(){
         },
         inputTime:function(isEdit){
             var isBillable = true;
-            var date = new Date().toJSON().slice(0,10);
+            //var date = new Date().toJSON().slice(0,10);
 
             // on submit click get the time and note typed by the user
             $("#submitTicketTime").click(function(){
@@ -2000,11 +2014,11 @@ $(document).ready(function(){
                         $(".innerCircle").removeClass("billFill");
                     $("#noteTime").val(timeLog.note.replace(/&lt;br&gt;/gi, "\n").replace(/<br\s*[\/]?>/gi, "\n"));
                     $("#addTimeTicket").val(timeLog.hours || 0);
-                    $(".title").html("Time #"+ timeLog.time_id + " by " + timeLog.user_name + " @ " + new Date(timeLog.date).dateFormat("Y/\m/\d H:i"));
+                    $(".title").html("Time #"+ timeLog.time_id + " by " + timeLog.user_name + " @ " + getDateTime(timeLog.date));
                     if (timeLog.start_time)
-                        $("#date_start").val(new Date(timeLog.start_time).dateFormat("Y/\m/\d H:i"));
+                        $("#date_start").val(getDateTime(timeLog.start_time));
                     if (timeLog.stop_time)
-                        $("#date_end").val(new Date(timeLog.stop_time).dateFormat("Y/\m/\d H:i"));
+                        $("#date_end").val(getDateTime(timeLog.stop_time));
                 }
                 else 
                     $("#timeTicket").parent().show1();
@@ -2254,7 +2268,8 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        $("#ticketSLA").html("SLA: "+returnData.sla_complete_date.toString().substring(0,10));
+                        console.log(returnData.sla_complete_date);
+                        $("#ticketSLA").html("SLA: "+getDateTime(returnData.sla_complete_date));
                     }
                     var ticketTech = returnData.tech_email;
                     //console.log(ticketTech);
@@ -2481,7 +2496,7 @@ $(document).ready(function(){
                     for(var x = 0; x < recl; x++)
                     {
                         var email = $.md5(rec[x].email);
-                        insert += "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p class=dots>"+rec[x].email /*createElipse(rec[x].email, 0.9, 12)*/+"</p>" + (rec[x].is_accounting_contact ? "<img class='plusIcon' id=\""+ rec[x].email +"\"  src='img/check.png'> " : "<img class=closeIcon id=\""+ rec[x].email +"\" src='img/error.png'>") + "</div></li></ul></li>";
+                        insert += "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p class=dots>"+rec[x].email /*createElipse(rec[x].email, 0.9, 12)*/+"</p>" + (rec[x].is_accounting_contact ? "<i class='plusIcon ion-checkmark-circled circleInvoice' id=\""+ rec[x].email +"\"></i>" : "<i class='closeIcon ion-close-circled circleInvoice' id=\""+ rec[x].email +"\"></i>") + "</div></li></ul></li>";
                     }
                     $("#recipientList").html(insert);
                 }
@@ -3247,7 +3262,7 @@ $(document).ready(function(){
                         }
                         //nameCheck = createElipse(nameCheck, 0.50, 12);
                         
-                        var log = "<li class=item><ul class='timelog' data-id="+id+" data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName dots user_name'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span><p> "+date+"</p></h3></li></ul></li>";
+                        var log = "<li class=item><ul class='timelog' data-id="+id+" data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName dots user_name'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li class='feedClock ion-ios-clock-outline'</li><h3 class='feedTime'><span>"+hours+"</span><p> "+date+"</p></h3></li></ul></li>";
                         $(log).appendTo("#timelogs");
                         if (i==9)
                             reveal();
@@ -3481,7 +3496,7 @@ $(document).ready(function(){
                         //text = createElipse(text, 0.50, 8);
                         var nameCheck = returnData[i].user_name;
                         //nameCheck = createElipse(nameCheck, 0.50, 12);
-                        var log = "<li><ul class='timelog' data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName dots'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li><li><img class='feedClock'src='img/clock_icon_small.png'><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
+                        var log = "<li><ul class='timelog' data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName dots'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li> <li class='feedClock ion-ios-clock-outline'</li><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                         $(log).appendTo("#accountLogs");
                     }
 
@@ -3594,6 +3609,8 @@ $(document).ready(function(){
             localStorage.setItem('is_expenses', returnData.is_expenses);
             localStorage.setItem('is_travel_costs', returnData.is_travel_costs);
             localStorage.setItem('currency', returnData.currency);
+            localStorage.setItem('dateformat', returnData.user.date_format);
+            localStorage.setItem('timeformat', returnData.user.time_format);
             localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
             localStorage.setItem('userId', returnData.user.user_id);
             localStorage.setItem('account_id', returnData.user.account_id);
