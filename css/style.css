@@ -1475,11 +1475,18 @@ vertical-align: middle;
 }
 
 .plusIcon {
-    height: 32px;
-
-    /*display: none;*/
+    font-size: 32px;
+    padding: 2px;
+    color: #4BB24D;
+    float: right;
 }
 
+.closeIcon {
+    font-size: 32px;
+    padding: 2px;
+    color:#D84242;
+    float: right;
+}
 
 .circlePencil{
   position: relative;
@@ -1646,6 +1653,11 @@ vertical-align: middle;
   position: absolute;
   left: 0;
   width: 100%;
+}
+
+.circleInvoice{
+   padding: 0px;
+   margin-top: -2px;
 }
 
 /* ToDos
@@ -2211,7 +2223,11 @@ footer {
 
 .shareTicket {
     color: white;
-    line-height: 1;
+}
+
+.shareFont {
+    font-size: 30px;
+    line-height: 1.45;
 }
 
 .alignOpen {
@@ -2220,8 +2236,11 @@ footer {
 }
 
 .ionShare{
-/*     line-height: 1;*/
     float: right;
+}
+
+.ionColor{
+   color: #33B7EA;
 }
 
 .TDSListWrapper {

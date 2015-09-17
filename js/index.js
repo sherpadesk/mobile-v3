@@ -145,14 +145,12 @@ var fastClicker = {
 		slideOut: function() {
             $(document).on("click",".plusIcon",function(){
                 var email = $(this).attr("id");
-				$(this).attr("src", 'img/error.png');
-                $(this).removeClass().addClass("closeIcon");
+				$(this).removeClass().addClass("closeIcon ion-close-circled circleInvoice");
                 $(this).parents(".recipientParent").appendTo("#recipientList");
 			});
 			$(document).on("click",".closeIcon",function(){
                 var email = $(this).attr("id");
-				$(this).attr("src", 'img/check.png');
-                $(this).removeClass().addClass("plusIcon");
+				$(this).removeClass().addClass("plusIcon ion-checkmark-circled circleInvoice");
                 $(this).parents(".recipientParent").prependTo('#recipientList');
 			});
 			$(document).on("click","#addRecipient", function(){
@@ -181,7 +179,7 @@ var fastClicker = {
 				$(".headerSearchContainer").animate({
 					width: "0px"
 				}, 10);
-				var insert = "<li id='addRecipient' class='detail3Short'><img class='plusIcon' src='img/plus_icon.png'></li>";
+				var insert = "<li id='addRecipient' class='detail3Short'><i class='plusIcon ion-checkmark-circled circleInvoice></i>";
 				setTimeout(
   				function()
   				{

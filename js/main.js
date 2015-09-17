@@ -404,7 +404,7 @@ var FileUrlHelper = {
         if (checkURL(file))
             img = "<img class=\"attachment\" src=\"" + file + "\">";
         else
-            img = "<li class='ion-ios-cloud-download ion-2x'</li> &nbsp;" + decodeURIComponent(file.split("/").slice(-1)) + "<p></p>";
+            img = "<i class='ion-android-document ion-3x ionColor'></i> &nbsp;" + decodeURIComponent(file.split("/").slice(-1)) + "<p></p>";
 
         
         
@@ -2496,7 +2496,7 @@ $(document).ready(function(){
                     for(var x = 0; x < recl; x++)
                     {
                         var email = $.md5(rec[x].email);
-                        insert += "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p class=dots>"+rec[x].email /*createElipse(rec[x].email, 0.9, 12)*/+"</p>" + (rec[x].is_accounting_contact ? "<img class='plusIcon' id=\""+ rec[x].email +"\" class='ion-ios-checkmark-outline'></li>" : "<li class='closeIcon' id=\""+ rec[x].email +"\" class='ion-ios-close-outline'></li>") + "</div></li></ul></li>";
+                        insert += "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p class=dots>"+rec[x].email /*createElipse(rec[x].email, 0.9, 12)*/+"</p>" + (rec[x].is_accounting_contact ? "<i class='plusIcon ion-checkmark-circled circleInvoice' id=\""+ rec[x].email +"\"></i>" : "<i class='closeIcon ion-close-circled circleInvoice' id=\""+ rec[x].email +"\"></i>") + "</div></li></ul></li>";
                     }
                     $("#recipientList").html(insert);
                 }
