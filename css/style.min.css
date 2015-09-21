@@ -37,9 +37,9 @@ line-height: 50px !important;
     font-size: 40px;
     /*padding-top: 7px;*/
     position: relative;
-    -webkit-transform: translateY(-6%);
-    -ms-transform: translateY(-6%);
-    transform: translateY(-6%);
+    -webkit-transform: translateY(-3%);
+    -ms-transform: translateY(-3%);
+    transform: translateY(-3%);
 }
 
 a {
@@ -437,7 +437,7 @@ body, html {
     -webkit-appearance: none;
     text-overflow: clip;
     white-space: nowrap;
-    width: 92%;
+    width: 85%;
     -moz-appearance:none;
 }
 
@@ -965,14 +965,14 @@ header {
 }
 
 .topHeader li:last-child {
-    width: 20%;
+    width: 19%;
 }
 
 .SherpaDesk {
     color: #ffffff;
     font-size: 18px;
     font-weight: 600;
-    line-height: 2.6;
+    line-height: 2.8;
     text-align: center;
     vertical-align: middle;
 }
@@ -1005,7 +1005,7 @@ header {
     float: right;
     /*background: #0099CC;*/
     background-color: #25B0E6;
-    width: 0px;
+    width: 37px !important;
 }
 
 .addRecipColor {
