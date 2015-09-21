@@ -16,7 +16,7 @@ function googleTag() {}
 function googleConversion() {}
 
 //Root Names
-var Site = 'sherpadesk.com/';
-var MobileSite = 'http://m0.' + Site;
-var AppSite = 'https://app.beta.' + Site;
-var ApiSite = 'http://api.beta.' + Site;
+var Site = 'bigwebapps.com/';
+var MobileSite = 'http://m.' + Site;
+var AppSite = 'https://app.' + Site;
+var ApiSite = 'http://api.' + Site;

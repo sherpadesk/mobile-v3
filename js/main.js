@@ -1,6 +1,8 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
+var isSD = false;
+
 var adMessage = "Add ticket time";
 function updatedFunction ()
 {
@@ -36,7 +38,6 @@ var isTech = false,
     isInvoice = true,
     is_MultipleOrgInst = true,
     isLimitAssignedTkts = true;
-    isSD = false;
 
 var formatDate=function(a){if (!a || a.length < 12) return a;  var y=a.substring(0,4),e=a.substring(5,7),r=a.substring(8,10);switch(e){case"01":e="Jan";break;case"02":e="Feb";break;case"03":e="Mar";break;case"04":e="Apr";break;case"05":e="May";break;case"06":e="Jun";break;case"07":e="Jul";break;case"08":e="Aug";break;case"09":e="Sep";break;case"10":e="Oct";break;case"11":e="Nov";break;case"12":e="Dec";break;default:e="nul";}return e+"&nbsp;"+r + (year != y ? ("&nbsp;/&nbsp;" + y) : "");};
 
@@ -205,7 +206,8 @@ function redirectToPage() {
 
 //pull to refresh
 window.onload = function() { 
-   $('.sdonly').remove();
+   if (!isSD)
+       $('.sdonly').remove();
     if (typeof WebPullToRefresh === 'object') WebPullToRefresh.init( { loadingFunction: function(){ 
     if (cacheName === "dash")
     {
