@@ -503,7 +503,7 @@ $(document).ready(function(){
         userKey = localStorage.getItem("userKey");
         userOrgKey = localStorage.getItem('userOrgKey');
         userInstanceKey = localStorage.getItem('userInstanceKey');
-        if (!userKey || !userOrgKey || !userInstanceKey) {
+        if (!userKey || !userOrgKey || !userInstanceKey || userKey.length != 32) {
             console.log("Invalid organization!");
             return;
         }
@@ -3598,8 +3598,10 @@ $(document).ready(function(){
         
         //get instance config
         getApi("config").then(function (returnData) {  
-            if (is_redirect && isPhonegap)
+            if (is_redirect && isPhonegap){
+                if (localStorage.getItem("userKey").length === 32)
                 initOrgPreferences(localStorage.getItem('userOrgKey') + "-" + localStorage.getItem('userInstanceKey') + ":" + localStorage.getItem("userKey"));
+            }
             
             localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
             isTech = returnData.user.is_techoradmin;
@@ -4170,7 +4172,7 @@ $(document).ready(function(){
 
         if (!userOrgKey || !userInstanceKey)
         {
-            if (userKey) 
+            if (userKey && userKey.length == 32) 
             {
                 if (Page != "org.html") {
                     window.location = "org.html";

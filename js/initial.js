@@ -37,7 +37,7 @@ function done() {
 
     if (!userOrgKey || !userInstanceKey)
     {
-        if (userKey) 
+        if (userKey && userKey.length == 32) 
         {
             window.location = "org.html";
         }
