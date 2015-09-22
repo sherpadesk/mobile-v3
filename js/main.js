@@ -1,7 +1,7 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var isSD = true;
+var isSD = false;
 
 var adMessage = "Add ticket time";
 function updatedFunction ()
@@ -89,7 +89,7 @@ document.addEventListener("offline", offLine,false);
 document.addEventListener("online", onLine ,false);
 
 function updateBadge() {
-    if (cordova.plugins.notification.badge){
+    if (window.cordova && cordova.plugins.notification.badge){
         if (localStorage.badge > 0){
             cordova.plugins.notification.badge.set(localStorage.badge);
         }
@@ -3933,7 +3933,7 @@ $(document).ready(function(){
                     $("#indexTitle").html(orgName);
                 TicketsCounts.init();
                 if (updateStatusBar)
-                    $("#techStat").css("padding-top", "20px");
+                    $("#techStat").css("padding-top", "38px");
                 getQueues.init("#DashBoradQueues", 3);
                 if(isAccount)
                     accountList.init("#activeList", 1);
