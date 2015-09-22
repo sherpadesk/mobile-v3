@@ -4235,7 +4235,7 @@ $(document).ready(function(){
             var t=document.getElementsByTagName("header")[0];
             if (t){
                 t.style.paddingTop = "20px";
-                t.style.height = "83px";
+                t.style.height = "63px";
                 $('body').css('margin-top', function (index, curValue) {
                     return parseInt(curValue, 10) + 20 + 'px';
                 });
