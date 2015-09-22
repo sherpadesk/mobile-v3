@@ -4234,14 +4234,14 @@ $(document).ready(function(){
         if (updateStatusBar) {
             var t=document.getElementsByTagName("header")[0];
             if (t){
-                t.style.paddingTop = "16px";
+                t.style.paddingTop = "18px";
                 t.style.height = "63px";
                 $('body').css('margin-top', function (index, curValue) {
-                    return parseInt(curValue, 10) + 16 + 'px';
+                    return parseInt(curValue, 10) + 18 + 'px';
                 });
             }
             t = document.getElementById("ptr");
-            if (t){t.style.marginTop = "16px";}
+            if (t){t.style.marginTop = "18px";}
         }
         //set the name of the nav side menu
         //$(".navName").html(localStorage.getItem("userFullName"));
