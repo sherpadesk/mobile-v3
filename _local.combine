@@ -16,12 +16,6 @@
 "js/commonfunc.js",
 "js/initial.js"
 ]
-},
-{
-"output": "css/style.min.css",
-"files": [
-"css/style.css"
-]
 }
 ]
 }

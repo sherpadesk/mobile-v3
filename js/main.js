@@ -1173,13 +1173,17 @@ $(document).ready(function(){
 
                 //$("#addTicketUser").append("<option value="+userid+" selected>"+userName+"</option>");
 
-                var users = getApi("users?limit=2000");
+                var users = getApi("users?limit=500&account=-1");
                 users.then(function(returnData){
                     //console.log(returnData);
                     // add techs to option select list
                     fillSelect(returnData, "#addTicketUser", "", "",
                                "firstname,lastname,email");
                     $("#addTicketUser").val(userid);
+                    if ($("#addTicketUser").val() != userid.toString())
+                    {
+                        $("#addTicketUser option").eq(0).before($("<option></option>").val(userid).text(userName));
+                    }
                 },
                            function(e) {
                     showError(e);
@@ -2250,7 +2254,7 @@ $(document).ready(function(){
                      var line = AppSite.addUrlParam("tkt",localStorage.getItem("ticketNumber"))
         .addUrlParam("dept",userInstanceKey)
         .addUrlParam("org",userOrgKey);
-                   var number =  "<a href='"+line+"' target='_blank'>"+returnData.number+"</a>";
+                    var number =  "<a class=shareTicket href='"+line+"' target='_blank'>"+returnData.number+" <i class='ion-share shareFont'></i></a>";
                    
                    $("#ticketNumber").html(returnData.status+" | "+number);  
                     $("#ticketSubject").html(returnData.subject);
