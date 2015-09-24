@@ -1,7 +1,7 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-var Page = location.pathname.substr(1);
+var Page = location.href.split('/').pop().split('?').shift();
 
 var isExtension = window.self !== window.top;
 if (isExtension) localStorage.setItem("referrer", Page);
