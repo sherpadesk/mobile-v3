@@ -39,9 +39,9 @@ line-height: 50px !important;
     font-size: 40px;
     /*padding-top: 7px;*/
     position: relative;
-    -webkit-transform: translateY(-6%);
-    -ms-transform: translateY(-6%);
-    transform: translateY(-6%);
+    -webkit-transform: translateY(-4%);
+    -ms-transform: translateY(-4%);
+    transform: translateY(-4%);
 }
 
 a {
@@ -295,6 +295,10 @@ body, html {
     margin-top: 60px;
 }
 
+.queue{
+    padding-left: 20px;
+}
+
 .feedTime {
     color: @dashboard;
     display: inline;
@@ -310,7 +314,7 @@ body, html {
 }
 
 .textInput {
-    background: @table;
+    background: @dashboard;
     box-sizing:border-box;
     -moz-box-sizing:border-box;
     border: none;
@@ -335,7 +339,7 @@ body, html {
 }
 
 .textInput1 {
-    background: @table;
+    background: @dashboard;
     box-sizing:border-box;
     -moz-box-sizing:border-box;
     border: none;
@@ -402,7 +406,7 @@ body, html {
 }
 
 .textInputSmallLight {
-    background: @plus;
+    background: @dashboard;
     box-sizing:border-box;
     -moz-box-sizing:border-box;
     border: none;
@@ -439,7 +443,7 @@ body, html {
     -webkit-appearance: none;
     text-overflow: clip;
     white-space: nowrap;
-    width: 92%;
+    width: 83%;
     -moz-appearance:none;
 }
 
@@ -524,7 +528,7 @@ body, html {
 .loginScreen {
     /*background: url("../img/mountainBG.jpg") center center no-repeat fixed;
     padding-top: 80px;*/
-
+    background: @logo;
     background-repeat: no-repeat;
     background-position:center;
     /*overflow-y: hidden;*/
@@ -938,6 +942,7 @@ header {
     margin-left: 15px;
     height: 16px;
     position: relative;
+    line-height: 1.5;
 /*    top: 7%;
     -webkit-transform: translateY(59%);
     -ms-transform: translateY(59%);
@@ -974,7 +979,7 @@ header {
     color: #ffffff;
     font-size: 18px;
     font-weight: 600;
-    line-height: 2.5;
+    line-height: 2.8;
     text-align: center;
     vertical-align: middle;
 }
@@ -1311,7 +1316,7 @@ vertical-align: middle;
 .buttonListdiv input {
     width: 100%;
     height: 100%;
-    background-color: @table;
+    background-color: @dashboard;
     border: 0;
     color:#fff;
     font-size: 20px;
@@ -1468,7 +1473,7 @@ vertical-align: middle;
 .detail3Short {
     font-size: 16px;
     width: 10%;
-    margin-left: 4px;
+    margin-left: 2px;
 }
 
 .plusIconCheck {
@@ -1644,7 +1649,7 @@ vertical-align: middle;
 
 .ionPencil{
     font-size: 23px;
-    color: rgb(37, 176, 230);
+    color: @wrapper;
 }
 
 .ionP{
@@ -1750,7 +1755,7 @@ text-align: left;
 /* Resipient */
 
 .recipient {
-    background: @wrapper;
+    background: @recipient;
     box-sizing:border-box;
     -moz-box-sizing:border-box;
     -webkit-border-radius: 15px;
@@ -2061,7 +2066,7 @@ footer {
 
 .OptionWrapper1 {
     width: 100%;
-    background-color: #489CD6;
+    background-color: @table;
     height: 100%;
     float: left;
     line-height: 45px;
@@ -2069,7 +2074,7 @@ footer {
 
 .OptionWrapper2 {
     width: 100%;
-    background-color: @wrapper;
+    background-color: @org;
     height: 100%;
     float: left;
     line-height: 45px;
@@ -2480,7 +2485,7 @@ footer {
     z-index: 2;
     width: 100%;
     margin-left: -7px;
-    margin-top: 3px;
+    margin-top: 7px;
     overflow: hidden;
     text-overflow: clip;
 }
@@ -3076,7 +3081,7 @@ br {
     width: 100%;
     font-size: 16px;
     height: 40px;
-    background-color: rgba(0,0,0,0.4);
+    background-color: @dashboard;
     color: #fff;
     padding-left: 10px;
 }
@@ -3223,7 +3228,7 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    color: #fff;
+    color: @frame;
     z-index: 5;
     text-align: center;
     height: 10px;
