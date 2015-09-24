@@ -3,6 +3,10 @@
 
 var isSD = false;
 
+document.title = 'HelpDesk';
+ if (!isSD)
+       $('document.title').remove();
+
 var adMessage = "Add ticket time";
 function updatedFunction ()
 {
