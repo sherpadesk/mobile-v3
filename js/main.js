@@ -1063,7 +1063,7 @@ $(document).ready(function(){
         getLocations: function(account){
             $("#ticket_Location").empty();
                 $("<option value=0 selected>choose a location</option>").appendTo("#ticket_Location");
-             var location = getApi('locations?account='+account);
+             var location = getApi('locations?limit=500&account='+account);
                 location.done(
                     function(locationResults){
                         fillSelect(locationResults, "#ticket_Location", "");
@@ -2306,7 +2306,7 @@ $(document).ready(function(){
                  
                     $("#ticketLocation").empty();
                     if (isLocation){
-                    getApi('locations?account='+returnData.account_id).done(
+                        getApi('locations?limit=500&account='+returnData.account_id).done(
                         function(locationResults){
                             //Init ticket class if not changed
                             selectedEditlocation = returnData.location_id;
