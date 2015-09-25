@@ -6,18 +6,6 @@ if (isExtension) localStorage.setItem("referrer", Page);
 
 var Page = location.href.split('/').pop().split('?').shift();
 
-//Root Names
-var Site = 'bigwebapps.com/';
-var MobileSite = 'http://m.' + Site;
-var AppSite = 'https://app.' + Site;
-var ApiSite = 'http://api.' + Site;
-
-var isSD = false;
-
-document.title = 'HelpDesk';
- if (!isSD)
-       $('document.title').remove();
-
 var adMessage = "Add ticket time";
 function updatedFunction ()
 {
@@ -33,7 +21,6 @@ function getDateTimeFormat()
 { 
     return (localStorage.dateformat !== "1" ? "m/d/Y" : "d/m/Y") + (localStorage.timeformat !== "1" ? " h:i A" : " H:i");
 }
-
 
 
 var updateStatusBar = navigator.userAgent.match(/iphone|ipad|ipod/i) &&
@@ -219,10 +206,12 @@ function redirectToPage() {
     }
 }
 
+if (!isSD){
+    document.title = 'HelpDesk';
+}
+
 //pull to refresh
 window.onload = function() { 
-   if (!isSD)
-       $('.sdonly').remove();
     if (typeof WebPullToRefresh === 'object') WebPullToRefresh.init( { loadingFunction: function(){ 
     if (cacheName === "dash")
     {
@@ -705,6 +694,9 @@ $(document).ready(function(){
             });
         },
         login:function() {
+            if (!isSD){
+                $('.sdonly').remove();
+            }
             //$("body").show1();
             var userName = localStorage.getItem('userName');
             if (userName !== null && userName.length > 0)
