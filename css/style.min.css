@@ -122,7 +122,7 @@ a {
 }
 .fa-fs {
   font-size: 45px;
-  color: #52a552;
+  color: #42bd41;
   line-height: 1 !important;
 }
 .fa-search:before {
@@ -198,7 +198,7 @@ a {
   display: inline-block;
 }
 .textInputSmallLightS {
-  background: rgba(92, 92, 92, 0.65);
+  background: rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   border: none;
@@ -227,7 +227,7 @@ a {
 }
 body {
   /*background: url("../img/bg_dark.png");*/
-  background: #ffffff;
+  background: #34495e;
   /*padding-top: 80px;*/
   /*background-size: cover;*/
   background-repeat: no-repeat;
@@ -294,7 +294,7 @@ html {
   margin-left: 10px;
 }
 .blueButton {
-  background: #ff9900;
+  background: #0099cc;
   border: none;
   color: #ffffff;
   font-size: 14px;
@@ -314,7 +314,7 @@ html {
   /*background-size: cover; */
 }
 .send {
-  background: #52a552;
+  background: #42bd41;
   border: none;
   color: #ffffff;
   display: block;
@@ -330,10 +330,10 @@ html {
   /*    height: 12px;
     display: inline;
     margin-right: 7px;*/
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
 }
 .feedName {
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   font-size: 14px;
   font-weight: 600;
   /*margin-top: 12px;*/
@@ -345,7 +345,7 @@ html {
   padding-left: 20px;
 }
 .feedTime {
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   display: inline;
   font-size: 12px;
   margin-left: 7px;
@@ -357,7 +357,7 @@ html {
   margin-right: 10px;
 }
 .textInput {
-  background: #333333;
+  background: rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   border: none;
@@ -377,7 +377,7 @@ html {
   display: none;
 }
 .textInput1 {
-  background: #333333;
+  background: rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   border: none;
@@ -391,12 +391,12 @@ html {
   resize: none;
 }
 .textInputSmall {
-  background: #ffffff;
+  background: #34495e;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   border: none;
   overflow: hidden;
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   font-size: 16px;
   height: 40px;
   padding: 10px;
@@ -439,7 +439,7 @@ html {
   width: 100%;
 }
 .textInputSmallLight {
-  background: #333333;
+  background: rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   border: none;
@@ -453,7 +453,7 @@ html {
   margin-bottom: 4px;
 }
 .greenButton {
-  background: #52a552;
+  background: #42bd41;
   border: none;
   color: #ffffff;
   font-size: 14px;
@@ -485,7 +485,7 @@ html {
   height: 45px;
   margin-bottom: 11px;
   overflow: hidden;
-  background: #fca83f;
+  background: #489cd6;
   background-position: top 18px right 18px;
   border-radius: 3px;
 }
@@ -552,7 +552,7 @@ html {
 .loginScreen {
   /*background: url("../img/mountainBG.jpg") center center no-repeat fixed;
     padding-top: 80px;*/
-  background: #ff9900;
+  background: #34495e;
   background-repeat: no-repeat;
   background-position: center;
   /*overflow-y: hidden;*/
@@ -577,7 +577,7 @@ html {
   -webkit-overflow-scrolling: touch;
 }
 .loginButton {
-  background: #52a552;
+  background: #42bd41;
   border: none;
   color: #ffffff;
   font-size: 14px;
@@ -759,10 +759,10 @@ nav {
   background-color: blue;
 }
 .activeLink {
-  color: #f7b552 !important;
+  color: rgba(136, 221, 250, 0.43) !important;
 }
 .activeBorder {
-  border: 2px solid #f7b552 !important;
+  border: 2px solid rgba(136, 221, 250, 0.43) !important;
 }
 .iconCircle {
   width: 40px;
@@ -859,7 +859,7 @@ nav h3 {
 /* Header
 ========================================================================== */
 .bottomHeader {
-  background: #ff9900;
+  background: #0099cc;
   height: 40px;
   list-style-type: none;
   width: 100%;
@@ -886,7 +886,7 @@ nav h3 {
   width: 5.5%;
 }
 header {
-  background: #ffac30;
+  background: #25b0e6;
   overflow: hidden;
   height: 53px;
   position: fixed;
@@ -964,7 +964,7 @@ header {
   /*    margin-top: 8px;*/
   float: right;
   /*background: @wrapper;*/
-  background-color: #ffac30;
+  background-color: #25b0e6;
   width: 0px;
 }
 .addRecipColor {
@@ -999,7 +999,7 @@ header {
 /* Dashboard
 ========================================================================== */
 .dashboard {
-  background: #333333;
+  background: rgba(0, 0, 0, 0.4);
   height: 170px;
   position: relative;
   width: 100%;
@@ -1118,7 +1118,7 @@ vertical-align: middle;
   margin-bottom: 4px;
   margin: 0 auto;
   width: 100%;
-  background-color: #ff9900;
+  background-color: #0099cc;
 }
 .tabs ul {
   font-size: 15px;
@@ -1135,7 +1135,7 @@ vertical-align: middle;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  background: #ff9900;
+  background: #0099cc;
   /* old browsers */
 }
 .tabs ul li:nth-child(2) {
@@ -1164,7 +1164,7 @@ vertical-align: middle;
 .AccountDetailsTicketsContainer {
   overflow: auto;
   margin: 0 auto;
-  border-top: 1px solid #5f5f5f;
+  border-top: 1px solid rgba(224, 224, 224, 0.29);
 }
 .noTicketMessage {
   text-align: center;
@@ -1180,11 +1180,11 @@ vertical-align: middle;
   width: 90%;
 }
 .feedTime span {
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   font-size: 16px;
 }
 .taskDescription {
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   font-size: 12px;
   width: 100% !important;
   text-overflow: ellipsis;
@@ -1210,7 +1210,7 @@ vertical-align: middle;
 .buttonList input {
   width: 100%;
   height: 100%;
-  background-color: #333333;
+  background-color: rgba(0, 0, 0, 0.4);
   border: 0;
   color: #fff;
   font-size: 22px;
@@ -1221,7 +1221,7 @@ vertical-align: middle;
 .buttonListdiv input {
   width: 100%;
   height: 100%;
-  background-color: #333333;
+  background-color: rgba(0, 0, 0, 0.4);
   border: 0;
   color: #fff;
   font-size: 20px;
@@ -1229,7 +1229,7 @@ vertical-align: middle;
   text-align: center;
 }
 .button {
-  background-color: #ffac30;
+  background-color: #25b0e6;
   color: #ffffff;
   font-size: 30px;
   width: 85%;
@@ -1240,7 +1240,7 @@ vertical-align: middle;
   margin: 20%;
 }
 .styled-select select {
-  background: #ffac30;
+  background: #25b0e6;
   width: 105%;
   padding: 5px;
   font-size: 16px;
@@ -1359,7 +1359,7 @@ vertical-align: middle;
 .plusIcon {
   font-size: 32px;
   padding: 2px;
-  color: #52a552;
+  color: #42bd41;
   float: right;
 }
 .closeIcon {
@@ -1383,8 +1383,8 @@ vertical-align: middle;
   margin-bottom: 30px;
 }
 .invoiceAccount {
-  border-bottom: 1px solid #5f5f5f;
-  color: #333333;
+  border-bottom: 1px solid rgba(224, 224, 224, 0.29);
+  color: rgba(0, 0, 0, 0.4);
   list-style-type: none;
   margin-top: 35px;
   overflow: hidden;
@@ -1418,7 +1418,7 @@ vertical-align: middle;
   list-style-type: none;
 }
 .invoiceDetail li {
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   float: left;
   text-align: right;
 }
@@ -1463,7 +1463,7 @@ vertical-align: middle;
 }
 .invoiceRows {
   list-style-type: none;
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   width: 100%;
   overflow: auto;
   z-index: 5;
@@ -1475,7 +1475,7 @@ vertical-align: middle;
   height: 40px;
   text-align: center;
   margin-bottom: 10px;
-  border-bottom: 1px solid #5f5f5f;
+  border-bottom: 1px solid rgba(224, 224, 224, 0.29);
 }
 .invoiceRows li:last-child {
   text-align: right;
@@ -1484,7 +1484,7 @@ vertical-align: middle;
   font-size: 13px;
   line-height: 30px;
   padding-left: 14px;
-  color: #5f5f5f;
+  color: rgba(224, 224, 224, 0.29);
 }
 .invoiceRows li:first-child {
   text-align: left;
@@ -1499,7 +1499,7 @@ vertical-align: middle;
 }
 .ionPencil {
   font-size: 23px;
-  color: #ff9900;
+  color: #0099cc;
 }
 .ionP {
   font-size: 36px;
@@ -1553,7 +1553,7 @@ text-align: left;
   width: 25%;
   height: 55px;
   overflow: hidden;
-  background: #5f5f5f;
+  background: rgba(224, 224, 224, 0.29);
   float: left;
 }
 .todosWrapper {
@@ -1587,7 +1587,7 @@ text-align: left;
 }
 /* Resipient */
 .recipient {
-  background: #333333;
+  background: #0099cc;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-border-radius: 15px;
@@ -1698,7 +1698,7 @@ F .recipientDetail li:last-child {
   height: 50px;
   margin: 0 auto;
   border-radius: 100%;
-  border: 2px solid #c5c5c5;
+  border: 2px solid #ffffff;
 }
 /* account
 ========================================================================== */
@@ -1723,7 +1723,7 @@ F .recipientDetail li:last-child {
 }
 .buttonList li:first-child,
 .buttonList li:last-child {
-  background-color: rgba(92, 92, 92, 0.65);
+  background-color: rgba(0, 0, 0, 0.4);
   margin: 0;
   width: 30%;
 }
@@ -1843,28 +1843,28 @@ footer {
 }
 .OptionWrapper {
   width: 85%;
-  background-color: #ffac30;
+  background-color: #25b0e6;
   height: 100%;
   float: left;
   line-height: 45px;
 }
 .OptionWrapper1 {
   width: 100%;
-  background-color: #5f5f5f;
+  background-color: rgba(224, 224, 224, 0.29);
   height: 100%;
   float: left;
   line-height: 45px;
 }
 .OptionWrapper2 {
   width: 100%;
-  background-color: #333333;
+  background-color: #0099cc;
   height: 100%;
   float: left;
   line-height: 45px;
 }
 .NotificationWrapper {
   width: 15%;
-  background-color: #ff9900;
+  background-color: #0099cc;
   height: 45px;
   float: right;
   color: #ffffff;
@@ -1873,7 +1873,7 @@ footer {
 }
 .NotificationWrapperAccountDetail {
   width: 30%;
-  background-color: #ff9900;
+  background-color: #0099cc;
   height: 100%;
   float: left;
   color: #ffffff;
@@ -1888,14 +1888,14 @@ footer {
 }
 .OptionWrapperAccountDetail {
   width: 70%;
-  background-color: #5f5f5f;
+  background-color: rgba(224, 224, 224, 0.29);
   height: 100%;
   float: left;
 }
 /* Account_details
 ========================================================================== */
 .buttonShowClosedTickets {
-  background: #ff9900;
+  background: #0099cc;
   border: 0;
   margin: 30px auto 15px;
   color: #ffffff;
@@ -1980,7 +1980,7 @@ footer {
 .ticketDetailsHeader {
   width: 100%;
   overflow: auto;
-  background: #333333;
+  background: rgba(0, 0, 0, 0.4);
 }
 .ticketDetailsHeader h3 {
   margin-bottom: 5px;
@@ -2102,7 +2102,7 @@ footer {
   border: none;
   width: 40%;
   height: 35px;
-  background-color: #52a552;
+  background-color: #42bd41;
   color: #ffffff;
   font-size: 14px;
   text-align: center;
@@ -2126,7 +2126,7 @@ footer {
   margin-left: 5px !important;
   z-index: 1;
   border-radius: 100%;
-  border: 2px solid #c5c5c5;
+  border: 2px solid #ffffff;
   width: 42px;
 }
 .commentBlock span {
@@ -2155,14 +2155,14 @@ footer {
 .commentBlock li:nth-child(2) {
   width: 44.33%;
   height: 25%;
-  color: #5f5f5f;
+  color: rgba(224, 224, 224, 0.29);
   font-size: 12px;
   text-align: center;
 }
 .commentBlock li:nth-child(3) {
   width: 25.33%;
   height: 25%;
-  color: #5f5f5f;
+  color: rgba(224, 224, 224, 0.29);
   font-size: 12px;
   text-align: right;
   float: right;
@@ -2177,12 +2177,12 @@ footer {
   height: 30%;
   text-align: right;
   margin-top: -6px;
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   font-size: 10px;
   float: right;
 }
 .commentText {
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   width: 100%;
   height: 90%;
   z-index: 2;
@@ -2195,7 +2195,7 @@ footer {
 .responseBlock {
   list-style: none;
   overflow: hidden !important;
-  border-bottom: 1px solid #5f5f5f;
+  border-bottom: 1px solid rgba(224, 224, 224, 0.29);
   padding-bottom: 5px;
   padding-top: 5px;
   z-index: 5;
@@ -2206,7 +2206,7 @@ footer {
   margin-top: 3px;
   z-index: 1;
   border-radius: 100%;
-  border: 2px solid #c5c5c5;
+  border: 2px solid #ffffff;
 }
 .responseBlock span {
   float: left;
@@ -2233,7 +2233,7 @@ footer {
 .responseBlock li:first-child {
   width: 21%;
   height: 100%;
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   font-size: 12px;
   text-align: center;
   max-width: 46px;
@@ -2243,11 +2243,11 @@ footer {
   height: 30%;
   text-align: right;
   /*margin-top: -5px !important;*/
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   font-size: 10px;
 }
 .responseText {
-  color: #ff9900;
+  color: #0099cc;
   width: 70%;
   height: 90%;
   z-index: 2;
@@ -2268,7 +2268,7 @@ footer {
   display: block;
   /* Fallback for non-webkit */
   display: -webkit-box;
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   margin-top: 3px;
   width: 100%;
   height: 60px;
@@ -2329,7 +2329,7 @@ footer {
   border: none;
   width: 100%;
   height: 45px;
-  background-color: #52a552;
+  background-color: #42bd41;
   color: #ffffff;
   font-size: 14px;
   text-align: center;
@@ -2476,7 +2476,7 @@ footer {
 /* Invoice List  */
 .tableHeader {
   list-style-type: none;
-  color: #333333;
+  color: rgba(0, 0, 0, 0.4);
   opacity: .7;
   width: 100%;
   overflow: auto;
@@ -2511,7 +2511,7 @@ footer {
   width: 100%;
   overflow: hidden;
   z-index: 5;
-  background-color: #5f5f5f;
+  background-color: rgba(224, 224, 224, 0.29);
   margin-top: 10px;
   padding-left: 17px;
 }
@@ -2548,13 +2548,13 @@ footer {
   height: 25px;
   background-color: transparent;
   border-radius: 100%;
-  border: 2px solid rgba(92, 92, 92, 0.65);
+  border: 2px solid rgba(0, 0, 0, 0.4);
   margin-bottom: 10px;
   margin-top: 1px;
   float: left;
 }
 .billTag {
-  color: rgba(92, 92, 92, 0.65);
+  color: rgba(0, 0, 0, 0.4);
   float: left;
   display: block;
   margin-left: 7px;
@@ -2569,7 +2569,7 @@ footer {
   margin: 3px auto;
 }
 .billFill {
-  background-color: #ff9900;
+  background-color: #0099cc;
 }
 /* Ticket List update */
 .TicketTabs {
@@ -2591,7 +2591,7 @@ footer {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  background: #333333;
+  background: rgba(0, 0, 0, 0.4);
   /* old browsers */
   font-weight: bold;
 }
@@ -2623,7 +2623,7 @@ footer {
   height: 65px;
   color: #fff;
   border-bottom: 0px !important;
-  background-color: #5f5f5f;
+  background-color: rgba(224, 224, 224, 0.29);
   margin-bottom: 10px;
   padding-left: 12px;
 }
@@ -2649,14 +2649,14 @@ footer {
 }
 .tks {
   width: 40px;
-  background: #ff9900;
+  background: #0099cc;
   text-align: center;
   line-height: 35px;
   margin: 15px 18px;
 }
 .tks1 {
   width: 40px;
-  background: #ff9900;
+  background: #0099cc;
   text-align: center;
   line-height: 35px;
   margin-top: 7px;
@@ -2684,7 +2684,7 @@ br {
 }
 .recipientDetail li:first-child img {
   border-radius: 50px;
-  border: 2px solid #c5c5c5;
+  border: 2px solid #ffffff;
 }
 .timeLogAddButton {
   margin-left: 20px;
@@ -2702,7 +2702,7 @@ br {
   width: 100%;
   font-size: 16px;
   height: 40px;
-  background-color: #333333;
+  background-color: rgba(0, 0, 0, 0.4);
   color: #fff;
   padding-left: 10px;
 }
@@ -2735,7 +2735,7 @@ input[type=number] {
 }
 #reload {
   bottom: 80px;
-  background-color: #ffac30;
+  background-color: #25b0e6;
   padding-left: 13px;
 }
 .fa-b {
@@ -2745,7 +2745,7 @@ input[type=number] {
 }
 .fa-f {
   font-size: 60px;
-  color: #52a552;
+  color: #42bd41;
 }
 .createButton {
   width: 55px;
@@ -2776,7 +2776,7 @@ input[type=number] {
 .createActions {
   width: 100%;
   height: 100%;
-  background-color: #ffac30;
+  background-color: #25b0e6;
   padding-top: 90px;
   position: fixed;
   top: 0;
@@ -2833,7 +2833,7 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  color: #c5c5c5;
+  color: #ffffff;
   z-index: 5;
   text-align: center;
   height: 10px;
