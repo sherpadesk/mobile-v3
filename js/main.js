@@ -109,6 +109,18 @@ function updateBadge() {
 function onDeviceReady() {
     //alert("gap init");
     isPhonegap = true;
+    if (updateStatusBar && isPhonegap) {
+        var t=document.getElementsByTagName("header")[0];
+        if (t){
+            t.style.paddingTop = "18px";
+            t.style.height = "63px";
+            $('body').css('margin-top', function (index, curValue) {
+                return parseInt(curValue, 10) + 18 + 'px';
+            });
+        }
+        t = document.getElementById("ptr");
+        if (t){t.style.marginTop = "18px";}
+    }
 }
 
 //open link	in blank
@@ -4252,18 +4264,7 @@ $(document).ready(function(){
         //userInfo.init();
 
         //when user logged in
-        if (updateStatusBar && isPhonegap) {
-            var t=document.getElementsByTagName("header")[0];
-            if (t){
-                t.style.paddingTop = "18px";
-                t.style.height = "63px";
-                $('body').css('margin-top', function (index, curValue) {
-                    return parseInt(curValue, 10) + 18 + 'px';
-                });
-            }
-            t = document.getElementById("ptr");
-            if (t){t.style.marginTop = "18px";}
-        }
+        
         //set the name of the nav side menu
         //$(".navName").html(localStorage.getItem("userFullName"));
         //set user avatar picture in side menu
