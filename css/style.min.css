@@ -344,7 +344,7 @@ html {
   padding-left: 20px;
 }
 .feedTime {
-  color: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
   display: inline;
   font-size: 12px;
   margin-left: 7px;
@@ -395,7 +395,7 @@ html {
   -moz-box-sizing: border-box;
   border: none;
   overflow: hidden;
-  color: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
   font-size: 16px;
   height: 40px;
   padding: 10px;
@@ -1163,7 +1163,7 @@ vertical-align: middle;
 .AccountDetailsTicketsContainer {
   overflow: auto;
   margin: 0 auto;
-  border-top: 1px solid #25b0e6;
+  border-top: 1px solid #dadada;
 }
 .noTicketMessage {
   text-align: center;
@@ -1179,7 +1179,7 @@ vertical-align: middle;
   width: 90%;
 }
 .feedTime span {
-  color: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
   font-size: 16px;
 }
 .taskDescription {
@@ -1383,7 +1383,7 @@ vertical-align: middle;
 }
 .invoiceAccount {
   border-bottom: 1px solid #ffffff;
-  color: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
   list-style-type: none;
   margin-top: 35px;
   overflow: hidden;
@@ -1417,7 +1417,7 @@ vertical-align: middle;
   list-style-type: none;
 }
 .invoiceDetail li {
-  color: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
   float: left;
   text-align: right;
 }
@@ -1474,7 +1474,7 @@ vertical-align: middle;
   height: 40px;
   text-align: center;
   margin-bottom: 10px;
-  border-bottom: 1px solid #25b0e6;
+  border-bottom: 1px solid #ffffff;
 }
 .invoiceRows li:last-child {
   text-align: right;
@@ -1483,7 +1483,7 @@ vertical-align: middle;
   font-size: 13px;
   line-height: 30px;
   padding-left: 14px;
-  color: #25b0e6;
+  color: #ffffff;
 }
 .invoiceRows li:first-child {
   text-align: left;
@@ -1722,7 +1722,7 @@ F .recipientDetail li:last-child {
 }
 .buttonList li:first-child,
 .buttonList li:last-child {
-  background-color: rgba(189, 195, 199, 0.5);
+  background-color: #489cd6;
   margin: 0;
   width: 30%;
 }
@@ -2154,14 +2154,14 @@ footer {
 .commentBlock li:nth-child(2) {
   width: 44.33%;
   height: 25%;
-  color: #25b0e6;
+  color: #dadada;
   font-size: 12px;
   text-align: center;
 }
 .commentBlock li:nth-child(3) {
   width: 25.33%;
   height: 25%;
-  color: #25b0e6;
+  color: #dadada;
   font-size: 12px;
   text-align: right;
   float: right;
@@ -2176,12 +2176,12 @@ footer {
   height: 30%;
   text-align: right;
   margin-top: -6px;
-  color: rgba(0, 0, 0, 0.4);
+  color: #dadada;
   font-size: 10px;
   float: right;
 }
 .commentText {
-  color: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
   width: 100%;
   height: 90%;
   z-index: 2;
@@ -2194,7 +2194,7 @@ footer {
 .responseBlock {
   list-style: none;
   overflow: hidden !important;
-  border-bottom: 1px solid #25b0e6;
+  border-bottom: 1px solid #dadada;
   padding-bottom: 5px;
   padding-top: 5px;
   z-index: 5;
@@ -2242,7 +2242,7 @@ footer {
   height: 30%;
   text-align: right;
   /*margin-top: -5px !important;*/
-  color: rgba(0, 0, 0, 0.4);
+  color: #dadada;
   font-size: 10px;
 }
 .responseText {
@@ -2475,7 +2475,7 @@ footer {
 /* Invoice List  */
 .tableHeader {
   list-style-type: none;
-  color: rgba(0, 0, 0, 0.4);
+  color: #dadada;
   opacity: .7;
   width: 100%;
   overflow: auto;
@@ -2510,7 +2510,7 @@ footer {
   width: 100%;
   overflow: hidden;
   z-index: 5;
-  background-color: #25b0e6;
+  background-color: rgba(224, 224, 224, 0.29);
   margin-top: 10px;
   padding-left: 17px;
 }
@@ -2590,7 +2590,7 @@ footer {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  background: rgba(0, 0, 0, 0.4);
+  background: #0099cc;
   /* old browsers */
   font-weight: bold;
 }
@@ -2622,7 +2622,7 @@ footer {
   height: 65px;
   color: #fff;
   border-bottom: 0px !important;
-  background-color: #25b0e6;
+  background-color: rgba(224, 224, 224, 0.29);
   margin-bottom: 10px;
   padding-left: 12px;
 }
