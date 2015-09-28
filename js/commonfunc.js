@@ -1,6 +1,6 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
-
+var isSD = true;
 var year="2015";
 var appVersion = "25";
 
