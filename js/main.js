@@ -490,7 +490,8 @@ org -
 */
 
 function showError(e){
-    var error = e.data || (((e || {}).responseJSON || {}).ResponseStatus || {}).Message;
+    console.log(e);
+    var error = e.data || (((e || {}).responseJSON || {}).ResponseStatus || {}).Message || e.statusText;
     setTimeout(function(){
         reveal();
         userMessage.showMessage(false, error || "Error. Please contact Administrator");
