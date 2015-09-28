@@ -980,7 +980,7 @@ header {
 }
 .searchIconExpanded {
   height: 28px;
-  /*    margin: -2px 0 0 6px;*/
+  margin: 5px 0 0 -10px;
   padding-bottom: 60px;
   float: left;
 }
