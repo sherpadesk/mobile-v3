@@ -3953,7 +3953,7 @@ $(document).ready(function(){
                 if (orgName)
                     $("#indexTitle").html(orgName);
                 TicketsCounts.init();
-                if (updateStatusBar)
+                if (updateStatusBar && isPhonegap)
                     $("#techStat").css("padding-top", "38px");
                 getQueues.init("#DashBoradQueues", 3);
                 if(isAccount)
@@ -4252,7 +4252,7 @@ $(document).ready(function(){
         //userInfo.init();
 
         //when user logged in
-        if (updateStatusBar) {
+        if (updateStatusBar && isPhonegap) {
             var t=document.getElementsByTagName("header")[0];
             if (t){
                 t.style.paddingTop = "18px";
