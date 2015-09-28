@@ -260,7 +260,7 @@ html {
   z-index: 10;
   width: 100vw;
   height: 100vh;
-  background-color: #ffffff;
+  background-color: rgba(192, 192, 192, 0.5);
 }
 .loadScreen {
   color: #fff;
