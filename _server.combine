@@ -12,15 +12,8 @@
 {
 "output": "js/initial.min.js",
 "files": [
-"js/server.js",
 "js/commonfunc.js",
 "js/initial.js"
-]
-},
-{
-"output": "css/style.min.css",
-"files": [
-"css/style.css"
 ]
 }
 ]

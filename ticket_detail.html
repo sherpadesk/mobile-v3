@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" href="img/icon.png"/>
-    <link rel="apple-touch-startup-image" href="img/profile_2.png" />
+   <link rel="shortcut icon" href="favicon.ico?v=4" type="image/x-icon"/>
+<link rel="apple-touch-icon image_src" href="img/icon.png"/>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -21,6 +21,7 @@
     
     <!-- Jquery -->
     <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
+    <script src="js/dateFormat.js"></script>
     
     <!-- Jquery UI -->
     
@@ -32,7 +33,7 @@
     <script src="js/jquery.md5.js"></script>
     <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
   </head>
 <div class="maxSize">
   <span id="fastclick">
@@ -41,16 +42,18 @@
     <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
     <div class="headerContainer maxSize">
         <ul class="topHeader">
-            <li id=goBack><i class="fa fa-arrow-left"></i></li>
-            <li>
-                <h1 id="ticketNumber" class="SherpaDesk"> Open | 1383 </h1>
+            <li id=goBack style="
+    width: 32%;"><i class="ion-android-arrow-back"></i>
+            <span class="headerNavIcon ionShare"></span>
             </li>
-            <li></li>
-        </ul>
+            <li class="alignOpen">
+      <h1 id="ticketNumber" class="SherpaDesk"> Open | 1383 </h1>
+              </li>
+          </ul>
     </div>
 </header>
 <body class="bodyContent">
-    <div id="ptr"><span class="genericon genericon-next fa fa-repeat"></span></div><div id="content">
+    <div id="ptr"><span class="genericon genericon-next ion-android-refresh"></span></div><div id="content">
     <div class="ticketDetailsHeader">
         <div class="TDSListWrapper">
             <h3 id="ticketSubject">Loading Ticket...</h3>
@@ -108,35 +111,45 @@
             <div class="tabpageContainer shrinker white">
                    <div class="add_class">
         <div class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="classOptions">
               <!--<option value="+classId+">"+className+"</option>-->
            </select>
         </div>
-            <div class="sub_class1 d0"><div class="styledSelect"><select id="sub_class1"></select></div></div>
-        <div class="sub_class2 d0"><div class="styledSelect"><select id="sub_class2"></select></div></div>
+            <div class="sub_class1 d0"><div class="styledSelect">
+                <li class="arrowDown ion-ios-arrow-down"></li>
+                <select id="sub_class1"></select></div></div>
+        <div class="sub_class2 d0"><div class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
+            <select id="sub_class2"></select></div></div>
         </div>
         <div class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="ticketLevel">
               <!--<option value="+returnData.level+">Level "+returnData.level+" "+returnData.level_name+"</option>-->
            </select>
         </div>
         <div class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="ticketPriority">
               <!--<option value="+returnData.priority_id+">Priority "+returnData.priority+"</option>-->
             </select>
         </div>
         <div class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="ticketTechs">
               <!--<option value="+techId+">"+techName+"</option>-->
            </select>
         </div>
                 <input type="hidden" id=inputAccountId />
         <div id="location" class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="ticketLocation">
               <!--<option value="+returnData.location_id+">"+returnData.location_name+"</option>-->
            </select>
         </div>
         <div id="project" class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="ticketProject">
               <!--<option value="+returnData.project_id+">"+returnData.project_name+"</option>-->
            </select>
@@ -152,6 +165,7 @@
                 <a href="invoice.html" class="send time">Create Invoice</a>
               <button id="transfer" class="blueButton">Transfer Ticket</button>
               <div id="transferSelect" class="styledSelect">
+                  <li class="arrowDown ion-ios-arrow-down"></li>
                  <select id="transferTechs">
                   <!-- <option value="+value+">"+task+"</option> -->
                 </select>
@@ -167,7 +181,7 @@
     </div>
   </div>
 </body>
-      <div id="loading" style="background-color:#34495e;"><div class="loadScreen">Loading...<br><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div></div>
+      <div id="loading" style="background-color:#34495e;"><div class="loadScreen">Loading...<br><i class="icon ion-load-c loadSpin ion-3x"></i></div></div>
 </span>
 </div>
 </html>

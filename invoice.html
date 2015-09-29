@@ -2,8 +2,8 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <link rel="apple-touch-icon" href="img/icon.png"/>
-        <link rel="apple-touch-startup-image" href="img/profile_2.png" />
+        <link rel="shortcut icon" href="favicon.ico?v=4" type="image/x-icon"/>
+<link rel="apple-touch-icon image_src" href="img/icon.png"/>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -31,16 +31,14 @@
         <script src="js/jquery.md5.js"></script>
         <script src="js/fastclick.js"></script>
         <!-- Fonts & Icons -->
-        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
     </head>
     <div class="maxSize">
         <span id="fastclick">
             <header>
-                <ul class="topHeader">
-                    <header>
-                        <div class="headerContainer">
+                <div class="headerContainer">
                             <ul class="topHeader">
-                                <li id=goBack><i class="fa fa-arrow-left"></i></li>
+                                <li id=goBack><i class="ion-android-arrow-back"></i></li>
                                 <li><h1 id="invoiceNumber" class="SherpaDesk">Invoice</h1></li>
                                 <li></li>
                             </ul>
@@ -48,43 +46,49 @@
                             <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
                         </div>
                     </header>
-                    </header>
                 <body>
                     <div class="bodyContent">
                         <div class="invoiceContainer clearfix">
                             <div class="invoiceShrinker">
                                 <ul class="invoiceAccount">
-                                    <li id="customerName">Invoice Loading</li>
+<!--                                    <li id="customerName">Invoice Loading</li>-->
                                     <li id="invoiceDate">change</li>
                                 </ul>
                                 <ul class="invoiceInfoSmall">
                                     <li>
                                         <ul class="invoiceDetail">
                                             <li class="detail1">Time</li>
-                                            <li id="invoiceHours" class="detail2">0 <span class="detail3Small">hrs</span></li>
-                                            <li id="invoiceAmount"class="detail3">$0<span class="detail3Small">.00</span></li>
-                                            <a href="InvoiceTimes.html"><li class="detail4"><img class="plusIconCheck d0" src="img/pencil_2.png"></li></a>
+ <li id="invoiceHours" class="detail2">0 <span class="detail3Small">hrs</span></li>
+    <li id="invoiceAmount"class="detail3">$0<span class="detail3Small">.00</span></li>
+       <a href="InvoiceTimes.html"><li class="detail3Short d0">
+           <span class="circlePencil"><i class="ion-record circleIn ionP"></i><i class="editPencil ion-edit circleIn ionPencil"></i></span>
+                      </li></a>
                                         </ul>
                                     </li>
                                     <li>
                                         <ul class="invoiceDetail">
                                             <li class="detail1Short">Travel</li>
                                             <li id="invoiceTravel" class="detail2Short">$0<span class="detail3Small">.00</span></li>
-                                            <a href="travel.html"><li class="detail3Short d0"><img class="plusIconCheck" src="img/pencil_2.png"></li></a>
+<a href="travel.html"><li class="detail3Short d0">
+    <span class="circlePencil"><i class="ion-record circleIn ionP"></i><i class="editPencil ion-edit circleIn ionPencil"></i></span></li>
+                                            </a>
                                         </ul>
                                     </li>
                                     <li>
                                         <ul class="invoiceDetail">
                                             <li class="detail1Short">Expenses</li>
                                             <li id="invoiceExpenses" class="detail2Short">$0<span class="detail3Small">.00</span></li>
-                                            <a href="addExpence.html"><li class="detail3Short"><img class="plusIconCheck d0" src="img/pencil_2.png"></li></a>
+    <a href="addExpence.html"><li class="detail3Short d0">
+        <span class="circlePencil"><i class="ion-record circleIn ionP"></i><i class="editPencil ion-edit circleIn ionPencil"></i></span>
+    </li></a>
                                         </ul>
                                     </li>
                                     <li>
                                         <ul class="invoiceDetail">
                                             <li class="detail1Short">Adjustments</li>
                                             <li id="invoiceAdjustments" class="detail2Short">-$0<span class="detail3Small">.00</span></li>
-                                            <a href="adjustment.html"><li class="detail3Short"><img class="plusIconCheck d0" src="img/pencil_2.png"></li></a>
+                                            <a href="adjustment.html"><li class="detail3Short d0">
+                                                <span class="circlePencil"><i class="ion-record circleIn ionP"></i><i class="editPencil ion-edit circleIn ionPencil"></i></span></li></a>
                                         </ul>
                                     </li>
                                 </ul>
@@ -171,7 +175,7 @@
                                             <li>Recipients</li>
                                             <li id="addRecipient" class="detail3Short"><!--img class="addIcon" src="img/check.png"--></li>
                                         </ul>
-                                        <ul id="recipientList" class="invoiceInfo">
+                                <ul id="recipientList" class="invoiceInfo"></ul>
                                             <!--<li>
 <ul class='recipientDetail'>
 <li>
@@ -186,12 +190,14 @@
 </ul>
 </li>
 </ul>-->
+                                            
+                                                        
                                             </div>
                                         </div>
 
                                     <button id="sendInvoiceButton" class="greenButton">Send</button>
                                     </div>
-                                <div id="loading" style="top:53px;"><div class="loadScreen">Loading...<br><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div></div>
+                        <div id="loading" style="top:53px;"><div class="loadScreen">Loading...<br><i class="icon ion-load-c loadSpin ion-3x"></i></div></div>
                                 </body>
                             </span>
                     </div>

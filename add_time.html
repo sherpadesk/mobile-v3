@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" href="img/icon.png"/>
-    <link rel="apple-touch-startup-image" href="img/profile_2.png" />
+    <link rel="shortcut icon" href="favicon.ico?v=4" type="image/x-icon"/>
+<link rel="apple-touch-icon image_src" href="img/icon.png"/>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -29,7 +29,7 @@
     
     <script type='application/javascript' src='js/fastclick.js'></script> 
     <!-- Fonts & Icons -->
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
   </head>
   <div class="maxSize">
   <header>
@@ -38,7 +38,7 @@
       <div class="accountContainer">
     <div class="headerContainer">
       <ul class="topHeader">
-          <li id=goBack><i class="fa fa-arrow-left"></i></li>
+          <li id=goBack><i class="ion-android-arrow-back"></i></li>
         <li><h1 class="SherpaDesk">Add Time</h1></li>
         <li></li>
       </ul>
@@ -55,22 +55,27 @@
           <div  class="buttonListdiv">
           <input placeholder="Start Time" id=date_start class="textInputSmall"></input>
           <input placeholder="End Time" id=date_end class="textInputSmall"></input></div>
-        <div class="styledSelect">
+                 
+      <div class="styledSelect"> 
+          <li class="arrowDown ion-ios-arrow-down"></li>
              <select id="timeAccounts">
                 <!-- <option value="+value+">"+task+"</option> -->
              </select>
        </div>
                <div class="styledSelect">
+                   <li class="arrowDown ion-ios-arrow-down"></li>
              <select id="timeProjects">
                 <!-- <option value="+value+">"+task+"</option> -->
              </select>
           </div>
        <div class="styledSelect d0">
+           <li class="arrowDown ion-ios-arrow-down"></li>
              <select id="timeTicket">
                 <!-- <option value="+value+">"+task+"</option> -->
              </select>
           </div>
           <div class="styledSelect">
+              <li class="arrowDown ion-ios-arrow-down"></li>
              <select id="taskTypes">
                 <!-- <option value="+value+">"+task+"</option> -->
              </select>
@@ -81,6 +86,6 @@
       </div>
     </div>
   </body>
-      <div id="loading"><div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
+      <div id="loading"><div class="loadScreen"><i class="icon ion-load-c loadSpin ion-3x"></i></div>
   </div>
 </html>

@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" href="img/icon.png"/>
-    <link rel="apple-touch-startup-image" href="img/profile_2.png" />
+    <link rel="shortcut icon" href="favicon.ico?v=4" type="image/x-icon"/>
+<link rel="apple-touch-icon image_src" href="img/icon.png"/>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -27,21 +27,21 @@
     
     <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
   </head>
 <div class="maxSize">
   <span id="fastclick">
 <header>
     <div class="headerContainer">
         <ul class="topHeader">
-            <li id=goBack><i class="fa fa-arrow-left"></i></li>
+            <li id=goBack><i class="ion-android-arrow-back"></i></li>
             <li>
                 <h1 class="SherpaDesk">Add Ticket</h1>
             </li>
             <li></li>
         </ul>
         <div class="errorMessageNeg">Please enter valid ticket information</div>
-        <div class="errorMessagePos">Ticket was Succesfully Created <i class="fa fa-smile-o"></i></div>
+        <div class="errorMessagePos">Ticket was Succesfully Created <i class="ion ion-happy-outline"></i></div>
     </div>
 </header>
 
@@ -50,13 +50,15 @@
     <div class="CreateInvoiceWrapper"> 
         <div id=istech>
         <div class="styledSelectGroup"><div class="styledSelect user styledSelectSmall">
+            <li class="arrowDown ion-ios-arrow-down"></li>
             <select id="addTicketUser">     
             </select>
         </div>
         <div id="userCreate" class="createButtonSmall1 destroyButtonSmall">
-            <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div></div> 
-            
+            <span class="circlePlus"><i class="ion-record circle icon-a fa-bs"></i><i class="ion-plus-circled circle icon-b fa-fs"></i></span></div></div> 
+           
         <div class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="addTicketAccounts">
               <!--<option value="+value+">"+task+"</option>-->
            </select>
@@ -64,6 +66,7 @@
          
                  
              <div class="styledSelect detailedOption">
+                 <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="ticket_Location">
 <!--             <option value="13">123I'm testing &amp; &lt;script&gt;alertw("!!!");&amp;</option><option value="16">Main Office</option><option value="17">My Office</option><option value="1253">Test location with address</option>-->
                </select>
@@ -73,22 +76,26 @@
              
             
         <div class="styledSelectGroup"><div class="styledSelect styledSelectSmall">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="addTicketTechs">     
            </select>
         </div>
         
         <div id="TechCreate" class="createButtonSmall1 destroyButtonSmall">
-            <span class="fa-stack"><i class="fa fa-circle fa-stack-1x icon-a fa-bs"></i><i class="fa fa-plus-circle fa-stack-1x icon-b fa-fs"></i></span></div></div>
+            <span class="circlePlus"><i class="ion-record circle icon-a fa-bs"></i><i class="ion-plus-circled circle icon-b fa-fs"></i></span></div></div>
         <div class="selectionGroup"></div>
         <div class="add_class">
         <div class="styledSelect">
+            <li class="arrowDown ion-ios-arrow-down"></li>
            <select id="classTicketOptions">
               <!--<option value="+classId+">"+className+"</option>-->
            </select>
         </div>
                
-            <div class="sub_class1 d0"><div class="styledSelect"><select id="sub_class1"></select></div></div>
-        <div class="sub_class2 d0"><div class="styledSelect"><select id="sub_class2"></select></div></div>
+            <div class="sub_class1 d0"><div class="styledSelect">
+                <li class="arrowDown ion-ios-arrow-down"></li>
+                <select id="sub_class1"></select></div></div>
+        <div class="sub_class2 d0"><div class="styledSelect"><li class="arrowDown ion-ios-arrow-down"></li><select id="sub_class2"></select></div></div>
         </div>
         </div>
         <textarea id="addTicketSubject" class="textInputSmallLight" type="text" placeholder="Subject"></textarea>
@@ -97,7 +104,7 @@
     </div>
   </div>
 </body>
-      <div id="loading"><div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div>
+      <div id="loading"><div class="loadScreen"><i class="icon ion-load-c loadSpin ion-3x"></i></div>
 </span>
 </div>
 </html>

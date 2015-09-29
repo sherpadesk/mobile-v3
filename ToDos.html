@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" href="img/icon.png"/>
-    <link rel="apple-touch-startup-image" href="img/profile_2.png" />
+   <link rel="shortcut icon" href="favicon.ico?v=4" type="image/x-icon"/>
+<link rel="apple-touch-icon image_src" href="img/icon.png"/>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -27,21 +27,21 @@
     
     <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
   </head>
 <div class="maxSize">
   <span id="fastclick">
 <header>
     <div class="headerContainer">
         <ul class="topHeader">
-            <li id=goBack><i class="fa fa-arrow-left"></i></li>
+            <li id=goBack><i class="ion-android-arrow-back"></i></li>
             <li>
                 <h1 class="SherpaDesk">ToDos</h1>
             </li>
             <li></li>
         </ul>
         <div class="errorMessageNeg">Please enter valid ticket information</div> 
-        <div class="errorMessagePos">Ticket was Succesfully Created <i class="fa fa-smile-o"></i></div>
+        <div class="errorMessagePos">Ticket was Succesfully Created <i class="ion-happy-outline"></i></div>
     </div>
 </header>
 
@@ -50,11 +50,13 @@
     <div class="todosWrapper"> 
         <div id=istech>
         <div class="styledSelect user">
+            <li class="arrowDown ion-ios-arrow-down"></li>
             <select id="addTicketUser">     
             </select>
         </div>
                 
             <div class="styledSelect">
+                <li class="arrowDown ion-ios-arrow-down"></li>
                 <select id="taskTypes">
                 <!-- <option value="+value+">"+task+"</option> -->
             <option value="0">Due</option>
@@ -70,6 +72,7 @@
            </div>
         
             <div class="styledSelect">
+                <li class="arrowDown ion-ios-arrow-down"></li>
                 <select id="taskTypes">
                 <!-- <option value="+value+">"+task+"</option> -->
             <option value="0">Relationship</option>
