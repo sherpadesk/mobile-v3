@@ -1,12 +1,6 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 
-//Root Names
-var Site = 'sherpadesk.com/';
-var MobileSite = 'http://m0.' + Site;
-var AppSite = 'https://app.beta.' + Site;
-var ApiSite = 'http://api.beta.' + Site;
-
 var isExtension = window.self !== window.top;
 if (isExtension) localStorage.setItem("referrer", Page);
 
@@ -223,10 +217,6 @@ function redirectToPage() {
     {
         offLine();
     }
-}
-
-if (!isSD){
-    document.title = 'HelpDesk';
 }
 
 //pull to refresh
