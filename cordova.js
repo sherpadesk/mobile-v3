@@ -1057,7 +1057,7 @@ function pokeNativeViaIframe() {
 var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
     // At least Safari 3+: "[object HTMLElementConstructor]"
 var isIE = /*@cc_on!@*/false || !!document.documentMode; // At least IE6
-        if (!isOpera && !isSafari && !isIE){
+        if (!isOpera && !isIE){
         // Check if they've removed it from the DOM, and put it back if so.
         if (execIframe && execIframe.contentWindow) {
             // Listen for unload, since it can happen (CB-7735) that the iframe gets
