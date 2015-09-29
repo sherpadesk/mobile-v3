@@ -1054,10 +1054,10 @@ function pokeNativeViaIframe() {
     } else {
          var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
     // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
-var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+        var isDesktopSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0 && !navigator.userAgent.match(/iphone|ipad|ipod/i);
     // At least Safari 3+: "[object HTMLElementConstructor]"
 var isIE = /*@cc_on!@*/false || !!document.documentMode; // At least IE6
-        if (!isOpera && !isIE){
+        if (!isOpera && !isDesktopSafari && !isIE){
         // Check if they've removed it from the DOM, and put it back if so.
         if (execIframe && execIframe.contentWindow) {
             // Listen for unload, since it can happen (CB-7735) that the iframe gets
