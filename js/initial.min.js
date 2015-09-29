@@ -4,16 +4,16 @@ var isSD = true;
 
 //Root Names
 var Site = 'sherpadesk.com/';
-var MobileSite = 'http://m0.' + Site;
-var AppSite = 'https://app.beta.' + Site;
-var ApiSite = 'http://api.beta.' + Site;
+var MobileSite = 'http://m.' + Site;
+var AppSite = 'https://app.' + Site;
+var ApiSite = 'http://api.' + Site;
 
 if (!isSD){
     document.title = 'HelpDesk';
 }
 
 var year="2015";
-var appVersion = "25";
+var appVersion = "27";
 
 //global helper functions
 function logout(isRedirect, mess) {
@@ -60,6 +60,7 @@ function clearStorage(keepOrg)
 
 function initOrgPreferences(value)
 {
+    return;
     var prefs = plugins.appPreferences;
     var suitePrefs = prefs.iosSuite("group.io.sherpadesk.mobile");
     suitePrefs.store (ok, fail, 'org', value);
