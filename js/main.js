@@ -107,7 +107,7 @@ function onDeviceReady() {
     if (updateStatusBar && isPhonegap) {
         var t=document.getElementsByTagName("header")[0];
         if (t){
-            t.style.paddingTop = "18px";
+            t.style.paddingTop = "13px";
             t.style.height = "63px";
             $('body').css('margin-top', function (index, curValue) {
                 return parseInt(curValue, 10) + 18 + 'px';
