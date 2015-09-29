@@ -120,6 +120,7 @@ function onDeviceReady() {
         }
         t = document.getElementById("ptr");
         if (t){t.style.marginTop = "18px";}
+        if (Page == "dashboard.html") $("#techStat").css("padding-top", "18px");
     }
 }
 
@@ -3965,8 +3966,6 @@ $(document).ready(function(){
                 if (orgName)
                     $("#indexTitle").html(orgName);
                 TicketsCounts.init();
-                if (updateStatusBar && isPhonegap)
-                    $("#techStat").css("padding-top", "18px");
                 getQueues.init("#DashBoradQueues", 3);
                 if(isAccount)
                     accountList.init("#activeList", 1);
