@@ -125,18 +125,6 @@ a {
   color: #42bd41;
   line-height: 1 !important;
 }
-.fa-search:before {
-  content: "\f002";
-  line-height: 2;
-}
-.fa-bars:before {
-  content: "\f0c9";
-  line-height: 2;
-}
-.fa-arrow-left:before {
-  content: "\f060";
-  line-height: 1.8;
-}
 .circle {
   position: absolute;
   left: 0;
@@ -277,17 +265,6 @@ html {
 .strong {
   font-size: 20px;
   font-weight: 650;
-}
-.backIcon {
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 18px;
-  margin: auto 0;
-  position: absolute;
-  font-size: 18px;
-  color: #fff;
 }
 .specialBack {
   margin-left: 10px;
@@ -665,29 +642,6 @@ nav i {
   line-height: 37px !important;
   display: block !important;
 }
-.fa-tachometer {
-  margin-top: -2px;
-}
-.fa-clock-o {
-  margin-right: 9.5px !important;
-  font-size: 22px;
-}
-.fa-ticket {
-  margin-right: 6px !important;
-  font-size: 23px;
-  margin-top: -2px;
-}
-.fa-sign-in {
-  margin-right: 10px !important;
-}
-.fa-exterbak-link {
-  margin-right: 7px !important;
-}
-.fa-sort-amount-asc {
-  font-size: 18px;
-  margin-top: -2px;
-  margin-right: 8px;
-}
 .ionCash {
   font-size: 139px !important;
   right: -38px !important;
@@ -992,8 +946,8 @@ header {
 .searchCloseExpanded {
   float: left;
   padding-left: 10px;
-  line-height: 2.2;
-  font-size: 24px !important;
+  line-height: 1.9;
+  font-size: 28px !important;
 }
 /* Dashboard
 ========================================================================== */
@@ -1350,10 +1304,6 @@ vertical-align: middle;
   font-size: 16px;
   width: 10%;
   margin-left: 2px;
-}
-.plusIconCheck {
-  height: 32px;
-  /*display: none;*/
 }
 .plusIcon {
   font-size: 32px;
@@ -2775,7 +2725,7 @@ input[type=number] {
 .createActions {
   width: 100%;
   height: 100%;
-  background-color: #25b0e6;
+  background-color: #4695c9;
   padding-top: 90px;
   position: fixed;
   top: 0;
