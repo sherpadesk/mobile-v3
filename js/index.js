@@ -202,7 +202,7 @@ var fastClicker = {
             if ($(".headerSearchIcon")){
                 var parent = $(".headerSearchIcon").parent();
                 //console.log(parent);
-                var insert = "<div id='searchThis' class='headerSearchContainer'><span class='searchIconExpanded'><i class='ion-ios-search-strong'></i></span><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><span class='searchCloseExpanded'> <i class='ion-close-round'></i></span></div>";
+                var insert = "<div id='searchThis' class='headerSearchContainer'><span class='searchIconExpanded'><i class='ion-ios-search-strong'></i></span><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><span class='searchCloseExpanded'> <i class='ion-android-close'></i></span></div>";
 				$(parent).empty();
 				$(insert).appendTo( $( parent ) );
                 if (localStorage.getItem("searchItem")){

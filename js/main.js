@@ -877,7 +877,7 @@ $(document).ready(function(){
                     "action" : "pickup",
                     "note_text": ""
                 }, 'PUT').then(function (d) {
-                    userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="fa fa-thumbs-o-up"></i>');
+                    userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="ion-thumbsup"></i>');
                     window.location = "ticket_detail.html";
                 },
                                function(e) {
@@ -978,7 +978,7 @@ $(document).ready(function(){
                     setTimeout(
                         function()
                         {
-                            userMessage.showMessage(true, 'Ticket has been Reopened <i class="fa fa-thumbs-o-up"></i>');
+                            userMessage.showMessage(true, 'Ticket has been Reopened <i class="ion-thumbsup"></i>');
                             window.history.back();
 
                         }, 1000);
@@ -1014,11 +1014,11 @@ $(document).ready(function(){
                 setTimeout(
                     function()
                     {
-                        userMessage.showMessage(true, 'Ticket has been closed <i class="fa fa-thumbs-o-up"></i>');
+                        userMessage.showMessage(true, 'Ticket has been closed <i class="ion-thumbsup"></i>');
                         window.history.back();
 
                     }, 1000);
-                userMessage.setMessage(true, "Ticket was Closed <i class='fa fa-thumbs-o-up'></i>");
+                userMessage.setMessage(true, "Ticket was Closed <i class='ion-thumbsup'></i>");
             },
                            function (e, textStatus, errorThrown) {
                 showError(e);
@@ -1783,7 +1783,7 @@ $(document).ready(function(){
                     "role" : value
                 }, 'POST').then(
                     function (d) {
-                        userMessage.showMessage(true, value +' was created <i class="fa fa-thumbs-o-up"></i>', function(){ 
+                        userMessage.showMessage(true, value +' was created <i class="ion-thumbsup"></i>', function(){ 
                             localStorage.setItem('add_user_name', '');
                             if (value == "Tech")
                             {
@@ -2013,7 +2013,7 @@ $(document).ready(function(){
                 },
                        'POST').then(function (d) {
                     localStorage.setItem('isMessage','truePos');
-                    localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>');
+                    localStorage.setItem('userMessage','Time was successfully added <i class="ion-thumbsup"></i>');
                     window.location.replace("ticket_detail.html");
                 },
                                     function (e, textStatus, errorThrown) {
@@ -2178,7 +2178,7 @@ $(document).ready(function(){
                         "stop_date": dat2 ? edat : ""
                     }, isEdit ? 'PUT' : 'POST').then(function (d) {
                         localStorage.setItem('isMessage','truePos');
-                        localStorage.setItem('userMessage','Time was successfully added <i class="fa fa-thumbs-o-up"></i>');
+                        localStorage.setItem('userMessage','Time was successfully added <i class="ion-thumbsup"></i>');
                         backFunction();
                     },
                                                      function (e, textStatus, errorThrown) {
@@ -2224,7 +2224,7 @@ $(document).ready(function(){
                 getApi('tickets/' + localStorage.getItem('ticketId'), response, 'PUT').then(function(results){
 
                     console.log('Then Complete');
-                    userMessage.setMessage(true, "Ticket was successfully updated <i class='fa fa-thumbs-o-up'></i>");
+                    userMessage.setMessage(true, "Ticket was successfully updated <i class='ion-thumbsup'></i>");
                     window.location = "ticket_detail.html";
                     userMessage.showMessage(true);
 
@@ -2914,7 +2914,7 @@ $(document).ready(function(){
                     returnData[i].index = returnData[i].key +',' + i;
                     var data = returnData[i].key;
                     //subject = createElipse(subject, 0.80, 12);
-                    var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='fa fa-envelope-o' style='color: #25B0E6;'></i> " : "";
+                    var newMessage = (returnData[i].is_new_tech_post && returnData[i].technician_email != localStorage.userName) || (returnData[i].is_new_user_post && returnData[i].user_email != localStorage.userName) ? "<i class='ion-ios-email' style='color: #25B0E6;'></i> " : "";
                     // ensure ticket initial post length is not to long to be displayed (initial post is elipsed if it is)
                     if(initialPost.length > 400)
                     {
