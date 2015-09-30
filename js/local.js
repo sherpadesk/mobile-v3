@@ -6,3 +6,5 @@ function default_redirect (is_tech)
 function googleTag() {}
 
 function googleConversion() {}
+
+var dontClearCache = true;

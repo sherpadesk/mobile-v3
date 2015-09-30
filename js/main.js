@@ -4168,6 +4168,11 @@ $(document).ready(function(){
 
         //always active api calls
         userMessage.init();
+        
+        if (window.dontClearCache && localStorage.techtickets) {
+            routing();
+            return;
+        }
 
         //refresh version
         if (!localStorage.appVersion)
