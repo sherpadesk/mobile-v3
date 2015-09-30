@@ -1137,7 +1137,7 @@ $(document).ready(function(){
                 
                 if (isLocation)
                 {
-                    newTicket.getLocations(localStorage.getItem("account_id") || -1);
+                    newTicket.getLocations(Number(localStorage.getItem("account_id")) || -1);
                 }
                     
                     $("#addTicketAccounts").parent().hide1();
@@ -1151,7 +1151,7 @@ $(document).ready(function(){
                      // get list of accounts add them to option select list
                      $("#addTicketAccounts").empty();
                      fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
-                     var account = localStorage.getItem('add_user_accountid') || localStorage.getItem("account_id");
+                     var account = Number(localStorage.getItem('add_user_accountid')) || Number(localStorage.getItem("account_id")) || -1;
                      accountset  = accountset ? accountset : account; 
                      if (accountset){
                          localStorage.setItem('add_user_accountid', '');
@@ -1335,7 +1335,7 @@ $(document).ready(function(){
                      // get list of accounts add them to option select list
                      $("#addTicketAccounts").empty();
                      fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
-                     var account =  localStorage.getItem('add_user_accountid') || localStorage.getItem("account_id");
+                     var account =  Number(localStorage.getItem('add_user_accountid')) || Number(localStorage.getItem("account_id")) || -1;
                      accountset  = accountset ? accountset : account; 
                      if (accountset){
                          localStorage.setItem('add_user_accountid', '');
@@ -4166,7 +4166,7 @@ $(document).ready(function(){
         //always active api calls
         userMessage.init();
         
-        if (window.dontClearCache && localStorage.techtickets) {
+        if (window.dontClearCache && localStorage.techtickets && Page !== "login.html" && Page !== "org.html") {
             routing();
             return;
         }
