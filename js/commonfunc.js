@@ -1,8 +1,19 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
 /*global jQuery, $ */
 var isSD = true;
+
+//Root Names
+var Site = 'sherpadesk.com/';
+var MobileSite = 'http://m0.' + Site;
+var AppSite = 'https://app.beta.' + Site;
+var ApiSite = 'http://api.beta.' + Site;
+
+if (!isSD){
+    document.title = 'HelpDesk';
+}
+
 var year="2015";
-var appVersion = "25";
+var appVersion = "27";
 
 //global helper functions
 function logout(isRedirect, mess) {

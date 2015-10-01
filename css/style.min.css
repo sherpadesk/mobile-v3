@@ -104,7 +104,7 @@ line-height: 50px !important;
 #goBack {
   color: white;
   font-size: 40px;
-  /*padding-top: 7px;*/
+  line-height: 60px;
   position: relative;
   -webkit-transform: translateY(-4%);
   -ms-transform: translateY(-4%);
