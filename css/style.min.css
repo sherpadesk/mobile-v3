@@ -874,7 +874,7 @@ header {
   margin-left: 15px;
   height: 16px;
   position: relative;
-  line-height: 1.5;
+  line-height: 56px;
   /*    top: 7%;
     -webkit-transform: translateY(59%);
     -ms-transform: translateY(59%);
@@ -905,7 +905,7 @@ header {
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
-  line-height: 2.8;
+  line-height: 53px;
   text-align: center;
   vertical-align: middle;
 }
@@ -964,7 +964,7 @@ header {
 .searchCloseExpanded {
   float: left;
   padding-left: 10px;
-  line-height: 1.9;
+  line-height: 52px;
   font-size: 28px !important;
 }
 /* Dashboard
@@ -1160,11 +1160,12 @@ vertical-align: middle;
   width: 100% !important;
   text-overflow: ellipsis;
   overflow: hidden;
-  -webkit-line-clamp: 2;
+  /*-webkit-line-clamp: 2;*/
   display: block;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   height: 33px;
+  line-height: 18px;
 }
 /* account
 ========================================================================== */
@@ -1338,9 +1339,9 @@ vertical-align: middle;
 .circlePencil {
   position: relative;
   display: inline-block;
-  width: 2em;
-  height: 2em;
-  line-height: 2em;
+  width: 71px;
+  height: 28px;
+  line-height: 33px;
   vertical-align: middle;
 }
 #sendInvoiceButton {
@@ -2005,10 +2006,11 @@ footer {
   display: -webkit-box;
   height: 54px;
   /* Fallback for non-webkit */
-  -webkit-line-clamp: 2;
+  /*-webkit-line-clamp: 2;*/
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 27px;
 }
 .shortInfo {
   width: 30%;
