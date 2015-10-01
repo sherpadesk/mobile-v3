@@ -208,7 +208,7 @@ var fastClicker = {
                 if (localStorage.getItem("searchItem")){
                     $('.SherpaDesk').css('opacity','0.2');
                     $('.headerSearchContainer').css({
-                        width:'285px'
+                        width:'260px'
                     });
                     $("input.search").focus();
                 }
@@ -239,7 +239,7 @@ var fastClicker = {
 					'opacity':'0.2'
 				},200);
 				$('.headerSearchContainer').animate({
-					width:'285px'
+					width:'260px'
 				},10);
                 $("input.search").focus();
 			});
