@@ -493,7 +493,7 @@ org -
 */
 
 function showError(e){
-    console.log(e);
+    //console.log(e);
     var error = e.data || (((e || {}).responseJSON || {}).ResponseStatus || {}).Message || e.statusText;
     setTimeout(function(){
         reveal();
@@ -1137,7 +1137,7 @@ $(document).ready(function(){
                 
                 if (isLocation)
                 {
-                    newTicket.getLocations(localStorage.getItem("account_id") || -1);
+                    newTicket.getLocations(Number(localStorage.getItem("account_id")) || -1);
                 }
                     
                     $("#addTicketAccounts").parent().hide1();
@@ -1151,7 +1151,7 @@ $(document).ready(function(){
                      // get list of accounts add them to option select list
                      $("#addTicketAccounts").empty();
                      fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
-                     var account = localStorage.getItem('add_user_accountid') || localStorage.getItem("account_id");
+                     var account = Number(localStorage.getItem('add_user_accountid')) || Number(localStorage.getItem("account_id")) || -1;
                      accountset  = accountset ? accountset : account; 
                      if (accountset){
                          localStorage.setItem('add_user_accountid', '');
@@ -1335,7 +1335,7 @@ $(document).ready(function(){
                      // get list of accounts add them to option select list
                      $("#addTicketAccounts").empty();
                      fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
-                     var account =  localStorage.getItem('add_user_accountid') || localStorage.getItem("account_id");
+                     var account =  Number(localStorage.getItem('add_user_accountid')) || Number(localStorage.getItem("account_id")) || -1;
                      accountset  = accountset ? accountset : account; 
                      if (accountset){
                          localStorage.setItem('add_user_accountid', '');
@@ -1892,11 +1892,11 @@ $(document).ready(function(){
                 if (account !== "0"){
                     //get projects
                     $("#loading").fadeIn();
-                    getApi("accounts/"+account, {"is_with_statistics":false}).then(
+                    getApi("projects".addUrlParam("account", account).addUrlParam("is_with_statistics", "false")).then(
                         function(returnData) {
                             ////console.log(returnData);
                             // add projects
-                            fillSelect(returnData.projects, "#timeProjects");
+                            fillSelect(returnData, "#timeProjects");
                             $("#timeProjects").val(project_id);
                             addTime.getTaskTypes({"account" : account, "project": project_id}, task_type_id);
                             addTime.chooseTickets(account, project_id, 0);
@@ -2225,8 +2225,6 @@ $(document).ready(function(){
                 };
 
                 getApi('tickets/' + localStorage.getItem('ticketId'), response, 'PUT').then(function(results){
-
-                    console.log('Then Complete');
                     userMessage.setMessage(true, "Ticket was successfully updated <i class='ion-thumbsup'></i>");
                     window.location = "ticket_detail.html";
                     userMessage.showMessage(true);
@@ -2295,7 +2293,6 @@ $(document).ready(function(){
                     }
                     else
                     {
-                        console.log(returnData.sla_complete_date);
                         $("#ticketSLA").html("SLA: "+getDateTime(returnData.sla_complete_date));
                     }
                     var ticketTech = returnData.tech_email;
@@ -2476,7 +2473,7 @@ $(document).ready(function(){
                 start_date = returnData.start_date || new Date().toJSON();
                 end_date = returnData.end_date || new Date().toJSON();
                 $("#invoiceNumber").html(returnData.id ? "Invoice  #"+returnData.id : "Create Invoice"); //invoice number            
-                var nameCheck = returnData.customer; //createElipse(returnData.customer, 0.9, 12);                
+                var nameCheck = returnData.customer || returnData.account_name; //createElipse(returnData.customer, 0.9, 12);                
                 $("#customerName").html(nameCheck); // customer name
                 var date = (start_date != end_date ? (formatDate(start_date) + "&nbsp;-&nbsp;") : "") + formatDate(end_date);
                 $("#invoiceDate").html(date);
@@ -2709,7 +2706,7 @@ $(document).ready(function(){
                     var insert = "";
                     for(var i = 0; i < returnData.length; i++)
                     {
-                        var customer = returnData[i].customer; //createElipse(returnData[i].customer, 0.33, 12); // account name
+                        var customer = returnData[i].customer  || returnData[i].account_name; //createElipse(returnData[i].customer, 0.33, 12); // account name
                         var date = formatDate(returnData[i].end_date || returnData[i].date || new Date().toJSON());
                         id = returnData[i].account_id +","+returnData[i].project_id;// +","+(returnData[i].start_date || new Date().toJSON()).slice(0, 10) +","+ (returnData[i].end_date || new Date().toJSON()).slice(0, 10);
                         var id = is_unbilled ? 
@@ -4168,6 +4165,11 @@ $(document).ready(function(){
 
         //always active api calls
         userMessage.init();
+        
+        if (window.dontClearCache && localStorage.techtickets && Page !== "login.html" && Page !== "org.html") {
+            routing();
+            return;
+        }
 
         //refresh version
         if (!localStorage.appVersion)

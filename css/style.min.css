@@ -68,6 +68,24 @@ video {
   padding: 0;
   border: 0;
 }
+::-webkit-input-placeholder {
+  /* WebKit, Blink, Edge */
+  color: #CCCCCC;
+}
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #CCCCCC;
+  opacity: 1;
+}
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #CCCCCC;
+  opacity: 1;
+}
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: #CCCCCC;
+}
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
