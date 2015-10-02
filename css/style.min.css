@@ -665,6 +665,10 @@ nav i {
   right: -38px !important;
   top: 9px !important;
 }
+.ionEmail {
+  color: #25B0E6;
+  margin-left: 1px;
+}
 nav {
   z-index: 4;
 }
@@ -2782,8 +2786,8 @@ input[type=number] {
   text-align: center;
   /* display: block; */
   position: absolute;
-  top: 8px;
   right: -17px;
+  line-height: 192px;
 }
 .createButton p {
   color: #fff;
