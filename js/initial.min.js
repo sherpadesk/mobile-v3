@@ -40,7 +40,10 @@ function clearStorage(keepOrg)
     var loadOrgKey = localStorage.loadOrgKey || "";
     var loadPhonegap = localStorage.isPhonegap || "";
     var userKey = localStorage.userKey || "";
-    localStorage.clear();
+    if (!window.dontClearCache) localStorage.clear();
+    localStorage.userKey = "";
+    localStorage.userOrgKey = "";
+    localStorage.userInstanceKey = "";
     //localStorage.removeItem('userOrgKey');
     //localStorage.removeItem('userOrg');
     //localStorage.removeItem('userInstanceKey');
