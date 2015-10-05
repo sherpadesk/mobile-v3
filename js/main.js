@@ -2696,7 +2696,7 @@ $(document).ready(function(){
                 function(returnData) {
                     $("#invoiceList").empty();
                     if(returnData.length == 0){
-                        $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
+                        $('<h3 class="noTicketMessage">no invoices at this time</h3>').prependTo('#invoiceList');
                         createSpan('#invoiceList');
                         reveal();
                         return;
