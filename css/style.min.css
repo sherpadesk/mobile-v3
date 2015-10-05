@@ -1884,7 +1884,7 @@ footer {
   margin-left: 5%;
   overflow: auto;
   z-index: 1;
-  padding-top: 40px;
+  padding-top: 47px;
   margin-bottom: 50px;
 }
 .ActiveAccountsList {
@@ -2588,7 +2588,7 @@ footer {
   margin: 0 auto;
 }
 .QueuesContainer ul {
-  margin-top: 80px;
+  margin-top: 91px;
 }
 .listedAccount {
   list-style-type: none;
