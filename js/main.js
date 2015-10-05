@@ -2921,7 +2921,8 @@ $(document).ready(function(){
                         initialPost = initialPost.substring(0,400)+"...";
                     }
                    initialPost=symbolEscape(initialPost);
-                    textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+returnData[i].user_firstname+"</span></li><li class='responseText'><h4 class=dots>"+newMessage+subject+"</h4><div class ='initailPost'>"+initialPost+"</div></li><li class='ticketLo ticketblok'><span class='ticketlocation'>"+ returnData[i].location_name+"</span><p class='locationtick'>"+returnData[i].class_name+"</p></li></ul>");
+                    var username = returnData[i].user_firstname || returnData[i].user_lastname || returnData[i].user_email;
+                    textToInsert.push("<ul class='responseBlock item' id='thisBlock' data-id="+data+"><li><p class='blockNumber numberStyle'>#"+returnData[i].number+"</p><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80' class='TicketBlockFace'><span class=user_name>"+username+"</span></li><li class='responseText'><h4 class=dots>"+newMessage+subject+"</h4><div class ='initailPost'>"+initialPost+"</div></li><li class='ticketLo ticketblok'><span class='ticketlocation'>"+ returnData[i].location_name+"</span><p class='locationtick'>"+returnData[i].class_name+"</p></li></ul>");
                     if(length>10 && i==10){
                         $table.html(textToInsert.join(''));
                         textToInsert =  [];
@@ -3174,7 +3175,7 @@ $(document).ready(function(){
                         var text = returnData[i].note;
                         
                         //check to see if hours are has a decimal
-                        var nameCheck = returnData[i].user_name;
+                        var nameCheck = returnData[i].user_name  || returnData[i].user_lastname || returnData[i].user_email;
                         //text = createElipse(text, 0.50, 8)
                 
                         
@@ -3267,7 +3268,7 @@ $(document).ready(function(){
                         var id = returnData[i].time_id;
                         //check to see if hours are has a decimal
                         var hours = returnData[i].hours.toString();
-                        var nameCheck = returnData[i].user_name;
+                        var nameCheck = returnData[i].user_name || returnData[i].user_email;
                         var date = formatDate(returnData[i].date);
                         //text = createElipse(text, 0.50, 8);
 
@@ -3500,6 +3501,7 @@ $(document).ready(function(){
 
             getApi("time?account=" + accountId).then(function(returnData) {
                 //console.log(returnData);
+                //console.log(returnData);
                 $("#accountLogs").empty();
                 //add timelogs to log list
                 if (returnData.length < 1){
@@ -3518,7 +3520,7 @@ $(document).ready(function(){
                             hours = hours+".00";
                         }
                         //text = createElipse(text, 0.50, 8);
-                        var nameCheck = returnData[i].user_name;
+                        var nameCheck = returnData[i].user_name || returnData[i].user_email;
                         //nameCheck = createElipse(nameCheck, 0.50, 12);
                         var log = "<li><ul class='timelog' data-info='"+JSON.stringify(returnData[i]).replace(/'/g, "")+"'> <li><img class='timelogProfile' src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><h2 class='feedName dots'>"+nameCheck+"</h2><p class='taskDescription'>"+text+"</p></li> <li class='feedClock ion-ios-clock-outline'</li><h3 class='feedTime'><span>"+hours+"</span></h3></li></ul></li>";
                         $(log).appendTo("#accountLogs");
