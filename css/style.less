@@ -1,4 +1,4 @@
-// out: ../css/style.min.css, sourcemap: false, compress: true 
+// out: ../css/style.min.css, sourcemap: false, compress: false 
 
 @import "parameters.less";
 
@@ -6,6 +6,21 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
     margin: 0;
     padding: 0;
     border: 0;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #CCCCCC;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #CCCCCC;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #CCCCCC;
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #CCCCCC;
 }
 
 @font-face{font-family:'Open Sans';font-style:normal;font-weight:600;src:local('Open Sans Semibold'), local('OpenSans-Semibold'), url(fonts/MTP_ySUJH_bn48VBG8sNShampu5_7CjHW5spxoeN3Vs.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;}
@@ -644,6 +659,11 @@ nav i {
 }
 
 
+.ionEmail{
+    color: #25B0E6;
+    margin-left: 1px;
+}
+
 nav {
     z-index: 4;
 }
@@ -885,7 +905,7 @@ header {
     margin-left: 15px;
     height: 16px;
     position: relative;
-    line-height: 1.5;
+    line-height: 56px;
 /*    top: 7%;
     -webkit-transform: translateY(59%);
     -ms-transform: translateY(59%);
@@ -922,7 +942,7 @@ header {
     color: #ffffff;
     font-size: 18px;
     font-weight: 600;
-    line-height: 2.8;
+    line-height: 53px;
     text-align: center;
     vertical-align: middle;
 }
@@ -940,7 +960,7 @@ header {
     height: 36px;
     float: left;
     padding-left: 5px;
-    width: 216px;
+    width: 193px;
     padding-top: 15px;
  }
 
@@ -950,7 +970,7 @@ header {
     border-radius: 6px;
     box-sizing:border-box;
     -moz-box-sizing:border-box;
-    height: 30px;
+    height: 37px;
 /*    margin-top: 8px;*/
     float: right;
     /*background: @wrapper;*/
@@ -989,7 +1009,7 @@ header {
 .searchCloseExpanded {
     float: left;
     padding-left: 10px;
-    line-height: 1.9;
+    line-height: 52px;
     font-size: 28px !important;
 }
 
@@ -1193,7 +1213,7 @@ vertical-align: middle;
 
 .noTicketMessage {
     text-align: center;
-    color: rgba(255, 255, 255, 0.3);
+    color: @noTicket;
 }
 
 /* Feed
@@ -1220,11 +1240,12 @@ vertical-align: middle;
     width: 100% !important;
     text-overflow: ellipsis;
     overflow: hidden;
-    -webkit-line-clamp: 2;
+    /*-webkit-line-clamp: 2;*/
     display: block;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     height: 33px; 
+    line-height: 18px;
 }
 
 
@@ -1437,9 +1458,9 @@ vertical-align: middle;
 .circlePencil{
   position: relative;
   display: inline-block;
-  width: 2em;
-  height: 2em;
-  line-height: 2em;
+  width: 71px;
+  height: 28px;
+  line-height: 33px;
   vertical-align: middle;
 }
 
@@ -2223,10 +2244,11 @@ footer {
     display: block; /* Fallback for non-webkit */
     display: -webkit-box;
     height: 54px; /* Fallback for non-webkit */
-    -webkit-line-clamp: 2;
+    /*-webkit-line-clamp: 2;*/
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;    
+    text-overflow: ellipsis;   
+    line-height: 27px;
 }
 
 .shortInfo {
@@ -2439,8 +2461,8 @@ footer {
 
 .responseBlock li {
     float: left;
-    margin-top: 10px;
-    margin-left: 10px;
+    margin-top: 11px;
+    margin-left: 13px;
     width: 75%;
     z-index: 2;
 }
@@ -3144,8 +3166,8 @@ input[type=number] {
     text-align: center;
     /* display: block; */
     position: absolute;
-    top: 8px;
     right: -17px;
+    line-height: 192px
 }
 
 .createButton p {
