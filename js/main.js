@@ -318,6 +318,12 @@ var userMessage = {
     setMessage:function(isPos, messageText, func) {
         localStorage.setItem("userMessage", messageText);
         localStorage.setItem("isMessage", isPos ? "truePos" : "trueNeg");
+        if(typeof func === 'function')
+        setTimeout(
+            function()
+            {
+                    func();
+            }, 1500);
     },
     showMessage:function(isPos, messageText, func) {
         if (typeof isPos === "undefined")
@@ -340,7 +346,8 @@ var userMessage = {
         var $messageEl = $(messageEl);
         if(!$messageEl.length)
         {
-            alert(messageText);
+            if (!isExtension)
+                alert(messageText);
             if(typeof func === 'function')
                 func();
             return;
@@ -880,8 +887,8 @@ $(document).ready(function(){
                     "action" : "pickup",
                     "note_text": ""
                 }, 'PUT').then(function (d) {
-                    userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="ion-thumbsup"></i>');
-                    window.location = "ticket_detail.html";
+                    userMessage.showMessage(true, 'Ticket pickup was Succesfull <i class="ion-thumbsup"></i>',
+                                            function(){window.location = "ticket_detail.html";});     
                 },
                                function(e) {
                     showError(e);
@@ -978,13 +985,8 @@ $(document).ready(function(){
                     "note_text": ""
                 }, 'PUT').then(function (d) {
                     //location.reload(false);
-                    setTimeout(
-                        function()
-                        {
-                            userMessage.showMessage(true, 'Ticket has been Reopened <i class="ion-thumbsup"></i>');
-                            window.history.back();
-
-                        }, 1000);
+                            userMessage.showMessage(true, 'Ticket has been Reopened <i class="ion-thumbsup"></i>',
+                                                    function(){location.reload();});     
                 },
                                function (e, textStatus, errorThrown) {
                     showError(e);
@@ -1014,14 +1016,12 @@ $(document).ready(function(){
 
             }, 'PUT').then(function (d) {
                 //location.reload(false);
-                setTimeout(
+                userMessage.showMessage(true, 'Ticket has been closed <i class="ion-thumbsup"></i>',
                     function()
                     {
-                        userMessage.showMessage(true, 'Ticket has been closed <i class="ion-thumbsup"></i>');
                         window.history.back();
 
-                    }, 1000);
-                userMessage.setMessage(true, "Ticket was Closed <i class='ion-thumbsup'></i>");
+                });
             },
                            function (e, textStatus, errorThrown) {
                 showError(e);
@@ -1267,11 +1267,11 @@ $(document).ready(function(){
                         "tech_id" : $("#addTicketTechs").val()
                     }, "POST");
                     addTicket.then(function (d) {
+                        userMessage.setMessage(true, "Ticket was Succesfully Created :)");
                         if (!isTech)
                             location.replace("ticket_list.html");
                         else
-                            setTimeout(backFunction, 1000);
-                        userMessage.setMessage(true, "Ticket was Succesfully Created :)");
+                            backFunction();
                     },
                                    function(e) {
                         showError(e);
@@ -1506,11 +1506,11 @@ $(document).ready(function(){
                         "tech_id" : $("#addTicketTechs").val()
                     }, "POST");
                     addTicket.then(function (d) {
+                        userMessage.setMessage(true, "Ticket was Succesfully Created :)");
                         if (!isTech)
                             location.replace("ticket_list.html");
                         else
-                            setTimeout(backFunction, 1000);
-                        userMessage.setMessage(true, "Ticket was Succesfully Created :)");
+                            backFunction();
                     },
                                    function(e) {
                         showError(e);
@@ -2225,10 +2225,10 @@ $(document).ready(function(){
                 };
 
                 getApi('tickets/' + localStorage.getItem('ticketId'), response, 'PUT').then(function(results){
-                    userMessage.setMessage(true, "Ticket was successfully updated <i class='ion-thumbsup'></i>");
+                    userMessage.showMessage(true, "Ticket was successfully updated <i class='ion-thumbsup'></i>",
+                                            function(){
                     window.location = "ticket_detail.html";
-                    userMessage.showMessage(true);
-
+                    });
                     //SherpaDesk.getTicketDetail(configPass, key);
                     //addAlert("success", "Ticket has been Updated");
 
@@ -2407,13 +2407,11 @@ $(document).ready(function(){
                 function(e) {
                     //showError(e);
                     console.log("fail @ Ticket Detail");
-                    userMessage.showMessage(false, "No ticket found. Going back to a list.");
-                    setTimeout(function(){
-                        if (history.length < 3)
-                            window.location = "ticket_list.html";
-                        else
-                            history.back();
-                    }, 4000);
+                    userMessage.showMessage(false, "No ticket found. Going back to a list.",
+                                            function(){if (history.length < 3)
+                        window.location = "ticket_list.html";
+                                                       else
+                                                           history.back();}); 
                 }
             );
 
@@ -2650,14 +2648,10 @@ $(document).ready(function(){
                 data.recipients = emails;
 
                 getApi(number, data, isUnbilled ? 'POST' : 'PUT').then(function (d) {
-                    setTimeout(
-                        function()
-                        {
-                            backFunction();
-                        }, 1000);
                     userMessage.setMessage(true, "Hurray! Invoice sent");
+                    backFunction();
                 },
-                                                                       function (e, textStatus, errorThrown) {
+                    function (e, textStatus, errorThrown) {
                     //alert(textStatus);
                     showError(e);
                     console.log("fail @ storage Account List");
