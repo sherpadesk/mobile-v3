@@ -12,7 +12,6 @@ function googleTag() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        $("body").append("<small>google tag ok</small>")
     })();
 }
 
@@ -23,7 +22,6 @@ function googleConversion()
 
     img.onload = function() {
         div.appendChild(img);
-        $("body").append("<small>google conversion ok</small>")
     };
 
     img.src = 'http://www.googleadservices.com/pagead/conversion/1040470683/?value=1.00&currency_code=USD&label=KRf-CIfZrQQQm6WR8AM&guid=ON&script=0';
