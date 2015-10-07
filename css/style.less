@@ -140,19 +140,31 @@ a {
     width: 100%;
     display: inline-block; }
 
-.textInputSmallLightS {
-    background: @plus;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    border: none;
-    overflow: hidden;
+.styledSelect select {
+    background: transparent;
     color: #ffffff;
+    width: 100%;
     font-size: 16px;
-    height: 40px;
-    padding: 10px;
-    width: 90%;
-    resize: none;
-    margin-bottom: 4px;
+    border: none;
+    height: 45px;
+    padding: 0 16px;
+    -webkit-appearance: none;
+    text-overflow: clip;
+    white-space: nowrap;
+    width: 83%;
+    -moz-appearance:none;
+}
+
+.styledSelect option:not(:checked) { color: black}
+
+.styledSelect {
+    width: 100%;
+    height: 45px;
+    margin-bottom: 11px;
+    overflow: hidden;
+    background: @selection;
+    background-position: top 18px right 18px;
+    border-radius: 3px;
 }
 
 .createButtonSmall1 {
@@ -169,19 +181,11 @@ a {
 }
 
 body {
-    /*background: url("../img/bg_dark.png");*/
     background: @dashboardbody;
-    /*padding-top: 80px;*/
-    /*background-size: cover;*/
     background-repeat: no-repeat;
 }
 
 body, html {
-    /*  height: 100%;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    height: 100%;*/
     margin-left: -3px;
 }
 
@@ -215,15 +219,9 @@ body, html {
     top: 0; left: 0; bottom: 0; right: 0;
 }
 
-
 .strong {
     font-size: 20px;
     font-weight: 650;
-}
-
-
-.specialBack {
-    margin-left: 10px;
 }
 
 .blueButton {
@@ -243,11 +241,6 @@ body, html {
 
 .clearfix {
     clear: both;
-}
-
-.dark {
-    background: url("../img/bg_dark.png");
-    /*background-size: cover; */
 }
 
 .send {
@@ -300,47 +293,37 @@ body, html {
     margin-right: 10px;
 }
 
-.textInput {
-    background: @dashboard;
-    box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    border: none;
-    color: #ffffff;
-    font-size: 16px;
-    height: 121px;
-    padding: 10px;
-    width: 100%;
-    margin: 0 auto 10px;
-    display: block;
-    resize:none;
-}
-
-
-.glow{
-    background-color: rgba(168, 195, 207, 0.5) !important;
-}
-
 #transferSelect {
     display: none;
 }
 
+.textInput {
+    height: 121px;
+    width: 100%;
+    margin: 0 auto 10px;
+    display: block;
+}
+
 .textInput1 {
+    height: 140px;
+    margin: 0 auto;
+    width: 100%;
+    display: block;
+}
+
+.textInput2 {
     background: @dashboard;
     box-sizing:border-box;
     -moz-box-sizing:border-box;
     border: none;
     color: #ffffff;
     font-size: 16px;
-    height: 140px;
     padding: 10px;
-    width: 100%;
-    margin: 0 auto;
-    display: block;
     resize:none;
 }
 
 .textInputSmall {
-    background: @email;
+   background: @email;
     box-sizing:border-box;
     -moz-box-sizing:border-box;
     border: none;
@@ -354,56 +337,32 @@ body, html {
     margin-bottom: 4px;
 }
 
-.textInputSmall_Note  {
-    background: rgba(0, 0, 0, .4);
-    box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    border: none;
-    overflow: hidden;
-    color: #ffffff;
-    font-size: 16px;
+.textInputSmall_Note {
     height: 42px;
-    padding: 10px;
+    overflow: hidden;
     width: 65%;
-    resize:none;
     margin-bottom: 4px;
     float: right;
 }
 
-.textInputSmall_Date  {
-    background: rgba(0, 0, 0, .4);
-    box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    border: none;
-    overflow: hidden;
-    color: #ffffff;
-    font-size: 16px;
+.textInputSmall_Date {
     height: 42px;
-    padding: 10px;
+    overflow: hidden;
     width: 32%;
-    resize:none;
     margin-bottom: 14px;
+}
+
+.textInputSmallLight {
+    height: 40px;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 4px;
 }
 
 .buttonListdiv {
     list-style-type: none;
     margin-bottom: 10px;
     width: 100%;
-}
-
-.textInputSmallLight {
-    background: @dashboard;
-    box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    border: none;
-    overflow: hidden;
-    color: #ffffff;
-    font-size: 16px;
-    height: 40px;
-    padding: 10px;
-    width: 100%;
-    resize:none;
-    margin-bottom: 4px;
 }
 
 .greenButton {
@@ -433,22 +392,11 @@ body, html {
     -moz-appearance:none;
 }
 
-.styledSelect option:not(:checked) { color: black}
-
-.styledSelect {
-    width: 100%;
-    height: 45px;
-    margin-bottom: 11px;
-    overflow: hidden;
-    background: @selection;
-    background-position: top 18px right 18px;
-    border-radius: 3px;
-}
 
 .arrowDown{
    list-style-type: none;
     float: right;
-    line-height: 1.65;
+    line-height: 47px;
     font-size: 30px;
     color: white;
     padding-right: 20px;
@@ -464,16 +412,6 @@ body, html {
     border-radius: 3px;
 }
 
-.styledSelectDate {
-    width: 35%;
-    height: 45px;
-    margin-bottom: 15px;
-    overflow: hidden;
-    background: url("../img/select_arrow.png") no-repeat #489CD6;
-    background-position: top 18px right 18px;
-    border-radius: 3px;
-}
-
 .styledSelect selectDate {
     background: transparent;
     color: #ffffff;
@@ -484,13 +422,6 @@ body, html {
     padding: 0 20px;
     -webkit-appearance: none;
 }
-
-.smallHeader {
-    color: #ffffff;
-    font-size: 18px;
-    margin: 20px 0 5px 0;
-}
-
 
 .Absolute-Center {
     margin: auto;
@@ -511,14 +442,11 @@ body, html {
     display: block;
     max-width: 390px;
 }
+
 .loginScreen {
-    /*background: url("../img/mountainBG.jpg") center center no-repeat fixed;
-    padding-top: 80px;*/
     background: @login;
     background-repeat: no-repeat;
     background-position:center;
-    /*overflow-y: hidden;*/
-
 }
 
 .loginContent {
@@ -547,24 +475,17 @@ body, html {
 
 .loginButton {
     background: @circle;
-    border: none;
     color: #ffffff;
-    font-size: 14px;
-    text-align: center;
-    font-weight: 400;
     height: 40px;
     margin: 15px 0 20px 0;
-    width: 100%;
     line-height: 40px;
     border-radius: 3px;
-}
 
 .googleStripes {
     list-style-type: none;
     width: 100%;
     height: 5px;
     margin-top: 30px;
-
 }
 
 .googleStripes li {
@@ -592,23 +513,25 @@ body, html {
     border-radius: 0px 3px 0px 0px;
 }
 
+.googleButton strong {
+    font-size: 18px;
+}
 
 .googleButton {
     background: rgba(131,131,131,0.82);
-    border: none;
     color: #FDFDFD;
-    font-size: 14px;
-    text-align: center;
-    font-weight: 400;
     height: 35px;
     margin: 0 0 20px 0;
-    width: 100%;
     line-height: 32px;
     border-radius: 0px 0px 3px 3px;
 }
 
-.googleButton strong {
-    font-size: 18px;
+.loginGoogle{
+    border: none;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 400;
+    width: 100%;
 }
 
 .bodyLock {
@@ -649,13 +572,6 @@ nav i {
     margin-right: 7px;
     line-height: 37px !important;
     display: block !important;
-}
-
-
-.ionCash{
-    font-size: 139px !important;
-    right: -38px !important;
-    top: 9px !important;
 }
 
 
@@ -726,12 +642,6 @@ nav {
     line-height: 30px;
 }
 
-.unActive {
-    width: 39%;
-    height: 100%;
-    background-color: blue;
-}
-
 .activeLink {
     color: @menu !important;
 }
@@ -747,11 +657,6 @@ nav {
     border-radius: 100%;
     float: left;
     margin-right: 10px;
-}
-
-nav h3 {
-    margin-top: 4px;
-    display: -webkit-inline-box;
 }
 
 .sideNavLinks {
@@ -770,27 +675,6 @@ nav h3 {
     z-index: 8;
 }
 
-.sideNavLinks li span {
-    line-height: 50px;
-    vertical-align: middle;
-    float: left;
-    margin-left: 10px;
-}
-
-.sideNavCircle {
-    background: none;
-
-    box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    float: left;
-    height: 12px;
-    width: 12px;
-    margin-top: 16px;
-}
-
 .navName {
     font-size: 16px;
     font-weight: 600;
@@ -800,7 +684,6 @@ nav h3 {
     padding-bottom: 21px;
     display: none !important;
 }
-
 
 .navProfile {
     display: none !important;
@@ -820,23 +703,6 @@ nav h3 {
     top: 53px;
     display: none;
     overflow: scroll;
-}
-
-.searchReturn ul {
-    list-style-type: none;
-    list-style: none;
-    width: 100%;
-}
-
-
-.searchReturn li {
-    float: left;
-    width: 100%;
-    border-bottom: 1px solid rgba(255, 253, 253, 0.36);
-    height: 40px;
-    list-style: none;
-    line-height: 40px;
-    overflow: hidden;
 }
 
 .returnedItem {
@@ -860,9 +726,14 @@ nav h3 {
 
 }
 
-.bottomHeaderContainer {
-    margin: 0 auto;
-    width: 90%;
+
+.topHeader span {
+    font-size: 36px;
+    color: #ffffff;
+}
+
+.topHeader li:first-child {
+    width: 20%;
 }
 
 .bottomHeader li {
@@ -874,16 +745,6 @@ nav h3 {
     line-height: 35px;
     vertical-align: middle;
 }
-
-
-.bottomHeader li:nth-child(2) {
-    width: 8.5%;
-}
-
-.bottomHeader li:nth-child(4) {
-    width: 5.5%;
-}
-
 
 header {
     background: @dashboardHeader;
@@ -901,15 +762,10 @@ header {
 }
 
 .headerNavIcon {
-    /*margin-top: 18px;*/
     margin-left: 15px;
     height: 16px;
     position: relative;
     line-height: 56px;
-/*    top: 7%;
-    -webkit-transform: translateY(59%);
-    -ms-transform: translateY(59%);
-    transform: translateY(59%);*/
 }
 
 .topHeader {
@@ -918,20 +774,11 @@ header {
     margin: 0 auto;
 }
 
-.topHeader span {
-    font-size: 36px;
-    color: #ffffff;
-}
-
 .topHeader li {
     float: left;
     height: 68px;
     width: 60%;
     position: relative;
-}
-
-.topHeader li:first-child {
-    width: 20%;
 }
 
 .topHeader li:last-child {
@@ -1037,19 +884,6 @@ header {
     right: 0;
 }
 
-/*.centered: before {
-content: "";
-display: inline-block;
-height: 100%;
-vertical-align: middle;   
-}
-
-.centered h1 h2 {
-display: inline-block;
-vertical-align: middle;   
-}*/
-
-
 .dashboardContainer {
     height: 170px;
     margin: 0 auto;
@@ -1106,39 +940,35 @@ vertical-align: middle;
     width: 100%;
 }
 
-.sideStats img {
-    width: 10px;
-    height: 10px;
-}
 .sideStats li {
     box-sizing:border-box;
     -moz-box-sizing:border-box;
     padding: 0 15px;
     width: 100%;
 }
-.sideStatsRight {
+
+.stats{
     color: #ffffff;
     font-size: 16px;
+    float: left;
+}
+     
+.sideStatsRight {
     line-height: 35px;
     width: 35px;
     text-align: center;
-    float: left;
     font-weight: 600;
     font-size: 24px;
     border-radius: 3px;
     margin-top: 6px;
 }
 
-.sideStatsLeft{
-    color: #ffffff;
-    font-size: 16px;
+.sideStatsLeft {
     line-height: 50px;
     width: 70%;
     text-align: left;
-    float: left;
     font-size: 20px;
 }
-
 
 #tabContainer {
     height: 100%;
@@ -1207,10 +1037,6 @@ vertical-align: middle;
     border-top: 1px solid @response;
 }
 
-.recentTicketsStick {
-
-}
-
 .noTicketMessage {
     text-align: center;
     color: @noTicket;
@@ -1221,17 +1047,6 @@ vertical-align: middle;
 
 .feed {
     width: 100%;
-}
-
-
-.feedContainer {
-    margin: 15px auto 0 auto;
-    width: 90%;
-}
-
-.feedTime span {
-    color: @time;
-    font-size: 16px;
 }
 
 .taskDescription {
@@ -1252,12 +1067,6 @@ vertical-align: middle;
 
 /* account
 ========================================================================== */
-
-.accountWrapper {
-    margin: 0px auto;
-    max-width: 80%;
-    padding: 0 5%;
-}
 
 .buttonList li {
     float: left;
@@ -1287,8 +1096,7 @@ vertical-align: middle;
     overflow: hidden;
     text-align: center;
 }
-
-
+    
 .button {
     background-color: @dashboardHeader;
     color: #ffffff;
@@ -1299,27 +1107,6 @@ vertical-align: middle;
     height: 30px;
     padding-bottom: 10%;
     margin: 20%;
-}
-
-.styled-select select {
-    background: @dashboardHeader;
-    width: 105%;
-    padding: 5px;
-    font-size: 16px;
-    line-height: 1;
-    border: 0;
-    border-radius: 0;
-    height: 40px;
-    -webkit-appearance: none;
-    color: #ffffff;
-
-}
-
-.styled-select {
-    width: 83.5%;
-    height: 40px;
-    overflow: hidden;
-    margin-left: 8%;
 }
 
 .textArea {
@@ -1413,12 +1200,6 @@ vertical-align: middle;
     vertical-align: top;
 }
 
-.detail4 {
-    font-size: 16px;
-    text-align: right;
-    width: 11%;
-}
-
 .detail1Short {
     color: #ffffff;
     font-size: 18px;
@@ -1440,19 +1221,18 @@ vertical-align: middle;
     margin-left: 2px;
 }
 
-
+.icon {
+   font-size: 32px;
+   padding: 2px; 
+   float: right;
+}
+    
 .plusIcon {
-    font-size: 32px;
-    padding: 2px;
     color: @circle;
-    float: right;
 }
 
 .closeIcon {
-    font-size: 32px;
-    padding: 2px;
     color:#D84242;
-    float: right;
 }
 
 .circlePencil{
@@ -1463,7 +1243,6 @@ vertical-align: middle;
   line-height: 33px;
   vertical-align: middle;
 }
-
 
 #sendInvoiceButton {
     width: 90%;
@@ -1481,27 +1260,6 @@ vertical-align: middle;
     height: 30px;
 }
 
-.invoiceAccount2 {
-    /* border-bottom: 1px solid #ffffff;*/
-    color: #ffffff;
-    list-style-type: none;
-    margin-top: 25px;
-    overflow: hidden;
-    height: 25px;
-    font-size: 18px;
-}
-.invoiceAccount li:first-child {
-    float: left;
-    font-size: 18px;
-}
-
-.invoiceAccount li:last-child {
-    float: right;
-    font-size: 14px;
-    margin-top: 4px;
-    margin-right: 5px;
-}
-
 .invoiceContainer {
     overflow: hidden !important;
     margin: 0 auto;
@@ -1510,12 +1268,6 @@ vertical-align: middle;
 
 .invoiceDetail {
     list-style-type: none;
-}
-
-.invoiceDetail li {
-    color: @time;
-    float: left;
-    text-align: right;
 }
 
 .invoiceInfo {
@@ -1534,15 +1286,6 @@ vertical-align: middle;
     width: 100%;
     max-height: 500px;
 /*    overflow: overlay;*/
-}
-
-.invoiceInfo li {
-    overflow: hidden;
-    margin-bottom: 2px;
-}
-
-.invoiceTotal span {
-    font-size: 17px;
 }
 
 .invoiceTotal {
@@ -1582,21 +1325,6 @@ vertical-align: middle;
     border-bottom: 1px solid @time;
 }
 
-.invoiceRows li:last-child {
-    text-align: right;
-}
-
-.invoiceRows li:nth-child(2) {
-    font-size: 13px;
-    line-height: 30px;
-    padding-left: 14px;
-    color: @time;
-}
-
-.invoiceRows li:first-child {
-    text-align: left;
-}
-
 .spacer {
     height: 17px;
 }
@@ -1627,6 +1355,51 @@ vertical-align: middle;
    margin-top: -2px;
 }
 
+
+.invoiceAccount li:first-child {
+    float: left;
+    font-size: 18px;
+}
+
+.invoiceAccount li:last-child {
+    float: right;
+    font-size: 14px;
+    margin-top: 4px;
+    margin-right: 5px;
+}
+
+
+.invoiceDetail li {
+    color: @time;
+    float: left;
+    text-align: right;
+}
+
+.invoiceInfo li {
+    overflow: hidden;
+    margin-bottom: 2px;
+}
+
+.invoiceTotal span {
+    font-size: 17px;
+}
+
+
+.invoiceRows li:last-child {
+    text-align: right;
+}
+
+.invoiceRows li:nth-child(2) {
+    font-size: 13px;
+    line-height: 30px;
+    padding-left: 14px;
+    color: @time;
+}
+
+.invoiceRows li:first-child {
+    text-align: left;
+}
+
 /* ToDos
 ========================================================================== */
 
@@ -1638,15 +1411,6 @@ vertical-align: middle;
     text-overflow: ellipsis;
     overflow: hidden;
 }
-
-/*.toDosAva {
-margin-left: 450px;
-color: rgb(72, 156, 214);
-font-size: 12px;
-font-weight: bold;
-padding-top: 5px;
-text-align: left;
-}*/
 
 .todosData {
     color: rgb(72, 156, 214);
@@ -1683,7 +1447,6 @@ text-align: left;
     overflow: auto;
     padding-top: 40px;
 }
-
 
 .recipientTodos {
     background: rgba(0, 0, 0, .4);
@@ -1909,20 +1672,10 @@ footer {
     height: 25px;
 }
 
-.navIcons {
-    list-style-type: none;
-}
-
 .navIcons li {
     float: left;
     width: 20%;
     text-align: center;
-}
-
-.navTitle {
-    color: #ffffff;
-    font-size: 9px;
-    margin-top: -3px;
 }
 
 
@@ -2011,7 +1764,7 @@ footer {
     height: 45px;
 }
 
-.OptionsList > li{
+ .OptionsList > li{
     margin:0 0 10px 0;
     height: 45px;
 }
@@ -2019,47 +1772,43 @@ footer {
 .OptionWrapper {
     width: 85%;
     background-color: @dashboardHeader;
-    height: 100%;
-    float: left;
-    line-height: 45px;
 }
 
 .OptionWrapper1 {
     width: 100%;
     background-color: @table;
-    height: 100%;
-    float: left;
-    line-height: 45px;
 }
 
 .OptionWrapper2 {
     width: 100%;
     background-color: @org;
+}
+    
+ .optionWrapper3 {
     height: 100%;
     float: left;
     line-height: 45px;
-}
+}   
 
 .NotificationWrapper {
     width: 15%;
-    background-color: @wrapper;
     height: 45px;
     float: right;
-    color: #ffffff;
-    line-height: 45px;
-    text-align: center;
 }
 
 .NotificationWrapperAccountDetail {
     width: 30%;
-    background-color: @wrapper;
     height: 100%;
     float: left;
+}
+
+.notificatio {
+    background-color: @wrapper;
     color: #ffffff;
     line-height: 45px;
     text-align: center;
 }
-
+    
 .openTicketTitle {
     text-align: center;
     font-size: 14px;
@@ -2143,36 +1892,11 @@ footer {
     font-size: 20px;
     color: #fff;
 }
-.activeAccountTitle {
-    color: white;
-    line-height: 40px;
-    vertical-align: center;
-    margin-left: 10px;
-}
 
-.activeAccountActivity {
-    color: white;
-    line-height: 40px;
-    vertical-align: center;
-    text-align: right;
-    margin-right: 10px;
-}
-
-.activeAccountHeader {
-    list-style-type: none;
-    width: 90%;
-    margin-bottom: -1px;
-}
-
-.activeAccountHeader li {
-    float: left;
-    width: 33.33%;
-    color: #ccc;
-    text-align: right;
-}
 
 /* Ticket Detials
 ========================================================================== */
+
 .ticketDetailsHeader {
     width: 100%;
     overflow: auto;
@@ -2181,11 +1905,6 @@ footer {
 
 .ticketDetailsHeader h3 {
     margin-bottom: 5px;
-}
-
-.ticketDetailsInfoText {
-    font-size: 13px;
-    color: #ffffff;
 }
 
 .shareTicket {
@@ -2355,9 +2074,6 @@ footer {
     margin: 0 auto;
 }
 
-.nameNtech {
-    list-style-type: none;
-}
 .commentBlock li {
     float: left;
     margin-top: 8px;
@@ -2455,10 +2171,6 @@ footer {
     width: 102%;
 }
 
-.nameNtech {
-    list-style-type: none;
-}
-
 .responseBlock li {
     float: left;
     margin-top: 11px;
@@ -2484,7 +2196,6 @@ footer {
     color: @response;
     font-size: 10px;
 }
-
 
 .responseText {
     color: @text;
@@ -2573,7 +2284,6 @@ footer {
 }
 
 
-
 .userStat {
     color: #ffffff;
     margin-top: 35px;
@@ -2610,50 +2320,6 @@ footer {
 
 /* DashBoard Slider css */
 
-.swiper-container {
-    width: 100%;
-    height: 100%;
-    color: #fff;
-    text-align: center;
-}
-
-.first-slide {
-}
-
-.second-slide {
-
-}
-
-.second-slide ul {
-    list-style-type: none;
-    margin-left: 10%;
-}
-
-.second-slide li {
-    float: left;
-    width: 50%;
-    margin: 5px auto 5px;
-}
-
-.second-slide li span {
-    margin: -18px 0 0 22px;
-    float: left;
-    font-size: 14px;
-}
-
-.graphKeyRed {
-    height: 15px;
-    width: 15px;
-    background-color:rgba(37,176,230,0.5);
-    border: 1px solid rgba(220,220,220,1);
-}
-
-.graphKeyBlue {
-    height: 15px;
-    width: 15px;
-    background-color:rgba(35,225,35,0.5);
-    border: 1px solid rgba(151,187,205,1);
-}
 
 #bar {
     width: 100%;
@@ -2696,18 +2362,6 @@ footer {
     display: none;
 }
 
-.swiper-pagination-switch {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 8px;
-    background: #222;
-    margin-right: 5px;
-    opacity: 0.8;
-    border: 1px solid #fff;
-    cursor: pointer;
-}
-
 .swiper-visible-switch {
     background: #aaa;
 }
@@ -2746,14 +2400,7 @@ footer {
     display: none;
 }
 
-.detailsArrowDown {
-    color: #ccc;
-    opacity: 0.5;
-    text-align: center;
-    margin-bottom: 7px;
-}
-
-.detailsArrowUp {
+.detailsArrowDown, .detailsArrowUp {
     color: #ccc;
     opacity: 0.5;
     text-align: center;
@@ -2997,25 +2644,8 @@ footer {
     margin-right: 17px;
 }
 
-.toManyTks {
-    /*line-height: 27px !important;
-    font-size: 19px !important;
-    padding-top: 6px;*/
-    position: relative;
-}
-
-.toManyTksSmall {
-    /*line-height: 27px !important;
-    font-size: 19px !important;*/
-}
-
 br {
     content: no-close-quote;
-}
-
-.innerContainer {
-    overflow: scroll;
-    width: 100%;
 }
 
 .recipientDetail li:first-child img {
@@ -3066,16 +2696,6 @@ input[type=number] {
     background-color: transparent;
     color: #fff;
     padding-left: 10px;
-}
-
-.pageCover {
-    width: 100%;
-    height: 88%;
-    background-color: transparent;
-    position: absolute;
-    top: 0;
-    display: none;
-    z-index: 7;
 }
 
 #reload {

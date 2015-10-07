@@ -156,7 +156,7 @@ function errorLine(message){
     var func = "location.reload(false)";
     $("#scroller").hide();
     if (!$(".catch-error").length) {
-        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Something went wrong...</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>'+message+'</h4><h4>&nbsp;<p>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="'+func+'">Refresh</button></center></div></div>');
+        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Something went wrong...</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>'+message+'</h4><h4>&nbsp;<p>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton loginGoogle style="width: 200px;" onclick="'+func+'">Refresh</button></center></div></div>');
     }
 }
 
@@ -164,7 +164,7 @@ function offLine(){
     var func = "redirectToPage()";
     isOnline = false;
     if (!$(".catch-error").length) {
-        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton style="width: 200px;" onclick="'+func+'">Refresh</button></center></div></div>');
+        $('body').prepend('<div class="catch-error"><div class="catch-error-description"><h2>&nbsp;</h2><h2>&nbsp;</h2><h2>Check your internet connection!</h2><div id="ctl00_PageBody_StackTrace" class="return-button"><p /><p /><h4>P.S.  Uh... a Yeti just attacked your  camp!</h4><center><button class=loginButton loginGoogle style="width: 200px;" onclick="'+func+'">Refresh</button></center></div></div>');
     }
 }
 
@@ -811,7 +811,7 @@ $(document).ready(function(){
                         userMessage.showMessage(false, "This email is already in use. Please choose action below");
                         localStorage.setItem('userName', $("#email").val());
                         $("#is_force_registration").prop("checked", true);
-                        $("#signupButton").before("<center><h3 style='padding-top: 10px;'>This email is already in use. Would you like to</h3>"+" <div class=loginButton onclick='window.location = \"login.html\"'>Login</div>"+"<h3>or</h3></center>");
+                        $("#signupButton").before("<center><h3 style='padding-top: 10px;'>This email is already in use. Would you like to</h3>"+" <div class=loginButton loginGoogle onclick='window.location = \"login.html\"'>Login</div>"+"<h3>or</h3></center>");
                         $("#signupButton").text("Create New Organization");
                         return;
                     }
@@ -2520,7 +2520,7 @@ $(document).ready(function(){
                     for(var x = 0; x < recl; x++)
                     {
                         var email = $.md5(rec[x].email);
-                        insert += "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p class=dots>"+rec[x].email /*createElipse(rec[x].email, 0.9, 12)*/+"</p>" + (rec[x].is_accounting_contact ? "<i class='plusIcon ion-checkmark-circled circleInvoice' id=\""+ rec[x].email +"\"></i>" : "<i class='closeIcon ion-close-circled circleInvoice' id=\""+ rec[x].email +"\"></i>") + "</div></li></ul></li>";
+                        insert += "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p class=dots>"+rec[x].email /*createElipse(rec[x].email, 0.9, 12)*/+"</p>" + (rec[x].is_accounting_contact ? "<i class='plusIcon icon ion-checkmark-circled circleInvoice' id=\""+ rec[x].email +"\"></i>" : "<i class='closeIcon icon ion-close-circled circleInvoice' id=\""+ rec[x].email +"\"></i>") + "</div></li></ul></li>";
                     }
                     $("#recipientList").html(insert);
                 }
@@ -2846,7 +2846,7 @@ $(document).ready(function(){
                     continue;
                 if (limit && activeQueues>= limit)
                     continue;
-                textToInsert.push("<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle dots user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>");
+                textToInsert.push("<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper optionWrapper3'><h3 class='OptionTitle dots user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper notificatio'><h2>"+returnData[i].tickets_count+"</h2></div></li>");
 
                 if(length > 10 && i == 10){
                     $table.html(textToInsert.join(''));
@@ -3740,7 +3740,7 @@ $(document).ready(function(){
                             expired =  " <font color=black>(Expired)</font>";
                                 expiredclass = "expired";
                             }
-                            var insert = "<li class=item><div id='org' data-id="+i+" class='OptionWrapper1'><h3 class='OptionTitle dots user_name "+expiredclass+"'>"+orglistitem[i].name+expired+"</h3></div></li>";
+                            var insert = "<li class=item><div id='org' data-id="+i+" class='OptionWrapper1 optionWrapper3'><h3 class='OptionTitle dots user_name "+expiredclass+"'>"+orglistitem[i].name+expired+"</h3></div></li>";
                             $('#orgsPage').append(insert);
                         }
                         $(document).on("click","#org", function () {
@@ -3779,7 +3779,7 @@ $(document).ready(function(){
                             expired =  " <font color=black>(Expired)</font>";
                                 expiredclass = "expired";
                             }
-                                    var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle dots user_name"+expiredclass+"'>"+instances[i].name+expired+"</h3></div></li>";
+                                    var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2 optionWrapper3'><h3 class='OptionTitle dots user_name"+expiredclass+"'>"+instances[i].name+expired+"</h3></div></li>";
                                     $('#instsPage').append(insert);
                                 }
                                 $('.instSelect').show();
@@ -3807,7 +3807,7 @@ $(document).ready(function(){
                         localStorage.setItem('userOrgKey', userOrgKey);
                         localStorage.setItem('sd_is_MultipleOrgInst', 'false');
                         localStorage.setItem('userOrg', userOrg);
-                        var insert = "<li class=item><div id='org' data-id=0 class='OptionWrapper1'><h3 class='OptionTitle dots user_name'>"+results[0].name+"</h3></div></li>";
+                        var insert = "<li class=item><div id='org' data-id=0 class='OptionWrapper1 optionWrapper3'><h3 class='OptionTitle dots user_name'>"+results[0].name+"</h3></div></li>";
                         $('#orgsPage').append(insert);
                         //location.reload(true);
                         var instances = results[0].instances;
@@ -3826,7 +3826,7 @@ $(document).ready(function(){
                             expired =  " <font color=black>(Expired)</font>";
                                 expiredclass = "expired";
                             }
-                                    var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2'><h3 class='OptionTitle dots user_name"+expiredclass+"'>"+instances[i].name+expired+"</h3></div></li>";
+                                    var insert = "<li class=item><div id='inst' data-id="+i+" class='OptionWrapper2 optionWrapper3'><h3 class='OptionTitle dots user_name"+expiredclass+"'>"+instances[i].name+expired+"</h3></div></li>";
                                 $('#instsPage').append(insert);
                             }
                             $('.instSelect').show();
