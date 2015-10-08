@@ -2518,7 +2518,7 @@ $(document).ready(function(){
                     for(var x = 0; x < recl; x++)
                     {
                         var email = $.md5(rec[x].email);
-                        insert += "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p class=dots>"+rec[x].email /*createElipse(rec[x].email, 0.9, 12)*/+"</p>" + (rec[x].is_accounting_contact ? "<i class='plusIcon icon ion-checkmark-circled circleInvoice' id=\""+ rec[x].email +"\"></i>" : "<i class='closeIcon icon ion-close-circled circleInvoice' id=\""+ rec[x].email +"\"></i>") + "</div></li></ul></li>";
+                        insert += "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p class=dots>"+rec[x].email /*createElipse(rec[x].email, 0.9, 12)*/+"</p>" + (rec[x].is_accounting_contact ? "<i class='plusIcon pcIcon ion-checkmark-circled circleInvoice' id=\""+ rec[x].email +"\"></i>" : "<i class='closeIcon pcIcon ion-close-circled circleInvoice' id=\""+ rec[x].email +"\"></i>") + "</div></li></ul></li>";
                     }
                     $("#recipientList").html(insert);
                 }
@@ -2705,7 +2705,7 @@ $(document).ready(function(){
                         id = returnData[i].account_id +","+returnData[i].project_id;// +","+(returnData[i].start_date || new Date().toJSON()).slice(0, 10) +","+ (returnData[i].end_date || new Date().toJSON()).slice(0, 10);
                         var id = is_unbilled ? 
                             returnData[i].account_id +","+returnData[i].project_id : returnData[i].id;
-                        insert += "<ul data-id="+id+" class='invoiceRows item'><li class='user_name dots'>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
+                        insert += "<ul data-id="+id+" class='invoiceRows detailInvoice item'><li class='user_name dots'>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
                         //if (!accountid) localInvoiceList.push(insert);
                     }
                     $(insert).appendTo("#invoiceList");
@@ -3108,7 +3108,7 @@ $(document).ready(function(){
                     var openTks = returnData[i].account_statistics.ticket_counts.open;
                     var nameCheck = returnData[i].name;
                     // nameCheck = createElipse(nameCheck, 0.75, 12);
-                    textToInsert.push("<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+nameCheck+"</li><li><div class='tks' "+(openTks > 99 ? "style='height: 42px;'>99<sup>+</sup>" : ">"+openTks)+"</div></li></ul>");
+                    textToInsert.push("<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+nameCheck+"</li><li><div class='tks tks2' "+(openTks > 99 ? "style='height: 42px;'>99<sup>+</sup>" : ">"+openTks)+"</div></li></ul>");
 
                     if(length > 10 && i == 10){
                         $table.html(textToInsert.join(''));
@@ -3131,7 +3131,7 @@ $(document).ready(function(){
                 var nameCheck = returnData[i].name;
                 //nameCheck = createElipse(nameCheck, 0.30, 12);
                 var openHours = Math.min(returnData[i].account_statistics.hours || 0, 999);
-                textToInsert.push("<ul class='tableRows clickme' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1 " + (openTks > 99 ? "overflowTickets' style='height: 42px;'>99<sup>+</sup>" : "'>"+openTks) + "</div></li></ul>");
+                textToInsert.push("<ul class='tableRows clickme' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1 tks2" + (openTks > 99 ? "overflowTickets' style='height: 42px;'>99<sup>+</sup>" : "'>"+openTks) + "</div></li></ul>");
 
                 if(length > 10 && i == 10){
                     $table.html(textToInsert.join(''));

@@ -221,13 +221,13 @@ a {
   color: black;
 }
 .styledSelect {
-    width: 100%;
-    height: 45px;
-    margin-bottom: 11px;
-    overflow: hidden;
-    background: #489CD6;
-    background-position: top 18px right 18px;
-    border-radius: 3px;
+  width: 100%;
+  height: 45px;
+  margin-bottom: 11px;
+  overflow: hidden;
+  background: #489cd6;
+  background-position: top 18px right 18px;
+  border-radius: 3px;
 }
 .createButtonSmall1 {
   width: 45px;
@@ -373,11 +373,17 @@ html {
   resize: none;
 }
 .textInputSmall {
-  background: rgba(0, 0, 0, 0.6) !important;
+  background: rgba(0, 0, 0, 0.6);
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border: none;
   overflow: hidden;
   color: #ffffff;
-  height: 40px !important;
+  font-size: 16px;
+  height: 40px;
+  padding: 10px;
   width: 100%;
+  resize: none;
   margin-bottom: 4px;
 }
 .textInputSmall_Note {
@@ -501,14 +507,9 @@ html {
 }
 .loginButton {
   background: #42bd41;
-  border: none;
   color: #ffffff;
-  font-size: 14px;
-  text-align: center;
-  font-weight: 400;
   height: 40px;
   margin: 15px 0 20px 0;
-  width: 100%;
   line-height: 40px;
   border-radius: 3px;
 }
@@ -543,16 +544,18 @@ html {
 }
 .googleButton {
   background: rgba(131, 131, 131, 0.82);
-  border: none;
   color: #FDFDFD;
+  height: 35px;
+  margin: 0 0 20px 0;
+  line-height: 32px;
+  border-radius: 0px 0px 3px 3px;
+}
+.loginGoogle {
+  border: none;
   font-size: 14px;
   text-align: center;
   font-weight: 400;
-  height: 35px;
-  margin: 0 0 20px 0;
   width: 100%;
-  line-height: 32px;
-  border-radius: 0px 0px 3px 3px;
 }
 .bodyLock {
   z-index: 1;
@@ -916,25 +919,24 @@ header {
   padding: 0 15px;
   width: 100%;
 }
-.sideStatsRight {
+.stats {
   color: #ffffff;
   font-size: 16px;
+  float: left;
+}
+.sideStatsRight {
   line-height: 35px;
   width: 35px;
   text-align: center;
-  float: left;
   font-weight: 600;
   font-size: 24px;
   border-radius: 3px;
   margin-top: 6px;
 }
 .sideStatsLeft {
-  color: #ffffff;
-  font-size: 16px;
   line-height: 50px;
   width: 70%;
   text-align: left;
-  float: left;
   font-size: 20px;
 }
 #tabContainer {
@@ -1023,27 +1025,26 @@ header {
   width: 30%;
   margin: 0%;
 }
-
 .buttonList input {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, .4);
-    border: 0;
-    color:#fff;
-    font-size: 22px;
-    overflow: hidden;
-    text-align: center;
-    padding-left: 5px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 0;
+  color: #fff;
+  font-size: 22px;
+  overflow: hidden;
+  text-align: center;
+  padding-left: 5px;
 }
 .buttonListdiv input {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, .4);
-    border: 0;
-    color:#fff;
-    font-size: 20px;
-    overflow: hidden;
-    text-align: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 0;
+  color: #fff;
+  font-size: 20px;
+  overflow: hidden;
+  text-align: center;
 }
 .button {
   background-color: #25b0e6;
@@ -1106,13 +1107,18 @@ header {
 }
 /* Invoice
 ========================================================================== */
-.detail1 {
+.detail {
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
   text-align: left !important;
-  width: 35%;
   padding: 6px;
+}
+.detail1 {
+  width: 35%;
+}
+.detail1Short {
+  width: 70%;
 }
 .detail2 {
   font-size: 16px;
@@ -1123,18 +1129,15 @@ header {
   width: 32% !important;
   margin-right: 2px;
 }
+.detail4 {
+  font-size: 16px;
+  text-align: right;
+  width: 11%;
+}
 .detail3Small {
   font-size: 10px;
   margin-left: 2px;
   vertical-align: top;
-}
-.detail1Short {
-  color: #ffffff;
-  font-size: 18px;
-  font-weight: 600;
-  text-align: left !important;
-  width: 70%;
-  padding: 6px;
 }
 .detail2Short {
   font-size: 16px;
@@ -1146,17 +1149,16 @@ header {
   width: 10%;
   margin-left: 2px;
 }
-.plusIcon {
+.pcIcon {
   font-size: 32px;
   padding: 2px;
-  color: #42bd41;
   float: right;
 }
+.plusIcon {
+  color: #42bd41;
+}
 .closeIcon {
-  font-size: 32px;
-  padding: 2px;
   color: #D84242;
-  float: right;
 }
 .circlePencil {
   position: relative;
@@ -1175,21 +1177,28 @@ header {
 .invoiceAccount {
   border-bottom: 1px solid #ffffff;
   color: #ffffff;
-  list-style-type: none;
   margin-top: 35px;
   overflow: hidden;
   height: 30px;
+}
+.invoiceAccount2 {
+  /* border-bottom: 1px solid #ffffff;*/
+  color: #ffffff;
+  list-style-type: none;
+  margin-top: 25px;
+  overflow: hidden;
+  height: 25px;
+  font-size: 18px;
 }
 .invoiceContainer {
   overflow: hidden !important;
   margin: 0 auto;
   width: 90%;
 }
-.invoiceDetail {
+.detailInvoice {
   list-style-type: none;
 }
 .invoiceInfo {
-  list-style-type: none;
   margin-top: 35px;
   width: 100%;
   max-height: 630px;
@@ -1198,7 +1207,6 @@ header {
   height: 200px;
 }
 .invoiceInfoSmall {
-  list-style-type: none;
   margin-top: 24px;
   width: 100%;
   max-height: 500px;
@@ -1221,7 +1229,6 @@ header {
   margin-top: 25px;
 }
 .invoiceRows {
-  list-style-type: none;
   color: #ffffff;
   width: 100%;
   overflow: auto;
@@ -1406,10 +1413,9 @@ F .recipientDetail li:last-child {
 .expired {
   color: black !important;
 }
-.errorMessageNeg {
+.message {
   width: 100%;
   min-height: 63px;
-  background-color: rgba(228, 49, 49, 0.86);
   color: #fdfafa;
   text-align: center;
   position: fixed;
@@ -1419,17 +1425,11 @@ F .recipientDetail li:last-child {
   z-index: 5;
   display: none;
 }
+.errorMessageNeg {
+  background-color: rgba(228, 49, 49, 0.86);
+}
 .errorMessagePos {
-  width: 100%;
-  min-height: 63px;
   background-color: rgba(75, 178, 77, 0.89);
-  color: #fdfafa;
-  text-align: center;
-  position: fixed;
-  top: 0px;
-  left: 0%;
-  padding-top: 16px;
-  z-index: 5;
   display: none;
 }
 /* Timelog
@@ -1545,11 +1545,9 @@ footer {
 }
 /* Select Payment
 ========================================================================== */
-.selectPaymentButton {
-  background: #489CD6;
+.paymentButton {
   border: 0;
   display: block;
-  margin: 0 auto 15px auto;
   color: #ffffff;
   height: 45px;
   width: 100%;
@@ -1557,17 +1555,13 @@ footer {
   text-align: center;
   line-height: 45px;
 }
+.selectPaymentButton {
+  background: #489CD6;
+  margin: 0 auto 15px auto;
+}
 .buttonNextPayment {
   background: #57DE57;
-  border: 0;
-  display: block;
   margin-top: 30px;
-  color: #ffffff;
-  height: 45px;
-  width: 100%;
-  font-size: 16px;
-  text-align: center;
-  line-height: 45px;
 }
 /* Account_details
 ========================================================================== */
@@ -1609,43 +1603,32 @@ footer {
 .OptionWrapper {
   width: 85%;
   background-color: #25b0e6;
-  height: 100%;
-  float: left;
-  line-height: 45px;
 }
 .OptionWrapper1 {
   width: 100%;
   background-color: #25b0e6;
-  height: 100%;
-  float: left;
-  line-height: 45px;
 }
 .OptionWrapper2 {
   width: 100%;
   background-color: #0099cc;
+}
+.optionWrapper3 {
   height: 100%;
   float: left;
   line-height: 45px;
-}
-.optionWrapper3 {
-    height: 100%;
-    float: left;
-    line-height: 45px;
 }
 .NotificationWrapper {
   width: 15%;
-  background-color: #0099cc;
   height: 45px;
   float: right;
-  color: #ffffff;
-  line-height: 45px;
-  text-align: center;
 }
 .NotificationWrapperAccountDetail {
   width: 30%;
-  background-color: #0099cc;
   height: 100%;
   float: left;
+}
+.notificatio {
+  background-color: #0099cc;
   color: #ffffff;
   line-height: 45px;
   text-align: center;
@@ -1662,24 +1645,12 @@ footer {
   height: 100%;
   float: left;
 }
-.notificatio {
-    background-color: #0099CC;
-    color: #ffffff;
-    line-height: 45px;
-    text-align: center;
-}
 /* Account_details
 ========================================================================== */
 .buttonShowClosedTickets {
   background: #0099cc;
-  border: 0;
   margin: 30px auto 15px;
-  color: #ffffff;
-  height: 45px;
-  width: 100%;
-  font-size: 16px;
-  text-align: center;
-  line-height: 45px;
+  display: none;
 }
 /* Dashboard Redesign
 ========================================================================== */
@@ -2342,18 +2313,16 @@ footer {
   padding-right: 5px;
   margin-left: -5px;
 }
-.tks {
+.tks2 {
   width: 40px;
   background: #0099cc;
   text-align: center;
   line-height: 35px;
+}
+.tks {
   margin: 15px 18px;
 }
 .tks1 {
-  width: 40px;
-  background: #0099cc;
-  text-align: center;
-  line-height: 35px;
   margin-top: 7px;
   font-size: 21px;
   position: relative;

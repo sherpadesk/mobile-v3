@@ -145,12 +145,12 @@ var fastClicker = {
 		slideOut: function() {
             $(document).on("click",".plusIcon",function(){
                 var email = $(this).attr("id");
-				$(this).removeClass().addClass("closeIcon icon ion-close-circled circleInvoice");
+				$(this).removeClass().addClass("closeIcon pcIcon ion-close-circled circleInvoice");
                 $(this).parents(".recipientParent").appendTo("#recipientList");
 			});
 			$(document).on("click",".closeIcon",function(){
                 var email = $(this).attr("id");
-				$(this).removeClass().addClass("plusIcon icon ion-checkmark-circled circleInvoice");
+				$(this).removeClass().addClass("plusIcon pcIcon ion-checkmark-circled circleInvoice");
                 $(this).parents(".recipientParent").prependTo('#recipientList');
 			});
 			$(document).on("click","#addRecipient", function(){
@@ -179,7 +179,7 @@ var fastClicker = {
 				$(".headerSearchContainer").animate({
 					width: "0px"
 				}, 10);
-				var insert = "<li id='addRecipient' class='detail3Short'><i class='plusIcon icon ion-checkmark-circled circleInvoice></i>";
+				var insert = "<li id='addRecipient' class='detail3Short'><i class='plusIcon pcIcon ion-checkmark-circled circleInvoice></i>";
 				setTimeout(
   				function()
   				{
