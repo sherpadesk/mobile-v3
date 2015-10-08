@@ -154,7 +154,7 @@ var fastClicker = {
                 $(this).parents(".recipientParent").prependTo('#recipientList');
 			});
 			$(document).on("click","#addRecipient", function(){
-				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer addRecipColor'><input class='headerSearch'><img class='searchCloseExpandedR addRecipX' src='img/close_search.png'></div></li>";
+				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer searchContainer addRecipColor'><input class='headerSearch searchContainer'><img class='searchCloseExpandedR addRecipX' src='img/close_search.png'></div></li>";
 				var parent = $(this).parent();
 				var label = '<li>Recipients</li>';
 				$(parent).empty();
@@ -202,7 +202,7 @@ var fastClicker = {
             if ($(".headerSearchIcon")){
                 var parent = $(".headerSearchIcon").parent();
                 //console.log(parent);
-                var insert = "<div id='searchThis' class='headerSearchContainer'><span class='searchIconExpanded'><i class='ion-ios-search-strong'></i></span><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><span class='searchCloseExpanded'> <i class='ion-android-close'></i></span></div>";
+                var insert = "<div id='searchThis' class='headerSearchContainer searchContainer'><span class='searchIconExpanded'><i class='ion-ios-search-strong'></i></span><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><span class='searchCloseExpanded'> <i class='ion-android-close'></i></span></div>";
 				$(parent).empty();
 				$(insert).appendTo( $( parent ) );
                 if (localStorage.getItem("searchItem")){

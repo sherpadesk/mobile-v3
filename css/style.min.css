@@ -318,9 +318,6 @@ html {
   vertical-align: middle;
 }
 .feedClock {
-  /*    height: 12px;
-    display: inline;
-    margin-right: 7px;*/
   color: #ffffff;
 }
 .feedName {
@@ -788,11 +785,6 @@ header {
   background: transparent;
   border: none;
   font-size: 14px;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
   color: #ffffff;
   height: 36px;
   float: left;
@@ -801,17 +793,17 @@ header {
   padding-top: 15px;
 }
 .headerSearchContainer {
+  height: 37px;
+  float: right;
+  background-color: #25b0e6;
+  width: 0px;
+}
+.searchContainer {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-  height: 37px;
-  /*    margin-top: 8px;*/
-  float: right;
-  /*background: @wrapper;*/
-  background-color: #25b0e6;
-  width: 0px;
 }
 .addRecipColor {
   background-color: rgba(0, 0, 0, 0.4) !important;
