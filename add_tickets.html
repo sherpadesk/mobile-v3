@@ -21,11 +21,11 @@
     
     <!-- Jquery -->
     <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/select2.min.css" /><script src="js/select2.min.js"></script>
     <!-- Main.js -->
     <script src="js/index.js"></script>
     <script src="js/main.min.js"></script>
     
-    <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
   </head>
@@ -50,7 +50,7 @@
     <div class="CreateInvoiceWrapper"> 
         <div id=istech>
         <div class="styledSelectGroup"><div class="styledSelect user styledSelectSmall">
-            <li class="arrowDown ion-ios-arrow-down"></li>
+            
             <select id="addTicketUser">     
             </select>
         </div>
@@ -58,7 +58,7 @@
             <span class="circlePlus"><i class="ion-record circle icon-a fa-bs"></i><i class="ion-plus-circled circle icon-b fa-fs"></i></span></div></div> 
            
         <div class="styledSelect">
-            <li class="arrowDown ion-ios-arrow-down"></li>
+            
            <select id="addTicketAccounts">
               <!--<option value="+value+">"+task+"</option>-->
            </select>
@@ -66,7 +66,7 @@
          
                  
              <div class="styledSelect detailedOption">
-                 <li class="arrowDown ion-ios-arrow-down"></li>
+                 
            <select id="ticket_Location">
 <!--             <option value="13">123I'm testing &amp; &lt;script&gt;alertw("!!!");&amp;</option><option value="16">Main Office</option><option value="17">My Office</option><option value="1253">Test location with address</option>-->
                </select>
@@ -76,7 +76,7 @@
              
             
         <div class="styledSelectGroup"><div class="styledSelect styledSelectSmall">
-            <li class="arrowDown ion-ios-arrow-down"></li>
+            
            <select id="addTicketTechs">     
            </select>
         </div>
@@ -86,16 +86,16 @@
         <div class="selectionGroup"></div>
         <div class="add_class">
         <div class="styledSelect">
-            <li class="arrowDown ion-ios-arrow-down"></li>
+            
            <select id="classTicketOptions">
               <!--<option value="+classId+">"+className+"</option>-->
            </select>
         </div>
                
             <div class="sub_class1 d0"><div class="styledSelect">
-                <li class="arrowDown ion-ios-arrow-down"></li>
+                
                 <select id="sub_class1"></select></div></div>
-        <div class="sub_class2 d0"><div class="styledSelect"><li class="arrowDown ion-ios-arrow-down"></li><select id="sub_class2"></select></div></div>
+        <div class="sub_class2 d0"><div class="styledSelect"><select id="sub_class2"></select></div></div>
         </div>
         </div>
         <textarea id="addTicketSubject" class="textInputSmallLight textInput2" type="text" placeholder="Subject"></textarea>
