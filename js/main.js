@@ -3118,11 +3118,13 @@ $(document).ready(function(){
                 createSpan(parent); filterList("ActiveAccountsContainer");
             }
         },
+       //create account list on dashboard.html 
         createDashAccountsList : function (parent, returnData){
-            var name = null;
-            var textToInsert =  ["<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tkts</li></ul>"],
+            var textToInsert =  [],
                 length = returnData.length,
                 $table = $(parent);
+            if (length>0)
+                textToInsert=["<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tkts</li></ul>"];
             for (var i = 0; i<length; i += 1) {
                 returnData[i].index = returnData[i].id +',' + i;
                 var openTks = returnData[i].account_statistics.ticket_counts.open;
