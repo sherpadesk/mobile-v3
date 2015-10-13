@@ -542,6 +542,11 @@ $(document).ready(function(){
             dataType: "json"
         }).promise();
     }
+    
+    var osearch = {   
+        minimumResultsForSearch: 8,
+        width: "95%"
+    };
 
     function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
     {
@@ -565,7 +570,7 @@ $(document).ready(function(){
         var i = 0;
         for(i = 0; i < returnData.length; i++)
         {
-            var value = returnData[i].id;
+            var value = returnData[i].id || returnData[i].user_id;
             var name = "";
             if (!isCustom)
                 name = returnData[i].name;
@@ -587,6 +592,7 @@ $(document).ready(function(){
             $(""+envelope_start + insert + envelope_end).appendTo(""+element);
             $(""+element).parent().show();
             $(""+element).parent().parent().show();
+            $(""+element).select2(osearch);
         }
         else
             $(""+element).parent().hide();
@@ -912,18 +918,11 @@ $(document).ready(function(){
                 $("#loading").show1();
                 $("#transfer").hide1();
                 $("#transferSelect").show1();
+                
                 getApi("technicians?limit=200").then(function(returnData) {
                     //console.log(returnData);
                     // add techs to option select list
-                    var insert = "<option value=0 disabled selected> Choose Tech</option>";
-                    $(insert).appendTo("#transferTechs");
-                    for(var i = 0; i < returnData.length; i++)
-                    {
-                        var value = returnData[i].id;
-                        var name = returnData[i].firstname+" "+returnData[i].lastname;
-                        insert = "<option value="+value+">"+name+"</option>";
-                        $(insert).appendTo("#transferTechs");
-                    }
+                    fillSelect(returnData, "#transferTechs", "<option value=0 disabled selected> Choose Tech</option>", "", "firstname,lastname,email");
                     reveal();
                 },
                                                      function(e) {
@@ -1103,6 +1102,46 @@ $(document).ready(function(){
 
             this.addTicket();
         },
+        getSearch: function(element, method){
+            $(element).select2({
+                width: "95%",
+                ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.withCredentials = true;
+                        xhr.setRequestHeader('Authorization',
+                                             'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
+                    },
+                    url: ApiSite + method,
+                    dataType: "json",
+                    delay: 500,
+                    data: function (params) {
+                        return {
+                            query: params.term // search term
+                        };
+                    },
+                    processResults: function (data, page) {
+                        var results = [];
+                        $.each(data, function(i, concretePage) {
+                            var name = concretePage.lastname + " " +concretePage.firstname;
+                            if (!name.trim())
+                                name = concretePage.email;
+                            else
+                                name += " (" + concretePage.email + ")";
+                            results.push({'id': concretePage.id, 'text': name});
+                        });
+                        return {
+                            results: results
+                        };
+                    },
+                    error: function(e) {
+                        //showError(e);
+                        console.log("fail @ search on " + Page);
+                    },
+                    cache: true
+                },
+                minimumInputLength: 3
+            });
+        },
         getLocations: function(account){
             $("#ticket_Location").empty();
                 $("<option value=0 selected>choose a location</option>").appendTo("#ticket_Location");
@@ -1116,6 +1155,8 @@ $(document).ready(function(){
         addTicket:function() {
             $("#addTicketAccounts").empty();
             var accountset = localStorage.getItem('addAccountTicket');
+            var account = Number(localStorage.getItem('add_user_accountid')) || Number(localStorage.getItem("account_id")) || -1;
+            accountset  = accountset ? accountset : account; 
             localStorage.setItem('addAccountTicket', '');
             if(!isTech){
                 $("#istech").hide1();
@@ -1151,11 +1192,9 @@ $(document).ready(function(){
                      // get list of accounts add them to option select list
                      $("#addTicketAccounts").empty();
                      fillSelect(returnData, "#addTicketAccounts", "<option value=0 disabled selected>choose an account</option>");
-                     var account = Number(localStorage.getItem('add_user_accountid')) || Number(localStorage.getItem("account_id")) || -1;
-                     accountset  = accountset ? accountset : account; 
                      if (accountset){
                          localStorage.setItem('add_user_accountid', '');
-                         $("#addTicketAccounts").val(accountset);
+                         $("#addTicketAccounts").val(accountset).trigger("change");
                      }
                       // ticket Location_add_Ticket
                 if (isLocation)
@@ -1188,18 +1227,18 @@ $(document).ready(function(){
                 if (!userName.trim())
                     userName = localStorage.getItem("userName");
 
-                //$("#addTicketUser").append("<option value="+userid+" selected>"+userName+"</option>");
-
-                var users = getApi("users?limit=500&account=-1");
+                $("#addTicketUser").append("<option value="+userid+" selected>"+userName+"</option>");
+                newTicket.getSearch("#addTicketUser", "users?account="+accountset);
+                /*var users = getApi("users?limit=50&account=-1");
                 users.then(function(returnData){
                     //console.log(returnData);
                     // add techs to option select list
-                    fillSelect(returnData, "#addTicketUser", "", "",
-                               "firstname,lastname,email");
-                    $("#addTicketUser").val(userid);
+                    fillSelect(returnData, "#addTicketUser", "", "", "firstname,lastname,email");
+                    $("#addTicketUser").val(userid).trigger("change");
                     if ($("#addTicketUser").val() != userid.toString())
                     {
                         $("#addTicketUser option").eq(0).before($("<option></option>").val(userid).text(userName));
+                        $("#addTicketUser").val(userid).trigger("change");
                     }
                 },
                            function(e) {
@@ -1207,7 +1246,7 @@ $(document).ready(function(){
                     console.log("fail @ TicketUser");
                 }
                           );
-
+*/
                 // after an account is choosed it get a list of technicians
                 // list of Tech
                 var technicians = getApi("technicians?limit=200");
@@ -1220,7 +1259,7 @@ $(document).ready(function(){
                     var techid = localStorage.getItem('add_user_techid');
                     if (techid) {
                         localStorage.setItem('add_user_techid', '');
-                        $("#addTicketTechs").val(techid);
+                        $("#addTicketTechs").val(techid).trigger("change");
                     }
                 },
                                  function(e) {
@@ -1283,7 +1322,7 @@ $(document).ready(function(){
             });
         }
     };
-
+    
     var newTicket4 = {
         init:function() {
             if(isTech){
@@ -1339,7 +1378,7 @@ $(document).ready(function(){
                      accountset  = accountset ? accountset : account; 
                      if (accountset){
                          localStorage.setItem('add_user_accountid', '');
-                         $("#addTicketAccounts").val(accountset);
+                         $("#addTicketAccounts").val(accountset).trigger("change");
                      }
                      reveal();
                  }, function(e) {
@@ -1412,6 +1451,7 @@ $(document).ready(function(){
                     projects.done(
                         function(projectResults){
                             fillSelect(projectResults, "#ticketProject", "<option value='null' disabled selected>choose a project</option>");
+                            $("#ticketProject").select2();
                         }
                     );
                 }
@@ -1426,6 +1466,7 @@ $(document).ready(function(){
                             priorityInsert += "<option value="+prioritiesResults[b].id+">Priority: " + prioritiesResults[b].priority_level + " - " +prioritiesResults[b].name+"</option>";
                         }
                         $(priorityInsert).appendTo("#ticketPriority");
+                        $("#ticketPriority").select2();
                     }
                 );
 
@@ -1434,6 +1475,7 @@ $(document).ready(function(){
                 classes.done(
                     function(classResults){
                         fillClasses(classResults, "#classTicketOptions", "<option value=0 disabled selected>choose a class</option>");
+                        $("#classTicketOptions").select2();
                     });
 
                 // ticket Location_add_Ticket_V4
@@ -1441,6 +1483,7 @@ $(document).ready(function(){
                 location.done(
                     function(locationResults){
                         fillSelect(locationResults, "#ticketLocation", "<option value=0 disabled selected>choose a location</option>");
+                        $("#ticketLocation").select2();
                     });
                 
                   // ToDo Templates
@@ -1605,15 +1648,10 @@ $(document).ready(function(){
                 getApi("accounts?limit=300", {"is_with_statistics":false}).then(function(returnData) {
                     //console.log(returnData);
                     // accounts to add time
-                    var insert = "<option value=0>choose an account</option>";
-                    for(var i = 0; i < returnData.length; i++)
-                    {
-                        insert += "<option value="+returnData[i].id+">"+returnData[i].name+"</option>";
-                    }
-                    $("#timeAccounts").html(insert);
+                    fillSelect(returnData, "#timeAccounts", "<option value=0>choose an account</option>");
                     if (account_id)
                     {
-                        $("#timeAccounts").val(account_id);
+                        $("#timeAccounts").val(account_id).trigger("change");
                         //if (parseInt($("#timeAccounts").val()) !== account_id)
                         //    $("#timeAccounts").val(-1);
                     }
@@ -1865,9 +1903,9 @@ $(document).ready(function(){
                     // add task types to list
                     fillSelect(returnData, "#taskTypes", "<option value=0>choose a task type</option>");
                     if (task_type_id > 0)
-                        $("#taskTypes").val(task_type_id);
+                        $("#taskTypes").val(task_type_id).trigger("change");
                     else
-                        $("#taskTypes").prop("selectedIndex",1);
+                        $("#taskTypes").prop("selectedIndex",1).trigger("change");
                     }
                     if (!$("#timeTicket").length)
                         reveal();
@@ -1897,7 +1935,7 @@ $(document).ready(function(){
                             ////console.log(returnData);
                             // add projects
                             fillSelect(returnData, "#timeProjects");
-                            $("#timeProjects").val(project_id);
+                            $("#timeProjects").val(project_id).trigger("change");
                             addTime.getTaskTypes({"account" : account, "project": project_id}, task_type_id);
                             addTime.chooseTickets(account, project_id, 0);
                             //reveal();
@@ -1944,8 +1982,10 @@ $(document).ready(function(){
                             insert += "<option value="+returnData[i].number+">#"+ returnData[i].number+"&nbsp;:&nbsp;"+returnData[i].subject+"</option>";
                         }
                         $(insert).appendTo("#timeTicket");
+                        $("#timeTicket").select2(osearch);
                         //$("#timeTicket").val(ticket_id);
                     }
+                    
                     setTimeout(reveal, 500);
 
                 },
@@ -2069,6 +2109,8 @@ $(document).ready(function(){
                 else
                 {
                     //get accounts
+                    //newTicket.getSearch("#timeAccounts", "accounts".addUrlParam( "is_with_statistics","false"));
+                    
                     getApi("accounts?limit=300", {"is_with_statistics":false}).then(function(returnData) {
                         ////console.log(returnData);
                         $("#timeAccounts").empty();
@@ -2082,6 +2124,7 @@ $(document).ready(function(){
                         }
                         $(insert).appendTo("#timeAccounts");
                         $("#timeAccounts").val(account_id);
+                        $("#timeAccounts").select2(osearch);
                         //if (parseInt($("#timeAccounts").val()) !== account_id)
                         //    $("#timeAccounts").val(-1);
                         //reveal();
@@ -2092,6 +2135,7 @@ $(document).ready(function(){
                         console.log("fail @ time accounts");
                     }
                                                                                    );
+                    
 
                     $("#timeAccounts").on("change", function(){
                         //console.log(timeLog.task_type_id);
@@ -2312,7 +2356,7 @@ $(document).ready(function(){
                         getApi('levels').done(
                             function(levelResults){
                                 if (fillSelect(levelResults, "#ticketLevel", "", "Level: ") > 0)
-                                    $("#ticketLevel").val(returnData.level);
+                                    $("#ticketLevel").val(returnData.level).trigger("change");
                             }
                         );
                     }
@@ -2333,24 +2377,13 @@ $(document).ready(function(){
                                 $("#ticketPriority").parent().hide1();
                                 return;
                             }
-                            var priorityInsert = "";
-                            for(var b = 0; b < prioritiesResults.length; b++)
-                            {
-                                priorityInsert += "<option value="+prioritiesResults[b].id+">Priority: " + prioritiesResults[b].priority_level + " - " +prioritiesResults[b].name+"</option>";
-                            }
-                            $(priorityInsert).appendTo("#ticketPriority");
-                            $("#ticketPriority").val(returnData.priority_id);
+                            fillSelect(prioritiesResults, "#ticketPriority");
+                            $("#ticketPriority").val(returnData.priority_id).trigger("change");
                         }
                     );
                     $("#ticketTechs").empty();
                     // add select options to tech Option box
-                    var insert = "";
-                    for(var b = 0; b < returnData.technicians.length; b++)
-                    {
-                        insert += "<option value="+returnData.technicians[b].user_id+">"+returnData.technicians[b].user_fullname+"</option>";
-                    }
-                    $(insert).appendTo("#ticketTechs");
-
+                    fillSelect(returnData.technicians, "#ticketTechs", "", "", "user_fullname");
                  
                     $("#ticketLocation").empty();
                     if (isLocation){
@@ -2378,7 +2411,7 @@ $(document).ready(function(){
                         projects.done(
                             function(projectResults){
                                 if (fillSelect(projectResults, "#ticketProject", returnData.project_name == "" ? "<option value='null' disabled selected>Project</option>" : "") >0){
-                                    if (returnData.project_name != "") $("#ticketProject").val(returnData.project_id);
+                                    if (returnData.project_name != "") $("#ticketProject").val(returnData.project_id).trigger("change");
                                 }
                             }
                         );
@@ -2518,13 +2551,13 @@ $(document).ready(function(){
                     for(var x = 0; x < recl; x++)
                     {
                         var email = $.md5(rec[x].email);
-                        insert += "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p class=dots>"+rec[x].email /*createElipse(rec[x].email, 0.9, 12)*/+"</p>" + (rec[x].is_accounting_contact ? "<i class='plusIcon icon ion-checkmark-circled circleInvoice' id=\""+ rec[x].email +"\"></i>" : "<i class='closeIcon icon ion-close-circled circleInvoice' id=\""+ rec[x].email +"\"></i>") + "</div></li></ul></li>";
+                        insert += "<li class=recipientParent><ul class='recipientDetail'><li><img src='http://www.gravatar.com/avatar/" + email + "?d=mm&s=80'></li><li><div class='recipient'><p class=dots>"+rec[x].email /*createElipse(rec[x].email, 0.9, 12)*/+"</p>" + (rec[x].is_accounting_contact ? "<i class='plusIcon pcIcon ion-checkmark-circled circleInvoice' id=\""+ rec[x].email +"\"></i>" : "<i class='closeIcon pcIcon ion-close-circled circleInvoice' id=\""+ rec[x].email +"\"></i>") + "</div></li></ul></li>";
                     }
                     $("#recipientList").html(insert);
                 }
                 else
                 {
-                    $("<li><h3 class=noDataMessage>No accounting contacts found.<p>&nbsp;</p></h3></li>").appendTo("#recipientList"); 
+                    $("<li><h3 class=noTicketMessage>No accounting contacts found.<p>&nbsp;</p></h3></li>").appendTo("#recipientList"); 
                     $("#sendInvoiceButton").remove();
                     
                 }
@@ -2690,7 +2723,7 @@ $(document).ready(function(){
                 function(returnData) {
                     $("#invoiceList").empty();
                     if(returnData.length == 0){
-                        $('<h3 class="noDataMessage">no invoices at this time</h3>').prependTo('#invoiceList');
+                        $('<h3 class="noTicketMessage">no invoices at this time</h3>').prependTo('#invoiceList');
                         createSpan('#invoiceList');
                         reveal();
                         return;
@@ -2705,7 +2738,7 @@ $(document).ready(function(){
                         id = returnData[i].account_id +","+returnData[i].project_id;// +","+(returnData[i].start_date || new Date().toJSON()).slice(0, 10) +","+ (returnData[i].end_date || new Date().toJSON()).slice(0, 10);
                         var id = is_unbilled ? 
                             returnData[i].account_id +","+returnData[i].project_id : returnData[i].id;
-                        insert += "<ul data-id="+id+" class='invoiceRows item'><li class='user_name dots'>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
+                        insert += "<ul data-id="+id+" class='invoiceRows detailInvoice item'><li class='user_name dots'>"+customer+"</li><li class=responseText>"+date+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
                         //if (!accountid) localInvoiceList.push(insert);
                     }
                     $(insert).appendTo("#invoiceList");
@@ -3108,7 +3141,7 @@ $(document).ready(function(){
                     var openTks = returnData[i].account_statistics.ticket_counts.open;
                     var nameCheck = returnData[i].name;
                     // nameCheck = createElipse(nameCheck, 0.75, 12);
-                    textToInsert.push("<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+nameCheck+"</li><li><div class='tks' "+(openTks > 99 ? "style='height: 42px;'>99<sup>+</sup>" : ">"+openTks)+"</div></li></ul>");
+                    textToInsert.push("<ul class='listedAccount item' data-id="+returnData[i].id+"><li class=user_name>"+nameCheck+"</li><li><div class='tks tks2' "+(openTks > 99 ? "style='height: 42px;'>99<sup>+</sup>" : ">"+openTks)+"</div></li></ul>");
 
                     if(length > 10 && i == 10){
                         $table.html(textToInsert.join(''));
@@ -3133,7 +3166,7 @@ $(document).ready(function(){
                 var nameCheck = returnData[i].name;
                 //nameCheck = createElipse(nameCheck, 0.30, 12);
                 var openHours = Math.min(returnData[i].account_statistics.hours || 0, 999);
-                textToInsert.push("<ul class='tableRows clickme' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1 " + (openTks > 99 ? "overflowTickets' style='height: 42px;'>99<sup>+</sup>" : "'>"+openTks) + "</div></li></ul>");
+                textToInsert.push("<ul class='tableRows clickme' data-id=" + returnData[i].id + "><li>" + nameCheck + "</li><li>" + openHours + "</li><li>" + localStorage.getItem('currency') + Number(returnData[i].account_statistics.expenses).toFixed(2) + "</li><li><div class='tks1 tks2" + (openTks > 99 ? "overflowTickets' style='height: 42px;'>99<sup>+</sup>" : "'>"+openTks) + "</div></li></ul>");
 
                 if(length > 10 && i == 10){
                     $table.html(textToInsert.join(''));
@@ -3353,10 +3386,9 @@ $(document).ready(function(){
                 users.then(function(returnData){
                     //console.log(returnData);
                     // add techs to option select list
-                    fillSelect(returnData, "#addTicketUser", "", "",
-                               "firstname,lastname,email");
+                    fillSelect(returnData, "#addTicketUser", "", "","firstname,lastname,email");
                    var userid = localStorage.getItem('userId');
-                    $("#addTicketUser").val(userid);
+                    $("#addTicketUser").val(userid).trigger("change");
                 },
                            function(e) {
                     showError(e);

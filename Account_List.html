@@ -44,8 +44,8 @@
         <li><h1 class="SherpaDesk">Accounts</h1></li>
       <li><span class="headerSearchIcon"> <i class="ion-ios-search-strong"></i></span></li>
     </ul>
-      <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
-      <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
+      <div class="errorMessageNeg message"><!--Please enter valid ticket information--></div>
+      <div class="errorMessagePos messages"><!--Ticket was Succesfully Created :)--></div>
   </header>
   <body>
       <div class="searchReturn"><ul></ul></div><div id="ptr"><span class="genericon genericon-next ion-android-refresh"></span></div><div id="content">
@@ -54,7 +54,13 @@
       <!--<ul class='listedAccount' data-id="+returnData[i].id+">
         <li>"+returnData[i].name+"</li>
         <li>
-          <div class='tks'>"+openTks+"</div>
+          <div class='tks tks2 {
+    width: 40px;
+    background: @wrapper;
+    text-align: center;
+    line-height: 35px;
+    margin: 15px 18px;
+}'>"+openTks+"</div>
         </li>
       </ul>-->     
     </div>

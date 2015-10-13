@@ -21,11 +21,10 @@
     
     <!-- Jquery -->
     <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/select2.min.css" /><script src="js/select2.min.js"></script>
     <!-- Main.js -->
     <script src="js/index.js"></script>
     <script src="js/main.min.js"></script>
-    
-    <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
   </head>
@@ -40,8 +39,8 @@
             </li>
             <li></li>
         </ul>
-        <div class="errorMessageNeg">Please enter valid ticket information</div> 
-        <div class="errorMessagePos">Ticket was Succesfully Created <i class="ion-happy-outline"></i></div>
+        <div class="errorMessageNeg message">Please enter valid ticket information</div> 
+        <div class="errorMessagePos message">Ticket was Succesfully Created <i class="ion-happy-outline"></i></div>
     </div>
 </header>
 
@@ -50,13 +49,13 @@
     <div class="todosWrapper"> 
         <div id=istech>
         <div class="styledSelect user">
-            <li class="arrowDown ion-ios-arrow-down"></li>
+            
             <select id="addTicketUser">     
             </select>
         </div>
                 
             <div class="styledSelect">
-                <li class="arrowDown ion-ios-arrow-down"></li>
+                
                 <select id="taskTypes">
                 <!-- <option value="+value+">"+task+"</option> -->
             <option value="0">Due</option>
@@ -72,7 +71,7 @@
            </div>
         
             <div class="styledSelect">
-                <li class="arrowDown ion-ios-arrow-down"></li>
+                
                 <select id="taskTypes">
                 <!-- <option value="+value+">"+task+"</option> -->
             <option value="0">Relationship</option>
