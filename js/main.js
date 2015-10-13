@@ -788,7 +788,7 @@ $(document).ready(function(){
                        "lastname":lastname,
                        "password":password,
                        "password_confirm": password_confirm,
-                       "how_did_you_hear_about_us": how,
+                       "how": how,
                        "note": isPhonegap ? "registered by iPhone app" : "registered from m.sherpadesk.com"
                       },
                 success: function (returnData) {
