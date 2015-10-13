@@ -3416,10 +3416,7 @@ $(document).ready(function(){
         init:function() {
             var ticketAccount = localStorage.getItem('DetailedAccount');
             localStorage.setItem('addAccountTicket', ticketAccount);   
-        {
-            isExpenses = false;
-            $("#expensesOption").parent().remove();
-        }
+            if(!isExpenses) $("#expensesOption").parent().parent().remove();
             if(!isInvoice) $("#invoiceOption").parent().remove();
             else $("#invoiceOption").click(function(){
                 window.location = "Invoice_List.html";
