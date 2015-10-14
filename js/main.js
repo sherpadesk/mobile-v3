@@ -794,7 +794,7 @@ $(document).ready(function(){
                        "lastname":lastname,
                        "password":password,
                        "password_confirm": password_confirm,
-                       "how_did_you_hear_about_us": how,
+                       "how": how,
                        "note": isPhonegap ? "registered by iPhone app" : "registered from m.sherpadesk.com"
                       },
                 success: function (returnData) {
@@ -3151,11 +3151,13 @@ $(document).ready(function(){
                 createSpan(parent); filterList("ActiveAccountsContainer");
             }
         },
+       //create account list on dashboard.html 
         createDashAccountsList : function (parent, returnData){
-            var name = null;
-            var textToInsert =  ["<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tkts</li></ul>"],
+            var textToInsert =  [],
                 length = returnData.length,
                 $table = $(parent);
+            if (length>0)
+                textToInsert=["<ul class='tableHeader'><li></li><li>Hours</li><li>Expenses</li><li>Tkts</li></ul>"];
             for (var i = 0; i<length; i += 1) {
                 returnData[i].index = returnData[i].id +',' + i;
                 var openTks = returnData[i].account_statistics.ticket_counts.open;
@@ -3413,7 +3415,8 @@ $(document).ready(function(){
     var accountDetailsPageSetup = {
         init:function() {
             var ticketAccount = localStorage.getItem('DetailedAccount');
-            localStorage.setItem('addAccountTicket', ticketAccount);
+            localStorage.setItem('addAccountTicket', ticketAccount);   
+            if(!isExpenses) $("#expensesOption").parent().parent().remove();
             if(!isInvoice) $("#invoiceOption").parent().remove();
             else $("#invoiceOption").click(function(){
                 window.location = "Invoice_List.html";
