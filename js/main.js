@@ -2738,7 +2738,7 @@ $(document).ready(function(){
                         id = returnData[i].account_id +","+returnData[i].project_id;// +","+(returnData[i].start_date || new Date().toJSON()).slice(0, 10) +","+ (returnData[i].end_date || new Date().toJSON()).slice(0, 10);
                         var id = is_unbilled ? 
                             returnData[i].account_id +","+returnData[i].project_id : returnData[i].id;
-                        insert += "<ul data-id="+id+" class='invoiceRows detailInvoice item'><li class='responseText invoiceData'>"+date+"</li><li class='user_name dots invoiceUser'>"+customer+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
+                        insert += "<ul data-id="+id+" class='invoiceRows detailInvoice item'><li class='responseText'>"+date+"</li><li class='user_name dots'>"+customer+"</li><li>$"+ Number(returnData[i].total_cost).toFixed(2)+"</li></ul>";
                         //if (!accountid) localInvoiceList.push(insert);
                     }
                     $(insert).appendTo("#invoiceList");
