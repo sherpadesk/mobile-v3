@@ -547,11 +547,16 @@ $(document).ready(function(){
     }
     
     var osearch = {   
-        minimumResultsForSearch: 8,
+        minimumResultsForSearch: 25,
+        width: "95%"
+    };
+    
+    var nosearch = {   
+        minimumResultsForSearch: Infinity,
         width: "95%"
     };
 
-    function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end)
+    function fillSelect(returnData, element, initialValue, prefix, customValues, envelope_start, envelope_end, isnosearch, notinit)
     {
         if (!returnData || !returnData.length)
         { 
@@ -581,21 +586,28 @@ $(document).ready(function(){
             {
                 var len = names.length-1;
                 for(var j = 0; j < len; j++)
-                    name += " " + returnData[i][names[j]];
-                var email = returnData[i][names[len]];
+                {
+                    var test = returnData[i][names[j]];
+                    if (test)
+                    name += " " +test;
+                }
+                var email = returnData[i][names[len]] || "";
+                if (email && email.indexOf("@") > 0){
                 if (!name.trim())
                     name = email;
                 else
                     name += " (" + email + ")";
+                }
             }
-            insert += "<option value="+value+">"+prefix+name+"</option>";
+            insert += "<option value="+value+">"+prefix+(name || "NoName")+"</option>";
         }
         // $(""+element).empty();
         if (i > 0){
             $(""+envelope_start + insert + envelope_end).appendTo(""+element);
             $(""+element).parent().show();
             $(""+element).parent().parent().show();
-            $(""+element).select2(osearch);
+            if (!notinit)
+                $(""+element).select2(isnosearch || osearch);
         }
         else
             $(""+element).parent().hide();
@@ -1077,33 +1089,54 @@ $(document).ready(function(){
     // create a new ticket
     var newTicket = {
         init:function() {
+            var storeUser = function (isTech)
+            {
+                localStorage.setItem('add_user_type', isTech ? 'tech' : "");
+                var user = $("#addTicketUser").val();
+                if (user) {
+                    localStorage.setItem('add_user_userid', user);
+                    localStorage.setItem('add_user_username', user);
+                }
+                var tech = $("#addTicketTechs").val();
+                if (tech) {
+                    localStorage.setItem('add_user_techid',tech);
+                    localStorage.setItem('add_user_techname',tech);
+                }
+                var account = $("#addTicketAccounts").val();
+                if (account) {
+                    localStorage.setItem('add_user_accountid',account);
+                    localStorage.setItem('add_user_accountname',account);
+                }
+                window.location = "add_user.html";
+            };
+            
             if(isTech){
                 $("#loading").show();
                 $("#userCreate").on("click", function(){
-                    var user = $("#addTicketUser").val();
-                    if (user) localStorage.setItem('add_user_userid', user);
-                    var tech = $("#addTicketTechs").val();
-                    if (tech) localStorage.setItem('add_user_techid',tech);
-                    var account = $("#addTicketAccounts").val();
-                    if (account) localStorage.setItem('add_user_accountid',account);
-                    window.location = "add_user.html";
+                    storeUser();
                 });
 
                 $("#TechCreate").on("click", function(){
-                    localStorage.setItem('add_user_type', 'tech');
-                    var user = $("#addTicketUser").val();
-                    if (user) localStorage.setItem('add_user_userid', user);
-                    var tech = $("#addTicketTechs").val();
-                    if (tech) localStorage.setItem('add_user_techid', tech);
-                    var account = $("#addTicketAccounts").val();
-                    if (account) localStorage.setItem('add_user_accountid',account);
-                    window.location = "add_user.html";           
+                    storeUser(true);
                 }); 
             }
 
             this.addTicket();
         },
         getSearch: function(element, method){
+            //method = "technicians";
+            var limit = 50;
+            var records = getApi(method.addUrlParam("limit", ""+limit));
+            var count = 0;
+            records.done(
+                function(results){
+                    count = fillSelect(results, element, "", "", "name,firstname,lastname,email", "", "", "", true);
+                if (count < limit)
+                {
+                    $(""+element).select2(osearch);
+                    reveal();
+                    return;
+                }
             $(element).select2({
                 width: "95%",
                 ajax: {
@@ -1114,22 +1147,34 @@ $(document).ready(function(){
                     },
                     url: ApiSite + method,
                     dataType: "json",
-                    delay: 500,
+                    delay: 800,
                     data: function (params) {
                         return {
-                            query: params.term // search term
+                            search: params.term // search term
                         };
                     },
                     processResults: function (data, page) {
                         var results = [];
+                        //return dt;
                         $.each(data, function(i, concretePage) {
-                            var name = concretePage.lastname + " " +concretePage.firstname;
+                            var name = "";
+                            if (concretePage.name)
+                            name = concretePage.name + " ";
+                            if (concretePage.lastname)
+                                name += concretePage.lastname + " ";
+                            if (concretePage.firstname)
+                                name += concretePage.firstname + " ";
+                            if (concretePage.email && concretePage.email.indexOf("@") > 0){
                             if (!name.trim())
                                 name = concretePage.email;
                             else
                                 name += " (" + concretePage.email + ")";
-                            results.push({'id': concretePage.id, 'text': name});
+                            }
+                            results.push({'id': concretePage.id, 'text': name || "NoName"});
                         });
+                        if (results.length == 25)
+                        results.push({'id': -1, 'text': "input search for more...", disabled: true});
+                        reveal();
                         return {
                             results: results
                         };
@@ -1140,18 +1185,22 @@ $(document).ready(function(){
                     },
                     cache: true
                 },
-                minimumInputLength: 3
+                minimumInputLength: 0
+                });
+                reveal();
             });
         },
         getLocations: function(account){
             $("#ticket_Location").empty();
                 $("<option value=0 selected>choose a location</option>").appendTo("#ticket_Location");
-            var location = getApi('locations?limit=500&account='+account);
+            newTicket.getSearch("#ticket_Location", "locations?account="+account);
+            /*var location = getApi('locations?limit=500&account='+account);
                 location.done(
                     function(locationResults){
                         fillSelect(locationResults, "#ticket_Location", "");
                         reveal();
                     });
+                    */
         },
         addTicket:function() {
             $("#addTicketAccounts").empty();
@@ -1186,8 +1235,17 @@ $(document).ready(function(){
                     reveal();
                 }
                 else
-                { 
-                    var accounts = getApi("accounts?limit=300", {"is_with_statistics":false});
+                {   
+                    if (accountset){
+                        localStorage.setItem('add_user_accountid', '');
+                        $("#addTicketAccounts").append("<option value="+accountset+" selected>"+localStorage.account_name+"</option>");
+                    }
+                    else
+                        $("#addTicketAccounts").append("<option value=0 disabled selected>choose an account</option>"); 
+                        
+                    newTicket.getSearch("#addTicketAccounts", "accounts".addUrlParam("is_with_statistics","false"));
+
+                    /*var accounts = getApi("accounts?limit=300", {"is_with_statistics":false});
                  accounts.then(function(returnData) {
                      //console.log(returnData);
                      // get list of accounts add them to option select list
@@ -1196,7 +1254,7 @@ $(document).ready(function(){
                      if (accountset){
                          localStorage.setItem('add_user_accountid', '');
                          $("#addTicketAccounts").val(accountset).trigger("change");
-                     }
+                     }*/
                       // ticket Location_add_Ticket
                 if (isLocation)
                 {
@@ -1210,10 +1268,6 @@ $(document).ready(function(){
                 }
                      
                      reveal();
-                 }, function(e) {
-                     showError(e);
-                     console.log("fail @ ticket accounts");
-                 });
                 }
 
                 // list of Users
@@ -1221,8 +1275,8 @@ $(document).ready(function(){
                 if (userid) localStorage.setItem('add_user_userid', "");
                 else userid = localStorage.getItem('userId');
 
-                var userName = localStorage.getItem('add_user_name');
-                if (userName) localStorage.setItem('add_user_name', '');
+                var userName = localStorage.getItem('add_user_username');
+                if (userName) localStorage.setItem('add_user_username', '');
                 else userName = localStorage.getItem("userFullName");
 
                 if (!userName.trim())
@@ -1396,8 +1450,8 @@ $(document).ready(function(){
                 if (userid) localStorage.setItem('add_user_userid', "");
                 else userid = localStorage.getItem('userId');
 
-                var userName = localStorage.getItem('add_user_name');
-                if (userName) localStorage.setItem('add_user_name', '');
+                var userName = localStorage.getItem('add_user_username');
+                if (userName) localStorage.setItem('add_user_username', '');
                 else userName = localStorage.getItem("userFullName");
 
                 if (!userName.trim())
@@ -1826,15 +1880,17 @@ $(document).ready(function(){
                 }, 'POST').then(
                     function (d) {
                         userMessage.showMessage(true, value +' was created <i class="ion-thumbsup"></i>', function(){ 
-                            localStorage.setItem('add_user_name', '');
+                            localStorage.setItem('add_user_username', '');
+                            localStorage.setItem('add_user_techname', '');
                             if (value == "Tech")
                             {
                                 localStorage.setItem('add_user_techid', d.id);
+                                localStorage.setItem('add_user_techname', Firstname + " " + Lastname);
                             }
                             else
                             {
                                 localStorage.setItem('add_user_userid', d.id);
-                                localStorage.setItem('add_user_name', Firstname + " " + Lastname);
+                                localStorage.setItem('add_user_username', Firstname + " " + Lastname);
                             }
                             backFunction();
                         }); 
@@ -2110,8 +2166,11 @@ $(document).ready(function(){
                 else
                 {
                     //get accounts
-                    //newTicket.getSearch("#timeAccounts", "accounts".addUrlParam( "is_with_statistics","false"));
+                    $("#timeAccounts").append("<option value="+account_id+" selected>Current Account</option>");
+
+                    newTicket.getSearch("#timeAccounts", "accounts".addUrlParam( "is_with_statistics","false"));
                     
+                    /*
                     getApi("accounts?limit=300", {"is_with_statistics":false}).then(function(returnData) {
                         ////console.log(returnData);
                         $("#timeAccounts").empty();
@@ -2136,7 +2195,7 @@ $(document).ready(function(){
                         console.log("fail @ time accounts");
                     }
                                                                                    );
-                    
+                    */
 
                     $("#timeAccounts").on("change", function(){
                         //console.log(timeLog.task_type_id);
@@ -2384,8 +2443,7 @@ $(document).ready(function(){
                     );
                     $("#ticketTechs").empty();
                     // add select options to tech Option box
-                    fillSelect(returnData.technicians, "#ticketTechs", "", "", "user_fullname");
-                 
+                    fillSelect(returnData.technicians, "#ticketTechs", "", "", "user_fullname", "", "", nosearch);
                     $("#ticketLocation").empty();
                     if (isLocation){
                         getApi('locations?limit=500&account='+returnData.account_id).done(
@@ -2864,6 +2922,10 @@ $(document).ready(function(){
 
         createQueuesList : function (parent, returnData, limit){
             // add queues to the queues list
+            if(!limit && (!returnData || returnData.length < 1)){
+                $(parent).html('<h2 class="noTicketMessage">No Queues</h2>');
+                return;
+            }
             var activeQueues=0;
             var textToInsert =  [],
                 length = returnData.length,
@@ -2874,7 +2936,7 @@ $(document).ready(function(){
                     continue;
                 if (limit && activeQueues>= limit)
                     continue;
-                textToInsert.push("<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper optionWrapper3'><h3 class='OptionTitle dots user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper notificatio'><h2>"+returnData[i].tickets_count+"</h2></div></li>");
+                textToInsert.push("<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle dots user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>");
 
                 if(length > 10 && i == 10){
                     $table.html(textToInsert.join(''));
@@ -3672,6 +3734,7 @@ $(document).ready(function(){
             localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
             localStorage.setItem('userId', returnData.user.user_id);
             localStorage.setItem('account_id', returnData.user.account_id);
+            localStorage.setItem('account_name', returnData.user.account_name);
             localStorage.setItem('is_limit_assigned_tkts', returnData.user.is_limit_assigned_tkts);
             if (paramFunc && (typeof paramFunc == "function"))
                 paramFunc(); 
