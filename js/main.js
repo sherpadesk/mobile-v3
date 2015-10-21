@@ -1123,20 +1123,26 @@ $(document).ready(function(){
 
             this.addTicket();
         },
-        getSearch: function(element, method){
+        getSearch: function(element, method, parameters, default_id, default_name){
             //method = "technicians";
             var limit = 50;
-            var records = getApi(method.addUrlParam("limit", ""+limit));
+            var records = getApi((method + parameters).addUrlParam("limit", ""+limit));
             var count = 0;
             records.done(
                 function(results){
-                    count = fillSelect(results, element, "", "", "name,firstname,lastname,email", "", "", "", true);
+                    var initial = !default_id ? ("<option value=0 disabled selected>choose "+method.toLowerCase().slice(0, -1)+"</option>") : "";
+                    count = fillSelect(results, element, initial, "", "name,firstname,lastname,email", "", "", "", true);
+
                 if (count < limit)
-                {
+                {   
                     $(""+element).select2(osearch);
+                    if (default_id)
+                    $(""+element).val(default_id).trigger("change");
                     reveal();
                     return;
                 }
+                    if (default_id)
+                    $(""+element).append("<option value="+default_id+" selected>"+default_name +"</option>");
             $(element).select2({
                 width: "95%",
                 ajax: {
@@ -1192,8 +1198,7 @@ $(document).ready(function(){
         },
         getLocations: function(account){
             $("#ticket_Location").empty();
-                $("<option value=0 selected>choose a location</option>").appendTo("#ticket_Location");
-            newTicket.getSearch("#ticket_Location", "locations?account="+account);
+            newTicket.getSearch("#ticket_Location", "locations", "?account="+account);
             /*var location = getApi('locations?limit=500&account='+account);
                 location.done(
                     function(locationResults){
@@ -1237,13 +1242,11 @@ $(document).ready(function(){
                 else
                 {   
                     if (accountset){
-                        localStorage.setItem('add_user_accountid', '');
-                        $("#addTicketAccounts").append("<option value="+accountset+" selected>"+localStorage.account_name+"</option>");
+                        localStorage.setItem('add_user_accountid', ''); 
                     }
-                    else
-                        $("#addTicketAccounts").append("<option value=0 disabled selected>choose an account</option>"); 
                         
-                    newTicket.getSearch("#addTicketAccounts", "accounts".addUrlParam("is_with_statistics","false"));
+                    //localStorage.account_id
+                    newTicket.getSearch("#addTicketAccounts", "accounts", "?is_with_statistics=false", accountset, localStorage.userOrg);
 
                     /*var accounts = getApi("accounts?limit=300", {"is_with_statistics":false});
                  accounts.then(function(returnData) {
@@ -1259,11 +1262,12 @@ $(document).ready(function(){
                 if (isLocation)
                 {
                     $("#loading").show();
-                newTicket.getLocations(accountset);
+                //newTicket.getLocations(accountset);
                     $("#addTicketAccounts").on("change", function(){
+                        var newAccount = $("#addTicketAccounts").val();
                         $("#loading").show();
                         //console.log(timeLog.task_type_id);
-                        newTicket.getLocations($("#addTicketAccounts").val());
+                        newTicket.getLocations(newAccount);
                     });
                 }
                      
@@ -1282,8 +1286,7 @@ $(document).ready(function(){
                 if (!userName.trim())
                     userName = localStorage.getItem("userName");
 
-                $("#addTicketUser").append("<option value="+userid+" selected>"+userName+"</option>");
-                newTicket.getSearch("#addTicketUser", "users?account="+accountset);
+                newTicket.getSearch("#addTicketUser", "users", "?account="+accountset, userid, userName);
                 /*var users = getApi("users?limit=50&account=-1");
                 users.then(function(returnData){
                     //console.log(returnData);
@@ -2030,6 +2033,7 @@ $(document).ready(function(){
             getApi("tickets?status=open&limit=100&account="+account+"&project="+project_id).then( 
                 function(returnData) {
                     ////console.log(returnData);
+                    $("#timeTicket").empty();
                     var len = returnData.length;
                     if (len <= 0 ) $("<option disabled=disabled value=>no open tickets found</option>").appendTo("#timeTicket"); 
                     else {
@@ -2166,9 +2170,7 @@ $(document).ready(function(){
                 else
                 {
                     //get accounts
-                    $("#timeAccounts").append("<option value="+account_id+" selected>Current Account</option>");
-
-                    newTicket.getSearch("#timeAccounts", "accounts".addUrlParam( "is_with_statistics","false"));
+                    newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", account_id, localStorage.userOrg);
                     
                     /*
                     getApi("accounts?limit=300", {"is_with_statistics":false}).then(function(returnData) {
