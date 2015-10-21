@@ -2391,7 +2391,7 @@ input[type=number] {
   height: 50px;
   z-index: 7;
   position: fixed;
-  bottom: 16px;
+  bottom: 25px;
   /* left: 83%; */
   right: 20px;
   /* float: right; */
