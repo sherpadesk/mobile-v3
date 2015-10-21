@@ -2936,8 +2936,8 @@ $(document).ready(function(){
                     continue;
                 if (limit && activeQueues>= limit)
                     continue;
-                textToInsert.push("<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper'><h3 class='OptionTitle dots user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper'><h2>"+returnData[i].tickets_count+"</h2></div></li>");
-
+                textToInsert.push("<li class=item><div id='queue' data-id="+returnData[i].id+" class='OptionWrapper optionWrapper3'><h3 class='OptionTitle dots user_name'>"+returnData[i].fullname+"</h3></div><div class='NotificationWrapper notificatio'><h2>"+returnData[i].tickets_count+"</h2></div></li>");
+                
                 if(length > 10 && i == 10){
                     $table.html(textToInsert.join(''));
                 }
