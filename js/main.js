@@ -101,6 +101,18 @@ function updateBadge() {
     }
 }
 
+function isStorage() {
+    var mod = 'modernizr';
+    try {
+        localStorage.setItem(mod, mod);
+        localStorage.removeItem(mod);
+        return true;
+    } catch(e) {
+        errorLine("Please enable Cookies to work with site!");
+        return false;
+    }
+}
+
 function onDeviceReady() {
     //alert("gap init");
     localStorage.isPhonegap = "true";
@@ -448,7 +460,7 @@ var featureList3;
 var featureList4;
 var featureList5;
 
-function filterList(listClass, value_names, init_value){
+function filterList(listClass, init_value, value_names){
     $('body').attr('id', 'search_wrap');
     if (!value_names)
     {
@@ -464,11 +476,13 @@ function filterList(listClass, value_names, init_value){
         valueNames: value_names			
     };
     featureList = new List('search_wrap', options);
+    init_value = init_value || $(".search").val();
     if (init_value)
     {
         featureList.search(init_value);
         $(".search").val(init_value);
     }
+    /*
     featureList.on('updated',function(){
         //console.log(featureList);
         if (featureList.matchingItems.length > 1) 
@@ -480,6 +494,7 @@ function filterList(listClass, value_names, init_value){
         }
         //else if (featureList.matchingItems.length == 1) { ; }
     });
+    */
     //console.log("loaded list");
     return featureList;
 }
@@ -661,6 +676,8 @@ $(document).ready(function(){
     // user login
     var UserLogin = {
         init: function () {
+            if (!isStorage())
+                return;
             var key = getParameterByName('t');
             var email = getParameterByName('e');
             if (key) {
@@ -2951,13 +2968,13 @@ $(document).ready(function(){
             else
             {
                 ticketList.createTicketsList(retrievedObject, "#techContainer");
-                featureList2 = filterList("techContainer", "", searchItem);
+                featureList2 = filterList("techContainer", searchItem);
             }
             setTimeout(function(){
                 getApi("tickets?status=open&limit=100&role=tech").then(function(returnData) {
                     //add tickets as tech to as tech list
                     ticketList.createTicketsList(returnData, "#techContainer", cacheName1);
-                    featureList2 = filterList("techContainer", "", searchItem);
+                    featureList2 = filterList("techContainer");
                 },
                                                                        function(e) {
                     showError(e);
@@ -2980,12 +2997,12 @@ $(document).ready(function(){
             else
             {
                 ticketList.createTicketsList(retrievedObject, "#allContainer");
-                featureList3 = filterList("allContainer", "", searchItem);
+                featureList3 = filterList("allContainer", searchItem);
             }
             setTimeout(function(){
                 getApi("tickets?status=allopen&limit=100&query=all").then(function(returnData) {
                     ticketList.createTicketsList(returnData, "#allContainer", cacheName1);
-                    featureList3 = filterList("allContainer", "", searchItem);
+                    featureList3 = filterList("allContainer");
                     reveal();
 
                 },
@@ -3011,12 +3028,12 @@ $(document).ready(function(){
             else
             {
                 ticketList.createTicketsList(retrievedObject, "#altContainer");
-                featureList4 = filterList("altContainer", "", searchItem);
+                featureList4 = filterList("altContainer", searchItem);
             }
             setTimeout(function(){
                 getApi("tickets?status=open&limit=100&role=alt_tech").then(function(returnData){
                     ticketList.createTicketsList(returnData, "#altContainer", cacheName1);
-                    featureList4 = filterList("altContainer", "", searchItem);
+                    featureList4 = filterList("altContainer");
                 },
                                                                            function(e) {
                     showError(e);
@@ -3040,12 +3057,12 @@ $(document).ready(function(){
             else
             {
                 ticketList.createTicketsList(retrievedObject, "#userContainer");
-                featureList5 = filterList("userContainer", "", searchItem);
+                featureList5 = filterList("userContainer", searchItem);
             }
             setTimeout(function(){
                 getApi("tickets?status=open,onhold&limit=100&role=user").then(function(returnData) {
                     ticketList.createTicketsList(returnData, "#userContainer", cacheName1);
-                    featureList5 = filterList("userContainer", "", searchItem);
+                    featureList5 = filterList("userContainer");
                 },
                                                                               function(e) {
                     showError(e);
