@@ -1142,12 +1142,15 @@ $(document).ready(function(){
         },
         getSearch: function(element, method, parameters, default_id, default_name){
             //method = "technicians";
-            var limit = 50;
+            var limit = 10;
             var records = getApi((method + parameters).addUrlParam("limit", ""+limit));
             var count = 0;
+            var selectname = "Default";
+            if (parameters.length)
+            selectname = parameters.indexOf("role=tech")>0 ? "tech" : method.toLowerCase().slice(0, -1);
             records.done(
                 function(results){
-                    var initial = !default_id ? ("<option value=0 disabled selected>choose "+method.toLowerCase().slice(0, -1)+"</option>") : "";
+                    var initial = !default_id ? ("<option value=0 disabled selected>choose "+selectname+"</option>") : "";
                     count = fillSelect(results, element, initial, "", "name,firstname,lastname,email", "", "", "", true);
 
                     if (count < limit)
@@ -1210,6 +1213,8 @@ $(document).ready(function(){
                         },
                         minimumInputLength: 0
                     });
+                    if (default_id)
+                        $(""+element).val(default_id).trigger("change");
                     reveal();
                 });
         },
@@ -1277,24 +1282,13 @@ $(document).ready(function(){
 
                 // after an account is choosed it get a list of technicians
                 // list of Tech
-                var technicians = getApi("technicians?limit=200");
-                technicians.then(function(returnData){
-                    //console.log(returnData);
-                    // add techs to option select list
-                    fillSelect(returnData, "#addTicketTechs",
-                               "<option value=0 disabled selected>choose a tech</option>", "",
-                               "firstname,lastname,email");
-                    var techid = localStorage.getItem('add_user_techid');
-                    if (techid) {
-                        localStorage.setItem('add_user_techid', '');
-                        $("#addTicketTechs").val(techid).trigger("change");
-                    }
-                },
-                                 function(e) {
-                    showError(e);
-                    console.log("fail @ Ticket Techs");
+                var techid = localStorage.getItem('add_user_techid');
+                var techname = localStorage.getItem('add_user_techname');
+                if (techid) {
+                    localStorage.setItem('add_user_techid', '');
+                    localStorage.setItem('add_user_techname', '');
                 }
-                                );
+                newTicket.getSearch("#addTicketTechs", "users", "?role=tech&account="+accountset, techid, techname);
                 // after techs are choosen then get a list of classes
                 var classes = getApi('classes');
                 classes.done(
