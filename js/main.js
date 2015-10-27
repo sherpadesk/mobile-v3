@@ -18,6 +18,23 @@ function getDateTime(date)
     return new Date(date).dateFormat(getDateTimeFormat());   
 }
 
+function getFullName(firstname,lastname,email,name) {
+    var fname = "";
+                                    if (name)
+                                        fname = name + " ";
+                                    if (lastname)
+                                        fname += lastname + " ";
+                                    if (firstname)
+                                        fname += firstname + " ";
+                                if (email && email.indexOf("@") > 0){
+                                        if (!fname.trim())
+                                            fname = email;
+                                        else
+                                            fname += " (" + email + ")";
+                                    }
+    return fname || "NoName";
+}
+
 function getDateTimeFormat()
 { 
     return (localStorage.dateformat !== "1" ? "m/d/Y" : "d/m/Y") + (localStorage.timeformat !== "1" ? " h:i A" : " H:i");
@@ -1109,15 +1126,15 @@ $(document).ready(function(){
             var storeUser = function (isTech)
             {
                 localStorage.setItem('add_user_type', isTech ? 'tech' : "");
-                var user = $("#addTicketUser").val();
-                if (user) {
-                    localStorage.setItem('add_user_userid', user);
-                    localStorage.setItem('add_user_username', user);
+                var userid = $("#addTicketUser").val();
+                if (userid) {
+                    localStorage.setItem('add_user_userid', userid);
+                    localStorage.setItem('add_user_username', $("#addTicketUser").find(":selected").text());
                 }
-                var tech = $("#addTicketTechs").val();
-                if (tech) {
-                    localStorage.setItem('add_user_techid',tech);
-                    localStorage.setItem('add_user_techname',tech);
+                var techid = $("#addTicketTechs").val();
+                if (techid) {
+                    localStorage.setItem('add_user_techid',techid);
+                    localStorage.setItem('add_user_techname',$("#addTicketTechs").find(":selected").text());
                 }
                 var account = $("#timeAccounts").val();
                 if (account) {
@@ -1182,20 +1199,8 @@ $(document).ready(function(){
                                 var results = [];
                                 //return dt;
                                 $.each(data, function(i, concretePage) {
-                                    var name = "";
-                                    if (concretePage.name)
-                                        name = concretePage.name + " ";
-                                    if (concretePage.lastname)
-                                        name += concretePage.lastname + " ";
-                                    if (concretePage.firstname)
-                                        name += concretePage.firstname + " ";
-                                    if (concretePage.email && concretePage.email.indexOf("@") > 0){
-                                        if (!name.trim())
-                                            name = concretePage.email;
-                                        else
-                                            name += " (" + concretePage.email + ")";
-                                    }
-                                    results.push({'id': concretePage.id, 'text': name || "NoName"});
+                                    var name = getFullName(concretePage.firstname,concretePage.lastname,concretePage.email,concretePage.name);
+                                    results.push({'id': concretePage.id, 'text': name });
                                 });
                                 if (results.length == 25)
                                     results.push({'id': -1, 'text': "input search for more...", disabled: true});
@@ -1267,8 +1272,10 @@ $(document).ready(function(){
                 
                 // list of Users
                 var userid = localStorage.getItem('add_user_userid');
-                if (userid) localStorage.setItem('add_user_userid', "");
-                else userid = localStorage.getItem('userId');
+                if (userid)  
+                    localStorage.setItem('add_user_userid', "");
+                else 
+                    userid = localStorage.getItem('userId');
 
                 var userName = localStorage.getItem('add_user_username');
                 if (userName) localStorage.setItem('add_user_username', '');
@@ -1849,12 +1856,12 @@ $(document).ready(function(){
                             if (value == "Tech")
                             {
                                 localStorage.setItem('add_user_techid', d.id);
-                                localStorage.setItem('add_user_techname', Firstname + " " + Lastname);
+                                localStorage.setItem('add_user_techname', getFullName(Firstname,Lastname,email));
                             }
                             else
                             {
                                 localStorage.setItem('add_user_userid', d.id);
-                                localStorage.setItem('add_user_username', Firstname + " " + Lastname);
+                localStorage.setItem('add_user_username',getFullName(Firstname,Lastname,email));
                             }
                             backFunction();
                         }); 
@@ -3651,7 +3658,7 @@ $(document).ready(function(){
             localStorage.setItem('currency', returnData.currency);
             localStorage.setItem('dateformat', returnData.user.date_format);
             localStorage.setItem('timeformat', returnData.user.time_format);
-            localStorage.setItem("userFullName", returnData.user.firstname+" "+returnData.user.lastname);
+            localStorage.setItem("userFullName", getFullName(returnData.user.firstname, returnData.user.lastname,localStorage.userName));
             localStorage.setItem('userId', returnData.user.user_id);
             localStorage.setItem('account_id', returnData.user.account_id);
             localStorage.setItem('account_name', returnData.user.account_name);
