@@ -1571,7 +1571,7 @@ $(document).ready(function(){
                     },
                     function(e) {
                         showError(e);
-                        console.log1("fail @ pickup");
+                        console.log("fail @ pickup");
                     }
                 );
             });
