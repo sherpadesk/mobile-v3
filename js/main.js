@@ -1141,7 +1141,6 @@ $(document).ready(function(){
             this.addTicket();
         },
         getSearch: function(element, method, parameters, default_id, default_name){
-            //method = "technicians";
             var limit = 10;
             var records = getApi((method + parameters).addUrlParam("limit", ""+limit));
             var count = 0;
@@ -1171,7 +1170,7 @@ $(document).ready(function(){
                                 xhr.setRequestHeader('Authorization',
                                                      'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
                             },
-                            url: ApiSite + method,
+                            url: ApiSite + method+parameters,
                             dataType: "json",
                             delay: 800,
                             data: function (params) {
@@ -1443,7 +1442,7 @@ $(document).ready(function(){
                 // after an account is choosed it get a list of technicians
 
                 // list of Tech
-                var technicians = getApi("technicians?limit=200");
+                var technicians = getApi("users?role=tech&limit=200");
                 technicians.then(function(returnData){
                     //console.log(returnData);
                     // add techs to option select list
