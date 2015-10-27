@@ -161,6 +161,12 @@ function openURLsystem(urlString){
     window.open(urlString, '_system');
 }
 
+$(document).ajaxStop(function() {
+  setTimeout(function(){ $("#loading").hide1();
+                          $("body").show1();
+                       }, 1000);
+});
+
 //global error handler
 $( document ).ajaxError(function( event, request, settings ) {
     //console.log(event);
@@ -1113,12 +1119,17 @@ $(document).ready(function(){
         },
         getSearch: function(element, method, parameters, default_id, default_name){
             $("#loading").show1();
-            var limit = 10;
-            var records = getApi((method + parameters).addUrlParam("limit", ""+limit));
+            var limit = 20;
+            var records = getApi((method + parameters).addUrlParam("limit", limit));
             var count = 0;
             var selectname = "Default";
+            var istech = parameters.indexOf("role=tech")>0;
+            if (!istech && method=="users"){
+                newTicket.getSearchAjax(element, method, parameters, default_id, default_name);
+                return;
+            }
             if (parameters.length)
-            selectname = parameters.indexOf("role=tech")>0 ? "tech" : method.toLowerCase().slice(0, -1);
+            selectname = istech ? "tech" : method.toLowerCase().slice(0, -1);
             records.done(
                 function(results){
                     var initial = !default_id ? ("<option value=0 disabled selected>choose "+selectname+"</option>") : "";
@@ -1129,14 +1140,20 @@ $(document).ready(function(){
                         $(""+element).select2(osearch);
                         if (default_id)
                             $(""+element).val(default_id).trigger("change");
-                        reveal();
+                        //reveal();
                         return;
                     }
-                    if (default_id)
+                    newTicket.getSearchAjax(element, method, parameters, default_id, default_name);
+                });
+        },
+        getSearchAjax: function(element, method, parameters, default_id, default_name){
+            if (default_id)
                         $(""+element).append("<option value="+default_id+" selected>"+default_name +"</option>");
-                    reveal();
+                    //reveal();
+                    //var symbolArray = [{id:1, text: 'AB1C'},{id:2, text:'DEF'}, {id:3, text: 'GHI'}];
                     $(element).select2({
                         width: "95%",
+                        //data: symbolArray,
                         ajax: {
                             beforeSend: function (xhr) {
                                 xhr.withCredentials = true;
@@ -1170,11 +1187,10 @@ $(document).ready(function(){
                             },
                             cache: true
                         },
-                        minimumInputLength: 0
+                        minimumInputLength: 3
                     });
                     if (default_id)
                         $(""+element).val(default_id).trigger("change");
-                });
         },
         getLocations: function(account){
             if (!isLocation){
