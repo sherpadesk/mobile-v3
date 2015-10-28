@@ -2037,6 +2037,9 @@ footer {
   color: #fff;
   text-align: center;
 }
+.selected {
+  background-color: #42bd41 !important;
+}
 .updateButton {
   border: none;
   width: 100%;
