@@ -344,9 +344,6 @@ html {
   float: right;
   margin-right: 10px;
 }
-#transferSelect {
-  display: none;
-}
 .textInput {
   height: 121px;
   width: 100%;
