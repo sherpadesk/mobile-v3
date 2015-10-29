@@ -13,7 +13,7 @@ if (!isSD){
 }
 
 var year="2015";
-var appVersion = "28";
+var appVersion = "29";
 
 //global helper functions
 function logout(isRedirect, mess) {

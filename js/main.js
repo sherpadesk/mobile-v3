@@ -1253,7 +1253,7 @@ $(document).ready(function(){
                     localStorage.setItem('add_user_techid', '');
                     localStorage.setItem('add_user_techname', '');
                 }
-                newTicket.getSearch("#addTicketTechs", "users", "?role=tech&account="+accountset, techid, techname);
+                newTicket.getSearch("#addTicketTechs", "technicians", "", techid, techname);
                 // after techs are choosen then get a list of classes
                 var classes = getApi('classes');
                 classes.done(
@@ -2671,7 +2671,6 @@ $(document).ready(function(){
         },
         //get tickets as tech
         techTickets:function(searchItem) {
-            $("#loading").show1();
             //$("#techContainer, #optionsConainer, #allContainer, #userContainer").hide();
             var cacheName1 = "tech",
                 retrievedObject = localStorage.getItem(cacheName1 +"tickets");
@@ -2689,6 +2688,7 @@ $(document).ready(function(){
                 featureList2 = filterList("techContainer", searchItem);
             }
             setTimeout(function(){
+                $("#loading").show1();
                 getApi("tickets?status=open&limit=100&role=tech").then(function(returnData) {
                     //add tickets as tech to as tech list
                     ticketList.createTicketsList(returnData, "#techContainer", cacheName1);
