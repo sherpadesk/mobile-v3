@@ -321,7 +321,7 @@ function fullapplink (classn, urlString){
 }
 
 
-
+//HTML encode
 function htmlEscape(str) {
     return String(str)
         .replace(/&/g, '&amp;amp;')
@@ -338,6 +338,7 @@ function htmlEscape(str) {
     ;
 }
 
+//HTML decode
 function symbolEscape(str) {
     return String(str)
     //.replace(/&lt;/g, '<')
@@ -699,6 +700,7 @@ $(document).ready(function(){
     }
 
     // user login
+    //#login.html
     var UserLogin = {
         init: function () {
             if (!isStorage())
@@ -802,6 +804,7 @@ $(document).ready(function(){
     };
 
     // org signup
+    //#signup.html
     var OrgSignup = {
         init: function () {
             var userName = localStorage.getItem('userName');
@@ -891,6 +894,7 @@ $(document).ready(function(){
     };
 
     //show closed tickets
+    //#closedTickets.html
     var closedTickets = {
         init:function() {
             this.showClosedTickets();
@@ -937,6 +941,7 @@ $(document).ready(function(){
     };
 
     // pick up current detailed ticket
+    //#ticket_detail.html
     var pickUpTicket = {
         init:function() {
             this.pick();
@@ -980,6 +985,7 @@ $(document).ready(function(){
     };
 
     // close current detailed ticket
+    //#ticket_detail.html
     var closeTicket = {
         init:function() {
             this.closeIt();
@@ -1083,6 +1089,7 @@ $(document).ready(function(){
     };
 
     // create a new ticket
+    //#add_tickets.html
     var newTicket = {
         init:function() {
             var storeUser = function (isTech)
@@ -1126,7 +1133,7 @@ $(document).ready(function(){
                 newTicket.getSearchAjax(element, method, parameters, default_id, default_name);
                 return;
             }
-            var limit = 10;
+            var limit = 50;
             var records = getApi((method + parameters).addUrlParam("limit", limit));
             var count = 0;
             records.done(
@@ -1203,6 +1210,8 @@ $(document).ready(function(){
             var account = Number(localStorage.getItem('add_user_accountid')) || Number(localStorage.getItem("account_id")) || -1;
             accountset  = accountset ? accountset : account; 
             localStorage.setItem('addAccountTicket', '');
+            var accountName = localStorage.addAccountNameTicket || localStorage.account_name || localStorage.department;
+            localStorage.setItem('addAccountNameTicket', '');
             if(!isTech){
                 $("#istech").hide1();
             }
@@ -1220,7 +1229,7 @@ $(document).ready(function(){
                         localStorage.setItem('add_user_accountid', ''); 
                     }
                     //localStorage.account_id
-                    newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", accountset, localStorage.userOrg);
+                    newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", accountset, accountName);
                     
                     $("#timeAccounts").on("change", function(){
                         var account = $("#timeAccounts").val();
@@ -1311,6 +1320,7 @@ $(document).ready(function(){
     };
 
     // post a comment to a ticket on the ticket details page
+    //#ticket_detail.html
     var postComment = {
         init:function(){
             this.sendComment();
@@ -1343,6 +1353,7 @@ $(document).ready(function(){
     };
 
     // Ajax calls for semi-universal search bar
+    //#dashboard.html
     var search = {
         init:function(){
             this.universalSearch();
@@ -1374,12 +1385,14 @@ $(document).ready(function(){
     };
 
     // add time to an account
+    //#addExpence.html
     var addExpence = {
         init:function(ticket_id){
             this.addExpence(getParameterByName("ticket"));
         },
         addExpence: function(ticket_id){
-            var account_id = localStorage.DetailedAccount ? localStorage.DetailedAccount : -1;
+            var account_id = localStorage.DetailedAccount || -1;
+            var accountName = localStorage.addAccountNameTicket || localStorage.account_name || localStorage.department;
             var project_id=0;
             if(!isAccount || ticket_id)
             {
@@ -1389,7 +1402,7 @@ $(document).ready(function(){
             else
             {
                 //get accounts
-                newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", account_id, localStorage.userOrg);
+                newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", account_id, accountName);
                 
                     $("#timeAccounts").on("change", function(){
                         //console.log(timeLog.task_type_id);
@@ -1449,6 +1462,7 @@ $(document).ready(function(){
 
 
     // adjustment at invoice
+    //#adjustment.html
     var Adjust = {
         init:function(){
             this.Adjustment();
@@ -1500,6 +1514,7 @@ $(document).ready(function(){
 
 
     // add user to an account
+    //#add_user.html
     var addUser = {
         init:function(){
             $(".innerCircle").click(function(){
@@ -1576,6 +1591,9 @@ $(document).ready(function(){
     };
 
     // add time to an account
+    //#edit_time.html
+    //#add_time.html
+    //#addTicketTime.html
     var addTime = {
         init:function(isEdit){
             this.addpicker();
@@ -1821,6 +1839,7 @@ $(document).ready(function(){
                     $("#timeTicket").parent().show1();
 
                 var account_id = localStorage.DetailedAccount || -1;
+                var accountName = localStorage.addAccountNameTicket || localStorage.account_name || localStorage.department;
                 var project_id = 0;
                 var task_type_id = 0;
                 var ticket_id = "";
@@ -1835,7 +1854,7 @@ $(document).ready(function(){
                 if(isAccount)
                 {
                     //get accounts
-                    newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", account_id, localStorage.userOrg);
+                    newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", account_id, accountName);
 
                     $("#timeAccounts").on("change", function(){
                         //console.log(timeLog.task_type_id);
@@ -1926,6 +1945,7 @@ $(document).ready(function(){
     };
 
     // needed methods to propogate a ticket detailed page
+    //#ticket_detail.html
 
     var detailedTicket = {
         init:function(){
@@ -2176,6 +2196,7 @@ $(document).ready(function(){
     };
 
     //get info for a specific invoice
+    //#invoice.html
     var detailedInvoice = {
         init:function(){
             $("#loading").show1();
@@ -2399,6 +2420,9 @@ $(document).ready(function(){
     };
 
     // get a list of invoices both for a specific account as well as a complete list of invoices
+    //#unInvoice_List.html
+    //#Invoice_List.html
+    //#allInvoice_List.html
     var invoiceList = {
         init:function(is_unbilled){
             $("#loading").show1();
@@ -2459,6 +2483,7 @@ $(document).ready(function(){
     };
 
     // list tickets of the queue
+    //#queueTickets.html
     var getQueueTickets = {
         init:function() {
             $(".title").html("Tickets @ " + localStorage.getItem("currentQueueName") + " Queue");
@@ -2502,6 +2527,7 @@ $(document).ready(function(){
     };
 
     // get complete queue list for the orginization for the Queues list page
+    //#Queues.html
     var getQueues = {
         init:function(parent, limit) {
             if (parent) 
@@ -2790,6 +2816,7 @@ $(document).ready(function(){
     };
 
     //get a complete list of accounts attached to the orginizations
+    //#Account_List.html
     var accountList = {
         init:function(parent, limit) {
             $(document).on("click",'.tableRows, .listedAccount', function(){
@@ -2889,6 +2916,7 @@ $(document).ready(function(){
     });
 
     //expenses
+    //#expen.html
     var expenses = {
         init:function() {
             this.getLogs();
@@ -2967,6 +2995,7 @@ $(document).ready(function(){
 
 
     // get complete list of timelogs for the orginization
+    //#timelog.html
     var timeLogs = {
         init:function() {
             this.getLogs();
@@ -3047,6 +3076,7 @@ $(document).ready(function(){
 
 
     // get complete list of todos 
+    //#todos.html
     var todos = {
         init:function() {
             this.getTodoList();
@@ -3107,6 +3137,7 @@ $(document).ready(function(){
 
 
     // calls and methods to propagate the account details page
+    //#account_details.html
     var accountDetailsPageSetup = {
         init:function() {
             var ticketAccount = localStorage.getItem('DetailedAccount');
@@ -3133,6 +3164,7 @@ $(document).ready(function(){
                     accountInvoices = Math.min(returnData.account_statistics.invoices, 999),
                     accountExpenses = Math.min(returnData.account_statistics.expenses, 999);
                 $("#AD").html(returnData.name);
+                localStorage.setItem('addAccountNameTicket', returnData.name);
                 $("#ticketsOptionTicker").html(accountTickets);
                 $("#invoiceOptionTicker").html(accountInvoices);
                 $("#timesOptionTicker").html(accountHours);
@@ -3141,10 +3173,6 @@ $(document).ready(function(){
         },
         pageSetup: function() {
             var currentDetailedAccount = localStorage.getItem('DetailedAccount');
-            var accountHours;
-            var accountTickets;
-            var accountInvoices;
-            var accountName;
             var retrievedObject;
             var retrievedObjectTickets = localStorage.getItem('account'+currentDetailedAccount+'tickets');
             var accountTicketsList = [];
@@ -3176,7 +3204,8 @@ $(document).ready(function(){
             else
             {
                 //console.log(retrievedObject);
-                accountDetailsPageSetup.createAccDetails(retrievedObject);
+            //get account data
+    accountDetailsPageSetup.createAccDetails(retrievedObject);
                 //reveal();
             }
 
@@ -3212,6 +3241,7 @@ $(document).ready(function(){
     };
 
     // get timeLogs for a specific account
+    //#accountTimes.html
     var accountTimeLogs = {
         init:function(){
             $("#addTimeAccount").click(function(){
@@ -3342,8 +3372,9 @@ $(document).ready(function(){
         }
 
         //get instance config
-        getApi("config").then(function (returnData) {  
-            if (is_redirect && isPhonegap){
+        getApi("config").then(function (returnData) { 
+            console.log(returnData);
+            if (isPhonegap){
                 if (localStorage.getItem("userKey").length === 32)
                     initOrgPreferences(localStorage.getItem('userOrgKey') + "-" + localStorage.getItem('userInstanceKey') + ":" + localStorage.getItem("userKey"));
             }
@@ -3426,6 +3457,7 @@ $(document).ready(function(){
     };
 
     // organization Ajax call
+    //#org.html
     var org = {
         init: function () {
             $('.instSelect').hide();
@@ -3490,6 +3522,7 @@ $(document).ready(function(){
                             if (instances.length == 1) {
                                 userInstanceKey = instances[0].key;
                                 localStorage.setItem('userInstanceKey', userInstanceKey);
+                                localStorage.department = userOrg +   '&nbsp' + instances[0].name;
                                 getInstanceConfig(userOrgKey, userInstanceKey);
                             }
                             else {
@@ -3515,10 +3548,12 @@ $(document).ready(function(){
                                         userMessage.showMessage(false, instances[$(this).attr("data-id")].name + " has expired. Contact SherpaDesk for assistance. Email: support@sherpadesk.com Phone: +1 (866) 996-1200, then press 2");
                                         return;
                                     }
-                                    var userInstanceKey = instances[$(this).attr("data-id")].key;
+                                    var instanceId = $(this).attr("data-id");
+                                    var userInstanceKey = instances[instanceId].key;
                                     localStorage.setItem('userInstanceKey', userInstanceKey);
                                     localStorage.setItem('sd_is_MultipleOrgInst', 'true');
                                     $("#loading").show1();
+                                    localStorage.department = userOrg +   '&nbsp' + instances[instanceId].name;
                                     getInstanceConfig(userOrgKey, userInstanceKey);
                                 });
                             }
@@ -3540,6 +3575,7 @@ $(document).ready(function(){
                         if (instances.length == 1) {
                             userInstanceKey = instances[0].key;
                             localStorage.setItem('userInstanceKey', userInstanceKey);
+                            localStorage.department = userOrg +   '&nbsp' + instances[0].name;
                             getInstanceConfig(userOrgKey, userInstanceKey);
                         }
                         else {
@@ -3562,10 +3598,12 @@ $(document).ready(function(){
                                     userMessage.showMessage(false, instances[$(this).attr("data-id")].name + " has expired. Contact SherpaDesk for assistance. Email: support@sherpadesk.com Phone: +1 (866) 996-1200, then press 2");
                                     return;
                                 }
-                                var userInstanceKey = instances[$(this).attr("data-id")].key;
+                                var instanceId = $(this).attr("data-id");
+                                var userInstanceKey = instances[instanceId].key;
                                 localStorage.setItem('userInstanceKey', userInstanceKey);
                                 localStorage.setItem('sd_is_MultipleOrgInst', 'true');
                                 $("#loading").show1();
+                                localStorage.department = userOrg +   '&nbsp' + instances[instanceId].name;
                                 getInstanceConfig(userOrgKey, userInstanceKey);
                             });
                         }
@@ -3648,7 +3686,7 @@ $(document).ready(function(){
 
         if (Page=="ticket_list.html")
         {
-            localStorage.DetailedAccount = localStorage.addAccountTicket = '';
+            localStorage.DetailedAccount = localStorage.addAccountTicket = localStorage.addAccountNameTicket = '';
             ticketList.init();
             //accountDetailsPageSetup.init();
             return;
@@ -3670,8 +3708,8 @@ $(document).ready(function(){
             //conditional api calls determined by page
             if (Page=="dashboard.html")
             {
-                localStorage.DetailedAccount = localStorage.addAccountTicket = '';
-                var orgName = localStorage.getItem('userOrg');
+                localStorage.DetailedAccount = localStorage.addAccountTicket = localStorage.addAccountNameTicket = '';
+                var orgName =localStorage.department ||  localStorage.getItem('userOrg');
                 if (orgName)
                     $("#indexTitle").html(orgName);
                 TicketsCounts.init();
@@ -3686,7 +3724,7 @@ $(document).ready(function(){
             {
                 if (isAccount)
                 {
-                    localStorage.DetailedAccount = localStorage.addAccountTicket = '';
+                    localStorage.DetailedAccount = localStorage.addAccountTicket = localStorage.addAccountNameTicket = '';
                     accountList.init("#fullList");
                     return;
                 }
@@ -3992,6 +4030,7 @@ $(document).ready(function(){
         }
         else if (((new Date()).valueOf() - Date.parse(localStorage.lastclick).valueOf()) / 60 > 1200)
         {
+            console.log(localStorage.lastclick);
             localStorage.lastclick = new Date();
             getInstanceConfig("","",false, routing);
             return;
