@@ -3373,7 +3373,7 @@ $(document).ready(function(){
 
         //get instance config
         getApi("config").then(function (returnData) { 
-            console.log(returnData);
+            //console.log(returnData);
             if (isPhonegap){
                 if (localStorage.getItem("userKey").length === 32)
                     initOrgPreferences(localStorage.getItem('userOrgKey') + "-" + localStorage.getItem('userInstanceKey') + ":" + localStorage.getItem("userKey"));
