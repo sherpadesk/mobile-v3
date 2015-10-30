@@ -21,6 +21,7 @@
     
     <!-- Jquery -->
     <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/select2.min.css" /><script src="js/select2.min.js"></script>
     <script src="js/dateFormat.js"></script>
     
     <!-- Jquery UI -->
@@ -31,19 +32,17 @@
     <script src="js/main.min.js"></script>
     
     <script src="js/jquery.md5.js"></script>
-    <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
   </head>
 <div class="maxSize">
   <span id="fastclick">
 <header>
-    <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
-    <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
+    <div class="errorMessageNeg message"><!--Please enter valid ticket information--></div>
+    <div class="errorMessagePos message"><!--Ticket was Succesfully Created :)--></div>
     <div class="headerContainer maxSize">
         <ul class="topHeader">
-            <li id=goBack style="
-    width: 32%;"><i class="ion-android-arrow-back"></i>
+            <li id=goBack style="width: 32%;"><i class="ion-android-arrow-back"></i>
             <span class="headerNavIcon ionShare"></span>
             </li>
             <li class="alignOpen">
@@ -99,7 +98,7 @@
                 </ul>-->  
               </div>  
           <!--form class="textInputContainer"-->
-                <textarea id="commentText" class="textInput" type="text" placeholder="Add Response"></textarea>
+                <textarea id="commentText" class="textInput textInput2" type="text" placeholder="Add Response"></textarea>
             <button id="reply" class="replyButton">Reply</button>
             <button id="closeu" class="replyButton d0">Reply & Close</button>
             <!--/form-->       
@@ -111,45 +110,45 @@
             <div class="tabpageContainer shrinker white">
                    <div class="add_class">
         <div class="styledSelect">
-            <li class="arrowDown ion-ios-arrow-down"></li>
+            
            <select id="classOptions">
               <!--<option value="+classId+">"+className+"</option>-->
            </select>
         </div>
             <div class="sub_class1 d0"><div class="styledSelect">
-                <li class="arrowDown ion-ios-arrow-down"></li>
+                
                 <select id="sub_class1"></select></div></div>
         <div class="sub_class2 d0"><div class="styledSelect">
-            <li class="arrowDown ion-ios-arrow-down"></li>
+            
             <select id="sub_class2"></select></div></div>
         </div>
         <div class="styledSelect">
-            <li class="arrowDown ion-ios-arrow-down"></li>
+            
            <select id="ticketLevel">
               <!--<option value="+returnData.level+">Level "+returnData.level+" "+returnData.level_name+"</option>-->
            </select>
         </div>
         <div class="styledSelect">
-            <li class="arrowDown ion-ios-arrow-down"></li>
+            
            <select id="ticketPriority">
               <!--<option value="+returnData.priority_id+">Priority "+returnData.priority+"</option>-->
             </select>
         </div>
         <div class="styledSelect">
-            <li class="arrowDown ion-ios-arrow-down"></li>
+            
            <select id="ticketTechs">
               <!--<option value="+techId+">"+techName+"</option>-->
            </select>
         </div>
                 <input type="hidden" id=inputAccountId />
         <div id="location" class="styledSelect">
-            <li class="arrowDown ion-ios-arrow-down"></li>
+            
            <select id="ticketLocation">
               <!--<option value="+returnData.location_id+">"+returnData.location_name+"</option>-->
            </select>
         </div>
         <div id="project" class="styledSelect">
-            <li class="arrowDown ion-ios-arrow-down"></li>
+            
            <select id="ticketProject">
               <!--<option value="+returnData.project_id+">"+returnData.project_name+"</option>-->
            </select>
@@ -163,13 +162,7 @@
               <a href="addTicketTime.html" class="send time">Add Time</a>
                 <a href="addExpence.html" id="ticketExpense" class="send expense">Add Expense</a>
                 <a href="invoice.html" class="send time">Create Invoice</a>
-              <button id="transfer" class="blueButton">Transfer Ticket</button>
-              <div id="transferSelect" class="styledSelect">
-                  <li class="arrowDown ion-ios-arrow-down"></li>
-                 <select id="transferTechs">
-                  <!-- <option value="+value+">"+task+"</option> -->
-                </select>
-              </div>
+              <button id="transfer" class="blueButton">Transfer Ticket (deprecated)</button>
               <button id="pickUp" class="blueButton">Pick Up Ticket</button>
               <button id="closeIt" class="blueButton">Close Ticket</button>
               <!-- expands for closing message -->
@@ -181,7 +174,7 @@
     </div>
   </div>
 </body>
-      <div id="loading" style="background-color:#34495e;"><div class="loadScreen">Loading...<br><i class="icon ion-load-c loadSpin ion-3x"></i></div></div>
+      <div id="loading"><div class="loadScreen">Loading...<br><i class="icon ion-load-c loadSpin ion-3x"></i></div></div>
 </span>
 </div>
 </html>

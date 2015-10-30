@@ -9,10 +9,11 @@ var fastClicker = {
 	},
 
 	clickFast:function() {
-
+        if (window.FastClick){
 		window.addEventListener('load', function() {
 			FastClick.attach(document.body);
 		}, false);
+        }
 	}
 };
 
@@ -145,16 +146,16 @@ var fastClicker = {
 		slideOut: function() {
             $(document).on("click",".plusIcon",function(){
                 var email = $(this).attr("id");
-				$(this).removeClass().addClass("closeIcon ion-close-circled circleInvoice");
+				$(this).removeClass().addClass("closeIcon pcIcon ion-close-circled circleInvoice");
                 $(this).parents(".recipientParent").appendTo("#recipientList");
 			});
 			$(document).on("click",".closeIcon",function(){
                 var email = $(this).attr("id");
-				$(this).removeClass().addClass("plusIcon ion-checkmark-circled circleInvoice");
+				$(this).removeClass().addClass("plusIcon pcIcon ion-checkmark-circled circleInvoice");
                 $(this).parents(".recipientParent").prependTo('#recipientList');
 			});
 			$(document).on("click","#addRecipient", function(){
-				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer addRecipColor'><input class='headerSearch'><img class='searchCloseExpandedR addRecipX' src='img/close_search.png'></div></li>";
+				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer searchContainer addRecipColor'><input class='headerSearch searchContainer'><img class='searchCloseExpandedR addRecipX' src='img/close_search.png'></div></li>";
 				var parent = $(this).parent();
 				var label = '<li>Recipients</li>';
 				$(parent).empty();
@@ -179,7 +180,7 @@ var fastClicker = {
 				$(".headerSearchContainer").animate({
 					width: "0px"
 				}, 10);
-				var insert = "<li id='addRecipient' class='detail3Short'><i class='plusIcon ion-checkmark-circled circleInvoice></i>";
+				var insert = "<li id='addRecipient' class='detail3Short'><i class='plusIcon pcIcon ion-checkmark-circled circleInvoice></i>";
 				setTimeout(
   				function()
   				{
@@ -202,7 +203,7 @@ var fastClicker = {
             if ($(".headerSearchIcon")){
                 var parent = $(".headerSearchIcon").parent();
                 //console.log(parent);
-                var insert = "<div id='searchThis' class='headerSearchContainer'><span class='searchIconExpanded'><i class='ion-ios-search-strong'></i></span><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><span class='searchCloseExpanded'> <i class='ion-android-close'></i></span></div>";
+                var insert = "<div id='searchThis' class='headerSearchContainer searchContainer'><span class='searchIconExpanded'><i class='ion-ios-search-strong'></i></span><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><span class='searchCloseExpanded'> <i class='ion-android-close'></i></span></div>";
 				$(parent).empty();
 				$(insert).appendTo( $( parent ) );
                 if (localStorage.getItem("searchItem")){
@@ -290,7 +291,7 @@ var fastClicker = {
             if (localStorage.getItem('userRole') !== "tech") $(".TicketTabs").hide();
             var test = localStorage.getItem("ticketPage");
             this.tabnav(test ? test : "user");
-            $(document).on("click",".tabHeader",function(){
+            $(document).on("click touchstart",".tabHeader",function(){
 				ticketDetails.tabnav($(this));
 			});
 		},

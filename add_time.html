@@ -21,21 +21,20 @@
     
     <!-- Jquery -->
     <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
-      <link rel="stylesheet" type="text/css" href="js/jquery.datetimepicker.css"/ >
+      <link rel="stylesheet" href="css/select2.min.css" /><script src="js/select2.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="js/jquery.datetimepicker.css"/>
       <script src="js/jquery.datetimepicker.js"></script>
     <!-- Main.js -->
     <script src="js/index.js"></script>
     <script src="js/main.min.js"></script>
-    
-    <script type='application/javascript' src='js/fastclick.js'></script> 
+
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
   </head>
   <div class="maxSize">
   <header>
-      <div class="errorMessageNeg"><!--Please enter note --></div>
-      <div class="errorMessagePos"><!--Time was Succesfully Created :)--></div>
-      <div class="accountContainer">
+      <div class="errorMessageNeg message"><!--Please enter note --></div>
+      <div class="errorMessagePos message"><!--Time was Succesfully Created :)--></div>
     <div class="headerContainer">
       <ul class="topHeader">
           <li id=goBack><i class="ion-android-arrow-back"></i></li>
@@ -53,39 +52,39 @@
           <li><span class="buttonListSymbols">+</span></li>
         </ul>
           <div  class="buttonListdiv">
-          <input placeholder="Start Time" id=date_start class="textInputSmall"></input>
-          <input placeholder="End Time" id=date_end class="textInputSmall"></input></div>
+          <input placeholder="Start Time" id=date_start class="textInputSmall"/>
+          <input placeholder="End Time" id=date_end class="textInputSmall"/></div>
                  
       <div class="styledSelect"> 
-          <li class="arrowDown ion-ios-arrow-down"></li>
+          
              <select id="timeAccounts">
                 <!-- <option value="+value+">"+task+"</option> -->
              </select>
        </div>
                <div class="styledSelect">
-                   <li class="arrowDown ion-ios-arrow-down"></li>
+                   
              <select id="timeProjects">
                 <!-- <option value="+value+">"+task+"</option> -->
              </select>
           </div>
        <div class="styledSelect d0">
-           <li class="arrowDown ion-ios-arrow-down"></li>
+           
              <select id="timeTicket">
                 <!-- <option value="+value+">"+task+"</option> -->
              </select>
           </div>
           <div class="styledSelect">
-              <li class="arrowDown ion-ios-arrow-down"></li>
+              
              <select id="taskTypes">
                 <!-- <option value="+value+">"+task+"</option> -->
              </select>
           </div>
           <div id="billem" class="billable"><div id="billem1" class="innerCircle billFill"></div></div><span class="billTag">Billable</span>
-          <textarea id="noteTime" class="textInput1" type="text" placeholder="I completed..."></textarea>
+          <textarea id="noteTime" class="textInput1 textInput2" type="text" placeholder="I completed..."></textarea>
           <button class="greenButton" id="submitTime">Add Time</button>
       </div>
     </div>
   </body>
       <div id="loading"><div class="loadScreen"><i class="icon ion-load-c loadSpin ion-3x"></i></div>
-  </div>
+  </div></div>
 </html>

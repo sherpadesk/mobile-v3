@@ -8,6 +8,250 @@ String.format = function(format) {
     });
 };
 
+    var newTicket4 = {
+        init:function() {
+            if(isTech){
+                $("#userCreate").on("click", function(){
+                    var user = $("#addTicketUser").val();
+                    if (user) localStorage.setItem('add_user_userid', user);
+                    var tech = $("#addTicketTechs").val();
+                    if (tech) localStorage.setItem('add_user_techid',tech);
+                    var account = $("#timeAccounts").val();
+                    if (account) localStorage.setItem('add_user_accountid',account);
+                    window.location = "add_user.html";
+                });
+
+                $("#TechCreate").on("click", function(){
+                    localStorage.setItem('add_user_type', 'tech');
+                    var user = $("#addTicketUser").val();
+                    if (user) localStorage.setItem('add_user_userid', user);
+                    var tech = $("#addTicketTechs").val();
+                    if (tech) localStorage.setItem('add_user_techid', tech);
+                    var account = $("#timeAccounts").val();
+                    if (account) localStorage.setItem('add_user_accountid',account);
+                    window.location = "add_user.html";           
+                }); 
+            }
+
+            this.addTicket();
+        },
+        addTicket:function() {
+            $("#timeAccounts").empty();
+            var accountset = localStorage.getItem('addAccountTicket');
+            localStorage.setItem('addAccountTicket', '');
+            if(!isTech){
+                $("#istech").hide1();
+                /*$("#timeAccounts").parent().hide1();
+                $("#addTicketUser").parent().hide1();
+                $("#userCreate").hide1();
+                $("#addTicketTechs").parent().hide1();
+                $("#TechCreate").hide1();
+                $(".add_class").hide1();
+                */
+            }
+            else
+            {
+                if(!isAccount) {$("#timeAccounts").parent().hide1();reveal();}
+                else
+                { var accounts = getApi("accounts?limit=300", {"is_with_statistics":false});
+                 accounts.then(function(returnData) {
+                     //console.log(returnData);
+                     // get list of accounts add them to option select list
+                     $("#timeAccounts").empty();
+                     fillSelect(returnData, "#timeAccounts", "<option value=0 disabled selected>choose an account</option>");
+                     var account =  Number(localStorage.getItem('add_user_accountid')) || Number(localStorage.getItem("account_id")) || -1;
+                     accountset  = accountset ? accountset : account; 
+                     if (accountset){
+                         localStorage.setItem('add_user_accountid', '');
+                         $("#timeAccounts").val(accountset).trigger("change");
+                     }
+                     reveal();
+                 }, function(e) {
+                     showError(e);
+                     console.log("fail @ ticket accounts");
+                 });
+                }
+
+
+
+
+                // list of Users
+                var userid = localStorage.getItem('add_user_userid');
+                if (userid) localStorage.setItem('add_user_userid', "");
+                else userid = localStorage.getItem('userId');
+
+                var userName = localStorage.getItem('add_user_username');
+                if (userName) localStorage.setItem('add_user_username', '');
+                else userName = localStorage.getItem("userFullName");
+
+                if (!userName.trim())
+                    userName = localStorage.getItem("userName");
+
+                $("#addTicketUser").append("<option value="+userid+" selected>"+userName+"</option>");
+
+                var users = getApi("users?limit=2000");
+                users.then(function(returnData){
+                    //console.log(returnData);
+                    // add techs to option select list
+                    fillSelect(returnData, "#addTicketUser", "", "",
+                               "firstname,lastname,email");
+                    $("#addTicketUser").val(userid);
+                },
+                           function(e) {
+                    showError(e);
+                    console.log("fail @ TicketUser");
+                }
+                          );
+
+                // after an account is choosed it get a list of technicians
+
+                // list of Tech
+                var technicians = getApi("users?role=tech&limit=200");
+                technicians.then(function(returnData){
+                    //console.log(returnData);
+                    // add techs to option select list
+                    fillSelect(returnData, "#addTicketTechs",
+                               "<option value=0 disabled selected>choose a tech</option>", "",
+                               "firstname,lastname,email");
+                    fillSelect(returnData, "#addTicketAltTechs",
+                               "<option value=0 disabled selected>choose alt tech</option>", "",
+                               "firstname,lastname,email");
+                    var techid = localStorage.getItem('add_user_techid');
+                    if (techid) {
+                        localStorage.setItem('add_user_techid', '');
+                        $("#addTicketTechs").val(techid);
+                    }
+                },
+                                 function(e) {
+                    showError(e);
+                    console.log("fail @ Ticket Techs");
+                }
+                                );
+                if (!isProject)
+                    $("#project").hide();
+                else
+                {
+                    // add select options to project option box
+                    var projects = getApi('projects');
+                    projects.done(
+                        function(projectResults){
+                            fillSelect(projectResults, "#ticketProject", "<option value='null' disabled selected>choose a project</option>");
+                            $("#ticketProject").select2();
+                        }
+                    );
+                }
+                var priorities = getApi('priorities');
+                $("#ticketPriority").empty();
+                // add select options to priority option box
+                priorities.done(
+                    function(prioritiesResults){
+                        var priorityInsert = "";
+                        for(var b = 0; b < prioritiesResults.length; b++)
+                        {
+                            priorityInsert += "<option value="+prioritiesResults[b].id+">Priority: " + prioritiesResults[b].priority_level + " - " +prioritiesResults[b].name+"</option>";
+                        }
+                        $(priorityInsert).appendTo("#ticketPriority");
+                        $("#ticketPriority").select2();
+                    }
+                );
+
+                // after techs are choosen then get a list of classes
+                var classes = getApi('classes');
+                classes.done(
+                    function(classResults){
+                        fillClasses(classResults, "#classTicketOptions", "<option value=0 disabled selected>choose a class</option>");
+                        $("#classTicketOptions").select2();
+                    });
+
+                // ticket Location_add_Ticket_V4
+                var location = getApi('locations?limit=500');
+                location.done(
+                    function(locationResults){
+                        fillSelect(locationResults, "#ticketLocation", "<option value=0 disabled selected>choose a location</option>");
+                        $("#ticketLocation").select2();
+                    });
+
+                // ToDo Templates
+                var templates = getApi('todos');
+                templates.done(
+                    function(templatesResults){
+                        fillSelect(templatesResults, "#addTicketToDos", "");
+                    });
+
+
+                $("#ticketLevel").empty();
+                if (!isLevel) $("#ticketLevel").parent().hide();
+                else{
+                    // add select options to level Option box
+                    getApi('levels').done(
+                        function(levelResults){
+                            fillSelect(levelResults, "#ticketLevel", "", "Level: ");
+
+                        }
+                    );
+                }
+
+            }
+
+            // make api post call when submit ticket button is clicked
+
+            $("#submitNewTicket").click(function(){
+
+                var subject = htmlEscape($("#addTicketSubject").val().trim());
+                var post = htmlEscape($("#addTicketInitPost").val().trim());
+                if(subject === "" || $("#addTicketTechs").val() === "" || selectedEditClass < 1)
+                {
+                    userMessage.showMessage(false, "Please enter subject");
+                }
+                else if (subject.length > 100){
+                    userMessage.showMessage(false, "Subject should be less 100 chars!");	
+                } 
+                else if (post.length > 5000) {
+                    userMessage.showMessage(false, "Details cannot be more than 5000 chars!");
+                }
+                else
+                {
+                    var addTicket = getApi("tickets", {
+                        "status" : "open",
+                        "subject" : subject,
+                        "initial_post" : post,
+                        "class_id" : selectedEditClass,
+                        "account_id" :  
+                        $("#timeAccounts").val(),
+                        "location_id": 
+                        $("#ticketLocation").val(),
+                        "project_id":  
+                        $("#ticketProject").val(),
+                        "level":
+                        $("#ticketLevel").val(),
+                        "priority_id":
+                        $("#ticketPriority").val(),
+
+                        //"folder_id":,
+                        //"submission_category":,
+
+                        "user_id" : isTech ? $("#addTicketUser").val() : localStorage.getItem('userId'),
+                        "tech_id" : $("#addTicketTechs").val()
+                    }, "POST");
+                    addTicket.then(function (d) {
+                        userMessage.setMessage(true, "Ticket was Succesfully Created :)");
+                        if (!isTech)
+                            location.replace("ticket_list.html");
+                        else
+                            backFunction();
+                    },
+                                   function(e) {
+                        showError(e);
+                        console.log("fail @ tickets");
+                    }
+
+                                  );
+                }
+            });
+        }
+    };
+
+
 function BuildList(parent, arr, template, values, header)
 {
     header = header || '';

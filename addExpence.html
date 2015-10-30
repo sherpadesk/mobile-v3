@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="css/style_LargeScreen.css" />
     <!-- Jquery -->
     <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
-    
+    <link rel="stylesheet" href="css/select2.min.css" /><script src="js/select2.min.js"></script>
     <!-- Jquery UI -->
     
     
@@ -28,8 +28,6 @@
     <script src="js/index.js"></script>
     <script src="js/main.min.js"></script>
     
-    
-    <script src="js/fastclick.js"></script>
     <!-- Fonts & Icons -->
     <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
   </head>
@@ -44,36 +42,35 @@
             </li>
             <li></li>
         </ul>
-        <div class="errorMessageNeg"><!--Please enter note --></div>
-        <div class="errorMessagePos"><!--Time was Succesfully Created :)--></div>
+        <div class="errorMessageNeg message"><!--Please enter note --></div>
+        <div class="errorMessagePos message"><!--Time was Succesfully Created :)--></div>
     </div>
 </header>
 
 <body>
   <div class="bodyContent">
     <div class="CreateInvoiceWrapper"> 
-        <input id='expenseAmount' class="input" type="number" placeholder="Amount"></input>
+        <input id='expenseAmount' class="input" type="number" placeholder="Amount"/>
       <div class="styledSelect">
-          <li class="arrowDown ion-ios-arrow-down"></li>
+          
           <select id="timeAccounts">
               <!-- <option value="+value+">"+task+"</option> -->
           </select>
       </div>
       <div class="styledSelect">
-          <li class="arrowDown ion-ios-arrow-down"></li>
+          
           <select id="timeProjects">
               <!-- <option value="+value+">"+task+"</option> -->
           </select>
       </div>
-        <textarea id="expenseNote" class="textInput" type="text" placeholder="Note"></textarea>
-      <textarea id="vendor" class="textInputSmallLight" type="text" placeholder="Vendor"></textarea>
-      <textarea id="expenseInternal" class="textInputSmallLight" type="text" placeholder="Internal Notes"></textarea>
+        <textarea id="expenseNote" class="textInput textInput2" type="text" placeholder="Note"></textarea>
+      <textarea id="vendor" class="textInputSmallLight textInput2" type="text" placeholder="Vendor"></textarea>
+      <textarea id="expenseInternal" class="textInputSmallLight textInput2" type="text" placeholder="Internal Notes"></textarea>
       <div id="billem" class="billable"><div id="billem1" class="innerCircle billFill"></div></div><span class="billTag">Billable</span>
         <button id="addexpenseButton" class="greenButton">Add Expense</button>
         </div>
     </div>
-  </div>
-    <div id="loading"><div class="loadScreen"><i class="icon ion-load-c loadSpin ion-3x"></i></div>
+    <div id="loading"><div class="loadScreen"><i class="icon ion-load-c loadSpin ion-3x"></i></div></div>
 </body>
 </span>
 </div>

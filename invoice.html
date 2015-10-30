@@ -42,22 +42,22 @@
                                 <li><h1 id="invoiceNumber" class="SherpaDesk">Invoice</h1></li>
                                 <li></li>
                             </ul>
-                            <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
-                            <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
+                            <div class="errorMessageNeg message"><!--Please enter valid ticket information--></div>
+                            <div class="errorMessagePos message"><!--Ticket was Succesfully Created :)--></div>
                         </div>
                     </header>
                 <body>
                     <div class="bodyContent">
                         <div class="invoiceContainer clearfix">
                             <div class="invoiceShrinker">
-                                <ul class="invoiceAccount">
+                                <ul class="invoiceAccount detailInvoice">
 <!--                                    <li id="customerName">Invoice Loading</li>-->
                                     <li id="invoiceDate">change</li>
                                 </ul>
-                                <ul class="invoiceInfoSmall">
+                    <ul class="invoiceInfoSmall detailInvoice">
                                     <li>
-                                        <ul class="invoiceDetail">
-                                            <li class="detail1">Time</li>
+                                        <ul class="invoiceDetail detailInvoice">
+                                            <li class="detail1 detail">Time</li>
  <li id="invoiceHours" class="detail2">0 <span class="detail3Small">hrs</span></li>
     <li id="invoiceAmount"class="detail3">$0<span class="detail3Small">.00</span></li>
        <a href="InvoiceTimes.html"><li class="detail3Short d0">
@@ -66,8 +66,8 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <ul class="invoiceDetail">
-                                            <li class="detail1Short">Travel</li>
+                                        <ul class="invoiceDetail detailInvoice">
+                                            <li class="detail1Short detail">Travel</li>
                                             <li id="invoiceTravel" class="detail2Short">$0<span class="detail3Small">.00</span></li>
 <a href="travel.html"><li class="detail3Short d0">
     <span class="circlePencil"><i class="ion-record circleIn ionP"></i><i class="editPencil ion-edit circleIn ionPencil"></i></span></li>
@@ -75,8 +75,8 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <ul class="invoiceDetail">
-                                            <li class="detail1Short">Expenses</li>
+                                        <ul class="invoiceDetail detailInvoice">
+                                            <li class="detail1Short detail">Expenses</li>
                                             <li id="invoiceExpenses" class="detail2Short">$0<span class="detail3Small">.00</span></li>
     <a href="addExpence.html"><li class="detail3Short d0">
         <span class="circlePencil"><i class="ion-record circleIn ionP"></i><i class="editPencil ion-edit circleIn ionPencil"></i></span>
@@ -84,8 +84,8 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <ul class="invoiceDetail">
-                                            <li class="detail1Short">Adjustments</li>
+                                        <ul class="invoiceDetail detailInvoice">
+                                            <li class="detail1Short detail">Adjustments</li>
                                             <li id="invoiceAdjustments" class="detail2Short">-$0<span class="detail3Small">.00</span></li>
                                             <a href="adjustment.html"><li class="detail3Short d0">
                                                 <span class="circlePencil"><i class="ion-record circleIn ionP"></i><i class="editPencil ion-edit circleIn ionPencil"></i></span></li></a>
@@ -171,11 +171,11 @@
                                 </div>
                                           
 
-                 <ul id="recipHeader" class="invoiceAccount">
+                 <ul id="recipHeader" class="invoiceAccount detailInvoice">
                                             <li>Recipients</li>
                                             <li id="addRecipient" class="detail3Short"><!--img class="addIcon" src="img/check.png"--></li>
                                         </ul>
-                                <ul id="recipientList" class="invoiceInfo"></ul>
+                                <ul id="recipientList" class="invoiceInfo detailInvoice"></ul>
                                             <!--<li>
 <ul class='recipientDetail'>
 <li>
@@ -184,7 +184,7 @@
 <li>
 <div class='recipient'>
 <p>"+returnData.recipients[x].email+"</p>
-<img class='closeIcon' src='img/error.png'>
+<img class='closeIcon pcIcon' src='img/error.png'>
 </div>
 </li>
 </ul>
