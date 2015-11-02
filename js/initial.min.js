@@ -70,9 +70,11 @@ function initOrgPreferences(value)
             suitePrefs.store (ok, fail, 'org', value);
         }
     }
+    else
+        alert("error");
 }
 
-function ok (value) { //alert(value); 
+function ok (value) { alert(value); 
 }
 function fail (error) {alert(error);}
 
