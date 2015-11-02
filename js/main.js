@@ -18,6 +18,7 @@ function getDateTime(date)
     return new Date(date).dateFormat(getDateTimeFormat());   
 }
 
+//get the full name of the following options:firstname, lastname, email,name
 function getFullName(firstname,lastname,email,name) {
     var fname = "";
                                     if (name)
@@ -428,8 +429,9 @@ var FileUrlHelper = {
         {
             var inlineImg = note.match(/\[cid:[^\[\]]*]/g);
             for(var i = 0; i < length; i++){
-                note = FileUrlHelper.ReplaceAll(note, " "+files[i].name, FileUrlHelper.getFileLink(files[i].url,files[i].name));
-                filearray['"'+files[i].name.substring(0, files[i].name.lastIndexOf("."))+'"'] = files[i].url;
+                var name = files[i].name;
+                note = FileUrlHelper.ReplaceAll(note, " "+name, files[i].is_deleted ? "" :  FileUrlHelper.getFileLink(files[i].url,name));
+                filearray['"'+name.substring(0, name.lastIndexOf("."))+'"'] = files[i].url;
             }
             if (inlineImg)
             {
@@ -449,7 +451,7 @@ var FileUrlHelper = {
                             filename = "";
                     }
                     if (filename.length)
-                        note = FileUrlHelper.ReplaceAll(note, inlineImg[j], FileUrlHelper.getFileLink(filename));
+                        note = FileUrlHelper.ReplaceAll(note, inlineImg[j], FileUrlHelper.getFileLink(filename,inlineImg[j].slice(5, -1)));
                 }
             }
             //note = note.replaceAll("Following file was ", "");
@@ -463,20 +465,17 @@ var FileUrlHelper = {
         }
         return note;
     },
-
+//get file of the folllowing options: file, name
     getFileLink : function (file,name)
     {
         var img ="";
         if (checkURL(file) || checkURL(name))
             img = "<img class=\"attachment\" src=\"" + file + "\">";
         else
-            img = "<i class='ion-android-document ion-3x ionColor'></i> &nbsp;" + decodeURIComponent(file.split("/").slice(-1)) + "<p></p>";
-
-
-
+            img = "<i class='ion-android-document ion-3x ionColor'></i> &nbsp;" + (name ||  decodeURIComponent(file.split("/").slice(-1))) + "<p></p>";
         return "<p/><a class=\"comment_image_link\"" + 
             (isPhonegap ? (" href=# onclick='openURL(\"" +file + "\")'>"+img+"</a>") :
-             (" target=\"_blank\" href=\"" +file + "\">"+img+"</a>"));
+             (" target=\"_blank\" href=\"" +file + "\">"+img + "</a>"));
     }};
 
 
@@ -486,6 +485,7 @@ var featureList3;
 var featureList4;
 var featureList5;
 
+//search in the list
 function filterList(listClass, init_value, value_names){
     $('body').attr('id', 'search_wrap');
     if (!value_names)
@@ -819,6 +819,7 @@ $(document).ready(function(){
             $("#is_force_registration").prop("checked", false);
             reveal();   
         },
+        //add org
         add: function () {
             var name = $("#name").val();
             var email = $("#email").val();
@@ -1133,7 +1134,7 @@ $(document).ready(function(){
                 newTicket.getSearchAjax(element, method, parameters, default_id, default_name);
                 return;
             }
-            var limit = 50;
+            var limit = 30;
             var records = getApi((method + parameters).addUrlParam("limit", limit));
             var count = 0;
             records.done(
@@ -1210,8 +1211,6 @@ $(document).ready(function(){
             var account = Number(localStorage.getItem('add_user_accountid')) || Number(localStorage.getItem("account_id")) || -1;
             accountset  = accountset ? accountset : account; 
             localStorage.setItem('addAccountTicket', '');
-            var accountName = localStorage.addAccountNameTicket || localStorage.account_name || localStorage.department;
-            localStorage.setItem('addAccountNameTicket', '');
             if(!isTech){
                 $("#istech").hide1();
             }
@@ -1229,7 +1228,7 @@ $(document).ready(function(){
                         localStorage.setItem('add_user_accountid', ''); 
                     }
                     //localStorage.account_id
-                    newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", accountset, accountName);
+                    newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", accountset, localStorage.userOrg);
                     
                     $("#timeAccounts").on("change", function(){
                         var account = $("#timeAccounts").val();
@@ -1391,8 +1390,7 @@ $(document).ready(function(){
             this.addExpence(getParameterByName("ticket"));
         },
         addExpence: function(ticket_id){
-            var account_id = localStorage.DetailedAccount || -1;
-            var accountName = localStorage.addAccountNameTicket || localStorage.account_name || localStorage.department;
+            var account_id = localStorage.DetailedAccount ? localStorage.DetailedAccount : -1;
             var project_id=0;
             if(!isAccount || ticket_id)
             {
@@ -1402,7 +1400,7 @@ $(document).ready(function(){
             else
             {
                 //get accounts
-                newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", account_id, accountName);
+                newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", account_id, localStorage.userOrg);
                 
                     $("#timeAccounts").on("change", function(){
                         //console.log(timeLog.task_type_id);
@@ -1501,17 +1499,6 @@ $(document).ready(function(){
             });
         }
     };
-
-
-
-
-
-
-
-
-
-
-
 
     // add user to an account
     //#add_user.html
@@ -1839,7 +1826,6 @@ $(document).ready(function(){
                     $("#timeTicket").parent().show1();
 
                 var account_id = localStorage.DetailedAccount || -1;
-                var accountName = localStorage.addAccountNameTicket || localStorage.account_name || localStorage.department;
                 var project_id = 0;
                 var task_type_id = 0;
                 var ticket_id = "";
@@ -1854,7 +1840,7 @@ $(document).ready(function(){
                 if(isAccount)
                 {
                     //get accounts
-                    newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", account_id, accountName);
+                    newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", account_id, localStorage.userOrg);
 
                     $("#timeAccounts").on("change", function(){
                         //console.log(timeLog.task_type_id);
@@ -1945,8 +1931,7 @@ $(document).ready(function(){
     };
 
     // needed methods to propogate a ticket detailed page
-    //#ticket_detail.html
-
+//#ticket_detail.html
     var detailedTicket = {
         init:function(){
             if (!isTech){ $(".tabs").hide();
@@ -2422,7 +2407,6 @@ $(document).ready(function(){
     // get a list of invoices both for a specific account as well as a complete list of invoices
     //#unInvoice_List.html
     //#Invoice_List.html
-    //#allInvoice_List.html
     var invoiceList = {
         init:function(is_unbilled){
             $("#loading").show1();
@@ -2618,6 +2602,7 @@ $(document).ready(function(){
     };
 
     // Ajax calls to get open tickets for the app user, tickets include (as tech, as user, as alt tech, all tickets)
+    //#ticket_list.html
     var ticketList = {
         init:function() {
             var tab = getParameterByName('tab');
@@ -2817,6 +2802,7 @@ $(document).ready(function(){
 
     //get a complete list of accounts attached to the orginizations
     //#Account_List.html
+    //#dashboard.html (active list of account list)
     var accountList = {
         init:function(parent, limit) {
             $(document).on("click",'.tableRows, .listedAccount', function(){
@@ -3164,7 +3150,6 @@ $(document).ready(function(){
                     accountInvoices = Math.min(returnData.account_statistics.invoices, 999),
                     accountExpenses = Math.min(returnData.account_statistics.expenses, 999);
                 $("#AD").html(returnData.name);
-                localStorage.setItem('addAccountNameTicket', returnData.name);
                 $("#ticketsOptionTicker").html(accountTickets);
                 $("#invoiceOptionTicker").html(accountInvoices);
                 $("#timesOptionTicker").html(accountHours);
@@ -3173,6 +3158,10 @@ $(document).ready(function(){
         },
         pageSetup: function() {
             var currentDetailedAccount = localStorage.getItem('DetailedAccount');
+            var accountHours;
+            var accountTickets;
+            var accountInvoices;
+            var accountName;
             var retrievedObject;
             var retrievedObjectTickets = localStorage.getItem('account'+currentDetailedAccount+'tickets');
             var accountTicketsList = [];
@@ -3204,8 +3193,7 @@ $(document).ready(function(){
             else
             {
                 //console.log(retrievedObject);
-            //get account data
-    accountDetailsPageSetup.createAccDetails(retrievedObject);
+                accountDetailsPageSetup.createAccDetails(retrievedObject);
                 //reveal();
             }
 
@@ -3372,9 +3360,8 @@ $(document).ready(function(){
         }
 
         //get instance config
-        getApi("config").then(function (returnData) { 
-            //console.log(returnData);
-            if (isPhonegap){
+        getApi("config").then(function (returnData) {  
+            if (is_redirect && isPhonegap){
                 if (localStorage.getItem("userKey").length === 32)
                     initOrgPreferences(localStorage.getItem('userOrgKey') + "-" + localStorage.getItem('userInstanceKey') + ":" + localStorage.getItem("userKey"));
             }
@@ -3522,7 +3509,6 @@ $(document).ready(function(){
                             if (instances.length == 1) {
                                 userInstanceKey = instances[0].key;
                                 localStorage.setItem('userInstanceKey', userInstanceKey);
-                                localStorage.department = userOrg +   '&nbsp' + instances[0].name;
                                 getInstanceConfig(userOrgKey, userInstanceKey);
                             }
                             else {
@@ -3548,12 +3534,10 @@ $(document).ready(function(){
                                         userMessage.showMessage(false, instances[$(this).attr("data-id")].name + " has expired. Contact SherpaDesk for assistance. Email: support@sherpadesk.com Phone: +1 (866) 996-1200, then press 2");
                                         return;
                                     }
-                                    var instanceId = $(this).attr("data-id");
-                                    var userInstanceKey = instances[instanceId].key;
+                                    var userInstanceKey = instances[$(this).attr("data-id")].key;
                                     localStorage.setItem('userInstanceKey', userInstanceKey);
                                     localStorage.setItem('sd_is_MultipleOrgInst', 'true');
                                     $("#loading").show1();
-                                    localStorage.department = userOrg +   '&nbsp' + instances[instanceId].name;
                                     getInstanceConfig(userOrgKey, userInstanceKey);
                                 });
                             }
@@ -3575,7 +3559,6 @@ $(document).ready(function(){
                         if (instances.length == 1) {
                             userInstanceKey = instances[0].key;
                             localStorage.setItem('userInstanceKey', userInstanceKey);
-                            localStorage.department = userOrg +   '&nbsp' + instances[0].name;
                             getInstanceConfig(userOrgKey, userInstanceKey);
                         }
                         else {
@@ -3598,12 +3581,10 @@ $(document).ready(function(){
                                     userMessage.showMessage(false, instances[$(this).attr("data-id")].name + " has expired. Contact SherpaDesk for assistance. Email: support@sherpadesk.com Phone: +1 (866) 996-1200, then press 2");
                                     return;
                                 }
-                                var instanceId = $(this).attr("data-id");
-                                var userInstanceKey = instances[instanceId].key;
+                                var userInstanceKey = instances[$(this).attr("data-id")].key;
                                 localStorage.setItem('userInstanceKey', userInstanceKey);
                                 localStorage.setItem('sd_is_MultipleOrgInst', 'true');
                                 $("#loading").show1();
-                                localStorage.department = userOrg +   '&nbsp' + instances[instanceId].name;
                                 getInstanceConfig(userOrgKey, userInstanceKey);
                             });
                         }
@@ -3686,7 +3667,7 @@ $(document).ready(function(){
 
         if (Page=="ticket_list.html")
         {
-            localStorage.DetailedAccount = localStorage.addAccountTicket = localStorage.addAccountNameTicket = '';
+            localStorage.DetailedAccount = localStorage.addAccountTicket = '';
             ticketList.init();
             //accountDetailsPageSetup.init();
             return;
@@ -3708,8 +3689,8 @@ $(document).ready(function(){
             //conditional api calls determined by page
             if (Page=="dashboard.html")
             {
-                localStorage.DetailedAccount = localStorage.addAccountTicket = localStorage.addAccountNameTicket = '';
-                var orgName =localStorage.department ||  localStorage.getItem('userOrg');
+                localStorage.DetailedAccount = localStorage.addAccountTicket = '';
+                var orgName = localStorage.getItem('userOrg');
                 if (orgName)
                     $("#indexTitle").html(orgName);
                 TicketsCounts.init();
@@ -3724,7 +3705,7 @@ $(document).ready(function(){
             {
                 if (isAccount)
                 {
-                    localStorage.DetailedAccount = localStorage.addAccountTicket = localStorage.addAccountNameTicket = '';
+                    localStorage.DetailedAccount = localStorage.addAccountTicket = '';
                     accountList.init("#fullList");
                     return;
                 }
@@ -4030,7 +4011,6 @@ $(document).ready(function(){
         }
         else if (((new Date()).valueOf() - Date.parse(localStorage.lastclick).valueOf()) / 60 > 1200)
         {
-            console.log(localStorage.lastclick);
             localStorage.lastclick = new Date();
             getInstanceConfig("","",false, routing);
             return;
@@ -4047,7 +4027,7 @@ function handleOpenURL(url) {
     console.log("main url: " + ios_action + " loc:" + location.href.substring(location.origin.length+1));
     if (location.href.substring(location.origin.length+1) == ios_action)
         return;
-    localStorage.setItem('ios_action', ios_action);
+    localStorage.setItem('ios_action', ios_action || "");
     if (ios_action)
         location.reload(true);
     //localStorage.setItem('ios_action', "");

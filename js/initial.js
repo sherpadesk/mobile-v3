@@ -24,7 +24,7 @@ function done() {
     var org = getParameterByName('org');
     if (ticket) {
         cleanQuerystring();
-        localStorage.setItem('loadTicketNumber', ticket);
+        localStorage.setItem('loadTicketNumber', ticket || "");
     }
     if (org) {
         cleanQuerystring();

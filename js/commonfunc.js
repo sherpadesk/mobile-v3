@@ -63,9 +63,13 @@ function clearStorage(keepOrg)
 
 function initOrgPreferences(value)
 {
-    var prefs = plugins.appPreferences;
-    var suitePrefs = prefs.iosSuite("group.io.sherpadesk.mobile");
-    suitePrefs.store (ok, fail, 'org', value);
+    if (window.cordova){
+        var prefs = window.cordova.plugins.appPreferences;
+        if (prefs){
+            var suitePrefs = prefs.iosSuite("group.io.sherpadesk.mobile");
+            suitePrefs.store (ok, fail, 'org', value);
+        }
+    }
 }
 
 function ok (value) { //alert(value); 
