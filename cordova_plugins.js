@@ -1,11 +1,24 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/de.appplant.cordova.plugin.badge/www/badge.js",
-        "id": "de.appplant.cordova.plugin.badge.Badge",
+        "file": "plugins/com.bez4pieci.cookies/www/cookies.js",
+        "id": "com.bez4pieci.cookies.cookies",
         "clobbers": [
-            "plugin.notification.badge",
-            "cordova.plugins.notification.badge"
+            "cookies"
+        ]
+    },
+    {
+        "file": "plugins/nl.x-services.plugins.launchmyapp/www/ios/LaunchMyApp.js",
+        "id": "nl.x-services.plugins.launchmyapp.LaunchMyApp",
+        "clobbers": [
+            "window.plugins.launchmyapp"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
+        "id": "org.apache.cordova.inappbrowser.inappbrowser",
+        "clobbers": [
+            "window.open"
         ]
     },
     {
@@ -24,61 +37,30 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/nl.x-services.plugins.launchmyapp/www/ios/LaunchMyApp.js",
-        "id": "nl.x-services.plugins.launchmyapp.LaunchMyApp",
+        "file": "plugins/com.telerik.plugins.wkwebview/www/wkwebview.js",
+        "id": "com.telerik.plugins.wkwebview.wkwebview",
         "clobbers": [
-            "window.plugins.launchmyapp"
+            "wkwebview"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
-        "id": "org.apache.cordova.inappbrowser.inappbrowser",
+        "file": "plugins/de.appplant.cordova.plugin.badge/www/badge.js",
+        "id": "de.appplant.cordova.plugin.badge.Badge",
         "clobbers": [
-            "window.open"
-        ]
-    },
-    {
-        "file": "plugins/com.triarc.cookies/www/cookies.js",
-        "id": "com.triarc.cookies.cookies",
-        "clobbers": [
-            "cookies"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-app-preferences/www/apppreferences.js",
-        "id": "cordova-plugin-app-preferences.apppreferences",
-        "clobbers": [
-            "plugins.appPreferences"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-device/www/device.js",
-        "id": "cordova-plugin-device.device",
-        "clobbers": [
-            "device"
-        ]
-    },
-    {
-        "file": "plugins/de.appplant.cordova.plugin.background-mode/www/background-mode.js",
-        "id": "de.appplant.cordova.plugin.background-mode.BackgroundMode",
-        "clobbers": [
-            "cordova.plugins.backgroundMode",
-            "plugin.backgroundMode"
+            "plugin.notification.badge",
+            "cordova.plugins.notification.badge"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "cordova-plugin-whitelist": "1.0.0",
+    "com.bez4pieci.cookies": "0.0.1",
+    "nl.x-services.plugins.launchmyapp": "3.2.0",
+    "org.apache.cordova.inappbrowser": "0.5.2",
+    "org.apache.cordova.network-information": "0.2.12",
+    "com.telerik.plugins.wkwebview": "0.2.5",
     "de.appplant.cordova.plugin.badge": "0.6.4",
-    "org.apache.cordova.network-information": "0.2.15",
-    "nl.x-services.plugins.launchmyapp": "3.2.2",
-    "org.apache.cordova.inappbrowser": "0.6.0",
-    "com.triarc.cookies": "0.0.1",
-    "cordova-plugin-app-preferences": "0.7.1",
-    "cordova-plugin-device": "1.0.1",
-    "de.appplant.cordova.plugin.background-mode": "0.6.4",
     "de.appplant.cordova.common.registerusernotificationsettings": "1.0.1"
 }
 // BOTTOM OF METADATA
