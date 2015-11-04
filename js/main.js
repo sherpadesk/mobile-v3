@@ -21,18 +21,18 @@ function getDateTime(date)
 //get the full name of the following options:firstname, lastname, email,name
 function getFullName(firstname,lastname,email,name) {
     var fname = "";
-                                    if (name)
-                                        fname = name + " ";
-                                    if (lastname)
-                                        fname += lastname + " ";
-                                    if (firstname)
-                                        fname += firstname + " ";
-                                if (email && email.indexOf("@") > 0){
-                                        if (!fname.trim())
-                                            fname = email;
-                                        else
-                                            fname += " (" + email + ")";
-                                    }
+    if (name)
+        fname = name + " ";
+    if (lastname)
+        fname += lastname + " ";
+    if (firstname)
+        fname += firstname + " ";
+    if (email && email.indexOf("@") > 0){
+        if (!fname.trim())
+            fname = email;
+        else
+            fname += " (" + email + ")";
+    }
     return fname || "NoName";
 }
 
@@ -165,9 +165,9 @@ function openURLsystem(urlString){
 }
 
 $(document).ajaxStop(function() {
-  setTimeout(function(){ $("#loading").hide1();
+    setTimeout(function(){ $("#loading").hide1();
                           $("body").show1();
-                       }, 1000);
+                         }, 1000);
 });
 
 //global error handler
@@ -368,6 +368,7 @@ var userMessage = {
                 }, 1500);
     },
     showMessage:function(isPos, messageText, func) {
+        setTimeout(reveal, 500);
         if (typeof isPos === "undefined")
         {
             var isMessage = localStorage.getItem("isMessage");
@@ -465,7 +466,7 @@ var FileUrlHelper = {
         }
         return note;
     },
-//get file of the folllowing options: file, name
+    //get file of the folllowing options: file, name
     getFileLink : function (file,name)
     {
         var img ="";
@@ -490,7 +491,7 @@ function filterList(listClass, init_value, value_names){
     $('body').attr('id', 'search_wrap');
     if (!value_names)
     {
-        value_names = [ 'blockNumber', 'responseText', 'TicketBlockNumber', 'user_name'];
+        value_names = [ 'blockNumber', 'responseText', 'TicketBlockNumber', 'user_name', 'ticketlocation', 'locationtick'];
     }
     else if (value_names)
     {
@@ -950,6 +951,7 @@ $(document).ready(function(){
 
         pick:function() {
             $("#pickUp").click(function(){
+                $('#loading').show1();
                 getApi('tickets/'+localStorage.getItem("ticketNumber"),{
                     "action" : "pickup",
                     "note_text": ""
@@ -966,7 +968,7 @@ $(document).ready(function(){
             });
         }
     };
-    
+
     var addRecip = {
         init:function() {
             this.addEm();
@@ -1057,8 +1059,10 @@ $(document).ready(function(){
                 });
             });
             $('#closeMessageButton').click(function() {
+                $('#loading').show1();
                 closeTicket.close($('#closingMessage').val());});
             $('#closeu').click(function() {
+                $('#loading').show1();
                 closeTicket.close($('#commentText').val());});
         }
     };
@@ -1153,49 +1157,49 @@ $(document).ready(function(){
         },
         getSearchAjax: function(element, method, parameters, default_id, default_name){
             var initial = !default_id ? ("<option value=0 disabled selected>choose "+method.toLowerCase().slice(0, -1)+"</option>") : "<option value="+default_id+" selected>"+default_name +"</option>";
-                    $(""+element).append(initial);
-                    //reveal();
-                    //var symbolArray = [{id:1, text: 'AB1C'},{id:2, text:'DEF'}, {id:3, text: 'GHI'}];
-                    $(element).select2({
-                        width: "95%",
-                        //data: symbolArray,
-                        ajax: {
-                            beforeSend: function (xhr) {
-                                xhr.withCredentials = true;
-                                xhr.setRequestHeader('Authorization',
-                                                     'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
-                            },
-                            url: ApiSite + method+parameters,
-                            dataType: "json",
-                            delay: 800,
-                            data: function (params) {
-                                return {
-                                    search: params.term // search term
-                                };
-                            },
-                            processResults: function (data, page) {
-                                var results = [];
-                                //return dt;
-                                $.each(data, function(i, concretePage) {
-                                    var name = getFullName(concretePage.firstname,concretePage.lastname,concretePage.email,concretePage.name);
-                                    results.push({'id': concretePage.id, 'text': name });
-                                });
-                                if (results.length == 25)
-                                    results.push({'id': -1, 'text': "input search for more...", disabled: true});
-                                return {
-                                    results: results
-                                };
-                            },
-                            error: function(e) {
-                                //showError(e);
-                                console.log("fail @ search on " + Page);
-                            },
-                            cache: true
-                        },
-                        minimumInputLength: 3
-                    });
-                    if (default_id)
-                        $(""+element).val(default_id).trigger("change");
+            $(""+element).append(initial);
+            //reveal();
+            //var symbolArray = [{id:1, text: 'AB1C'},{id:2, text:'DEF'}, {id:3, text: 'GHI'}];
+            $(element).select2({
+                width: "95%",
+                //data: symbolArray,
+                ajax: {
+                    beforeSend: function (xhr) {
+                        xhr.withCredentials = true;
+                        xhr.setRequestHeader('Authorization',
+                                             'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
+                    },
+                    url: ApiSite + method+parameters,
+                    dataType: "json",
+                    delay: 800,
+                    data: function (params) {
+                        return {
+                            search: params.term // search term
+                        };
+                    },
+                    processResults: function (data, page) {
+                        var results = [];
+                        //return dt;
+                        $.each(data, function(i, concretePage) {
+                            var name = getFullName(concretePage.firstname,concretePage.lastname,concretePage.email,concretePage.name);
+                            results.push({'id': concretePage.id, 'text': name });
+                        });
+                        if (results.length == 25)
+                            results.push({'id': -1, 'text': "input search for more...", disabled: true});
+                        return {
+                            results: results
+                        };
+                    },
+                    error: function(e) {
+                        //showError(e);
+                        console.log("fail @ search on " + Page);
+                    },
+                    cache: true
+                },
+                minimumInputLength: 3
+            });
+            if (default_id)
+                $(""+element).val(default_id).trigger("change");
         },
         getLocations: function(account){
             if (!isLocation){
@@ -1229,14 +1233,14 @@ $(document).ready(function(){
                     }
                     //localStorage.account_id
                     newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", accountset, localStorage.userOrg);
-                    
+
                     $("#timeAccounts").on("change", function(){
                         var account = $("#timeAccounts").val();
                         addTime.chooseProjects(account, 0, 0);
                         newTicket.getLocations(account);
                     });
                 }
-                
+
                 // list of Users
                 var userid = localStorage.getItem('add_user_userid');
                 if (userid)  
@@ -1273,7 +1277,9 @@ $(document).ready(function(){
 
             // make api post call when submit ticket button is clicked
 
-            $("#submitNewTicket").click(function(){
+            $("#submitNewTicket").click(function(e){
+                $("#loading").show1();
+                console.log(1);
                 var subject = htmlEscape($("#addTicketSubject").val().trim());
                 var post = htmlEscape($("#addTicketInitPost").val().trim());
                 if(subject === "" || $("#addTicketTechs").val() === "" || selectedEditClass < 1)
@@ -1327,6 +1333,7 @@ $(document).ready(function(){
 
         sendComment:function(){
             $("#reply").click(function(){
+                $('#loading').show1();
                 var comment = htmlEscape($("#commentText").val().trim());
                 if (!comment) {
                     userMessage.showMessage(false, "Please enter note");
@@ -1401,11 +1408,11 @@ $(document).ready(function(){
             {
                 //get accounts
                 newTicket.getSearch("#timeAccounts", "accounts", "?is_with_statistics=false", account_id, localStorage.userOrg);
-                
-                    $("#timeAccounts").on("change", function(){
-                        //console.log(timeLog.task_type_id);
-                        addTime.chooseProjects(0, 0, 0);
-                    });                                                        
+
+                $("#timeAccounts").on("change", function(){
+                    //console.log(timeLog.task_type_id);
+                    addTime.chooseProjects(0, 0, 0);
+                });                                                        
             }
 
             if(!isProject || ticket_id){
@@ -1419,6 +1426,7 @@ $(document).ready(function(){
 
             //add an expense
             $("#addexpenseButton").click(function(){
+                $('#loading').show1();
                 var money=$("#expenseAmount").val();
                 if (!money)
                 {
@@ -1521,6 +1529,7 @@ $(document).ready(function(){
                 value = 'User';
 
             $("#submitNewUser").click(function(){
+                $('#loading').show1();
                 var email = $("#addTicketEmail").val().trim();
                 if (email.length < 1)
                 {
@@ -1563,7 +1572,7 @@ $(document).ready(function(){
                             else
                             {
                                 localStorage.setItem('add_user_userid', d.id);
-                localStorage.setItem('add_user_username',getFullName(Firstname,Lastname,email));
+                                localStorage.setItem('add_user_username',getFullName(Firstname,Lastname,email));
                             }
                             backFunction();
                         }); 
@@ -1736,6 +1745,7 @@ $(document).ready(function(){
 
             // on submit click get the time and note typed by the user
             $("#submitTicketTime").click(function(){
+                $('#loading').show1();
                 var time = $("#addTimeTicket").val();
                 var note = htmlEscape($("#noteTimeTicket").val().trim());
                 var tech = localStorage.getItem('techId');
@@ -1852,16 +1862,16 @@ $(document).ready(function(){
                     addTime.chooseProjects(account_id, project_id, task_type_id);
                 }
                 if (isProject)
-                $("#timeProjects").on("change", function(){
-                    var account = isAccount ? $("#timeAccounts").val() : -1;
-                    var project = $("#timeProjects").val();
-                    addTime.getTaskTypes({"account" : account, "project": project}, task_type_id);
-                    addTime.chooseTickets(account, project, 0);
-                });
+                    $("#timeProjects").on("change", function(){
+                        var account = isAccount ? $("#timeAccounts").val() : -1;
+                        var project = $("#timeProjects").val();
+                        addTime.getTaskTypes({"account" : account, "project": project}, task_type_id);
+                        addTime.chooseTickets(account, project, 0);
+                    });
                 // submit time to account
 
                 $("#submitTime").click(function(){
-                    //alert(isEdit);
+                    $('#loading').show1();
                     var time = $("#addTimeTicket").val();
                     var note = htmlEscape($("#noteTime").val().trim());
                     var tech = localStorage.getItem('userId');
@@ -1931,7 +1941,7 @@ $(document).ready(function(){
     };
 
     // needed methods to propogate a ticket detailed page
-//#ticket_detail.html
+    //#ticket_detail.html
     var detailedTicket = {
         init:function(){
             if (!isTech){ $(".tabs").hide();
@@ -1947,7 +1957,7 @@ $(document).ready(function(){
                           $("#ticketTechs").parent().removeClass("selected");}
                                              );                           
                   });
-                }
+                 }
 
             this.showTicket();
             this.updateTicket();
@@ -1984,7 +1994,17 @@ $(document).ready(function(){
                 });
             });
         },
-
+        getCustomFields : function (fieldsXml){
+            var xmlDoc = $.parseXML(fieldsXml),
+                $xml = $( xmlDoc ),
+                $field = $xml.find( "field" ),
+                infoFields = $('#customfields');
+            $.each($field, function(i,item) {
+                var caption = $(this).find('caption'),
+                    value = $(this).find('value');				
+                infoFields.append("<p><u>" + caption[0].textContent +":</u>&nbsp;&nbsp;&nbsp;<strong>" + value[0].textContent + "</strong></p>&nbsp;<br/>");
+            });
+        },
         showTicket:function(showTicketMessage){
             if(localStorage.getItem("isMessage") == "truePos")
             {
@@ -2044,7 +2064,7 @@ $(document).ready(function(){
                     {
                         $("#ticketSLA").html("SLA: "+getDateTime(returnData.sla_complete_date));
                     }
-                    
+
                     //add comments (ticketLogs) to the page
                     var logslen = returnData.ticketlogs.length;
                     var files = returnData.attachments || [];
@@ -2061,19 +2081,24 @@ $(document).ready(function(){
                         detailedTicket.createLogs(returnData.ticketlogs, "#comments", files);
 
                     }
-                    
+
                     reveal();
 
                     if (!isTech)
                         return; 
-                    
+
+                    //Add custom fields to info area
+                    if (returnData.customfields_xml !== null && returnData.customfields_xml.length > 0 ){
+                        detailedTicket.getCustomFields(returnData.customfields_xml);
+                    }
+
                     var ticketTech = getFullName(returnData.tech_firstname, returnData.tech_lastname,  returnData.tech_email);
                     var techid = returnData.tech_id;
                     //console.log(ticketTech);
                     if(ticketTech == localStorage.getItem('userName')){
                         $('#pickUp').hide();
                     } 
-                    
+
                     var classes = getApi('classes');
                     var priorities = getApi('priorities');
 
@@ -2083,8 +2108,8 @@ $(document).ready(function(){
                         // add select options to level Option box
                         getApi('levels').done(
                             function(levelResults){
-                                if (fillSelect(levelResults, "#ticketLevel", "", "Level: ") > 0)
-                                    $("#ticketLevel").val(returnData.level).trigger("change");
+                                fillSelect(levelResults, "#ticketLevel", "<option disabled=disabled value=0>Choose level</option>", "Level: ");
+                                $("#ticketLevel").val(returnData.level).trigger("change");
                             }
                         );
                     }
@@ -2105,7 +2130,7 @@ $(document).ready(function(){
                                 $("#ticketPriority").parent().hide1();
                                 return;
                             }
-                            fillSelect(prioritiesResults, "#ticketPriority", "", "Priority: ");
+                            fillSelect(prioritiesResults, "#ticketPriority", "<option disabled=disabled value=0>Choose priority</option>", "Priority: ");
                             $("#ticketPriority").val(returnData.priority_id).trigger("change");
                         }
                     );
@@ -2118,7 +2143,8 @@ $(document).ready(function(){
                             function(locationResults){
                                 //Init ticket class if not changed
                                 selectedEditlocation = returnData.location_id;
-                                fillSelect(locationResults, "#ticketLocation", "<option data-locationId="+returnData.location_id+" value="+returnData.location_id+">"+(returnData.location_name || "Location") +"</option>");
+                                fillSelect(locationResults, "#ticketLocation", "<option disabled=disabled value=0>Choose location</option>");
+                                $("#ticketLocation").val(returnData.location_id).trigger("change");
 
                             }); 
                     }
@@ -2363,6 +2389,7 @@ $(document).ready(function(){
                                         );
 
             $("#sendInvoiceButton").click(function(){
+                $('#loading').show1();
                 //alert(localStorage.getItem('invoiceNumber'));
                 if ($(".recipient").children(".plusIcon").length < 1)
                 {
@@ -2576,8 +2603,11 @@ $(document).ready(function(){
 
         createQueuesList : function (parent, returnData, limit){
             // add queues to the queues list
-            if(!limit && (!returnData || returnData.length < 1)){
+            if(!returnData || returnData.length < 1){
+                if (!limit)
                 $(parent).html('<h2 class="noTicketMessage">No Queues</h2>');
+                else
+                    $(parent).parent().remove();
                 return;
             }
             var activeQueues=0;
@@ -3362,7 +3392,7 @@ $(document).ready(function(){
         //get instance config
         getApi("config").then(function (returnData) {  
             if (isPhonegap && localStorage.getItem("userKey").length === 32)
-                    initOrgPreferences(localStorage.getItem('userOrgKey') + "-" + localStorage.getItem('userInstanceKey') + ":" + localStorage.getItem("userKey"));
+                initOrgPreferences(localStorage.getItem('userOrgKey') + "-" + localStorage.getItem('userInstanceKey') + ":" + localStorage.getItem("userKey"));
 
             localStorage.setItem('userRole', returnData.user.is_techoradmin ? "tech" : "user");
             isTech = returnData.user.is_techoradmin;
@@ -3432,12 +3462,12 @@ $(document).ready(function(){
                 reveal();
                 window.setTimeout(reveal,500);
             },
-                                                                         function(e) {
+                                                                          function(e) {
                 showError(e);
                 console.log("fail @ Account");
 
             }
-                                                                        );
+                                                                         );
         }
     };
 
