@@ -1953,9 +1953,8 @@ $(document).ready(function(){
                       $("li.tabHeader[data-id=info]").css('color','#ffffff');
                       $("#tabpage_info").show();
                       $("#ticketTechs").parent().addClass("selected");
-                      userMessage.showMessage(true, "Warning! Please update Tech in Info section!", function(){
-                          $("#ticketTechs").parent().removeClass("selected");}
-                                             );                           
+                      $(".updateButton").html("Transfer");
+                      userMessage.showMessage(true, "Warning! Please update Tech in Info section!");                           
                   });
                  }
 
