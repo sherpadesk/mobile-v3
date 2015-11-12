@@ -112,7 +112,9 @@ document.addEventListener("offline", offLine,false);
 document.addEventListener("online", onLine ,false);
 
 function updateBadge() {
+    alert(!!cordova.plugins.notification.badge);
     if (window.cordova && cordova.plugins.notification.badge){
+        alert(localStorage.badge);
         if (localStorage.badge > 0){
             cordova.plugins.notification.badge.set(localStorage.badge);
         }
