@@ -1,5 +1,5 @@
-/*jshint -W004, -W041, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
-/*global jQuery, $ */
+/*jshint -W004, -W041, -W103, eqeqeq: false, undef: false, latedef: true, eqnull: true, multistr: true*/
+/*global jQuery, $, location, window, localStorage, navigator, document, cordova, setTimeout, console, alert, confirm, btoa, Image, history, setInterval, year, MobileSite, ApiSite, logout, backFunction, cleanQuerystring, getParameterByName, googleTag, appVersion, isSD, clearStorage, WebPullToRefresh, googleConversion, AppSite, List, initOrgPreferences, default_redirect */
 
 $(document).ready(function() {
 
@@ -51,7 +51,7 @@ var fastClicker = {
 			$("body,html").toggleClass("bodyLock");
 			//$("a").toggleClass("disabled");
 			//document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
-			slide = true;
+			//slide = true;
 		},
 
 		slideIn: function() {
@@ -61,7 +61,7 @@ var fastClicker = {
 			$("body, html").toggleClass("bodyLock");
 			//document.body.removeEventListener('touchstart', function(e){ e.preventDefault(); });
 			//$("a").toggleClass("disabled");
-			slide = false;
+			//slide = false;
 		},
 
 		slideController: function() {
@@ -180,7 +180,7 @@ var fastClicker = {
 				$(".headerSearchContainer").animate({
 					width: "0px"
 				}, 10);
-				var insert = "<li id='addRecipient' class='detail3Short'><i class='plusIcon pcIcon ion-checkmark-circled circleInvoice></i>";
+                var insert = "<li id='addRecipient' class='detail3Short'><i class='plusIcon pcIcon ion-checkmark-circled circleInvoice></i>";
 				setTimeout(
   				function()
   				{
@@ -264,12 +264,12 @@ var fastClicker = {
             var counter = 0;
 			$("#addTimeTicket").val(counter);
 			$(".buttonList li:nth-child(3), .buttonListSymbols").click(function() {
-                val = $("#addTimeTicket").val() ? parseFloat($("#addTimeTicket").val()) : 0;
+                var val = $("#addTimeTicket").val() ? parseFloat($("#addTimeTicket").val()) : 0;
 				//counter = val + 0.25;
                 $("#addTimeTicket").val(val + 0.25);
 			});
 			$(".buttonList li:nth-child(1), .buttonListSymbols").click(function() {
-                val = $("#addTimeTicket").val() ? parseFloat($("#addTimeTicket").val()) : 0;
+                var val = $("#addTimeTicket").val() ? parseFloat($("#addTimeTicket").val()) : 0;
                 $("#addTimeTicket").val(val - 0.25);
 			});
 		}
@@ -414,7 +414,7 @@ var fastClicker = {
 		createButton.init();
         }
         
-        $createButton = $("#ticketCreate");
+        var $createButton = $("#ticketCreate");
         if ($createButton){
             $createButton.click(
                 function(){

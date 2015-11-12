@@ -1,9 +1,9 @@
-/*jshint -W004, -W041, -W103, eqeqeq: false, noempty: false, undef: false, latedef: false, eqnull: true, multistr: true*/
-/*global jQuery, $ */
+/*jshint -W004, -W041, -W103, eqeqeq: false, undef: true, latedef: true, eqnull: true, multistr: true*/
+/*global jQuery, $, location, window, localStorage, navigator, document, cordova, setTimeout, console, alert, confirm, btoa, Image, history, setInterval, logout, backFunction, cleanQuerystring, getParameterByName, WebPullToRefresh, googleConversion, List, default_redirect, plugins, isPhonegap, GooglelogOut, isExtension */
 var isSD = true;
 
 //Root Names
-var Site = 'sherpadesk.com/';
+var Site = 'sherpadesk.com.com/';
 var MobileSite = 'http://m.' + Site;
 var AppSite = 'https://app.' + Site;
 var ApiSite = 'http://api.' + Site;
@@ -13,18 +13,22 @@ if (!isSD){
 }
 
 var year="2015";
-var appVersion = "31";
+var appVersion = "33";
 
 //global helper functions
-function logout(isRedirect, mess) {
-    clearStorage();
-    if (localStorage.is_google) {
-        localStorage.removeItem('userName');
-        localStorage.removeItem('is_google');
-        GooglelogOut();
+
+function ok (value) { //alert(value); 
+}
+function fail (error) {alert(error);}
+
+function initOrgPreferences(value) {
+    if (window.cordova){
+        var prefs = plugins.appPreferences;
+        if (prefs){
+            var suitePrefs = prefs.iosSuite("group.io.sherpadesk.mobile");
+            suitePrefs.store (ok, fail, 'org', value);
+        }
     }
-    else if (isRedirect || true)
-        window.location = "login.html".addUrlParam("f",mess);
 }
 
 function clearStorage(keepOrg)
@@ -61,24 +65,16 @@ function clearStorage(keepOrg)
         window.top.postMessage("logout", "*");
 }
 
-function initOrgPreferences(value)
-{
-    if (window.cordova){
-        var prefs = plugins.appPreferences;
-        if (prefs){
-            var suitePrefs = prefs.iosSuite("group.io.sherpadesk.mobile");
-            suitePrefs.store (ok, fail, 'org', value);
-        }
+function logout(isRedirect, mess) {
+    clearStorage();
+    if (localStorage.is_google) {
+        localStorage.removeItem('userName');
+        localStorage.removeItem('is_google');
+        GooglelogOut();
     }
-    else
-        console.log("error");
+    else if (isRedirect || true)
+        window.location = "login.html".addUrlParam("f",mess);
 }
-
-function ok (value) { console.log(value); 
-}
-function fail (error) {//alert(error);
-                      }
-
 
 function getParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.href);

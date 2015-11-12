@@ -1,5 +1,5 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, undef: true, latedef: true, eqnull: true, multistr: true*/
-/*global jQuery, $, location, window, localStorage, navigator, document, cordova, year, MobileSite, setTimeout, console, alert, ApiSite, logout, confirm, backFunction, cleanQuerystring, getParameterByName, btoa, Image, history, googleTag, appVersion, isSD, clearStorage, WebPullToRefresh, googleConversion, AppSite, List, initOrgPreferences, default_redirect, setInterval */
+/*global jQuery, $, location, window, localStorage, navigator, document, cordova, setTimeout, console, alert, confirm, btoa, Image, history, setInterval, year, MobileSite, ApiSite, logout, backFunction, cleanQuerystring, getParameterByName, googleTag, appVersion, isSD, clearStorage, WebPullToRefresh, googleConversion, AppSite, List, initOrgPreferences, default_redirect */
 
 var Page = location.href.split('/').pop().split('?').shift();
 
@@ -57,7 +57,8 @@ var isTech = false,
     isTravelCosts = true,
     isInvoice = true,
     is_MultipleOrgInst = true,
-    isLimitAssignedTkts = true;
+    isLimitAssignedTkts = true,
+    isQueues = true;
 
 var formatDate=function(a){if (!a || a.length < 12) return a;  var y=a.substring(0,4),e=a.substring(5,7),r=a.substring(8,10);switch(e){case"01":e="Jan";break;case"02":e="Feb";break;case"03":e="Mar";break;case"04":e="Apr";break;case"05":e="May";break;case"06":e="Jun";break;case"07":e="Jul";break;case"08":e="Aug";break;case"09":e="Sep";break;case"10":e="Oct";break;case"11":e="Nov";break;case"12":e="Dec";break;default:e="nul";}return e+"&nbsp;"+r + (year != y ? ("&nbsp;/&nbsp;" + y) : "");};
 
@@ -105,6 +106,7 @@ if (typeof String.prototype.addUrlParam !== 'function') {
 //Phonegap specific
 var isPhonegap = localStorage.isPhonegap === "true";
 var isOnline = true;
+
 
 //If User is Offline....................................
 function errorLine(message){
@@ -271,6 +273,10 @@ window.onload = function() {
         else
             localStorage.setItem(cacheName, ""); 
         location.reload(false);}});};
+
+window.onbeforeunload = function(){
+    $("#loading").show1();
+};
 
 //global helper functions
 function GooglelogOut(mess) {
@@ -930,6 +936,7 @@ $(document).ready(function(){
             setTimeout(function(){
                 getApi("tickets?status=closed&account="+localStorage.getItem("DetailedAccount")).then(function(returnData) {
                     ticketList.createTicketsList(returnData, "#closedTickets", cacheName1);
+                    if (returnData.length)
                     filterList("closedTickets");
                 },
                                                                                                       function(e) {
@@ -1144,10 +1151,14 @@ $(document).ready(function(){
                     count = results.length;
                     if (count < limit)
                     {   
-                        var initial = !default_id ? ("<option value=0 disabled selected>choose "+method.toLowerCase().slice(0, -1)+"</option>") : "";
+                        var initial = "<option value=0 disabled "+(default_id ? "" : "selected ") + ">choose "+method.toLowerCase().slice(0, -1)+"</option>";
+                        if (default_id && !$.grep(results, function(el){
+                                return el.id === default_id;
+                            }).length)
+                                initial += "<option value="+default_id+" selected>"+default_name+"</option>";
                         fillSelect(results, element, initial, "", "name,firstname,lastname,email");
                         if (default_id)
-                            $(""+element).val(default_id).trigger("change");
+                        $(""+element).val(default_id).trigger("change");
                     }
                     else
                         newTicket.getSearchAjax(element, method, parameters, default_id, default_name);
@@ -1199,13 +1210,13 @@ $(document).ready(function(){
             if (default_id)
                 $(""+element).val(default_id).trigger("change");
         },
-        getLocations: function(account){
+        getLocations: function(account, default_id, def_name, noloading){
             if (!isLocation){
                 $("#ticket_Location").parent().hide1();
                 return;
             }
             $("#ticket_Location").empty();
-            newTicket.getSearch("#ticket_Location", "locations", "?account="+account);           
+            newTicket.getSearch("#ticket_Location", "locations", "?account="+account, default_id, def_name, noloading);           
         },
         addTicket:function() {
             $("#timeAccounts").empty();
@@ -1371,7 +1382,7 @@ $(document).ready(function(){
                     if (isNaN(searchItem))
                     {
                         localStorage.setItem("searchItem",searchItem);
-                        localStorage.setItem("ticketPage", "allTickets");
+                        localStorage.setItem("ticketPage", isLimitAssignedTkts ? "asTech" : "allTickets");
                         window.location = "ticket_list.html";
                     }
                     else
@@ -1634,7 +1645,7 @@ $(document).ready(function(){
             task_type_id = task_type_id || 0; 
             //$("#loading").show();
             $("#taskTypes").empty();
-            $("<option value=0>choose a task type</option>").appendTo("#taskTypes");
+            $("<option value=0 selected disabled>choose a task type</option>").appendTo("#taskTypes");
             //get task types
             var taskTypes = getApi("task_types", data);
             taskTypes.then(
@@ -1643,14 +1654,12 @@ $(document).ready(function(){
                     if (returnData.length > 0){
                         $("#taskTypes").empty();
                         // add task types to list
-                        fillSelect(returnData, "#taskTypes", "<option value=0>choose a task type</option>");
+                        fillSelect(returnData, "#taskTypes", "<option value=0 selected disabled>choose a task type</option>");
                         if (task_type_id > 0)
                             $("#taskTypes").val(task_type_id).trigger("change");
-                        else
-                            $("#taskTypes").prop("selectedIndex",1).trigger("change");
                     }
-                    if (!$("#timeTicket").length)
-                        reveal();
+                    //if (!$("#timeTicket").length)
+                    //    reveal();
                 },
                 function(e) {
                     showError(e);
@@ -1681,7 +1690,7 @@ $(document).ready(function(){
                             $("#timeProjects").val(project_id).trigger("change");
                             //addTime.getTaskTypes({"account" : account, "project": project_id}, task_type_id);
                             //addTime.chooseTickets(account, project_id, 0);
-                            reveal();
+                            //reveal();
 
                         },
                         function(e) {
@@ -1950,6 +1959,7 @@ $(document).ready(function(){
                       $(".tabpage").hide();
                       $("li.tabHeader[data-id=info]").css('color','#ffffff');
                       $("#tabpage_info").show();
+                      $("html, body").animate({ scrollTop: $(document).height() }, 1000);
                       $("#ticketTechs").parent().addClass("selected");
                       $(".updateButton").html("Transfer");
                       userMessage.showMessage(true, "Warning! Please update Tech in Info section!");                           
@@ -2134,21 +2144,7 @@ $(document).ready(function(){
                     $("#ticketTechs").empty();
                     // add select options to tech Option box
                     newTicket.getSearch("#ticketTechs", "technicians", "", techid, ticketTech, true);
-                    $("#ticketLocation").empty();
-                    if (isLocation){
-                        getApi('locations?limit=500&account='+returnData.account_id).done(
-                            function(locationResults){
-                                //Init ticket class if not changed
-                                //selectedEditlocation = returnData.location_id;
-                                fillSelect(locationResults, "#ticketLocation", "<option disabled=disabled value=0>Choose location</option>");
-                                $("#ticketLocation").val(returnData.location_id).trigger("change");
-
-                            }); 
-                    }
-                    else
-                        $("#location").hide1();
-
-
+                    newTicket.getLocations(returnData.account_id, returnData.location_id, returnData.location_name, true);
 
                     // $("#location").remove();
 
@@ -2160,10 +2156,9 @@ $(document).ready(function(){
                         var projects = getApi('projects');
                         projects.done(
                             function(projectResults){
-                                if (fillSelect(projectResults, "#ticketProject", returnData.project_name == "" ? "<option value='null' disabled selected>Project</option>" : "") >0){
-                                    if (returnData.project_name != "") $("#ticketProject").val(returnData.project_id).trigger("change");
+                                fillSelect(projectResults, "#ticketProject", "<option value='null' disabled=disabled>Select project</option>");
+                                $("#ticketProject").val(returnData.project_id).trigger("change");
                                 }
-                            }
                         );
                     }
 
@@ -2211,25 +2206,34 @@ $(document).ready(function(){
             this.specifics();        
         },
         specifics:function(){
-            var data = localStorage.invoiceNumber;
+            var number = localStorage.invoiceNumber;
 
-            if (!data){
+            if (!number){
                 backFunction(); 
             }
-            if (data.indexOf(",") != -1)
+            
+            var data = {};
+            var isUnbilled = (number.indexOf(",") != -1);
+            if (isUnbilled)
             {
                 $("#sendInvoiceButton").html("Create Invoice"); 
                 $("#invoiceNumber").html("Create Invoice"); 
-                data = data.split(",");
-                data = "?status=unbilled&account="+data[0]+"&project="+data[1] + "&is_detailed=true";
+                number = number.split(",");
+                data = {"status": "unbilled", "account" : number[0], "project" : number[1]};
+                number = 'invoices';
             }
             else
-                data = "/"+data + "?is_detailed=true";
-
+            {
+                data.action = "sendEmail";
+                number = 'invoices/' +number;
+            }
+            
+            
+            data.is_detailed=true;
 
             var start_date, end_date;
 
-            getApi("invoices"+data).then(function(returnData) {
+            getApi(number, data).then(function(returnData) {
                 ////console.log(returnData);
                 localStorage.setItem("invoiceAccountId",returnData.account_id);
                 localStorage.setItem("invoiceProjectId",returnData.project_id);
@@ -2396,19 +2400,10 @@ $(document).ready(function(){
                 var emails = ""; 
                 $.each($(".recipient").children(".plusIcon"), function(){emails+=$(this).attr("id") + ",";}); 
 
-                var data, number = localStorage.invoiceNumber;
-                var isUnbilled = (number.indexOf(",") != -1);
                 if (isUnbilled)
                 {
-                    number = number.split(",");
-                    data = {"status": "unbilled", "account" : number[0], "project" : number[1], 
-                            "start_date" : start_date, "end_date" : end_date};
-                    number = 'invoices';
-                }
-                else
-                {
-                    data = {"action":"sendEmail"};
-                    number = 'invoices/' +number;
+                    data.start_date = start_date;
+                    data.end_date = end_date;
                 }
 
                 data.recipients = emails;
@@ -2498,6 +2493,7 @@ $(document).ready(function(){
             $("#ticketCreate").click(
                 function(){
                     localStorage.setItem('add_user_techid',localStorage.getItem("currentQueue"));
+                    //localStorage.setItem('add_user_accountid',account);
                     window.location.replace("add_tickets.html");
                 });
         },
@@ -2511,7 +2507,8 @@ $(document).ready(function(){
             getApi("queues/"+queueId).then(
                 function(returnData) {
                     //console.log(returnData);
-                    ticketList.createTicketsList(returnData, "#queueTickets");  
+                    ticketList.createTicketsList(returnData, "#queueTickets"); 
+                    if (returnData.length)
                     filterList("queueTickets");
                     reveal();
                     var retrievedObject, test = localStorage.getItem("storageQueues");
@@ -2536,6 +2533,10 @@ $(document).ready(function(){
     //#Queues.html
     var getQueues = {
         init:function(parent, limit) {
+            if (!isQueues){
+                $(parent).parent().remove();
+                return;
+            }
             if (parent) 
             {$(document).on("click","#queue", function(){
                 localStorage.setItem('currentQueue',$(this).attr("data-id"));
@@ -2585,7 +2586,9 @@ $(document).ready(function(){
                         getQueues.createQueuesList(parent, returnData, limit);
                         localStorage.setItem("storageQueues",JSON.stringify(returnData));
                         reveal();
-                        if (!limit) {createSpan(parent);filterList("OptionsList");}
+                        if (!limit) {createSpan(parent);
+                                     if (returnData.length)
+                                         filterList("OptionsList");}
                     }
 
                 },
@@ -2640,7 +2643,7 @@ $(document).ready(function(){
                     $("#tabpage_info").show();
                     localStorage.setItem('ticketPage','asTech');
                 }
-                else if (tab == "all")
+                else if (tab == "all" && !isLimitAssignedTkts)
                 {
                     $("li.tabHeader[data-id=all]").css('color','#ffffff');
                     $("#tabpage_all").show();
@@ -2655,11 +2658,18 @@ $(document).ready(function(){
             else
             {                
                 var searchItem = localStorage.getItem("searchItem");
+                $(".search").val(searchItem);
                 localStorage.setItem("searchItem",'');
                 this.userTickets(searchItem);
                 this.techTickets(searchItem);
                 this.altTickets(searchItem);
-                this.allTickets(searchItem);
+                if (!isLimitAssignedTkts)
+                    this.allTickets(searchItem);
+                else
+                {
+                    $("li.tabHeader[data-id=all]").click(function() { return false; });
+                    $("li.tabHeader[data-id=all]").empty();
+                }
             }
         },
         createTicketsList : function (returnData, parent, cachePrefix){
@@ -2728,6 +2738,7 @@ $(document).ready(function(){
                 getApi("tickets?status=open&limit=100&role=tech").then(function(returnData) {
                     //add tickets as tech to as tech list
                     ticketList.createTicketsList(returnData, "#techContainer", cacheName1);
+                    if (returnData.length)
                     featureList2 = filterList("techContainer");
                 },
                                                                        function(e) {
@@ -2756,6 +2767,7 @@ $(document).ready(function(){
             setTimeout(function(){
                 getApi("tickets?status=allopen&limit=100&query=all").then(function(returnData) {
                     ticketList.createTicketsList(returnData, "#allContainer", cacheName1);
+                    if (returnData.length)
                     featureList3 = filterList("allContainer");
 
                 },
@@ -2786,6 +2798,7 @@ $(document).ready(function(){
             setTimeout(function(){
                 getApi("tickets?status=open&limit=100&role=alt_tech").then(function(returnData){
                     ticketList.createTicketsList(returnData, "#altContainer", cacheName1);
+                    if (returnData.length)
                     featureList4 = filterList("altContainer");
                 },
                                                                            function(e) {
@@ -2815,6 +2828,7 @@ $(document).ready(function(){
             setTimeout(function(){
                 getApi("tickets?status=open,onhold&limit=100&role=user").then(function(returnData) {
                     ticketList.createTicketsList(returnData, "#userContainer", cacheName1);
+                    if (returnData.length)
                     featureList5 = filterList("userContainer");
                 },
                                                                               function(e) {
@@ -2893,7 +2907,8 @@ $(document).ready(function(){
                     }
                 }
                 $table.html(textToInsert.join(''));
-                createSpan(parent); filterList("ActiveAccountsContainer");
+                createSpan(parent); 
+                if (length) filterList("ActiveAccountsContainer");
             }
         },
         //create account list on dashboard.html 
@@ -3073,7 +3088,7 @@ $(document).ready(function(){
                 createSpan("#timelogs");
                 reveal();
                 //localStorage.setItem("storageTimeLogs",LZString.compressToUTF16(JSON.stringify(localTimelogs)));
-                if (returnData.length > 1)
+                if (returnData.length)
                     filterList("timelogs");
             },
                                                  function(e) {
@@ -3203,6 +3218,7 @@ $(document).ready(function(){
             if (retrievedObjectTickets){
                 retrievedObjectTickets = JSON.parse(retrievedObjectTickets);
                 ticketList.createTicketsList(retrievedObjectTickets, ".AccountDetailsTicketsContainer");
+                if (retrievedObjectTickets.length)
                 filterList("AccountDetailsTicketsContainer");
             }
             else
@@ -3242,6 +3258,7 @@ $(document).ready(function(){
                 getApi("tickets?status=open&account="+currentDetailedAccount).then( 
                     function(returnData) {
                         ticketList.createTicketsList(returnData, ".AccountDetailsTicketsContainer",'account'+currentDetailedAccount);
+                        if (returnData.length)
                         filterList("AccountDetailsTicketsContainer");
                     },
                     function(e) {
@@ -3503,7 +3520,7 @@ $(document).ready(function(){
                         var orglistitem = results;
                         for (var i = 0; i < orglistitem.length; i++) {
                             var expired = "", expiredclass="";
-                            if (false && orglistitem[i].is_expired){
+                            if (orglistitem[i].is_expired){
                                 expired =  " <font color=black>(Expired)</font>";
                                 expiredclass = "expired";
                             }
@@ -3669,8 +3686,11 @@ $(document).ready(function(){
         }
         if (localStorage.getItem('is_travel_costs') === "false")
             isTravelCosts = false;
-        if (localStorage.getItem('is_limit_assigned_tkts') === "false")
+        if (localStorage.getItem('is_limit_assigned_tkts') === "false"){
             isLimitAssignedTkts = false;
+        }
+        if (!isQueues)
+            $("#itemQueues").hide1();
         if (localStorage.getItem('sd_is_MultipleOrgInst') === "false")
         {
             is_MultipleOrgInst = false;
