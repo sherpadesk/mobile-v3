@@ -112,9 +112,7 @@ document.addEventListener("offline", offLine,false);
 document.addEventListener("online", onLine ,false);
 
 function updateBadge() {
-    alert(!!cordova.plugins.notification.badge);
     if (window.cordova && cordova.plugins.notification.badge){
-        alert(localStorage.badge);
         if (localStorage.badge > 0){
             cordova.plugins.notification.badge.set(localStorage.badge);
         }
@@ -2579,7 +2577,7 @@ $(document).ready(function(){
                     if (isPhonegap)
                     {
                         var badge = 0;
-                        for (var i = 0; i<length; i += 1) {
+                        for (var i = 0; i<returnData.length; i += 1) {
                             if (returnData[i].fullname.toLowerCase().indexOf("new ticket") == 0)
                                 badge = returnData[i].tickets_count;
                         }
