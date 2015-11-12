@@ -2156,7 +2156,7 @@ $(document).ready(function(){
                         var projects = getApi('projects');
                         projects.done(
                             function(projectResults){
-                                fillSelect(projectResults, "#ticketProject", "<option selected value='null' disabled=disabled>choose project</option>");
+                                fillSelect(projectResults, "#ticketProject", "<option selected value='null'>choose project</option>");
                                 $("#ticketProject").val(returnData.project_id).trigger("change");
                                 }
                         );
