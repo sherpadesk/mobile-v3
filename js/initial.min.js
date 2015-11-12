@@ -68,7 +68,6 @@ function initOrgPreferences(value)
         if (prefs){
             var suitePrefs = prefs.iosSuite("group.io.sherpadesk.mobile");
             suitePrefs.store (ok, fail, 'org', value);
-            alert("ok");
         }
     }
     else
