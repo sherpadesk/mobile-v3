@@ -3,7 +3,7 @@
 var isSD = true;
 
 //Root Names
-var Site = 'sherpadesk.com.com/';
+var Site = 'sherpadesk.com/';
 var MobileSite = 'http://m.' + Site;
 var AppSite = 'https://app.' + Site;
 var ApiSite = 'http://api.' + Site;
