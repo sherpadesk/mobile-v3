@@ -2176,7 +2176,7 @@ $(document).ready(function(){
                     "tech_id": ticketTech
                 };
 
-                getApi('tickets/' + localStorage.getItem('ticketId'), response, 'PUT').then(function(results){
+                getApi('tickets/' + localStorage.getItem('ticketNumber'), response, 'PUT').then(function(results){
                     userMessage.showMessage(true, "Ticket was successfully updated <i class='ion-thumbsup'></i>",
                                             function(){
                         routing("ticket_detail.html");

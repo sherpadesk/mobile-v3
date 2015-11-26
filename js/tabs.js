@@ -25,9 +25,10 @@ function initContainer(container)
 function displayPage(container, tab) {
     if (!container)
         return;
-    console.log(tab);
     tab = tab || container.querySelector(".tabHeader").id.split("_")[1];
     var el = container.querySelector("#tab_" + tab);
+    if (!el)
+        return;
     var pa = el.parentNode;
   var current = pa.getAttribute("data-current");
   //remove class of activetabheader and hide old contents
