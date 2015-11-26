@@ -793,9 +793,8 @@ $(document).ready(function(){
             $('form.google_openid').get(0).setAttribute('action', ApiSite + 'auth/auth0');
             $('#sign_in_with_google').on('click', function (e) {
                 e.preventDefault();
-                if (isExtension) {
-                    //alert('Please goto Google login in new window and reopen Sherpadesk extension again.');
-                    //$('form.google_openid').get(0).setAttribute('target', '_blank');
+                if (isPhonegap) {
+                    openURL($('form.google_openid').prop('action'));
                 }
                 $('form.google_openid').get(0).submit();
             });
