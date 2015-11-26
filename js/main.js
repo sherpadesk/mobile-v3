@@ -794,7 +794,8 @@ $(document).ready(function(){
             $('#sign_in_with_google').on('click', function (e) {
                 e.preventDefault();
                 if (isPhonegap) {
-                    openURL($('form.google_openid').prop('action'));
+                    var ref = openURL($('form.google_openid').prop('action'));
+                    ref.addEventListener('exit', function(event) { location.reload();} );
                 }
                 else
                 $('form.google_openid').get(0).submit();
@@ -1008,7 +1009,7 @@ $(document).ready(function(){
                 }, 'PUT').then(function (d) {
                     //location.reload(false);
                     userMessage.showMessage(true, 'Ticket has been Reopened <i class="ion-thumbsup"></i>',
-                                            function(){location.reload();});     
+                                            location.reload);     
                 },
                                function (e, textStatus, errorThrown) {
                     showError(e);
@@ -1039,11 +1040,7 @@ $(document).ready(function(){
             }, 'PUT').then(function (d) {
                 //location.reload(false);
                 userMessage.showMessage(true, 'Ticket has been closed <i class="ion-thumbsup"></i>',
-                                        function()
-                                        {
-                    window.history.back();
-
-                });
+                    window.history.back);
             },
                            function (e, textStatus, errorThrown) {
                 showError(e);
