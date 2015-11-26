@@ -8,9 +8,7 @@ var MobileSite = 'http://m.' + Site;
 var AppSite = 'https://app.' + Site;
 var ApiSite = 'http://api.' + Site;
 
-if (!isSD){
-    document.title = 'HelpDesk';
-}
+document.title = (localStorage.badge && localStorage.badge !== "0"  ? "("+localStorage.badge+") ": "") + (!isSD ? "HelpDesk" : "SherpaDesk");
 
 var year="2015";
 var appVersion = "33";

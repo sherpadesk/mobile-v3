@@ -1,8 +1,6 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, undef: false, latedef: true, eqnull: true, multistr: true*/
 /*global jQuery, $, location, window, localStorage, navigator, document, cordova, setTimeout, console, alert, confirm, btoa, Image, history, setInterval, year, MobileSite, ApiSite, logout, backFunction, cleanQuerystring, getParameterByName, googleTag, appVersion, isSD, clearStorage, WebPullToRefresh, googleConversion, AppSite, List, initOrgPreferences, default_redirect */
 
-$(document).ready(function() {
-
 var fastClicker = {
 	init:function() {
 		this.clickFast();
@@ -33,109 +31,6 @@ var fastClicker = {
         }
 	};
 
-
-	var sideBar = {
-		init: function() {
-			this.slideController();
-			this.pageLocation();
-			this.menuSize();
-		},
-
-		slideOut: function() {
-			if($(window).scrollTop() > 0) {
-				window.scrollTo(0,0);
-			}
-			$(".sideNav").css("top",0);
-			$(".bodyContent, header").addClass("contentOut");
-			$(".sideNav").addClass("sideNavOut");
-			$("body,html").toggleClass("bodyLock");
-			//$("a").toggleClass("disabled");
-			//document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
-			//slide = true;
-		},
-
-		slideIn: function() {
-			// e.preventDefault();
-			$(".bodyContent, .header").removeClass("contentOut");
-			$(".sideNav").removeClass("sideNavOut");
-			$("body, html").toggleClass("bodyLock");
-			//document.body.removeEventListener('touchstart', function(e){ e.preventDefault(); });
-			//$("a").toggleClass("disabled");
-			//slide = false;
-		},
-
-		slideController: function() {
-			$("#navBars").click(function() {
-				sideBar.slideOut();
-			});
-			$(".sideNav").click(function() {
-				sideBar.slideIn();
-			});
-		},
-
-		pageLocation:function() {
-		if (location.pathname.indexOf("dashboard.html") >= 0)
-        {
-            $("#itemDash").addClass("activeLink");
-            $("#itemDash").find(".iconCircle").addClass("activeBorder");
-        }
-        if (location.pathname.indexOf("ticket_list.html") >= 0)
-        {
-            $("#itemTickets").addClass("activeLink");
-            $("#itemTickets").find(".iconCircle").addClass("activeBorder");
-
-        }
-        if (location.pathname.indexOf("Account_List.html") >= 0)
-        {
-            $("#itemAccount").addClass("activeLink");
-            $("#itemAccount").find(".iconCircle").addClass("activeBorder");
-
-        }
-        if (location.pathname.indexOf("timelog.html") >= 0)
-        {
-            $("#itemTimelog").addClass("activeLink");
-            $("#itemTimelog").find(".iconCircle").addClass("activeBorder");
-        }
-        if (location.pathname.indexOf("Queues.html") >= 0)
-        {
-            $("#itemQueues").addClass("activeLink");
-            $("#itemQueues").find(".iconCircle").addClass("activeBorder");
-        }
-        if (location.pathname.indexOf("invoice_List.html") >= 0)
-        {
-            $("#itemInvoice").addClass("activeLink");
-            $("#itemInovice").find(".iconCircle").addClass("activeBorder");
-        }
-        if (location.pathname.indexOf("invoice.html") >= 0)
-        {
-            $("#itemInvoice").addClass("activeLink");
-            $("#itemInovice").find(".iconCircle").addClass("activeBorder");
-        }
-
-		},
-
-		menuSize:function() {
-			var windowHeight = $(window).height();
-			if(windowHeight < 570){
-				$('.sideNavLinks li').css('height','52');
-				$('.activeNav').css('overflow','scroll');
-				$('.menuTicketsStat').hide();
-			}
-			$(window).on('resize',function(){
-				windowHeight = $(window).height();
-				if(windowHeight < 570){
-					$('.sideNavLinks li').css('height','52');
-					$('.activeNav').css('overflow','scroll');
-					$('.menuTicketsStat').hide();
-				}else{
-					$('sideNavLinks li').css('height','65');
-				}
-			});
-		}
-
-
-	};
-
 	var addRecip = {
 		init: function() {
 			this.slideOut();
@@ -146,16 +41,16 @@ var fastClicker = {
 		slideOut: function() {
             $(document).on("click",".plusIcon",function(){
                 var email = $(this).attr("id");
-				$(this).removeClass().addClass("closeIcon pcIcon ion-close-circled circleInvoice");
+                $(this).removeClass().addClass("closeIcon pcIcon ion-close-circled circleInvoice");
                 $(this).parents(".recipientParent").appendTo("#recipientList");
 			});
 			$(document).on("click",".closeIcon",function(){
                 var email = $(this).attr("id");
-				$(this).removeClass().addClass("plusIcon pcIcon ion-checkmark-circled circleInvoice");
+                $(this).removeClass().addClass("plusIcon pcIcon ion-checkmark-circled circleInvoice");
                 $(this).parents(".recipientParent").prependTo('#recipientList');
 			});
 			$(document).on("click","#addRecipient", function(){
-				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer searchContainer addRecipColor'><input class='headerSearch searchContainer'><img class='searchCloseExpandedR addRecipX' src='img/close_search.png'></div></li>";
+				var insert = "<li class='addInput'><div id='addEm' class='headerSearchContainer addRecipColor'><input class='headerSearch'><img class='searchCloseExpandedR addRecipX' src='img/close_search.png'></div></li>";
 				var parent = $(this).parent();
 				var label = '<li>Recipients</li>';
 				$(parent).empty();
@@ -203,7 +98,7 @@ var fastClicker = {
             if ($(".headerSearchIcon")){
                 var parent = $(".headerSearchIcon").parent();
                 //console.log(parent);
-                var insert = "<div id='searchThis' class='headerSearchContainer searchContainer'><span class='searchIconExpanded'><i class='ion-ios-search-strong'></i></span><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><span class='searchCloseExpanded'> <i class='ion-android-close'></i></span></div>";
+                var insert = "<div id='searchThis' class='headerSearchContainer'><span class='searchIconExpanded'><i class='ion-ios-search-strong'></i></span><input class='headerSearch search' "+ (location.pathname.indexOf("dashboard.html") >= 0 ? " placeholder='Search Tickets' ":"") +"><span class='searchCloseExpanded'> <i class='ion-android-close'></i></span></div>";
 				$(parent).empty();
 				$(insert).appendTo( $( parent ) );
                 if (localStorage.getItem("searchItem")){
@@ -278,14 +173,7 @@ var fastClicker = {
 	var ticketDetails = {
 		init: function() {
 			this.tab();
-			//this.scrollResponse();
-			this.latestPost();
 		},
-
-		latestPost: function() {
-			$(".orginalMessageContainer .responseBlock").addClass("latestResponse");
-		},
-
 		tab: function() {
 			$('#replyTab, #ticketReply').css('color','#fff');   
             if (localStorage.getItem('userRole') !== "tech") $(".TicketTabs").hide();
@@ -314,25 +202,25 @@ var fastClicker = {
                     case "tech":
 						$element.css('color','#ffffff');
 						$("#tabpage_info").show();
-                        if (islist) localStorage.setItem('ticketPage',"asTech");
+                        if (islist) localStorage.setItem('ticketPage',"tech");
 						break;
 					case "all":
 						$element.css('color','#ffffff');
 						$("#tabpage_all").show();
-                        if (islist) localStorage.setItem('ticketPage',"allTickets");
+                        if (islist) localStorage.setItem('ticketPage',"all");
 						break;
 					case "options":
                     case "alt":
 						$element.css('color','#ffffff');
 						$("#tabpage_options").show();
-                        if (islist) localStorage.setItem('ticketPage',"asAltTech");
+                        if (islist) localStorage.setItem('ticketPage',"alt");
                         break;
 				    default:
                     case "reply":
                     case "user":
                         $('.TicketTabs > ul > li:first, .tabs > ul > li:first').css('color','#ffffff');
 						$("#tabpage_reply").show();
-                        if (islist) localStorage.setItem('ticketPage',"asUser");
+                        if (islist) localStorage.setItem('ticketPage',"user");
 						break;
 				}
 			},
@@ -398,22 +286,28 @@ var fastClicker = {
     
     var CREATE_MENU="<div class='createActions'><ul class='createActionsList Absolute-Center'><li onclick='window.location.replace(\"add_tickets.html\");'><i class='ion-compose ionFont'></i><p>Add Ticket</p></li><li class='time' onclick='window.location.replace(\"add_time.html\");'><i class='ion-android-time ionFont'></i><p>Add Time</p></li><li id='itemUnInvoice'  onclick='window.location.replace(\"unInvoice_List.html\");'><i class='ion-card ionFont'></i><p>Add Invoice</p></li><li class='expense' onclick='window.location.replace(\"addExpence.html\");'><i class='ion-cash ionFont'></i><p>Add Expense</p></li></ul></div>";
 
-	(function() { 
-        if (!document.getElementById("goBack")){
-        var nav = document.createElement("nav");
-        nav.className = "sideNav";
-        nav.innerHTML = NAV_MENU;
-        document.body.insertBefore(nav, document.body.firstChild);
-            		sideBar.init();
+var sideBar = {
+    init: function() {
+        var exclusion = location.href.indexOf("ticket_list") >=0;
+        var showNav = !document.getElementById("goBack") || exclusion;
+        var showBack = !showNav || exclusion; 
+        if (showNav){
+            var nav = document.createElement("nav");
+            nav.className = "sideNav";
+            nav.innerHTML = NAV_MENU;
+            document.body.insertBefore(nav, document.body.firstChild);
+            this.slideController();
+            this.pageLocation();
+            this.menuSize();
         }
-        else
+        if (showBack)
             backButton.init();
         var $create_el = $("#dashboardCreate");
         if ($create_el){
             $(CREATE_MENU).insertAfter($create_el);
-		createButton.init();
+            createButton.init();
         }
-        
+
         var $createButton = $("#ticketCreate");
         if ($createButton){
             $createButton.click(
@@ -421,6 +315,106 @@ var fastClicker = {
                     window.location.replace("add_tickets.html");
                 });
         }
+    },
+    slideOut: function() {
+        if($(window).scrollTop() > 0) {
+            window.scrollTo(0,0);
+        }
+        $(".sideNav").css("top",0);
+        $(".bodyContent, header").addClass("contentOut");
+        $(".sideNav").addClass("sideNavOut");
+        $("body,html").toggleClass("bodyLock");
+        //$("a").toggleClass("disabled");
+        //document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
+        //slide = true;
+    },
+
+    slideIn: function() {
+        // e.preventDefault();
+        $(".bodyContent, .header").removeClass("contentOut");
+        $(".sideNav").removeClass("sideNavOut");
+        $("body, html").toggleClass("bodyLock");
+        //document.body.removeEventListener('touchstart', function(e){ e.preventDefault(); });
+        //$("a").toggleClass("disabled");
+        //slide = false;
+    },
+
+    slideController: function() {
+        $("#navBars").click(function() {
+            sideBar.slideOut();
+        });
+        $(".sideNav").click(function() {
+            sideBar.slideIn();
+        });
+    },
+
+    pageLocation:function() {
+        if (location.pathname.indexOf("dashboard.html") >= 0)
+        {
+            $("#itemDash").addClass("activeLink");
+            $("#itemDash").find(".iconCircle").addClass("activeBorder");
+        }
+        if (location.pathname.indexOf("ticket_list.html") >= 0)
+        {
+            $("#itemTickets").addClass("activeLink");
+            $("#itemTickets").find(".iconCircle").addClass("activeBorder");
+
+        }
+        if (location.pathname.indexOf("Account_List.html") >= 0)
+        {
+            $("#itemAccount").addClass("activeLink");
+            $("#itemAccount").find(".iconCircle").addClass("activeBorder");
+
+        }
+        if (location.pathname.indexOf("timelog.html") >= 0)
+        {
+            $("#itemTimelog").addClass("activeLink");
+            $("#itemTimelog").find(".iconCircle").addClass("activeBorder");
+        }
+        if (location.pathname.indexOf("Queues.html") >= 0)
+        {
+            $("#itemQueues").addClass("activeLink");
+            $("#itemQueues").find(".iconCircle").addClass("activeBorder");
+        }
+        if (location.pathname.indexOf("invoice_List.html") >= 0)
+        {
+            $("#itemInvoice").addClass("activeLink");
+            $("#itemInovice").find(".iconCircle").addClass("activeBorder");
+        }
+        if (location.pathname.indexOf("invoice.html") >= 0)
+        {
+            $("#itemInvoice").addClass("activeLink");
+            $("#itemInovice").find(".iconCircle").addClass("activeBorder");
+        }
+
+    },
+
+    menuSize:function() {
+        var windowHeight = $(window).height();
+        if(windowHeight < 570){
+            $('.sideNavLinks li').css('height','52');
+            $('.activeNav').css('overflow','scroll');
+            $('.menuTicketsStat').hide();
+        }
+        $(window).on('resize',function(){
+            windowHeight = $(window).height();
+            if(windowHeight < 570){
+                $('.sideNavLinks li').css('height','52');
+                $('.activeNav').css('overflow','scroll');
+                $('.menuTicketsStat').hide();
+            }else{
+                $('sideNavLinks li').css('height','65');
+            }
+        });
+    }
+
+
+};
+
+
+$(document).ready(function() {
+        
+        sideBar.init();
         
 		fastClicker.init();
         //largeScreenStlye.init();
@@ -437,9 +431,6 @@ var fastClicker = {
         
         if($("#addTimeTicket").length)
 		ticker.init();
-        
-        if ($(".tabHeader").length)
-		ticketDetails.init();
 		
 		//StickRecentTickets.init();
 		billEm.init();
@@ -450,6 +441,5 @@ var fastClicker = {
 		//if($(window).width() < 478){footer.init();}
 		//homePage.init();
 		//if($(window).width() > 478){hideFooter.init();}
-	}());
 
 });

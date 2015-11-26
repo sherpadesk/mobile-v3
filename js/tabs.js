@@ -1,38 +1,44 @@
-window.onload=function() {
+window.addEventListener("load", Tabs, false);
+
+function Tabs() {
 
   // get tab container
-  var container = document.getElementById("tabContainer");
-    // set current tab
-    var navitem = container.querySelector(".tabs ul li");
-    //store which tab we are on
-    var ident = navitem.id.split("_")[1];
-    navitem.parentNode.setAttribute("data-current",ident);
-    //set current tab with class of activetabheader
-    navitem.setAttribute("class","tabActiveHeader");
-
-    //hide two tab contents we don't need
-    var pages = container.querySelectorAll(".tabpage");
-    for (var i = 1; i < pages.length; i++) {
-      pages[i].style.display="none";
-    }
-
-    //this adds click event to tabs
-    var tabs = container.querySelectorAll(".tabs ul li");
-    for (var i = 0; i < tabs.length; i++) {
-      tabs[i].onclick=displayPage;
+    var containers = document.querySelectorAll(".tabContainer");
+    for (var i = 0; i < containers.length; i++) {
+        initContainer(containers[i]);
     }
 }
 
-// on click of one of tabs
-function displayPage() {
-  var current = this.parentNode.getAttribute("data-current");
-  //remove class of activetabheader and hide old contents
-  document.getElementById("tabHeader_" + current).removeAttribute("class");
-  document.getElementById("tabpage_" + current).style.display="none";
+function initContainer(container)
+{
+    //displayPage(container);
 
-  var ident = this.id.split("_")[1];
+    //this adds click event to tabs
+    var func = function(event) { var tab = event.target.id;
+                                if (tab) displayPage(container, tab.split("_")[1]);};
+    var navitem = container.querySelector(".tabHeader");
+    navitem.parentNode.addEventListener('touchstart', func, false);
+    navitem.parentNode.addEventListener('click', func, false);
+}
+
+// on click of one of tabs
+function displayPage(container, tab) {
+    if (!container)
+        return;
+    console.log(tab);
+    tab = tab || container.querySelector(".tabHeader").id.split("_")[1];
+    var el = container.querySelector("#tab_" + tab);
+    var pa = el.parentNode;
+  var current = pa.getAttribute("data-current");
+  //remove class of activetabheader and hide old contents
+    if (current){
+    container.querySelector("#tab_" + current).setAttribute("class","tabHeader");
+    container.querySelector("#tabpage_" + current).style.display="none";
+    }
   //add class of activetabheader to new active tab and show contents
-  this.setAttribute("class","tabActiveHeader");
-  document.getElementById("tabpage_" + ident).style.display="block";
-  this.parentNode.setAttribute("data-current",ident);
+    el.setAttribute("class","tabHeader tabActiveHeader");
+    container.querySelector("#tabpage_" + tab).style.display="block";
+    pa.setAttribute("data-current",tab);
+    if (pa.parentNode.getAttribute("class") == 'TicketTabs')
+            localStorage.setItem('ticketPage',tab);
 }

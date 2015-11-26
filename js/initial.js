@@ -60,7 +60,7 @@ function done() {
     if (ticket) {
         localStorage.loadTicketNumber = '';
         localStorage.setItem('ticketNumber', ticket);
-        window.location = "ticket_detail.html";
+        window.location = "ticket_list.html";
         return;
     }
     
