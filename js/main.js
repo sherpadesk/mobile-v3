@@ -205,12 +205,12 @@ function isStorage() {
 
 //open link	in blank
 function openURL(urlString){
-    window.open(urlString, '_blank', 'location=no,EnableViewPortScale=yes');
+    return window.open(urlString, '_blank', 'location=no,EnableViewPortScale=yes');
 }
 
 //open link	in system
 function openURLsystem(urlString){
-    window.open(urlString, '_system');
+    return window.open(urlString, '_system');
 }
 
 $(document).ajaxStop(function() {
