@@ -796,6 +796,7 @@ $(document).ready(function(){
                 if (isPhonegap) {
                     openURL($('form.google_openid').prop('action'));
                 }
+                else
                 $('form.google_openid').get(0).submit();
             });
             $("#loginButton").click(function () { UserLogin.do_login(); });
