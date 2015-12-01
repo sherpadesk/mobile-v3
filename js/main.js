@@ -863,18 +863,19 @@ $(document).ready(function(){
         },
         //add org
         add: function () {
-            var name = $("#name").val();
-            var email = $("#email").val();
+            var name = $("#name").val().trim();
+            var email = $("#email").val().trim();
             var url = $("#url").val().toLowerCase().replace(/[^a-zA-Z0-9-]/g, '');
             var firstname = $("#firstname").val();
             var lastname = $("#lastname").val();
             var password = $("#password").val();
             var password_confirm = $("#password_confirm").val();
             var how = $("#how").val();
-            /*if (name === '' || email === '' || url === '' || firstname === '' || lastname === '' || password === '' || password_confirm  === '') {
-                userMessage.showMessage(false, "Please enter all fields!");
+            if (name === '' || email === '') {
+                userMessage.showMessage(false, "Please enter name and email!");
                 return;
-            }*/
+            }
+            if (password){
             if (password != password_confirm) {
                 userMessage.showMessage(false, "Passwords do not match!");
                 return;
@@ -882,6 +883,7 @@ $(document).ready(function(){
             if (password.length < 5) {
                 userMessage.showMessage(false, "Password too weak! Must be more that 5 letters");
                 return;
+            }
             }
             $.ajax({
                 type: 'POST',
