@@ -1873,6 +1873,7 @@ $(document).ready(function(){
 
         //todo: return id and hours to list
         createTicketsList : function (returnData, parent, cachePrefix){
+            localStorage.setItem('ticketNumber', "");
             var $table = $(parent);
             $table.empty();
             if(!returnData || returnData.length < 1){
@@ -2204,7 +2205,7 @@ $(document).ready(function(){
             });
         },
         prepareTicket : function (returnData, is_fetched) {
-            if (!is_fetched){
+            //if (!is_fetched){
                 /*$(".orginalMessageContainer").empty();
                 var email = $.md5(returnData.user_email);
                 var type = "Initial Post";
@@ -2235,7 +2236,7 @@ $(document).ready(function(){
 
                 localStorage.setItem('ticketId',returnData.id); // set the local storage variable with the ticket ID
                 $("#ticketExpense").attr("href", "addExpence.html?ticket=" + returnData.id);
-            }
+            //}
 
             if(returnData.status == 'Closed'){
                 $('#closeIt').hide();
@@ -2275,19 +2276,15 @@ $(document).ready(function(){
             {
                 $("#ticketSLA").html("SLA: "+getDateTime(returnData.sla_complete_date));
             }
+            
+            var techid = returnData.tech_id;
+            localStorage.setItem('techId', techid);
 
 
             if (!isTech)
                 return;
 
-            var techid = returnData.tech_id;
-
             if (!is_fetched)
-            {
-                localStorage.setItem('techId', techid);
-                $("#ticketTechs").val(techid).trigger("change");
-            }
-            else
             {
                 /*$("#ticketPriority").val(returnData.priority_id).trigger("change");
                 $("#classOptions").val(returnData.class_id).trigger("change");
@@ -2306,7 +2303,12 @@ $(document).ready(function(){
                 function(classResults){
                     //Init ticket class if not changed
                     selectedEditClass = returnData.class_id;
-                    fillClasses(classResults, "#classOptions", "<option data-classId="+returnData.class_id+" value="+returnData.class_id+">Class: "+returnData.class_name+"</option>");
+                    var sel = "<option disabled=disabled value=0>Choose class</option>";
+                    
+                    if (selectedEditClass)
+                        sel = "<option data-classId="+selectedEditClass+" value="+selectedEditClass+">Class: "+returnData.class_name+"</option>";
+                        
+                    fillClasses(classResults, "#classOptions", sel);
                 });
 
             newTicket.getLocations(returnData.account_id, returnData.location_id, returnData.location_name, true);
@@ -2372,8 +2374,9 @@ $(document).ready(function(){
                 }
             }
             // get the open tickets for the account and list them in the open tickets list
+
             if (retrievedObject){
-                detailedTicket.prepareTicket(retrievedObject);
+                detailedTicket.prepareTicket(retrievedObject, true);
             }
 
             loading(true);
