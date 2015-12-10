@@ -2395,7 +2395,7 @@ $(document).ready(function(){
             // get the open tickets for the account and list them in the open tickets list
 
             if (retrievedObject){
-                detailedTicket.prepareTicket(retrievedObject, true);
+                detailedTicket.prepareTicket(retrievedObject, false);
             }
 
             loading(true);
