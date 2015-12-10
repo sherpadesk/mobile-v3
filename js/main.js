@@ -1,5 +1,5 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, undef: true, latedef: true, eqnull: true, multistr: true*/
-/*global jQuery, $, location, window, localStorage, navigator, document, cordova, setTimeout, console, alert, confirm, btoa, Image, history, setInterval, year, MobileSite, ApiSite, logout, backFunction, cleanQuerystring, getParameterByName, googleTag, appVersion, isSD, clearStorage, WebPullToRefresh, googleConversion, AppSite, List, initOrgPreferences, default_redirect, displayPage, sideBar */
+/*global jQuery, $, location, window, localStorage, navigator, document, cordova, setTimeout, console, alert, confirm, btoa, Image, history, setInterval, clearInterval, year, MobileSite, ApiSite, logout, backFunction, cleanQuerystring, getParameterByName, googleTag, appVersion, isSD, clearStorage, WebPullToRefresh, googleConversion, AppSite, List, initOrgPreferences, default_redirect, displayPage, sideBar */
 
 var Page = location.href.split('/').pop().split('?').shift();
 
@@ -826,8 +826,26 @@ $(document).ready(function(){
             $('#sign_in_with_google').on('click', function (e) {
                 e.preventDefault();
                 if (isPhonegap) {
-                    var ref = openURL($('form.google_openid').prop('action'));
-                    ref.addEventListener('exit', function(event) { localStorage.lastclick = ""; window.location = "dashboard.html";} );
+                    var win = openURL($('form.google_openid').prop('action'));
+                    var onExit = function() { localStorage.lastclick = ""; window.location = "dashboard.html";};
+                    win.addEventListener( "loadstop", function() {
+                        var loop = setInterval(function() {
+                            win.executeScript(
+                                {
+                                    code: "localStorage.getItem('is_google')"
+                                },
+                                function( values ) {
+                                    var name = values[0];
+                                    if (name) {
+                                        clearInterval(loop);
+                                        win.close();
+                                        onExit();
+                                    }
+                                }
+                            );
+                        });
+                    });
+                    win.addEventListener('exit', onExit);
                     return;
                 }
                 /*if (isExtension) {
