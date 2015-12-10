@@ -822,12 +822,10 @@ $(document).ready(function(){
                 e.preventDefault();
                 document.location.href = "signup.html";
             });
-            $('form.google_openid').get(0).setAttribute('action', "https://accounts.google.com/AccountChooser?continue=https%3A%2F%2Faccounts.google.com%2Fo%2Foauth2%2Fauth%3Fscope%3Dhttps%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%26response_type%3Dcode%26redirect_uri%3Dhttp%3A%2F%2Fapi.sherpadesk.com%2Fauth%2Fauth0%26prompt%3Dselect_account%26client_id%3D245231919707-o478vh1f6mqkjdbbi42lt66cjtondulb.apps.googleusercontent.com%26hl%3Den%26from_login%3D1%26as%3D52b1457ba457d67&btmpl=authsub&hl=en");
+            $('form.google_openid').get(0).setAttribute('action', ApiSite + 'auth/auth0');
             $('#sign_in_with_google').on('click', function (e) {
                 e.preventDefault();
                 if (isPhonegap) {
-                    //alert($('form.google_openid').prop('action'));
-                    openURL($('form.google_openid').prop('action'));
                     var ref = openURL($('form.google_openid').prop('action'));
                     ref.addEventListener('exit', function(event) { location.reload();} );
                 }
