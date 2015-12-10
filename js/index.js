@@ -413,7 +413,7 @@ var sideBar = {
 
 
 $(document).ready(function() {
-        
+
         sideBar.init();
         
 		fastClicker.init();

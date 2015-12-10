@@ -566,6 +566,36 @@ function showError(e){
     }, 2000);
 }
 
+var userOrgKey = "";
+var userOrg = "";
+var userInstanceKey = "";
+var	userKey = "";
+var accountDetailed = "";
+var selectedEditClass;
+
+function getApi (method, data, type) {
+    userKey = localStorage.getItem("userKey");
+    userOrgKey = localStorage.getItem('userOrgKey');
+    userInstanceKey = localStorage.getItem('userInstanceKey');
+    if (!userKey || !userOrgKey || !userInstanceKey || userKey.length != 32) {
+        console.log("Invalid organization!");
+        return;
+    }
+    if( !type ) type = 'GET';
+    return $.ajax({
+        type: type,
+        beforeSend: function (xhr) {
+            xhr.withCredentials = true;
+            xhr.setRequestHeader('Authorization',
+                                 'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
+        },
+        url: ApiSite + method,
+        cache: true,
+        data: data,
+        dataType: "json"
+    }).promise();
+}
+
 $(document).ready(function(){
     
     var once = function(func) {
@@ -581,36 +611,6 @@ $(document).ready(function(){
     //preload image
     var img = new Image();
     img.src = MobileSite + "img/error-background.png";
-
-    var userOrgKey = "";
-    var userOrg = "";
-    var userInstanceKey = "";
-    var	userKey = "";
-    var accountDetailed = "";
-    var selectedEditClass;
-
-    function getApi (method, data, type) {
-        userKey = localStorage.getItem("userKey");
-        userOrgKey = localStorage.getItem('userOrgKey');
-        userInstanceKey = localStorage.getItem('userInstanceKey');
-        if (!userKey || !userOrgKey || !userInstanceKey || userKey.length != 32) {
-            console.log("Invalid organization!");
-            return;
-        }
-        if( !type ) type = 'GET';
-        return $.ajax({
-            type: type,
-            beforeSend: function (xhr) {
-                xhr.withCredentials = true;
-                xhr.setRequestHeader('Authorization',
-                                     'Basic ' + btoa(userOrgKey + '-' + userInstanceKey +':'+userKey));
-            },
-            url: ApiSite + method,
-            cache: true,
-            data: data,
-            dataType: "json"
-        }).promise();
-    }
 
     var osearch = {   
         minimumResultsForSearch: 25,
@@ -748,7 +748,7 @@ $(document).ready(function(){
                 cleanQuerystring();
                 localStorage.setItem('is_google', true);
                 localStorage.setItem("userKey", key);
-                localStorage.setItem('userName', email);
+                localStorage.setItem('userName', email.replace("#", ""));
                 window.location = "org.html";
                 return;
             }
@@ -1834,8 +1834,9 @@ $(document).ready(function(){
                     page = "";
                     break;
             }
-            if (!page)
+            if (!page || !isTech)
                 page = isTech ? "tech" : "user";
+            console.log(page);
             localStorage.ticketPage = page;
             displayPage(document.querySelector(".TicketTabs").parentElement, page);
             
@@ -4027,7 +4028,6 @@ $(document).ready(function(){
 
     //Main Method that calls all the functions for the app
     (function () {
-
         if (Page == "signup.html"){
             OrgSignup.init();
             return;
