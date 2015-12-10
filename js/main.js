@@ -827,7 +827,7 @@ $(document).ready(function(){
                 e.preventDefault();
                 if (isPhonegap) {
                     var ref = openURL($('form.google_openid').prop('action'));
-                    ref.addEventListener('exit', function(event) { location.reload();} );
+                    ref.addEventListener('exit', function(event) { localStorage.lastclick = ""; window.location = "dashboard.html";} );
                     return;
                 }
                 /*if (isExtension) {
