@@ -822,11 +822,11 @@ $(document).ready(function(){
                 e.preventDefault();
                 document.location.href = "signup.html";
             });
-            $('form.google_openid').get(0).setAttribute('action', ApiSite + 'auth/auth0');
+            $('form.google_openid').get(0).setAttribute('action', "https://api.sherpadesk.com/auth/auth0');
             $('#sign_in_with_google').on('click', function (e) {
                 e.preventDefault();
                 if (isPhonegap) {
-                    alert($('form.google_openid').prop('action'));
+                    //alert($('form.google_openid').prop('action'));
                     openURL($('form.google_openid').prop('action'));
                     var ref = openURL($('form.google_openid').prop('action'));
                     ref.addEventListener('exit', function(event) { location.reload();} );
