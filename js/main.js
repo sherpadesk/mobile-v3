@@ -826,8 +826,9 @@ $(document).ready(function(){
             $('#sign_in_with_google').on('click', function (e) {
                 e.preventDefault();
                 if (isPhonegap) {
-                    var ref = openURL($('form.google_openid').prop('action'));
-                    ref.addEventListener('exit', function(event) { location.reload();} );
+                    openURL(AppSite);
+                    //var ref = openURL($('form.google_openid').prop('action'));
+                    //ref.addEventListener('exit', function(event) { location.reload();} );
                 }
                 /*if (isExtension) {
                     //alert('Please goto Google login in new window and reopen Sherpadesk extension again.');
