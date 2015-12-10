@@ -827,7 +827,7 @@ $(document).ready(function(){
                 e.preventDefault();
                 if (isPhonegap) {
                     var win = openURL($('form.google_openid').prop('action'));
-                    var onExit = function() { localStorage.lastclick = ""; window.location = "dashboard.html";};
+                    var onExit = function() { localStorage.lastclick = ""; location.reload();};
                     win.addEventListener( "loadstop", function() {
                         var loop = setInterval(function() {
                             win.executeScript(
