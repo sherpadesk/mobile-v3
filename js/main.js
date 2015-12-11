@@ -1854,7 +1854,6 @@ $(document).ready(function(){
             }
             if (!page || !isTech)
                 page = isTech ? "tech" : "user";
-            console.log(page);
             localStorage.ticketPage = page;
             displayPage(document.querySelector(".TicketTabs").parentElement, page);
             
@@ -2025,11 +2024,13 @@ $(document).ready(function(){
     var closeTicket = {
         init:function() {
             closeTicket.init = noop;
+            console.log("close");
             this.closeIt();
             this.reopenIt();
         },
         reopenIt:function() {
             $('#openIt').click(function(){
+                console.log("reopenIt");
                 getApi('tickets/'+localStorage.getItem("ticketNumber"),
                        {
                     "status" : "open",
@@ -2047,6 +2048,7 @@ $(document).ready(function(){
         },
 
         close: function(closeTicketMessage){
+            console.log("closeFunc");
             closeTicketMessage = htmlEscape(closeTicketMessage).trim();
             if (closeTicketMessage.length < 2){
                 userMessage.showMessage(false,  "Note cannot be empty!");	
@@ -2085,6 +2087,7 @@ $(document).ready(function(){
 
         closeIt:function() {
             $("#closeIt").click(function(){
+                console.log("closeIt");
                 $('#closingMessage').slideDown(400, function(){
                     $('#closeMessageButton').fadeIn();
                     $('html,body').animate({
@@ -2155,7 +2158,6 @@ $(document).ready(function(){
                 $("#ticketLevel").empty();
                 $("#ticketTechs").empty();
                 $("#ticket_Location").empty();
-                displayPage(document.querySelector(".tabs").parentElement);
                 var transfer = function(){
                     transfer = noop;
                     $("#transfer").click(function(){
@@ -2172,7 +2174,7 @@ $(document).ready(function(){
 
                transfer();
             }
-
+            displayPage(document.querySelector(".tabs").parentElement);
             this.showTicket();
             this.updateTicket();
         },
