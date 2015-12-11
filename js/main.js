@@ -1891,7 +1891,6 @@ $(document).ready(function(){
 
         //todo: return id and hours to list
         createTicketsList : function (returnData, parent, cachePrefix){
-            localStorage.setItem('ticketNumber', "");
             var $table = $(parent);
             $table.empty();
             if(!returnData || returnData.length < 1){
@@ -2024,13 +2023,11 @@ $(document).ready(function(){
     var closeTicket = {
         init:function() {
             closeTicket.init = noop;
-            console.log("close");
             this.closeIt();
             this.reopenIt();
         },
         reopenIt:function() {
             $('#openIt').click(function(){
-                console.log("reopenIt");
                 getApi('tickets/'+localStorage.getItem("ticketNumber"),
                        {
                     "status" : "open",
@@ -2048,7 +2045,6 @@ $(document).ready(function(){
         },
 
         close: function(closeTicketMessage){
-            console.log("closeFunc");
             closeTicketMessage = htmlEscape(closeTicketMessage).trim();
             if (closeTicketMessage.length < 2){
                 userMessage.showMessage(false,  "Note cannot be empty!");	
@@ -2087,7 +2083,6 @@ $(document).ready(function(){
 
         closeIt:function() {
             $("#closeIt").click(function(){
-                console.log("closeIt");
                 $('#closingMessage').slideDown(400, function(){
                     $('#closeMessageButton').fadeIn();
                     $('html,body').animate({
@@ -3849,7 +3844,6 @@ $(document).ready(function(){
             }
 
             if (Page=="todos.html")
-
             {
                 todos.init();
                 return;
@@ -3870,13 +3864,14 @@ $(document).ready(function(){
             }
             if (Page=="queueTickets.html")
             {
+                localStorage.setItem('ticketNumber', "");
                 getQueueTickets.init();
                 return;
             }
 
             if (Page=="closedTickets.html")
             {
-                // detailedTicket.init();
+                localStorage.setItem('ticketNumber', "");
                 closedTickets.init();
                 return;
             }
@@ -3932,6 +3927,7 @@ $(document).ready(function(){
             {
                 if (isAccount)
                 {
+                    localStorage.setItem('ticketNumber', "");
                     accountDetailsPageSetup.init();
                     //detailedTicket.init();
                     closedTickets.pageChange();
@@ -4038,7 +4034,7 @@ $(document).ready(function(){
         default_redirect(isTech);
     }
     
-     var clickOnticket =  once(function(){$(document).on("click",".responseBlock", function(){
+     var clickOnticket = once(function(){$(document).on("click",".responseBlock", function(){
                 localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
          if(Page.indexOf("ticket_") >=0)
             routing("ticket_list.html"); // change page location from ticket list to ticket detail list
