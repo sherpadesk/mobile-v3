@@ -6,7 +6,7 @@ var Page = location.href.split('/').pop().split('?').shift();
 var isExtension = window.self !== window.top;
 if (isExtension) localStorage.setItem("referrer", Page);
 
-var adMessage = "Perfomance update";
+var adMessage = "Stability fixes";
 
 function updatedFunction ()
 {
