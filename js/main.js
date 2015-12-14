@@ -3496,6 +3496,8 @@ $(document).ready(function(){
             localStorage.setItem('userId', returnData.user.user_id);
             localStorage.setItem('account_id', returnData.user.account_id);
             localStorage.setItem('account_name', returnData.user.account_name);
+            if (!localStorage.userOrg)
+                userOrg = localStorage.userOrg = localStorage.account_name;
             localStorage.setItem('is_limit_assigned_tkts', returnData.user.is_limit_assigned_tkts);
             if (paramFunc && (typeof paramFunc == "function"))
                 paramFunc(); 
@@ -3631,6 +3633,7 @@ $(document).ready(function(){
                     userMessage.showMessage(false, instances[$(this).attr("data-id")].name + " has expired. Contact SherpaDesk for assistance. Email: support@sherpadesk.com Phone: +1 (866) 996-1200, then press 2");
                     return;
                 }
+                userOrgKey = localStorage.userOrgKey = $(this).parent().parent().data("id");
                 userInstanceKey = localStorage.userInstanceKey = $(this).data("id");
                 org.chooseOrg();
             });
