@@ -11,7 +11,7 @@ var ApiSite = 'http://api.' + Site;
 document.title = (localStorage.badge && localStorage.badge !== "0"  ? "("+localStorage.badge+") ": "") + (!isSD ? "HelpDesk" : "SherpaDesk");
 
 var year="2015";
-var appVersion = "38";
+var appVersion = "39";
 
 //global helper functions
 
