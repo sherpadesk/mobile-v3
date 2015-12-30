@@ -889,7 +889,7 @@ $(document).ready(function(){
             var password = $("#password").val();
             var password_confirm = $("#password_confirm").val();
             var how = $("#how").val();
-            if (name === '' || email === '') {
+            if (name === '' || email === '' || firstname === '' || lastname === '') {
                 userMessage.showMessage(false, "Please enter name and email!");
                 return;
             }
