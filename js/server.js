@@ -26,3 +26,5 @@ function googleConversion()
 
     img.src = 'http://www.googleadservices.com/pagead/conversion/1040470683/?value=1.00&currency_code=USD&label=KRf-CIfZrQQQm6WR8AM&guid=ON&script=0';
 }
+
+var dontClearCache = false;

@@ -1923,13 +1923,6 @@ $(document).ready(function(){
                     }
                 }
                 $table.append(textToInsert.join(''));
-                $(".responseBlock").click(function(){
-                    localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
-                    if(Page.indexOf("ticket_") >=0)
-                        routing("ticket_list.html"); // change page location from ticket list to ticket detail list
-                    else
-                        document.location = "ticket_detail.html";
-                });
                 createSpan(parent);
             }
             if (cachePrefix){
@@ -3763,6 +3756,8 @@ $(document).ready(function(){
 
         if (localStorage.ticketNumber && Page=="ticket_list.html")
             Page="ticket_detail.html";
+        
+        clickOnticket();
 
         if (Page=="ticket_list.html")
         {
@@ -3791,7 +3786,6 @@ $(document).ready(function(){
             return;
         }
 
-        clickOnticket();
         //Only for tech
         if (isTech)
         {
