@@ -6,7 +6,7 @@ var Page = location.href.split('/').pop().split('?').shift();
 var isExtension = window.self !== window.top;
 if (isExtension) localStorage.setItem("referrer", Page);
 
-var adMessage = "Stability fixes";
+var adMessage = "Accounts and Resolution features";
 
 function updatedFunction ()
 {
@@ -60,6 +60,8 @@ var isTech = false,
     isInvoice = true,
     is_MultipleOrgInst = true,
     isLimitAssignedTkts = true,
+    isConfirmationTracking = true,
+    isResolutionTracking = true,
     isQueues = true;
 
 var formatDate=function(a){if (!a || a.length < 12) return a;  var y=a.substring(0,4),e=a.substring(5,7),r=a.substring(8,10);switch(e){case"01":e="Jan";break;case"02":e="Feb";break;case"03":e="Mar";break;case"04":e="Apr";break;case"05":e="May";break;case"06":e="Jun";break;case"07":e="Jul";break;case"08":e="Aug";break;case"09":e="Sep";break;case"10":e="Oct";break;case"11":e="Nov";break;case"12":e="Dec";break;default:e="nul";}return e+"&nbsp;"+r + (year != y ? ("&nbsp;/&nbsp;" + y) : "");};
@@ -263,7 +265,7 @@ window.onerror = function(msg, url, line, col, error) {
     // If you return true, then error alerts (like in older versions of 
     // Internet Explorer) will be suppressed.
     return suppressErrorAlert;
-};
+}; 
 
 function PullToRefresh() { 
     if (typeof WebPullToRefresh === 'object') WebPullToRefresh.init( { loadingFunction: function(){ 
@@ -278,7 +280,7 @@ function PullToRefresh() {
         location.reload(false);}});}
 
 //pull to refresh
-window.addEventListener("load", PullToRefresh, false);
+window.addEventListener("DOMContentLoaded", PullToRefresh, false);
 
 var noLoading = false;
 
@@ -2058,9 +2060,9 @@ $(document).ready(function(){
                 "status" : "closed",
                 "note_text": closeTicketMessage,
                 "is_send_notifications": true,
-                "resolved": true,
-                dataType: 'json',
-                "confirmed": false,
+                "resolved": $("#closeResolved").val() == "1",
+                "resolution_id": $("#closeResolvedCat").val(),
+                "confirmed": $("#closeConfirm").hasClass("billFill"),
                 "confirm_note": ""
 
             }, 'PUT').then(function (d) {
@@ -2068,6 +2070,12 @@ $(document).ready(function(){
                 userMessage.showMessage(true, 'Ticket has been closed <i class="ion-thumbsup"></i>',
                                         function()
                                         {
+                    $('#closeArea').hide1();
+                    if(window.location.href.indexOf("ticket_list") >=0){
+                        localStorage.ticketNumber = "";
+                        routing("ticket_list.html"); // change page location from ticket list to ticket detail list
+                    }
+                    else
                     window.history.back();
 
                 });
@@ -2083,7 +2091,7 @@ $(document).ready(function(){
 
         closeIt:function() {
             $("#closeIt").click(function(){
-                $('#closingMessage').slideDown(400, function(){
+                $('#closeArea').slideDown(400, function(){
                     $('#closeMessageButton').fadeIn();
                     $('html,body').animate({
                         scrollTop: $('#closeMessageButton').offset().top
@@ -2147,31 +2155,22 @@ $(document).ready(function(){
                          $("#closeu").show(); }
             else { 
                 $("#closeu").hide();
-                $("#classOptions").empty();
-                $("#ticketPriority").empty();
-                $("#ticketProject").empty();
-                $("#ticketLevel").empty();
-                $("#ticketTechs").empty();
-                $("#ticket_Location").empty();
-                var transfer = function(){
-                    transfer = noop;
-                    $("#transfer").click(function(){
-                    displayPage(document.querySelector(".tabs").parentElement, "info");
-                    $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-                    $("#ticketTechs").parent().addClass("selected");
-                    $(".updateButton").html("Transfer");
-                    userMessage.showMessage(true, "Warning! Please update Tech in Info section!", function()
-                                            {
-                        $("#ticketTechs").parent().removeClass("selected");
-                    $(".updateButton").html("Update");
-                    });                           
-                });};
-
-               transfer();
+                $("#ticketTechs").parent().removeClass("selected");
+                $(".updateButton").html("Update");
+                this.transfer();
+                this.updateTicket();
             }
             displayPage(document.querySelector(".tabs").parentElement);
             this.showTicket();
-            this.updateTicket();
+        },
+        transfer: function(){
+            detailedTicket.transfer = noop;
+            $("#transfer").click(function(){
+                displayPage(document.querySelector(".tabs").parentElement, "info");
+                $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+                $("#ticketTechs").parent().addClass("selected");
+                $(".updateButton").html("Transfer");                          
+            });
         },
         updateTicket: function(){
             detailedTicket.updateTicket = noop;
@@ -2254,12 +2253,6 @@ $(document).ready(function(){
                 $("#ticketExpense").attr("href", "addExpence.html?ticket=" + returnData.id);
             //}
 
-            if(returnData.status == 'Closed'){
-                $('#closeIt').hide();
-                $('#closeu').hide();
-            }else{
-                $('#openIt').hide();
-            }
             var fname = returnData.tech_firstname || returnData.technician_firstname;
             var lname = returnData.tech_lastname || returnData.technician_lastname;
             var email = returnData.tech_email || returnData.technician_email;
@@ -2302,6 +2295,12 @@ $(document).ready(function(){
 
             if (!is_fetched)
             {
+                $("#classOptions").empty();
+                $("#ticketPriority").empty();
+                $("#ticketProject").empty();
+                $("#ticketLevel").empty();
+                $("#ticketTechs").empty();
+                $("#ticket_Location").empty();
                 /*$("#ticketPriority").val(returnData.priority_id).trigger("change");
                 $("#classOptions").val(returnData.class_id).trigger("change");
                 $("#ticket_Location").val(returnData.location_id).trigger("change");
@@ -2402,7 +2401,9 @@ $(document).ready(function(){
                     var daysOld = returnData.days_old_in_minutes / 60;
 
                     // check to see if the ticket is less than a day old
-                    if(daysOld > 24){
+                    if (!returnData.days_old_in_minutes || returnData.days_old_in_minutes < 15)
+                        daysOld = "a minute ago"; 
+                    else if(daysOld > 24){
                         daysOld = parseInt(daysOld/24) +" days ago";
                     } else {
                         daysOld = parseInt(daysOld) +" hours ago";
@@ -2435,7 +2436,7 @@ $(document).ready(function(){
                         $("#comments").append('<p id="fill" style="height:200px">&nbsp;</p>');
                     }
 
-                    detailedTicket.prepareTicket(returnData, !!retrievedObject);
+                    detailedTicket.prepareTicket(returnData, false);
 
                     reveal();
                     //localStorage.setItem('ticketNumber', "");
@@ -2445,6 +2446,34 @@ $(document).ready(function(){
                     //Add custom fields to info area
                     if (returnData.customfields_xml !== null && returnData.customfields_xml.length > 0 ){
                         detailedTicket.getCustomFields(returnData.customfields_xml);
+                    }
+                    
+                    if (!isConfirmationTracking)
+                        $('#closeConfirm').parent().parent().hide1();
+                    if (!isResolutionTracking){
+                        $("#closeResolvedCat").parent().hide1();
+                        $('#closeResolved').parent().hide1();
+                    }
+                    else
+                    {
+                    var insert = "";
+                    for(var x = 0; x < returnData.resolution_categories.length ; x++)
+                    {
+                        var r = returnData.resolution_categories[x];
+                        if (r.is_active)
+                            insert += '<option class="r'+(r.is_resolved ? 1 : 0) +'"  value="'+r.id+'">'+r.name+'</option>';
+                    }
+                    var $closeResCatsEl = $("#closeResolvedCat");
+                    $closeResCatsEl.html(insert);
+                    
+                        $closeResCatsEl.data('options', $('#closeResolvedCat option').detach());
+                        $closeResCatsEl.empty().append( $closeResCatsEl.data('options').filter('.r1'));
+                        $closeResCatsEl.parent().css('visibility', $closeResCatsEl.find('option').length > 0 ? 'visible' : 'hidden');
+                    
+                    $('#closeResolved').on('change', function () {
+                        $("#closeResolvedCat").empty().append( $("#closeResolvedCat").data('options').filter('.r'+$(this).val()) );
+                        $("#closeResolvedCat").parent().css('visibility', $("#closeResolvedCat").find('option').length > 0 ? 'visible' : 'hidden');
+                    });                        
                     }
                 },
                 function(e) {
@@ -3237,6 +3266,7 @@ $(document).ready(function(){
     //#account_details.html
     var accountDetailsPageSetup = {
         init:function() {
+            displayPage(document.querySelector(".TicketTabs").parentElement);
             var ticketAccount = localStorage.getItem('DetailedAccount');
             localStorage.setItem('addAccountTicket', ticketAccount);   
             if(!isExpenses) $("#expensesOption").parent().parent().remove();
@@ -3261,10 +3291,62 @@ $(document).ready(function(){
                     accountInvoices = Math.min(returnData.account_statistics.invoices, 999),
                     accountExpenses = Math.min(returnData.account_statistics.expenses, 999);
                 $("#AD").html(returnData.name);
-                $("#ticketsOptionTicker").html(accountTickets);
-                $("#invoiceOptionTicker").html(accountInvoices);
-                $("#timesOptionTicker").html(accountHours);
-                $("#expenseOptionTicker").html(localStorage.currency + Number(accountExpenses).toFixed(2).toString());
+                $("#city").html(returnData.city);
+                $("#state").html(returnData.state);
+                $("#zipcode").html(returnData.zipcode);
+                $("#country").html(returnData.country);
+                $("#phone1").html(returnData.phone1);
+                $("#phone2").html(returnData.phone2);
+                $("#address1").html(returnData.address1);
+                $("#address2").html(returnData.address2);
+            $("#email_suffix").html(returnData.email_suffix);
+$("#internal_location_name").html(returnData.internal_location_name);
+                $("#name").html(returnData.name);
+                $("#bwd_number").html(returnData.bwd_number);                 $("#logo").html(returnData.logo); 
+                $("#acc_number").html(returnData.id);
+                $("#logo").html(returnData.logo); 
+                $("#note").html(returnData.note);
+                $("#ref1").html(returnData.ref1);
+                $("#ref2").html(returnData.ref2);
+$("#fb_client_id").html(returnData.fb_client_id);              
+$("#qb_customer_id").html(returnData.qb_customer_id);   
+                $("#client_contract_id").html(returnData.client_contract_id); $("#is_organization").html(returnData.is_organization === false ? "Individual" : "Organization");
+$("#representative_name").html(returnData.representative_name);
+$("#ticketsOptionTicker").html(accountTickets);
+$("#invoiceOptionTicker").html(accountInvoices);
+$("#timesOptionTicker").html(accountHours);
+ $("#expenseOptionTicker").html(localStorage.currency + Number(accountExpenses).toFixed(2).toString());
+                
+               
+                if (returnData.customfields && returnData.customfields.length > 0){
+                var insert = "";
+                    for(var x = 0; x < returnData.customfields.length ; x++)
+                    {
+                        var r = returnData.customfields[x];
+                        insert += '<ul><li class="infoAccount">'+r.Key+'</li><li class="accountInfo dots">'+r.Value+'</li></ul>';
+
+                    }
+                    $("#customfields_projects").html(insert);
+                }
+                                
+                if (!returnData.projects)
+                    return;
+                
+               if (returnData.projects.length > 0){
+                var insert = "";
+                    for(var x = 0; x < returnData.projects.length ; x++)
+                    {
+                        var r = returnData.projects[x];
+        insert += '<ul class="table_account clickme border_account"><li>'+r.name+'</li><li>'+r.open_tickets +'</li><li class="hrsAccount">'+r.logged_hours +'<span class="detail3Small" >hr</span></li><li class="hrsAccount">'+r.remaining_hours +'<span class="detail3Small">hr</span></li><li>'+r.complete+'%</li></ul>';
+                        
+                    }
+                    $("#projects_account").html(insert);
+                }
+            else
+            {
+                $(".invoiceShrinker").hide1();
+            }
+                
             }
         },
         pageSetup: function() {
@@ -3276,7 +3358,7 @@ $(document).ready(function(){
             var retrievedObject;
             var retrievedObjectTickets = localStorage.getItem('account'+currentDetailedAccount+'tickets');
             var accountTicketsList = [];
-            var match, time = cacheTime, timeTickets=cacheTime;
+            var match, time = 10, timeTickets=10;
             var test = localStorage.getItem("storageAccountList");
             if (test){
                 match = new RegExp('\"' + currentDetailedAccount+',(\\d+)').exec(test);
@@ -3318,7 +3400,7 @@ $(document).ready(function(){
                         localStorage.setItem("storageAccountList", JSON.stringify(test));
                     }
                 },
-                                                                function(e) {
+                  function(e) {
                     showError(e);
                     console.log("fail @ storage Account List");
                 }
@@ -3483,6 +3565,8 @@ $(document).ready(function(){
             localStorage.setItem('timeTracking', returnData.is_time_tracking);
             localStorage.setItem('accountManager', returnData.is_account_manager);
             localStorage.setItem('ticketLevels', returnData.is_ticket_levels);
+            localStorage.setItem('is_resolution_tracking', returnData.is_resolution_tracking);
+            localStorage.setItem('is_confirmation_tracking', returnData.is_confirmation_tracking);
             localStorage.setItem('classTracking', returnData.is_class_tracking);
             localStorage.setItem('locationTracking', returnData.is_location_tracking);
             localStorage.setItem('freshbooks', returnData.is_freshbooks);
@@ -3619,10 +3703,10 @@ $(document).ready(function(){
                     return;
                 } 
                 $("ul.InstsList").hide();
-                $("ul.InstsList[data-id='"+userOrgKey+"']").show();
                 userOrgKey = localStorage.userOrgKey = $(this).data("id");
                 userOrg = localStorage.userOrg = $(this).data("name");
                 userInstanceKey = localStorage.userInstanceKey = $(this).data("inst");
+                $("ul.InstsList[data-id='"+userOrgKey+"']").show();
                 org.chooseOrg();
             });
 
@@ -3713,6 +3797,10 @@ $(document).ready(function(){
         }
         if (localStorage.getItem('ticketLevels') === "false")
             isLevel = false;
+        if (localStorage.getItem('is_confirmation_tracking') === "false")
+            isConfirmationTracking = false;
+        if (localStorage.getItem('is_resolution_tracking') === "false")
+            isResolutionTracking = false;
         if (localStorage.getItem('classTracking') === "false")
             isClass = false;
         if (localStorage.getItem('locationTracking') === "false")
@@ -3753,11 +3841,11 @@ $(document).ready(function(){
         signout.init();
         //if (typeof navigator.splashscreen !== 'undefined') 
         //    navigator.splashscreen.hide();
+        
+         clickOnticket();
 
         if (localStorage.ticketNumber && Page=="ticket_list.html")
             Page="ticket_detail.html";
-        
-        clickOnticket();
 
         if (Page=="ticket_list.html")
         {
@@ -4005,7 +4093,7 @@ $(document).ready(function(){
         default_redirect(isTech);
     }
     
-    var clickOnticket = once(function(){$(document).on("click",".responseBlock", function(){
+     var clickOnticket = once(function(){$(document).on("click",".responseBlock", function(){
                 localStorage.setItem('ticketNumber', $(this).attr("data-id")); //set local storage variable to the ticket id of the ticket block from the ticket list
          if(Page.indexOf("ticket_") >=0)
             routing("ticket_list.html"); // change page location from ticket list to ticket detail list

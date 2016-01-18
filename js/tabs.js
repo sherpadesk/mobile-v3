@@ -1,4 +1,4 @@
-window.addEventListener("load", Tabs, false);
+window.addEventListener("DOMContentLoaded", Tabs, false);
 
 function Tabs() {
 
@@ -40,6 +40,6 @@ function displayPage(container, tab) {
     el.setAttribute("class","tabHeader tabActiveHeader");
     container.querySelector("#tabpage_" + tab).style.display="block";
     pa.setAttribute("data-current",tab);
-    if (pa.parentNode.getAttribute("class") == 'TicketTabs')
+    if (pa.parentNode.getAttribute("class") == 'ticketslist')
             localStorage.setItem('ticketPage',tab);
 }

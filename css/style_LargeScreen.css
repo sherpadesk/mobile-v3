@@ -136,20 +136,20 @@
 .tabpageContainer {
   width: 90%;
   margin: 0 auto;
-  margin-top: 10px;
+  margin-top: 37px;
   overflow: visible;
   overflow-x: hidden;
   max-width: 650px;
 }
     
 .TicketTabs > ul > li {
-  width: 18%;
+  width: 23%;
   text-align: center;
   line-height: 70px;
   height: 60px;
   display: block;
   float: left;
-  color: #ffffff;
+/*  color: #ffffff;*/
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
@@ -180,7 +180,6 @@
 
 .tabpage {
   max-width: 650px;
-  display: block;
   margin: 0 auto;
 }
 

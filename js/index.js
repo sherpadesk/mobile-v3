@@ -8,7 +8,7 @@ var fastClicker = {
 
 	clickFast:function() {
         if (window.FastClick){
-		window.addEventListener('load', function() {
+            window.addEventListener('DOMContentLoaded', function() {
 			FastClick.attach(document.body);
 		}, false);
         }
@@ -249,12 +249,8 @@ var fastClicker = {
 		},
 
 		checkBillButton: function() {
-			$("#billem, #billem1").click(function(){
+            $(".billable").click(function(){
 				$(".innerCircle").toggleClass("billFill");
-			});
-
-			$(document).on("click",".innerCircle",function(){
-				$(this).toggleClass("billFill");
 			});
 		}
 
@@ -413,7 +409,7 @@ var sideBar = {
 
 
 $(document).ready(function() {
-
+        
         sideBar.init();
         
 		fastClicker.init();

@@ -981,7 +981,7 @@ header {
 }
 
 .TicketTabs > ul > li {
-    width: 18%;
+    width: 23%;
     text-align: center;
     line-height: 65px;
     height: 50px;
@@ -1008,7 +1008,7 @@ header {
 }
 
 .TicketTabs li:last-child {
-    width: 40%;
+    width: 25%;
     text-align: center;
 }
 
@@ -1155,6 +1155,98 @@ header {
     border: none;
 }
 
+.headerAccount_tabl{
+    color: #fff;
+    margin-top: 44px;
+    height: 35px;
+}
+
+.tableAccount {
+    list-style-type: none;
+    width: 73%;
+    float: right;
+    }
+
+.tableAccount li {
+    float: left;
+    width: 25%;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.tableAccount li:nth-child(1){
+//    width: 31%;
+}
+
+.tableAccount li:nth-child(3){
+//    padding-left: 8px;
+}
+
+.tableAccount li:nth-child(4){
+//    text-align: right !important;
+      padding-right: 20px;
+}
+
+.hrsAccount{
+    width: 15% !important;
+}
+
+.border_account{
+border-bottom: 1px solid #fff;
+}
+
+.table_account {
+    position: relative;
+    list-style-type: none;
+    color: #fff;
+    width: 100%;
+    overflow: hidden;
+    z-index: 5;
+    background-color: rgba(250, 250, 250, 0);
+    margin-top: 10px;
+    padding-left: 17px;
+}
+
+.table_account li:first-child {
+    text-align: left;
+}
+
+.table_account li {
+    float: left;
+    width: 21%;
+    height: 40px;
+    text-align: center;
+    }
+
+.table_account li:last-child {
+    text-align: center;
+}
+
+.table_account li:nth-child(2) {
+    padding-right: 17px;
+}
+
+.table_account li:first-child {
+    text-align: left;
+    width: 27%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.tab_head_account{
+    line-height: 50px !important;
+    height: 20px !important;
+    width: 22% !important;
+}
+
+.delimAccount{
+width: 5px !important;
+}
 
 /* Expen
 ========================================================================== */
@@ -1409,8 +1501,6 @@ header {
 
 .invoiceAccount li:last-child {
     float: right;
-    font-size: 14px;
-    margin-top: 4px;
     margin-right: 5px;
 }
 
@@ -1441,13 +1531,13 @@ header {
     line-height: 30px;
     padding-left: 0px;
     color: @time;
-    width: 49%;
+    width: 41%;
     text-align: left
 }
 
 .invoiceRows li:first-child {
     text-align: left;
-    width: 21%;
+    width: 29%;
     font-size: 13px;
 }
 
@@ -1701,6 +1791,38 @@ F
     font-size: 30px;
 }
 
+.accountRows {
+    color: @time;
+    width: 100%;
+    overflow: auto;
+    z-index: 5;
+    line-height: 30px;
+    font-size: 18px;
+    text-align: left;
+
+
+}
+
+.infoAccount {
+    float: left;
+    width: 55%;
+    height: 40px;
+//    margin-bottom: 10px;
+}
+
+.accountInfo {
+    line-height: 30px;
+    padding-left: 0;
+    width: 44%;
+    text-align: left;
+    font-weight: 600;
+    height: 40px;
+}
+
+#accountList {
+    overflow: visible !important;
+}
+
 /* Footer
 ========================================================================== */
 
@@ -1877,6 +1999,9 @@ footer {
     float: left;
 }
 
+
+
+
 /* Account_details
 ========================================================================== */
 
@@ -2050,7 +2175,7 @@ footer {
 .tabpageContainer {
     width: 90%;
     margin: 0 auto;
-    margin-top: 25px;
+    margin-top: 37px;
     overflow: visible;
     overflow:hidden;
 }
@@ -2442,10 +2567,6 @@ footer {
 .textInputContainer {
     width: 90%;
     margin: 0 auto
-}
-
-#closingMessage {
-    display: none;
 }
 
 #closeMessageButton {
