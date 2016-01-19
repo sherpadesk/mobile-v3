@@ -127,7 +127,7 @@
 
 .tks {
   width: 40px;
-  background: #0099CC;
+  background: @wrapper;
   text-align: center;
   line-height: 35px;
   margin: 14px 18px;
@@ -145,15 +145,15 @@
 .TicketTabs > ul > li {
   width: 23%;
   text-align: center;
-  line-height: 70px;
-  height: 60px;
+  line-height: 65px;
+  height: 50px;
   display: block;
   float: left;
 /*  color: #ffffff;*/
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  background: #0099CC;
+  background: @org;
 }
 
 .CreateInvoiceWrapper {
