@@ -949,6 +949,7 @@ $(document).ready(function(){
                         $("#is_force_registration").prop("checked", true);
                         $("#signupButton").before("<center><h3 style='padding-top: 10px;'>This email is already in use. Would you like to</h3>"+" <div class=loginButton loginGoogle onclick='window.location = \"login.html\"'>Login</div>"+"<h3>or</h3></center>");
                         $("#signupButton").text("Create New Organization");
+                        $("html, body").animate({ scrollTop: $(document).height() }, 1000);
                         return;
                     }
                     //var note = ((results.data || {}).ResponseStatus || {}).Message || results.data || 'Sorry, there was a problem processing your registration.  Please try again.';
