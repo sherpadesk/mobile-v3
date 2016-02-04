@@ -1,5 +1,5 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, undef: true, latedef: true, eqnull: true, multistr: true*/
-/*global jQuery, $, location, window, localStorage, navigator, document, cordova, setTimeout, console, alert, confirm, btoa, Image, history, setInterval, clearInterval, year, MobileSite, ApiSite, logout, backFunction, cleanQuerystring, getParameterByName, googleTag, appVersion, isSD, clearStorage, WebPullToRefresh, googleConversion, AppSite, List, initOrgPreferences, default_redirect, displayPage, sideBar */
+/*global jQuery, $, location, window, localStorage, navigator, document, cordova, setTimeout, console, alert, confirm, btoa, Image, history, setInterval, clearInterval, year, MobileSite, ApiSite, logout, backFunction, cleanQuerystring, getParameterByName, googleTag, appVersion, isSD, clearStorage, WebPullToRefresh, googleConversion, getappTrackConversion, AppSite, List, initOrgPreferences, default_redirect, displayPage, sideBar */
 
 var Page = location.href.split('/').pop().split('?').shift();
 
@@ -177,6 +177,8 @@ function onDeviceReady() {
         if (t){t.style.marginTop = "18px";}
         if (Page == "dashboard.html") $("#techStat").css("padding-top", "18px");
     }
+    if (Page == "login.html")
+        getappTrackConversion();
     if (Page == "login.html" || (Page=="ticket_list.html" && !isTech) || Page=="dashboard.html")
         googleConversion();
 }
@@ -938,6 +940,7 @@ $(document).ready(function(){
 
                     //sets user role to user in local storage
                     localStorage.setItem('userRole', "user");
+                    getappTrackConversion(url);
                     userMessage.showMessage(true, "Thanks for registration! You are redirected to new org now ...",                      function(){getInstanceConfig(returnData.organization, returnData.instance);});
                 },
                 error: function ( event ) {

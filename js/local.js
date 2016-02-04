@@ -7,4 +7,6 @@ function googleTag() {}
 
 function googleConversion() {}
 
+function getappTrackConversion(id) {}
+
 var dontClearCache = true;

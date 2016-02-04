@@ -1,3 +1,4 @@
+
 function default_redirect (is_tech)
 {
     window.location = isTech ? "dashboard.html" : "ticket_list.html";
@@ -28,3 +29,20 @@ function googleConversion()
 }
 
 var dontClearCache = false;
+
+function getappTrackConversion(id) {
+    var r = document.referrer;
+    var h = window.location.href;
+    var p = '1'; // Price of conversion (optional)
+    var e = id || ''; // External ID (optional)
+    var listing_id = '102459';
+
+    var a = document.createElement('script');
+    a.type = 'text/javascript';
+    a.async = true;
+    a.src = 'https://www.getapp.com/conversion/' + encodeURIComponent(listing_id) +
+        '/r.js?p=' + encodeURIComponent(p) + '&h=' + encodeURIComponent(h) +
+        '&r=' + encodeURIComponent(r) + '&e=' + encodeURIComponent(e);
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(a, s);
+};
