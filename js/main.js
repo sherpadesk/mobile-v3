@@ -177,8 +177,8 @@ function onDeviceReady() {
         if (t){t.style.marginTop = "18px";}
         if (Page == "dashboard.html") $("#techStat").css("padding-top", "18px");
     }
-    if (Page == "login.html")
-        getappTrackConversion();
+    //if (Page == "login.html")
+    //    getappTrackConversion();
     if (Page == "login.html" || (Page=="ticket_list.html" && !isTech) || Page=="dashboard.html")
         googleConversion();
 }
