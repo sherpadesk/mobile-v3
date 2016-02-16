@@ -907,6 +907,7 @@ $(document).ready(function(){
                 return;
             }
             }
+            if (!getParameterByName('test'))
             $.ajax({
                 type: 'POST',
                 url: ApiSite +"organizations",
@@ -959,6 +960,11 @@ $(document).ready(function(){
                     userMessage.showMessage(false, event.responseText);
                 }
             });
+            else
+            {
+                cleanQuerystring();
+                $("body").append("test passed");
+            }
         }
     };
 
