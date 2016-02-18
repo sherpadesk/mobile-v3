@@ -941,6 +941,14 @@ $(document).ready(function(){
 
                     //sets user role to user in local storage
                     localStorage.setItem('userRole', "user");
+                    var SWPX = SWPX || {};
+                    SWPX.cmd = SWPX.cmd || [];
+                    SWPX.cmd.push(function() {
+                        SWPX.pixel.setPixel('8oxz');
+                        // Uncomment the following line to place an identifer
+                        SWPX.pixel.setIdentifier('121806');
+                        SWPX.pixel.fire();
+                    });
                     getappTrackConversion(url);
                     userMessage.showMessage(true, "Thanks for registration! You are redirected to new org now ...",                      function(){getInstanceConfig(returnData.organization, returnData.instance);});
                 },
