@@ -1,5 +1,5 @@
 /*jshint -W004, -W041, -W103, eqeqeq: false, undef: true, latedef: true, eqnull: true, multistr: true*/
-/*global jQuery, $, location, window, localStorage, navigator, document, cordova, setTimeout, console, alert, confirm, btoa, Image, history, setInterval, clearInterval, year, MobileSite, ApiSite, logout, backFunction, cleanQuerystring, getParameterByName, googleTag, appVersion, isSD, clearStorage, WebPullToRefresh, googleConversion, getappTrackConversion, AppSite, List, initOrgPreferences, default_redirect, displayPage, sideBar */
+/*global jQuery, $, location, window, localStorage, navigator, document, cordova, setTimeout, console, alert, confirm, btoa, Image, history, setInterval, clearInterval, year, MobileSite, ApiSite, logout, backFunction, cleanQuerystring, getParameterByName, googleTag, appVersion, isSD, clearStorage, WebPullToRefresh, googleConversion, getappTrackConversion, spicePixelTrackConversion, AppSite, List, initOrgPreferences, default_redirect, displayPage, sideBar */
 
 var Page = location.href.split('/').pop().split('?').shift();
 
@@ -941,14 +941,7 @@ $(document).ready(function(){
 
                     //sets user role to user in local storage
                     localStorage.setItem('userRole', "user");
-                    var SWPX = SWPX || {};
-                    SWPX.cmd = SWPX.cmd || [];
-                    SWPX.cmd.push(function() {
-                        SWPX.pixel.setPixel('8oxz');
-                        // Uncomment the following line to place an identifer
-                        SWPX.pixel.setIdentifier('121806');
-                        SWPX.pixel.fire();
-                    });
+                    spicePixelTrackConversion();
                     getappTrackConversion(url);
                     userMessage.showMessage(true, "Thanks for registration! You are redirected to new org now ...",                      function(){getInstanceConfig(returnData.organization, returnData.instance);});
                 },
@@ -2995,12 +2988,14 @@ $(document).ready(function(){
                 reveal();
             }
 
-            setTimeout(function(){ getApi("accounts?limit=500").then(function(returnData) {
+            setTimeout(function(){ getApi("accounts?limit=500" + (!limit ? "&is_with_statistics=false&is_open_tickets=true" : "")).then(function(returnData) {
                 if (!limit)
                     accountList.createAccountsList(parent, returnData);
                 else
+                {
                     accountList.createDashAccountsList(parent, returnData);
-                localStorage.setItem("storageAccountList",JSON.stringify(returnData));
+                    localStorage.setItem("storageAccountList",JSON.stringify(returnData));
+                }
                 reveal();
             },
                                                                      function(e) {
@@ -3320,10 +3315,10 @@ $(document).ready(function(){
             $("#email_suffix").html(returnData.email_suffix);
 $("#internal_location_name").html(returnData.internal_location_name);
                 $("#name").html(returnData.name);
-                $("#bwd_number").html(returnData.bwd_number);                 $("#logo").html(returnData.logo); 
-                $("#acc_number").html(returnData.id);
+                $("#bwd_number").html(returnData.bwd_number);                 
                 $("#logo").html(returnData.logo); 
-                $("#note").html(returnData.note);
+                $("#acc_number").html(returnData.id);
+                $("#notes").html(returnData.note);
                 $("#ref1").html(returnData.ref1);
                 $("#ref2").html(returnData.ref2);
 $("#fb_client_id").html(returnData.fb_client_id);              
@@ -3335,17 +3330,28 @@ $("#invoiceOptionTicker").html(accountInvoices);
 $("#timesOptionTicker").html(accountHours);
  $("#expenseOptionTicker").html(localStorage.currency + Number(accountExpenses).toFixed(2).toString());
                 
-               
-                if (returnData.customfields && returnData.customfields.length > 0){
                 var insert = "";
+                if (returnData.files && returnData.files.length > 0){
+                    insert +=  '<ul class="accountRows item"><li class="infoAccount">Files:</li><li class="accountInfo dots"></li>';
+                    for(var i = 0; i < returnData.files.length; i++){
+                        var name = returnData.files[i].name;
+                        var file = FileUrlHelper.getFileLink(returnData.files[i].url,name);
+                        insert += '<li class="infoAccount">'+name+'</li><li style="height:100%" class="accountInfo dots">'+file+'</li>';
+                }
+                    insert += "</ul>";
+                }
+                $("#files").html(insert);
+                insert = "";
+                if (returnData.customfields && returnData.customfields.length > 0){
+                    insert +=  '<ul class="accountRows item">';
                     for(var x = 0; x < returnData.customfields.length ; x++)
                     {
                         var r = returnData.customfields[x];
-                        insert += '<ul><li class="infoAccount">'+r.Key+'</li><li class="accountInfo dots">'+r.Value+'</li></ul>';
-
+                        insert += '<li class="infoAccount">'+r.Key+'</li><li class="accountInfo dots">'+r.Value+'</li>';
                     }
-                    $("#customfields_projects").html(insert);
+                    insert += "</ul>";
                 }
+                $("#customfields").html(insert);
                                 
                 if (!returnData.projects)
                     return;
