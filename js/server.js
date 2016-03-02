@@ -45,4 +45,15 @@ function getappTrackConversion(id) {
         '&r=' + encodeURIComponent(r) + '&e=' + encodeURIComponent(e);
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(a, s);
-};
+}
+
+function spicePixelTrackConversion() {
+    var SWPX = SWPX || {};
+    SWPX.cmd = SWPX.cmd || [];
+    SWPX.cmd.push(function() {
+        SWPX.pixel.setPixel('8oxz');
+        // Uncomment the following line to place an identifer
+        SWPX.pixel.setIdentifier('121806');
+        SWPX.pixel.fire();
+    });
+}
