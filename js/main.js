@@ -3589,6 +3589,8 @@ $("#timesOptionTicker").html(accountHours);
             localStorage.setItem('accountManager', returnData.is_account_manager);
             localStorage.setItem('ticketLevels', returnData.is_ticket_levels);
             localStorage.setItem('is_resolution_tracking', returnData.is_resolution_tracking);
+ localStorage.setItem('time_hour_increment', returnData.time_hour_increment);
+            localStorage.setItem('time_minimum_time', returnData.time_minimum_time);
             localStorage.setItem('is_confirmation_tracking', returnData.is_confirmation_tracking);
             localStorage.setItem('classTracking', returnData.is_class_tracking);
             localStorage.setItem('locationTracking', returnData.is_location_tracking);

@@ -156,16 +156,22 @@ var fastClicker = {
 		},
 
 		changeTime: function() {
-            var counter = 0;
-			$("#addTimeTicket").val(counter);
+            var counter = 0.00;
+            var inc = localStorage.getItem('time_hour_increment') || 0.25;
+            inc = inc < 0 ? 0.25 : inc;
+			$("#addTimeTicket").val("0.00");
 			$(".buttonList li:nth-child(3), .buttonListSymbols").click(function() {
-                var val = $("#addTimeTicket").val() ? parseFloat($("#addTimeTicket").val()) : 0;
+                var val = $("#addTimeTicket").val() ?
+                    parseFloat($("#addTimeTicket").val()) : 0; 
 				//counter = val + 0.25;
-                $("#addTimeTicket").val(val + 0.25);
+                $("#addTimeTicket").val((val + inc).toFixed(2));
 			});
 			$(".buttonList li:nth-child(1), .buttonListSymbols").click(function() {
                 var val = $("#addTimeTicket").val() ? parseFloat($("#addTimeTicket").val()) : 0;
-                $("#addTimeTicket").val(val - 0.25);
+                if(val < inc)
+                $("#addTimeTicket").val("0.00");
+                else
+                $("#addTimeTicket").val((val - inc).toFixed(2));
 			});
 		}
 	};
