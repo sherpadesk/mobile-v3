@@ -2560,7 +2560,7 @@ $(document).ready(function(){
 
             getApi(number, data).then(function(returnData) {
                 ////console.log(returnData);
-                localStorage.setItem("invoiceAccountId",returnData.account_id);
+                returnData = returnData[0]; localStorage.setItem("invoiceAccountId",returnData.account_id);
                 localStorage.setItem("invoiceProjectId",returnData.project_id);
                 start_date = returnData.start_date || new Date().toJSON();
                 end_date = returnData.end_date || new Date().toJSON();
@@ -2783,8 +2783,6 @@ $(document).ready(function(){
                         reveal();
                         return;
                     }
-                    else if(typeof returnData.length === 'undefined')
-                        returnData = [returnData];
                     var insert = "";
                     for(var i = 0; i < returnData.length; i++)
                     {
