@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>  
+    <head>  
+        <meta http-equiv="content-type" content="text/html; charset=windows-1250">  
+        <meta name="generator" content="PSPad editor, www.pspad.com">  
+        <title>
+        </title>  
+        <!--script src="js/jquery.min.js"></script-->
+    </head>  
+    <body>
+<!--[if lte IE 8]>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/combo?pure/0.5.0/base-min.css&pure/0.5.0/grids-min.css&pure/0.5.0/grids-responsive-old-ie-min.css">
+<![endif]>
+<![if gt IE 8]>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/combo?pure/0.5.0/base-min.css&pure/0.5.0/grids-min.css&pure/0.5.0/grids-responsive-min.css">
+<![endif]-->
+        <script>
+            
+            function serror(name, error)
+            {
+                if(name){
+                var el = document.getElementById(name);
+                if (el)
+                {
+                    el.classList.remove('success');
+                    el.classList.add('error');
+                    var t = el.value;
+                    if (t.length > 0)
+                    {
+                        el.placeholder = t.replace(new RegExp('_', 'g'), " ") + error.substring(name.length);
+                        el.value = "";
+                    }
+                    else
+                    {
+                        el.placeholder = error;
+                    }
+                }
+                }
+            }
+            
+
+
+            function ssuccess(name)
+            {
+                if (name){
+                var el = document.getElementById(name);
+                if (el)
+                {
+                    el.classList.remove('error');
+                    
+                if (el.value.length > 0)
+                    el.classList.add('success');
+                else
+                    el.placeholder = el.name.replace(new RegExp('_', 'g'), " ") + " ..."
+                }
+                }
+            }
+            
+            function hasHtml5Validation () {
+                return typeof document.createElement('input').checkValidity === 'function';
+            }
+
+            var isSafary = (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1);
+
+            function sendForm(form) {
+                if (hasHtml5Validation() && !isSafary){
+                    if (!form.checkValidity()) {
+                        return;
+                    }
+                }
+                else
+                {
+                    var name = form.name.value;
+                    var email = form.email.value;
+                    var url = form.url.value;
+                    var firstname = form.firstname.value;
+                    var lastname = form.lastname.value;
+                    var password = form.password.value;
+                    var passwords = form.passwords.value;
+                    if (name == '' || email == '' || url == '' || firstname == '' || lastname == '' || password == '' || passwords  == '') {
+                        var el = document.getElementById("sherpadesk_cu_formsubmit");
+                        if (el.innerHTML.indexOf("Please enter all fields")< 0)
+                        el.innerHTML =  "<h3 style='color:red;'>Please enter all fields!</h3>" + el.innerHTML;
+                        return false;
+                    }
+                    if (password != passwords) {
+                        serror("passwords","Passwords do not match!");
+                        return false;
+                    }
+                }
+                form.sherpadesk_cu_submit.disabled = true;
+                return postOrg(form);
+            }
+            
+            function postOrg(form, onlyUrl)
+            {
+                if (typeof onlyUrl === "undefined")
+                    onlyUrl = false;
+                
+                form.url.classList.remove("error");
+                var formData = new FormData(form);
+
+                for (i=0; i <form.elements.length; i++) {
+                    ssuccess(form.elements[i].id);
+                }
+                
+                // Append extra data before send.
+                formData.append('is_force_registration', 'true'); 
+                formData.append('is_force_redirect', 'true');
+                
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', form.action, true);
+                xhr.onload = function(e) { 
+                    if (e.target.status == 200)
+                    {
+                        form.sherpadesk_cu_submit.firstChild.data = "Processing...";
+                        console.log(e.target.response);
+                        var data = JSON.parse(e.target.response);
+                        console.log(data);
+                        console.log(data.url);
+                    }
+                    else if (e.target.status == 403)
+                    {
+                        form.sherpadesk_cu_submit.disabled = false;
+                        var error = e.target.response.replace(/"/g, '');
+                        console.log(error);
+                        var name = error.split(' ')[0].toLowerCase();
+                        if(name)
+                            document.getElementById(name).focus();
+                        if (onlyUrl && name=='url') serror(name, error);
+                        else if (!onlyUrl)
+                            serror(name, error);
+                    }
+                    else
+                    {
+                        form.sherpadesk_cu_submit.disabled = false;
+                        alert(e.target.response);
+                        console.log(e);
+                    }
+                };
+                xhr.send(formData);
+                return false; // Prevent page from submitting.
+            }
+            
+        </script>
+        <style>
+            h3 {font-size: 24px;}
+            .l-box {padding-right: 0.5em;}
+            .sherpadesk-contactus-text-input, .sherpadesk-contactus-textarea {width: 340px; max-width: 340px;}
+            .signup_form {padding-top: 20px;     box-sizing: border-box;     margin-left: auto;     margin-right: auto;     width: 380px;}
+            .url_dd {box-sizing: border-box;  background-color: #e9eff5;  padding: 5px 5px 5px 5px !important;  border-radius: 10px;}
+            .url {line-height: 40px; font-size: 14px;font-weight: bold;}
+            .url1 {float: left; width: 16%; }
+            .url2 {float: right;}
+            input.error
+            {
+                background-color: pink; 
+                outline: none; 
+            }
+            input.success
+            {
+                background-color: palegreen; 
+                outline: none; 
+            }
+            .sherpadesk-contactus {
+                display: none;
+                background-color: #ffffff;
+                padding: 20px;
+                -webkit-border-radius: 8px;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .sherpadesk-contactus label {
+                font-size: 17px;
+                font-family: Arial, Sans-Serif;
+            }
+
+            .sherpadesk-contactus-form 
+            {
+                min-width: 350px;
+                overflow: hidden;
+                padding: 5px;
+            }
+
+            dl.sherpadesk-contactus-field dt {
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 3px;
+            }
+
+            .sherpadesk-contactus-content
+            {
+                margin: 0 15px;
+                color: #333333;
+                font-size: 12px;
+                width: 340px;
+            }
+
+            .sherpadesk-contactus-content dd
+            {
+                padding: 0;
+                margin: 0;
+            }
+
+            .sherpadesk-contactus-text-input, .sherpadesk-contactus-textarea
+            {
+                padding: .75em;  
+                border: solid 1px #CCC; 
+                -webkit-appearance: none;
+                border-radius: 5px;
+                -moz-border-radius: 5px;  
+                -webkit-border-radius: 5px; 
+                outline: 0;  
+                font: normal 13px/100% Verdana, Tahoma, sans-serif; 
+                background-color: #ffffff; 
+                width: 320px;
+                max-width: 320px;
+                margin: 0 0 5px;
+            }
+
+            .sherpadesk-contactus-textarea
+            {    
+                height: 250px;
+                max-height: 250px;
+            }
+
+            .sherpadesk-contactus-text-input:hover, .sherpadesk-contactus-textarea:hover
+            {
+                border-color: #80BFFF;
+            }  
+
+            .sherpadesk-contactus-textarea:focus, sherpadesk-contactus-text-input:focus
+            {
+                border-color: #0053A6;
+            }
+
+            .sherpadesk-contactus-formsubmit 
+            {
+                margin-top:5px;
+                text-align: left;
+            }
+
+            .sherpadesk-contactus-sendmessage
+            {
+                margin: 0;
+            }
+
+            .sherpadesk-button
+            {
+                border: 1px solid #D4D4D4;
+                border-radius: 0.2em 0.2em 0.2em 0.2em;
+                cursor: pointer;
+                display: inline-block;
+                padding: 0.5em 1em;
+                outline: medium none;
+                overflow: visible;
+                position: relative;
+                white-space: nowrap;
+                background-color: #76CA43;
+                background-image: linear-gradient(#76CA43, #569D2B);
+                border-color: #76CA43 #76CA43 #569D2B;
+                color: #FFFFFF;
+                text-decoration: none;
+                font-size: 21px;
+                font-weight: bold;
+            }
+
+            .sherpadesk-contactus-close_window
+            {
+                margin-left: 60px;
+                margin-top: 40px;
+            }
+
+            .sherpadesk-contactus-sendmessage:hover
+            {
+                background-color: #69C034;
+                background-image: linear-gradient(#69C034, #4A8825);
+                border-color: #91D16A #91D16A #3E721F;
+                color: #FFFFFF;
+                text-decoration: none;
+            }
+
+            .sherpadesk-contactus-formsubmit span
+            {
+                font-size: 20px;
+                padding: 0 24px;
+            }
+
+            .sherpadesk-contactus-cancel
+            {
+                font-size: 180%;
+                font-family: Arial;
+            }
+
+            .sherpadesk-contactus-error
+            {
+                color: Maroon;
+                font-size: 120%;
+                margin-top: 20px;
+                text-align: center;
+            }
+
+            .sherpadesk-contactus-sending
+            {
+                position: relative;
+                text-align: center;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .sherpadesk-contactus-sending span
+            {
+                background-color: #F9EDBE;
+                padding: 6px 15px;
+                font-weight: bolder;
+                border-color: #F0C36D;
+                border-width: 2px;
+                border-style:solid;
+            }
+
+            .sherpadesk-site-link
+            {
+                width: 100%;
+                text-align: center;
+                font-size: 12px;
+            }
+
+            .sherpadesk-site-link a
+            {
+                color: #A3A3A3;
+                font-family: Arial;
+            } 
+
+            .sherpadesk-contactus-success
+            {
+                color: #595959;
+                font-size: 22px;
+                font-weight: bold;
+                margin-left: 20px;
+                margin-right: 20px;
+                margin-top: 70px;
+                min-height: 250px;
+                min-width: 300px;
+            }
+        </style>
+        <form id="form" name="form" action="http://api.beta.sherpadesk.com/organizations?format=json">
+            <div class="signup_form">
+                <div id="sherpadesk_ContactusForm" class="sherpadesk-contactus-form">
+                    <div class="sherpadesk-contactus-content">
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>Company Name 
+                                </label><br>
+                                <small>Acme Inc. or Your Name</small>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" title="Name should be 3 or more chars" onchange="var t=''; if (this.validity.patternMismatch) {t=this.title; serror(this.id, t);} else {t=''; if (this.value) form.url.value = this.value.replace(/[^a-zA-Z 0-9]+|[\s]+/g, '').toLowerCase().substring(0, 20); postOrg(form, true); ssuccess(this.id);} this.setCustomValidity(t);"  pattern=".{3,}" type="text" id="name" name="name" required placeholder="Company Name...">
+                            </dd>
+                        </dl>
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>Email
+                                </label>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" type="email" id="email" name="email" required placeholder="Email...">
+                            </dd>
+                        </dl>
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>Company URL
+                                </label>
+                            </dt>
+                            <dd class="url_dd">
+                                <div class="url1 url">https://</div><div class="url url2">.sherpadesk.com</div>
+                                <div><input title="Url should be between 3 and 20 chars" onchange="var t=this.title; if (this.validity.patternMismatch)  {serror(this.id, t);} else {t=''; postOrg(form, true); ssuccess(this.id);} this.setCustomValidity(t);" pattern=".{3,}" class="sherpadesk-contactus-text-input" id=url type="text" style="width: 47%;" name="url" required maxlength="20" placeholder="Url..."></div>
+                            </dd>
+                        </dl>
+                        <dl style="display: inline-block;" class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>First Name
+                                </label>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" type="text" id="firstname" name="firstname" required maxlength="50" placeholder="First Name...">
+                            </dd>
+                        </dl>
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>Last Name
+                                </label>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" type="text" id="lastname" name="lastname" required maxlength="50" placeholder="Last Name...">
+                            </dd>
+                        </dl>
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>Password
+                                </label>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9_-]{5,20})" type="password" id="password" name="password" 
+                                       onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Password must be alphanumeric with at least 5 characters' : ''); if(this.checkValidity()) form.passwords.pattern = this.value;" required maxlength="20" placeholder="">
+                            </dd>
+                        </dl>
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>Confirm Password
+                                </label>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" type="password"  pattern="(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9_-]{5,20})" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Passwords do not match' : '');" id="passwords" name="password_confirm" required maxlength="20" placeholder="">
+                            </dd>
+                        </dl>
+                        <dl class="sherpadesk-contactus-field">
+                            <dt>
+                                <label>How'd You Hear About Us
+                                </label>
+                            </dt>
+                            <dd>
+                                <input class="sherpadesk-contactus-text-input" type="text" id="how" name="how" title="Goggle, Appstore etc." maxlength="255" placeholder="">
+                            </dd>
+                        </dl>
+                        <div id="sherpadesk_cu_formsubmit" class="sherpadesk-contactus-formsubmit" style="width: 100%;">
+                            <div style="width: 100%;">
+                                <button class="sherpadesk-contactus-sendmessage sherpadesk-button" id="sherpadesk_cu_submit" type="submit" data-afterclick="Processing..." style="width: 100%;" onclick="return sendForm(this.form);">Create My Account</button>
+                            </div>
+                            <div class="Agree" style="padding-top: 10px;">
+                                By clicking the button above I agree to <a target="_blank" href="http://sherpadesk.com/privacy-policy/">Terms of Use</a> and <a target="_blank" href="http://sherpadesk.com/privacy-policy/">Privacy Policy</a>.
+                            </div>
+                            <div id="sherpadesk_send_error" class="sherpadesk-contactus-error">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </form>
+
+        <h2 class='faqTitle'>Frequently Asked Questions</h2>
+        <div class="pure-g signUpQuestions"> 
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>Which options should I choose?</h3>
+                <p>All plans start with the free trial and offer access to the full stack of tools available. Once you’re in, you’ll be able to select the features you need.</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>What does utility based pricing mean?</h3>
+                <p>In essence it means you only pay for what you use. Rather than make you pay for features and tools you don’t need, we let you choose. So as your company and needs grows, you can scale your SherpaDesk as you grow.</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>Can I change what I use at anytime?</h3>
+                <p>100% yes. Upgrade or downgrade your account at anytime right from your SherpaDesk account.</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>How long is the free trial?</h3>
+                <p>You’ll get access to every feature for FREE for 15 days. After that your account will be FREE FOREVER, just with a few less features. See our complete feature list to see what’s included in the free account.</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>What happens after I create my account</h3>
+                <p>You go right into the application, and then an email will be sent to you with your account information.</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>Do you offer enterprise plans?</h3>
+                <p>Yep. Just contact us: support@sherpadesk.com and one of our reps will assist in getting you set up.</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>Are you guys really sherpas?</h3>
+                <p>No… no we are not. However, we do love helping our members achieve customer support awesomeness!</p>
+                </div></div>
+            <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2"><div class="l-box">
+                <h3>How and when will I be billed?</h3>
+                <p>All payments are made through our credit card processor. If you have chosen any paid features, billing will start 30 days after you input your credit card info. Invoicing is available for enterprise customers.</p>
+                </div></div>
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,98 @@
+<div class="col-sm-6">
+<iframe src="https://app.sherpadesk.com/mc/signuporg.aspx"></iframe>
+<div ng-app="app">
+<div class="form-section" ng-controller="MainCtrl">
+<div class="notifications" ng-if="globalAlerts.length" ng-cloak>
+<div>
+<div alert ng-repeat="globalAlert in globalAlerts" type="{{ globalAlert.type }}" close="removeAlert(globalAlert)">{{ globalAlert.msg }}</div>
+</div>
+</div>
+<div class="loading" ng-show="formLoading" ng-cloak>
+<i class="fa fa-circle-o-notch fa-spin"></i>
+</div>
+<div class="form-header">
+<p>Track Time. Automate Invoices. <br/>Make Smarter Decisions.</p>
+<h3>Start Free Trial Now!</h3>
+</div>
+<form name="step1" ng-submit="goNextStep(step1.$valid)" novalidate>
+<div ng-if="!signUp.stepOneComplete">
+<p style="margin: 20px 0;">Sign up today and make sure <strong>nothing slips through the cracks again.</strong></p>
+
+<div class="form-group" ng-class="{'has-error': step1.company.$error.required && step1.company.$dirty}">
+<label class="control-label" for="company">Company Name*
+<span class="has-error" ng-show="step1.company.$error.required && step1.company.$dirty">Required!</span>
+</label>
+<input type="text" class="form-control input-lg" name="company" id="company" ng-model="signUp.companyName" required>
+</div>
+<div class="form-group" ng-class="{'has-error': step1.email.$error.email && step1.email.$dirty}">
+<label class="control-label" for="email1">Email Address*
+<span class="has-error" ng-show="step1.email.$error.email && step1.email.$dirty">Required!</span>
+</label>
+<input type="email" class="form-control input-lg" id="email1" name="email" ng-model="signUp.email" required>
+</div>
+<div class="form-group" ng-class="{'has-error': step1.url.$error && step1.url.$dirty}">
+<label class="control-label" for="url">Custom Url*
+<span class="has-error" ng-show="step1.url.$error.required && step1.url.$dirty">Required! </span>
+<span class="has-error" ng-show="step1.url.badUrl">This Url is already in use</span>
+</label>
+<input type="text" class="form-control input-lg" id="url" name="url" ng-model="signUp.pUrl" required>
+<p class="help-block">https://<strong>yourcompanyname</strong>.sherpadesk.com</p>
+</div>
+<br/>
+<button class="btn btn-success btn-lg btn-block sd-btn-lg" type="submit">Get Started For Free</button>
+</div>
+</form>
+<form name="step2" ng-submit="completeForm(step2.$valid)" novalidate ng-cloak>
+<div ng-if="signUp.stepOneComplete" style="margin-top: -30px;">
+<p>
+&nbsp;<br/><br/>
+</p>
+<div class="form-group" ng-class="{'has-error': step2.firstName.$error.required && step2.firstName.$dirty}">
+<label class="control-label">First Name*
+<span class="has-error" ng-show="step2.firstName.$error.required && step2.firstName.$dirty">Required!</span>
+</label>
+<input type="text" id="first-name" class="form-control input-lg" name="firstName" ng-model="signUp.firstName" required>
+</div>
+<div class="form-group" ng-class="{'has-error': step2.lastName.$error.required && step2.lastName.$dirty}">
+<label class="control-label">Last Name*
+<span class="has-error" ng-show="step2.lastName.$error.required && step2.lastName.$dirty">Required!</span>
+</label>
+<input type="text" class="form-control input-lg" name="lastName" ng-model="signUp.lastName" required>
+</div>
+<div class="form-group" ng-class="{'has-error': step2.password.$error.required && step2.password.$dirty}">
+<label class="control-label" for="url">Password*
+<span class="has-error" ng-show="step2.password.$error.required && step2.password.$dirty">Required!</span>
+</label>
+<input type="password" class="form-control input-lg" name="password" ng-model="signUp.password" required>
+</div>
+<div class="form-group" ng-class="{'has-error': validatePassword() && step2.password2.$dirty}">
+<label class="control-label" for="url">Confirm Password*
+<span class="has-error" ng-show="step2.password2.$error.required && step2.password2.$dirty">Required!</span>
+<span class="has-error" ng-show="validatePassword() && step2.password2.$dirty">Passwords must match!</span>
+</label>
+<input type="password" class="form-control input-lg" name="password2" ng-model="signUp.password2" required>
+</div>
+
+<label>How Did You Hear About Us?</label>
+<select class="form-control input-lg" ng-model="signUp.hearAboutUs" ng-options="about.about for about in heard">
+</select>
+<br/>
+<label>How Many Techs Do You Have?</label>
+<select class="form-control input-lg" ng-model="signUp.numberOfTechs" ng-options="tech.count for tech in techs">
+</select>
+<br/>
+
+<button class="btn btn-success btn-lg btn-block sd-btn-lg"type="submit">Start Your Free Trial Now</button>
+
+</div>
+</form>
+<p class="text-center text-muted small">
+<br/>
+100% privacy guarantee. No Credit Card Required.
+</p>
+<p class="text-center text-muted small" style="padding-top: 10px;">
+By clicking the button above I agree to<br/> <a target="_blank" href="http://sherpadesk.com/privacy-policy/">Terms of Use</a> and <a target="_blank" href="http://sherpadesk.com/privacy-policy/">Privacy Policy</a>.
+</p>
+</div>
+</div>
+</div>
