@@ -1,0 +1,5 @@
+    <button *ngIf="!list.hidden" (click)="open()" class="width100 button-icon-only {{ isbutton? 'blue2 general-alignment2' : 'blue4'}} class-margin disable-hover button button-default">
+    <p [hidden]="isbutton" class="textLogin {{customwidth ? 'min-width150' : 'min-width100'}} text-left">{{list.name}}:</p>
+        <ion-label class="righd select-list">{{list.value}}</ion-label>
+        <ion-icon [hidden]="isbutton" class="padding-right15" name="arrow-down"></ion-icon>
+    </button>

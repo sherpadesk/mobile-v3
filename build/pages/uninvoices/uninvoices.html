@@ -1,0 +1,26 @@
+
+<ion-navbar *navbar><button menuToggle><ion-icon name="menu"></ion-icon></button>
+  <ion-title>Create Invoices {{params.account.id > 0 ? "@ " + params.account.name : ""}}</ion-title>
+</ion-navbar>
+
+<ion-content padding>
+    <img *ngIf="busy" class="imglogo img-padding" src="img/loading2.gif">
+    <div *ngIf="is_empty" class="table grey2 menu-text">No Invoices yet</div>
+    
+    <div>
+    <ion-list class="general-alignment2">
+        <ion-item class="margin" (click)="itemTapped(invoice)" *ngFor="let invoice of invoices">
+    <p class="width45 tkts-table left invoices color">{{setDate(invoice.end_date || invoice.date, true)}}</p> 
+    <h2 class="width55 tkts-table right color">{{invoice.account_name || invoice.customer}}</h2>
+        <p item-right class="text width30 text-right color">{{getCurrency(invoice.total_cost)}}</p>
+        </ion-item>
+        </ion-list>
+
+<ion-infinite-scroll (infinite)="doInfinite($event)" threshold="20%">
+    <ion-infinite-scroll-content
+      loadingSpinner="circles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>       
+</div>
+</ion-content>

@@ -1,0 +1,18 @@
+<ion-menu id="leftMenu" [content]="content">
+
+  <ion-content class="menu-bg">
+      <ion-list no-lines class="subject-ticket">
+          <div *ngFor="let p of pages" (click)="openPage(p)">
+          <button *ngIf="p.is_active" class="menu-bg item-nocenter" ion-item>
+          <i class="ionFont">
+ <ion-icon name="{{p.icon}}"></ion-icon>
+          </i>
+              <h3 class="menu-text">{{p.title}}</h3>
+      </button>
+      </div>
+      </ion-list>
+       </ion-content>
+
+</ion-menu>
+
+<ion-nav id="nav" [root]="rootPage" #content swipe-back-enabled="false"></ion-nav>

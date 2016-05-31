@@ -1,0 +1,37 @@
+
+<ion-navbar *navbar><button menuToggle><ion-icon name="menu"></ion-icon></button>
+  <ion-title>Timelogs {{params.account.id > 0 ? "of " + params.account.name : ""}}</ion-title>
+</ion-navbar>
+
+<ion-content>
+    
+    <ion-list class="list general-alignment2" no-lines>
+    <div *ngIf="!is_empty" class="imgloading"><img [hidden]="timelogs | async" class="imglogo img-padding" src="img/loading2.gif"></div>
+        <ion-item *ngFor="let time of timelogs | async" (click)="itemTapped(time)" class="margin-top0">
+    <ion-avatar item-left>
+        <img *ngIf="time.user_email" [alt]="time.user_firstname" class="img" [src]="time.user_email | Gravatar"/>
+    </ion-avatar>
+            <div>
+ <li class="text-left width65 left">
+    <h2 class="ellipsis color">{{time.user_name}} @ {{setDate(time.date, false, true)}}</h2>
+     <h3 class="timelogs ellipsis color" [innerHTML]="time.note | Linebreaks"></h3>
+     <h3 class="timelogs ellipsis color" *ngIf="!time.is_project_log">{{"#"+time.ticket_number+": "+time.ticket_subject}}</h3></li>
+      <li class="right width30 margin font-time text-right">
+    <ion-icon class="margin color" item-right name="time"></ion-icon>
+    <span class="font-hours color">{{getFixed(time.hours)}}</span>  
+      </li></div>
+  </ion-item>
+    </ion-list> 
+    <div *ngIf="is_empty" class="table grey2 menu-text">No Timelogs yet</div>
+        
+ <ion-infinite-scroll (infinite)="doInfinite($event)" threshold="20%">
+    <ion-infinite-scroll-content
+      loadingSpinner="circles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
+
+<button (click)="itemTapped()" secondary item-right fab fab-right fab-bottom style="z-index: 2"><ion-icon class="button_circle action-but" name="md-add"></ion-icon></button>
+
