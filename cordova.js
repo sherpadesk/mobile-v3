@@ -22,6 +22,10 @@
 var PLATFORM_VERSION_BUILD_LABEL = '4.1.1';
 // file: src/scripts/require.js
 
+/*Fix for safari and desktop*/
+if (localStorage.isPhonegap !== "true")
+    return;
+
 /*jshint -W079 */
 /*jshint -W020 */
 

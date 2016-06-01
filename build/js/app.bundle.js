@@ -49,9 +49,10 @@ var MyApp = (function () {
             if (!tconfig.recent)
                 tconfig.recent = {};
             tconfig.is_tech = tconfig.is_tech || tconfig.user.is_techoradmin || false;
-            tconfig.isPhonegap = tconfig.isPhonegap || tconfig.isPhonegap || false;
-            tconfig.isGoogle = tconfig.isGoogle || tconfig.isGoogle || false;
-            tconfig.username = tconfig.username || tconfig.username || false;
+            tconfig.isPhonegap = tconfig.isPhonegap || false;
+            tconfig.isExtension = tconfig.isExtension || false;
+            tconfig.isGoogle = tconfig.isGoogle || false;
+            tconfig.username = tconfig.username || false;
             if (property)
                 return tconfig[property] || "";
             return tconfig;
@@ -62,6 +63,7 @@ var MyApp = (function () {
             tconfig.user = nconfig.user || current.user || {};
             tconfig.is_tech = nconfig.is_tech || nconfig.user.is_techoradmin || false;
             tconfig.isPhonegap = nconfig.isPhonegap || current.isPhonegap || false;
+            tconfig.isExtension = nconfig.isExtension || current.isExtension || false;
             tconfig.isGoogle = nconfig.isGoogle || current.isGoogle || false;
             tconfig.username = nconfig.username || current.username || false;
             tconfig.stat = nconfig.stat || current.stat || {};
@@ -83,6 +85,7 @@ var MyApp = (function () {
             localStorage.setItem('timeformat', curr.user.time_format || 0);
             localStorage.setItem('currency', curr.currency || "$");
             localStorage.setItem('isPhonegap', curr.isPhonegap || "");
+            localStorage.setItem('isExtension', curr.isExtension || "");
             localStorage.setItem('isGoogle', curr.isGoogle || "");
             localStorage.setItem('username', curr.username || "");
         };
@@ -117,7 +120,7 @@ var MyApp = (function () {
             };
         }, 0);
         config.current = config.getCurrent();
-        config.setCurrent({ "isPhonegap": localStorage.getItem("isPhonegap") === "true" || !!navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) });
+        config.setCurrent({ "isPhonegap": localStorage.getItem("isPhonegap") === "true", "isExtension": window.self !== window.top });
         var key = helpers.getParameterByName('t');
         var email = helpers.getParameterByName('e');
         var platform_string = helpers.getParameterByName('ionicPlatform');
@@ -219,7 +222,7 @@ var MyApp = (function () {
     };
     MyApp.prototype.initializeApp = function () {
         this.platform.ready().then(function () {
-            if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+            if (localStorage.getItem("isPhonegap") === "true") {
                 console.log('cordova ready');
                 ionic_native_1.StatusBar.styleDefault();
             }
@@ -232,8 +235,7 @@ var MyApp = (function () {
         this.menu.close();
         if (!page.component) {
             var curr = this.config.getCurrent();
-            var url = helpers.fullapplink(config_1.AppSite, "", curr.instance, curr.org);
-            window.open(url, "_blank");
+            helpers.fullapplink(config_1.AppSite, "", curr.instance, curr.org);
             return;
         }
         if (page.index) {
@@ -408,7 +410,8 @@ var ActionButtonComponent = (function () {
                     text: 'Add Invoice',
                     role: '',
                     handler: function () {
-                        _this.nav.push(uninvoices_1.UnInvoicesPage);
+                        _this.actionSheet.dismiss().then(function () { return _this.nav.push(uninvoices_1.UnInvoicesPage); });
+                        return false;
                     }
                 });
         }
@@ -429,11 +432,11 @@ var ActionButtonComponent = (function () {
                 console.log('Cancel clicked');
             }
         });
-        var actionSheet = ionic_angular_1.ActionSheet.create({
+        this.actionSheet = ionic_angular_1.ActionSheet.create({
             title: '',
             buttons: but
         });
-        this.nav.present(actionSheet);
+        this.nav.present(this.actionSheet);
     };
     __decorate([
         core_1.Input(), 
@@ -1256,7 +1259,15 @@ function fullapplink(site, ticketkey, inst, org) {
     if (ticketkey)
         url = addp(url, "tkt", ticketkey);
     url = addp(url, "dept", inst);
-    return addp(url, "org", org);
+    url = addp(url, "org", org);
+    if (localStorage.getItem("isPhonegap") === "true")
+        openURLsystem(url);
+    else if (localStorage.getItem("isExtension") === "true") {
+        var origOpenFunc = window.__proto__.open;
+        origOpenFunc.apply(window, [url, "_blank"]);
+    }
+    else
+        window.open(url, "_blank");
 }
 exports.fullapplink = fullapplink;
 function htmlEscape(str) {
@@ -1340,9 +1351,11 @@ exports.FileUrlHelper = {
 function openURL(urlString) {
     return window.open(urlString, '_blank', 'location=no,EnableViewPortScale=yes');
 }
+exports.openURL = openURL;
 function openURLsystem(urlString) {
     return window.open(urlString, '_system');
 }
+exports.openURLsystem = openURLsystem;
 function symbolEscape(str) {
     return String(str)
         .replace(/&lt;br&gt;/gi, "\n")
@@ -3326,7 +3339,7 @@ var TicketDetailsPage = (function () {
     };
     TicketDetailsPage.prototype.getFullapplink = function (ticketkey) {
         var curr = this.config.getCurrent();
-        return helpers_1.fullapplink(config_1.AppSite, ticketkey, curr.instance, curr.org);
+        helpers_1.fullapplink(config_1.AppSite, ticketkey, curr.instance, curr.org);
     };
     TicketDetailsPage.prototype.getFullName = function (firstname, lastname, email, name) {
         return helpers_1.getFullName(firstname, lastname, email, name);
