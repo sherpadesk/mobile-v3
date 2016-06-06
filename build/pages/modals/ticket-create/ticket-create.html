@@ -14,11 +14,11 @@
             <select-list customwidth="true" class="left button-calc" ajax="true" [list]="selects.user" (onChanged)='saveSelect($event)' preload="true"></select-list>
             <div class="width10"><button (click)="addUser('user')" secondary fab class="buttonTicket button-ticket"><ion-icon class="button_circle2" name="md-add"></ion-icon></button>    </div>
         
-        <select-list [list]="selects.account" preload="true" (onChanged)='saveSelect($event)'></select-list>
+        <select-list [list]="selects.account" preload="true" ajax="true" (onChanged)='saveSelect($event)'></select-list>
             
-        <select-list  [list]="selects.location" preload="true" (onChanged)='saveSelect($event)'></select-list>
+        <select-list  [list]="selects.location" preload="true" ajax="true" (onChanged)='saveSelect($event)'></select-list>
        
-        <select-list customwidth="true" class="left button-calc" [list]="selects.tech" preload="true" (onChanged)='saveSelect($event)'></select-list><div width-10><button (click)="addUser('tech')" secondary fab class="buttonTicket button-ticket"><ion-icon class="button_circle2" name="md-add"></ion-icon></button></div>
+        <select-list customwidth="true" class="left button-calc" [list]="selects.tech" ajax="true" preload="true" (onChanged)='saveSelect($event)'></select-list><div width-10><button (click)="addUser('tech')" secondary fab class="buttonTicket button-ticket"><ion-icon class="button_circle2" name="md-add"></ion-icon></button></div>
         
             
         <select-list [list]="selects.project" preload="true" (onChanged)='saveSelect($event)'></select-list>

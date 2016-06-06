@@ -37,7 +37,7 @@
             </ion-item>
  <div class="general-alignment2">     
     
-     <select-list *ngIf="!time.number" [list]="selects.account" preload="true" (onChanged)='saveSelect($event)'></select-list> 
+     <select-list *ngIf="!time.number" [list]="selects.account"  ajax="true" preload="true" (onChanged)='saveSelect($event)'></select-list> 
 
      <select-list *ngIf="!time.number" [list]="selects.project" preload="true" (onChanged)='saveSelect($event)'></select-list> 
 

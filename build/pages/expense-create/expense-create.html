@@ -18,7 +18,7 @@
 <input class="width100 textLogin commentText subject-create" placeholder="Amount" pattern="\d+" ngControl="amount" required #amount="ngForm" [value]="getFixed(expense.amount)"/> 
 <span [hidden]="amount.valid || amount.untouched">Amount should be more than 0</span></div>  
  <div class="class-margin">
-   <select-list *ngIf="!expense.number" [list]="selects.account" preload="true" (onChanged)='saveSelect($event)'></select-list>
+   <select-list *ngIf="!expense.number" [list]="selects.account"  ajax="true" preload="true" (onChanged)='saveSelect($event)'></select-list>
 
    <select-list *ngIf="!expense.number" [list]="selects.project" preload="true" (onChanged)='saveSelect($event)'></select-list>
         </div>    

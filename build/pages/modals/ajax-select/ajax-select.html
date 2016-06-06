@@ -21,6 +21,7 @@
         </ion-item>
 
     </ion-list>
+    <div *ngIf="!is_empty" class="table grey2 menu-text">Type in search field above to find {{name}}(s)</div>
 <div *ngIf="is_empty" class="table grey2 menu-text">No {{name}} found yet</div>
 
 </ion-content>

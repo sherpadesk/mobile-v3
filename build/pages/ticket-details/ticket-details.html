@@ -64,7 +64,7 @@
       
       <select-list preload="true" [list]="selects.tech" (onChanged)='saveSelect($event)'></select-list>
       
-      <select-list preload="true" [list]="selects.location" (onChanged)='saveSelect($event)'></select-list>
+      <select-list preload="true" [list]="selects.location"  ajax="true" (onChanged)='saveSelect($event)'></select-list>
       
       <select-list preload="true" [list]="selects.project" (onChanged)='saveSelect($event)'></select-list>
     <button *ngFor="let customfield of ticket.customfields" class="width100 button-icon-only {{ isbutton? 'blue2 general-alignment2' : 'blue4'}} class-margin disable-hover button button-default">

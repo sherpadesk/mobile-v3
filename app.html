@@ -46,6 +46,13 @@ var descr = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'classList');
 Object.defineProperty(SVGElement.prototype, 'classList', descr);
 }
 
+//preload image
+    var img1 = new Image();
+    img1.src = "img/close.png";
+    //preload image
+    var img2 = new Image();
+    img2.src = "img/loading2.gif";
+
 window.onbeforeunload = function (evt) {
   return;  
 var message = "Are you sure you want to leave? All app cache and unsaved changes will be lost...";
