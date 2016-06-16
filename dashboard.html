@@ -34,6 +34,14 @@ function getParameterByName(name) {
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
+function addp (url, param, value) {
+        if (!url || !value || !param) return url;
+        var pos = url.indexOf(param + '=');
+        if (pos != -1) return url.slice(0, pos + param.length) + '=' + value;
+        var ch = url.indexOf('?') > 0 ? '&' : '?';
+        return url + ch + param + '=' + value;
+ }
+
 function done(isDesktop) {
     if (localStorage.isPhonegap !== "true")
         localStorage.isPhonegap = !!RegExp('[?&]ios_action=').exec(window.location.href);
@@ -53,7 +61,10 @@ function done(isDesktop) {
         localStorage.setItem('loadOrgKey', org);
     }
 
-    window.location.href = "app.html"+(isDesktop ? "?ionicPlatform=ios" : "");
+    var url = "app.html"+ location.search;
+    if(isDesktop)
+        url = addp(url, "ionicPlatform", "ios");
+    window.location.href = url;
     
     /*if (ios_action && ios_action !== "undefined"){
         localStorage.setItem('ios_action', "");
