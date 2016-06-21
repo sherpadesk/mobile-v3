@@ -1,0 +1,48 @@
+
+<ion-navbar *navbar>
+<ion-buttons start>
+    <button menuToggle><ion-icon name="menu"></ion-icon></button>
+      </ion-buttons>
+  <ion-title>Dashboard</ion-title>
+   <ion-buttons end>
+  <ion-searchbar *ngIf="test" [focuser] placeholder="Search Tickets" (cancel)="test = !test" class="blue1back search-dachboard" [ngModel]="searchQuery" [hideCancelButton]="true" (search)="getItems($event)"></ion-searchbar>
+   </ion-buttons>
+   <ion-buttons end>
+    <button danger class="transparent" *ngIf="test" (click)="test = !test"><ion-icon name="ios-close"></ion-icon></button>
+    <button danger class="transparent" *ngIf="!test" (click)="test = !test"><ion-icon name="ios-search"></ion-icon></button>
+    </ion-buttons>
+</ion-navbar>
+
+<ion-content class="dashboard">
+    <ion-list class="list height" no-lines margin-top>
+        <div (click)="itemTappedTL({tab:'tech', count: counts.open_as_tech})" class="width50 left blue3">
+            <ion-item class="mainStat itemTech">{{counts.open_as_tech}}</ion-item>
+     <ion-item class="itemTech">As Tech</ion-item>
+          </div>
+        <div class="width17 right blue3">
+            <ion-item (click)="itemTappedTL({tab:'user', count: counts.open_as_user})" class="itemTech" [innerHTML]="counts.open_as_user | More:[100,'<div class=item-inner><ion-label>VV</ion-label></div>']"></ion-item>
+            <ion-item (click)="itemTappedTL({tab:'alt', count: counts.open_as_alttech})" class="itemTech" [innerHTML]="counts.open_as_alttech | More:[100,'<div class=item-inner><ion-label>VV</ion-label></div>']"></ion-item>
+            <ion-item (click)="itemTappedTL({tab:'all', count: counts.open_all})" class="itemTech" [innerHTML]="counts.open_all | More:[100,'<div class=item-inner><ion-label>VV</ion-label></div>']"></ion-item>
+         </div>
+ <div class="width33 right blue3 dashborder">
+    <ion-item (click)="itemTappedTL({tab:'user', count: counts.open_as_user})" class="itemTech dashboardRight">As User</ion-item>
+    <ion-item (click)="itemTappedTL({tab:'alt', count: counts.open_as_alttech})" class="itemTech dashboardRight">Alt Tech</ion-item>
+    <ion-item (click)="itemTappedTL({tab:'all', count: counts.open_all})" class="itemTech dashboardRight dashboard">All Open</ion-item>
+         </div>
+        <br>
+         </ion-list>
+    <ion-list class="list">
+    <queues-list [queues]="queues"></queues-list>
+    </ion-list>
+    
+    <ion-list class="list">
+        <div *ngIf="accounts?.length" class="table">
+        <span class="box1 box7 box5 box10">&nbsp;&nbsp;&nbsp;</span>
+        <span class="box2 box7 box10">Hours</span>
+        <span class="box3 box7 box10">Expenses</span>
+        <span class="box4 box7 box6 box10">Tkts</span>
+    </div>
+    <accounts-list [accounts]="accounts"></accounts-list>
+    </ion-list>
+</ion-content>
+<action-button></action-button>

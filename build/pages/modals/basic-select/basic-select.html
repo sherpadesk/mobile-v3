@@ -1,0 +1,25 @@
+<ion-toolbar>
+    <ion-buttons start class="searchbar">
+        <button class="width70px" (click)="dismiss()">
+            <span>Cancel</span>
+        </button>
+    </ion-buttons>
+    <ion-searchbar [ngModel]="searchQuery" (input)="getItems($event)" [placeholder]="name" [hideCancelButton]="true"></ion-searchbar>
+    
+</ion-toolbar>
+
+
+<ion-content class="has-header">
+
+    <ion-list class="list">
+        
+        <ion-item class="basic-margin text-left" *ngFor="let item of items" (click)="dismiss(item)">
+            <h2 class="color">{{item.name}}</h2>
+            <!--ion-note item-right>
+                <h2>{{item.id}}</h2>
+            </ion-note-->
+        </ion-item>
+
+    </ion-list>
+<div *ngIf="is_empty" class="table grey2 menu-text">No {{name}} found yet</div>
+</ion-content>
