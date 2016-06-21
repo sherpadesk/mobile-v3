@@ -1,0 +1,12 @@
+<div>
+    <ion-card-content class="container card-content" *ngFor="let post of posts">
+        <div></div>
+        <ion-avatar class="ticketImg left textLogin">
+            <img *ngIf="post.user_email" [alt]="post.user_firstname" class="img" [src]="post.user_email | Gravatar"/>
+        </ion-avatar>
+        <p padding class="tech width35 left name text-avatar">{{getFullName(post.user_firstname, post.user_lastname, post.user_email)}}</p> 
+        <p class="text_list date width35 text-right right margin-right15">{{setDate(post.record_date, true)}}</p> 
+        <p class="text margin left width90 textLogin" [innerHTML]="post.note | Linebreaks| Files : attachments"></p>
+        <ion-item no-lines class="margin resp"><p item-right class="text_list margin-right15 color2">{{post.log_type}}</p></ion-item>
+    </ion-card-content>
+</div>

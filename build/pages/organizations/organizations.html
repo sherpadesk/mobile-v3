@@ -1,0 +1,14 @@
+
+<ion-content padding class="organizations">
+    
+    <ion-list class="list max-width" no-lines>
+ <img class="imglogo img-padding" src="img/logo.png">
+        <div *ngFor="let org of list"> 
+            <ion-item [hidden]="!org.is_expired" class="blue1 org expired" (click)="alertOrg(org.name)">{{org.name}} (Expired)</ion-item>
+            <ion-item [hidden]="org.is_expired" class="blue1 org" (click)="toggle(org)">{{org.name}}  {{org.instances.length == 1 ? org.instances[0].name : '' }}</ion-item>
+            <div *ngIf="org.expanded && org.instances.length > 1">
+                <ion-item *ngFor="let inst of org.instances" (click)="onSelectInst({org: org.key, inst: inst.key})" class="blue2 org2">{{inst.name}}</ion-item>
+            </div>
+        </div>
+    </ion-list>
+</ion-content>

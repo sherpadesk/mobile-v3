@@ -1,0 +1,36 @@
+<ion-toolbar>
+<ion-buttons start class="searchbar">
+<button (click)="dismiss()">
+    <span primary>Cancel</span>
+</button>
+</ion-buttons>
+<ion-title class="ellipsis">Close Ticket #{{ticket.number}} {{ticket.subject}}</ion-title>
+</ion-toolbar>
+
+
+<ion-content class="has-header">
+
+<div class="list max-width700 general-alignment">
+
+    <select-list [list]="selects.resolution" preload="true" (onChanged)='saveSelect($event)'></select-list>
+
+    <select-list [list]="selects.category" preload="true" (onChanged)='saveSelect($event)'></select-list>
+
+    <form #addForm="ngForm" class="response-ticket">
+        
+        <ion-item no-lines class="left toggle-width">
+      <ion-toggle class="toggle" [(ngModel)]="isconfirm" disabled='false'></ion-toggle>
+    </ion-item>
+
+    <p class="left width30 text-toggle">Confirm Now?</p>
+
+    <div class="tooltips">
+        <textarea class="width100 textLogin commentText color" [(ngModel)]="ticketnote" type="text" placeholder="Add closing comments" ngControl="note" #note="ngForm" required maxlength="4000"></textarea>
+        <span [hidden]="note.valid || note.untouched">Note is required and less 5000 chars</span></div>
+        <button secondary 
+        class="button_reply img-top right" [disabled]="!addForm.valid" (click)="onSubmit(addForm)"  type="submit">Close Ticket</button>
+    </form>
+
+</div>
+
+</ion-content>

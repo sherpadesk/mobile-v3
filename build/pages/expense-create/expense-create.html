@@ -1,0 +1,40 @@
+
+<ion-toolbar>
+<ion-buttons>
+        <button (click)="close()">
+            <span primary>Cancel</span>
+        </button>
+    </ion-buttons>
+<ion-title [hidden]="expense.expense_id || expense.number">Create Expense</ion-title>
+<ion-title class="ellipsis" [hidden]="!expense.expense_id || !expense.number">Expense by {{expense.user_name}} @ {{setDate(expense.date, false, true)}}</ion-title>
+<ion-title class="ellipsis" [hidden]="!expense.number">Create Expense to #{{expense.number}} {{expense.subject}}</ion-title>
+</ion-toolbar>
+
+<ion-content class="expense-create">
+  
+<form #addForm="ngForm">
+    <ion-list class="list max-width700 general-alignment" no-lines >
+<div class="tooltips">
+<input class="width100 textLogin commentText subject-create" placeholder="Amount" pattern="\d+" ngControl="amount" required #amount="ngForm" [value]="getFixed(expense.amount)"/> 
+<span [hidden]="amount.valid || amount.untouched">Amount should be more than 0</span></div>  
+ <div class="class-margin">
+   <select-list *ngIf="!expense.number" [list]="selects.account" preload="true" (onChanged)='saveSelect($event)'></select-list>
+
+   <select-list *ngIf="!expense.number" [list]="selects.project" preload="true" (onChanged)='saveSelect($event)'></select-list>
+        </div>    
+<div class="tooltips"> 
+<textarea required [(ngModel)]="expense.note" ngControl="note" #note="ngForm" class="width100 textLogin commentText" type="text" placeholder="Note"  maxlength="4000"></textarea>
+<span [hidden]="note.valid || note.untouched">Note is required and less 4000 chars</span></div>
+    <br>
+<textarea [(ngModel)]="expense.vendor" class="width100 textLogin commentText subject-create" type="text" placeholder="Vendor"></textarea>
+<textarea [(ngModel)]="expense.note_internal" class="width100 textLogin commentText subject-create" type="text" placeholder="Internal Notes"></textarea>
+        <br>
+    <ion-item no-lines class="left toggle-width">
+<ion-toggle class="toggle" [(ngModel)]="isbillable"></ion-toggle></ion-item>
+        <p class="left width30 text-toggle">Billable</p>
+        <div>
+  <button (click)="onSubmit(addForm)" secondary block="" type="submit" [disabled]="!addForm.valid" class="disable-hover button button-default button-block">{{expense.expense_id ? 'Update' : 'Add'}} Expense</button>
+    </div>
+    </ion-list>
+</form>
+</ion-content>
