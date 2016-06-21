@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" /><meta property="og:title" content="SherpaDesk | Track Time and Customer Support Management System"/>  <meta property="og:description" content="SherpaDesk is a help desk solution for all your customer support management needs. Manage tickets, track time, and send invoices easily."/>
+    <link rel="shortcut icon" href="favicon.ico?v=4" type="image/x-icon"/>
+<link rel="apple-touch-icon image_src" href="img/icon.png"/>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>    
+    <title>SherpaDesk</title>
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="css/style.min.css" />
+    
+    <!-- Media query for tablets -->
+    <link rel="stylesheet" href="css/tablet.css" />
+    <!-- Media query for large Screen -->
+    <link rel="stylesheet" href="css/style_LargeScreen.css" />
+    <!-- Fonts -->
+    
+    <!-- Jquery -->
+    <link rel="stylesheet" type="text/css" href="css/error.css"><script src="cordova.js"></script><script src="js/jquery.min.js"></script>
+    
+    <!-- Jquery UI -->
+    
+    
+    <!-- Main.js -->
+    <script src="js/list.js"></script>
+      <script src="js/hammer.1.1.3.js"></script><script src="js/wptr.1.0.js"></script><script src="js/tabs.js"></script><script src="js/index.js"></script>
+    <script src="js/main.min.js"></script>
+    
+    <script src="js/jquery.md5.js"></script>
+    <script src="js/fastclick.js"></script>
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" type="text/css" href="css/ionicons.min.css">
+  </head>
+    <div>
+    <span id="fastclick">
+  <header>
+    <div class="headerContainer">
+      <ul class="topHeader">
+          <li id=goBack><i class="ion-android-arrow-back"></i></li>
+          <li><h1 class="SherpaDesk" id="AD">Loading Account...</h1></li>
+          <li><img class="headerSearchIcon" src="img/search_icon.png"></li>
+      </ul>
+    </div>
+      <div class="errorMessageNeg message"><!--Please enter valid ticket information--></div>
+      <div class="errorMessagePos message"><!--Ticket was Succesfully Created :)--></div>
+  </header>
+  <body class="bodyContent">
+        <div id="ptr"><span class="genericon genericon-next ion-android-refresh"></span></div>
+         <div id="content">
+            <div class="ticket_list">
+                <div class="tabContainer">
+                    <div class="TicketTabs">
+            <ul>
+                <li class="tabHeader" style="width: 31%" id="tab_details">Acc&nbsp;Stat</li>
+                <li>|</li>
+                <li class="tabHeader" style="width: 31%" id="tab_info">Info</li>
+                <li>|</li>
+                <li class="tabHeader" style="width: 34%" id="tab_proj">Projects</li>
+                <!--li>|</li>
+<li class="tabHeader" id="tab_rate">Rate plans</li-->
+            </ul>
+        </div>
+        
+                      
+            
+            <div id="tabpage_details">
+                <div class="accountDetailsContainer"> 
+                    <ul class="OptionsListAccountDetail">
+                        <li>
+                            <a id="openTicketslink" href="#">
+                                <div class="OptionWrapperAccountDetail"><h3 class="OptionTitle"> Open Tickets</h3></div>
+                                <div class="NotificationWrapperAccountDetail notificatio"><h2 id="ticketsOptionTicker">0</h2></div>
+                            </a>
+                        </li>
+                        <li>
+                            <div id="invoiceOption" class="OptionWrapperAccountDetail"><h3 class="OptionTitle">Invoices</h3></div>
+                            <div class="NotificationWrapperAccountDetail notificatio"><h2 id="invoiceOptionTicker">0</h2></div>
+                        </li>
+                        <li class=time>
+                            <a href="accountTimes.html">
+                                <div class="OptionWrapperAccountDetail"><h3 class="OptionTitle">Hours</h3></div>
+                                <div class="NotificationWrapperAccountDetail notificatio"><h2 id="timesOptionTicker">0</h2></div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="expen.html">
+                                <div id="expensesOption" class="OptionWrapperAccountDetail"><h3 class="OptionTitle">Expenses</h3></div>
+                                <div class="NotificationWrapperAccountDetail notificatio"><h2 id="expenseOptionTicker">0</h2></div></a>
+                        </li>
+                    </ul>
+                    <span id="openTickets"></span>
+                    <h4 class="openTicketTitle">OPEN TICKETS</h4>
+                    <div class="AccountDetailsTicketsContainer">
+                    </div> 
+                    <div class="buttonShowClosedTickets paymentButton d0">SHOW CLOSED TICKETS</div>
+                </div>
+            </div>
+            <div class="tabpage" id="tabpage_info">
+                <div class="tabpageContainer tallHeader">                    
+                    <ul class="accountRows item">
+                        <div class="infoAccount" style="width: 90%">Notes:</div><div id="notes" style="display:block;min-height: 40px;"></div>
+                        <li class="infoAccount">BWD Acct#</li><li class="infoAccount">Acc#</li><li id="acc_number" class="accountInfo dots"></li><li class="infoAccount">Ref1#</li><li id="ref1" class="accountInfo dots"></li><li class="infoAccount">Ref2#</li><li id="ref2" class="accountInfo dots"></li><li class="infoAccount">Org/Indiv</li><li id="is_organization" class="accountInfo dots"></li><li class="infoAccount">Acc Rep</li><li id="representative_name" class="accountInfo dots"></li><li class="infoAccount">Internal location</li><li id="internal_location_name" class="accountInfo dots"></li><li class="infoAccount">Email Suffix</li><li id="email_suffix" class="accountInfo dots"></li><li class="infoAccount">Address 1</li><li id="address1" class="accountInfo dots"></li><li class="infoAccount">Address 2</li><li id="address2" class="accountInfo dots"></li><li class="infoAccount">City</li><li id="city"  class="accountInfo dots"></li><li class="infoAccount">Postal Code</li><li id="zipcode" class="accountInfo dots"></li><li class="infoAccount">Country</li><li id="country" class="accountInfo dots"></li><li class="infoAccount">Phone 1</li><li id="phone1" class="accountInfo dots"></li><li class="infoAccount">Phone 2</li><li id="phone2" class="accountInfo dots"></li>
+                    </ul>
+                        <div id="customfields"></div>
+                    <div id="files"></div>
+                    <p id="fill" style="height:100px">&nbsp;</p>
+            </div>
+            </div>
+            <div class="tabpage" id="tabpage_proj">
+                <div class="invoiceShrinker">
+                    <ul class="headerAccount_tabl detailInvoice">
+
+                        <ul class="tableAccount"><li>Open</li><li>Logged</li><li>Remain</li><li>Complete</li></ul>                               </ul>
+                    <div id="projects_account"></div>
+
+                    <ul class="invoiceDetail detailInvoice">
+
+                        <a href="addExpence.html"><li class="detail3Short d0">
+                            <span class="circlePencil"><i class="ion-record circleIn ionP"></i><i class="editPencil ion-edit circleIn ionPencil"></i></span>
+                            </li></a>
+                    </ul>
+
+                        </div>
+            </div>
+
+            <div class="tabpage" id="tabpage_rate">
+                <div id="altContainer" class="tabpageContainer altContainer">
+                </div>
+            </div>
+        </div>
+        </div>
+  </div>
+  </body>
+      <div id="dashboardCreate" class="createButton"><span class="circlePlus"><i class="ion-record circle fa-b"></i><i class="ion-plus-circled circle fa-f"></i></span></div>
+        <div id="loading" style="top:53px;"><div class="loadScreen">Loading...<br><i class="icon ion-load-c loadSpin ion-3x"></i></div></div>
+</span>
+  </html>

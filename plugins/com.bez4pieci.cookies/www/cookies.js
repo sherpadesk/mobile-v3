@@ -1,4 +1,5 @@
-cordova.define("com.bez4pieci.cookies.cookies", function(require, exports, module) { 
+cordova.define("com.bez4pieci.cookies.cookies", function(require, exports, module) {
+
 /*
  * Copyright 2013 Ernests Karlsons
  * https://github.com/bez4pieci

@@ -1,62 +1,103 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <link rel="apple-touch-icon" href="img/icon.png"/>
-    <link rel="apple-touch-startup-image" href="img/profile_2.png" />
+    <meta charset="utf-8" /><meta property="og:title" content="SherpaDesk | Track Time and Customer Support Management System"/>  <meta property="og:description" content="SherpaDesk is a help desk solution for all your customer support management needs. Manage tickets, track time, and send invoices easily."/>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
     <title>SherpaDesk</title>
-      <style>
+    <style>
+        .loginLogo {
+            width: 80%;
+            margin: 40px auto -160px;
+            display: block;
+            max-width: 390px;
+        }
         body {
             background: #34495e;
             background-repeat: no-repeat;
         }
+        .Absolute-Center {
+            margin: auto;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+        }
       </style>
-    <!-- Main stylesheet -->
-    <link rel="stylesheet" href="css/style.min.css" />
-    <!-- Media query for tablets -->
-    <link rel="stylesheet" href="css/tablet.css" />
-    <!-- Jquery -->
-    <script src="js/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/error.css">
-    <script src="cordova.js"></script>
-    <!-- Main.js -->
-    <script src="js/main.min.js"></script>
-    <!-- Fonts & Icons -->
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+      <script type="text/javascript">
+
+var isPhonegap = false;
+
+
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.href);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function addp (url, param, value) {
+        if (!url || !value || !param) return url;
+        var pos = url.indexOf(param + '=');
+        if (pos != -1) return url.slice(0, pos + param.length) + '=' + value;
+        var ch = url.indexOf('?') > 0 ? '&' : '?';
+        return url + ch + param + '=' + value;
+ }
+
+function done(isDesktop) {
+    if (localStorage.isPhonegap !== "true")
+        localStorage.isPhonegap = !!RegExp('[?&]ios_action=').exec(window.location.href);
+    var ios_action = getParameterByName('ios_action') || localStorage.getItem('ios_action');
+    if (ios_action && ios_action != "undefined"){
+        //cleanQuerystring();
+        ios_action = ios_action.replace('#', '?');
+        localStorage.setItem('ios_action', ios_action);
+        console.log("initial ios action: " + ios_action);
+    }
+    var ticket = getParameterByName('ticket');
+    var org = getParameterByName('org');
+    if (ticket) {
+        localStorage.setItem('loadTicketNumber', ticket || "");
+    }
+    if (org) {
+        localStorage.setItem('loadOrgKey', org);
+    }
+
+    var url = "app.html"+ location.search;
+    if(isDesktop)
+        url = addp(url, "ionicPlatform", "ios");
+    window.location.href = url;
+    
+    /*if (ios_action && ios_action !== "undefined"){
+        localStorage.setItem('ios_action', "");
+        window.location = ios_action;
+        return;
+    }
+
+    ticket = localStorage.loadTicketNumber; 
+
+    if (ticket) {
+        localStorage.loadTicketNumber = '';
+        localStorage.setItem('ticketNumber', ticket);
+        window.location = "ticket_list.html";
+        return;
+    }
+    
+    window.location = localStorage.getItem('userRole') === "tech" ? "dashboard.html" : "ticket_list.html";
+    */
+}
+
+function handleOpenURL(url) {
+    localStorage.setItem('ios_action', url.substring(13));
+    console.log("initial url: " + url);
+}
+
+
+    //Main Method that calls all the functions for the app
+if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/))
+    window.onload = function () {setTimeout(done, 200);};
+else
+    done(true);
+        </script>
   </head>
-    <div class="overflow">
-      <!-- <div class="splashScreen">
-        <div class="splashImgContainer">
-          <img class="splashScreenSherpa" src="img/sherpaDesk-logo-final.png">
-        </div>
-        <img class="splashScreenLogo" src="img/logo.png">
-      </div> -->
-  <body class="loginScreen">
-      <div class="errorMessageNeg"><!--Please enter valid ticket information--></div>
-      <div class="errorMessagePos"><!--Ticket was Succesfully Created :)--></div>
-    <div class="bodyContentCoverLogin">
-    <div class="bodyContent">
-      <img class="loginLogo" src="img/logo.png">
-      <div class="loginContent">
-        <p id="errorMessage"></p>
-      <input id="userName"class="textInputSmall" type="email"  wrap="off" placeholder="email"></input>
-      <input id="password"class="textInputSmall" type="password" wrap="off" placeholder="password"></input>
-      <div id="loginButton" class="loginButton">Login</div>
-      <ul class="googleStripes">
-        <li></li><li></li><li></li><li></li>
-      </ul>
-          <div class="googleButton" id="sign_in_with_google">Sign in with <strong>Google</strong></div>
-        <div class="loginButton" style="background: rgba(52, 152, 219, 0.7)" id="login_signup">Start a New SherpaDesk Organization</div>
-      </div>
-      <form class="google_openid" method="POST">  </form>
-    </div>
-    </div>
-  </body>
-    <div id="loading"><div class="loadScreen"><i class="fa fa-circle-o-notch fa-spin fa-3x"></i></div></div>
-  </div>
-  </div>
+    <body class=""><img id=preload class=Absolute-Center src=img/loading2.gif alt="Loading..."><!--
+    </body>
 </html>

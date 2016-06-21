@@ -1,0 +1,20 @@
+{
+"combineOnSave": false,
+"combine": [
+{
+"output": "js/main.min.js",
+"files": [
+"js/server.js",
+"js/commonfunc.js",
+"js/main.js"
+]
+},
+{
+"output": "js/initial.min.js",
+"files": [
+"js/commonfunc.js",
+"js/initial.js"
+]
+}
+]
+}
