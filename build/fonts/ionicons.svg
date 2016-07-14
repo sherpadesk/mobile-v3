@@ -1,11 +1,11 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <!--
-2016-6-22: Created with FontForge (http://fontforge.org)
+2016-6-9: Created with FontForge (http://fontforge.org)
 -->
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
 <metadata>
-Created by FontForge 20150828 at Wed Jun 22 07:18:49 2016
+Created by FontForge 20150828 at Thu Jun  9 09:34:23 2016
  By Евгений
 Copyright (c) 2016, &#208;&#149;&#208;&#178;&#208;&#179;&#208;&#181;&#208;&#189;&#208;&#184;&#208;&#185;
 </metadata>
@@ -35,15 +35,6 @@ d="M256 184h-120v-120h-16v120h-120v16h120v120h16v-120h120v-16z" />
 d="M192 320l-127 -128l127 -128l-32 -32l-160 160v0v0l160 160z" />
     <glyph glyph-name="ion-ios-arrow-down" unicode="&#xf3d0;" horiz-adv-x="320" 
 d="M32 288l128 -127l128 127l32 -32l-160 -160v0v0l-160 160z" />
-    <glyph glyph-name="ion-ios-arrow-forward" unicode="&#xf106;" horiz-adv-x="192" 
-d="M127 192l-127 128l32 32l160 -160v0v0l-160 -160l-32 32z" />
-    <glyph glyph-name="ion-ios-calculator-outline" unicode="&#xf103;" horiz-adv-x="288" 
-d="M32 288v64h224v-64h-224zM48 336v-32h192v32h-192zM256 384c18 0 32 -14 32 -32v-320c0 -18 -14 -32 -32 -32h-224c-18 0 -32 14 -32 32v320c0 18 14 32 32 32h224zM272 32v320c0 9 -7 16 -16 16h-224c-9 0 -16 -7 -16 -16v-320c0 -9 7 -16 16 -16h224c9 0 16 7 16 16z
-M48 208h32h16v-16h-64v64h16v-16v-32zM48 128h32h16v-16h-64v64h16v-16v-32zM48 48h32h16v-16h-64v64h16v-16v-32zM128 208h32h16v-16h-64v64h16v-16v-32zM208 208h32h16v-16h-64v64h16v-16v-32zM128 128h32h16v-16h-64v64h16v-16v-32zM128 48h32h16v-16h-64v64h16v-16v-32z
-M208 48h32h16v-16h-64v144h16v-96v-32z" />
-    <glyph glyph-name="ion-ios-calculator" unicode="&#xf104;" horiz-adv-x="288" 
-d="M256 384c18 0 32 -14 32 -32v-320c0 -18 -14 -32 -32 -32h-224c-18 0 -32 14 -32 32v320c0 18 14 32 32 32h224zM248 168h-48v-128h48v128zM248 248h-48v-48h48v48zM168 88h-48v-48h48v48zM168 168h-48v-48h48v48zM168 248h-48v-48h48v48zM88 88h-48v-48h48v48zM88 168
-h-48v-48h48v48zM88 248h-48v-48h48v48zM40 296h208v48h-208v-48z" />
     <glyph glyph-name="ion-ios-card-outline" unicode="&#xf141;" horiz-adv-x="416" 
 d="M384 336c18 0 32 -14 32 -32v-224c0 -18 -14 -32 -32 -32h-352c-18 0 -32 14 -32 32v224c0 18 14 32 32 32h352zM32 320c-9 0 -16 -7 -16 -16v-32h384v32c0 9 -7 16 -16 16h-352zM400 256h-384v-48h384v48zM384 64c9 0 16 7 16 16v112h-384v-112c0 -9 7 -16 16 -16h352z
 M48 112v16h32v-16h-32zM112 112v16h192v-16h-192z" />
@@ -153,11 +144,6 @@ d="M320 171h-139v-139h-42v139h-139v42h139v139h42v-139h139v-42z" />
 d="M342 213v-42h-260l119 -120l-30 -30l-171 171l171 171l31 -30l-120 -120h260z" />
     <glyph glyph-name="ion-md-arrow-down" unicode="&#xf27e;" horiz-adv-x="342" 
 d="M192 363v-260l120 120l30 -31l-171 -171l-171 171l30 30l120 -119v260h42z" />
-    <glyph glyph-name="ion-md-arrow-forward" unicode="&#xf107;" horiz-adv-x="342" 
-d="M0 171v42h260l-119 120l30 30l171 -171l-171 -171l-31 30l120 120h-260z" />
-    <glyph glyph-name="ion-md-calculator" unicode="&#xf105;" horiz-adv-x="320" 
-d="M272 400c27 0 48 -22 48 -48v-320c0 -26 -22 -48 -48 -48h-224c-27 0 -48 22 -48 48v320c0 26 21 48 48 48h224zM104 32v48h-48v-48h48zM104 120v48h-48v-48h48zM104 208v48h-48v-48h48zM184 32v48h-48v-48h48zM184 120v48h-48v-48h48zM184 208v48h-48v-48h48zM264 32
-v136h-48v-136h48zM264 208v48h-48v-48h48zM264 304v48h-208v-48h208z" />
     <glyph glyph-name="ion-md-card" unicode="&#xf2b3;" horiz-adv-x="448" 
 d="M403 368c25 0 45 -20 45 -44v-264c0 -24 -20 -44 -45 -44h-358c-25 0 -45 20 -45 44v264c0 24 20 44 45 44h358zM403 60v132h-358v-132h358zM403 280v44h-358v-44h358z" />
     <glyph glyph-name="ion-md-checkmark-circle-outline" unicode="&#xf2ba;" horiz-adv-x="416" 
