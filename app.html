@@ -138,6 +138,7 @@ img1.src = "img/close.png";
     img2.src = "img/loading2.gif";
 
     window.onbeforeunload = function (evt) {
+      if (window.dash || "")
       localStorage.setItem("dash_cache", window.dash || ""); 
       return;  
       var message = "Are you sure you want to leave? All app cache and unsaved changes will be lost...";
