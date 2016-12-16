@@ -1,11 +1,11 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <!--
-2016-10-27: Created with FontForge (http://fontforge.org)
+2016-12-12: Created with FontForge (http://fontforge.org)
 -->
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
 <metadata>
-Created by FontForge 20150828 at Thu Oct 27 10:19:52 2016
+Created by FontForge 20150828 at Mon Dec 12 13:48:36 2016
  By Евгений
 Copyright (c) 2016, &#208;&#149;&#208;&#178;&#208;&#179;&#208;&#181;&#208;&#189;&#208;&#184;&#208;&#185;
 </metadata>
@@ -111,6 +111,10 @@ c10 26 37 39 64 38c26 -1 51 -16 59 -42c4 -12 3 -26 1 -39c-1 -5 -2 -11 -4 -15c10 
 c-1 -2 -6 -11 -7 -11h-80c0 20 12 34 30 40c6 2 27 4 30 11c2 5 1 11 1 16c-10 -1 -24 1 -32 7c-2 2 3 9 4 12c1 4 2 7 3 11c1 9 1 19 1 28c0 16 -1 35 8 49c8 13 23 18 38 18c24 0 43 -13 47 -37c3 -16 1 -32 2 -48c0 -8 2 -16 5 -24c1 -2 5 -7 3 -9l-6 -3
 c-5 -2 -11 -3 -17 -4c-1 0 -8 0 -9 -1s0 -9 0 -11c0 -4 1 -6 5 -7c6 -2 19 -3 23 -8c2 -3 1 -5 -2 -5c-7 -1 -14 -2 -21 -5h-1c-8 -4 -4 -2 -1 0zM417 136c18 -6 31 -20 31 -40h-80c-2 8 -10 14 -16 19c-8 6 -18 13 -28 15c-3 1 -16 -1 -13 5c2 4 9 5 13 6s15 2 16 7
 c0 1 1 14 0 14c-6 0 -12 1 -18 2c-4 1 -7 2 -11 4c-6 3 -2 6 0 11c14 32 -10 88 32 105c15 6 34 5 48 -3c15 -9 20 -27 20 -44c0 -20 -4 -44 7 -62c2 -3 4 -4 0 -6c-2 -1 -4 -1 -6 -2l-12 -3s-9 -1 -13 -1c0 -4 -2 -13 1 -17c6 -7 21 -7 29 -10z" />
+    <glyph glyph-name="ion-ios-radio-button-off" unicode="&#xf103;" horiz-adv-x="416" 
+d="M208 400c115 0 208 -93 208 -208s-93 -208 -208 -208s-208 93 -208 208s93 208 208 208zM208 1c105 0 191 86 191 191s-86 191 -191 191s-191 -86 -191 -191s86 -191 191 -191z" />
+    <glyph glyph-name="ion-ios-radio-button-on" unicode="&#xf104;" horiz-adv-x="416" 
+d="M208 400c115 0 208 -93 208 -208s-93 -208 -208 -208s-208 93 -208 208s93 208 208 208zM208 1c105 0 191 86 191 191s-86 191 -191 191s-191 -86 -191 -191s86 -191 191 -191zM208 352c88 0 160 -72 160 -160s-72 -160 -160 -160s-160 72 -160 160s72 160 160 160z" />
     <glyph glyph-name="ion-ios-remove-circle-outline" unicode="&#xf1fa;" horiz-adv-x="416" 
 d="M208 400c115 0 208 -93 208 -208s-93 -208 -208 -208s-208 93 -208 208s93 208 208 208zM208 1c105 0 191 86 191 191s-86 191 -191 191s-191 -86 -191 -191s86 -191 191 -191zM80 200h256v-17h-256v17z" />
     <glyph glyph-name="ion-ios-remove-circle" unicode="&#xf1fb;" horiz-adv-x="416" 
