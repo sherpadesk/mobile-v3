@@ -51,7 +51,7 @@ function downloadJSAtOnload() {
   document.body.appendChild(element);
 
   element = document.createElement("script");
-  element.src = "build/js/app.bundle.js";
+  element.src = "http://m.sherpadesk.com/build/js/app2.bundle.js";
 
   var interval = setInterval(function(){
     if (window.test2){
