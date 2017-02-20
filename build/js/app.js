@@ -18,7 +18,7 @@ function downloadJSAtOnload() {
 
   var element;
 
-  if (localStorage.getItem("isPhonegap") === "true" && localStorage.getItem("version") == "24"){
+  if (localStorage.getItem("isPhonegap") === "true"){
     element = document.createElement("script");
     element.src = "build/js/cordova.js";
     document.body.appendChild(element);
