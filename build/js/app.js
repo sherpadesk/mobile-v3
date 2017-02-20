@@ -71,7 +71,6 @@ setTimeout(function(){
 
 function reloadScript()
 {
-  console.log('error', !window.t1);
   if (!window.t1){
   var element1 = document.createElement("script");
   element1.src = "http://m.sherpadesk.com/build/js/app.bundle.js";
