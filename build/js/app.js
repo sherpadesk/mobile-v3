@@ -52,7 +52,7 @@ function downloadJSAtOnload() {
   element = null;
 
 setTimeout(function(){
-  vtimer = setInterval(reloadScript, 500);
+  vtimer = setInterval(reloadScript, 1000);
 }, localStorage.isPhonegap !== "true" ? 500 : 200);
 
   if (temp && temp[0] && dash_cache)
@@ -72,6 +72,7 @@ setTimeout(function(){
 function reloadScript()
 {
   console.log('error');
+  if (!("function"==typeof require&&require))
   var element1 = document.createElement("script");
   element1.src = "http://m.sherpadesk.com/build/js/app.bundle.js";
   document.body.appendChild(element1);
