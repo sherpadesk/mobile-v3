@@ -71,15 +71,13 @@ setTimeout(function(){
 
 function reloadScript()
 {
-  console.log('error');
-  if (!("function"==typeof require&&require)){
+  console.log('error', !window.t1);
+  if (!window.t1){
   var element1 = document.createElement("script");
-  element1.src = "http://m.sherpadesk.com/build/js/app.bundle.js";
+  element1.src = "build/js/app.bundle.js";
   document.body.appendChild(element1);
   element1 = null;
 }
-else
-clearInterval(vtimer);
 }
 
 function checksloaded(){
