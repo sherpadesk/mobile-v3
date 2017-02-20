@@ -55,7 +55,7 @@ function downloadJSAtOnload() {
   setTimeout( function(){
 document.body.appendChild(element);
 element = null;
-}, 100);
+}, 500);
 
   if (temp && temp[0] && dash_cache)
     stimer = setInterval( function(){
