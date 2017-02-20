@@ -1,4 +1,4 @@
-var stimer, element1;
+var stimer;
 
 function downloadJSAtOnload() {
 
@@ -51,9 +51,6 @@ function downloadJSAtOnload() {
 
   element = null;
 
-  element1 = document.createElement("script");
-  element1.src = "http://m.sherpadesk.com/build/js/app.bundle.js";
-
   setTimeout(reloadScript, 200);
 
   if (temp && temp[0] && dash_cache)
@@ -73,7 +70,10 @@ function downloadJSAtOnload() {
 function reloadScript()
 {
   console.log("error");
+  var element1 = document.createElement("script");
+  element1.src = "http://m.sherpadesk.com/build/js/app.bundle.js";
   document.body.appendChild(element1);
+  element1 = null;
 }
 
 function checksloaded(){
