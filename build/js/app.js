@@ -1,4 +1,4 @@
-var stimer;
+var stimer, vtimer;
 
 function downloadJSAtOnload() {
 
@@ -51,7 +51,9 @@ function downloadJSAtOnload() {
 
   element = null;
 
-  setTimeout(reloadScript, 200);
+setTimeout(function(){
+  vtimer = setInterval(reloadScript, 500);
+}, localStorage.isPhonegap !== "true" ? 500 : 200);
 
   if (temp && temp[0] && dash_cache)
     stimer = setInterval( function(){
@@ -63,15 +65,15 @@ function downloadJSAtOnload() {
   dash_cache = null;
   loading2 = null;
 }
-}, 200);
+}, 500);
 
 }
 
 function reloadScript()
 {
-  console.log("error");
+  console.log('error');
   var element1 = document.createElement("script");
-  element1.src = "http://m.sherpadesk.com/build/js/app.bundle.js";
+  element1.src = "build/js/app.bundle.js";
   document.body.appendChild(element1);
   element1 = null;
 }
