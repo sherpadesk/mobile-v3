@@ -1,4 +1,4 @@
-var stimer;
+var stimer, element1;
 
 function downloadJSAtOnload() {
 
@@ -49,13 +49,12 @@ function downloadJSAtOnload() {
   element.src = "build/js/vendor.bundle.js";
   document.body.appendChild(element);
 
-  element = document.createElement("script");
-  element.src = "http://m.sherpadesk.com/build/js/app.bundle.js";
+  element = null;
 
-  setTimeout( function(){
-document.body.appendChild(element);
-element = null;
-}, 500);
+  element1 = document.createElement("script");
+  element1.src = "http://m.sherpadesk.com/build/js/app.bundle.js";
+
+  setTimeout(reloadScript, 200);
 
   if (temp && temp[0] && dash_cache)
     stimer = setInterval( function(){
@@ -69,6 +68,12 @@ element = null;
 }
 }, 200);
 
+}
+
+function reloadScript()
+{
+  console.log("error");
+  document.body.appendChild(element1);
 }
 
 function checksloaded(){
