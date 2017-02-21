@@ -1,6 +1,15 @@
 var stimer, vtimer;
 
+function check()
+{
+  var el = document.getElementsByTagName("ion-app1");
+  if (el && el[0])
+    location.reload();
+}
+
 function downloadJSAtOnload() {
+
+  setTimeout(check, 15000);
 
   var temp = document.getElementsByTagName("ion-app1");
   
