@@ -1,4 +1,4 @@
-var stimer, vtimer;
+var vtimer;
 
 function check()
 {
@@ -72,7 +72,12 @@ element.src = "build/js/zone.min.js";
 document.body.appendChild(element);
 
 element = document.createElement( "link" );
-element.href = "http://m.sherpadesk.com/build/css/app.ios.css";
+element.href = "build/css/app.ios.css";
+element.rel = "stylesheet";
+document.body.appendChild(element);
+
+element = document.createElement( "link" );
+element.href = "http://m.sherpadesk.com/build/css/my.css";
 element.rel = "stylesheet";
 document.body.appendChild(element);
 
@@ -87,16 +92,14 @@ setTimeout(function(){
 }, localStorage.isPhonegap !== "true" ? 500 : 200);
 
 if (temp && temp[0] && dash_cache)
-  stimer = setInterval( function(){
-    if (checksloaded())
-    {
-      clearInterval(stimer);
+{
+  setTimeout(function(){
       temp[0].innerHTML = loading2 + dash_cache;
       temp = null;
       dash_cache = null;
       loading2 = null;
-    }
-  }, 500);
+    }, 500);
+}
 
 }
 
@@ -108,16 +111,6 @@ function reloadScript()
     document.body.appendChild(element1);
     element1 = null;
   }
-}
-
-function checksloaded(){
-  var ss = document.styleSheets;
-  for (var i = 0, max = ss.length; i < max; i++) {
-    if (ss[i].href == "http://m.sherpadesk.com/build/css/app.ios.css"){
-      return true;
-    }
-  }
-  return false;
 }
 
 if (window.addEventListener)
