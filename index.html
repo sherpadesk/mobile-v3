@@ -64,6 +64,10 @@ function done(isDesktop) {
     var url = "app.html"+ location.search;
     if(isDesktop)
         url = addp(url, "ionicPlatform", "ios");
+
+    if ("file:" !== window.location.protocol && "https:" !== window.location.protocol && "localhost" !== window.location.hostname)
+        url = "https://m.sherpadesk.com/" + url;
+
     window.location.href = url;
     
     /*if (ios_action && ios_action !== "undefined"){
