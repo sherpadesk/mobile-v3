@@ -44,7 +44,7 @@ function addp (url, param, value) {
 
 function done(isDesktop) {
     if (localStorage.isPhonegap !== "true")
-        localStorage.isPhonegap = !!RegExp('[?&]ios_action=').exec(window.location.href);
+        localStorage.isPhonegap = !!RegExp('[?&]ios_action=').exec(window.location.href) || !!navigator.userAgent.match(/(Android)/);
     var ios_action = getParameterByName('ios_action') || localStorage.getItem('ios_action');
     if (ios_action && ios_action != "undefined"){
         //cleanQuerystring();
