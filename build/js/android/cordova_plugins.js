@@ -1,13 +1,5 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
-{
-        "file": "plugins/de.appplant.cordova.plugin.badge/www/badge.js",
-        "id": "de.appplant.cordova.plugin.badge.Badge",
-        "clobbers": [
-            "plugin.notification.badge",
-            "cordova.plugins.notification.badge"
-        ]
-    },
     {
         "file": "plugins/nl.x-services.plugins.launchmyapp/www/android/LaunchMyApp.js",
         "id": "nl.x-services.plugins.launchmyapp.LaunchMyApp",
@@ -38,16 +30,10 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-whitelist/whitelist.js",
-        "id": "cordova-plugin-whitelist.whitelist",
-        "runs": true
-    },
-    {
-        "file": "plugins/de.appplant.cordova.plugin.background-mode/www/background-mode.js",
-        "id": "de.appplant.cordova.plugin.background-mode.BackgroundMode",
+        "file": "plugins/cordova-plugin-device/www/device.js",
+        "id": "cordova-plugin-device.device",
         "clobbers": [
-            "cordova.plugins.backgroundMode",
-            "plugin.backgroundMode"
+            "device"
         ]
     }
 ];
@@ -57,10 +43,7 @@ module.exports.metadata =
     "nl.x-services.plugins.launchmyapp": "3.2.0",
     "org.apache.cordova.inappbrowser": "0.6.0",
     "org.apache.cordova.network-information": "0.2.15",
-    "cordova-plugin-whitelist": "1.0.0",
-    "de.appplant.cordova.plugin.badge": "0.6.4",
-    "de.appplant.cordova.plugin.background-mode": "0.6.4",
-    "de.appplant.cordova.common.registerusernotificationsettings": "1.0.1"
+    "cordova-plugin-device": "1.0.1"
 }
 // BOTTOM OF METADATA
 });
