@@ -1,4 +1,5 @@
-cordova.define("org.apache.cordova.network-information.network", function(require, exports, module) { /*
+cordova.define("cordova-plugin-network-information.network", function(require, exports, module) {
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -26,7 +27,9 @@ var exec = require('cordova/exec'),
 // Link the onLine property with the Cordova-supplied network info.
 // This works because we clobber the navigator object with our own
 // object in bootstrap.js.
-if (typeof navigator != 'undefined') {
+// Browser platform do not need to define this property, because
+// it is already supported by modern browsers
+if (cordova.platformId !== 'browser' && typeof navigator != 'undefined') {
     utils.defineGetter(navigator, 'onLine', function() {
         return this.connection.type != 'none';
     });

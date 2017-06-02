@@ -1,4 +1,5 @@
-cordova.define("org.apache.cordova.network-information.Connection", function(require, exports, module) { /*
+cordova.define("cordova-plugin-device-orientation.CompassError", function(require, exports, module) {
+/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -20,17 +21,17 @@ cordova.define("org.apache.cordova.network-information.Connection", function(req
 */
 
 /**
- * Network status
+ *  CompassError.
+ *  An error code assigned by an implementation when an error has occurred
+ * @constructor
  */
-module.exports = {
-        UNKNOWN: "unknown",
-        ETHERNET: "ethernet",
-        WIFI: "wifi",
-        CELL_2G: "2g",
-        CELL_3G: "3g",
-        CELL_4G: "4g",
-        CELL:"cellular",
-        NONE: "none"
+var CompassError = function(err) {
+    this.code = (err !== undefined ? err : null);
 };
+
+CompassError.COMPASS_INTERNAL_ERR = 0;
+CompassError.COMPASS_NOT_SUPPORTED = 20;
+
+module.exports = CompassError;
 
 });
