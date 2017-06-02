@@ -52,11 +52,8 @@ function done(isDesktop) {
         if (ios_action == "true")
         {
            localStorage.setItem('isIos', "true");
-        }
-        else
-        {    
+        }    
         localStorage.setItem('ios_action', ios_action);
-        }
         console.log("initial ios action: " + ios_action);
     }
     var ticket = getParameterByName('ticket');
