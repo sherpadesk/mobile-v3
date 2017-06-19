@@ -277,14 +277,17 @@ var MyApp = (function () {
     MyApp.prototype.onLine = function (isOnline) {
         var _this = this;
         if (this.is_offline != !isOnline) {
-            this.nav.alert(!isOnline ? "Sorry! You are offline now. Please check your internet connection!" : "Hey! You online now! Try again your action", !isOnline);
+            if (this.offlineTimer && this.offlineTimer.runCount >= 1)
+                this.nav.alert(!isOnline ? "Sorry! You are offline now. Please check your internet connection!" : "Hey! You online now! Try again your action", !isOnline);
             if (localStorage.getItem("isPhonegap") !== "true") {
                 if (!isOnline) {
                     clearInterval(this.offlineTimer);
+                    this.offlineTimer = null;
                     this.offlineTimer = setInterval(function () { return _this.checkConnection(); }, 10 * 1000);
                 }
                 else {
                     clearInterval(this.offlineTimer);
+                    this.offlineTimer = null;
                 }
             }
         }
@@ -3057,7 +3060,7 @@ var LoginPage = (function () {
         helpers_1.openURLsystem("https://support." + config_1.Site + "portal/");
     };
     LoginPage.prototype.onGoogleSignin = function () {
-        window.location.href = config_1.ApiSite + 'auth/auth0' + (localStorage.getItem("isPhonegap") === "true" ? ("?ios_action=" + localStorage.isIos) : "");
+        window.location.href = config_1.ApiSite + 'auth/auth0' + (localStorage.getItem("isPhonegap") === "true" ? ("?ios_action=" + (localStorage.isIos || localStorage.isIosStatus || "")) : "");
     };
     LoginPage.prototype.onSignup = function () {
         this.nav.push(signup_1.SignupPage, null, { animation: "wp-transition" });
