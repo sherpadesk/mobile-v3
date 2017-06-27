@@ -17307,4 +17307,49 @@
 
 </body>
 <1script src="https://latest-swc.cdn.skype.com/sdk/v1/sdk.js"></script>
+<script>
+    function notification_clicked()
+{
+    setTimeout(notification.close.bind(notification), 5000); 
+    window.open("https://join.skype.com/o3pr0IF1SX5j", "_blank");
+}
+
+var notification;
+
+const title = 'New Chat created!';
+const options = {
+  body: 'Join ticket #6810 Chat, url: https://join.skype.com/o3pr0IF1SX5j',
+  icon: 'img/appicon.png',
+  badge: 'skype_chat.jpg'
+};
+
+function notifyMe() {
+  // Let's check if the browser supports notifications
+  if (!("Notification" in window)) {
+    alert("This browser does not support system notifications");
+  }
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    notification = new Notification(title, options);
+    notification.addEventListener('click', notification_clicked);
+  }
+
+  // Otherwise, we need to ask the user for permission
+  else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        notification = new Notification(title, options);
+        notification.addEventListener('click', notification_clicked);
+      }
+    });
+  }
+  // Finally, if the user has denied notifications and you 
+  // want to be respectful there is no need to bother them any more.
+}
+window.onload = notifyMe;
+
+</script>
 </html>
