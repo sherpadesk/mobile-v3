@@ -1,13 +1,13 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <!--
-2016-12-12: Created with FontForge (http://fontforge.org)
+2017-8-10: Created with FontForge (http://fontforge.org)
 -->
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
 <metadata>
-Created by FontForge 20150828 at Mon Dec 12 13:48:36 2016
+Created by FontForge 20150828 at Thu Aug 10 12:29:40 2017
  By Евгений
-Copyright (c) 2016, &#208;&#149;&#208;&#178;&#208;&#179;&#208;&#181;&#208;&#189;&#208;&#184;&#208;&#185;
+Copyright (c) 2017, &#208;&#149;&#208;&#178;&#208;&#179;&#208;&#181;&#208;&#189;&#208;&#184;&#208;&#185;
 </metadata>
 <defs>
 <font id="Ionicons" horiz-adv-x="384" >
@@ -91,6 +91,10 @@ d="M384 64h-384v242l131 -100l-68 -77l2 -2l79 70l48 -37l48 37l79 -70l2 2l-68 77l1
 d="M0 304h384v-16h-384v16zM0 200h384v-16h-384v16zM0 96h384v-16h-384v16z" />
     <glyph glyph-name="ion-ios-menu" unicode="&#xf1c3;" 
 d="M0 304h384v-32h-384v32zM0 208h384v-32h-384v32zM0 112h384v-32h-384v32z" />
+    <glyph glyph-name="ion-ios-navigate-outline" unicode="&#xf105;" horiz-adv-x="448" 
+d="M448 416l-192 -448v256h-256z" />
+    <glyph glyph-name="ion-ios-navigate" unicode="&#xf106;" horiz-adv-x="416" 
+d="M208 400c115 0 208 -93 208 -208s-93 -208 -208 -208s-208 93 -208 208s93 208 208 208zM208 64l96 224l-224 -96h128v-128z" />
     <glyph glyph-name="ion-ios-open-outline" unicode="&#xf1d6;" 
 d="M336 16v176h16v-192h-352v352h192v-16h-176v-320h320zM256 384h128v-128h-16v100l-197 -196l-11 11l196 197h-100v16z" />
     <glyph glyph-name="ion-ios-open" unicode="&#xf1d7;" 
