@@ -1,6 +1,13 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/com.spansystems.watchconnectivity/www/watchconnectivity.js",
+        "id": "com.spansystems.watchconnectivity.sswc",
+        "clobbers": [
+            "sswc"
+        ]
+    },
+    {
         "file": "plugins/de.appplant.cordova.plugin.badge/www/badge.js",
         "id": "de.appplant.cordova.plugin.badge.Badge",
         "clobbers": [
@@ -70,6 +77,7 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "com.spansystems.watchconnectivity": "1.1.2",
     "cordova-plugin-whitelist": "1.0.0",
     "de.appplant.cordova.plugin.badge": "0.6.4",
     "org.apache.cordova.network-information": "0.2.15",
