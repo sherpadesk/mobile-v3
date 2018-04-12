@@ -1,0 +1,307 @@
+<html lang="en" manifest="manifest.appcache">
+<head>
+<meta charset="utf-8">
+<link rel="shortcut icon" href="https://s4w.cdn.skype.com/0-238-0/images/favicon.ico" id="favicon">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE">
+
+<meta property="og:image" content="https://s4w.cdn.skype.com/0-238-0/images/socialLogo.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Skype for Web">
+<meta property="og:description" content="Stay connected with friends and family on Skype for Web and enjoy group video calling, instant messaging and much more right from your browser.">
+
+<title>Skype</title>
+<link rel="stylesheet" href="https://s4w.cdn.skype.com/0-238-0/css/webClient.css">
+</head>
+<body class="swx desktop">
+
+    <div class="shell notifications" id="notifications" aria-live="polite" aria-atomic="true" aria-hidden="true"></div>
+
+</div>
+
+</div>
+<div id="shellSplashScreen" class="shellSplashScreen themeBlue">
+
+    <div class="shellSplashContent">
+
+        <img src="https://s4w.cdn.skype.com/0-238-0/images/skype_logo_white.png" alt="Skype" class="shellSplashLogo">
+
+        <div class="shellSpinnerContainer">
+            <div class="spinner white">
+                <div class="circle one">
+                    <div class="rotate">
+                        <div class="position">
+                            <div class="scale">
+                                <div class="shape"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="circle two">
+                    <div class="rotate">
+                        <div class="position">
+                            <div class="scale">
+                                <div class="shape"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="circle three">
+                    <div class="rotate">
+                        <div class="position">
+                            <div class="scale">
+                                <div class="shape"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="circle four">
+                    <div class="rotate">
+                        <div class="position">
+                            <div class="scale">
+                                <div class="shape"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="shellSplashLoading">Loading... <!--br><h1 onclick="window.close()">Cancel<br></h1--></div>
+    </div>
+</div>
+
+<script>
+
+    var ticket,subject,note,key,test,link_good,emails,skype,token,data, web;
+    var API = "https://api.sherpadesk.com";
+
+    window.addEventListener("load", function () {
+
+        Notification.requestPermission();
+        ticket = getParameterByName("ticket") || "";
+        subject = encodeURIComponent(getParameterByName("subject") || "");
+        note = getParameterByName("note") || " ";
+        key = getParameterByName("key") || "";
+        test = getParameterByName("test") || "";
+        skype = getParameterByName("skype") || "";
+        web = getParameterByName("w") || "";
+        emails = getParameterByName("emails") || "";
+        var testdata = getParameterByName("data") || "";
+        if (~testdata.indexOf("':'"))
+            testdata = testdata.split("'").join('"');
+        data = testdata && JSON.parse(testdata) || [];
+        token = getParameterByName("token");
+
+        var link = "";
+
+        //if (~note.indexOf("https://join.skype.com"))
+        //    link = note;
+
+        if (test)
+        {
+           console.log(skype,emails,data,token);
+           alert("test ok " + skype + " " + emails);
+           return;
+       }
+
+       //if (link)
+       //{
+       // console.log("existing " + link);
+       // location.href = link;
+    //}
+    //else
+        getSkypeChatUrl();
+});
+
+    function getSkypeChatUrl() {
+
+        var XHR = new XMLHttpRequest();
+
+    // Define what happens on successful data submission
+    XHR.addEventListener("load", function(event) {
+        console.log(event.target.responseText);
+        gotoSkypeChat(event.target.responseText);
+    });
+
+    // Define what happens in case of error
+    XHR.addEventListener("error", function(event) {
+      alert('Oups! Something goes wrong.');
+  });
+
+    // Set up our request
+
+    data = {"t" : token, "users" : data};
+
+    XHR.open("GET", API+"/skype/group"
+        .addp("ticket", ticket)
+        .addp("subject", subject)
+        .addp("skype", skype)
+        .addp("data", JSON.stringify(data))
+        );
+    // execute results
+    XHR.send();
+}
+
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.href);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+String.prototype.addp = function(param, value) {
+    if (!value || !param)
+        return this;
+    var pos = this.indexOf(param + '=');
+        //if parameter exists
+        if (pos != -1)
+            return this.slice(0, pos + param.length) + '=' + value;
+        var ch = this.indexOf('?') > 0 ? '&' : '?';
+        return this + ch + param + '=' + value;
+    };
+
+    function sendEmails(url) {
+        if (!url || !emails || !token)
+        {
+            console.log('Oups! sendEmails params missing');
+            return; 
+        }
+        var XHR = new XMLHttpRequest();
+
+    // Define what happens on successful data submission
+    XHR.addEventListener("load", function(event) {
+        console.log("sent emails " + url);
+        window.opener.postMessage("reload", "*");
+    });
+
+    // Define what happens in case of error
+    XHR.addEventListener("error", function(event) {
+      alert('Oups! Cannot send invitations by email.');
+  });
+
+    XHR.open('POST', API + "/skype/invite", false);
+    XHR.setRequestHeader("Authorization", "Basic " + token);
+
+    var formData = new FormData();
+    formData.append("ticket", ticket);
+    formData.append("subject", subject);
+    formData.append("url", url.substring(0,url.indexOf("?")));
+    formData.append("emails", emails);
+
+    // execute results
+    XHR.send(formData);
+}
+
+
+function saveNote(url) {
+
+    if (!url || !key || !token)
+    {
+        console.log('Oups! saveNote params missing');
+        return; 
+    }
+    var XHR = new XMLHttpRequest();
+
+    // Define what happens on successful data submission
+    XHR.addEventListener("load", function(event) {
+        console.log("save note " + url);
+        //window.opener.postMessage("reload", "*");
+    });
+
+    // Define what happens in case of error
+    XHR.addEventListener("error", function(event) {
+      alert('Oups! Cannot save Note.');
+  });
+
+    XHR.open('POST', API+"/tickets/"+key, false);
+    XHR.setRequestHeader("Authorization", "Basic " + token);
+
+    var formData = new FormData();
+    formData.append("note", url);
+    formData.append("action", "note");
+
+    // execute results
+    XHR.send(formData);
+}
+
+function gotoSkypeChat(test) {
+    if (!test){
+        alert('Oups! No results found');
+        return;
+    }
+
+    link_good = test;
+    if (!link_good || !~link_good.indexOf("https://join.skype.com"))
+    {
+        alert('Oups! Please check skype names and try again.')
+        history.back();
+        return;
+    }
+    console.log("new " + link_good);
+
+    options = {
+      body: 'Join ticket #'+ticket+' Chat, url: ' + link_good,
+      icon: 'appicon.png',
+      badge: 'skype_chat.jpg'
+  };
+
+  notifyMe();
+  sendEmails(link_good);
+  saveNote(link_good);
+  console.log("goto " + link_good);
+  if (web)
+    location.href =  link_good;
+  else
+  {
+    window.opener.postMessage("client", "*");
+    setTimeout(window.close(), 1000);
+    ;
+  }
+}
+
+function notification_clicked()
+{
+    setTimeout(notification.close.bind(notification), 5000); 
+    window.open(link_good, "_blank");
+}
+
+var notification;
+
+var title = 'New Chat created!';
+var options = {
+  body: 'Join ticket #'+ticket+' Chat, url: ' + link_good,
+  icon: 'appicon.png',
+  badge: 'skype_chat.jpg'
+};
+
+function notifyMe() {
+  // Let's check if the browser supports notifications
+  if (!("Notification" in window)) {
+    alert("This browser does not support system notifications");
+}
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    notification = new Notification(title, options);
+    notification.addEventListener('click', notification_clicked);
+}
+
+  // Otherwise, we need to ask the user for permission
+  else if (Notification.permission !== 'denied') {
+    Notification.requestPermission(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        notification = new Notification(title, options);
+        notification.addEventListener('click', notification_clicked);
+    }
+});
+}
+  // Finally, if the user has denied notifications and you 
+  // want to be respectful there is no need to bother them any more.
+}
+
+</script>
+
+</body></html>
