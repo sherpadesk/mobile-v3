@@ -254,7 +254,7 @@ function gotoSkypeChat(test) {
     location.href =  link_good;
   else
   {
-    window.opener.postMessage("client", "*");
+    window.opener && window.opener.postMessage("client", "*");
     setTimeout(window.close(), 1000);
     ;
   }
