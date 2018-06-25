@@ -22,7 +22,7 @@
   <div id="navigation">
     <div class="container">
     <br/>
-      <div id="fountainG">
+      <!--<div id="fountainG">
             <br/>
             <br/>
          <div id="fountainG_1" class="fountainG"></div>
@@ -33,7 +33,26 @@
          <div id="fountainG_6" class="fountainG"></div>
          <div id="fountainG_7" class="fountainG"></div>
          <div id="fountainG_8" class="fountainG"></div>
-      </div>
+      </div>-->
+      <div class="loader" id="loader">
+      <span class="pip pip-1"></span>
+      <span class="pip pip-2"></span>
+      <span class="pip pip-3"></span>
+      <span class="pip pip-4"></span>
+      <span class="pip pip-5"></span>
+      <span class="pip pip-6"></span>
+    </div>
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+  <defs>
+    <filter id="goo">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+      <feBlend in="SourceGraphic" in2="goo" />
+    </filter>
+  </defs>
+</svg>
+
     </div>
   </div>
   <div class="navBar">
@@ -46,7 +65,10 @@
       </div>
         <input id="myName" name="searchstring" onkeydown="if (event.keyCode == 13 &amp;&amp; this.value) search('', -1)" value="" placeholder="Search by mobile, email or name (Skype)" class="Search"> 
     </div>
-                  <a href="javascript:search('', -1);" style="color: #000; font-size: 22px;font-weight: 900;font-family:exo2light !important;">Search</a>
+                  <a href="javascript:search('', -1);" style="color: #000; font-size: 22px;font-weight: 900;font-family:exo2light !important;"><svg class="search-icon-big" viewBox="0 0 24 24">
+          <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+        <path d="M0 0h24v24H0z" fill="none"></path>
+        </svg></a>
     <div class="right">
       <a href="javascript:void(0);" onclick="startChat(1);" id="StartChat">Skype Client</a>
       <!--button onclick="reset();" class="Buttons">Remove All</button-->
@@ -363,7 +385,7 @@ sendData(name, i);
 
 function showLoading(show)
 {
-  document.getElementById("fountainG").style.display = show ? "block" : "none";
+  document.getElementById("loader").style.display = show ? "block" : "none";
   var chat= document.getElementById("StartChat");
   chat.disabled = show ? "disabled" : "";
   chat.style.pointerEvents = show ? "none" : "";

@@ -50,7 +50,9 @@ body {
      margin-top: 40px;
      font-size: 28px; 
   }
-
+  .navBar{
+        margin-top: -125px;
+}
   .search-box{
     width:400px;
     height: 32px;
@@ -71,7 +73,6 @@ body {
     background: none;
     margin-left: 15px;
     font-size: 16;
-    font-weight: 600;
     width: 330px;
     margin:6px;
     font-size: 14px;
@@ -145,7 +146,7 @@ body {
     background: #d1ebf5;
     color:black;
     font-family:exo2light;
-    font-weight: 600;
+    font-weight: 400 !important; 
   }
   .AddSkypeName:focus{
     border: none;
@@ -192,7 +193,7 @@ table, td, th {
     background: #FFF;
   }
 
-@media (max-width: 920px){
+@media (max-width: 900px){
 .Search{
     width: 80%;
   }
@@ -270,8 +271,18 @@ svg {
 .search-icon {
     fill:#002d55;
      width: 25px;
-     
-
+     opacity: 0.6;
+}
+.search-icon-big {
+    fill:#002d55;
+    width: 35px;
+    display: inline-block;
+    margin-left: -20px;
+    margin-bottom: -12px;
+}
+.search-icon-big:hover{
+    fill:#00b3fb;
+    transition: 0.2s;
 }
 
 
@@ -368,3 +379,60 @@ svg {
     text-align: left;
     padding-left: 25px;
     }
+  
+  .loader{
+      position: absolute;
+    top: 350px;
+    left: 50%;
+    display: none;
+    }
+    .loader span {
+  position: absolute;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #00aff0 ;
+  display: block;
+  transform-origin: 0 60px 0;
+  animation-fill-mode: forwards;
+  animation-duration: 2500ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.74, 0.23, 0.1, 0.95);
+  animation-name: rotate;
+}
+.pip-1 {
+  animation-delay: 0ms;
+}
+.pip-2 {
+  animation-delay: 100ms;
+}
+.pip-3 {
+  animation-delay: 200ms;
+}
+.pip-4 {
+  animation-delay: 300ms;
+}
+.pip-5 {
+  animation-delay: 400ms;
+}
+.pip-6 {
+  animation-delay: 500ms;
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+    width: 20px;
+    height: 20px;
+  }
+  50% {
+    width: 10px;
+    height: 10px;
+  }
+  100% {
+    transform: rotate(360deg);
+    width: 20px;
+    height: 20px;
+  }
+}
+
