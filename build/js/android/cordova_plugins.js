@@ -26,15 +26,6 @@ module.exports = [
     ]
   },
   {
-    "id": "de.appplant.cordova.plugin.badge.Badge",
-    "file": "plugins/de.appplant.cordova.plugin.badge/www/badge.js",
-    "pluginId": "de.appplant.cordova.plugin.badge",
-    "clobbers": [
-      "plugin.notification.badge",
-      "cordova.plugins.notification.badge"
-    ]
-  },
-  {
     "id": "cordova-plugin-camera.Camera",
     "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
     "pluginId": "cordova-plugin-camera",
@@ -412,7 +403,6 @@ module.exports.metadata =
   "cordova-plugin-customurlscheme": "4.3.0",
   "cordova-plugin-device": "2.0.2",
   "cordova-plugin-background-mode": "0.7.2",
-  "de.appplant.cordova.plugin.badge": "0.7.1",
   "cordova-plugin-camera": "4.0.3",
   "cordova-plugin-file": "6.0.1",
   "cordova-plugin-media-capture": "3.0.2",
