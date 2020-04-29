@@ -171,6 +171,8 @@ function onFormReady1($form){
   });
 
     $($form).prop('target', 'hubspot-iframe');
+    $form.append("<div id='lock-modal10'></div><div id='loading-circle10'></div><div class='head-text-form' id='motto10'>Your business is about to take off...</div>");
+
     init_vars($form);
 
     nextStepDesktop();
@@ -318,8 +320,13 @@ function onFormReady1($form){
         //alert("OK");
         //return;
         //console.log('$form', $form); 
+            // lock down the form
+    $lockModal.css("display", "block");
+    $loadingCircle.css("display", "block");
+    $motto.css("display", "block");
+
         init_vars($form);
-        seterror($submit, "Redirecting to SherpaDesk app. Please wait...");
+        //seterror($submit, "Redirecting to SherpaDesk app. Please wait...");
         
             if (testpage) { $captcha.val("sdjkhaskdjhg"); }
         console.log($captcha.val())
@@ -383,7 +390,10 @@ function onFormReady1($form){
                     }
                     else
                     {
-                        seterror($submit, "Error occured: " + (e.target.response || e.target.status) +". Please contact SherpaDesk administrator (support@sherpadesk.com)");
+                        $lockModal.css("display", "none");
+                        $loadingCircle.css("display", "none");
+                        $motto.css("display", "none");
+                        setServererror($motto, "Error occured: " + (e.target.response || e.target.status) +". Please contact SherpaDesk administrator (support@sherpadesk.com)");
                         $custom_url.change();
                         $password.val(pass1).change();
                         $confirm_password.val(pass2).change();
@@ -391,15 +401,18 @@ function onFormReady1($form){
                     } 
                 }
                 xhr.onerror = function () {
+                          $lockModal.css("display", "none");
+                          $loadingCircle.css("display", "none");
+                          $motto.css("display", "none");
                     console.log("** An error occurred during the transaction");
                     $password.val(pass1).change();
                     $confirm_password.val(pass2).change();
-                    seterror($submit, "Error occured. Please try again later or contact SherpaDesk administrator (support@sherpadesk.com)");
+                    setServererror($motto, "Error occured. Please try again later or contact SherpaDesk administrator (support@sherpadesk.com)");
                 };
 
                 xhr.send(formData);
                 
-                setTimeout(function(){seterror($submit, "", true)}, 6000);
+                setTimeout(function(){setServererror($motto, "", true)}, 10000);
             }    
 
         </script>
