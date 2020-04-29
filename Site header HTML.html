@@ -1,0 +1,211 @@
+<script type="text/javascript" src="https://www.usefomo.com/api/v1/M949IjzF31-KIUyo8hY58g/load.js" async></script>
+
+<!-- Google Tag Manager --> 
+<script>
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function cleanQuerystring() {
+    try {window.history.replaceState({}, document.title, location.origin+location.pathname);}
+    catch (err){}
+}
+
+var testpage = getParameterByName('test') || getParameterByName('noconversion') || localStorage.testpage || "";
+
+if (!testpage) {
+    
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T4JW3M7');
+}
+else 
+{
+   window['ga-disable-UA-998328-12'] = true;
+   localStorage.testpage = "";
+   console.log("testpage", testpage);
+}
+</script>
+<!-- End Google Tag Manager -->
+
+<!-- Icon for iOs device -->
+  <meta name="apple-mobile-web-app-title" content="SherpaDesk">
+  <link rel="apple-touch-icon" sizes="52x52" href="https://cdn2.hubspot.net/hubfs/2629098/Design/Icons/iOS/apple-touch-icon-52x52.png">
+  <link rel="apple-touch-icon" sizes="80x80" href="https://cdn2.hubspot.net/hubfs/2629098/Design/Icons/iOS/apple-touch-icon-80x80.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://cdn2.hubspot.net/hubfs/2629098/Design/Icons/iOS/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://cdn2.hubspot.net/hubfs/2629098/Design/Icons/iOS/apple-touch-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="https://cdn2.hubspot.net/hubfs/2629098/Design/Icons/iOS/apple-touch-icon-167x167.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://cdn2.hubspot.net/hubfs/2629098/Design/Icons/iOS/apple-touch-icon-180x180.png">
+  <link rel="apple-touch-startup-image" href="https://cdn2.hubspot.net/hubfs/2629098/Design/Icons/iOS/launch.png">
+
+
+<!-- Signup code - DONT TOUCH! -->
+
+<style type="text/css">
+@media (min-width: 768px) {
+[data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs-form-field, [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs_submit{
+		display: none;
+	}
+    .hs_name.hs-form-field, .hs_newsletter_checkbox.hs-form-field, .hs_email.hs-form-field, .hs_recaptcha.hs-form-field{
+        display: block;
+    }
+    .form-title
+    {
+        text-align: center;
+    }
+    #next_step{
+    display:block;
+}
+}
+  .hs-recaptcha{
+    margin-top: 5px;
+    margin-left: 11px;
+    padding-bottom: 15px;
+  }
+    <!-- begin mobile style sigup -->
+@media (max-width: 767px) {
+    [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs-form-field,
+    [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs_submit
+    {
+    display:block !important;
+     }
+#next_step{
+    display:none !important;
+}
+}
+</style>
+
+<script>
+
+window.addEventListener("error", function (e) {
+   alert("Error occured: " + e.error.message);
+   return false;
+})
+
+
+    var res, $captcha, $company, $custom_url, $name, $url, $email, $password, $confirm_password, $submit, $features;
+    var $divCaptcha, $divEmail, $divCompany, $divUrl, $divIndustry, $divTechs, $divSubmit, $divForm, 
+        $industry, $techs, $divPass1, $divPass2, $divFeatures;
+        
+        function seterror(element, text, isclear)
+        {
+            element[0].validationMessage = isclear ? "": "Incorrect";
+            (element.next("ul") || {}).remove();
+            if (!isclear){
+            element[0].classList.add("error");
+            element[0].classList.add("invalid");
+            if (text)
+            element.after('<ul class="hs-error-msgs inputs-list hs-error-msgs1" style="display:block;"><li><label>'+text+'</label></li></ul>');
+            }   
+            else
+            {
+            element[0].classList.remove("error");
+            element[0].classList.remove("invalid");
+            }
+            $submit.attr("disabled", isclear && !$("ul.hs-error-msgs1").length ? false : true);
+        }
+
+        function init_vars($form)
+        {
+            $divEmail=$('.hs_email');
+          $divCaptcha=$('.hs_recaptcha');
+        $divCompany=$('.hs_company');
+        $divUrl=$('.hs_custom_url');
+        $divIndustry=$('.hs_your_industry_');
+        $divTechs=$('.hs_number_of_techs');
+        $divPass1=$('.hs_password');
+        $divPass2=$('.hs_confirm_password');
+          $divFeatures=$('.hs_features');
+        $divSubmit=$('.hs_submit');
+          $captcha=$('#hs-recaptcha-response');
+            $form = $($form);
+        $company = $form.find( "input[name='company']" );
+        $name = $form.find( "input[name='name']" );
+        $custom_url = $form.find( "input[name='custom_url']" );
+        $url = $form.find("strong:contains('yourcompanyname')");
+        $email = $form.find( "input[name='email']" );
+        $password = $form.find( "input[name='password']" );
+        $confirm_password = $form.find( "input[name='confirm_password']" );
+        $submit = $form.find( "input[type='submit']" );
+          $features = $form.find( "input[name='features']" );
+        
+        $industry = $form.find( "select[name='your_industry_']" );
+        $techs = $form.find("select[name='number_of_techs']");
+
+        $custom_url.parent().css('position', 'relative');
+        $custom_url.attr('maxlength','20');
+        $custom_url.after("<div class='HolderOrgDomain'>.sherpadesk.com</div>");
+        
+        }
+        
+        </script>
+<script>
+var images = new Array()
+function preload() { 
+	for (i = 0; i < preload.arguments.length; i++) {
+					images[i] = new Image()
+					images[i].src = preload.arguments[i]
+	}
+}
+</script>
+        <style>
+.HolderOrgDomain{
+    position: absolute; 
+    top: 0;
+    transform: translate(0, 60%);
+    right: 30px; 
+    font: 18px Arial; 
+    font-weight: 400; 
+    letter-spacing: 0.5px; 
+}
+
+.hs-error-msgs1 {
+   padding: 5px 0 0 0;
+}
+
+@media only screen and (max-width: 530px) and (min-width: 400px)  {
+   .HolderOrgDomain{
+       font-size:85%;
+       transform: translate(0, 100%) !important;
+   } 
+   
+   input::-webkit-input-placeholder{
+       font-size:100%;
+   }
+   .hs-input{
+       font-size:85% !important;
+   }
+    
+}
+
+@media only screen and (max-width: 400px){
+     .HolderOrgDomain{
+       font-size:69% !important;
+       transform: translate(0, 135%) !important;
+   } 
+   
+   input::-webkit-input-placeholder{
+       font-size:69%;
+   }
+    .hs-input{
+       font-size:69% !important;
+   }
+}
+
+.hs_submit .hs-error-msgs1 {
+    padding-top: 20px !important;
+}
+
+<!-- end mobile style sigup -->
+
+        </style>
+
+<!--Bing Ads -->
+<script>(function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"6014948"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");</script>
+
+<!--Pingdom Ads -->
+<script src="//rum-static.pingdom.net/pa-5a2853b06f8fe500080000e5.js" async></script>
+        <!-- End Signup code - DONT TOUCH! -->
