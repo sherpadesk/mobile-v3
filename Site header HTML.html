@@ -140,6 +140,7 @@ window.addEventListener("error", function (e) {
         
         function setServererror(element, text, isclear)
         {
+           console.log(isclear);
             if (!isclear){
             element.css("display", "block");
             element.text(text);

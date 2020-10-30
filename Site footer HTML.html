@@ -220,6 +220,12 @@ function onFormReady1($form){
         $industry.focus(function(){
             if($industry.val()) $divTechs.fadeIn('slow');if($divTechs.is(':visible') && $techs.val()) {$("#next_step").hide();$divSubmit.fadeIn('slow');}});
         $industry.change(function(){
+          var password = $password.val();
+            var confirm_password = $confirm_password.val();
+          if (password && password !=confirm_password)
+                seterror($($confirm_password), "Passwords must match.");
+          else
+            	seterror($confirm_password, "", true);
             if($industry.val()) $divTechs.fadeIn('slow');if($divTechs.is(':visible') && $techs.val()) {$("#next_step").hide();$divSubmit.fadeIn('slow');}});
         $techs.change(function(){
             $("#next_step").hide();
@@ -256,10 +262,14 @@ function onFormReady1($form){
                 seterror($confirm_password, "Passwords must match.");
                 return;
             }
-            else
+            else{
                 seterror($confirm_password, "", true);
+            }
         }
         seterror($(this), "", true);
+                      if ($confirm_password.val().length == 0){ 
+                seterror($confirm_password, "", true);
+            }
     });
 
 
@@ -267,10 +277,10 @@ function onFormReady1($form){
             var password = $password.val();
             var confirm_password = $confirm_password.val();
 
-            if(password && confirm_password == password){ 
+            if(confirm_password == password){ 
                 seterror($(this), "", true);
             }
-            else if (confirm_password && password !=confirm_password)
+            else if (password !=confirm_password)
                 seterror($(this), "Passwords must match.");
         });
 
@@ -390,6 +400,7 @@ function onFormReady1($form){
                     }
                     else
                     {
+                      
                         $lockModal.css("display", "none");
                         $loadingCircle.css("display", "none");
                         $motto.css("display", "none");
@@ -397,6 +408,8 @@ function onFormReady1($form){
                         $custom_url.change();
                         $password.val(pass1).change();
                         $confirm_password.val(pass2).change();
+                      alert("Error occured: " + (e.target.response || e.target.status) +". Please contact SherpaDesk administrator (support@sherpadesk.com)");
+                      location.reload();
                         //console.log(e);
                     } 
                 }
@@ -408,6 +421,8 @@ function onFormReady1($form){
                     $password.val(pass1).change();
                     $confirm_password.val(pass2).change();
                     setServererror($motto, "Error occured. Please try again later or contact SherpaDesk administrator (support@sherpadesk.com)");
+                 alert("Error occured. Please try again later or contact SherpaDesk administrator (support@sherpadesk.com)");
+                  location.reload();
                 };
 
                 xhr.send(formData);
