@@ -176,14 +176,25 @@ function onFormReady1($form){
     init_vars($form);
 
     nextStepDesktop();
-
-    $name.val($name.val()).change().focus(); 
-    $company.val("").change();
-    $email.val("").change();
-    $custom_url.val("").change();
+  
+    
+    $name.val(getParameterByName('name') || $name.val() || "").change().focus(); 
+    $company.val(getParameterByName('company') || "").change();
+    $email.val(getParameterByName('email') || "").change();
+    $custom_url.val(getParameterByName('url') || "").change();
 
     $password.val("").change();
     $confirm_password.val("").change();
+  
+  if ($custom_url.val()){
+    $divEmail.fadeIn();
+    $divCaptcha.fadeIn();
+    $divCompany.fadeIn();
+    $divUrl.fadeIn();
+    $divPass1.fadeIn();
+    $divPass2.fadeIn();
+  }
+ 
 
     if ($name.val()){
         $divEmail.fadeIn('slow');
@@ -369,6 +380,8 @@ function onFormReady1($form){
         formData.append("techs_number", $($techs).val());
         formData.append("industry", $($industry).val());
         formData.append("how", get_how());
+        formData.append("iiid", iiid);
+        formData.append("provider", provider);
         formData.append("note", "Industry: " + $industry.val() + " - Techs: " + $techs.val() + " url:" + location.href.substring(0,50));
 
                 // Append extra data before send.
