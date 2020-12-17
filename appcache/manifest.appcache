@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:1/10/2020,16:32:34
+#ver:1/12/2020,16:32:34
 #plugin:4.6.1
 
 CACHE:
@@ -36,3 +36,8 @@ https://m.sherpadesk.com/build/css/my.css
 
 NETWORK:
 *
+
+# Register at https://developers.chrome.com/origintrials/#/register_trial/1776670052997660673
+# and provide your token via:
+ORIGIN-TRIAL:
+AhnETWD+mlTBrRCwfflF4PW62rj7N6Kk9bbZ3DYQ1wq1vQ04wG6xNIo7loZVh370orPEzTPoNEKWypmvgD9aYAcAAABleyJvcmlnaW4iOiJodHRwczovL20uc2hlcnBhZGVzay5jb206NDQzIiwiZmVhdHVyZSI6IkFwcENhY2hlIiwiZXhwaXJ5IjoxNjE3NzUzNTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZX0=
