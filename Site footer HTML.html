@@ -34,20 +34,20 @@
 <script>// <![CDATA[
 
     var num_click=0;
-    var x = window.matchMedia("(max-width: 767px)");
-    function hideNext(x) {
+    //var x = window.matchMedia("(max-width: 767px)");
+    /*function hideNext(x) {
     if (x.matches) { // If media query matches
         $("#next_step").hide();
     } else {
         $("#next_step").show();
     }
-}
+}*/
 function nextStepDesktop(){
     if(!$('div.NO-NextStep').length && !$('#next_step').length) {
         $("<center><button id='next_step'> </button></center>").insertBefore('h3:contains("*Base Camp Subscription")');
     }
-hideNext(x); // Call listener function at run time
-x.addListener(hideNext); // Attach listener function on state changes
+//hideNext(x); // Call listener function at run time
+//x.addListener(hideNext); // Attach listener function on state changes
 
 $("#next_step").click(function(){
     num_click++;
@@ -61,10 +61,23 @@ $("#next_step").click(function(){
   $url.keypress();
 
 } 
-else if (num_click==3) {
-  $divTechs.fadeIn('slow');
-  $techs.focus();
-  $("#next_step").hide();
+else if (num_click >= 3) {
+    $(".hs_captcha-base").fadeIn('slow');
+    $(".hs_captcha-base__input").fadeIn('slow');
+
+    var $cap_text = $("#captcha-base__input");
+
+    if ($cap_text.val().length == 0)
+        seterror($cap_text, "Verification code is empty.");
+    else
+        seterror($cap_text, "", true);
+
+  //$divcaptcha_base.fadeIn('slow');
+  //$div_hs_captcha_input.fadeIn('slow');
+
+  //$divTechs.fadeIn('slow');
+  //$techs.focus();
+  //$("#next_step").hide();
 } 
 
 });
@@ -154,6 +167,9 @@ function onFormReady1($form){
        "https://cdn2.hubspot.net/hubfs/2629098/Rocket%20LP/BIG-ROCKET_without-fire_v2.png"
        );
     console.log("test"+$form[0].id);
+
+    var a=document.createElement("script");a.src="https://f.hubspotusercontent40.net/hubfs/2629098/Sherpadesknov2016/Js/app_compile.js";document.body.appendChild(a);
+
     setTimeout(function(){
       $(".hs-button").attr('id', 'ImageButton');
   },1000);
@@ -205,46 +221,54 @@ function onFormReady1($form){
     $name.change(function(){
         $divEmail.fadeIn('slow');$email.focus();});*/
         $name.keypress(function(){
-          		if ($email.val()!=""){
+                if ($email.val()!=""){
             $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');}});
         $name.change(function(){
-          		if ($email.val() !=""){
+                if ($email.val() !=""){
             $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');}
-          });	
-  		$email.keypress(function(){
-          		if ($name.val()!=""){
+          });   
+        $email.keypress(function(){
+                if ($name.val()!=""){
             $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');}});
         $email.change(function(){
-          		if ($name.val() !=""){
+                if ($name.val() !=""){
             $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');$company.focus();}
           //$captcha=$('#hs-recaptcha-response');
           });
-		
+        
         $company.keypress(function(){
             $divPass1.fadeIn('slow');
             $divPass2.fadeIn('slow');
-            $divIndustry.fadeIn('slow');});
+            $(".hs_captcha-base").fadeIn('slow');
+    $(".hs_captcha-base__input").fadeIn('slow');
+        });
         $company.change(function(){
             $divPass1.fadeIn('slow');
             $divPass2.fadeIn('slow');
-            $divIndustry.fadeIn('slow');$industry.focus();if($industry.val()) $divTechs.fadeIn('slow');});
+            $(".hs_captcha-base").fadeIn('slow');
+    $(".hs_captcha-base__input").fadeIn('slow');
+        });
         $industry.focus(function(){
-            if($industry.val()) $divTechs.fadeIn('slow');if($divTechs.is(':visible') && $techs.val()) {$("#next_step").hide();$divSubmit.fadeIn('slow');}});
+           if($industry.val()) $divTechs.fadeIn('slow');
+           //if($divTechs.is(':visible') && $techs.val()) {$("#next_step").hide();$divSubmit.fadeIn('slow');}
+       });
         $industry.change(function(){
           var password = $password.val();
             var confirm_password = $confirm_password.val();
           if (password && password !=confirm_password)
                 seterror($($confirm_password), "Passwords must match.");
           else
-            	seterror($confirm_password, "", true);
-            if($industry.val()) $divTechs.fadeIn('slow');if($divTechs.is(':visible') && $techs.val()) {$("#next_step").hide();$divSubmit.fadeIn('slow');}});
-        $techs.change(function(){
-            $("#next_step").hide();
-            $divSubmit.fadeIn('slow');/*$divFeatures.fadeIn('slow');*/});
-        $techs.focus(function(){
-            $("#next_step").hide();
-            $divSubmit.fadeIn('slow');/*$divFeatures.fadeIn('slow');*/});
-
+                seterror($confirm_password, "", true);
+            if($industry.val()) $divTechs.fadeIn('slow');
+            //if($divTechs.is(':visible') && $techs.val()) {$("#next_step").hide();$divSubmit.fadeIn('slow');}     
+        });
+        //$techs.change(function(){
+        //    $("#next_step").hide();
+        //    $divSubmit.fadeIn('slow');/*$divFeatures.fadeIn('slow');*/});
+        //$techs.focus(function(){
+        //    $("#next_step").hide();
+        //    $divSubmit.fadeIn('slow');/*$divFeatures.fadeIn('slow');*/});
+        
         setTimeout(function(){$("li","ul.hs-error-msgs").remove()}, 10);
 
         $password.prop("type", "password");
@@ -370,10 +394,10 @@ function onFormReady1($form){
 
         var formData = new FormData();
 
-        formData.append("name", $company.val());
+        formData.append("name", Mp_SafeCharsRemove($company.val()));
         formData.append("email", $email.val());
         formData.append("url", $custom_url.val());
-        formData.append("firstname", $name.val());
+        formData.append("firstname", Mp_SafeCharsRemove($name.val()));
         formData.append("lastname", " ");
         formData.append("password", pass1);
         formData.append("password_confirm", pass2);
