@@ -1,3 +1,7 @@
+<!-- Facebook Verification -->
+<meta name="facebook-domain-verification" content="ub1endbpmm03vlpc7q09ox2whpu0j9" />
+<!-- End Facebook Verification -->
+
 <script type="text/javascript" src="https://www.usefomo.com/api/v1/M949IjzF31-KIUyo8hY58g/load.js" async></script>
 
 <!-- Google Tag Manager --> 
@@ -47,10 +51,9 @@ else
 <!-- Signup code - DONT TOUCH! -->
 
 <style type="text/css">
-@media (min-width: 768px) {
 [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs-form-field, [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs_submit{
-		display: none;
-	}
+    display: none;
+  }
     .hs_name.hs-form-field, .hs_newsletter_checkbox.hs-form-field, .hs_email.hs-form-field, .hs_recaptcha.hs-form-field{
         display: block;
     }
@@ -61,23 +64,13 @@ else
     #next_step{
     display:block;
 }
-}
+
   .hs-recaptcha{
     margin-top: 5px;
     margin-left: 11px;
     padding-bottom: 15px;
   }
-    <!-- begin mobile style sigup -->
-@media (max-width: 767px) {
-    [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs-form-field,
-    [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs_submit
-    {
-    display:block !important;
-     }
-#next_step{
-    display:none !important;
-}
-}
+
 
 #motto10 {
   display: none;
@@ -138,7 +131,8 @@ window.addEventListener("error", function (e) {
 
     var res, $captcha, $company, $custom_url, $name, $url, $email, $password, $confirm_password, $submit, $features;
     var $divCaptcha, $divEmail, $divCompany, $divUrl, $divIndustry, $divTechs, $divSubmit, $divForm, 
-        $industry, $techs, $divPass1, $divPass2, $divFeatures, $lockModal, $loadingCircle, $motto;
+        $industry, $techs, $divPass1, $divPass2, $divFeatures, $lockModal, $loadingCircle, $motto,
+        $divcaptcha_base, $div_hs_captcha_input;
         
         function setServererror(element, text, isclear)
         {
@@ -182,6 +176,10 @@ window.addEventListener("error", function (e) {
         $divTechs=$('.hs_number_of_techs');
         $divPass1=$('.hs_password');
         $divPass2=$('.hs_confirm_password');
+
+        $divPass1.find("span")[0].innerText = "Password";
+        $divPass2.find("span")[0].innerText = "Confirm Password";
+        
           $divFeatures=$('.hs_features');
         $divSubmit=$('.hs_submit');
           $captcha=$('#hs-recaptcha-response');
@@ -205,17 +203,27 @@ window.addEventListener("error", function (e) {
         $lockModal = $("#lock-modal10");
         $loadingCircle = $("#loading-circle10");
         $motto = $("#motto10");
-        
+        $divcaptcha_base = $('.hs_captcha-base');
+        $div_hs_captcha_input = $('.hs_captcha-base__input');
+
         }
+
+        function Mp_SafeCharsRemove(val) {
+    val = val.replace(new RegExp('</', 'g'), '');
+    val = val.replace(new RegExp('/>', 'g'), '');
+    val = val.replace(new RegExp('[<>]', 'g'), '');
+    val = val.replace(new RegExp('&#', 'g'), '');
+    return val;
+}
         
         </script>
 <script>
 var images = new Array()
 function preload() { 
-	for (i = 0; i < preload.arguments.length; i++) {
-					images[i] = new Image()
-					images[i].src = preload.arguments[i]
-	}
+  for (i = 0; i < preload.arguments.length; i++) {
+          images[i] = new Image()
+          images[i].src = preload.arguments[i]
+  }
 }
 </script>
         <style>
@@ -265,8 +273,22 @@ function preload() {
 .hs_submit .hs-error-msgs1 {
     padding-top: 20px !important;
 }
-
+          
 <!-- end mobile style sigup -->
+          
+<!-- Captcha -->
+          
+.captcha-base {
+  margin: 5px 0; }
+
+    .alerts-border {
+    border: 5px #000 solid;
+    
+    animation: blink 0.5s;
+    animation-iteration-count: 3;
+}
+
+@keyframes blink { 50% { border-color:#ff0000 ; }  }
 
         </style>
 
