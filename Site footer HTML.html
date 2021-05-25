@@ -335,7 +335,8 @@ function onFormReady1($form){
                     return;
                 }
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', "https://api.sherpadesk.com/validate_organization?format=json&url="+url, true);
+                var api_url = beta ? "https://api.beta.sherpadesk.com" : "https://api.sherpadesk.com";
+                xhr.open('GET', api_url + "/validate_organization?format=json&url="+url, true);
                 xhr.onload = function(e) { 
                     if (e.target.status == 200)
                     {
@@ -420,7 +421,8 @@ function onFormReady1($form){
         };
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', "https://api.sherpadesk.com/organizations?format=json", false);
+        var api_url = beta ? "https://api.beta.sherpadesk.com" : "https://api.sherpadesk.com";
+        xhr.open('POST', api_url + "/organizations?format=json", false);
         xhr.onload = function(e) { 
             if (e.target.status == 200 || e.target.status == 201)
             {
