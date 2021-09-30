@@ -287,8 +287,8 @@ function onFormReady1($form){
         $password.change(function() {
             var password = $(this).val();
             if(password){
-              if (password.trim().length < 5){ 
-                seterror($(this), "Password must be not less than 5 chars.");
+              if (!password.match(/^(?=(?:.*[a-z]))(?=(?:.*[A-Z]))(?=(?:.*\d))(?=(?:.*[!@#$%^&*-])).{5,}$/)){ 
+                seterror($(this), "Password must be 5-character alphanumeric with complex ($%@) symbol.");
                 return;
             }
             else
