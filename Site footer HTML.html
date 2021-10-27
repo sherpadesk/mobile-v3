@@ -287,9 +287,13 @@ function onFormReady1($form){
         $password.change(function() {
             var password = $(this).val();
             if(password){
-              if (!password.match(/^(?=(?:.*[a-z]))(?=(?:.*[A-Z]))(?=(?:.*\d))(?=(?:.*[!@#$%^&*-])).{5,}$/)){ 
+              if (!password.match(/^(?=(?:.*[a-z]))(?=(?:.*[!@#$%^&*-])).{5,}$/)){  
                 seterror($(this), "Password must be 5-character alphanumeric with complex ($%@) symbol.");
                 return;
+              }
+                else{
+                seterror($confirm_password, "", true);
+            }
             }
             else
                 seterror($password, "", true);
@@ -300,7 +304,7 @@ function onFormReady1($form){
             else{
                 seterror($confirm_password, "", true);
             }
-        }
+        
         seterror($(this), "", true);
                       if ($confirm_password.val().length == 0){ 
                 seterror($confirm_password, "", true);
