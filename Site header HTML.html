@@ -69,10 +69,10 @@ else
     text-align: left !important;
 }
   
-[data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs-form-field, [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs_submit{
+[data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs-form-field, [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs_submit, [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .legal-consent-container{
     display: none;
   }
-    .hs_name.hs-form-field, .hs_newsletter_checkbox.hs-form-field, .hs_email.hs-form-field, .hs_recaptcha.hs-form-field, .hs-fieldtype-booleancheckbox.hs-form-field{
+    .hs_name.hs-form-field, .hs_newsletter_checkbox.hs-form-field, .hs_email.hs-form-field, .hs_recaptcha.hs-form-field, .hs-fieldtype-booleancheckbox.hs-form-field {
         display: block;
     }
   
@@ -155,7 +155,7 @@ window.addEventListener("error", function (e) {
     var res, $captcha, $company, $custom_url, $name, $url, $email, $password, $confirm_password, $submit, $features;
     var $divCaptcha, $divEmail, $divCompany, $divUrl, $divIndustry, $divTechs, $divSubmit, $divForm, 
         $industry, $techs, $divPass1, $divPass2, $divFeatures, $lockModal, $loadingCircle, $motto,
-        $divcaptcha_base, $div_hs_captcha_input;
+        $divcaptcha_base, $div_hs_captcha_input, $div_gdpr;
         
         function setServererror(element, text, isclear)
         {
@@ -228,6 +228,7 @@ window.addEventListener("error", function (e) {
         $motto = $("#motto10");
         $divcaptcha_base = $('.hs_captcha-base');
         $div_hs_captcha_input = $('.hs_captcha-base__input');
+        $div_gdpr = $('.legal-consent-container');
 
         }
 
