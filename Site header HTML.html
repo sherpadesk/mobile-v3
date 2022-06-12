@@ -74,6 +74,11 @@ else
 [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs-form-field, [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs_submit, [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .legal-consent-container{
     display: none;
   }
+
+  [data-form-id="c4d7787a-b79b-4b8a-bcb8-1119a0685822"] .hs-form-field, [data-form-id="c4d7787a-b79b-4b8a-bcb8-1119a0685822"] .hs_submit, [data-form-id="c4d7787a-b79b-4b8a-bcb8-1119a0685822"] .legal-consent-container{
+    display: none;
+  }
+  
     .hs_name.hs-form-field, .hs_newsletter_checkbox.hs-form-field, .hs_email.hs-form-field, .hs_recaptcha.hs-form-field, .hs-fieldtype-booleancheckbox.hs-form-field {
         display: block;
     }
@@ -154,10 +159,10 @@ window.addEventListener("error", function (e) {
 })
 
 
-    var res, $captcha, $company, $custom_url, $name, $url, $email, $password, $confirm_password, $submit, $features;
+    var res, $captcha, $company, $custom_url, $name, $url, $email, $password, $confirm_password, $submit, $features, $referral;
     var $divCaptcha, $divEmail, $divCompany, $divUrl, $divIndustry, $divTechs, $divSubmit, $divForm, 
         $industry, $techs, $divPass1, $divPass2, $divFeatures, $lockModal, $loadingCircle, $motto,
-        $divcaptcha_base, $div_hs_captcha_input, $div_gdpr;
+        $divcaptcha_base, $div_hs_captcha_input, $div_gdpr, $divReferral;
         
         function setServererror(element, text, isclear)
         {
@@ -207,6 +212,7 @@ window.addEventListener("error", function (e) {
         
           $divFeatures=$('.hs_features');
         $divSubmit=$('.hs_submit');
+        $divReferral = $('.hs_referral___referred_by___email');
           $captcha=$('#hs-recaptcha-response');
             $form = $($form);
         $company = $form.find( "input[name='company']" );
@@ -231,6 +237,7 @@ window.addEventListener("error", function (e) {
         $divcaptcha_base = $('.hs_captcha-base');
         $div_hs_captcha_input = $('.hs_captcha-base__input');
         $div_gdpr = $('.legal-consent-container');
+        $referral = $form.find( "input[name='referral___referred_by___email']" );
 
         }
 

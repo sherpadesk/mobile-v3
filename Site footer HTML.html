@@ -142,7 +142,7 @@ function get_how(){
 var interval = setInterval(function(){
     var $form = $('.hs-form');
     if ($form && $form[0]){
-        if(~$form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2"))
+        if(~$form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2") || ~$form[0].id.indexOf("c4d7787a-b79b-4b8a-bcb8-1119a0685822"))
         {
             clearInterval(window.interval);
             onFormReady1($($form[0]));
@@ -183,7 +183,7 @@ function onFormReady1($form){
         //console.log($captcha.val());
         var form = $(e.target); 
 
-        if(~form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2"))
+        if(~form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2") || ~$form[0].id.indexOf("c4d7787a-b79b-4b8a-bcb8-1119a0685822"))
         {
           onFormSubmit1(form);
       }
@@ -204,6 +204,7 @@ function onFormReady1($form){
 
     $password.val("").change();
     $confirm_password.val("").change();
+    $referral.val("").change();
   
   if ($custom_url.val()){
     $divEmail.fadeIn();
@@ -255,6 +256,7 @@ function onFormReady1($form){
         });
         $industry.focus(function(){
            if($industry.val()) $divTechs.fadeIn('slow');
+           if($industry.val()) { if ($divReferral.length) $divReferral.fadeIn('slow'); }
            //if($divTechs.is(':visible') && $techs.val()) {$("#next_step").hide();$divSubmit.fadeIn('slow');}
        });
         $industry.change(function(){
@@ -265,6 +267,7 @@ function onFormReady1($form){
           else
                 seterror($confirm_password, "", true);
             if($industry.val()) $divTechs.fadeIn('slow');
+            if($industry.val()) { if ($divReferral.length) $divReferral.fadeIn('slow'); }
             //if($divTechs.is(':visible') && $techs.val()) {$("#next_step").hide();$divSubmit.fadeIn('slow');}     
         });
         //$techs.change(function(){
@@ -399,6 +402,10 @@ function onFormReady1($form){
         var pass1 = $password.val(), 
         pass2 = $confirm_password.val();
 
+        var referral = "";
+        if ($referral.length)
+            referral = $referral.val() || "";
+
         $password.val("").change();
         $confirm_password.val("").change();
 
@@ -417,6 +424,7 @@ function onFormReady1($form){
         formData.append("iiid", iiid);
         formData.append("provider", provider);
         formData.append("note", "Industry: " + $industry.val() + " - Techs: " + $techs.val() + " url:" + location.href.substring(0,50));
+        formData.append("referral", referral);
 
                 // Append extra data before send.
                 formData.append('is_force_registration', 'true'); 
