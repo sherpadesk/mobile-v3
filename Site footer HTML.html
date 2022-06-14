@@ -123,13 +123,18 @@ function preload() {
 }
 
 
-function get_how(){
+function get_how(myreferral){
+
+    var how = '';
+    if (myreferral)
+         how += "Referral: " + myreferral + ' ';
+
     var nav = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
     nav = nav && nav[0] || "Desktop";
 
     var referrer = localStorage.referrer || "";
     if (referrer.length > 50) referrer = referrer.substring(0,50); 
-    var how = "from " + nav +" " + referrer + " ";
+        how += "from " + nav +" " + referrer + " ";
     if (localStorage.utm_medium || localStorage.utm_source)
         how += "by " + localStorage.utm_medium + "(" + localStorage.utm_source + ") "
     if (localStorage.utm_campaign)
@@ -420,7 +425,7 @@ function onFormReady1($form){
         formData.append("password_confirm", pass2);
         formData.append("techs_number", $($techs).val());
         formData.append("industry", $($industry).val());
-        formData.append("how", get_how());
+        formData.append("how", get_how(referral));
         formData.append("iiid", iiid);
         formData.append("provider", provider);
         formData.append("note", "Industry: " + $industry.val() + " - Techs: " + $techs.val() + " url:" + location.href.substring(0,50));
