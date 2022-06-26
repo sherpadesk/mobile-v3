@@ -239,11 +239,6 @@ function onFormReady1($form){
         $email.keypress(function(){
                 if ($name.val()!=""){
             $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');}});
-        $email.change(function(){
-                if ($name.val() !=""){
-            $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');$company.focus();}
-          //$captcha=$('#hs-recaptcha-response');
-          });
         
         $company.keypress(function(){
             $divPass1.fadeIn('slow');
@@ -377,6 +372,34 @@ function onFormReady1($form){
             seterror($custom_url, "", true);
         //console.log($(this).val());
     });
+
+            
+        //$email[0].classList.contains("error")
+        $email.change(function() {
+            var email = $(this).val();
+            if(email.indexOf("@") > 0)
+            {
+                var xhr = new XMLHttpRequest();
+                var api_url = "https://api.sherpadesk.com";
+                xhr.open('GET', api_url + "/hubspot/check?email="+email+"&format=json", true);
+                xhr.onload = function(e) { 
+                    if (e.target.status == 200)
+                    {
+                        if ($name.val() !=""){
+                        $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');$company.focus();}
+                        seterror($email, "", true);
+                    }
+                    else
+                    {
+                        seterror($email, "This email is UNDELIVERABLE. Please use your Business E-mail!");
+                    }
+            }
+            xhr.send();
+        }
+        //else
+        //    seterror($custom_url, "", true);
+    });
+
     }
 
     function onFormSubmit1($form){
