@@ -376,6 +376,14 @@ function onFormReady1($form){
             
         //$email[0].classList.contains("error")
         $email.change(function() {
+
+            if(testpage)
+             {
+        if ($name.val() !=""){
+                        $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');$company.focus();}
+               return;
+             }
+
             var email = $(this).val();
             if(email.indexOf("@") > 0)
             {
