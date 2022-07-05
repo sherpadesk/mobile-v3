@@ -215,22 +215,35 @@ window.addEventListener("error", function (e) {
         $divReferral = $('.hs_referral___referred_by___email');
           $captcha=$('#hs-recaptcha-response');
             $form = $($form);
-        $company = $form.find( "input[name='company']" );
+        
         $name = $form.find( "input[name='name']" );
-        $custom_url = $form.find( "input[name='custom_url']" );
-        $url = $form.find("strong:contains('yourcompanyname')");
+        $name.attr('maxlength','100');
+
         $email = $form.find( "input[name='email']" );
+        $email.attr('maxlength','255');
+
+        $company = $form.find( "input[name='company']" );
+        $company.attr('maxlength','255');
+
+        $custom_url = $form.find( "input[name='custom_url']" );
+        $custom_url.parent().css('position', 'relative');
+        $custom_url.attr('maxlength','20');
+        $custom_url.after("<div class='HolderOrgDomain'>.sherpadesk.com</div>");
+
+        $url = $form.find("strong:contains('yourcompanyname')");
+        
         $password = $form.find( "input[name='password']" );
+        $password.attr('maxlength','50');
+
         $confirm_password = $form.find( "input[name='confirm_password']" );
+        $confirm_password.attr('maxlength','50');
+
         $submit = $form.find( "input[type='submit']" );
-          $features = $form.find( "input[name='features']" );
+        $features = $form.find( "input[name='features']" );
         
         $industry = $form.find( "select[name='your_industry_']" );
         $techs = $form.find("select[name='number_of_techs']");
 
-        $custom_url.parent().css('position', 'relative');
-        $custom_url.attr('maxlength','20');
-        $custom_url.after("<div class='HolderOrgDomain'>.sherpadesk.com</div>");
         $lockModal = $("#lock-modal10");
         $loadingCircle = $("#loading-circle10");
         $motto = $("#motto10");
@@ -238,6 +251,7 @@ window.addEventListener("error", function (e) {
         $div_hs_captcha_input = $('.hs_captcha-base__input');
         $div_gdpr = $('.legal-consent-container');
         $referral = $form.find( "input[name='referral___referred_by___email']" );
+        if ($referral.length) $referral.attr('maxlength','15');
 
         }
 
