@@ -379,17 +379,21 @@ function onFormReady1($form){
         //$email[0].classList.contains("error")
         $email.change(function() {
           
-          if(testpage)
+        if(testpage)
              {
-        if ($name.val() !=""){
-                        $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');$company.focus();}
-               return;
-             }
+               if ($name.val() !=""){
+                  $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');$company.focus();}
+                  return;
+               }
           
             var email = $(this).val();
-          if(email.indexOf("ippappus") == 0)
+            if(email.indexOf("ippappus") == 0)
             {
                 return;
+            }
+            else if(email.indexOf("@gmail.com") > 0) {
+               seterror($email, "This form does not accept addresses from gmail.com. Please use a valid business email address.");
+               return;
             }
             if(email.indexOf("@") > 0)
             {
