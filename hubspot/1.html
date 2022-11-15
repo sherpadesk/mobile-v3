@@ -1,0 +1,26 @@
+<head>
+    <script>
+    function loop(that) {
+        var cond;
+        that.onblur = function (event) {
+            cond = false;
+        };
+        cond = true;
+        var loop = 0;
+        var xy = function x (){
+            if(cond == true){
+                loop++;  
+                console.log(loop);       
+                setTimeout(function(){xy()},100);
+            } else {
+                alert('loop exited! - '+loop);
+                return true;
+            }
+        }
+        xy();
+    }
+    </script>
+</head>
+<body>
+    <button onclick="this.focus(); loop(this)">loop()</button>
+</body>

@@ -1,0 +1,332 @@
+<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+	<meta charset="UTF-8">
+	<title>hubspot form</title>
+</head>
+<style type="text/css">
+    [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs-form-field, .hs_submit{
+        display: none;
+    }
+    [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs_name.hs-form-field{
+        display: block;
+    }
+    [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs_email.hs-form-field{
+        display: block;
+    }
+</style>
+<body>
+    <iframe hidden name="hubspot-iframe" id="hubspot-iframe"></iframe>
+
+	<!--[if lte IE 8]>
+<script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/v2-legacy.js"></script>
+<![endif]-->
+<script charset="utf-8" type="text/javascript" src="https://js.hsforms.net/forms/v2.js"></script>
+<script charset="utf-8" type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script>
+  hbspt.forms.create({ 
+    portalId: '2629098',
+    formId: 'bccafcb5-2405-4d07-92be-dad8713d94e2'
+});
+
+</script>
+
+
+
+<script>
+
+
+    window.addEventListener("error", function (e) {
+     alert("Error occured: " + e.error.message);
+     return false;
+ })
+
+    function getParameterByName(name) {
+        var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+        return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+
+    function cleanQuerystring() {
+        try {window.history.replaceState({}, document.title, location.origin+location.pathname);}
+        catch (err){}
+    }
+
+    var $company, $custom_url, $name, $url, $email, $password, $confirm_password, $submit, $industry, $techs;
+    var $divEmail, $divCompany, $divUrl, $divIndustry, $divTechs, $divSubmit, $divForm;
+
+    function seterror(element, text, isclear)
+    {
+        element[0].validationMessage = isclear ? "": "Incorrect";
+        (element.next("ul") || {}).remove();
+        if (!isclear){
+            element[0].classList.add("error");
+            element[0].classList.add("invalid");
+            if (text)
+                element.after('<ul class="hs-error-msgs inputs-list hs-error-msgs1" style="display:block;"><li><label>'+text+'</label></li></ul>');
+        }   
+        else
+        {
+            element[0].classList.remove("error");
+            element[0].classList.remove("invalid");
+        }
+        $submit.attr("disabled", isclear && !$("ul.hs-error-msgs1").length ? false : true);
+    }
+
+    function init_vars($form)
+    {
+
+
+        $divEmail=$('.hs_email');
+        $divCompany=$('.hs_company');
+        $divUrl=$('.hs_custom_url');
+        $divIndustry=$('.hs_your_industry_');
+        $divTechs=$('.hs_number_of_techs');
+        $divSubmit=$('.hs_submit');
+        //$divForm=$('form').css('display','block');
+        $form = $($form);
+        $company = $form.find( "input[name='company']" );
+        $name = $form.find( "input[name='name']" );
+        $custom_url = $form.find( "input[name='custom_url']" );
+        $url = $form.find("strong:contains('yourcompanyname')");
+        $email = $form.find( "input[name='email']" );
+        $password = $form.find( "input[name='password']" );
+        $confirm_password = $form.find( "input[name='confirm_password']" );
+        $submit = $form.find( "input[type='submit']" );
+        $industry = $form.find( "select[name='your_industry_']" );
+        $techs = $form.find("select[name='number_of_techs']");
+
+        $custom_url.parent().css('position', 'relative');
+        $custom_url.attr('maxlength','20');
+        $custom_url.after("<div class='HolderOrgDomain'>.sherpadesk.com</div>");
+        
+
+
+    }
+
+</script>
+
+
+<script>
+
+    var testpage = getParameterByName("testpage");
+
+    setTimeout(function(){
+        var $form = $('.hs-form');
+        if ($form && $form[0]){
+            onFormReady1($($form[0]));
+        }
+    }, 3000);
+
+    setTimeout(function(){clearInterval(window.interval);}, 3000);
+
+    function onFormReady1($form){
+        console.log("test"+$form[0].id);
+        $('body').on('hsvalidatedsubmit', $form, function (e) {
+            e.preventDefault();
+            var form = $(e.target); 
+
+            if(~form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2"))
+            {
+              onFormSubmit1(form);
+          }
+      });
+        
+        $($form).prop('target', 'hubspot-iframe');
+        init_vars($form);
+
+        $name.val($name.val()).change().focus(); 
+        $company.val("").change();
+        $email.val("").change();
+        $custom_url.val("").change();
+
+        $password.val("").change();
+        $confirm_password.val("").change();
+
+        if ($name.val())
+            $divEmail.fadeIn('slow');$(this).unbind(event);
+        /*$name.keypress(function(){
+            $divEmail.fadeIn('slow');$(this).unbind(event);});
+        $name.change(function(){
+            $divEmail.fadeIn('slow');$email.focus();});
+            */
+        $email.keypress(function(){
+            $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');$(this).unbind(event);});
+        $email.change(function(){
+            $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');$company.focus();});
+        $company.keypress(function(){
+            $divIndustry.fadeIn('slow');$(this).unbind(event);});
+        $company.change(function(){
+            $divIndustry.fadeIn('slow');$industry.focus();if($industry.val()) $divTechs.fadeIn('slow');});
+        $industry.focus(function(){
+            if($industry.val()) $divTechs.fadeIn('slow');$(this).unbind(event);if($divTechs.is(':visible') && $techs.val()) $divSubmit.fadeIn('slow');});
+        $industry.change(function(){
+            if($industry.val()) $divTechs.fadeIn('slow');$(this).unbind(event);if($divTechs.is(':visible') && $techs.val()) $divSubmit.fadeIn('slow');});
+        $techs.change(function(){
+            $divSubmit.fadeIn('slow');$(this).unbind(event);});
+        $techs.focus(function(){
+            $divSubmit.fadeIn('slow');$(this).unbind(event);});
+
+        setTimeout(function(){$("li","ul.hs-error-msgs").remove()}, 10);
+
+        $password.prop("type", "password");
+        $confirm_password.prop("type", "password");
+        
+        function safechar(text)
+        {
+            return (text || "").toLowerCase().replace(/[^a-zA-Z0-9-]/g, '').trim();
+        }
+
+        $company.change(function() {
+            var company = $(this).val();
+            if(company && !$custom_url.val()){
+                var url = safechar(company);
+                $custom_url.val(url).change();
+                ($url[0] || {}).innerText = url; 
+            }
+        });
+
+        /*
+        $password.change(function() {
+            var password = $(this).val();
+            if(password){
+              if (password.trim().length < 5){ 
+                seterror($(this), "Password must be not less than 5 chars.");
+                return;
+            }
+            else
+                seterror($password, "", true);
+            if ($confirm_password.val().length > 0 && $confirm_password.val() != password){ 
+                seterror($confirm_password, "Passwords must match.");
+                return;
+            }
+            else
+                seterror($confirm_password, "", true);
+        }
+            seterror($(this), "", true);
+        });
+        
+
+        $confirm_password.focusout(function() {
+            var password = $password.val();
+            var confirm_password = $confirm_password.val();
+
+            if(password && confirm_password == password){ 
+                seterror($(this), "", true);
+            }
+            else if (confirm_password && password !=confirm_password)
+                seterror($(this), "Passwords must match.");
+        });
+        */
+
+        $custom_url.change(function() {
+            var url = safechar($(this).val());
+            if ($(this).val() != url)
+            {
+                $custom_url.val(url).change();
+            }
+            ($url[0] || {}).innerText = url || "yourcompanyname"; 
+            if (url)
+            {
+                if (url.length < 3 || url.length > 20)
+                { 
+                    seterror($(this), "This Url is incorrect. Please enter between 3 and 20 characters.");
+                    return;
+                }
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', "http://api.sherpadesk.com/validate_organization?format=json&url="+url, true);
+                xhr.onload = function(e) { 
+                    if (e.target.status == 200)
+                    {
+                        var data = JSON.parse(e.target.response);
+                        if (data.isUrlExists)
+                        {
+                            seterror($custom_url, "This Url is already in use");
+                        }
+                        else
+                            seterror($custom_url, "", true);
+                    }
+                    else
+                    {
+                        //alert(e.target.response);
+                        console.log(e);
+                    }
+                }
+                xhr.send();
+            }
+            else
+                seterror($custom_url, "", true);
+            //console.log($(this).val());
+        });
+    }
+
+    function onFormSubmit1($form){
+        //alert("OK");
+        //return;
+        //console.log('$form', $form); 
+        init_vars($form);
+        seterror($submit, "Redirecting to SherpaDesk app. Please wait...");
+
+        var pass1 = $password.val(), 
+        pass2 = $confirm_password.val();
+
+        $password.val("").change();
+        $confirm_password.val("").change();
+
+        var formData = new FormData();
+
+        formData.append("name", $company.val());
+        formData.append("email", $email.val());
+        formData.append("url", $custom_url.val());
+        formData.append("firstname", $name.val());
+        formData.append("lastname", " ");
+        formData.append("password", pass1);
+        formData.append("password_confirm", pass2);
+        formData.append("how", "Hubspot by start your climb page");
+        formData.append("note", "Industry: " + $industry.val() + " - Techs: " + $techs.val());
+
+                // Append extra data before send.
+                formData.append('is_force_registration', 'true'); 
+                formData.append('is_force_redirect', 'true');
+                formData.append("is_send_hubSpot", "false");
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', "http://api.sherpadesk.com/organizations?format=json", true);
+                xhr.onload = function(e) { 
+                    if (e.target.status == 200 || e.target.status == 201)
+                    {
+                        var data = JSON.parse(e.target.response);
+                        //if (testpage)
+                        //{
+                            var res = encodeURIComponent(data.url);
+                            window.location = "https://www.sherpadesk.com/thank-you?redirect="+res;
+                            //return;
+                        //}
+                        //window.location = data.url;
+                    }
+                    else
+                    {
+                        seterror($submit, "Error occured: " + (e.target.response || e.target.status) +". Please contact SherpaDesk administrator (support@sherpadesk.com)");
+                        $custom_url.change();
+                        $password.val(pass1).change();
+                        $confirm_password.val(pass2).change();
+                        //console.log(e);
+                    } 
+                }
+                xhr.onerror = function () {
+                    console.log("** An error occurred during the transaction");
+                    $password.val(pass1).change();
+                    $confirm_password.val(pass2).change();
+                    seterror($submit, "Error occured. Please try again later or contact SherpaDesk administrator (support@sherpadesk.com)");
+                };
+
+                xhr.send(formData);
+                
+                setTimeout(function(){seterror($submit, "", true)}, 6000);
+            }
+
+        </script>
+    </body>
+    </html>
