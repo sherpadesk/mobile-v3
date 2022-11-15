@@ -162,7 +162,8 @@ window.addEventListener("error", function (e) {
     var res, $captcha, $company, $custom_url, $name, $url, $email, $password, $confirm_password, $submit, $features, $referral;
     var $divCaptcha, $divEmail, $divCompany, $divUrl, $divIndustry, $divTechs, $divSubmit, $divForm, 
         $industry, $techs, $divPass1, $divPass2, $divFeatures, $lockModal, $loadingCircle, $motto,
-        $divcaptcha_base, $div_hs_captcha_input, $div_gdpr, $divReferral;
+        $divcaptcha_base, $div_hs_captcha_input, $div_gdpr, $divReferral,
+        $fname, $lname, $divHow, $how;
         
         function setServererror(element, text, isclear)
         {
@@ -206,6 +207,7 @@ window.addEventListener("error", function (e) {
         $divTechs=$('.hs_number_of_techs');
         $divPass1=$('.hs_password');
         $divPass2=$('.hs_confirm_password');
+        $divHow=$('.hs_how_did_you_hear_about_sherpadesk_');
 
         $divPass1.find("span")[0].innerText = "Password";
         $divPass2.find("span")[0].innerText = "Confirm Password";
@@ -218,12 +220,18 @@ window.addEventListener("error", function (e) {
         
         $name = $form.find( "input[name='name']" );
         $name.attr('maxlength','100');
+          
+        $fname = $form.find( "input[name='firstname']" );
+        $lname = $form.find( "input[name='lastname']" );
 
         $email = $form.find( "input[name='email']" );
         $email.attr('maxlength','255');
 
         $company = $form.find( "input[name='company']" );
         $company.attr('maxlength','255');
+          
+        $how = $form.find( "input[name='how_did_you_hear_about_sherpadesk_']" );
+        $how.attr('maxlength','50');
 
         $custom_url = $form.find( "input[name='custom_url']" );
         $custom_url.parent().css('position', 'relative');
@@ -249,9 +257,10 @@ window.addEventListener("error", function (e) {
         $motto = $("#motto10");
         $divcaptcha_base = $('.hs_captcha-base');
         $div_hs_captcha_input = $('.hs_captcha-base__input');
+        $("#captcha-base__input").removeAttr('name');
         $div_gdpr = $('.legal-consent-container');
         $referral = $form.find( "input[name='referral___referred_by___email']" );
-        if ($referral.length) $referral.attr('maxlength','15');
+        if ($referral.length) $referral.attr('maxlength','250');
 
         }
 

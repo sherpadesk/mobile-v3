@@ -183,7 +183,7 @@ function onFormReady1($form){
       $(".hs-button").attr('id', 'ImageButton');
   },1000);
 
-    $('body').on('hsvalidatedsubmit', $form, function (e) {
+    $('body').on('submit', $form, function (e) {
         e.preventDefault();
             //if (testpage) { $captcha.val("sdjkhaskdjhg"); }
         //console.log($captcha.val());
@@ -191,6 +191,12 @@ function onFormReady1($form){
 
         if(~form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2") || ~$form[0].id.indexOf("c4d7787a-b79b-4b8a-bcb8-1119a0685822"))
         {
+          if ($("input.error").length || !$('input[name="LEGAL_CONSENT.processing"]').is(':checked'))
+            {
+                e.stopPropagation();
+                console.log("Errors found!");
+                return false;
+            }
           onFormSubmit1(form);
       }
   });
@@ -247,6 +253,7 @@ function onFormReady1($form){
             $(".hs_captcha-base").fadeIn('slow');
     $(".hs_captcha-base__input").fadeIn('slow');
           $(".legal-consent-container").fadeIn('slow');
+          $divHow.fadeIn('slow');
         });
         $company.change(function(){
             $divPass1.fadeIn('slow');
@@ -255,6 +262,7 @@ function onFormReady1($form){
             $(".hs_captcha-base").fadeIn('slow');
     $(".hs_captcha-base__input").fadeIn('slow');
           $(".legal-consent-container").fadeIn('slow');
+          $divHow.fadeIn('slow');
         });
         $industry.focus(function(){
            if($industry.val()) $divTechs.fadeIn('slow');
@@ -283,6 +291,22 @@ function onFormReady1($form){
 
         $password.prop("type", "password");
         $confirm_password.prop("type", "password");
+  
+        $name.change(function() {
+            var name = $(this).val().trim();
+            if(name){
+              var s = name.indexOf(" ");
+              if (s < 0) 
+              { 
+                $fname.val(name).change();
+                $lname.val("").change();
+              }
+              else {
+                $fname.val(name.substring(0,s)).change();
+                $lname.val(name.substring(s+1)).change();
+                   }
+            }
+        });
 
         $company.change(function() {
             var company = $(this).val();
@@ -377,7 +401,7 @@ function onFormReady1($form){
 
             
         //$email[0].classList.contains("error")
-        $email.change(function() {
+        /*$email.change(function() {
           
         if(testpage)
              {
@@ -387,14 +411,6 @@ function onFormReady1($form){
                }
           
             var email = $(this).val();
-            if(email.indexOf("ippappus") == 0)
-            {
-                return;
-            }
-            else if(email.indexOf("@gmail.com") > 0) {
-               seterror($email, "This form does not accept addresses from gmail.com. Please use a valid business email address.");
-               return;
-            }
             if(email.indexOf("@") > 0)
             {
                 var xhr = new XMLHttpRequest();
@@ -416,7 +432,7 @@ function onFormReady1($form){
         }
         //else
         //    seterror($custom_url, "", true);
-    });
+    });*/
 
     }
 
@@ -452,21 +468,21 @@ function onFormReady1($form){
         if ($referral.length)
             referral = $referral.val() || "";
 
-        $password.val("").change();
-        $confirm_password.val("").change();
+        //$password.val("").change();
+        //$confirm_password.val("").change();
 
         var formData = new FormData();
 
         formData.append("name", Mp_SafeCharsRemove($company.val()));
         formData.append("email", $email.val());
         formData.append("url", $custom_url.val());
-        formData.append("firstname", Mp_SafeCharsRemove($name.val()));
-        formData.append("lastname", " ");
+        formData.append("firstname", Mp_SafeCharsRemove($fname.val()));
+        formData.append("lastname", Mp_SafeCharsRemove($lname.val()));
         formData.append("password", pass1);
         formData.append("password_confirm", pass2);
         formData.append("techs_number", $($techs).val());
         formData.append("industry", $($industry).val());
-        formData.append("how", get_how(referral));
+        formData.append("how", $how.val() + get_how(referral));
         formData.append("iiid", iiid);
         formData.append("provider", provider);
         formData.append("note", "Industry: " + $industry.val() + " - Techs: " + $techs.val() + " url:" + location.href.substring(0,50));
