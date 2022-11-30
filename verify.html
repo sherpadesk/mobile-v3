@@ -10,65 +10,45 @@
         var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
         return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
     }
-    
-    window.addEventListener("beforeunload", function () {
-  //document.body.classList.add("animate-out");
-});
-
-
-    var vid = null;
+    var beta = getParameterByName('beta') || "";
     var ismob = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
     
-    var uri = getParameterByName("redirect");
-    uri = decodeURIComponent(uri || localStorage.redirect || "https://app.sherpadesk.com/login/");
-    
-    
-    setTimeout(function() {
-                    $("#anivideo").prepend("<br/><br/><a href='" +uri+"'>Please Click Here if your browser does not automatically redirect you and go directly to your new SherpaDek account.</a>")
-                }, 4500);
-    
-    var gifUrl = 'https://cdn2.hubspot.net/hubfs/2629098/Assets_Okt_2017/Rocket%20Animation_V2.gif?t'+new Date().valueOf();
+    var request_token = getParameterByName("r");
+    request_token = decodeURIComponent(request_token || localStorage.request_token || '');
 
-    var gif = new Image();
-    if (ismob) {
-        gif.src = gifUrl;
+    var user_email = getParameterByName("e");
 
-        gif.onload = function() {
-            $("#rocketMovie").parent().html("<img id=rocketGif style='width: 100%;' BORDER=0 src='"+gifUrl+"' alt='Your app will launch soon...' title='Your app will launch soon...'>");
-            if (uri) {
-                setTimeout(function() {
-                    document.body.classList.add("animate-out");
-                }, 7000);
-                setTimeout(function() {
-                    localStorage.redirect = "";
-                    window.location = uri;
-                }, 6500);
-            }
-        }
-    }
+    var api_url = beta ? "https://api.beta.sherpadesk.com" : "https://api.sherpadesk.com";
 
     $(function() {
-        if (window.self !== window.top)
-            window.top.location = window.self.location;
-        if (ismob) {
-            return;
-        }
-        $("#rocketMovie").parent().html('<video id="rocketMovie" style="width: 100%;" preload poster="https://cdn2.hubspot.net/hubfs/2629098/Assets_Okt_2017/rocket_movie_poster.png"><source src="https://cdn2.hubspot.net/hubfs/2629098/Assets_Okt_2017/Rocket%20Animation_V2.mp4" type="video/mp4" /><source src="https://cdn2.hubspot.net/hubfs/2629098/Assets_Okt_2017/Rocket_Animation_V2.ogv" type="video/ogg" /><source src="https://cdn2.hubspot.net/hubfs/2629098/Assets_Okt_2017/Rocket_Animation_V2.webm" type="video/webm" /></video>');
-         vid = document.getElementById("rocketMovie");
-        vid.addEventListener("canplaythrough", function() {
-            console.log("oncanplaythrough");
-          setTimeout(function() {
-               vid.play();
-                }, 1000);
-            if (uri) {
-                setTimeout(function() {
-                    document.body.classList.add("animate-out");
-                }, 8000);
-                setTimeout(function() {
-                    localStorage.redirect = "";
-                    window.location = uri;
-                }, 4500);
+
+            //if (window.self !== window.top)
+            //window.top.location = window.self.location;
+
+        function ResendVerification()
+        {
+            var xhr = new XMLHttpRequest();
+                xhr.open('GET', api_url + "/resend_verification?r="+request_token, true);
+                xhr.onload = function(e) { 
+                    if (e.target.status == 200)
+                    {
+                        alert("Verification Email sent successfuly. Please check your mailbox.")
+                    }
+                    else
+                    {
+                    console.log(e);
+                    alert("Verification Token is INCORRECT. Please check your mailbox for further instructions!")
+                    }
             }
-        });
-    });
+            xhr.send();
+        }
+
+        if (user_email)
+            $("span#user_email").text(user_email);
+
+    var ResendVerificationLink = $("a[href='https://api.sherpadesk.com/resend_verification']");
+    ResendVerificationLink.removeAttr("href");
+    ResendVerificationLink.on("click", ResendVerification);
+});
+
 </script>
