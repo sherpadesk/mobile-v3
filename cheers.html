@@ -18,10 +18,10 @@
 
     $(function() {
 
-    $("a[href='https://app.sherpadesk.com/login']").attr('href', uri || beta ? "https://app.beta.sherpadesk.com/login/" : "https://app.sherpadesk.com/login/");
+    $("a[href='https://app.sherpadesk.com/login']").attr('href', uri || (beta ? "https://app.beta.sherpadesk.com/login/" : "https://app.sherpadesk.com/login/"));
     
-    if (window.self !== window.top)
-            window.top.location = window.self.location;
+    //if (window.self !== window.top)
+    //        window.top.location = window.self.location;
 
     if (uri) {
                 setTimeout(function() {

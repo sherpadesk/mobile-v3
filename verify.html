@@ -32,13 +32,13 @@
                 $("h3#user_title").text('Your business is about to take off...');
                 $("<div id='loading-circle10' style='display:block;top: -70px;'>&nbsp;</div>").insertBefore("h3#user_title");
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', api_url + "/organization_validated?r="+request_token, true);
+                xhr.open('GET', api_url + "/organization_validated?r="+request_token,  true);
                 xhr.onload = function(e) { 
                     if (e.target.status == 200 || e.target.status == 201)
                     {
                         var data = JSON.parse(e.target.response);
                             console.log(data);
-                            res = encodeURIComponent(data.url);
+                            res = encodeURIComponent(data.url || '');
                             localStorage.request_token = "";
                             localStorage.resend = "";
                             localStorage.redirect = res;
@@ -74,6 +74,7 @@
         if (user_email)
             $("span#user_email").text(user_email);
 
+    var ResendVerificationLink = $("a[href='https://api.sherpadesk.com/resend_verification']");
     ResendVerificationLink.removeAttr("href");
     ResendVerificationLink.on("click", ResendVerification);
 });
