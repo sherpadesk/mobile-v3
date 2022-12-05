@@ -23,15 +23,9 @@
 
     var api_url = beta ? "https://api.beta.sherpadesk.com" : "https://api.sherpadesk.com";
 
-    $(function() {
-
-            //if (window.self !== window.top)
-            //window.top.location = window.self.location;
-
-            if (request_token) {
-                $("h3#user_title").text('Your business is about to take off...');
-                $("<div id='loading-circle10' style='display:block;top: -70px;'>&nbsp;</div>").insertBefore("h3#user_title");
-                var xhr = new XMLHttpRequest();
+    function RegisterOrg()
+    {
+        var xhr = new XMLHttpRequest();
                 xhr.open('GET', api_url + "/organization_validated?r="+request_token,  true);
                 xhr.onload = function(e) { 
                     if (e.target.status == 200 || e.target.status == 201)
@@ -49,8 +43,19 @@
                     console.log(e);
                     alert("Verification Token is INCORRECT. Please click Resend button and check your mailbox for further instructions!")
                     }
-            }
-            xhr.send();
+                }
+                xhr.send();
+    }
+
+    $(function() {
+
+            //if (window.self !== window.top)
+            //window.top.location = window.self.location;
+
+            if (request_token) {
+                $("h3#user_title").text('Your business is about to take off...');
+                $("<div id='loading-circle10' style='display:block;top: -70px;'>&nbsp;</div>").insertBefore("h3#user_title");
+                setTimeout(RegisterOrg, 4000);
         }
 
         function ResendVerification()
@@ -58,21 +63,24 @@
             var xhr = new XMLHttpRequest();
                 xhr.open('GET', api_url + "/resend_verification?r="+resend+"&token="+request_token, true);
                 xhr.onload = function(e) { 
+                    console.log(e);
                     if (e.target.status == 200)
                     {
-                        alert("Verification Email sent successfuly. Please check your mailbox.")
+                        alert("Verification Email sent successfuly. Please check your mailbox.");
                     }
-                    else
+                    else if (e.target.responseText)
                     {
-                    console.log(e);
-                    alert("Verification Token is INCORRECT. Please check your mailbox for further instructions!")
+                        alert(e.target.responseText);
+                    }
+                    else {
+                        alert("Verification Token is INCORRECT. Please check your mailbox for further instructions!");
                     }
             }
             xhr.send();
         }
 
-        if (user_email)
-            $("span#user_email").text(user_email);
+        //if (user_email)
+            $("span#user_email").text(user_email || "*****@******.***");
 
     var ResendVerificationLink = $("a[href='https://api.sherpadesk.com/resend_verification']");
     ResendVerificationLink.removeAttr("href");
