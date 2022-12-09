@@ -15,11 +15,6 @@
         google_conversion_id = 0;
         google_conversion_label = "";
     }
-    //else if (~location.href.indexOf("thank-you")){
-    //    var element = document.createElement("script");
-    //    element.src = "//www.googleadservices.com/pagead/conversion.js";
-    //    document.body.appendChild(element);
-    //}
       /* ]]> */ 
   </script>
 
@@ -34,17 +29,10 @@
 
 <iframe hidden name="hubspot-iframe" id="hubspot-iframe"></iframe>
 
-<script>// <![CDATA[
+<script>
 
     var num_click=0;
-    //var x = window.matchMedia("(max-width: 767px)");
-    /*function hideNext(x) {
-    if (x.matches) { // If media query matches
-        $("#next_step").hide();
-    } else {
-        $("#next_step").show();
-    }
-}*/
+
 function nextStepDesktop(){
     if(!$('div.NO-NextStep').length && !$('#next_step').length) {
         $("<center><button id='next_step'> </button></center>").insertBefore('h3:contains("*Base Camp Subscription")');
@@ -231,10 +219,6 @@ function onFormReady1($form){
         $divEmail.fadeIn('slow');
         $divCaptcha.fadeIn('slow');}
 
-   /* $name.keypress(function(){
-        $divEmail.fadeIn('slow');$(this).unbind(event);});
-    $name.change(function(){
-        $divEmail.fadeIn('slow');$email.focus();});*/
         $name.keypress(function(){
                 if ($email.val()!=""){
             $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');}});
@@ -267,7 +251,6 @@ function onFormReady1($form){
         $industry.focus(function(){
            if($industry.val()) $divTechs.fadeIn('slow');
            if($industry.val()) { if ($divReferral.length) $divReferral.fadeIn('slow'); }
-           //if($divTechs.is(':visible') && $techs.val()) {$("#next_step").hide();$divSubmit.fadeIn('slow');}
        });
         $industry.change(function(){
           var password = $password.val();
@@ -278,14 +261,7 @@ function onFormReady1($form){
                 seterror($confirm_password, "", true);
             if($industry.val()) $divTechs.fadeIn('slow');
             if($industry.val()) { if ($divReferral.length) $divReferral.fadeIn('slow'); }
-            //if($divTechs.is(':visible') && $techs.val()) {$("#next_step").hide();$divSubmit.fadeIn('slow');}     
         });
-        //$techs.change(function(){
-        //    $("#next_step").hide();
-        //    $divSubmit.fadeIn('slow');/*$divFeatures.fadeIn('slow');*/});
-        //$techs.focus(function(){
-        //    $("#next_step").hide();
-        //    $divSubmit.fadeIn('slow');/*$divFeatures.fadeIn('slow');*/});
         
         setTimeout(function(){$("li","ul.hs-error-msgs").remove()}, 10);
 
@@ -398,55 +374,15 @@ function onFormReady1($form){
             seterror($custom_url, "", true);
         //console.log($(this).val());
     });
-
-            
-        //$email[0].classList.contains("error")
-        /*$email.change(function() {
-          
-        if(testpage)
-             {
-               if ($name.val() !=""){
-                  $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');$company.focus();}
-                  return;
-               }
-          
-            var email = $(this).val();
-            if(email.indexOf("@") > 0)
-            {
-                var xhr = new XMLHttpRequest();
-                var api_url = "https://api.sherpadesk.com";
-                xhr.open('GET', api_url + "/hubspot/check?email="+email+"&format=json", true);
-                xhr.onload = function(e) { 
-                    if (e.target.status == 200)
-                    {
-                        if ($name.val() !=""){
-                        $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');$company.focus();}
-                        seterror($email, "", true);
-                    }
-                    else
-                    {
-                        seterror($email, "Your email is undeliverable. Please use a valid business email address.");
-                    }
-            }
-            xhr.send();
-        }
-        //else
-        //    seterror($custom_url, "", true);
-    });*/
-
     }
 
     function onFormSubmit1($form){
-        //alert("OK");
-        //return;
-        //console.log('$form', $form); 
             // lock down the form
     $lockModal.css("display", "block");
     $loadingCircle.css("display", "block");
     $motto.css("display", "block");
 
         init_vars($form);
-        //seterror($submit, "Redirecting to SherpaDesk app. Please wait...");
         
             if (testpage) { $captcha.val("sdjkhaskdjhg"); }
         //console.log($captcha.val())
@@ -469,8 +405,6 @@ function onFormReady1($form){
         if ($referral.length)
             referral = $referral.val() || "";
 
-        //$password.val("").change();
-        //$confirm_password.val("").change();
 
         var formData = new FormData();
 
@@ -511,8 +445,7 @@ function onFormReady1($form){
             if (e.target.status == 200 || e.target.status == 201)
             {
                 var data = JSON.parse(e.target.response);
-                        //if (testpage)
-                        //{
+
                             console.log(data);
                             res = encodeURIComponent(data.url || '');
                             r = encodeURIComponent(data.r || '');
@@ -526,10 +459,6 @@ function onFormReady1($form){
                             {
                             setTimeout(function(){window.location = "https://www.sherpadesk.com/thank-you?redirect="+res;}, 3000);  
                             }                         
-                            //window.location = "https://www.sherpadesk.com/thank-you?redirect="+res;
-                            //return;
-                        //}
-                        //window.location = data.url;
                     }
                     else
                     {
