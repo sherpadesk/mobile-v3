@@ -238,6 +238,9 @@ function onFormReady1($form){
     $(".hs_captcha-base__input").fadeIn('slow');
           $(".legal-consent-container").fadeIn('slow');
           $divHow.fadeIn('slow');
+          $divIndustry.fadeIn('slow');
+          $divTechs.fadeIn('slow');
+          if ($divReferral.length) $divReferral.fadeIn('slow');
         });
         $company.change(function(){
             $divPass1.fadeIn('slow');
@@ -247,20 +250,9 @@ function onFormReady1($form){
     $(".hs_captcha-base__input").fadeIn('slow');
           $(".legal-consent-container").fadeIn('slow');
           $divHow.fadeIn('slow');
-        });
-        $industry.focus(function(){
-           if($industry.val()) $divTechs.fadeIn('slow');
-           if($industry.val()) { if ($divReferral.length) $divReferral.fadeIn('slow'); }
-       });
-        $industry.change(function(){
-          var password = $password.val();
-            var confirm_password = $confirm_password.val();
-          if (password && password !=confirm_password)
-                seterror($($confirm_password), "Passwords must match.");
-          else
-                seterror($confirm_password, "", true);
-            if($industry.val()) $divTechs.fadeIn('slow');
-            if($industry.val()) { if ($divReferral.length) $divReferral.fadeIn('slow'); }
+          $divIndustry.fadeIn('slow');
+          $divTechs.fadeIn('slow');
+          if ($divReferral.length) $divReferral.fadeIn('slow');
         });
         
         setTimeout(function(){$("li","ul.hs-error-msgs").remove()}, 10);
