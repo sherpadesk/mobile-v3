@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+    <style>
+        span, div, h3 {
+            font-family: Arial,sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <div style="margin-left: 30px;">
+        <span style="line-height: 2;">Dear Sir,<br />Email verification is required to activate your free trial.</span>
+        <br />
+        <br />
+        <div><a href="{ValidationUrl}" target="_blank" rel="noopener noreferrer" data-auth="NotApplicable" data-safelink="true" data-linkindex="1"><img data-imagetype="External" src="https://{SiteUrl}/images/verify-your-email-button.png" alt="Verify Your Email" style="border: 0;  width: 220px;"></a></div>
+        <br />
+        <div>Welcome to Sherpadesk!<br />
+        <br /><span style="line-height: 2;">Yours,<br />The Sherpadesk Team</span></div>
+        <br />
+        <div><img data-imagetype="External" src="https://{SiteUrl}/images/companylogos/sherpadesk_310x95.png" alt="SherpaDesk" style="border: 0;  width: 220px;"></div>
+    </div>
+</body>
+</html>
