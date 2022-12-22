@@ -165,7 +165,7 @@ function onFormReady1($form){
        );
     console.log("test"+$form[0].id);
 
-    var a=document.createElement("script");a.src="https://f.hubspotusercontent40.net/hubfs/2629098/Sherpadesknov2016/Js/app_compile.js";document.body.appendChild(a);
+    var a=document.createElement("script");a.src="https://2629098.fs1.hubspotusercontent-na1.net/hubfs/2629098/Sherpadesknov2016/Js/app_compile20221222.js";document.body.appendChild(a);
 
     setTimeout(function(){
       $(".hs-button").attr('id', 'ImageButton');
@@ -236,10 +236,10 @@ function onFormReady1($form){
             $("#captcha-base__input").attr('maxlength','15');
             $(".hs_captcha-base").fadeIn('slow');
     $(".hs_captcha-base__input").fadeIn('slow');
-          $(".legal-consent-container").fadeIn('slow');
-          $divHow.fadeIn('slow');
-          $divIndustry.fadeIn('slow');
-          $divTechs.fadeIn('slow');
+          //$(".legal-consent-container").fadeIn('slow');
+          //$divHow.fadeIn('slow');
+          //$divIndustry.fadeIn('slow');
+          //$divTechs.fadeIn('slow');
           if ($divReferral.length) $divReferral.fadeIn('slow');
         });
         $company.change(function(){
@@ -248,10 +248,10 @@ function onFormReady1($form){
             $("#captcha-base__input").attr('maxlength','15');
             $(".hs_captcha-base").fadeIn('slow');
     $(".hs_captcha-base__input").fadeIn('slow');
-          $(".legal-consent-container").fadeIn('slow');
-          $divHow.fadeIn('slow');
-          $divIndustry.fadeIn('slow');
-          $divTechs.fadeIn('slow');
+          //$(".legal-consent-container").fadeIn('slow');
+          //$divHow.fadeIn('slow');
+          //$divIndustry.fadeIn('slow');
+          //$divTechs.fadeIn('slow');
           if ($divReferral.length) $divReferral.fadeIn('slow');
         });
         
@@ -449,7 +449,7 @@ function onFormReady1($form){
                             }
                             else
                             {
-                            setTimeout(function(){window.location = "https://www.sherpadesk.com/thank-you?redirect="+res;}, 3000);  
+                                setTimeout(function(){window.location = "https://www.sherpadesk.com/verify-your-email?e="+email+"&resend="+r;}, 3000); ;  
                             }                         
                     }
                     else
