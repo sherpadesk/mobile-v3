@@ -62,7 +62,7 @@
     <div class="container">
       <img src="https://support.sherpadesk.com/images/icons/Metro/mountain.png" alt="label-mountain">
       <div class="line"></div>
-      <h3>SherpaDesk v3.2</h3>
+      <h3>SherpaDesk v3.3</h3>
     </div>
   </header>
 
@@ -424,7 +424,7 @@ window.addEventListener("load", function () {
 })();
 */
 
-function getSherpaData(index, email, oldstatus, hsaccount) {
+function getSherpaData(index, vid, email, oldstatus, hsaccount) {
   var XHR = new XMLHttpRequest();
 
     // Define what happens on successful data submission
@@ -444,15 +444,17 @@ function getSherpaData(index, email, oldstatus, hsaccount) {
         {
           updateUserData(index, email, "lifecyclestage", status, oldstatus);
         }
-        //else if (status == "false" && (oldstatus == "customer" || oldstatus == "lead"))
-        //{
-        //  updateUserData(index, email, "lifecyclestage", "subscriber", oldstatus);
-        //}
+        else if (status == "false" && hsaccount && (oldstatus == "marketingqualifiedlead" || oldstatus == "salesqualifiedlead"))
+        {
+          //console.log("?vid="+vid+"&email="+email+"&hubspot="+hsaccount);
+          updateOrDeleteUser(index, vid, email, hsaccount);
+        }
       }
       status = status == "false" ? "subscriber" : status;
       document.getElementById("c"+index).innerHTML = status && status[0].toUpperCase() + status.slice(1);
-      if (account && !(account == "SherpaDesk" && hsaccount))
-      	 document.getElementById("a"+index).innerHTML = account;
+      //if (account && !(account == "SherpaDesk" && hsaccount))
+      account = !account ? "Not Registered in App" : account;
+      	 document.getElementById("a"+index).innerHTML = account + (hsaccount ? (" (Hubspot: " + hsaccount + " )") : "");
       //document.getElementById("ex"+index).innerHTML = status && status[0].toUpperCase() + status.slice(1);
     });
 
@@ -500,6 +502,34 @@ function getSherpaData(index, email, oldstatus, hsaccount) {
   }
 
 
+  function updateOrDeleteUser(index, vid, email, hsaccount) {
+
+    var XHR = new XMLHttpRequest();
+
+    // Define what happens on successful data submission
+    XHR.addEventListener("load", function(event) {
+      console.log(index, ", vid="+vid, " - ", event.target.responseText);
+      document.getElementById("u"+index).innerHTML = event.target.responseText;
+    });
+
+    // Define what happens in case of error
+    XHR.addEventListener("error", function(event) {
+      alert('Oups! Something goes wrong.');
+      stopnow();
+    });
+
+    // Set up our request
+    XHR.open('POST', SITE + "hubspot/update");
+
+    var formData = new FormData();
+    formData.append("vid", vid);  
+    formData.append("email", email);    
+    formData.append("hubspot", hsaccount);    
+
+    // execute results
+    XHR.send(formData);
+  }
+
   function showResult(test, index) {
 
     index = index || 0;
@@ -521,6 +551,7 @@ function getSherpaData(index, email, oldstatus, hsaccount) {
     var account = (dataObj.contacts[0].properties.company || {}).value;
     var date = new Date(dataObj.contacts[0]["addedAt"] || identity.timestamp).toLocaleDateString("en");
     var timeOffset = dataObj["time-offset"];
+    var vid = dataObj.contacts[0].vid;
 
     if (timeOffset)
       timeoffset = timeOffset;
@@ -535,7 +566,7 @@ function getSherpaData(index, email, oldstatus, hsaccount) {
       stopnow();
     }
     
-    var url = 'https://app.hubspot.com/contacts/'+dataObj.contacts[0]["portal-id"]+'/contact/'+dataObj.contacts[0].vid+'/';
+    var url = 'https://app.hubspot.com/contacts/'+dataObj.contacts[0]["portal-id"]+'/contact/'+vid+'/';
 
     //console.log(email);
     if (email && ~email.indexOf("@")) {
@@ -545,7 +576,7 @@ function getSherpaData(index, email, oldstatus, hsaccount) {
         	stages[stage.toLowerCase()]++;
         //console.log(stages[stage.toLowerCase()]);
         AddNoSkypeRow(index, email, stage, url, date, account);
-        getSherpaData(index,email,stage, account);
+        getSherpaData(index,vid,email,stage, account);
       }
       
       if (timeOffset && timeOffset < start)
