@@ -446,7 +446,7 @@ function getSherpaData(index, vid, email, oldstatus, hsaccount) {
         }
         else if (status == "false" && hsaccount && (oldstatus == "marketingqualifiedlead" || oldstatus == "salesqualifiedlead"))
         {
-          //console.log("?vid="+vid+"&email="+email+"&hubspot="+hsaccount);
+          console.log("https://api.sherpadesk.com/hubspot/update?vid="+vid+"&email="+email.replace("removethis","")+"&hubspot="+hsaccount);
           updateOrDeleteUser(index, vid, email, hsaccount);
         }
       }
