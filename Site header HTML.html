@@ -73,7 +73,12 @@ if (testpage) {
     display: none;
   }
 
+
   [data-form-id="c4d7787a-b79b-4b8a-bcb8-1119a0685822"] .hs-form-field, [data-form-id="c4d7787a-b79b-4b8a-bcb8-1119a0685822"] .hs_submit, [data-form-id="c4d7787a-b79b-4b8a-bcb8-1119a0685822"] .legal-consent-container{
+    display: none;
+  }
+
+  [data-form-id="6480ee87-0430-48d4-89e4-2b7554d0664f"] .hs_submit, [data-form-id="6480ee87-0430-48d4-89e4-2b7554d0664f"] .legal-consent-container{
     display: none;
   }
   
@@ -157,6 +162,7 @@ window.addEventListener("error", function (e) {
 })
 
 
+    var shortform=0;
     var res, $captcha, $company, $custom_url, $name, $url, $email, $password, $confirm_password, $submit, $features, $referral;
     var $divCaptcha, $divEmail, $divCompany, $divUrl, $divIndustry, $divTechs, $divSubmit, $divForm, 
         $industry, $techs, $divPass1, $divPass2, $divFeatures, $lockModal, $loadingCircle, $motto,
@@ -232,9 +238,12 @@ window.addEventListener("error", function (e) {
         $how.attr('maxlength','50');
 
         $custom_url = $form.find( "input[name='custom_url']" );
+
+        if(!shortform){
         $custom_url.parent().css('position', 'relative');
         $custom_url.attr('maxlength','20');
         $custom_url.after("<div class='HolderOrgDomain'>.sherpadesk.com</div>");
+        }
 
         $url = $form.find("strong:contains('yourcompanyname')");
         

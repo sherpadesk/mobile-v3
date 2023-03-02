@@ -136,7 +136,12 @@ function get_how(myreferral){
 var interval = setInterval(function(){
     var $form = $('.hs-form');
     if ($form && $form[0]){
-        if(~$form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2") || ~$form[0].id.indexOf("c4d7787a-b79b-4b8a-bcb8-1119a0685822"))
+        if(~$form[0].id.indexOf("6480ee87-0430-48d4-89e4-2b7554d0664f"))
+        {
+            shortform=1;
+        }
+
+        if(~$form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2") || ~$form[0].id.indexOf("c4d7787a-b79b-4b8a-bcb8-1119a0685822") || shortform)
         {
             clearInterval(window.interval);
             onFormReady1($($form[0]));
@@ -177,11 +182,17 @@ function onFormReady1($form){
         //console.log($captcha.val());
         var form = $(e.target); 
 
-        if(~form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2") || ~$form[0].id.indexOf("c4d7787a-b79b-4b8a-bcb8-1119a0685822"))
+        if(~$form[0].id.indexOf("6480ee87-0430-48d4-89e4-2b7554d0664f"))
+        {
+            shortform=1;
+        }
+
+        if(~form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2") || ~$form[0].id.indexOf("c4d7787a-b79b-4b8a-bcb8-1119a0685822") || shortform)
         {
           if ($("input.error").length || !$('input[name="LEGAL_CONSENT.processing"]').is(':checked'))
             {
                 e.stopPropagation();
+                $("input.error").last().focus();
                 console.log("Errors found!");
                 return false;
             }
@@ -204,6 +215,8 @@ function onFormReady1($form){
     $password.val("").change();
     $confirm_password.val("").change();
     $referral.val("").change();
+
+    if(!shortform){
   
   if ($custom_url.val()){
     $divEmail.fadeIn();
@@ -213,7 +226,7 @@ function onFormReady1($form){
     $divPass1.fadeIn();
     $divPass2.fadeIn();
   }
- 
+
 
     if ($name.val()){
         $divEmail.fadeIn('slow');
@@ -254,6 +267,17 @@ function onFormReady1($form){
           //$divTechs.fadeIn('slow');
           if ($divReferral.length) $divReferral.fadeIn('slow');
         });
+
+    }
+    else
+    {
+        console.log("short");
+        setTimeout(() => {
+       $("#captcha-base__input").attr('maxlength','15');
+       $(".hs_captcha-base").fadeIn('slow');
+       $(".hs_captcha-base__input").fadeIn('slow');
+   }, 1000);
+    }
         
         setTimeout(function(){$("li","ul.hs-error-msgs").remove()}, 10);
 
@@ -278,11 +302,21 @@ function onFormReady1($form){
 
         $company.change(function() {
             var company = $(this).val();
+            if(!shortform){
             if(company && !$custom_url.val()){
                 var url = safechar(company).substring(0,20);
                 $custom_url.val(url).change();
                 ($url[0] || {}).innerText = url; 
             }
+           }
+           else
+           {
+            if(company){
+                var url = safechar(company).substring(0,20);
+                $custom_url.val(url).change();
+                ($url[0] || {}).innerText = url; 
+            }
+           }
         });
 
 
@@ -337,7 +371,13 @@ function onFormReady1($form){
             {
                 if (url.length < 3 || url.length > 20)
                 { 
+                    if(!shortform){
                     seterror($(this), "This Url is incorrect. Please enter between 3 and 20 characters.");
+                    }
+                    else
+                    {
+                        seterror($company, "Company Name is incorrect. Please enter between 3 and 20 characters.");
+                    }
                     return;
                 }
                 var xhr = new XMLHttpRequest();
@@ -349,10 +389,22 @@ function onFormReady1($form){
                         var data = JSON.parse(e.target.response);
                         if (data.isUrlExists)
                         {
+                            if(!shortform){
                             seterror($custom_url, "This Url is already in use");
+                            }
+                            else
+                            {
+                                seterror($company, "Company Name is already in use");
+                            }
                         }
                         else
+                        {
+                            if(!shortform){
                             seterror($custom_url, "", true);
+                            }
+                            else
+                                seterror($company, "", true);
+                        }
                     }
                     else
                     {
