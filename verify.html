@@ -28,6 +28,7 @@
         var xhr = new XMLHttpRequest();
                 xhr.open('GET', api_url + "/organization_validated?r="+request_token,  true);
                 xhr.onload = function(e) { 
+                console.log(e);
                     if (e.target.status == 200 || e.target.status == 201)
                     {
                         var data = JSON.parse(e.target.response);
@@ -38,9 +39,12 @@
                             localStorage.redirect = res;
                             setTimeout(function(){window.location = "https://www.sherpadesk.com/thank-you-redirect?redirect="+res+(beta ? "&beta=1" : ""); }, 1000);
                     }
+                  else if (e.target.responseText)
+                    {
+                        alert(e.target.responseText);
+                    }
                     else
                     {
-                    console.log(e);
                     alert("Verification Token is INCORRECT. Please click Resend button and check your mailbox for further instructions!")
                     }
                 }
