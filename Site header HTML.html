@@ -24,6 +24,7 @@ function cleanQuerystring() {
     catch (err){}
 }
 
+var verifypage = '/verify-your-email' == window.location.pathname;
 var testpage = getParameterByName('test') || getParameterByName('noconversion') || localStorage.testpage || "";
 var provider = getParameterByName('provider') || "";
 var iiid = getParameterByName('iiid') || "";
@@ -78,7 +79,7 @@ if (testpage) {
     display: none;
   }
 
-  [data-form-id="6480ee87-0430-48d4-89e4-2b7554d0664f"] .hs_submit, [data-form-id="6480ee87-0430-48d4-89e4-2b7554d0664f"] .legal-consent-container{
+  [data-form-id="6480ee87-0430-48d4-89e4-2b7554d0664f"] .hs-form-field, [data-form-id="6480ee87-0430-48d4-89e4-2b7554d0664f"] .hs_submit, [data-form-id="6480ee87-0430-48d4-89e4-2b7554d0664f"] .legal-consent-container{
     display: none;
   }
   

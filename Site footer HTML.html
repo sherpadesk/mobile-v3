@@ -192,9 +192,12 @@ function onFormReady1($form){
     $confirm_password.val("").change();
     $referral.val("").change();
 
-    if(!shortform){
+    if(shortform)
+      console.log("short");
+
+    //if(!shortform){
   
-  if ($custom_url.val()){
+ /* if ($custom_url.val()){
     $divEmail.fadeIn();
     $divCaptcha.fadeIn();
     $divCompany.fadeIn();
@@ -202,6 +205,7 @@ function onFormReady1($form){
     $divPass1.fadeIn();
     $divPass2.fadeIn();
   }
+  */
 
 
     if ($name.val()){
@@ -213,15 +217,19 @@ function onFormReady1($form){
             $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');}});
         $name.change(function(){
                 if ($email.val() !=""){
-            $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');}
+            $divCompany.fadeIn('slow');
+            if(!shortform) $divUrl.fadeIn('slow');
+          }
           });   
         $email.keypress(function(){
                 if ($name.val()!=""){
-            $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');}});
+            $divCompany.fadeIn('slow');
+            if(!shortform)$divUrl.fadeIn('slow');
+          }});
         
         $company.keypress(function(){
-            $divPass1.fadeIn('slow');
-            $divPass2.fadeIn('slow');
+            if(!shortform) $divPass1.fadeIn('slow');
+            if(!shortform) $divPass2.fadeIn('slow');
             $("#captcha-base__input").attr('maxlength','15');
             $(".hs_captcha-base").fadeIn('slow');
     $(".hs_captcha-base__input").fadeIn('slow');
@@ -232,8 +240,8 @@ function onFormReady1($form){
           if ($divReferral.length) $divReferral.fadeIn('slow');
         });
         $company.change(function(){
-            $divPass1.fadeIn('slow');
-            $divPass2.fadeIn('slow');
+            if(!shortform) $divPass1.fadeIn('slow');
+            if(!shortform) $divPass2.fadeIn('slow');
             $("#captcha-base__input").attr('maxlength','15');
             $(".hs_captcha-base").fadeIn('slow');
     $(".hs_captcha-base__input").fadeIn('slow');
@@ -244,16 +252,16 @@ function onFormReady1($form){
           if ($divReferral.length) $divReferral.fadeIn('slow');
         });
 
-    }
-    else
+    /*}
+     else
     {
         console.log("short");
-        setTimeout(() => {
+       setTimeout(() => {
        $("#captcha-base__input").attr('maxlength','15');
        $(".hs_captcha-base").fadeIn('slow');
        $(".hs_captcha-base__input").fadeIn('slow');
    }, 1000);
-    }
+    }*/
         
         setTimeout(function(){$("li","ul.hs-error-msgs").remove()}, 10);
 
