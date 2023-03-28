@@ -139,6 +139,7 @@ function safechar(text)
 }
 
 function onFormReady1($form){
+
     preload(
        "https://cdn2.hubspot.net/hubfs/2629098/Rocket%20LP/Buttons_Start%20a%20Free%20Trial%20Blue_small.png",
        "https://cdn2.hubspot.net/hubfs/2629098/Rocket%20LP/Buttons_Start%20a%20Free%20Trial%20(Orange)_small.png",
@@ -180,6 +181,7 @@ function onFormReady1($form){
     $form.append("<div id='lock-modal10'></div><div id='loading-circle10'></div><div class='head-text-form' id='motto10'>Your business is about to take off...</div>");
 
     init_vars($form);
+        $divHow.hide();
 
     nextStepDesktop();
   
@@ -192,8 +194,12 @@ function onFormReady1($form){
     $confirm_password.val("").change();
     $referral.val("").change();
 
-    if(shortform)
+    if(shortform){
       console.log("short");
+      console.log($divUrl);
+      $divUrl.hide();
+      $divUrl.find("span").text("");
+    }
 
     //if(!shortform){
   
