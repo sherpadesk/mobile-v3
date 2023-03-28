@@ -28,7 +28,7 @@
         var xhr = new XMLHttpRequest();
                 xhr.open('GET', api_url + "/organization_validated?r="+request_token,  true);
                 xhr.onload = function(e) { 
-                console.log(e);
+console.log(e);
                     if (e.target.status == 200 || e.target.status == 201)
                     {
                         var data = JSON.parse(e.target.response);
@@ -57,6 +57,9 @@
             //window.top.location = window.self.location;
 
             if (request_token) {
+                $("#user_success").text("Please DON'T close this page. Your email is successfuly verified: ");
+                $("#caution2").hide();
+                $("#caution").hide();
                 $("h3#user_title").text('Your business is about to take off...');
                 $("<div id='loading-circle10' style='display:block;top: -70px;'>&nbsp;</div>").insertBefore("h3#user_title");
                 setTimeout(RegisterOrg, 4000);
