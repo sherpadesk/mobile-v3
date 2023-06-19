@@ -178,12 +178,12 @@ function onFormReady1($form){
   });
 
     $($form).prop('target', 'hubspot-iframe');
-    $form.append("<div id='lock-modal10'></div><div id='loading-circle10'></div><div class='head-text-form' id='motto10'>Your business is about to take off...</div>");
+    //$form.append("<div id='lock-modal10'></div><div id='loading-circle10'></div><div class='head-text-form' id='motto10'>Your business is about to take off...</div>");
 
     init_vars($form);
         $divHow.hide();
 
-    nextStepDesktop();
+    //nextStepDesktop();
   
     $name.val(getParameterByName('name') || $name.val() || "").change().focus(); 
     $company.val(getParameterByName('company') || "").change();
@@ -216,7 +216,8 @@ function onFormReady1($form){
 
     if ($name.val()){
         $divEmail.fadeIn('slow');
-        $divCaptcha.fadeIn('slow');}
+        //$divCaptcha.fadeIn('slow');
+    }
 
         $name.keypress(function(){
                 if ($email.val()!=""){
@@ -236,9 +237,9 @@ function onFormReady1($form){
         $company.keypress(function(){
             if(!shortform) $divPass1.fadeIn('slow');
             if(!shortform) $divPass2.fadeIn('slow');
-            $("#captcha-base__input").attr('maxlength','15');
-            $(".hs_captcha-base").fadeIn('slow');
-    $(".hs_captcha-base__input").fadeIn('slow');
+            //$("#captcha-base__input").attr('maxlength','15');
+            //$(".hs_captcha-base").fadeIn('slow');
+    //$(".hs_captcha-base__input").fadeIn('slow');
           //$(".legal-consent-container").fadeIn('slow');
           //$divHow.fadeIn('slow');
           //$divIndustry.fadeIn('slow');
@@ -248,9 +249,9 @@ function onFormReady1($form){
         $company.change(function(){
             if(!shortform) $divPass1.fadeIn('slow');
             if(!shortform) $divPass2.fadeIn('slow');
-            $("#captcha-base__input").attr('maxlength','15');
-            $(".hs_captcha-base").fadeIn('slow');
-    $(".hs_captcha-base__input").fadeIn('slow');
+            //$("#captcha-base__input").attr('maxlength','15');
+            //$(".hs_captcha-base").fadeIn('slow');
+    //$(".hs_captcha-base__input").fadeIn('slow');
           //$(".legal-consent-container").fadeIn('slow');
           //$divHow.fadeIn('slow');
           //$divIndustry.fadeIn('slow');
@@ -420,7 +421,7 @@ function onFormReady1($form){
 
         init_vars($form);
         
-            if (testpage) { $captcha.val("sdjkhaskdjhg"); }
+            //if (testpage) { $captcha.val("sdjkhaskdjhg"); }
         //console.log($captcha.val())
       
         localStorage.testpage = testpage ? 1 : "";
