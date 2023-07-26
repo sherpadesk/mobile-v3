@@ -164,9 +164,11 @@ function onFormReady1($form){
             shortform=1;
         }
 
+        setTimeout(function () { 
+
         if(~form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2") || ~$form[0].id.indexOf("c4d7787a-b79b-4b8a-bcb8-1119a0685822") || shortform)
         {
-          if ($("input.error").length || !$('input[name="LEGAL_CONSENT.processing"]').is(':checked'))
+          if ($("input.error").length || !$('input[name="LEGAL_CONSENT.processing"]').is(':checked') || $($($('iframe[src*="https://www.google.com/recaptcha"]')[1]).parent().parent()[0]).css("visibility") !== 'hidden')
             {
                 e.stopPropagation();
                 $("input.error").last().focus();
@@ -175,6 +177,8 @@ function onFormReady1($form){
             }
           onFormSubmit1(form);
       }
+    }, 1000);
+
   });
 
     $($form).prop('target', 'hubspot-iframe');
