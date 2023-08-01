@@ -71,7 +71,7 @@ if (testpage) {
 }
   
 [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs-form-field, [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .hs_submit, [data-form-id="bccafcb5-2405-4d07-92be-dad8713d94e2"] .legal-consent-container{
-    /*display: none;*/
+    display: none;
   }
 
 
@@ -205,7 +205,7 @@ window.addEventListener("error", function (e) {
         function init_vars($form)
         {
             $divEmail=$('.hs_email');
-          //$divCaptcha=$('.hs_recaptcha');
+          $divCaptcha=$('.hs_recaptcha');
         $divCompany=$('.hs_company');
         $divUrl=$('.hs_custom_url');
         $divIndustry=$('.hs_your_industry_');
@@ -221,7 +221,7 @@ window.addEventListener("error", function (e) {
           $divFeatures=$('.hs_features');
         $divSubmit=$('.hs_submit');
         $divReferral = $('.hs_referral___referred_by___email');
-          //$captcha=$('#hs-recaptcha-response');
+          $captcha=$('#hs-recaptcha-response');
             $form = $($form);
         
         $name = $form.find( "input[name='name']" );
@@ -264,9 +264,9 @@ window.addEventListener("error", function (e) {
         $lockModal = $("#lock-modal10");
         $loadingCircle = $("#loading-circle10");
         $motto = $("#motto10");
-        //$divcaptcha_base = $('.hs_captcha-base');
-        //$div_hs_captcha_input = $('.hs_captcha-base__input');
-        //$("#captcha-base__input").removeAttr('name');
+        $divcaptcha_base = $('.hs_captcha-base');
+        $div_hs_captcha_input = $('.hs_captcha-base__input');
+        $("#captcha-base__input").removeAttr('name');
         $div_gdpr = $('.legal-consent-container');
         $referral = $form.find( "input[name='referral___referred_by___email']" );
         if ($referral.length) $referral.attr('maxlength','250');
