@@ -416,12 +416,6 @@ function onFormReady1($form){
 
         $email.change(function() {
             var email = $(this).val();
-            if(email.indexOf("@gmail") > 0) {
-               seterror($email, "This form does not accept addresses from gmail.com. Please use a valid business email address.");
-               return;
-            }
-            else
-               seterror($email,"",true); 
             if(email.indexOf("@") > 0)
             {
                 var xhr = new XMLHttpRequest();
