@@ -162,7 +162,21 @@ function onFormReady1($form){
         if(~$form[0].id.indexOf("6480ee87-0430-48d4-89e4-2b7554d0664f"))
         {
             shortform=1;
+            var $cap_text = $("#captcha-base__input");
+
+        if ($cap_text.val().length == 0 || !/^\+?(0|[1-9]\d*){6}$/.test($cap_text.val()))
+            seterror($cap_text, "Error in verification code.");
+        else
+            seterror($cap_text, "", true);
         }
+
+        if ($confirm_password.val().length == 0 || $confirm_password.val().length > 0 && $confirm_password.val() != $password.val()){ 
+                seterror($confirm_password, "Passwords must match.");
+                return;
+            }
+            else{
+                seterror($confirm_password, "", true);
+            }
 
         setTimeout(function () { 
 
@@ -175,7 +189,7 @@ function onFormReady1($form){
                 console.log("Errors found!");
                 return false;
             }
-          onFormSubmit1(form);
+            else onFormSubmit1(form);
       }
     }, 1000);
 
@@ -187,8 +201,16 @@ function onFormReady1($form){
     init_vars($form);
         $divHow.hide();
 
+    if(!shortform){
+          console.log("shortform", shortform)
     nextStepDesktop();
-  
+    }
+    else
+    {
+          //console.log("shortform", shortform)
+        $("<div style='display:none; visibility: hidden'><center><button style='display:none; visibility: hidden' id='next_step'> </button></center></div>").insertBefore('h3:contains("*Base Camp Subscription")');
+    }
+
     $name.val(getParameterByName('name') || $name.val() || "").change().focus(); 
     $company.val(getParameterByName('company') || "").change();
     $email.val(getParameterByName('email') || "").change();
@@ -203,6 +225,19 @@ function onFormReady1($form){
       console.log($divUrl);
       //$divUrl.hide();
       //$divUrl.find("span").text("");
+      setTimeout(() => {
+        $divCaptcha.fadeIn();
+      $(".hs_captcha-base").fadeIn();
+      $(".hs_captcha-base__input").fadeIn();
+      //$("#next_step").hide();
+   }, 500);
+      //next_step
+    }
+    else
+    {
+        setTimeout(() => {
+      $("#next_step").show();
+   }, 500);
     }
 
     //if(!shortform){
@@ -444,7 +479,6 @@ function onFormReady1($form){
           return;
         }
         
-        
 
         var pass1 = $password.val(), 
         pass2 = $confirm_password.val();
@@ -503,7 +537,7 @@ function onFormReady1($form){
                             {
                                 setTimeout(function(){window.location = "https://www.sherpadesk.com/verify-your-email?beta=1&e="+email+"&resend="+r;}, 3000);  
                             }
-                            else
+                            else 
                             {
                                 setTimeout(function(){window.location = "https://www.sherpadesk.com/verify-your-email?e="+email+"&resend="+r;}, 3000); ;  
                             }                         

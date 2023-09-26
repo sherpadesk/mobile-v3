@@ -52,7 +52,10 @@ if (testpage) {
 
 <style type="text/css">
   
-  
+  .hs_error_rollup {
+    margin-top: 15px;
+  }
+ 
     .hs-form-booleancheckbox p a {
     color: #01395c !important;
     font-weight: bold !important;
@@ -80,7 +83,7 @@ if (testpage) {
   }
 
   [data-form-id="6480ee87-0430-48d4-89e4-2b7554d0664f"] .hs-form-field, [data-form-id="6480ee87-0430-48d4-89e4-2b7554d0664f"] .hs_submit, [data-form-id="6480ee87-0430-48d4-89e4-2b7554d0664f"] .legal-consent-container{
-    display: none;
+    /*display: none;*/
   }
   
     .hs_name.hs-form-field, .hs_newsletter_checkbox.hs-form-field, .hs_email.hs-form-field, .hs_recaptcha.hs-form-field, .hs-fieldtype-booleancheckbox.hs-form-field {
@@ -199,6 +202,7 @@ window.addEventListener("error", function (e) {
             element[0].classList.remove("error");
             element[0].classList.remove("invalid");
             }
+            if (!shortform)
             $submit.attr("disabled", isclear && !$("ul.hs-error-msgs1").length ? false : true);
         }
 
