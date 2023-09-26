@@ -241,11 +241,9 @@ window.addEventListener("error", function (e) {
 
         $custom_url = $form.find( "input[name='custom_url']" );
 
-        if(!shortform){
         $custom_url.parent().css('position', 'relative');
         $custom_url.attr('maxlength','20');
         $custom_url.after("<div class='HolderOrgDomain'>.sherpadesk.com</div>");
-        }
 
         $url = $form.find("strong:contains('yourcompanyname')");
         
