@@ -87,6 +87,14 @@ function preload() {
  }
 }
 
+function set_normal(){
+$('div.grecaptcha-badge').attr("style", "");
+var iframe = $('iframe[title=reCAPTCHA]');
+if ($('div.grecaptcha-badge').length)
+$('iframe[title=reCAPTCHA]').attr("width", 305).attr("height", 80).attr('src', iframe.attr("src").replace("invisible", "normal"));
+}
+
+setTimeout(function(){set_normal();}, 1500);
 
 function get_how(myreferral){
 

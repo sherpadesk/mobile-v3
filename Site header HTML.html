@@ -161,7 +161,7 @@ if (testpage) {
 <script>
 
 window.addEventListener("error", function (e) {
-   alert("Error occured: " + e.error.message);
+   console.error("Error occured: ", e.error.message);
    return false;
 })
 
