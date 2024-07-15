@@ -1,495 +1,486 @@
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T4JW3M7"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T4JW3M7" height="0" width="0"
+        style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 <iframe hidden name="hubspot-iframe" id="hubspot-iframe"></iframe>
 
 <script>
 
-    var num_click=0;
+    var num_click = 0;
 
-function nextStepDesktop(){
-    if(!$('div.NO-NextStep').length && !$('#next_step').length) {
-        $("<center><button id='next_step'> </button></center>").insertBefore('h3:contains("*Base Camp Subscription")');
+    function nextStepDesktop() {
+        if (!$('div.NO-NextStep').length && !$('#next_step').length) {
+            $("<center><button id='next_step'> </button></center>").insertBefore('h3:contains("*Base Camp Subscription")');
+        }
+        //hideNext(x); // Call listener function at run time
+        //x.addListener(hideNext); // Attach listener function on state changes
+
+        $("#next_step").click(function () {
+            num_click++;
+            if (num_click == 1) {
+                $name.keypress();
+                $email.keypress();
+
+            }
+            else if (num_click == 2) {
+                $company.keypress();
+                $url.keypress();
+
+            }
+            else if (num_click >= 3) {
+                $("#captcha-base__input").attr('maxlength', '15');
+                $(".hs_captcha-base").fadeIn('slow');
+                $(".hs_captcha-base__input").fadeIn('slow');
+
+                var $cap_text = $("#captcha-base__input");
+
+                if ($cap_text.val().length == 0)
+                    seterror($cap_text, "Verification code is empty.");
+                else
+                    seterror($cap_text, "", true);
+
+                //$divcaptcha_base.fadeIn('slow');
+                //$div_hs_captcha_input.fadeIn('slow');
+
+                //$divTechs.fadeIn('slow');
+                //$techs.focus();
+                //$("#next_step").hide();
+            }
+
+        });
     }
-//hideNext(x); // Call listener function at run time
-//x.addListener(hideNext); // Attach listener function on state changes
 
-$("#next_step").click(function(){
-    num_click++;
-    if (num_click==1) {
-     $name.keypress();
-     $email.keypress();
-
- }
- else if (num_click==2) {
-  $company.keypress();
-  $url.keypress();
-
-} 
-else if (num_click >= 3) {
-    $("#captcha-base__input").attr('maxlength','15');
-    $(".hs_captcha-base").fadeIn('slow');
-    $(".hs_captcha-base__input").fadeIn('slow');
-
-    var $cap_text = $("#captcha-base__input");
-
-    if ($cap_text.val().length == 0)
-        seterror($cap_text, "Verification code is empty.");
-    else
-        seterror($cap_text, "", true);
-
-  //$divcaptcha_base.fadeIn('slow');
-  //$div_hs_captcha_input.fadeIn('slow');
-
-  //$divTechs.fadeIn('slow');
-  //$techs.focus();
-  //$("#next_step").hide();
-} 
-
-});
-}
-  
-// ]]></script>
+    // ]]></script>
 <script>
 
-//set how
-function set_how()
-{
-    var test = $("input[name=hs_context]");
-    test = test && test.first();
-    if (test)
-    {
-        var obj = test.val();
-        if (obj && obj.length)
-        {
-           obj = JSON.parse(obj);
-           test = obj.urlParams || {}; 
-           localStorage.setItem("utm_campaign", test.utm_campaign || localStorage.utm_campaign || "");
-           if (test.utm_content)
-               test.utm_content = obj.pageTitle || test.utm_content;
-           localStorage.setItem("utm_content", test.utm_content || localStorage.utm_content || "");
-           localStorage.setItem("utm_medium", test.utm_medium || localStorage.utm_medium || "");
-           localStorage.setItem("utm_source", test.utm_source || localStorage.utm_source || "");
-           if (obj.referrer && !~obj.referrer.indexOf("sherpadesk.com"))
-            localStorage.setItem("referrer", obj.referrer || "");
-    }
-}
-}
-
-// sigup image preload
-var images = new Array();
-function preload() {
-    for (i = 0; i < preload.arguments.length; i++) {
-     images[i] = new Image();
-     images[i].src = preload.arguments[i];
- }
-}
-
-function set_normal(){
-$('div.grecaptcha-badge').attr("style", "");
-var iframe = $('iframe[title=reCAPTCHA]');
-if ($('div.grecaptcha-badge').length)
-$('iframe[title=reCAPTCHA]').attr("width", 305).attr("height", 80).attr('src', iframe.attr("src").replace("invisible", "normal"));
-}
-
-setTimeout(function(){set_normal();}, 1500);
-
-function get_how(myreferral){
-
-    var how = '';
-    if (myreferral)
-         how += "Referral: " + myreferral + ' ';
-
-    var nav = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
-    nav = nav && nav[0] || "Desktop";
-
-    var referrer = localStorage.referrer || "";
-    if (referrer.length > 50) referrer = referrer.substring(0,50); 
-        how += "from " + nav +" " + referrer + " ";
-    if (localStorage.utm_medium || localStorage.utm_source)
-        how += "by " + localStorage.utm_medium + "(" + localStorage.utm_source + ") "
-    if (localStorage.utm_campaign)
-        how += "in campaign:" + localStorage.utm_campaign + " ";
-    if (localStorage.utm_content)
-        how += "(" + localStorage.utm_content + ")";
-    return how.substring(0,254);
-}
-
-var interval = setInterval(function(){
-    var $form = $('.hs-form');
-    if ($form && $form[0]){
-        if(~$form[0].id.indexOf("6480ee87-0430-48d4-89e4-2b7554d0664f"))
-        {
-            shortform=1;
+    //set how
+    function set_how() {
+        var test = $("input[name=hs_context]");
+        test = test && test.first();
+        if (test) {
+            var obj = test.val();
+            if (obj && obj.length) {
+                obj = JSON.parse(obj);
+                test = obj.urlParams || {};
+                localStorage.setItem("utm_campaign", test.utm_campaign || localStorage.utm_campaign || "");
+                if (test.utm_content)
+                    test.utm_content = obj.pageTitle || test.utm_content;
+                localStorage.setItem("utm_content", test.utm_content || localStorage.utm_content || "");
+                localStorage.setItem("utm_medium", test.utm_medium || localStorage.utm_medium || "");
+                localStorage.setItem("utm_source", test.utm_source || localStorage.utm_source || "");
+                if (obj.referrer && !~obj.referrer.indexOf("sherpadesk.com"))
+                    localStorage.setItem("referrer", obj.referrer || "");
+            }
         }
-
-        if(~$form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2") || ~$form[0].id.indexOf("c4d7787a-b79b-4b8a-bcb8-1119a0685822") || shortform)
-        {
-            clearInterval(window.interval);
-            onFormReady1($($form[0]));
-        }
-
-
     }
-}, 200);
 
-setTimeout(function(){clearInterval(window.interval);set_how();}, 3000);
-setTimeout(function(){
-    if (res)
-        $("#anivideo").prepend("<br/><br/><a style='color:#002d52' href='" + "https://www.sherpadesk.com/thank-you?redirect="+res+"'>Please click here if page is not redirected...</a>")
-}, 20000);
+    // sigup image preload
+    var images = new Array();
+    function preload() {
+        for (i = 0; i < preload.arguments.length; i++) {
+            images[i] = new Image();
+            images[i].src = preload.arguments[i];
+        }
+    }
 
-function safechar(text)
-{
-    return (text || "").toLowerCase().replace(/[^a-zA-Z0-9-]/g, '').trim();
-}
+    function set_normal() {
+        $('div.grecaptcha-badge').attr("style", "");
+        var iframe = $('iframe[title=reCAPTCHA]');
+        if ($('div.grecaptcha-badge').length)
+            $('iframe[title=reCAPTCHA]').attr("width", 305).attr("height", 80).attr('src', iframe.attr("src").replace("invisible", "normal"));
+    }
 
-function onFormReady1($form){
+    setTimeout(function () { set_normal(); }, 1500);
 
-    preload(
-       "https://cdn2.hubspot.net/hubfs/2629098/Rocket%20LP/Buttons_Start%20a%20Free%20Trial%20Blue_small.png",
-       "https://cdn2.hubspot.net/hubfs/2629098/Rocket%20LP/Buttons_Start%20a%20Free%20Trial%20(Orange)_small.png",
-       "https://cdn2.hubspot.net/hubfs/2629098/Rocket%20LP/BIG-ROCKET_without-fire_v2.png"
-       );
-    console.log("test"+$form[0].id);
+    function get_how(myreferral) {
 
-    var a=document.createElement("script");a.src="https://2629098.fs1.hubspotusercontent-na1.net/hubfs/2629098/Sherpadesknov2016/Js/app_compile20221222.js";document.body.appendChild(a);
+        var how = '';
+        if (myreferral)
+            how += "Referral: " + myreferral + ' ';
 
-    setTimeout(function(){
-      $(".hs-button").attr('id', 'ImageButton');
-  },1000);
+        var nav = navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/);
+        nav = nav && nav[0] || "Desktop";
 
-    $('body').on('submit', $form, function (e) {
-        e.preventDefault();
+        var referrer = localStorage.referrer || "";
+        if (referrer.length > 50) referrer = referrer.substring(0, 50);
+        how += "from " + nav + " " + referrer + " ";
+        if (localStorage.utm_medium || localStorage.utm_source)
+            how += "by " + localStorage.utm_medium + "(" + localStorage.utm_source + ") "
+        if (localStorage.utm_campaign)
+            how += "in campaign:" + localStorage.utm_campaign + " ";
+        if (localStorage.utm_content)
+            how += "(" + localStorage.utm_content + ")";
+        return how.substring(0, 254);
+    }
+
+    var interval = setInterval(function () {
+        var $form = $('.hs-form');
+        if ($form && $form[0]) {
+            if (~$form[0].id.indexOf("6480ee87-0430-48d4-89e4-2b7554d0664f")) {
+                shortform = 1;
+            }
+
+            if (~$form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2") || ~$form[0].id.indexOf("c4d7787a-b79b-4b8a-bcb8-1119a0685822") || shortform) {
+                clearInterval(window.interval);
+                onFormReady1($($form[0]));
+            }
+
+
+        }
+    }, 200);
+
+    setTimeout(function () { clearInterval(window.interval); set_how(); }, 3000);
+    setTimeout(function () {
+        if (res)
+            $("#anivideo").prepend("<br/><br/><a style='color:#002d52' href='" + "https://www.sherpadesk.com/thank-you?redirect=" + res + "'>Please click here if page is not redirected...</a>")
+    }, 20000);
+
+    function safechar(text) {
+        return (text || "").toLowerCase().replace(/[^a-zA-Z0-9-]/g, '').trim();
+    }
+
+    function onFormReady1($form) {
+
+        preload(
+            "https://cdn2.hubspot.net/hubfs/2629098/Rocket%20LP/Buttons_Start%20a%20Free%20Trial%20Blue_small.png",
+            "https://cdn2.hubspot.net/hubfs/2629098/Rocket%20LP/Buttons_Start%20a%20Free%20Trial%20(Orange)_small.png",
+            "https://cdn2.hubspot.net/hubfs/2629098/Rocket%20LP/BIG-ROCKET_without-fire_v2.png"
+        );
+        console.log("test" + $form[0].id);
+
+        var a = document.createElement("script"); a.src = "https://2629098.fs1.hubspotusercontent-na1.net/hubfs/2629098/Sherpadesknov2016/Js/app_compile20221222.js"; document.body.appendChild(a);
+
+        setTimeout(function () {
+            $(".hs-button").attr('id', 'ImageButton');
+        }, 1000);
+
+        $('body').on('submit', $form, function (e) {
+            e.preventDefault();
             //if (testpage) { $captcha.val("sdjkhaskdjhg"); }
-        //console.log($captcha.val());
-        var form = $(e.target); 
+            //console.log($captcha.val());
+            var form = $(e.target);
 
-        if(~$form[0].id.indexOf("6480ee87-0430-48d4-89e4-2b7554d0664f"))
-        {
-            shortform=1;
-            var $cap_text = $("#captcha-base__input");
+            if (~$form[0].id.indexOf("6480ee87-0430-48d4-89e4-2b7554d0664f")) {
+                shortform = 1;
+                var $cap_text = $("#captcha-base__input");
 
-        if ($cap_text.val().length == 0 || !/^\+?(0|[1-9]\d*){6}$/.test($cap_text.val()))
-            seterror($cap_text, "Error in verification code.");
-        else
-            seterror($cap_text, "", true);
-        }
+                if ($cap_text.val().length == 0 || !/^\+?(0|[1-9]\d*){6}$/.test($cap_text.val()))
+                    seterror($cap_text, "Error in verification code.");
+                else
+                    seterror($cap_text, "", true);
+            }
 
-        if ($confirm_password.val().length == 0 || $confirm_password.val().length > 0 && $confirm_password.val() != $password.val()){ 
+            if ($confirm_password.val().length == 0 || $confirm_password.val().length > 0 && $confirm_password.val() != $password.val()) {
                 seterror($confirm_password, "Passwords must match.");
                 return;
             }
-            else{
+            else {
                 seterror($confirm_password, "", true);
             }
 
-        setTimeout(function () { 
+            setTimeout(function () {
 
-        if(~form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2") || ~$form[0].id.indexOf("c4d7787a-b79b-4b8a-bcb8-1119a0685822") || shortform)
-        {
-          if ($("input.error").length || !$('input[name="LEGAL_CONSENT.processing"]').is(':checked'))
-            {
-                e.stopPropagation();
-                $("input.error").last().focus();
-                console.log("Errors found!");
-                return false;
-            }
-            else onFormSubmit1(form);
-      }
-    }, 1000);
+                if (~form[0].id.indexOf("bccafcb5-2405-4d07-92be-dad8713d94e2") || ~$form[0].id.indexOf("c4d7787a-b79b-4b8a-bcb8-1119a0685822") || shortform) {
+                    if ($("input.error").length || !$('input[name="LEGAL_CONSENT.processing"]').is(':checked')) {
+                        e.stopPropagation();
+                        $("input.error").last().focus();
+                        console.log("Errors found!");
+                        return false;
+                    }
+                    else onFormSubmit1(form);
+                }
+            }, 1000);
 
-  });
+        });
 
-    $($form).prop('target', 'hubspot-iframe');
-    $form.append("<div id='lock-modal10'></div><div id='loading-circle10'></div><div class='head-text-form' id='motto10'>Your business is about to take off...</div>");
+        $($form).prop('target', 'hubspot-iframe');
+        $form.append("<div id='lock-modal10'></div><div id='loading-circle10'></div><div class='head-text-form' id='motto10'>Your business is about to take off...</div>");
 
-    init_vars($form);
+        init_vars($form);
         $divHow.hide();
 
-    if(!shortform){
-          console.log("shortform", shortform)
-    nextStepDesktop();
-    }
-    else
-    {
-          //console.log("shortform", shortform)
-        $("<div style='display:none; visibility: hidden'><center><button style='display:none; visibility: hidden' id='next_step'> </button></center></div>").insertBefore('h3:contains("*Base Camp Subscription")');
-    }
+        if (!shortform) {
+            console.log("shortform", shortform)
+            nextStepDesktop();
+        }
+        else {
+            //console.log("shortform", shortform)
+            $("<div style='display:none; visibility: hidden'><center><button style='display:none; visibility: hidden' id='next_step'> </button></center></div>").insertBefore('h3:contains("*Base Camp Subscription")');
+        }
 
-    $name.val(getParameterByName('name') || $name.val() || "").change().focus(); 
-    $company.val(getParameterByName('company') || "").change();
-    $email.val(getParameterByName('email') || "").change();
-    $custom_url.val(getParameterByName('url') || "").change();
+        $name.val(getParameterByName('name') || $name.val() || "").change().focus();
+        $company.val(getParameterByName('company') || "").change();
+        $email.val(getParameterByName('email') || "").change();
+        $custom_url.val(getParameterByName('url') || "").change();
 
-    $password.val("").change();
-    $confirm_password.val("").change();
-    $referral.val("").change();
+        $password.val("").change();
+        $confirm_password.val("").change();
+        $referral.val("").change();
 
-    if(shortform){
-      console.log("short");
-      console.log($divUrl);
-      //$divUrl.hide();
-      //$divUrl.find("span").text("");
-      setTimeout(() => {
-        $divCaptcha.fadeIn();
-      $(".hs_captcha-base").fadeIn();
-      $(".hs_captcha-base__input").fadeIn();
-      //$("#next_step").hide();
-   }, 500);
-      //next_step
-    }
-    else
-    {
-        setTimeout(() => {
-      $("#next_step").show();
-   }, 500);
-    }
+        if (shortform) {
+            console.log("short");
+            console.log($divUrl);
+            //$divUrl.hide();
+            //$divUrl.find("span").text("");
+            setTimeout(() => {
+                $divCaptcha.fadeIn();
+                $(".hs_captcha-base").fadeIn();
+                $(".hs_captcha-base__input").fadeIn();
+                //$("#next_step").hide();
+            }, 500);
+            //next_step
+        }
+        else {
+            setTimeout(() => {
+                $("#next_step").show();
+            }, 500);
+        }
 
-    //if(!shortform){
-  
- /* if ($custom_url.val()){
-    $divEmail.fadeIn();
-    $divCaptcha.fadeIn();
-    $divCompany.fadeIn();
-    $divUrl.fadeIn();
-    $divPass1.fadeIn();
-    $divPass2.fadeIn();
-  }
-  */
+        //if(!shortform){
+
+        /* if ($custom_url.val()){
+           $divEmail.fadeIn();
+           $divCaptcha.fadeIn();
+           $divCompany.fadeIn();
+           $divUrl.fadeIn();
+           $divPass1.fadeIn();
+           $divPass2.fadeIn();
+         }
+         */
 
 
-    if ($name.val()){
-        $divEmail.fadeIn('slow');
-        $divCaptcha.fadeIn('slow');
-    }
+        if ($name.val()) {
+            $divEmail.fadeIn('slow');
+            $divCaptcha.fadeIn('slow');
+        }
 
-        $name.keypress(function(){
-                if ($email.val()!=""){
-            $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');}});
-        $name.change(function(){
-                if ($email.val() !=""){
-            $divCompany.fadeIn('slow');
-            $divUrl.fadeIn('slow');
-          }
-          });   
-        $email.keypress(function(){
-                if ($name.val()!=""){
-            $divCompany.fadeIn('slow');
-            $divUrl.fadeIn('slow');
-          }});
-        
-        $company.keypress(function(){
-            $divPass1.fadeIn('slow');
-            $divPass2.fadeIn('slow');
-            $("#captcha-base__input").attr('maxlength','15');
-            $(".hs_captcha-base").fadeIn('slow');
-    $(".hs_captcha-base__input").fadeIn('slow');
-          //$(".legal-consent-container").fadeIn('slow');
-          //$divHow.fadeIn('slow');
-          //$divIndustry.fadeIn('slow');
-          //$divTechs.fadeIn('slow');
-          if ($divReferral.length) $divReferral.fadeIn('slow');
+        $name.keypress(function () {
+            if ($email.val() != "") {
+                $divCompany.fadeIn('slow'); $divUrl.fadeIn('slow');
+            }
         });
-        $company.change(function(){
-            $divPass1.fadeIn('slow');
-            $divPass2.fadeIn('slow');
-            $("#captcha-base__input").attr('maxlength','15');
-            $(".hs_captcha-base").fadeIn('slow');
-    $(".hs_captcha-base__input").fadeIn('slow');
-          //$(".legal-consent-container").fadeIn('slow');
-          //$divHow.fadeIn('slow');
-          //$divIndustry.fadeIn('slow');
-          //$divTechs.fadeIn('slow');
-          if ($divReferral.length) $divReferral.fadeIn('slow');
+        $name.change(function () {
+            if ($email.val() != "") {
+                $divCompany.fadeIn('slow');
+                $divUrl.fadeIn('slow');
+            }
+        });
+        $email.keypress(function () {
+            if ($name.val() != "") {
+                $divCompany.fadeIn('slow');
+                $divUrl.fadeIn('slow');
+            }
         });
 
-    /*}
-     else
-    {
-        console.log("short");
-       setTimeout(() => {
-       $("#captcha-base__input").attr('maxlength','15');
-       $(".hs_captcha-base").fadeIn('slow');
-       $(".hs_captcha-base__input").fadeIn('slow');
-   }, 1000);
-    }*/
-        
-        setTimeout(function(){$("li","ul.hs-error-msgs").remove()}, 10);
+        $company.keypress(function () {
+            $divPass1.fadeIn('slow');
+            $divPass2.fadeIn('slow');
+            $("#captcha-base__input").attr('maxlength', '15');
+            $(".hs_captcha-base").fadeIn('slow');
+            $(".hs_captcha-base__input").fadeIn('slow');
+            //$(".legal-consent-container").fadeIn('slow');
+            //$divHow.fadeIn('slow');
+            //$divIndustry.fadeIn('slow');
+            //$divTechs.fadeIn('slow');
+            if ($divReferral.length) $divReferral.fadeIn('slow');
+        });
+        $company.change(function () {
+            $divPass1.fadeIn('slow');
+            $divPass2.fadeIn('slow');
+            $("#captcha-base__input").attr('maxlength', '15');
+            $(".hs_captcha-base").fadeIn('slow');
+            $(".hs_captcha-base__input").fadeIn('slow');
+            //$(".legal-consent-container").fadeIn('slow');
+            //$divHow.fadeIn('slow');
+            //$divIndustry.fadeIn('slow');
+            //$divTechs.fadeIn('slow');
+            if ($divReferral.length) $divReferral.fadeIn('slow');
+        });
+
+        /*}
+         else
+        {
+            console.log("short");
+           setTimeout(() => {
+           $("#captcha-base__input").attr('maxlength','15');
+           $(".hs_captcha-base").fadeIn('slow');
+           $(".hs_captcha-base__input").fadeIn('slow');
+       }, 1000);
+        }*/
+
+        setTimeout(function () { $("li", "ul.hs-error-msgs").remove() }, 10);
 
         $password.prop("type", "password");
         $confirm_password.prop("type", "password");
-  
-        $name.change(function() {
+
+        $name.change(function () {
             var name = $(this).val().trim();
-            if(name){
-              var s = name.indexOf(" ");
-              if (s < 0) 
-              { 
-                $fname.val(name).change();
-                $lname.val("").change();
-              }
-              else {
-                $fname.val(name.substring(0,s)).change();
-                $lname.val(name.substring(s+1)).change();
-                   }
+            if (name) {
+                var s = name.indexOf(" ");
+                if (s < 0) {
+                    $fname.val(name).change();
+                    $lname.val("").change();
+                }
+                else {
+                    $fname.val(name.substring(0, s)).change();
+                    $lname.val(name.substring(s + 1)).change();
+                }
             }
         });
 
-        $company.change(function() {
+        $company.change(function () {
             var company = $(this).val();
-            if(company && !$custom_url.val()){
-                var url = safechar(company).substring(0,20);
+            if (company && !$custom_url.val()) {
+                var url = safechar(company).substring(0, 20);
                 $custom_url.val(url).change();
-                ($url[0] || {}).innerText = url; 
+                ($url[0] || {}).innerText = url;
             }
         });
 
 
-        $password.change(function() {
+        $password.change(function () {
             var password = $(this).val();
-            if(password){
-              if (!password.match(/^(?=(?:.*[a-z]))(?=(?:.*[!@#$%^&*-])).{5,}$/)){  
-                seterror($(this), "Password must be 5-character alphanumeric with complex ($%@) symbol.");
-                return;
-              }
-                else{
-                seterror($password, "", true);
-            }
+            if (password) {
+                if (!password.match(/^(?=(?:.*[a-z]))(?=(?:.*[!@#$%^&*-])).{5,}$/)) {
+                    seterror($(this), "Password must be 5-character alphanumeric with complex ($%@) symbol.");
+                    return;
+                }
+                else {
+                    seterror($password, "", true);
+                }
             }
             else
                 seterror($password, "", true);
-            if ($confirm_password.val().length > 0 && $confirm_password.val() != password){ 
+            if ($confirm_password.val().length > 0 && $confirm_password.val() != password) {
                 seterror($confirm_password, "Passwords must match.");
                 return;
             }
-            else{
+            else {
                 seterror($confirm_password, "", true);
             }
-        
-        seterror($(this), "", true);
-                      if ($confirm_password.val().length == 0){ 
+
+            seterror($(this), "", true);
+            if ($confirm_password.val().length == 0) {
                 seterror($confirm_password, "", true);
             }
-    });
+        });
 
 
-        $confirm_password.focusout(function() {
+        $confirm_password.focusout(function () {
             var password = $password.val();
             var confirm_password = $confirm_password.val();
 
-            if(confirm_password == password){ 
+            if (confirm_password == password) {
                 seterror($(this), "", true);
             }
-            else if (password !=confirm_password)
+            else if (password != confirm_password)
                 seterror($(this), "Passwords must match.");
         });
 
 
-        $custom_url.change(function() {
+        $custom_url.change(function () {
             var url = safechar($(this).val());
-            if ($(this).val() != url)
-            {
+            if ($(this).val() != url) {
                 $custom_url.val(url).change();
             }
-            ($url[0] || {}).innerText = url || "yourcompanyname"; 
-            if (url)
-            {
-                if (url.length < 3 || url.length > 20)
-                { 
-                    
+            ($url[0] || {}).innerText = url || "yourcompanyname";
+            if (url) {
+                if (url.length < 3 || url.length > 20) {
+
                     seterror($(this), "This Url is incorrect. Please enter between 3 and 20 characters.");
-                    
+
                     return;
                 }
                 var xhr = new XMLHttpRequest();
                 var api_url = beta ? "https://api.beta.sherpadesk.com" : "https://api.sherpadesk.com";
-                xhr.open('GET', api_url + "/validate_organization?format=json&url="+url, true);
-                xhr.onload = function(e) { 
-                    if (e.target.status == 200)
-                    {
+                xhr.open('GET', api_url + "/validate_organization?format=json&url=" + url, true);
+                xhr.onload = function (e) {
+                    if (e.target.status == 200) {
                         var data = JSON.parse(e.target.response);
-                        if (data.isUrlExists)
-                        {
-                            
+                        if (data.isUrlExists) {
+
                             seterror($custom_url, "This Url is already in use");
-                            
+
                         }
-                        else
-                        {
-                            
+                        else {
+
                             seterror($custom_url, "", true);
-                            
+
                         }
                     }
+                    else {
+                        //alert(e.target.response);
+                        console.log(e);
+                    }
+                }
+                xhr.send();
+            }
+            else
+                seterror($custom_url, "", true);
+            //console.log($(this).val());
+        });
+
+        $email.change(function () {
+            console.log("checkEmail");
+            //checkEmail($(this).val());
+        });
+
+    }
+
+    function checkEmail(email) {
+        var result = false;
+        if (email.indexOf("@") > 0) {
+            var xhr = new XMLHttpRequest();
+            var api_url = "https://api.sherpadesk.com";
+            xhr.open('GET', api_url + "/hubspot/check?email=" + email + "&format=json", true);
+            xhr.onload = function (e) {
+                if (e.target.status == 200) {
+                    seterror($email, "", true);
+                    if ($name.val() != "") {
+                        $divCompany.fadeIn('slow'); $divUrl.fadeIn('slow'); $company.focus();
+                    }
                     else
-                    {
-                    //alert(e.target.response);
-                    console.log(e);
+                        result = true;
+                }
+                else {
+                    seterror($email, "Your email is undeliverable.");
+                    $email.focus();
+
                 }
             }
             xhr.send();
         }
-        else
-            seterror($custom_url, "", true);
-        //console.log($(this).val());
-    });
-
-        $email.change(function() {
-            var email = $(this).val();
-            if(email.indexOf("@") > 0)
-            {
-                var xhr = new XMLHttpRequest();
-                var api_url = "https://api.sherpadesk.com";
-                xhr.open('GET', api_url + "/hubspot/check?email="+email+"&format=json", true);
-                xhr.onload = function(e) { 
-                    if (e.target.status == 200)
-                    {
-                        if ($name.val() !=""){
-                        $divCompany.fadeIn('slow');$divUrl.fadeIn('slow');$company.focus();}
-                        seterror($email, "", true);
-                    }
-                    else
-                    {
-                        seterror($email, "Your email is undeliverable.");
-                    
-                    }
-                }
-                   xhr.send();
-        }
         //else
         //    seterror($custom_url, "", true);
-});
-
+        return result;
     }
 
-    function onFormSubmit1($form){
-            // lock down the form
-    $lockModal.css("display", "block");
-    $loadingCircle.css("display", "block");
-    $motto.css("display", "block");
+    function onFormSubmit1($form) {
+        //if (!checkEmail($email.val())) return;
+        // lock down the form
+        $lockModal.css("display", "block");
+        $loadingCircle.css("display", "block");
+        $motto.css("display", "block");
 
-    $(".hs-button").attr("disabled", "disabled");
+        $(".hs-button").attr("disabled", "disabled");
 
         init_vars($form);
-        
-            if (testpage) { $captcha.val("sdjkhaskdjhg"); }
-        //console.log($captcha.val())
-      
-        localStorage.testpage = testpage ? 1 : "";
-        
-        //on test dont create organization
-        if (getParameterByName("test"))
-        {
-          window.location = "https://www.sherpadesk.com/verify-your-email";
-          return;
-        }
-        
 
-        var pass1 = $password.val(), 
-        pass2 = $confirm_password.val();
+        if (testpage) { $captcha.val("sdjkhaskdjhg"); }
+        //console.log($captcha.val())
+
+        localStorage.testpage = testpage ? 1 : "";
+
+        //on test dont create organization
+        if (getParameterByName("test")) {
+            window.location = "https://www.sherpadesk.com/verify-your-email";
+            return;
+        }
+
+
+        var pass1 = $password.val(),
+            pass2 = $confirm_password.val();
 
         var referral = "";
         if ($referral.length)
@@ -512,77 +503,73 @@ function onFormReady1($form){
         formData.append("how", $how.val() + get_how(referral));
         formData.append("iiid", iiid);
         formData.append("provider", provider);
-        formData.append("note", "Industry: " + $industry.val() + " - Techs: " + $techs.val() + " url:" + location.href.substring(0,50));
+        formData.append("note", "Industry: " + $industry.val() + " - Techs: " + $techs.val() + " url:" + location.href.substring(0, 50));
         formData.append("referral", referral);
 
-                // Append extra data before send.
-                formData.append('is_force_registration', 'true'); 
-                formData.append('is_force_redirect', 'true');
-                formData.append("is_send_hubSpot", "false");
-                
-                window.onbeforeunload = function(){
-                    if (res)
-                      localStorage.redirect = res;
-                 // setTimeout(function(){window.location = "https://www.sherpadesk.com/thank-you?redirect="+res;}, 3000);
-                            
+        // Append extra data before send.
+        formData.append('is_force_registration', 'true');
+        formData.append('is_force_redirect', 'true');
+        formData.append("is_send_hubSpot", "false");
+
+        window.onbeforeunload = function () {
+            if (res)
+                localStorage.redirect = res;
+            // setTimeout(function(){window.location = "https://www.sherpadesk.com/thank-you?redirect="+res;}, 3000);
+
             //window.location = "https://www.sherpadesk.com/thank-you?redirect="+res;
         };
 
         var xhr = new XMLHttpRequest();
         var api_url = beta ? "https://api.beta.sherpadesk.com" : "https://api.sherpadesk.com";
         xhr.open('POST', api_url + "/organizations?format=json", false);
-        xhr.onload = function(e) { 
-            if (e.target.status == 200 || e.target.status == 201)
-            {
+        xhr.onload = function (e) {
+            if (e.target.status == 200 || e.target.status == 201) {
                 var data = JSON.parse(e.target.response);
 
-                            console.log(data);
-                            res = encodeURIComponent(data.url || '');
-                            r = encodeURIComponent(data.r || '');
-                            localStorage.redirect = res || '';
-                            localStorage.resend = r || '';
-                            if (beta)
-                            {
-                                setTimeout(function(){window.location = "https://www.sherpadesk.com/verify-your-email?beta=1&e="+email+"&resend="+r;}, 3000);  
-                            }
-                            else 
-                            {
-                                setTimeout(function(){window.location = "https://www.sherpadesk.com/verify-your-email?e="+email+"&resend="+r;}, 3000); ;  
-                            }                         
-                    }
-                    else
-                    {
-                      
-                        $lockModal.css("display", "none");
-                        $loadingCircle.css("display", "none");
-                        $motto.css("display", "none");
-                        setServererror($motto, "Error occured: " + (e.target.response || e.target.status) +". Please contact SherpaDesk administrator (support@sherpadesk.com)");
-                        $custom_url.change();
-                        $password.val(pass1).change();
-                        $confirm_password.val(pass2).change();
-                      alert("Error occured: " + (e.target.response || e.target.status) +". Please contact SherpaDesk administrator (support@sherpadesk.com)");
-                      location.reload();
-                        //console.log(e);
-                    } 
+                console.log(data);
+                res = encodeURIComponent(data.url || '');
+                r = encodeURIComponent(data.r || '');
+                localStorage.redirect = res || '';
+                localStorage.resend = r || '';
+                if (beta) {
+                    setTimeout(function () { window.location = "https://www.sherpadesk.com/verify-your-email?beta=1&e=" + email + "&resend=" + r; }, 3000);
                 }
-                xhr.onerror = function () {
-                          $lockModal.css("display", "none");
-                          $loadingCircle.css("display", "none");
-                          $motto.css("display", "none");
-                    console.log("** An error occurred during the transaction");
-                    $password.val(pass1).change();
-                    $confirm_password.val(pass2).change();
-                    setServererror($motto, "Error occured. Please try again later or contact SherpaDesk administrator (support@sherpadesk.com)");
-                 alert("Error occured. Please try again later or contact SherpaDesk administrator (support@sherpadesk.com)");
-                  location.reload();
-                };
+                else {
+                    setTimeout(function () { window.location = "https://www.sherpadesk.com/verify-your-email?e=" + email + "&resend=" + r; }, 3000);;
+                }
+            }
+            else {
 
-                xhr.send(formData);
-                
-                setTimeout(function(){setServererror($motto, "", true)}, 10000);
-            }    
+                $lockModal.css("display", "none");
+                $loadingCircle.css("display", "none");
+                $motto.css("display", "none");
+                setServererror($motto, "Error occured: " + (e.target.response || e.target.status) + ". Please contact SherpaDesk administrator (support@sherpadesk.com)");
+                $custom_url.change();
+                $password.val(pass1).change();
+                $confirm_password.val(pass2).change();
+                alert("Error occured: " + (e.target.response || e.target.status) + ". Please contact SherpaDesk administrator (support@sherpadesk.com)");
+                location.reload();
+                //console.log(e);
+            }
+        }
+        xhr.onerror = function () {
+            $lockModal.css("display", "none");
+            $loadingCircle.css("display", "none");
+            $motto.css("display", "none");
+            console.log("** An error occurred during the transaction");
+            $password.val(pass1).change();
+            $confirm_password.val(pass2).change();
+            setServererror($motto, "Error occured. Please try again later or contact SherpaDesk administrator (support@sherpadesk.com)");
+            alert("Error occured. Please try again later or contact SherpaDesk administrator (support@sherpadesk.com)");
+            location.reload();
+        };
 
-        </script>
-      <!-- End Signup code - DONT TOUCH! -->
+        xhr.send(formData);
+
+        setTimeout(function () { setServererror($motto, "", true) }, 10000);
+    }
+
+</script>
+<!-- End Signup code - DONT TOUCH! -->
 
 <script src="https://www.google-analytics.com/analytics_debug.js"></script>
